@@ -2,14 +2,14 @@ read.csv.folder<-function(folder,x,y,rownames,header=TRUE,dec=".",sep=";",patter
 {	
 	file.ext<-paste(".",pattern,sep="")
 	name<-list.files(folder,pattern=file.ext)
-	
+	xlen<-length(x);ylen<-length(y)
 		
 	ln<-length(name)
-	arr<-array(NA,dim=c(length(x),3,ln))
+	arr<-array(NA,dim=c(xlen,ylen,ln))
 	#print(dim(arr))
 	
 	if (is.character(x))
-	for ( i in 1:ln)	
+		for ( i in 1:ln)	
 		{data<-read.table(paste(folder,name[i],sep=""),header=header,dec=dec,sep=sep)
 		#print(dim(data[x,y]))
 		dat<-NULL
@@ -17,10 +17,14 @@ read.csv.folder<-function(folder,x,y,rownames,header=TRUE,dec=".",sep=";",patter
 		rn<-data[,rownames]
 		for (j in 1:length(x))
 			{
-			dat[count]<-which(rn==x[j])
+			dat[count]<-grep(x[j],rn)
+			if(length(dat[count])==0)
+				{data[9999,y]<-rep(NA,ylen)
+				dat[count]<-9999
+				}
 			count<-count+1
 			}
-		print(dat)
+		#print(dat)
 		
 		 		
 		#dat<-which(data[,rownames] %in% x)
@@ -32,8 +36,7 @@ read.csv.folder<-function(folder,x,y,rownames,header=TRUE,dec=".",sep=";",patter
 		
 		}
 	else
-		{
-			for ( i in 1:ln)
+		{for ( i in 1:ln)
 			{data<-read.table(paste(folder,name[i],sep=""),header=header,dec=dec,sep=sep)
 			#print(dim(data[x,y]))
 			arr[,,i]<-as.matrix(data[x,y])
@@ -41,13 +44,17 @@ read.csv.folder<-function(folder,x,y,rownames,header=TRUE,dec=".",sep=";",patter
 			rown<-data[x,rownames]
 			}
 		}
-	xlen<-length(x);ylen<-length(y)
+	
 	nas<-which(is.na(arr))
 	nas<-as.integer(nas/(xlen*ylen))+1
 	nas<-nas[-(which(duplicated(nas)))]
-	
-	
-	dimnames(arr)<-list(rown,c("X","Y","Z"),sub(file.ext,"",name))
+	if (ylen==2)
+		{dimnames(arr)<-list(rown,c("X","Y"),sub(file.ext,"",name))
+		}
+	else
+	{dimnames(arr)<-list(rown,c("X","Y","Z"),sub(file.ext,"",name))
+	}
+		
 	return(list(arr=arr,NAs=nas))
 	
 
