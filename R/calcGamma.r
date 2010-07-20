@@ -1,0 +1,11 @@
+calcGamma<-function(Gamma0,Lsubk3,U,dims)
+       {
+	ULU<-(t(U)%*%Lsubk3%*%U)
+	dU<-dim(ULU)[1]
+	dia0<-as.matrix(diag(c(rep(1e-8,dU))))
+	ULU1<-ULU+dia0
+	B<-solve(ULU1)
+	Gamma1<-Gamma0-U%*%B%*%t(U)%*%Lsubk3%*%Gamma0
+        Gamatrix<-matrix(Gamma1,length(Gamma1)/dims,dims)
+        return(list(Gamma1=Gamma1,Gamatrix=Gamatrix))
+        }
