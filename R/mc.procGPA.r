@@ -1,14 +1,16 @@
 mc.procGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE)
 {	t0<-Sys.time()
 	x<-dat.array
-	p1<-1e10	
+	p1<-1e10
+	p2<-p1	
 	n<-dim(dat.array)[3]
 	k<-dim(dat.array)[1]
 	m<-dim(dat.array)[2]
 	x1<-gdif(dat.array)
 	#vec.mat<-matrix(NA,n,k*m)
 	arr.list<-list(0)	
-	for ( i in 1:n)
+	###rotation step ####
+for ( i in 1:n)
 		{arr.list[[i]]<-list(x[,,i],1)
 		}
 	mshape<-x[,,1]	
@@ -25,38 +27,7 @@ mc.procGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE)
 
 	### rotation of all configs on current consensus ###		
 		arr.list<-mclapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F);return(list(x[[1]],x[[2]]))})
-		
-					
-			#for ( i in 1:n)
-			#	{vec.mat[i,]<-as.vector(arr.list[[i]][[1]])
-			#	}
-		
-	### scaling if full GPA is requested ####
-		if (scale) 
-			{
 
-			for( i in 1:n)
-			{x[,,i]<-arr.list[[i]][[1]]
-			}
-
-			eigc<-scaleproc(x)
-
-		#	corx<-cor(t(vec.mat))
-		#	beta0<-sum(vec.mat^2)
-		#	eigc<-eigen(corx,symmetric=TRUE)$vectors[,1]
-		#	arr.list<-mclapply(arr.list,function(x)
-		#				{xn<-sum(x[[1]]^2)
-		#					x[[2]]<-abs(sqrt(beta0/xn))
-		#					return(list(x[[1]],x[[2]]))
-		#				})
-			
-		for ( i in 1:n)	
-	
-			{arr.list[[i]][[2]]<-eigc[i] #arr.list[[i]][[2]]*
-			}
-			
-			arr.list<-mclapply(arr.list,function(x){x[[1]]<-x[[1]]*x[[2]];return(list(x[[1]],x[[2]]))})
-			}		
 
 		for( i in 1:n)
 			{x[,,i]<-arr.list[[i]][[1]]
@@ -65,8 +36,51 @@ mc.procGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE)
 		x2<-gdif(x)
 		p1<-abs(x1-x2)
 		x1<-x2
-	
 		}
+
+	### scale/rotate step ###	
+	if (scale)
+	{
+	
+	for ( i in 1:n)
+		{arr.list[[i]]<-list(x[,,i],1)
+		}
+		
+	
+	
+	while (p2 > tol)
+		{
+		for( i in 1:n)
+			{x[,,i]<-arr.list[[i]][[1]]
+			}
+			eigc<-scaleproc(x)
+	
+			for ( i in 1:n)	
+			{arr.list[[i]][[2]]<-eigc[i]
+			}
+			
+			arr.list<-mclapply(arr.list,function(x){x[[1]]<-x[[1]]*x[[2]];return(list(x[[1]],x[[2]]))})
+					
+
+		
+		
+
+	### rotation of all configs on current consensus ###		
+		arr.list<-mclapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F);return(list(x[[1]],x[[2]]))})
+		
+		
+	### scaling step ####
+		
+		for( i in 1:n)
+			{x[,,i]<-arr.list[[i]][[1]]
+			}	
+		
+		
+		x2<-gdif(x)
+		p2<-abs(x1-x2)
+		x1<-x2
+		}
+	}
 		mshape<-apply(x,c(1,2),mean)
 		t1<-Sys.time()
 		cat(paste("in... ",format(t1-t0)[[1]],"\n"))

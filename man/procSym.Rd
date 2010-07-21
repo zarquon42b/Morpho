@@ -2,7 +2,7 @@
 \Rdversion{1.1}
 \alias{procSym}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{performs a  Procrustes Analysis, including options for symmetrical configurations and sliding of 3D-curves.
+\title{performs a  Procrustes Analysis, including options for symmetrical configurations and sliding of 2D and 3D -curves.
   
 }
 \description{
@@ -29,7 +29,7 @@ procSym(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRU
   \item{orp}{Logical: if TRUE, an orthogonal projection into shape space is performed.
 %%     ~~Describe \code{orp} here~~
 }
-  \item{tol}{numeric: Threshold for convergence in the sliding process
+  \item{tol}{numeric: Threshold for convergence in the sliding process.
 %%     ~~Describe \code{tol} here~~
 }
   \item{CSinit}{Logical: if TRUE, all configurations are initially scaled to Unit Centroid Size.
@@ -97,7 +97,7 @@ procSym(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRU
   \item{SymVar }{Table of the explained "Symmetrical" Variance by the PCs}
   \item{AsymVar }{Table of the explained "Asymmetrical" Variance by the PCs}
   \item{orpdata }{k x m x n array of the rotated configurations projected into tangent space}
-  \item{rmsrho }{vector of Riemannian distance from the mean}
+  \item{rho }{vector of Riemannian distance from the mean}
   
 }                                
 \references{
