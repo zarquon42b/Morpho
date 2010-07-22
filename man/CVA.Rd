@@ -50,7 +50,8 @@ CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=1000
 \item{Dist }{Mahalanobis Distances between group means - if requested tested by permutation test}
 \item{CVcv }{A matrix containing crossvalidated CV scores}
 }
-\references{Klingenberg, C. P. & Monteiro, L. R. 2005 Distances and directions in multidimensional shape spaces: implications for morphometric applications. Systematic Biology 54, 678-688.
+\references{Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of Canonical Variate Analysis: Syst. Zool., 30(3), 268-280.
+Klingenberg, C. P. & Monteiro, L. R. 2005 Distances and directions in multidimensional shape spaces: implications for morphometric applications. Systematic Biology 54, 678-688.
 %% ~put references to the literature/web site here ~
 }
 \author{

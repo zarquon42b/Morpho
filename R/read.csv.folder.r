@@ -1,4 +1,4 @@
-read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep=";",pattern="csv")
+read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep=";",pattern="csv",addSpec=NULL,back=T)
 {	
 	if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
 		{folder<-paste(folder,"/",sep="")
@@ -20,6 +20,9 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 		{data<-read.table(paste(folder,name[i],sep=""),header=header,dec=dec,sep=sep)
 		dat<-NULL
 		count<-1
+		if (is.null(rownames))
+			{stop("please specify column containing Landmark names!")
+			}
 		rn<-data[,rownames]
 		for (j in 1:length(x))
 			{check<-which(rn==x[j])
@@ -31,7 +34,7 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 				
 				}
 			if (length(check) > 1)
-				{warning(paste("dataset",i,"contains different landmarks with the same name - first match was used."))
+				{warning(paste("dataset",i,"contains landmark #",x[j],"with the same name - first match was used."))
 				dat[count]<-check[1]
 				}
 			else
@@ -73,12 +76,19 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 			}
 		}	
 	
+	dim3<-NULL
+	if (back)
+		{dim3<-paste(sub(file.ext,"",name),addSpec,sep="")
+		}
+	else
+		{dim3<-paste(addSpec,sub(file.ext,"",name),sep="")
+		}
 	if (ylen==2)
-		{dimnames(arr)<-list(rown,c("X","Y"),sub(file.ext,"",name))
+		{dimnames(arr)<-list(rown,c("X","Y"),dim3)
 		}
 	else
 	
-	{dimnames(arr)<-list(rown,c("X","Y","Z"),sub(file.ext,"",name))
+	{dimnames(arr)<-list(rown,c("X","Y","Z"),dim3)
 	}
 		
 	return(list(arr=arr,NAs=nas,NA.list=NA.list))
