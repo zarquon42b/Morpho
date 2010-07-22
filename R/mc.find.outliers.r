@@ -21,13 +21,13 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 		A$mshape<-cbind(A$mshape,0)
 		A$rotated<-A0
 		}
-    	rgl.clear()
-    	rgl.bg(color = "white")
+    	#rgl.clear()
+    	#rgl.bg(color = "white")
    	disti<-data.frame(c(1:n),A$rho)
     disti.sort<-disti[order(disti[,2],decreasing=T),]
     colnames(disti.sort)[1]<-"# in array"
     rownames(disti.sort)<-c(1:n)
-    outlier<-0
+    outlier<-NULL
     t1 <- 1
     lo<-1
     answer1 <- "n"
@@ -36,7 +36,7 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
       if (answer1 %in% c("n","N","y","Y","s","S") == T )
       
 	{
-      	difplot.lm(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,sz=0,rgl.new=FALSE)
+      	difplot.lm(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE)
       
       	cat(paste("outlier #",t1,": ",disti.sort[t1,1],"     procrustes dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
       
@@ -65,7 +65,7 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 			A$rotated[c(answer1a,answer1b),,disti.sort[t1,1]]<-A$rotated[c(answer1b,answer1a),,disti.sort[t1,1]]
 			rho.new<-angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)$rho
 			rgl.clear()
-			difplot.lm(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,sz=0,rgl.new=FALSE)
+			difplot.lm(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE)
 			cat(paste("new distance to mean:",rho.new,"\n"))
 			loop0<-substr(readline("switch more? "),1L,1L)
 				if(loop0 != "y" && loop0 != "Y" && loop0 != "n" && loop0 != "N" )
@@ -81,6 +81,7 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 			
 		}
       # else if (answer == "n" || answer == "N")
+	
           
       }
       
@@ -103,12 +104,14 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
             	}
      
     }
-    
-    	raw<-raw[,,-outlier]
+	
+	if (! is.null(outlier))
+    		{raw<-raw[,,-outlier]
+		}
 	
     
     
-    if (output == TRUE)
-    {    return(list(data.cleaned=raw,outlier=outlier,dist.sort=disti.sort))}
+    
+    	return(list(data.cleaned=raw,outlier=outlier,dist.sort=disti.sort))
     
 }
