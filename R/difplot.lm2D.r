@@ -12,7 +12,7 @@ difplot.lm2D<-function(refshape,targetshape,color=4,lwd=1,lcol=2,main=main)
       #sz <- (centroid.size(refshape)/sqrt(k))*(1/80)
 	
       #if (!spheres)
-      plot(refshape,  col = color,main=main,asp=1)
+      plot(refshape,  col = color,main=main,asp=1,axes=FALSE,xlab="",ylab="")
       #else {spheres3d(refshape, radius = sz, col = color)}
       #plot3d(refshape,box=F,axes=F,type=type,xlim=c(-lim,lim),ylim=c(-lim,lim),zlim=c(-lim,lim),col=color,xlab="",ylab="",zlab="",radius=sz)
     for (j in 1:k)

@@ -39,9 +39,9 @@ find.outliers<-function(A,color=4,lwd=1,lcol=2)
       	cat(paste("outlier #",t1,": ",disti.sort[t1,1],"     procrustes dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
       	
 	if (disti.sort[t1,1] %in% outlier)
-		{ answer<-substr(readline(" already added to outlierlist! remove fromlist (y/N/s)?"), 1L,1L)
+		{ answer<-substr(readline(" already added to outlierlist! remove from list (y/N/s)?\ny=yes,n=no,s=switch landmarks: "), 1L,1L)
 		while (!(answer %in% c("y","Y","s","S","N","n")))
-			{answer<-substr(readline(" already added to outlierlist! remove fromlist (y/N/s)?"), 1L,1L)
+			{answer<-substr(readline(" already added to outlierlist! remove from list (y/N/s)?\ny=yes,n=no,s=switch landmarks: "), 1L,1L)
 			}
 		### keep in outlier list		
 		if (answer == "n" || answer == "N")
@@ -150,8 +150,10 @@ find.outliers<-function(A,color=4,lwd=1,lcol=2)
       	answer1 <- substr(readline(" next/previous/stop (n/p/s)?  "), 1L,1L)
 	 	if (!(answer1 %in% c("P","p","S","s")))
 		
-			{rgl.clear()
-           		rgl.bg(color = "white")
+			{if(m==3)
+				{rgl.clear()
+           			rgl.bg(color = "white")
+				}
             		t1<-t1+1          
          		}
 		else if (answer1 %in% c("P","p"))
