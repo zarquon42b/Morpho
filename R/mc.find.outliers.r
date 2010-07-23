@@ -29,7 +29,7 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
     	outlier<-NULL
     	t1 <- 1
     	lo<-1
-    	
+    	op<-open3d()	
     	while (t1 <= n )
     		{
 		difplot.lm(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE)
@@ -50,12 +50,12 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 			{loop0="y"
 			while(loop0=="y" || loop0 =="Y")
 				{answer1a<-as.integer(readline("select  two Landmarks to switch position\ninsert first: "))
-				while (is.na(answer1a))
-					{answer1a<-as.integer(readline("please enter integer!\ninsert first: "))
+				while (is.na(answer1a)|| answer1a > k || answer1a < 1)
+					{answer1a<-as.integer(readline(paste("please enter integer <",k,"!\ninsert first: ")))
 					}
-				answer1b<-as.integer(readline("select  two Landmarks to switch position\nsecond: "))
-				while (is.na(answer1b))
-					{answer1b<-as.integer(readline("please enter integer!\ninsert second: "))
+				answer1b<-as.integer(readline("insert second: "))
+				while (is.na(answer1b) || answer1b > k || answer1b < 1)
+					{answer1b<-as.integer(readline(paste("please enter integer <",k,"!\ninsert second: ")))
 					}
 		
 		### switch rows of selected landmarks ##
@@ -66,7 +66,7 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 			difplot.lm(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE)
 			cat(paste("new distance to mean:",rho.new,"\n"))
 			loop0<-substr(readline("switch more (y/N)? "),1L,1L)
-				if(loop0 != "y" && loop0 != "Y" && loop0 != "n" && loop0 != "N" )
+				while(loop0 != "y" && loop0 != "Y" && loop0 != "n" && loop0 != "N" )
 					{loop0<-substr(readline("yes or no? "),1L,1L)
 					}
 			}
@@ -80,17 +80,27 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
     
 		
       ### go on or halt ###
-      	answer1 <- substr(readline(" wanna go on? (y/N)?  "), 1L,1L)
-	 	if (!(answer1 %in% c("N","Y","n","y")))
+      	answer1 <- substr(readline(" next/previous/stop (n/p/s)?  "), 1L,1L)
+	 	if (!(answer1 %in% c("P","p","S","s")))
 		
-		{rgl.clear()
-           	rgl.bg(color = "white")
-            t1<-t1+1          
-         	}
+			{rgl.clear()
+           		rgl.bg(color = "white")
+            		t1<-t1+1          
+         		}
+		else if (answer1 %in% c("P","p"))
+			{rgl.clear()
+           		rgl.bg(color = "white")
+			if (t1 !=1)            		
+				{t1<-t1-1
+				}
+			else 
+				{cat("already at top of the line!\n")
+				}  
+         		}
+			
     
-		else if (answer1 == "n" || answer1 == "N")
+		else if (answer1 == "s" || answer1 == "S")
 			{break}
-      
      
     	}
 	### remove outlier from array
