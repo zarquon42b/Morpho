@@ -55,7 +55,7 @@ mesh2ply<-function(x,filename="default")
 	### write face and Texture information ###	
 	if (!is.null(x$it)){
 	if(!is.null(x$tex) && !is.null(x$TextureFile))
-		{tex<-x$tex
+		{tex<-t(x$tex)
 		texn<-dim(tex)[2]
 		faceraw<-rbind(fd,face)
 		facetex<-t(cbind(texn,tex))

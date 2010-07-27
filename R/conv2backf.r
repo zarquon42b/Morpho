@@ -7,4 +7,5 @@ conv2backf<-function(obj)
 	else 
 		{obj$it<-obj$it[c(3,2,1),]
 		}
-  return(obj)}
+  	return(obj)
+}
