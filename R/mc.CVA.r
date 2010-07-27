@@ -1,4 +1,4 @@
- CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10, 
+mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10, 
     plot = TRUE, rounds = 10000, cv = TRUE) 
 {	if (is.character(groups) || is.numeric(groups))
 		{groups<-as.factor(groups)
@@ -147,6 +147,7 @@
 		{rownames(disto)<-lev
 		colnames(disto)<-lev
 		}
+	t0<-Sys.time()
     pmatrix <- matrix(NA, ng, ng)
     for (j1 in 1:(ng - 1)) {
         for (j2 in (j1 + 1):ng) {
@@ -154,10 +155,12 @@
                 ]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
         }
     }
-    if (rounds != 0) {
-        dist.mat <- array(0, dim = c(ng, ng, rounds))
-        for (i in 1:rounds) {
-            b1 <- list(numeric(0))
+    	
+	if (rounds != 0) {
+	
+	roun<-function(i)
+	{b1 <- list(numeric(0))
+		dist.mat<-matrix(0,ng,ng)
             shake <- sample(1:n)
             Gmeans1 <- matrix(0, ng, l)
             l1 <- 0
@@ -169,16 +172,25 @@
             }
             for (j1 in 1:(ng - 1)) {
                 for (j2 in (j1 + 1):ng) {
-                  dist.mat[j2, j1, i] <- sqrt((Gmeans1[j1, ] - 
+                  dist.mat[j2, j1] <- sqrt((Gmeans1[j1, ] - 
                     Gmeans1[j2, ]) %*% winv %*% (Gmeans1[j1, 
                     ] - Gmeans1[j2, ]))
                 }
             }
-        }
+	return(dist.mat)
+	}
+	
+        dist.mat<- array(0, dim = c(ng, ng, rounds))
+        a.list<-as.list(1:rounds)
+	#print(a.list)
+	a.list<-mclapply(a.list,roun)
+	#print(a.list)
+	for (i in 1:rounds)
+	dist.mat[,,i]<-a.list[[i]]
         pmatrix <- matrix(0, ng, ng)
-	if(!is.null(lev))
-		{rownames(pmatrix)<-lev
-		colnames(pmatrix)<-lev
+	
+	if (!is.null(lev))
+		{rownames(pmatrix)<-colnames(pmatrix)<-lev
 		}
         for (j1 in 1:(ng - 1)) {
             for (j2 in (j1 + 1):ng) {
@@ -193,8 +205,10 @@
             }
         }
     }
-    pmatrix <- as.dist(pmatrix)
+	
+	 pmatrix <- as.dist(pmatrix)
     disto <- as.dist(disto)
+
     Dist <- list(Groupdist = disto, probs = pmatrix)
     if (length(dim(N)) == 3) {
         Grandm <- matrix(Grandm, k, m)
@@ -208,16 +222,23 @@
     if (cv == TRUE) {
         CVcv <- CVscores
         ng <- length(groups)
-        for (i3 in 1:n) {
-            bb <- groups
+	a.list<-as.list(1:n)
+	crova<-function(i3)
+	{        
+	    bb <- groups
             for (j in 1:ng) {
                 if (i3 %in% bb[[j]] == TRUE) {
                   bb[[j]] <- bb[[j]][-(which(bb[[j]] == i3))]
                 }
             }
             tmp <- CVA.crova(Amatrix, bb, ind = i3, tolinv = tolinv)
-            CVcv[i3, ] <- Amatrix[i3, ] %*% tmp$CV
+            out <- Amatrix[i3, ] %*% tmp$CV
+	return(out)
         }
+	a.list<-mclapply(a.list,crova)
+	for (i in 1:n)
+	CVcv[i,]<-a.list[[i]]
+	
     }
     return(list(CV = CV, CVscores = CVscores, Grandm = Grandm, 
         groupmeans = groupmeans, Var = Var, CVvis = CVvis, Dist = Dist, 

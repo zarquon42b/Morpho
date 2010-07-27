@@ -1,4 +1,4 @@
-CVA.crova<-function(dataarray,groups,weighting=TRUE,tolinv=1e-10,ind=0)
+mc.CVA.crova<-function(dataarray,groups,weighting=TRUE,tolinv=1e-10,ind=0)
 {   
     
     

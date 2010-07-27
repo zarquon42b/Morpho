@@ -40,7 +40,7 @@ ply2mesh<-function (filename, adnormals = TRUE)
 	if (length(grep("property list uchar float texcoord",A))==1 && length(grep("comment TextureFile",A))==1)
 		{texn<-face.all[1,5]
 		tex<-face.all[,c(6:(6+(texn-1)))]
-		mesh$tex<-tex
+		mesh$tex<-t(tex)
 		mesh$TextureFile<-strsplit(A[grep("comment TextureFile", infos)], " ")[[1]][3]
 		} 
     
