@@ -1,4 +1,4 @@
-mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE)
+mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE)
 {     	t0<-Sys.time()
 	A<-dataarray
       	k<-dim(A)[1]
@@ -7,11 +7,21 @@ mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-
       	Mir<-diag(c(-1,1,1))
       	dataslide<-NULL
       	CS<-NULL
-      
-      	if (SMvector[1]==0) 
-		{ 
-      		CS<-apply(A,3,centroid.size)
-		
+
+	### create functions for multicore usage ###      	
+	CSfun<-function(i,array)
+		{cs<-centroid.size(array[,,i])
+		return(cs)
+		}
+	rhofun<-function(i)
+            	{rho<-angle.calc(proc$rotated[,,i],proc$mshape)$rho
+		return(rho)          	
+		}
+	
+      	if (is.null(SMvector))      
+		{a.list<-as.list(1:n)
+      		CS<-unlist(mclapply(a.list,CSfun,array=A))
+			
 		if (CSinit==TRUE)
           		{ 
 			for (i in 1:n)
@@ -22,22 +32,27 @@ mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-
       
       
       
-      if (SMvector[1]!=0)           # includes sliding of Semilandmarks
-      		{ 	
+      if (!is.null(SMvector))           # includes sliding of Semilandmarks
+      		{
+		if (is.null(outlines))
+			{stop("please specify outlines")
+			} 	
 		dataslide<-Semislide(A, SMvector=SMvector,outlines=outlines,tol=tol,deselect=deselect,recursive=recursive,iterations=iterations,pcaoutput=FALSE,pairedLM=pairedLM,initproc=initproc)
         	A<-dataslide
         
         
-        	for (i in 1:n)
-        		CS<-apply(A,3,centroid.size)
-        	if (CSinit==TRUE)
+        	{a.list<-as.list(1:n)
+      		CS<-unlist(mclapply(a.list,CSfun,array=A))
+			
+		if (CSinit==TRUE)
           		{ 
 			for (i in 1:n)
             			{A[,,i]<-A[,,i]/CS[i]}
           		}
+		}
  	       }
 ###### create mirrored configs ######
-        if (pairedLM[1]!=0)
+        if (!is.null(pairedLM))
         {
             Amir<-A
             for (i in 1:n)
@@ -54,7 +69,7 @@ mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-
         procrot<-proc$rotated
 	
 	dimna<-dimnames(dataarray)
-	if (pairedLM[1]!=0)
+	if (!is.null(pairedLM))
 		{			
 			dimna[[m]]<-c(dimna[[m]],dimna[[m]])
 		}
@@ -66,12 +81,11 @@ mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-
 
         
 	rho<-NULL
-          {
-          for (i in 1:n)
-            {rho[i]<-angle.calc(proc$rotated[,,i],proc$mshape)$rho}
-          }
+        a.list<-as.list(1:n)
+        
+	rho<-unlist(mclapply(a.list,rhofun))
          
-        orpdata<-0
+        orpdata<-NULL
 
 ###### project into tangent space ######
 	###test###        
@@ -85,7 +99,7 @@ mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-
 		
       
 ###### calculate Symmetric means ######
-	if (pairedLM[1]!=0) 
+	if (!is.null(pairedLM))
       		{
  	### generate symmetrized mean for each individual between original and mirrored configuration ###      		
 		Symarray<-A
@@ -166,7 +180,7 @@ mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-
 ###### PCA Asym Component ###### 
       	asvalues<-0
       	PCs_Asym<-0
-      	if (pairedLM[1]!=0)
+      	if (!is.null(pairedLM))
       		{
       		asymtan<-matrix(NA,n,m*k)
       		for(i in 1:n)
@@ -220,7 +234,7 @@ mc.procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-
 	t1<-Sys.time()
 	cat(paste("Operation completed in",t1-t0,"secs\n"))
 
-	if (pairedLM[1]!=0)
+	if (!is.null(pairedLM))
       	{return(list(size=CS,rotated=proc$rotated[,,1:n],rotmir=proc$rotated[,,(n+1):(2*n)],Sym=Symarray,Asym=Asymm,asymmean=asymmean,mshape=(meanshape+asymmean),
 	symmean=meanshape,Symtan=tan,Asymtan=asymtan,PCsym=PCs,PCscore_sym=PCscore_sym,eigensym=values,SymVar=SymVar,PCasym=PCs_Asym,PCscore_asym=PCscore_asym,eigenasym=asvalues,AsymVar=AsymVar,orpdata=orpdata[,,1:n],orpmir=orpdata[,,(n+1):(2*n)],rmsrho=proc$rmsrho,rho=rho,dataslide= dataslide))
       }

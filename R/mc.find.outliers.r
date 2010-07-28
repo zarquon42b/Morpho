@@ -7,10 +7,13 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 	A<-mc.procGPA(A)
 
 ###from here on the same as find.outliers ###		
-	rho<-0
-	for(i in 1:n)
-		{rho[i]<-angle.calc(A$rotated[,,i],A$mshape)$rho
+	rho<-NULL
+        a.list<-as.list(1:n)
+        rhofun<-function(i)
+            	{rho<-angle.calc(proc$rotated[,,i],proc$mshape)$rho
+		return(rho)          	
 		}
+	rho<-unlist(mclapply(a.list,rhofun))
 	A$rho<-rho
 	
 	

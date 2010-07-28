@@ -74,6 +74,9 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 			nas2<-nas2[-which(duplicated(nas2))]
 			NA.list[[as.character(nas[i])]]<-nas2
 			}
+		}
+	else 
+		{nas<-NULL
 		}	
 	
 	dim3<-NULL

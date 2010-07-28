@@ -1,7 +1,7 @@
 \name{mc.find.outliers}
 \alias{mc.find.outliers}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Graphical interface to find outliers and/or to switch mislabeld landmarks
+\title{Multicore Verion of find.outliers
 
 }
 \description{Graphical interface to find outliers and/or to switch mislabeld landmarks -  - this is a speedy version of find outliers and only available for UNIX Systems.

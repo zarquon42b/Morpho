@@ -1,14 +1,14 @@
 \name{mc.procSym}
 \alias{mc.procSym}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{performs a  Procrustes Analysis, including options for symmetrical configurations and sliding of 2D and 3D -curves.
+\title{Multicore Version of procSym
   
 }
 \description{
     \code{procSym} performs Procrustes superimposition including sliding of semilandmarks in 3d
 }
 \usage{
-mc.procSym(dataarray, pairedLM = 0, SMvector = 0, outlines = 0, orp = TRUE, tol = 1e-05, CSinit = TRUE, deselect = FALSE, recursive = TRUE, iterations = 0, scale = TRUE, reflect = FALSE, sizeshape = FALSE, initproc = FALSE)
+mc.procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
