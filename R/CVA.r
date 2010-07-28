@@ -147,14 +147,34 @@
 		{rownames(disto)<-lev
 		colnames(disto)<-lev
 		}
-    pmatrix <- matrix(NA, ng, ng)
-    for (j1 in 1:(ng - 1)) {
-        for (j2 in (j1 + 1):ng) {
-            disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2, 
-                ]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
-        }
-    }
-    if (rounds != 0) {
+    	pmatrix <- NULL
+	proc.disto<-NULL
+	pmatrix.proc<-NULL
+	### calculate Mahalanobis Distance between Means	
+    	for (j1 in 1:(ng - 1)) 
+		{for (j2 in (j1 + 1):ng) 
+			{disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2,]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
+        		}
+    		}
+	### calculate Procrustes Distance between Means
+	if (length(dim(N)) == 3)
+		{proc.disto<-matrix(0, ng, ng)
+		if(!is.null(lev))
+			{rownames(proc.disto)<-lev
+			colnames(proc.disto)<-lev
+			}	
+		for (j1 in 1:(ng - 1)) 
+			{for (j2 in (j1 + 1):ng) 
+				{proc.disto[j2, j1] <- angle.calc(Gmeans[j1, ], Gmeans[j2,])$rho
+        			}
+    			}
+		}
+    	if (rounds != 0) 
+		{pmatrix <- matrix(NA, ng, ng)
+		if(!is.null(lev))
+			{rownames(pmatrix)<-lev
+			colnames(pmatrix)<-lev
+			}
         dist.mat <- array(0, dim = c(ng, ng, rounds))
         for (i in 1:rounds) {
             b1 <- list(numeric(0))
@@ -175,11 +195,8 @@
                 }
             }
         }
-        pmatrix <- matrix(0, ng, ng)
-	if(!is.null(lev))
-		{rownames(pmatrix)<-lev
-		colnames(pmatrix)<-lev
-		}
+        
+	
         for (j1 in 1:(ng - 1)) {
             for (j2 in (j1 + 1):ng) {
                 sorti <- sort(dist.mat[j2, j1, ])
@@ -192,18 +209,57 @@
                 }
             }
         }
+	if (length(dim(N)) == 3)
+		{pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
+		if(!is.null(lev))
+			{rownames(pmatrix.proc)<-lev
+			colnames(pmatrix.proc)<-lev
+			}
+		dist.mat.proc <- array(0, dim = c(ng, ng, rounds))
+		for (i in 1:rounds)
+			{b1 <- list()
+			shake <- sample(1:n)
+            		Gmeans1 <- matrix(0, ng, l)
+            		l1 <- 0
+            		for (j in 1:ng) 
+				{b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
+                		l1 <- l1 + length(b[[j]])
+                		Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
+            			}
+            		for (j1 in 1:(ng - 1)) 
+				{for (j2 in (j1 + 1):ng) 
+					{dist.mat[j2, j1,i] <- angle.calc(Gmeans1[j1, ],Gmeans1[j2, ])$rho
+                			}
+            			}
+			}
+	
+        	       	
+		for (j1 in 1:(ng - 1)) 
+			{for (j2 in (j1 + 1):ng) 
+				{sorti <- sort(dist.mat.proc[j2, j1, ])
+				if (max(sorti) < proc.disto[j2, j1]) 
+					{pmatrix.proc[j2, j1] <- 1/rounds
+                			}
+               			else 
+                  			{marg <- min(which(sorti >= proc.disto[j2, j1]))
+                  			pmatrix.proc[j2, j1] <- (rounds - marg)/rounds
+                			}
+            			}
+        		}
+		proc.disto<-as.dist(proc.disto)
+		pmatrix.proc<-as.dist(pmatrix.proc)
+		}
     }
-    pmatrix <- as.dist(pmatrix)
-    disto <- as.dist(disto)
-    Dist <- list(Groupdist = disto, probs = pmatrix)
-    if (length(dim(N)) == 3) {
-        Grandm <- matrix(Grandm, k, m)
-        groupmeans <- array(as.vector(t(Gmeans)), dim = c(k, 
-            m, ng))
-    }
-    else {
-        groupmeans <- Gmeans
-    }
+    	pmatrix <- as.dist(pmatrix)
+    	disto <- as.dist(disto)
+    	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.disto, probsMaha = pmatrix,probsProc = pmatrix.proc)
+    		if (length(dim(N)) == 3) 
+			{Grandm <- matrix(Grandm, k, m)
+        		groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m, ng))
+    			}
+    else
+	{groupmeans <- Gmeans
+    	}
     CVcv <- NULL
     if (cv == TRUE) {
         CVcv <- CVscores

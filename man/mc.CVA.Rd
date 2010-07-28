@@ -46,7 +46,7 @@ mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=1
 \item{groupmeans }{a matrix or an array containing the group means (depending if the input is an array or a matrix)}
 \item{Var }{Variance explained by the Canonical Variates}
 \item{CVvis }{Canonical Variates projected back into the original space - to be used for visualization purposes, for details see example below.}
-\item{Dist }{Mahalanobis Distances between group means - if requested tested by permutation test}
+\item{Dist }{Mahalanobis Distances between group means - if requested tested by permutation test if the input is an array it is assumed to be superimposed Landmark Data and Procrustes Distance will be calculated.}
 \item{CVcv }{A matrix containing crossvalidated CV scores}
 }
 \references{Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of Canonical Variate Analysis: Syst. Zool., 30(3), 268-280.
