@@ -1,5 +1,4 @@
-mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10, 
-    plot = TRUE, rounds = 10000, cv = TRUE) 
+mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 10000, cv = TRUE) 
 {	
 	if (is.character(groups) || is.numeric(groups))
 		{groups<-as.factor(groups)
@@ -311,7 +310,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,
                 		}
             		}
 		
-            	tmp <- CVA.crova(Amatrix, bb, tolinv = tolinv,ind=i3)
+            	tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3)
             	out <- Amatrix[i3, ] %*% tmp$CV
 		return(out)
         	}

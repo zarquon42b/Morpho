@@ -175,8 +175,7 @@
 
     	if (rounds != 0) 
 		
-		{print(1) 	
-		pmatrix <- matrix(NA, ng, ng)
+		{pmatrix <- matrix(NA, ng, ng)
 	        
 		if (!is.null(lev))
 			{rownames(pmatrix)<-lev
