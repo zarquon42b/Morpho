@@ -1,6 +1,8 @@
  CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10, 
     plot = TRUE, rounds = 10000, cv = TRUE) 
-{	if (is.character(groups) || is.numeric(groups))
+{	
+	lev<-NULL
+	if (is.character(groups) || is.numeric(groups))
 		{groups<-as.factor(groups)
 		}
 	if (is.factor(groups))
