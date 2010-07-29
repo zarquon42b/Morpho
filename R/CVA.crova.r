@@ -1,4 +1,4 @@
-CVA.crova<-function(dataarray,groups,test=CV,weighting=TRUE,tolinv=1e-10,ind=0)
+CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0)
 {   
     
     	N <- dataarray
@@ -75,15 +75,18 @@ CVA.crova<-function(dataarray,groups,test=CV,weighting=TRUE,tolinv=1e-10,ind=0)
     A <- eigZ$vectors[, 1:(ng - 1)]
     CV <- U %*% invcW %*% A
     	di<-dim(CV)[2]
+	
 	for (i in 1:di)
-		{rho<-angle.calc(test[,i ],CV[,i])
+		{
+		rho<-angle.calc(test[,i ],CV[,i])
 		if (rho$rho > pi/2)
 			{CV[,i]<-CV[,i]*(-1)
+			#print(paste("yes",i))
 			}
 		}
     
     
-  
+ 	
       
     ##
     return(list(CV=CV))

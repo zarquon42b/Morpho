@@ -281,7 +281,7 @@
             		}
             	
 		
-           	tmp <- CVA.crova(Amatrix, bb, tolinv = tolinv,ind=i3)
+           	tmp <- CVA.crova(Amatrix, bb,test=CV, tolinv = tolinv,ind=i3)
             	CVcv[i3, ] <- Amatrix[i3, ] %*% tmp$CV
 		}
         }
