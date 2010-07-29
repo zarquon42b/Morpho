@@ -69,13 +69,13 @@
     else {
         X <- sqrt(n/ng) * resB
     }
-    for (i in 1:ng) {
-        B[b[[i]], ] <- B[b[[i]], ] - (c(rep(1, length(b[[i]]))) %*% 
-            t(Gmeans[i, ]))
-    }
+    #for (i in 1:ng) {
+    #    B[b[[i]], ] <- B[b[[i]], ] - (c(rep(1, length(b[[i]]))) %*% 
+    #        t(Gmeans[i, ]))
+    #}
     covW <- 0
-    for (i in 1:n) {
-        covW <- covW + (B[i, ] %*% t(B[i, ]))
+    for (i in 1:ng) {
+        covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
     }
     W <- covW
     covW <- covW/(n - ng)
@@ -109,6 +109,7 @@
             Ec2[i] <- (1/Ec2[i])
         }
     }
+	
     invcW <- diag(Ec)
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
@@ -147,7 +148,8 @@
 		{rownames(disto)<-lev
 		colnames(disto)<-lev
 		}
-    	pmatrix <- NULL
+		
+	pmatrix <- NULL
 	proc.disto<-NULL
 	pmatrix.proc<-NULL
 	### calculate Mahalanobis Distance between Means	
@@ -156,6 +158,7 @@
 			{disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2,]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
         		}
     		}
+	 
 	### calculate Procrustes Distance between Means
 	if (length(dim(N)) == 3)
 		{proc.disto<-matrix(0, ng, ng)
@@ -169,13 +172,18 @@
         			}
     			}
 		}
+
     	if (rounds != 0) 
-		{pmatrix <- matrix(NA, ng, ng)
-		if(!is.null(lev))
+		
+		{print(1) 	
+		pmatrix <- matrix(NA, ng, ng)
+	        
+		if (!is.null(lev))
 			{rownames(pmatrix)<-lev
 			colnames(pmatrix)<-lev
 			}
-        dist.mat <- array(0, dim = c(ng, ng, rounds))
+
+	dist.mat <- array(0, dim = c(ng, ng, rounds))
         for (i in 1:rounds) {
             b1 <- list(numeric(0))
             shake <- sample(1:n)
@@ -187,16 +195,14 @@
                 Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, 
                   mean)
             }
-            for (j1 in 1:(ng - 1)) {
+           for (j1 in 1:(ng - 1)) {
                 for (j2 in (j1 + 1):ng) {
-                  dist.mat[j2, j1, i] <- sqrt((Gmeans1[j1, ] - 
-                    Gmeans1[j2, ]) %*% winv %*% (Gmeans1[j1, 
-                    ] - Gmeans1[j2, ]))
+                  dist.mat[j2, j1, i] <- sqrt((Gmeans1[j1, ] - Gmeans1[j2, ]) %*% winv %*% (Gmeans1[j1,] - Gmeans1[j2, ]))
                 }
             }
         }
         
-	
+	  
         for (j1 in 1:(ng - 1)) {
             for (j2 in (j1 + 1):ng) {
                 sorti <- sort(dist.mat[j2, j1, ])
@@ -209,6 +215,7 @@
                 }
             }
         }
+	
 	if (length(dim(N)) == 3)
 		{pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
 		if(!is.null(lev))
@@ -246,11 +253,12 @@
                 			}
             			}
         		}
+		pmatrix <- as.dist(pmatrix)
 		proc.disto<-as.dist(proc.disto)
 		pmatrix.proc<-as.dist(pmatrix.proc)
 		}
     }
-    	pmatrix <- as.dist(pmatrix)
+    	
     	disto <- as.dist(disto)
     	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.disto, probsMaha = pmatrix,probsProc = pmatrix.proc)
     		if (length(dim(N)) == 3) 
@@ -261,20 +269,24 @@
 	{groupmeans <- Gmeans
     	}
     CVcv <- NULL
-    if (cv == TRUE) {
-        CVcv <- CVscores
-        ng <- length(groups)
-        for (i3 in 1:n) {
-            bb <- groups
-            for (j in 1:ng) {
-                if (i3 %in% bb[[j]] == TRUE) {
-                  bb[[j]] <- bb[[j]][-(which(bb[[j]] == i3))]
-                }
-            }
-            tmp <- CVA.crova(Amatrix, bb, ind = i3, tolinv = tolinv)
-            CVcv[i3, ] <- Amatrix[i3, ] %*% tmp$CV
+    if (cv == TRUE) 
+	{CVcv <- CVscores
+        for (i3 in 1:n) 
+		{bb <- groups
+            	for (j in 1:ng) 
+			{if (i3 %in% bb[[j]]) 
+				{a<-bb[[j]]
+				bb[[j]] <- bb[[j]][-(which(bb[[j]] == i3))]
+                		
+				}
+            		}
+            	
+		
+           	tmp <- CVA.crova(Amatrix, bb, tolinv = tolinv,ind=i3)
+            	CVcv[i3, ] <- Amatrix[i3, ] %*% tmp$CV
+		}
         }
-    }
+    
     return(list(CV = CV, CVscores = CVscores, Grandm = Grandm, 
         groupmeans = groupmeans, Var = Var, CVvis = CVvis, Dist = Dist, 
         CVcv = CVcv))

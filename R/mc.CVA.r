@@ -1,6 +1,7 @@
 mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10, 
     plot = TRUE, rounds = 10000, cv = TRUE) 
-{	if (is.character(groups) || is.numeric(groups))
+{	
+	if (is.character(groups) || is.numeric(groups))
 		{groups<-as.factor(groups)
 		}
 	if (is.factor(groups))
@@ -71,14 +72,13 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,
     else {
         X <- sqrt(n/ng) * resB
     }
-    for (i in 1:ng) {
-        B[b[[i]], ] <- B[b[[i]], ] - (c(rep(1, length(b[[i]]))) %*% 
-            t(Gmeans[i, ]))
-    }
+    
     covW <- 0
-    for (i in 1:n) {
-        covW <- covW + (B[i, ] %*% t(B[i, ]))
+    for (i in 1:ng) {
+        covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
     }
+
+	
     W <- covW
     covW <- covW/(n - ng)
     eigW <- eigen(W)
@@ -87,7 +87,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,
     E <- eigW$values
     Ec <- eigcoW$values
     Ec2 <- Ec
-
+	
     if (min(E) < tolinv) {
         cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", 
             tolinv, "\n"))
@@ -111,14 +111,17 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,
             Ec2[i] <- (1/Ec2[i])
         }
     }
+
+
     invcW <- diag(Ec)
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
-    eigZ <- eigen(ZtZ)
+    eigZ <- eigen(ZtZ,symmetric=TRUE)
     A <- eigZ$vectors[, 1:(ng - 1)]
     CV <- U %*% invcW %*% A
     CVvis <- covW %*% CV
     CVscores <- Amatrix %*% CV
+
     roots <- eigZ$values[1:(ng - 1)]
     if (length(roots) == 1) {
         Var <- matrix(roots, 1, 1)
@@ -180,8 +183,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,
     	}
 ### Permutation Test for Distances	
 	if (rounds != 0) 
-	{
-	pmatrix <- matrix(NA, ng, ng) ### generate distance matrix Mahal
+	{pmatrix <- matrix(NA, ng, ng) ### generate distance matrix Mahal
 	if(!is.null(lev))
 		{rownames(pmatrix)<-lev
 		colnames(pmatrix)<-lev
@@ -302,17 +304,17 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,
         ng <- length(groups)
 	a.list<-as.list(1:n)
 	crova<-function(i3)
-	{        
-	    bb <- groups
-            for (j in 1:ng) {
-                if (i3 %in% bb[[j]] == TRUE) {
-                  bb[[j]] <- bb[[j]][-(which(bb[[j]] == i3))]
-                }
-            }
-            tmp <- CVA.crova(Amatrix, bb, ind = i3, tolinv = tolinv)
-            out <- Amatrix[i3, ] %*% tmp$CV
-	return(out)
-        }
+		{bb <- groups
+            	for (j in 1:ng) 
+			{if (i3 %in% bb[[j]] == TRUE) 
+				{bb[[j]] <- bb[[j]][-(which(bb[[j]] == i3))]
+                		}
+            		}
+		
+            	tmp <- CVA.crova(Amatrix, bb, tolinv = tolinv,ind=i3)
+            	out <- Amatrix[i3, ] %*% tmp$CV
+		return(out)
+        	}
 	a.list<-mclapply(a.list,crova)
 	for (i in 1:n)
 	CVcv[i,]<-a.list[[i]]

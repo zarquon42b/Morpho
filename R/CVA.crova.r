@@ -4,22 +4,23 @@ CVA.crova<-function(dataarray,groups,weighting=TRUE,tolinv=1e-10,ind=0)
     
     N<-dataarray
     b<-groups
-    
+   
         # starting with a matrix (e.g. PC-Scores)
         n<-dim(N)[1] 
         l<-dim(N)[2]
-        ng<-length(groups)
-        nwg<-c(rep(0,ng))
+        ng<-length(b)
+	nwg<-c(rep(0,ng))
       for (i in 1:ng)
             {nwg[i]<-length(b[[i]])}
         B<-N
         Amatrix<-B
         Gmeans<-matrix(0,ng,l)
-    
+    	
       for (i in 1:ng)
-          {Gmeans[i,]<-apply(N[b[[i]],],2,mean)}
+          {#print(N[b[[i]],])
+		Gmeans[i,]<-apply(N[b[[i]],],2,mean)}
     
-      Grandm<-apply(N,2,mean)
+      Grandm<-apply(N[-ind,],2,mean)
       
       
     
@@ -34,15 +35,17 @@ CVA.crova<-function(dataarray,groups,weighting=TRUE,tolinv=1e-10,ind=0)
       X<-sqrt((n-1)/ng)*resB
     }
       
-    for ( i in 1:ng)
-    { 
-      B[b[[i]],]<-B[b[[i]],]-(c(rep(1,length(b[[i]])))%*%t(Gmeans[i,]))
-      }
+    #for ( i in 1:ng)
+    #{ 
+    #  B[b[[i]],]<-B[b[[i]],]-(c(rep(1,length(b[[i]])))%*%t(Gmeans[i,]))
+     # }
    
     covW<-0
-    tmp<-c(1:n)
-    tmp<-tmp[-(which(tmp == ind ))]
-    for (i in tmp)                       #calc within groups covariance
+	for (i in 1:ng) {
+        covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
+    }
+                     
+ #calc within groups covariance
     {covW<-covW+(B[i,]%*%t(B[i,]))
     }
     W<-covW
@@ -84,7 +87,7 @@ CVA.crova<-function(dataarray,groups,weighting=TRUE,tolinv=1e-10,ind=0)
     A<-eigZ$vectors[,1:(ng-1)]
     CV<-U%*%invcW%*%A
     #CVvis<-covW%*%CV
-    CVscores<-Amatrix%*%CV
+    #CVscores<-Amatrix%*%CV
     roots<-eigZ$values[1:(ng-1)]
     
     
