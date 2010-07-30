@@ -1,5 +1,13 @@
-deform.grid<-function(matrix,tarmatrix,ngrid,lwd=1,showaxis=c(1,2,3))
-{	spheres3d(matrix,col=2)
+deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T)
+{	open3d()
+	k<-dim(matrix)[1]
+	sz <- (centroid.size(matrix)/sqrt(k))*(1/80)
+	spheres3d(matrix,col=2,radius=sz)
+	if(both)
+		{spheres3d(tarmatrix,col=3,radius=sz)
+		for (i in 1:k)
+		lines3d(rbind(matrix[i,],tarmatrix[i,]),lwd=1.5)
+		}
 	x2<-x1<-x3<-c(0:(ngrid-1))/ngrid;x0<-as.matrix(expand.grid(x1,x2,x3))
 	
 	xrange<-diff(range(matrix[,1]))
