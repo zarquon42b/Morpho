@@ -36,12 +36,15 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
         	for (i in 1:n) 
 			{B[i, ] <- as.vector(N[, , i])
         		}
-        	Amatrix <- B
+        	
         	Gmeans <- matrix(0, ng, m * k)
         		for (i in 1:ng) {
             		Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2),mean))
         	}
         Grandm <- as.vector(apply(N, c(1:2), mean))
+	Tmatrix<-B
+	B<-t(t(B)-Grandm)
+	Amatrix <- B
     }
     else {
         n <- dim(N)[1]
@@ -55,12 +58,14 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
             nwg[i] <- length(b[[i]])
         }
         B <- as.matrix(N)
-        Amatrix <- B
+        #Amatrix <- B
         Gmeans <- matrix(0, ng, l)
         for (i in 1:ng) {
             Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
         }
         Grandm <- apply(N, 2, mean)
+	B<-t(t(B)-Grandm)
+	Amatrix <- B
     }
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
     if (weighting == TRUE) {
@@ -156,7 +161,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 	pmatrix<-NULL
 	pmatrix.proc<-NULL
     
-### calculate Mahalnobis Distance between Means
+### calculate Mahalanobis Distance between Means
     	for (j1 in 1:(ng - 1)) 
 		{
         	for (j2 in (j1 + 1):ng) 
@@ -206,9 +211,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
             }
             for (j1 in 1:(ng - 1)) {
                 for (j2 in (j1 + 1):ng) {
-                  dist.mat[j2, j1] <- sqrt((Gmeans1[j1, ] - 
-                    Gmeans1[j2, ]) %*% winv %*% (Gmeans1[j1, 
-                    ] - Gmeans1[j2, ]))
+                  dist.mat[j2, j1] <- sqrt((Gmeans1[j1, ] - Gmeans1[j2, ]) %*% winv %*% (Gmeans1[j1,] - Gmeans1[j2, ]))
                 }
             }
 	return(dist.mat)
@@ -219,6 +222,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 	a.list<-mclapply(a.list,roun)
 	for (i in 1:rounds)
 		{dist.mat[,,i]<-a.list[[i]]
+		#print(a.list)[[i]]
 		}
         #pmatrix <- matrix(0, ng, ng)
 	
@@ -251,16 +255,18 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
             		for (j in 1:ng) 
 				{b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
                 		l1 <- l1 + length(b[[j]])
-                		Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
+                		Gmeans1[j, ] <- apply(Tmatrix[b1[[j]], ], 2, mean)
             			}
+			
             		for (j1 in 1:(ng - 1)) 
 				{for (j2 in (j1 + 1):ng) 
 					{dist.mat[j2, j1] <- angle.calc(Gmeans1[j1, ],Gmeans1[j2, ])$rho
                 			}
             			}
+			
 			return(dist.mat)
 			}
-	
+		
         	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
         	a.list<-as.list(1:rounds)
 		a.list<-mclapply(a.list,roun.proc)
