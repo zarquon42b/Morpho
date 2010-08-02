@@ -34,13 +34,16 @@
         for (i in 1:n) {
             B[i, ] <- as.vector(N[, , i])
         }
-        Amatrix <- B
+       #Amatrix <- B
         Gmeans <- matrix(0, ng, m * k)
         for (i in 1:ng) {
             Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2), 
                 mean))
         }
         Grandm <- as.vector(apply(N, c(1:2), mean))
+	Tmatrix<-B
+	B<-t(t(B)-Grandm)
+	Amatrix <- B
     }
     else {
         n <- dim(N)[1]
@@ -54,12 +57,14 @@
             nwg[i] <- length(b[[i]])
         }
         B <- as.matrix(N)
-        Amatrix <- B
+       # Amatrix <- B
         Gmeans <- matrix(0, ng, l)
         for (i in 1:ng) {
             Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
         }
         Grandm <- apply(N, 2, mean)
+	B<-t(t(B)-Grandm)
+	Amatrix <- B
     }
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
     if (weighting == TRUE) {
