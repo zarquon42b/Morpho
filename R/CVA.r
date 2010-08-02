@@ -37,8 +37,7 @@
        #Amatrix <- B
         Gmeans <- matrix(0, ng, m * k)
         for (i in 1:ng) {
-            Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2), 
-                mean))
+            Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2),mean))
         }
         Grandm <- as.vector(apply(N, c(1:2), mean))
 	Tmatrix<-B
@@ -67,6 +66,7 @@
 	Amatrix <- B
     }
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
+	Gmeans.c<-resB
     if (weighting == TRUE) {
         for (i in 1:ng) {
             resB[i, ] <- sqrt(nwg[i]) * resB[i, ]
@@ -162,7 +162,7 @@
 	### calculate Mahalanobis Distance between Means	
     	for (j1 in 1:(ng - 1)) 
 		{for (j2 in (j1 + 1):ng) 
-			{disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2,]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
+			{disto[j2, j1] <- sqrt((Gmeans.c[j1, ] - Gmeans.c[j2,]) %*% winv %*% (Gmeans.c[j1, ] - Gmeans.c[j2, ]))
         		}
     		}
 	 
@@ -237,7 +237,7 @@
             		for (j in 1:ng) 
 				{b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
                 		l1 <- l1 + length(b[[j]])
-                		Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
+                		Gmeans1[j, ] <- apply(Tmatrix[b1[[j]], ], 2, mean)
             			}
             		for (j1 in 1:(ng - 1)) 
 				{for (j2 in (j1 + 1):ng) 

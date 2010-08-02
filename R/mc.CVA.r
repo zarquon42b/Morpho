@@ -68,6 +68,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 	Amatrix <- B
     }
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
+	Gmeans.c<-resB
     if (weighting == TRUE) {
         for (i in 1:ng) {
             resB[i, ] <- sqrt(nwg[i]) * resB[i, ]
@@ -165,7 +166,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
     	for (j1 in 1:(ng - 1)) 
 		{
         	for (j2 in (j1 + 1):ng) 
-			{disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2,]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
+			{disto[j2, j1] <- sqrt((Gmeans.c[j1, ] - Gmeans.c[j2,]) %*% winv %*% (Gmeans.c[j1, ] - Gmeans.c[j2, ]))
         		}
     		}
 
