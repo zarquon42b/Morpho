@@ -66,7 +66,7 @@
 	Amatrix <- B
     }
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
-	Gmeans.c<-resB
+	
     if (weighting == TRUE) {
         for (i in 1:ng) {
             resB[i, ] <- sqrt(nwg[i]) * resB[i, ]
@@ -143,10 +143,11 @@
         colnames(Var) <- c("Canonical roots", "% Variance", "Cumulative %")
     }
     if (plot == TRUE && ng == 2) {
+	lim<-range(CVscores[,1])+c(-1,1)
+	yli<-c(0,0.7)
         coli <- rainbow(2, alpha = 0.5)
-        hist(CVscores[b[[1]], ], col = coli[1], xlim = c(-10, 
-            10), ylim = c(0, n/4), main = "CVA", xlab = "CV Scores")
-        hist(CVscores[b[[2]], ], col = coli[2], add = TRUE)
+        hi<-hist(CVscores[b[[1]], ], col = coli[1], xlim = lim, ylim=yli, main = "CVA", xlab = "CV Scores",breaks=15,freq=F)
+        hist(CVscores[b[[2]], ], col = coli[2], add = TRUE,breaks=15,freq=F)
     }
     U2 <- eigcoW$vectors
     winv <- U2 %*% (diag(Ec2)) %*% t(U2)
@@ -162,7 +163,7 @@
 	### calculate Mahalanobis Distance between Means	
     	for (j1 in 1:(ng - 1)) 
 		{for (j2 in (j1 + 1):ng) 
-			{disto[j2, j1] <- sqrt((Gmeans.c[j1, ] - Gmeans.c[j2,]) %*% winv %*% (Gmeans.c[j1, ] - Gmeans.c[j2, ]))
+			{disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2,]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
         		}
     		}
 	 

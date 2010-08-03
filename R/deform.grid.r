@@ -9,15 +9,17 @@ deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T)
 		lines3d(rbind(matrix[i,],tarmatrix[i,]),lwd=1.5)
 		}
 	x2<-x1<-x3<-c(0:(ngrid-1))/ngrid;x0<-as.matrix(expand.grid(x1,x2,x3))
-	
+	cent.mat<-apply(matrix,2,scale,scale=F)
+	mean.mat<-apply(matrix,2,mean)
+	print(mean.mat)
 	xrange<-diff(range(matrix[,1]))
 	yrange<-diff(range(matrix[,2]))
 	zrange<-diff(range(matrix[,3]))
 	maxi<-max(c(xrange,yrange,zrange))
 	x0<-maxi*x0
 	x0<-apply(x0,2,scale,scale=FALSE)
-	space<-eigen(crossprod(matrix))$vectors
-	x0<-x0%*%space
+	space<-eigen(crossprod(cent.mat))$vectors
+	x0<-t(t(x0%*%space)+mean.mat)
 	x0<-tps3d(x0,matrix,tarmatrix)
 	
 	if(1 %in% showaxis)	

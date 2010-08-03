@@ -10,7 +10,7 @@ mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 	rho<-NULL
         a.list<-as.list(1:n)
         rhofun<-function(i)
-            	{rho<-angle.calc(proc$rotated[,,i],proc$mshape)$rho
+            	{rho<-angle.calc(A$rotated[,,i],A$mshape)$rho
 		return(rho)          	
 		}
 	rho<-unlist(mclapply(a.list,rhofun))
