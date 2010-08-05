@@ -20,9 +20,16 @@ mc.tps3d<-function(M,refmat,tarmat)
         coeff[,i]<-Linv%*%m2[,i]
 
       }
+	cat("calculating x displacement\n")
     transM[,1]<-mc.fx(refmat,M,coeff[,1])
+	if (m == 3)
+		{dimo<-c("y","z")
+		}
+	else
+		{dimo<-c("y")
+		}
 	for (i in 2:m)
-    {
+    {	cat(paste("calculating",dimo[i-1],"displacement\n"))
         transM[,i]<-mc.fx(refmat,M,coeff[,i],time=FALSE)
     }
     return(transM)

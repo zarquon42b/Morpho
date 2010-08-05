@@ -5,7 +5,7 @@ mc.fx<-function(refmat,M,coefs,time=TRUE)
 	aa<-c(1:q)
 	aa<-as.list(aa)
 	
-	print(1)
+	
 	
 	splineFX<-function(x)
 	
