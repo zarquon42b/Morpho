@@ -51,7 +51,7 @@ mesh2ply<-function(x,filename="default")
 		}
 	
 	### write vertices and vertex normals ###
-	write.table(t(vert.all),file=filename,sep=" ",append=TRUE, quote = FALSE, row.names = FALSE, col.names = FALSE, na = "")	
+	write.table(format(t(vert.all),scientific=F,trim=T),file=filename,sep=" ",append=TRUE, quote = FALSE, row.names = FALSE, col.names = FALSE, na = "")	
 
 	
 	### write face and Texture information ###	
@@ -61,10 +61,10 @@ mesh2ply<-function(x,filename="default")
 		texn<-dim(tex)[2]
 		faceraw<-rbind(fd,face)
 		facetex<-t(cbind(texn,tex))
-		write.table(t(rbind(faceraw,facetex)),file=filename,sep=" ",append=TRUE,quote = FALSE, row.names = FALSE, col.names = FALSE, na = "")			
+		write.table(format(t(rbind(faceraw,facetex)),scientific=F,trim=T),file=filename,sep=" ",append=TRUE,quote = FALSE, row.names = FALSE, col.names = FALSE, na = "")			
 		}
 	else
-		{write.table(format(t(rbind(fd,face))),file=filename,sep=" ",append=TRUE,quote = FALSE, row.names = FALSE, col.names = FALSE, na = "")	
+		{write.table(format(t(rbind(fd,face)),scientific=F,trim=T),file=filename,sep=" ",append=TRUE,quote = FALSE, row.names = FALSE, col.names = FALSE, na = "")	
 		}
 	}
 }
