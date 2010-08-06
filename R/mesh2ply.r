@@ -4,6 +4,7 @@ mesh2ply<-function(x,filename="default")
 		{x<-list(vb=x)}
 	filename<-paste(filename,".ply",sep="")
 	vert<-x$vb[1:3,]
+	vert<-round(vert,digits=6)
 	if (!is.null(x$it))
 		{face<-x$it-1
 		fd<-3
@@ -35,7 +36,8 @@ mesh2ply<-function(x,filename="default")
 	cat(v.info,file=filename,append=TRUE)	
 		if (!is.null(x$normals))
 			{cat("property float nx\nproperty float ny\nproperty float nz\n",file=filename,append=TRUE)
-			vert.all<-rbind(vert,x$normals[1:3,])	
+			norma<-round(x$normals[1:3,],digits=6)
+			vert.all<-rbind(vert,norma)	
 			vn.all<-6		
 			}
 	### write face infos and texture infos to header and finish ###	
