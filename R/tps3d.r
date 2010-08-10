@@ -10,8 +10,8 @@ tps3d<-function(M,refmat,tarmat)
     else
     {Lall<-CreateL2D(refmat)
     }
-    L<-Lall$L
-    Linv<-solve(L)
+    Linv<-Lall$Linv
+   # Linv<-solve(L)
     m2<-rbind(tarmat,matrix(0,m+1,m))
     coeff<-matrix(NA,p+m+1,m)
     transM<-matrix(NA,q,m)

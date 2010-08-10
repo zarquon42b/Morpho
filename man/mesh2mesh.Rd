@@ -23,7 +23,7 @@ mesh2mesh(mesh1, tarmesh, clean = TRUE)
 }
 }
 \details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
-needs
+
 }
 \value{
 %%  ~Describe the value returned

@@ -12,8 +12,12 @@ CreateL<-function(matrix)
     }
     
     L<-rbind(cbind(K,Q),cbind(t(Q),O))
-	L1<-solve(L)
-    
+	
+	L1<-try(solve(L),silent=TRUE)
+    	if (class(L1)=="try-error")
+		{cat("singular matrix: general inverse will be used.\n")
+		L1<-mpinv(L)		
+		}
 	Lsubk<-L1[1:k,1:k]
     Lsubk3<-rbind(cbind(Lsubk,matrix(0,k,2*k)),cbind(matrix(0,k,k),Lsubk,matrix(0,k,k)),cbind(matrix(0,k,2*k),Lsubk))
     return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
