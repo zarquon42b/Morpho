@@ -72,7 +72,9 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 			{nas2<-nas0[which(nas1==nas[i])]%%(xlen*ylen)
 			nas2<-nas2%%xlen
 			nas2<-nas2[-which(duplicated(nas2))]
-			NA.list[[as.character(nas[i])]]<-nas2
+			if (0 %in% nas2)
+				{nas2[which(nas2==0)]<-xlen}
+			NA.list[[as.character(nas[i])]]<-sort(nas2)
 			}
 		}
 	else 
