@@ -1,10 +1,10 @@
-mc.warp.mesh<-function(mesh,matr,matt,updateNormals=TRUE)
+mc.warp.mesh<-function(mesh,matr,matt,lambda=0,updateNormals=TRUE)
 {
       t00<-Sys.time()	
       vert<-t(mesh$vb[1:3,])
       
       cat("calculating spline...\n")
-      warp<-mc.tps3d(vert,matr,matt)
+      warp<-mc.tps3d(vert,matr,matt,lambda=lambda)
       mesh$vb<-rbind(t(warp),1)
       mesh$normals<-NULL
       

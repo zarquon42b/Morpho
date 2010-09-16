@@ -1,11 +1,11 @@
-mc.tps3d<-function(M,refmat,tarmat)
+mc.tps3d<-function(M,refmat,tarmat,lambda=0)
 {   
     q<-dim(M)[1]
     p<-dim(refmat)[1]
     m<-dim(refmat)[2]
     if (m==3)
     {
-    Lall<-CreateL(refmat)
+    Lall<-CreateL(refmat,lambda=lambda)
     }
     else
     {Lall<-CreateL2D(refmat)

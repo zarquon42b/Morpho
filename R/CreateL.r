@@ -1,4 +1,4 @@
-CreateL<-function(matrix)
+CreateL<-function(matrix,lambda=0)
 {   k<-dim(matrix)[1]
     q1<-matrix(c(rep(1,k)),k,1)
     K<-matrix(0,k,k)
@@ -10,8 +10,8 @@ CreateL<-function(matrix)
       for (j in 1:k)
           {K[i,j]<-sqrt(sum((matrix[i,]-matrix[j,])^2))   }
     }
-    
-    L<-rbind(cbind(K,Q),cbind(t(Q),O))
+	diag(K)<-lambda
+    	L<-rbind(cbind(K,Q),cbind(t(Q),O))
 	
 	L1<-try(solve(L),silent=TRUE)
     	if (class(L1)=="try-error")
