@@ -223,7 +223,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 		###projection onto surface
 			for (j in 1:n)
 				{
-				proj.back(a.list[,,j],sur.name[j])
+				proj.back(a.list[[j]],sur.name[j])
 				a<-read.table("out_cloud.ply",skip=14,sep=" ")
 				vs<-as.matrix(a[,1:3])
 				vn<-as.matrix(a[,4:6])
