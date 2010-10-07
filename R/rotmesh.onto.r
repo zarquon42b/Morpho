@@ -7,9 +7,11 @@ rotmesh.onto<-function(mesh,refmat,tarmat,adnormals=TRUE,scale=FALSE)
 	transmat[4,1:3]<-rot$trans
 	#print(transmat)
 	mesh$vb<-(apply(t(mesh$vb),1,function(x){x%*%transymat}))
-	#print(mesh$vb[,1:2])
+	#print(mesh$vb[,1:2])	
 	mesh$vb[1:3,]<-t(t(mesh$vb[1:3,])%*%rot$gamm)
-	
+	if (scale)
+		{mesh$vb[1:3,]<-mesh$vb[1:3,]*rot$bet
+		}
   	#mesh$vb[1:3,]<-t(centmeshr)
 	mesh$vb<-(apply(t(mesh$vb),1,function(x){x%*%transmat}))
   	
