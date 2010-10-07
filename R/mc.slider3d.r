@@ -142,19 +142,25 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
             		else 
             			{L<-CreateL2D(mshape)
 					} 
-            	for (j in 1:n)
-          			{U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
-            		dataslide[,,j]<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+            	a.list<-as.list(1:n)
+			slido<-function(j)          		
+			        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
+            			dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+				return(dataslido)
+				}
+			a.list<-mclapply(a.list,slido)
 		
-	###projection onto surface
-				proj.back(dataslide[,,j],sur.name[j])
+		###projection onto surface
+			for (j in 1:n)
+				{
+				proj.back(a.list[[j]],sur.name[j])
 				a<-read.table("out_cloud.ply",skip=14,sep=" ")
 				vs<-as.matrix(a[,1:3])
 				vn<-as.matrix(a[,4:6])
 				dataslide[,,j]<-vs
-				vn.array[,,j]<-vn	
+				vn.array[,,j]<-vn		
 				unlink("out_cloud.ply") #clean up
-          			}
+				}
           	cat("estimating sample mean shape...")
 		proc<-mc.procGPA(dataslide,scale=scale,CSinit=CSinit)
 		mshape<-proc$mshape
@@ -205,12 +211,19 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
           		else 
             		{L<-CreateL2D(mshape)
 				} 
-          		for (j in 1:n)
-          			{U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
-            		dataslide[,,j]<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+			
+			a.list<-as.list(1:n)
+			slido<-function(j)          		
+			        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
+            			dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+				return(dataslido)
+				}
+			a.list<-mclapply(a.list,slido)
 		
 		###projection onto surface
-				proj.back(dataslide[,,j],sur.name[j])
+			for (j in 1:n)
+				{
+				proj.back(a.list[,,j],sur.name[j])
 				a<-read.table("out_cloud.ply",skip=14,sep=" ")
 				vs<-as.matrix(a[,1:3])
 				vn<-as.matrix(a[,4:6])
