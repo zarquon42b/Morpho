@@ -31,7 +31,7 @@ rotonto(x, y, scaling = FALSE, signref = TRUE)
 %%  ~Describe the value returned
   If it is a LIST, use
   	\item{yrot }{rotated and translated matrix}
- 	 \item{Y }{centred reference matrix }
+ 	 \item{Y }{centred and rotated reference matrix }
 	\item{X }{centred target matrix }
 	\item{trans }{vector between original position of target and centered reference (during rotation process) }
 	\item{transy }{vector between original position of reference and centered reference (during rotation process) }	

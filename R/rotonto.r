@@ -24,7 +24,8 @@ rotonto<-function(x,y,scaling=FALSE,signref=TRUE)
   	else
     		{yrot<-Y%*%gamm
 		}
-  	yrot<-t(apply(yrot,1,function(x){x+trans}))
+	Y<-yrot  	
+	yrot<-t(apply(yrot,1,function(x){x+trans}))
   
   	return(list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet))
 }

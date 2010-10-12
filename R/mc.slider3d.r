@@ -89,8 +89,8 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
       
 	p1<-10^12
       	
-      	ini<-procOPA(dat.array[,,1],dat.array[,,2],reflect=TRUE) # create mean between first tow configs to avoid singular BE Matrix
-	mshape<-(ini$Ahat+ini$Bhat)/2
+      	ini<-rotonto(dat.array[,,1],dat.array[,,2],signref=FALSE) # create mean between first tow configs to avoid singular BE Matrix
+	mshape<-(ini$Y+ini$X)/2
       
 	cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))	
 		{for (j in 1:n)
