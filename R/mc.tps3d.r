@@ -24,18 +24,27 @@ mc.tps3d<-function(M,refmat,tarmat,lambda=0)
         coeff[,i]<-Linv%*%m2[,i]
 
       }
-	cat("calculating x displacement\n")
-    transM[,1]<-mc.fx(refmat,M,coeff[,1])
-	if (m == 3)
-		{dimo<-c("y","z")
+	#cat("calculating x displacement\n")
+    	a.list<-as.list(1:3)
+	warpM<-function(i)
+		{
+		transo<-mc.fx(refmat,M,coeff[,i])
+		return(transo)
 		}
-	else
-		{dimo<-c("y")
-		}
-	for (i in 2:m)
-    {	cat(paste("calculating",dimo[i-1],"displacement\n"))
-        transM[,i]<-mc.fx(refmat,M,coeff[,i],time=FALSE)
-    }
+	#if (m == 3)
+	#	{dimo<-c("y","z")
+	#	}
+	#else
+	#	{dimo<-c("y")
+	#	}
+	#for (i in 2:m)
+    #{	cat(paste("calculating",dimo[i-1],"displacement\n"))
+    #    transM[,i]<-mc.fx(refmat,M,coeff[,i],time=FALSE)
+    #}
+	a.list<-mclapply(a.list,warpM)
+	for(i in 1:3)
+	{transM[,i]<-a.list[[i]]}
+
     return(transM)
     
 }

@@ -9,10 +9,13 @@ mc.warp.mesh<-function(mesh,matr,matt,lambda=0,updateNormals=TRUE)
       mesh$normals<-NULL
       
       
-      sv1<-svd(t(matt)%*%matr)
-      if (sign(det(sv1$v))<0)
+      testref<-rotonto(matr,matt)$reflect
+      
+  	if(testref == 1)
+  		
       {mesh<-conv2backf(mesh)
-        cat("reflection is involved\n")}
+        #cat("reflection is involved\n")
+	}
       
       if(updateNormals)
 	{cat("updating normals...\n")
