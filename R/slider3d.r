@@ -159,7 +159,7 @@ slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur
       			mshape<-(A+Amir)/2
       			}          	
 		p1_old<-p1		
-		p1<-sum(diag(crossprod((mshape_old/centroid.size(mshape_old))-(mshape/centroid.size(mshape)))))
+		p1<-sum(diag(crossprod((mshape_old/c.size(mshape_old))-(mshape/c.size(mshape)))))
           	
 	### check for increasing convergence criterion ###				
 		if (inc.check)
@@ -227,7 +227,7 @@ slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur
       			mshape<-(A+Amir)/2
       			}     
 		p1_old<-p1			   	
-		p1<-sum(diag(crossprod((mshape_old/centroid.size(mshape_old))-(mshape/centroid.size(mshape)))))
+		p1<-sum(diag(crossprod((mshape_old/c.size(mshape_old))-(mshape/c.size(mshape)))))
 		
 	### check for increasing convergence criterion ###		
 		if (inc.check)

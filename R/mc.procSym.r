@@ -10,7 +10,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 
 	### create functions for multicore usage ###      	
 	CSfun<-function(i,array)
-		{cs<-centroid.size(array[,,i])
+		{cs<-c.size(array[,,i])
 		return(cs)
 		}
 	rhofun<-function(i)

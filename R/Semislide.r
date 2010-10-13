@@ -50,7 +50,7 @@ Semislide<-function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursi
           		proc<-procGPA(dataslide,scale=TRUE,reflect=TRUE,pcaoutput=FALSE,distances=FALSE)
           		mshape<-proc$mshape
 			p1_old<-p1   
-			p1<-sum(diag(crossprod((mshape_old/centroid.size(mshape_old))-(mshape/centroid.size(mshape)))))
+			p1<-sum(diag(crossprod((mshape_old/c.size(mshape_old))-(mshape/c.size(mshape)))))
          		 #p1<-sum(diag(crossprod(mshape_old-mshape)))/k
 			if (p1 > p1_old)
 				{
@@ -91,7 +91,7 @@ Semislide<-function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursi
           		proc<-procGPA(dataslide,scale=TRUE,reflect=TRUE,pcaoutput=pcaoutput,,distances=FALSE)
           		mshape<-proc$mshape
           		p1_old<-p1   
-			p1<-sum(diag(crossprod((mshape_old/centroid.size(mshape_old))-(mshape/centroid.size(mshape)))))
+			p1<-sum(diag(crossprod((mshape_old/c.size(mshape_old))-(mshape/c.size(mshape)))))
          		 #p1<-sum(diag(crossprod(mshape_old-mshape)))/k
 			if (p1 > p1_old)
 				{

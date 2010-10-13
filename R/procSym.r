@@ -10,7 +10,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
       
       	if (SMvector[1]==0) 
 		{ 
-      		CS<-apply(A,3,centroid.size)
+      		CS<-apply(A,3,c.size)
 		
 		if (CSinit==TRUE)
           		{ 
@@ -29,7 +29,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
         
         
         	for (i in 1:n)
-        		CS<-apply(A,3,centroid.size)
+        		CS<-apply(A,3,c.size)
         	if (CSinit==TRUE)
           		{ 
 			for (i in 1:n)
