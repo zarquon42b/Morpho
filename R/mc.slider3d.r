@@ -107,7 +107,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 				return(list(dataslido,datanorm))
 				}
 			p.list<-mclapply(p.list,proj)
-			print(length(p.list[[1]]))
+			
 		###projection onto surface
 			for (j in 1:n)
 				{
