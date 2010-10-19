@@ -121,7 +121,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
       		}
       
 	Symtan<-Symarray
-      
+      	
 	for (i in 1:n)
       		{Symtan[,,i]<-Symarray[,,i]-meanshape}
       
@@ -135,27 +135,24 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
             	tan<-cbind(CSlog,tan)
           	}
       	dimnames(Symarray)<-dimnames(dataarray)
-      
+     
 ###### PCA Sym Component ###### 
-       	pcsym<-eigen(cov(tan))
-       	values<-0
-       	t1<-dim(tan)[2]
-       	for (i in 1:length(pcsym$values))
+       	princ<-prcomp(tan)
+	values<-0
+      	eigv<-princ$sdev^2
+	
+       	for (i in 1:length(eigv))
        		{
-		if (pcsym$values[i] > 1e-14)
+		if (eigv[i] > 1e-14)
         		{
-			values[i]<-pcsym$values[i]
+			values[i]<-eigv[i]
          		}
         	}
-        
-	PCs<-matrix(NA,t1,length(values))
-        for (i in 1:length(values))
-        	{     
-		PCs[,i]<-pcsym$vectors[,i]
-        	}
-        PCs<-as.matrix(PCs)
-	PCscore_sym<-tan%*%PCs
-
+	lv<-length(values)
+	PCs<-princ$rotation[,1:lv]
+ 	PCscore_sym<-princ$x
+	
+	
 ###### create a neat variance table for Sym ###### 
         if (length(values)==1)
           	{SymVar<-values}
@@ -189,23 +186,19 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
         		asymtan[i,]<-c(Asymm[,,i]-asymmean)
 			}
        
-      		pcasym<-eigen(cov(asymtan))
+      		pcasym<-procmp(asymtan)
        		asvalues<-0
-       		for (i in 1:length(pcasym$values))
-       			{
-			if (pcasym$values[i] > 1e-14)
+       		eigva<-princ$sdev^2
+		for (i in 1:length(eigv))
+       		{
+			if (eigva[i] > 1e-14)
         			{
-				asvalues[i]<-pcasym$values[i]
+				asvalues[i]<-eigva[i]
          			}
         		}
-        
-		PCs_Asym<-matrix(NA,k*m,length(asvalues))
-       		for (i in 1:length(asvalues))
-        		{     
-			PCs_Asym[,i]<-pcasym$vectors[,i]
-        		}
-        	PCs_Asym<-as.matrix(PCs_Asym)
-        	PCscore_asym<-asymtan%*%PCs_Asym
+        	lva<-length(asvalues)
+		PCs_Asym<-pcasym$rotation[,1:lva]
+         	PCscore_asym<-pcasym$x
 
 ###### create a neat variance table for Asym ######
         	if (length(asvalues)==1)

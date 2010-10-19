@@ -93,17 +93,31 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 	mshape<-(ini$Y+ini$X)/2
       
 	cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))	
-		{for (j in 1:n)
-				{proj.back(dat.array[,,j],sur.name[j])
-				a<-read.table("out_cloud.ply",skip=14,sep=" ")
+		p.list<-as.list(1:n)
+			proj<-function(j)          		
+			        {
+            			
+				proj.back(dat.array[,,j],sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
+				a<-read.table(paste(j,".tmp",sep=""),skip=14,sep=" ")
 				vs<-as.matrix(a[,1:3])
 				vn<-as.matrix(a[,4:6])
-				dat.array[,,j]<-vs
-				vn.array[,,j]<-vn
-				unlink("out_cloud.ply") #clean up
+				dataslido<-vs
+				datanorm<-vn
+				unlink(paste(j,".tmp",sep="")) #clean up
+				return(list(slido=dataslido,normo<-datanorm))
 				}
+			p.list<-mclapply(p.list,proj)
+			
+		###projection onto surface
+			for (j in 1:n)
+				{
+				dat.array[,,j]<-p.list[[j]][[1]]
+				vn.array[,,j]<-p.list[[j]][[2]]
+				#unlink("out_cloud.ply") #clean up
+				}
+			
 			cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
-		}
+		
 					
 		
       
@@ -119,8 +133,8 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
       		A<-mshape
       		Amir<-mshape%*%Mir
       		Amir[c(pairedLM),]<-Amir[c(pairedLM[,2:1]),]
-      		symproc<-procOPA(A,Amir)
-      		mshape<-(A+Amir)/2
+      		symproc<-rotonto(A,Amir)
+      		mshape<-(symproc$X+symproc$Y)/2
       		}
 	cat(paste("Start sliding...","\n","-------------------------------------------","\n"))
       
@@ -146,21 +160,25 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 			slido<-function(j)          		
 			        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
             			dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
-				return(dataslido)
+				proj.back(dataslido,sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
+				a<-read.table(paste(j,".tmp",sep=""),skip=14,sep=" ")
+				vs<-as.matrix(a[,1:3])
+				vn<-as.matrix(a[,4:6])
+				dataslido<-vs
+				datanorm<-vn
+				unlink(paste(j,".tmp",sep="")) #clean up
+				return(slido=dataslido,normo<-datanorm)
 				}
 			a.list<-mclapply(a.list,slido)
-		
+			
 		###projection onto surface
 			for (j in 1:n)
 				{
-				proj.back(a.list[[j]],sur.name[j])
-				a<-read.table("out_cloud.ply",skip=14,sep=" ")
-				vs<-as.matrix(a[,1:3])
-				vn<-as.matrix(a[,4:6])
-				dataslide[,,j]<-vs
-				vn.array[,,j]<-vn		
-				unlink("out_cloud.ply") #clean up
+				dataslide[,,j]<-a.list[[j]][[1]]
+				vn.array[,,j]<-a.list[[j]][[2]]
+				#unlink("out_cloud.ply") #clean up
 				}
+		
           	cat("estimating sample mean shape...")
 		proc<-mc.procGPA(dataslide,scale=scale,CSinit=CSinit)
 		mshape<-proc$mshape
@@ -170,8 +188,8 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
       			A<-mshape
       			Amir<-mshape%*%Mir
       			Amir[c(pairedLM),]<-Amir[c(pairedLM[,2:1]),]
-      			symproc<-procOPA(A,Amir)
-      			mshape<-(A+Amir)/2
+      			symproc<-rotonto(A,Amir)
+      			mshape<-(symproc$X+symproc$Y)/2
       			}          	
 		p1_old<-p1		
 		p1<-sum(diag(crossprod((mshape_old/c.size(mshape_old))-(mshape/c.size(mshape)))))
@@ -216,20 +234,23 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 			slido<-function(j)          		
 			        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
             			dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
-				return(dataslido)
+				proj.back(dataslido,sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
+				a<-read.table(paste(j,".tmp",sep=""),skip=14,sep=" ")
+				vs<-as.matrix(a[,1:3])
+				vn<-as.matrix(a[,4:6])
+				dataslido<-vs
+				datanorm<-vn
+				unlink(paste(j,".tmp",sep="")) #clean up
+				return(slido=dataslido,normo<-datanorm)
 				}
 			a.list<-mclapply(a.list,slido)
-		
+			
 		###projection onto surface
 			for (j in 1:n)
 				{
-				proj.back(a.list[[j]],sur.name[j])
-				a<-read.table("out_cloud.ply",skip=14,sep=" ")
-				vs<-as.matrix(a[,1:3])
-				vn<-as.matrix(a[,4:6])
-				dataslide[,,j]<-vs
-				vn.array[,,j]<-vn		
-				unlink("out_cloud.ply") #clean up
+				dataslide[,,j]<-a.list[[j]][[1]]
+				vn.array[,,j]<-a.list[[j]][[2]]
+				#unlink("out_cloud.ply") #clean up
 				}
 		
 			cat("estimating sample mean shape...")          	

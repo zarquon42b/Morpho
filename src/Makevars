@@ -1,0 +1,2 @@
+PKG_FCFLAGS = -O2
+

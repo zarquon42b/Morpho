@@ -199,8 +199,7 @@
             for (j in 1:ng) {
                 b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
                 l1 <- l1 + length(b[[j]])
-                Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, 
-                  mean)
+                Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
             }
            for (j1 in 1:(ng - 1)) {
                 for (j2 in (j1 + 1):ng) {
