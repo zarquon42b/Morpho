@@ -93,7 +93,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 	mshape<-(ini$Y+ini$X)/2
       
 	cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))	
-		p.list<-as.list(1:n)
+			p.list<-as.list(1:n)
 			proj<-function(j)          		
 			        {
             			
@@ -104,10 +104,10 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 				dataslido<-vs
 				datanorm<-vn
 				unlink(paste(j,".tmp",sep="")) #clean up
-				return(list(slido=dataslido,normo<-datanorm))
+				return(list(dataslido,datanorm))
 				}
 			p.list<-mclapply(p.list,proj)
-			
+			print(length(p.list[[1]]))
 		###projection onto surface
 			for (j in 1:n)
 				{
@@ -160,14 +160,14 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 			slido<-function(j)          		
 			        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
             			dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
-				proj.back(dataslido,sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
+				proj.back(dat.array[,,j],sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
 				a<-read.table(paste(j,".tmp",sep=""),skip=14,sep=" ")
 				vs<-as.matrix(a[,1:3])
 				vn<-as.matrix(a[,4:6])
 				dataslido<-vs
 				datanorm<-vn
 				unlink(paste(j,".tmp",sep="")) #clean up
-				return(slido=dataslido,normo<-datanorm)
+				return(list(dataslido,datanorm))
 				}
 			a.list<-mclapply(a.list,slido)
 			
@@ -241,7 +241,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 				dataslido<-vs
 				datanorm<-vn
 				unlink(paste(j,".tmp",sep="")) #clean up
-				return(slido=dataslido,normo<-datanorm)
+				return(list(dataslido,datanorm))
 				}
 			a.list<-mclapply(a.list,slido)
 			
