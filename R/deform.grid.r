@@ -11,11 +11,15 @@ deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T)
 	x2<-x1<-x3<-c(0:(ngrid-1))/ngrid;x0<-as.matrix(expand.grid(x1,x2,x3))
 	cent.mat<-apply(matrix,2,scale,scale=F)
 	mean.mat<-apply(matrix,2,mean)
-	print(mean.mat)
+	
 	xrange<-diff(range(matrix[,1]))
 	yrange<-diff(range(matrix[,2]))
 	zrange<-diff(range(matrix[,3]))
-	maxi<-max(c(xrange,yrange,zrange))
+	xrange1<-diff(range(tarmatrix[,1]))
+	yrange1<-diff(range(tarmatrix[,2]))
+	zrange1<-diff(range(tarmatrix[,3]))
+	maxi<-max(c(xrange,yrange,zrange,xrange1,yrange1,zrange1))
+	maxi<-maxi+0.02*maxi
 	x0<-maxi*x0
 	x0<-apply(x0,2,scale,scale=FALSE)
 	space<-eigen(crossprod(cent.mat))$vectors

@@ -17,7 +17,7 @@ mc.regdist.raw<-function(dataarray,plot=TRUE,main="",rho="angle",dist.mat.out=FA
         procdistmat<-matrix(NA,n,n) #calc rho from angle between rotated configs
           for (i in 1:n)
            {for (j in 1:n)
-           if (rho=="riemdist"){{procdistmat[i,j]<-riemdist(x[,,i],x[,,j])}}  # riemann dist.
+           if (rho=="riemdist"){{procdistmat[i,j]<-riemdist(x[,,i],x[,,j])}}  # riemann dist. from shapes package
            else if (rho=="angle"){{procdistmat[i,j]<-angle.calc(x[,,i],x[,,j])$rho}}
             }
 

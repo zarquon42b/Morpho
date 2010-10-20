@@ -23,16 +23,21 @@ SUBROUTINE adnormals(VB,M,IT,N,O,normals)
 		 if (co<0) then
 		  normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))-ntmp(1,1:3)
 		  !call normalize(normals(1:3,IT(j,i)),l)
-		  normals(4,IT(j,i)) = 1
+		  normals(4,IT(j,i)) = normals(4,IT(j,i)) + 1
 		  
 		 else 
 		  normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))+ntmp(1,1:3)
 		   normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))
 		  !call normalize(normals(1:3,IT(j,i)),l)
-		  normals(4,IT(j,i)) = 1
+		  normals(4,IT(j,i)) = normals(4,IT(j,i)) + 1
 		 end if
 		end do
  	end do
+	do i = 1,M
+	normals(1:4,i) = normals(1:4,i)/normals(4,i)
+	call veclen(normals,l)
+	call normalize(normals(1:3,i),l)
+	end do
 contains
  subroutine crossp (x,y,z)
 	real*8 :: x(1,1:3),y(1,1:3),z(1,1:3)

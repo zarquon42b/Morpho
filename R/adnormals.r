@@ -21,7 +21,7 @@ adnormals<- function(x)
     out<-.Fortran("adnormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals)$normals
 	
 
-  normals <- out
+  normals <- out#/out[4,]
 
   x$normals <- normals
   x
