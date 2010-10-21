@@ -12,6 +12,6 @@ proj.back<-function(data,surface,dataname=NULL,outname=NULL)
 	
 	#command<-paste("trimesh_project"," ",dataname," ",surface," ",outname,sep="")	
 	system(command)
-	unlink(dataname) #clean up
+	unlink(paste(dataname,".obj",sep="")) #clean up
 	
 }
