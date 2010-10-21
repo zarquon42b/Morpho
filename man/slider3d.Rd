@@ -69,7 +69,8 @@ mc.slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=N
 %%     ~~Describe \code{pairedLM} here~~
 }
 }
-\details{mc.slider is a multicore version of slider3d and thus faster - but only working on UNIX systems!!)
+\details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
+mc.slider is a multicore version of slider3d and thus faster - but only working on UNIX systems!!)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{

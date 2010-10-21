@@ -16,7 +16,7 @@ pcaplot<-function(refshape,PCs,Scores,pcshow=c(1,2,3),mag=3,color=4,lwd=1)
           for (i in 1:npc)
           {sds[i]<-sd(Scores[,i])}
 
-      sz <- centroid.size(refshape)/sqrt(k)/30
+      sz <- c.size(refshape)/sqrt(k)/30
 
       #if (!spheres)
       spheres3d(refshape,  col = color,radius=sz)

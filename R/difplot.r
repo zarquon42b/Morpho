@@ -16,7 +16,7 @@ difplot<-function(refshape,targetshape,ID="default",away.fac=1.1,color=4,lwd=1,l
     
     
       if(sz==0)
-      {sz <- centroid.size(refshape)/sqrt(k)/30}
+      {sz <- c.size(refshape)/sqrt(k)/30}
 
       #if (!spheres)
       spheres3d(refshape,  col = color,radius=sz)

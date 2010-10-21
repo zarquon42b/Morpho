@@ -4,7 +4,7 @@ orp<-function(A)
 	k<-dim(A)[2]
 	n<-dim(A)[3]
  	mshape1<-apply(A,c(1,2),mean)
-  	Y1<-as.vector(mshape1/centroid.size(mshape1))
+  	Y1<-as.vector(mshape1/c.size(mshape1))
   	oo<-as.matrix(rep(1,n))%*%as.vector(mshape1)
   	I<-diag(1,k*p)
   	mat<-matrix(NA, n, k*p)
