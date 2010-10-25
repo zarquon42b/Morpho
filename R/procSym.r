@@ -136,7 +136,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
         	}
 	lv<-length(values)
 	PCs<-princ$rotation[,1:lv]
- 	PCscore_sym<-princ$x
+ 	PCscore_sym<-princ$x[,1:lv]
 
 ###### create a neat variance table for Sym ###### 
         if (length(values)==1)
@@ -162,7 +162,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
 ###### PCA Asym Component ###### 
       	asvalues<-0
       	PCs_Asym<-0
-      	if (!is.null(pairedLM))
+      	if (pairedLM[1]!=0) 
       		{
       		asymtan<-matrix(NA,n,m*k)
       		for(i in 1:n)
@@ -183,7 +183,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
         		}
         	lva<-length(asvalues)
 		PCs_Asym<-pcasym$rotation[,1:lva]
-         	PCscore_asym<-pcasym$x
+         	PCscore_asym<-pcasym$x[,1:lva]
 
 
 ###### create a neat variance table for Asym ######

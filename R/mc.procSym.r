@@ -150,7 +150,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
         	}
 	lv<-length(values)
 	PCs<-princ$rotation[,1:lv]
- 	PCscore_sym<-princ$x
+ 	PCscore_sym<-princ$x[,1:lv]
 	
 	
 ###### create a neat variance table for Sym ###### 
@@ -198,7 +198,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
         		}
         	lva<-length(asvalues)
 		PCs_Asym<-pcasym$rotation[,1:lva]
-         	PCscore_asym<-pcasym$x
+         	PCscore_asym<-pcasym$x[,1:lva]
 
 ###### create a neat variance table for Asym ######
         	if (length(asvalues)==1)
