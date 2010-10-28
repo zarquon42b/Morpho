@@ -186,7 +186,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
         		asymtan[i,]<-c(Asymm[,,i]-asymmean)
 			}
        
-      		pcasym<-procmp(asymtan)
+      		pcasym<-prcomp(asymtan)
        		asvalues<-0
        		eigva<-princ$sdev^2
 		for (i in 1:length(eigv))
