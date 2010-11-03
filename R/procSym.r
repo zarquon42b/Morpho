@@ -173,7 +173,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
        
       		pcasym<-prcomp(asymtan)
        		asvalues<-0
-       		eigva<-princ$sdev^2
+       		eigva<-pcasym$sdev^2
 		for (i in 1:length(eigv))
        		{
 			if (eigva[i] > 1e-14)
