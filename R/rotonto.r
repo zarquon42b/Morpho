@@ -5,7 +5,10 @@ rotonto<-function(x,y,scaling=FALSE,signref=TRUE)
   	Y<-apply(y,2,scale,scale=F)
   	XY<-crossprod(X,Y)
   	sv1<-svd(XY)
-  	gamm<-(sv1$v)%*%t(sv1$u)
+	#dd<-diag(sign(sv1$d))
+	gamm<-tcrossprod(sv1$v,sv1$u)
+	#gamm<-(sv1$v)%*%gamm
+  	
   	if(sign(det(gamm))<1)
 	  {	reflect<-1
 		if (signref)
