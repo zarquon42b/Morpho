@@ -1,6 +1,6 @@
 proc.weight<-function(data,number,ref)
 {	
-	col<-2
+	col<-3
 	l<-dim(data)[3]
 	rho<-0
 	for(i in 1:l){rho[i]<-angle.calc(data[,,ref],data[,,i])$rho}
@@ -10,7 +10,8 @@ proc.weight<-function(data,number,ref)
 		}
 	else
 		{id<-dimnames(data)[[3]]}
-	data<-data.frame(id,rho)
+	nr<-c(1:l)
+	data<-data.frame(nr,id,rho)
 	dat.sort.i<-data[order(data[,col]),]
 	dat.which<-dat.sort.i[2:(number+1),]
 		
