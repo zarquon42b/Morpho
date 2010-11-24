@@ -8,7 +8,7 @@ mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL)
 	proc<-mc.procGPA(lm.data,CSinit=TRUE)
 	
 	
-	### read meshes from file ###	
+	### read meshes from file ###
 	for (i in 1:n)
 		{
 		if (is.null(files))
@@ -26,11 +26,11 @@ mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL)
 		#j<-grep(nm0,nam)
 		#nj<-names(meshlist)[[j]]
 		if (i == ref)
-			{uni.list[[i]]<-meshlist[[i]]
+			{uni.list[[i]]<-proclist[[i]]
 			
 			}
 		else
-			{uni.list[[i]]<-mc.unify.mesh(meshlist[[ref]],meshlist[[i]],proc$rotated[,,ref],proc$rotated[,,i])$unimesh
+			{uni.list[[i]]<-mc.unify.mesh(proclist[[ref]],proclist[[i]],proc$rotated[,,ref],proc$rotated[,,i])$unimesh
 			}
 		
 		
