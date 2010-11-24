@@ -1,4 +1,4 @@
-mc.unify.list<-function(surpath="sur",lm.data,ref,ext=".ply")
+mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL)
 {	
 	n<-dim(lm.data)[[3]]
 	lmnames<-dimnames(lm.data)[[3]]
@@ -6,17 +6,19 @@ mc.unify.list<-function(surpath="sur",lm.data,ref,ext=".ply")
 	proclist<-list()
 	meshlist<-list()
 	proc<-mc.procGPA(lm.data,CSinit=TRUE)
-	#nam<-names(meshlist)
-	#namref<-dimnames(proc)[[3]][ref]
-	#jref<-grep(namref,nam)
-	#njref<-names(meshlist)[[jref]]
+	
 	
 	### read meshes from file ###	
 	for (i in 1:n)
-		{proclist[[i]]<-file2mesh(paste("sur/",lmnames[i],ext,sep=""))
+		{
+		if (is.null(files))
+			{meshlist[[i]]<-file2mesh(paste("sur/",lmnames[i],ext,sep=""))
+			}
+		else	{meshlist[[i]]<-file2mesh(paste("sur/",files[i],sep=""))
+			}
 		
 	### create superimposed meshes ### 
-		meshlist[[i]]<-rotmesh.onto(proclist[[i]],lm.data[,,i],proc$rotated[,,i],scale=TRUE)$mesh
+		proclist[[i]]<-rotmesh.onto(meshlist[[i]],lm.data[,,i],proc$rotated[,,i],scale=TRUE)$mesh
 		}
 	
 	for (i in 1:n)

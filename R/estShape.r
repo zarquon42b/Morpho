@@ -34,6 +34,6 @@ estShape<-function(shapelist,procrot,n,ref,softproc=NULL,size=NULL)
 	mesh$vb[1:3,]<-vb
 	mesh<-adnormals(mesh)	
 	return(list(mesh=mesh,lm.est=lm.est,weights=wcalc$data,meandev=meandev))
-	#weights<-wcalc$data[,4]
+	
 	
 }
