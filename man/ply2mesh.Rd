@@ -10,7 +10,7 @@ Import 3D surface mesh files
 imports 3D mesh files and store them as an R .object of class mesh3d
 }
 \usage{
-ply2mesh(filename, adnormals = TRUE)
+ply2mesh(filename, adnormals = TRUE,readnormals=TRUE)
 obj2mesh(filename, adnormals = TRUE)
 file2mesh(file)
 }
@@ -22,6 +22,9 @@ file2mesh(file)
   \item{adnormals}{Logical: If the file does not contain normal information, they will be calculated in R: Can take some time.
 %%     ~~Describe \code{adnormals} here~~
 }
+\item{readnormals}{Logical: Import vertex normals (if available), even if no face information is present.
+%%     ~~Describe \code{adnormals} here~~
+}
 }
 \details{
 file2mesh needs the command line tool ply2ascii (http://sourceforge.net/projects/morpho-rpackage/files/) installed.
@@ -29,7 +32,7 @@ file2mesh needs the command line tool ply2ascii (http://sourceforge.net/projects
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-\item{mesh }{list of class mesh3d - see rgl manual for further details}
+\item{mesh }{list of class mesh3d - see rgl manual for further details, or a matrix containing vertex information or a list containing vertex and normal information}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }

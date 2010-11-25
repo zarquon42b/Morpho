@@ -1,4 +1,4 @@
-ply2mesh<-function (filename, adnormals = TRUE) 
+ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE) 
 {
     x <- filename
     A <- readLines(x, n = 100)
@@ -29,8 +29,14 @@ ply2mesh<-function (filename, adnormals = TRUE)
 		class(mesh) <- c("mesh3d", "shape3d")
 		}
 	else
-		{cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
-		mesh<-vert
+		{if (is.null(vert.n) && readnormals==TRUE)
+			{cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
+			mesh<-vert}	
+		else
+			{cat(paste("mesh contains no faces. vertices and vertex normals are stored in a list\n"))
+			mesh<-list(vb=t(vert),normals=vert.n)
+			}	
+			
 		}
 ### generate object of class mesh3d ###	
 	
