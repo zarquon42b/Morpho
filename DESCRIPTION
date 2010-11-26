@@ -1,8 +1,8 @@
 Package: Morpho
 Type: Package
 Title: Calculations and visualizations related to Geometric Morphometrics
-Version: 0.7.3
-Date: 2010-10-21
+Version: 0.75
+Date: 2010-11-25
 Author: Stefan Schlager
 Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 Description: A toolset for Geometric Morphometrics including otpion for warping .obj meshes on landmark configurations.  

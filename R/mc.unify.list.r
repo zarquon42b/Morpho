@@ -1,4 +1,4 @@
-mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL)
+mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL,ray=FALSE,tol=NULL)
 {	
 	n<-dim(lm.data)[[3]]
 	lmnames<-dimnames(lm.data)[[3]]
@@ -6,7 +6,7 @@ mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL)
 	proclist<-list()
 	meshlist<-list()
 	proc<-mc.procGPA(lm.data,CSinit=TRUE)
-	
+	warplist<-list()
 	
 	### read meshes from file ###
 	for (i in 1:n)
@@ -27,10 +27,14 @@ mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL)
 		#nj<-names(meshlist)[[j]]
 		if (i == ref)
 			{uni.list[[i]]<-proclist[[i]]
+			warplist[[i]]<-proclist[[i]]
 			
 			}
 		else
-			{uni.list[[i]]<-mc.unify.mesh(proclist[[ref]],proclist[[i]],proc$rotated[,,ref],proc$rotated[,,i])$unimesh
+			
+			{tmp<-mc.unify.mesh(proclist[[ref]],proclist[[i]],proc$rotated[,,ref],proc$rotated[,,i],ray=ray,tol=tol)
+			uni.list[[i]]<-tmp$unimesh
+			warplist[[i]]<-tmp$warp.mesh
 			}
 		
 		
@@ -39,6 +43,6 @@ mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL)
 	}
 		names(uni.list)<-lmnames
 		names(proclist)<-lmnames
-		return(list(uni.list=uni.list,proclist=proclist))
+		return(list(uni.list=uni.list,proclist=proclist,warplist=warplist))
 }
 

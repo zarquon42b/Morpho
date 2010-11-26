@@ -29,7 +29,7 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
 		class(mesh) <- c("mesh3d", "shape3d")
 		}
 	else
-		{if (is.null(vert.n) && readnormals==TRUE)
+		{if (is.null(vert.n) || readnormals==FALSE)
 			{cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
 			mesh<-vert}	
 		else
