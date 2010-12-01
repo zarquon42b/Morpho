@@ -1,4 +1,4 @@
-proj.read<-function(lm,mesh,readnormals=TRUE)
+proj.read<-function(lm,mesh,readnormals=TRUE,clean=TRUE)
 {	if (is.character(mesh))
 		{proj.back(lm,mesh)
 		}
@@ -10,6 +10,9 @@ proj.read<-function(lm,mesh,readnormals=TRUE)
 		}
 	
 	data<-ply2mesh("out_cloud.ply",readnormals=readnormals)
+	if (clean)
+	{	
 	unlink("out_cloud.ply")
+	}
 	return(data)
 }

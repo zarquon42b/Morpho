@@ -8,16 +8,23 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
     faceinfo <- strsplit(A[grep("element face", infos)], " ")
 	texinfo<-NULL	
 	#if (length(grep("property list uchar float texcoord",A))==1) 
-		
-	   
+	qualinfo<-grep("property float quality", infos)
+	if (length(qualinfo)==1)
+	{qualine<-qualinfo-grep("element vertex",infos)
+	qual<-TRUE
+	}
+	else 
+	{qual <- FALSE}
 	fn <- as.numeric(faceinfo[[1]][3])
-    vn <- as.numeric(vertinfo[[1]][3])
-    vert.all <- read.table(x, skip = end, sep = " ", nrows = vn)
-    vert <- apply(vert.all[, 1:3], 2, as.numeric)
-    vert.n <- NULL
-
-    if (length(grep("property float nx", A)) == 1) {
+    	vn <- as.numeric(vertinfo[[1]][3])
+    	vert.all <- read.table(x, skip = end, sep = " ", nrows = vn)
+    	vert <- apply(vert.all[, 1:3], 2, as.numeric)
+    	vert.n <- NULL
+	quality<-NULL
+    	if (length(grep("property float nx", A)) == 1) {
         vert.n <- t(vert.all[, 4:6])
+	if (qual)
+		{quality<-as.vector(vert.all[,qualine])}
     }
     	
 	if (fn !=0)
@@ -32,7 +39,7 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
 		{if (is.null(vert.n) || readnormals==FALSE)
 			{cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
 			mesh<-vert}	
-		else
+		else if (readnormals)
 			{cat(paste("mesh contains no faces. vertices and vertex normals are stored in a list\n"))
 			mesh<-list(vb=t(vert),normals=vert.n)
 			}	
@@ -59,6 +66,8 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
         	mesh <- adnormals(mesh)	
 		}
     }
+	if (qual && readnormals)
+	mesh$quality<-quality
     return(mesh)
 }
 
