@@ -3,7 +3,7 @@
 \alias{patch2surf}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ maps a set of semilandmarks from a reference to the target
-%%  ~~function to do ... ~~
+
 }
 \description{maps a set of semilandmarks from a reference to the target:
 1. warps the reference configuration using the "fix" landmark information in the vicinity of the target
@@ -14,6 +14,7 @@ or simply the closest point.
 }
 \usage{
 patch2surf(patch, lm.ref, lm.tar, tarmesh, ray = FALSE, refmesh = NULL, tol = NULL, clean = TRUE)
+mc.patch2surf(patch, lm.ref, lm.tar, tarmesh, ray = FALSE, refmesh = NULL, tol = NULL, clean = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
