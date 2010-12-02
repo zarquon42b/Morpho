@@ -7,7 +7,7 @@
 
 }
 \usage{
-mc.unify.mesh(mesh1, mesh2, data1, data2, updateNormals = TRUE)
+mc.unify.mesh(mesh1, mesh2, data1, data2, ray = FALSE, tol = NULL, updateNormals = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -15,6 +15,12 @@ mc.unify.mesh(mesh1, mesh2, data1, data2, updateNormals = TRUE)
 %%     ~~Describe \code{mesh1} here~~
 }
   \item{mesh2}{object of class "mesh3d": target mesh
+%%     ~~Describe \code{mesh2} here~~
+}
+\item{ray}{logical: requests search of next vertex along normals
+%%     ~~Describe \code{mesh2} here~~
+}
+\item{tol}{numeric: threshold for maximal distance along normals if ray=TRUE (in both directions of the normal), if nothing is hit within this threshold, the closest point on the target will be used.
 %%     ~~Describe \code{mesh2} here~~
 }
   \item{data1}{k x 3 matrix conataining reference points (landmarks) on mesh1.
@@ -27,7 +33,7 @@ mc.unify.mesh(mesh1, mesh2, data1, data2, updateNormals = TRUE)
 %%     ~~Describe \code{updateNormals} here~~
 }
 }
-\details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
+\details{needs comand line programs "trimesh_project" and "rayproject" to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
 
 }
 \value{

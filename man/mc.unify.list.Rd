@@ -9,7 +9,7 @@
 \description{unifys a list of meshes using mc.unify.list
 }
 \usage{
-	mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",meshes=NULL)
+	mc.unify.list(lm.data,ref,surpath="sur",ext=".ply",files=NULL,ray=FALSE,tol=NULL)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -28,6 +28,12 @@
 }
  \item{files}{character vector: vector of filenames in the same order as corresponding landmark configuration in lm.data.
 
+}
+\item{ray}{logical: requests search of next vertex along normals
+%%     ~~Describe \code{mesh2} here~~
+}
+\item{tol}{numeric: threshold for maximal distance along normals if ray=TRUE (in both directions of the normal), if nothing is hit within this threshold, the closest point on the target will be used.
+%%     ~~Describe \code{mesh2} here~~
 }
 }
 \details{if "files" is not specified, it is necessary that  dimnames(lm.data[[3]]) are identical to the name of the surface files (without the file extension).

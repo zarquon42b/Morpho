@@ -27,7 +27,7 @@ file2mesh(file)
 }
 }
 \details{
-file2mesh needs the command line tool ply2ascii (http://sourceforge.net/projects/morpho-rpackage/files/) installed.
+file2mesh needs the command line tool ply2ascii from the Auxiliaries section in http://sourceforge.net/projects/morpho-rpackage/files/ installed.
 }
 \value{
 %%  ~Describe the value returned

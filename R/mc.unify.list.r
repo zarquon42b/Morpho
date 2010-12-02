@@ -1,4 +1,4 @@
-mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL,ray=FALSE,tol=NULL)
+mc.unify.list<-function(lm.data,ref,surpath="sur/",ext=".ply",files=NULL,ray=FALSE,tol=NULL)
 {	
 	n<-dim(lm.data)[[3]]
 	lmnames<-dimnames(lm.data)[[3]]
@@ -12,9 +12,9 @@ mc.unify.list<-function(lm.data,ref,surpath="sur",ext=".ply",files=NULL,ray=FALS
 	for (i in 1:n)
 		{
 		if (is.null(files))
-			{meshlist[[i]]<-file2mesh(paste("sur/",lmnames[i],ext,sep=""))
+			{meshlist[[i]]<-file2mesh(paste(surpath,lmnames[i],ext,sep=""))
 			}
-		else	{meshlist[[i]]<-file2mesh(paste("sur/",files[i],sep=""))
+		else	{meshlist[[i]]<-file2mesh(paste(surpath,files[i],sep=""))
 			}
 		
 	### create superimposed meshes ### 
