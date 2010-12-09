@@ -67,7 +67,8 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
 		}
     }
 	if (qual && readnormals)
-	mesh$quality<-quality
+		{mesh$quality<-quality
+		}
     return(mesh)
 }
 

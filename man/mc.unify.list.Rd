@@ -9,7 +9,7 @@
 \description{unifys a list of meshes using mc.unify.list
 }
 \usage{
-	mc.unify.list(lm.data,ref,surpath="sur",ext=".ply",files=NULL,ray=FALSE,tol=NULL)
+	mc.unify.list(lm.data,ref,surpath="sur",ext=".ply",files=NULL,ray=FALSE,tol=NULL,rawout=NULL,uniout=NULL,keep=TRUE)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -33,6 +33,15 @@
 %%     ~~Describe \code{mesh2} here~~
 }
 \item{tol}{numeric: threshold for maximal distance along normals if ray=TRUE (in both directions of the normal), if nothing is hit within this threshold, the closest point on the target will be used.
+%%     ~~Describe \code{mesh2} here~~
+}
+\item{rawout}{character: if specified, the unified mesh in the original coordinate system will be saved in the specified folder using the original name but with the file extension ".ply".
+%%     ~~Describe \code{mesh2} here~~
+}
+\item{rawout}{character: if specified, the unified mesh in the procrustes coordinate system will be saved in the specified folder using the original name but with the file extension ".ply".
+%%     ~~Describe \code{mesh2} here~~
+}
+\item{keep}{logical: if FALSE, the meshes will only be written to disk, and output will be an empty list.
 %%     ~~Describe \code{mesh2} here~~
 }
 }
