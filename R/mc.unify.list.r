@@ -87,8 +87,10 @@ mc.unify.list<-function(lm.data,ref,surpath="sur/",ext=".ply",files=NULL,ray=FAL
 		
 		
 	}
-		names(uni.list)<-lmnames
+		if (keep)
+		{names(uni.list)<-lmnames
 		#names(proclist)<-lmnames
+		}
 		return(uni.list)
 }
 

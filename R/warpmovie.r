@@ -1,9 +1,14 @@
-warpmovie<-function(x,y,n,col=skin1,palindrome=FALSE,folder="",movie="warpmovie")
-{	if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
-		{folder<-paste(folder,"/",sep="")
+warpmovie<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovie")
+{	wdold<-getwd()
+	if(!is.null(folder))
+		{
+			if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
+			{folder<-paste(folder,"/",sep="")
+			setwd(folder)
+			}
 		}
-	wdold<-getwd()
-	setwd(folder)
+	
+	
 	#print(folder)
 	for (i in 0:n)
 		{mesh<-x
