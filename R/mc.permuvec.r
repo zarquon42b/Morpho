@@ -1,6 +1,7 @@
-mc.permuvec<-function(data,groups,subgroups,rounds=10000)
+mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 
-{	lev<-NULL	
+{	### define groups ####
+	lev<-NULL	
 	if (is.character(groups) || is.numeric(groups))
 		{groups<-as.factor(groups)
 		}
@@ -45,6 +46,9 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 	ng <- length(groups)
 	nsub<-length(subgroups)
 	meanlist<-list()
+	
+	### prepare data ###
+	
 	if (length(dim(N)) == 3) 
 		{ n <- dim(N)[3]
         	k <- dim(N)[1]
@@ -65,13 +69,18 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 			{B[i, ] <- as.vector(N[, , i])
         		}
         	
-        	Gmeans <- matrix(0, ng, m * k)
-        		for (i in 1:ng) {
-            	Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2),mean))
-        	}
-    Grandm <- as.vector(apply(N, c(1:2), mean))
+        Gmeans <- matrix(0, ng, m * k) ### calculate mean of subgroup means for all groups
+        	for (i in 1:ng) 
+				{for (j in 1:nsub)	
+					{tmp<-subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
+					Gmeans[i,]<-Gmeans[i,]+apply(B[tmp,],2,mean)
+					}
+					Gmeans[i,]<-Gmeans[i,]/nsub
+				}
+				
+    #Grandm <- as.vector(apply(N, c(1:2), mean))
 	Tmatrix<-B
-	B<-t(t(B)-Grandm)
+	#B<-t(t(B)-Grandm)
 	Amatrix <- B
     }
 	
@@ -79,7 +88,6 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 	meanvec<-matrix(NA,ng,l)
 	for (i in 1:ng)
 		{meanlist[[i]]<-matrix(NA,nsub,l)
-		
 		}
 	
 	### correct for groupmeans ###
@@ -98,7 +106,13 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 		meanvec[i,]<-meanlist[[i]][1,]-meanlist[[i]][2,]
 		}
 	### calc angle compare vector lengths ###
-	disto<-abs(sqrt(sum(meanvec[1,]^2))-sqrt(sum(meanvec[2,]^2)))
+	if (distabs)
+		{disto<-abs(sqrt(sum(meanvec[1,]^2))-sqrt(sum(meanvec[2,]^2)))	
+		}
+	else
+		{disto<-sqrt(sum(meanvec[1,]^2))-sqrt(sum(meanvec[2,]^2))
+		}
+	
 	out<-angle.calc(meanvec[1,],meanvec[2,])$rho
 	
 	### permutate over groups ###
@@ -121,10 +135,10 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
             for (j in 1:ng) {
                 b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
                 l1 <- l1 + length(b[[j]])
-                Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
-				gn<-length(groups[[j]])
-				delt<-matrix(Gmeans1[j,],gn,l,byrow=T)
-				Btmp[groups[[j]],]<-Amatrix[groups[[j]],]-delt
+                #Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
+				#gn<-length(groups[[j]])
+				#delt<-matrix(Gmeans1[j,],gn,l,byrow=T)
+				#Btmp[groups[[j]],]<-Amatrix[groups[[j]],]-delt
             }
 		for (i in 1:ng)
 			{for (j in 1:nsub)	
@@ -133,7 +147,13 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 				}
 				meanvectmp[i,]<-tmplist[[i]][1,]-tmplist[[i]][2,]
 			}
-		return(c(angle.calc(meanvectmp[1,],meanvectmp[2,])$rho,dist<-abs(sqrt(sum(meanvectmp[1,]^2))-sqrt(sum(meanvectmp[2,]^2)))))
+		if (distabs)	
+			{dist<-dist<-abs(sqrt(sum(meanvectmp[1,]^2))-sqrt(sum(meanvectmp[2,]^2)))
+			}	
+		else
+			{dist<-dist<-sqrt(sum(meanvectmp[1,]^2))-sqrt(sum(meanvectmp[2,]^2))
+			}
+		return(c(angle.calc(meanvectmp[1,],meanvectmp[2,])$rho,dist))
 		}
 		
 		tt<-mclapply(alist,permuta)
