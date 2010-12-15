@@ -10,8 +10,14 @@
 		lev<-levels(groups)
 		levn<-length(lev)
 		group<-list()
+		count<-1
 		for (i in 1:levn)
-			{group[[i]]<-which(groups==lev[i])
+			{	tmp0<-which(groups==lev[i])	
+					if (length(tmp0) != 0)
+					{			
+					group[[count]]<-tmp0
+					count<-count+1
+					}
 			}
 		groups<-group
 		}

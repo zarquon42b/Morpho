@@ -13,8 +13,8 @@ A toolbox for Morphometric calculations. Including sliding operations for Semila
 \tabular{ll}{
 Package: \tab Morpho\cr
 Type: \tab Package\cr
-Version: \tab 0.8\cr
-Date: \tab 2010-12-02\cr
+Version: \tab 0.8.1\cr
+Date: \tab 2010-12-15\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }

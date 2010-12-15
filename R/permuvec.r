@@ -9,11 +9,18 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 		lev<-levels(groups)
 		levn<-length(lev)
 		group<-list()
+		count<-1
 		for (i in 1:levn)
-			{group[[i]]<-which(groups==lev[i])
+			{	tmp0<-which(groups==lev[i])	
+					if (length(tmp0) != 0)
+					{			
+					group[[count]]<-tmp0
+					count<-count+1
+					}
 			}
 		groups<-group
 		}
+		
 	levsub<-NULL	
 	if (is.character(subgroups) || is.numeric(subgroups))
 		{subgroups<-as.factor(subgroups)
@@ -23,8 +30,13 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 		levsub<-levels(subgroups)
 		levnsub<-length(levsub)
 		subgroup<-list()
+		count<-1
 		for (i in 1:levnsub)
-			{subgroup[[i]]<-which(subgroups==levsub[i])
+			{	tmp0<-which(subgroups==levsub[i])
+				if (length(tmp0) != 0)
+				{subgroup[[i]]<-tmp0
+				count<-count+1
+				}
 			}
 		subgroups<-subgroup
 		}
@@ -33,7 +45,6 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 	ng <- length(groups)
 	nsub<-length(subgroups)
 	meanlist<-list()
-
 	if (length(dim(N)) == 3) 
 		{ n <- dim(N)[3]
         	k <- dim(N)[1]
@@ -91,6 +102,8 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 	out<-angle.calc(meanvec[1,],meanvec[2,])$rho
 	
 	### permutate over groups ###
+	
+
 	alist<-as.list(1:rounds)	
 	testvec<-0
 	permuta<-function(x)
@@ -118,14 +131,11 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000)
 				{tmp<-subgroups[[j]][which(subgroups[[j]] %in% b1[[i]])]
 				tmplist[[i]][j,]<-apply(Btmp[tmp,],2,mean)
 				}
-			meanvectmp[i,]<-tmplist[[i]][1,]-tmplist[[i]][2,]
-		
-		}
+				meanvectmp[i,]<-tmplist[[i]][1,]-tmplist[[i]][2,]
+			}
 		return(c(angle.calc(meanvectmp[1,],meanvectmp[2,])$rho,dist<-abs(sqrt(sum(meanvectmp[1,]^2))-sqrt(sum(meanvectmp[2,]^2)))))
-		
-	
-		
 		}
+		
 		tt<-mclapply(alist,permuta)
 		uns<-unlist(tt)
 		angs<-(1:rounds)*2-1
