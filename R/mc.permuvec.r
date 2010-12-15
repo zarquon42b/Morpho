@@ -47,7 +47,7 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 	nsub<-length(subgroups)
 	meanlist<-list()
 	
-	### prepare data ###
+	### prepare data if data is an array ###
 	
 	if (length(dim(N)) == 3) 
 		{ n <- dim(N)[3]
@@ -68,8 +68,24 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
         	for (i in 1:n) 
 			{B[i, ] <- as.vector(N[, , i])
         		}
-        	
-        Gmeans <- matrix(0, ng, m * k) ### calculate mean of subgroup means for all groups
+        	        
+				
+    }
+	else {
+        n <- dim(N)[1]
+        l <- dim(N)[2]
+	if (length(unlist(groups)) != n)
+		{warning("group affinity and sample size not corresponding!")
+		}
+        ng <- length(groups)
+        nwg <- c(rep(0, ng))
+        for (i in 1:ng) {
+            nwg[i] <- length(b[[i]])
+        }
+        B <- as.matrix(N)
+                
+    }
+	Gmeans <- matrix(0, ng, l) ### calculate mean of subgroup means for all groups
         	for (i in 1:ng) 
 				{for (j in 1:nsub)	
 					{tmp<-subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
@@ -77,12 +93,6 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 					}
 					Gmeans[i,]<-Gmeans[i,]/nsub
 				}
-				
-    #Grandm <- as.vector(apply(N, c(1:2), mean))
-	Tmatrix<-B
-	#B<-t(t(B)-Grandm)
-	Amatrix <- B
-    }
 	
 	### create empty subgroup mean matrices 
 	meanvec<-matrix(NA,ng,l)
@@ -94,7 +104,7 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 	for (i in 1:ng)
 		{gn<-length(groups[[i]])
 		delt<-matrix(Gmeans[i,],gn,l,byrow=T)
-		B[groups[[i]],]<-Amatrix[groups[[i]],]-delt
+		B[groups[[i]],]<-B[groups[[i]],]-delt
 		}
 
 	### calc subgroup means and residual vectors ###
@@ -132,14 +142,11 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 		shake<-sample(1:n)
 		Gmeans1 <- matrix(0, ng, l)
             l1 <- 0
-            for (j in 1:ng) {
+            for (j in 1:ng) 
+				{
                 b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
                 l1 <- l1 + length(b[[j]])
-                #Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
-				#gn<-length(groups[[j]])
-				#delt<-matrix(Gmeans1[j,],gn,l,byrow=T)
-				#Btmp[groups[[j]],]<-Amatrix[groups[[j]],]-delt
-            }
+                }
 		for (i in 1:ng)
 			{for (j in 1:nsub)	
 				{tmp<-subgroups[[j]][which(subgroups[[j]] %in% b1[[i]])]
