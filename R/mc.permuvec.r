@@ -1,6 +1,7 @@
 mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 
 {	### define groups ####
+	rawgroup<-groups	
 	lev<-NULL	
 	if (is.character(groups) || is.numeric(groups))
 		{groups<-as.factor(groups)
@@ -11,12 +12,14 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 		levn<-length(lev)
 		group<-list()
 		count<-1
+		groupcheck<-0
 		for (i in 1:levn)
 			{	tmp0<-which(groups==lev[i])	
 					if (length(tmp0) != 0)
 					{			
 					group[[count]]<-tmp0
 					count<-count+1
+					groupcheck[count]<-i
 					}
 			}
 		groups<-group
@@ -96,6 +99,10 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 	
 	### create empty subgroup mean matrices 
 	meanvec<-matrix(NA,ng,l)
+	if (is.factor (	rawgroup ) || is.character(rawgroup))
+		{rownames(meanvec)<-levels(rawgroup)[groupcheck]
+		}
+	
 	for (i in 1:ng)
 		{meanlist[[i]]<-matrix(NA,nsub,l)
 		}

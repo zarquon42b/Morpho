@@ -1,7 +1,7 @@
  CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE, rounds = 10000, cv = TRUE) 
 {	
 	lev<-NULL
-	if (is.character(groups) || is.numeric(groups))
+	if (is.character(groups))
 		{groups<-as.factor(groups)
 		}
 	if (is.factor(groups))
@@ -15,9 +15,12 @@
 					if (length(tmp0) != 0)
 					{			
 					group[[count]]<-tmp0
+					groupcheck[count]<-i
 					count<-count+1
+					
 					}
 			}
+		lev<-lev[groupcheck]
 		groups<-group
 		}
     N <- dataarray
@@ -126,7 +129,7 @@
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
     eigZ <- eigen(ZtZ)
-    A <- eigZ$vectors[, 1:(ng - 1)]
+    A <- Re(eigZ$vectors[, 1:(ng - 1)])
     CV <- U %*% invcW %*% A
     CVvis <- covW %*% CV
     CVscores <- Amatrix %*% CV
@@ -265,11 +268,11 @@
             			}
         		}
 		pmatrix <- as.dist(pmatrix)
-		proc.disto<-as.dist(proc.disto)
+		
 		pmatrix.proc<-as.dist(pmatrix.proc)
 		}
     }
-    	
+    	proc.disto<-as.dist(proc.disto)
     	disto <- as.dist(disto)
     	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.disto, probsMaha = pmatrix,probsProc = pmatrix.proc)
     		if (length(dim(N)) == 3) 

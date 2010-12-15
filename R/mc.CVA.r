@@ -1,7 +1,7 @@
 mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 10000, cv = TRUE) 
 {	
 	lev<-NULL	
-	if (is.character(groups) || is.numeric(groups))
+	if (is.character(groups))
 		{groups<-as.factor(groups)
 		}
 	if (is.factor(groups))
@@ -10,14 +10,18 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 		levn<-length(lev)
 		group<-list()
 		count<-1
+		groupcheck<-0
 		for (i in 1:levn)
 			{	tmp0<-which(groups==lev[i])	
 					if (length(tmp0) != 0)
 					{			
 					group[[count]]<-tmp0
+					groupcheck[count]<-i
 					count<-count+1
+					
 					}
 			}
+		lev<-lev[groupcheck]
 		groups<-group
 		}
 
@@ -130,7 +134,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
     eigZ <- eigen(ZtZ,symmetric=TRUE)
-    A <- eigZ$vectors[, 1:(ng - 1)]
+    A <- Re(eigZ$vectors[, 1:(ng - 1)])
     CV <- U %*% invcW %*% A
     CVvis <- covW %*% CV
     CVscores <- Amatrix %*% CV
@@ -295,7 +299,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
                 			}
             			}
         		}
-		proc.disto<-as.dist(proc.disto)
+		
 		pmatrix.proc<-as.dist(pmatrix.proc)
 		}
 	pmatrix <- as.dist(pmatrix)
@@ -303,7 +307,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 	}
 	
 	disto <- as.dist(disto)
-
+	proc.disto<-as.dist(proc.disto)
     	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.disto, probsMaha = pmatrix,probsProc = pmatrix.proc)
     	if (length(dim(N)) == 3) 
 		{Grandm <- matrix(Grandm, k, m)

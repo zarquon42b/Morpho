@@ -45,8 +45,8 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
     Ec <- eigcoW$values
     Ec2 <- Ec
 
-    if (min(E) < tolinv) {
-        #cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
+   if (min(E) < tolinv) {
+        #cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is",             tolinv, "\n"))
         for (i in 1:length(eigW$values)) {
             if (Ec[i] < tolinv) {
                 E[i] <- 0
@@ -72,17 +72,20 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
     eigZ <- eigen(ZtZ)
-    A <- eigZ$vectors[, 1:(ng - 1)]
-    CV <- U %*% invcW %*% A
-    	di<-dim(CV)[2]
+    A <- Re(eigZ$vectors[, 1:(ng - 1)])
+	CV <- U %*% invcW %*% A
+    di<-dim(CV)[2]
 	
 	for (i in 1:di)
 		{
 		rho<-angle.calc(test[,i ],CV[,i])
 		if (rho$rho > pi/2)
+				
 			{CV[,i]<-CV[,i]*(-1)
+			
 			#print(paste("yes",i))
 			}
+
 		}
     
     
