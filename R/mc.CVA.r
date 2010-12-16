@@ -196,7 +196,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 			{proc.disto[j2, j1] <- angle.calc(Gmeans[j1, ], Gmeans[j2,])$rho
         		}
     		}
-	
+		proc.distout<-as.dist(proc.disto)
 	
     	}
 ### Permutation Test for Distances	
@@ -307,8 +307,8 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 	}
 	
 	disto <- as.dist(disto)
-	proc.disto<-as.dist(proc.disto)
-    	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.disto, probsMaha = pmatrix,probsProc = pmatrix.proc)
+	
+    	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.distout, probsMaha = pmatrix,probsProc = pmatrix.proc)
     	if (length(dim(N)) == 3) 
 		{Grandm <- matrix(Grandm, k, m)
         	groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m,ng))

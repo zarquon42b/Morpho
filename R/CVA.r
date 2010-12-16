@@ -10,6 +10,7 @@
 		levn<-length(lev)
 		group<-list()
 		count<-1
+		groupcheck<-0
 		for (i in 1:levn)
 			{	tmp0<-which(groups==lev[i])	
 					if (length(tmp0) != 0)
@@ -21,11 +22,13 @@
 					}
 			}
 		lev<-lev[groupcheck]
+		print(lev)
 		groups<-group
 		}
     N <- dataarray
     b <- groups
-    if (length(dim(N)) == 3) {
+    
+	if (length(dim(N)) == 3) {
         n <- dim(N)[3]
         k <- dim(N)[1]
         m <- dim(N)[2]
@@ -187,6 +190,7 @@
 				{proc.disto[j2, j1] <- angle.calc(Gmeans[j1, ], Gmeans[j2,])$rho
         			}
     			}
+			proc.distout<-as.dist(proc.disto)
 		}
 
     	if (rounds != 0) 
@@ -272,9 +276,9 @@
 		pmatrix.proc<-as.dist(pmatrix.proc)
 		}
     }
-    	proc.disto<-as.dist(proc.disto)
+    	
     	disto <- as.dist(disto)
-    	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.disto, probsMaha = pmatrix,probsProc = pmatrix.proc)
+    	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.distout, probsMaha = pmatrix,probsProc = pmatrix.proc)
     		if (length(dim(N)) == 3) 
 			{Grandm <- matrix(Grandm, k, m)
         		groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m, ng))

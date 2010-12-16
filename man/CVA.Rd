@@ -1,6 +1,7 @@
 \name{CVA}
 \Rdversion{1.1}
 \alias{CVA}
+\alias{mc.CVA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Canonical Variate Analysis
 }
@@ -9,6 +10,7 @@ performs a Canonical Variate Analysis.
 }
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE)
+mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE) ### multicore version of CVA (only available on UNIX systems).
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -68,15 +70,61 @@ Stefan Schlager
 }
 \examples{
 alldat<-procSym(abind(gorf.dat,gorm.dat))   # perform procrustes fit on raw data
-groups<-list(c(1:30),c(31:59))              # create list with group affinities
+groups<-as.factor(c(rep("female",30),rep("male",29)))              # create factors
 cvall<-CVA(alldat$orpdata,groups,rounds=1000)     # perform CVA and test Mahalanobis distance between groups with permutation test by 1000 rounds)
 
-### visualize the effects of the variates:
-dims<-dim(alldat$mshape)## get dims of mean
-plot(alldat$mshape+4*matrix(cvall$CVvis[,1],dims[1],dims [2]),col=2,asp=1) ## plot shape changes associated with Canonical Variate 1 (as there is only one in this example) and a score of 4, color = red
-points(alldat$mshape+-5*matrix(cvall$CVvis[,1],dims[1],dims [2]),col=5) ## plot shape changes associated with Canonical Variate[,1] (as there is only one in this example) and a score of -5, color = blue
+### Morpho CVA
+require(Morpho)
+data(iris)
+vari=iris[,1:4]
+facto=iris[,5]
 
-points(alldat$mshape,col=3) ## add meanshape to plot, color = green
+cva.1=CVA(vari, groups=facto) #note that the function takes time, to estimate permutations.
+# plot the CVA
+plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")),ylab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"\%")))
+  
+  text(cva.1$CVscores, as.character(facto), col=as.numeric(facto), cex=.7)
+
+  # add chull (merge groups)
+  for(jj in 1:length(levels(facto))){
+        ii=levels(facto)[jj]
+    kk=chull(cva.1$CVscores[facto==ii,1:2])
+        lines(cva.1$CVscores[facto==ii,1][c(kk, kk[1])], cva.1$CVscores[facto==ii,2][c(kk, kk[1])], col=jj)
+    }
+
+  # add 80% ellipses
+  require(car)
+  for(ii in 1:length(levels(facto))){
+         data.ellipse(cva.1$CVscores[facto==levels(facto)[ii],1],cva.1$CVscores[facto==levels(facto)[ii],2],
+                    add=T,levels=.80, col=c(1:7)[ii])}
+
+  # histogram per group
+  require(lattice)
+  histogram(~cva.1$CVscores[,1]|facto, layout=c(1,length(levels(facto))),
+          xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"%")))
+  histogram(~cva.1$CVscores[,2]|facto, layout=c(1,length(levels(facto))),
+          xlab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"%")))
+
+  # plot Mahalahobis
+  dendroS=hclust(cva.1$Dist$Groupdist)
+  dendroS$labels=levels(facto)
+  par(mar=c(4,4.5,1,1))
+  dendroS=as.dendrogram(dendroS)
+  plot(dendroS, main='',sub='', xlab="Geographic areas", ylab='Mahalahobis distance')
+
+  # Plot probabilities of Mahalobis: which groups differ significantly?
+  kk=as.matrix(cva.1$Dist$probs)
+  dimnames(kk) =list(levels(facto), levels(facto))
+  image(kk, col=ifelse(as.matrix(cva.1$Dist$probs)<0.05,2,4), axes=F)
+  axis(1, at=seq(0,1,l=length(levels(facto))), labels=levels(facto))
+  axis(2, at=seq(0,1,l=length(levels(facto))), labels=levels(facto))
+
+   # Variance explained by the canonical roots:
+   cva.1$Var
+   # or plot it:
+   barplot(cva.1$Var[,2])
+ 
+
 
 
 
