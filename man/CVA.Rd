@@ -111,13 +111,7 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste(
   dendroS=as.dendrogram(dendroS)
   plot(dendroS, main='',sub='', xlab="Geographic areas", ylab='Mahalahobis distance')
 
-  # Plot probabilities of Mahalobis: which groups differ significantly?
-  kk=as.matrix(cva.1$Dist$probsMaha)
-  dimnames(kk) =list(levels(facto), levels(facto))
-  image(kk, col=ifelse(as.matrix(cva.1$Dist$probsMaha)<0.05,2,4), axes=F)
-  axis(1, at=seq(0,1,l=length(levels(facto))), labels=levels(facto))
-  axis(2, at=seq(0,1,l=length(levels(facto))), labels=levels(facto))
-
+ 
    # Variance explained by the canonical roots:
    cva.1$Var
    # or plot it:
