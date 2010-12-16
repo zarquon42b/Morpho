@@ -22,7 +22,6 @@
 					}
 			}
 		lev<-lev[groupcheck]
-		print(lev)
 		groups<-group
 		}
     N <- dataarray
