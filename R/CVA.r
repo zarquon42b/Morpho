@@ -169,7 +169,7 @@
 		}
 		
 	pmatrix <- NULL
-	proc.disto<-NULL
+	proc.distout<-NULL
 	pmatrix.proc<-NULL
 	### calculate Mahalanobis Distance between Means	
     	for (j1 in 1:(ng - 1)) 

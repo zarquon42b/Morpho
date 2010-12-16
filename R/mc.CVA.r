@@ -170,7 +170,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 		{rownames(disto)<-lev
 		colnames(disto)<-lev
 		}
-	proc.disto<-NULL
+	proc.distout<-NULL
 	pmatrix<-NULL
 	pmatrix.proc<-NULL
     

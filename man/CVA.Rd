@@ -100,22 +100,21 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste(
 
   # histogram per group
   require(lattice)
-  histogram(~cva.1$CVscores[,1]|facto, layout=c(1,length(levels(facto))),
-          xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"%")))
+  histogram(~cva.1$CVscores[,1]|facto, layout=c(1,length(levels(facto))),xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")))
   histogram(~cva.1$CVscores[,2]|facto, layout=c(1,length(levels(facto))),
-          xlab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"%")))
+          xlab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"\%")))
 
   # plot Mahalahobis
-  dendroS=hclust(cva.1$Dist$Groupdist)
+  dendroS=hclust(cva.1$Dist$GroupdistMaha)
   dendroS$labels=levels(facto)
   par(mar=c(4,4.5,1,1))
   dendroS=as.dendrogram(dendroS)
   plot(dendroS, main='',sub='', xlab="Geographic areas", ylab='Mahalahobis distance')
 
   # Plot probabilities of Mahalobis: which groups differ significantly?
-  kk=as.matrix(cva.1$Dist$probs)
+  kk=as.matrix(cva.1$Dist$probsMaha)
   dimnames(kk) =list(levels(facto), levels(facto))
-  image(kk, col=ifelse(as.matrix(cva.1$Dist$probs)<0.05,2,4), axes=F)
+  image(kk, col=ifelse(as.matrix(cva.1$Dist$probsMaha)<0.05,2,4), axes=F)
   axis(1, at=seq(0,1,l=length(levels(facto))), labels=levels(facto))
   axis(2, at=seq(0,1,l=length(levels(facto))), labels=levels(facto))
 
