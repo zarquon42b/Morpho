@@ -1,4 +1,4 @@
-permuvar<-function(data,groups,rounds)
+mc.permuvar<-function(data,groups,rounds,distabs=FALSE)
 {	N <- data
     
 
@@ -49,11 +49,19 @@ permuvar<-function(data,groups,rounds)
 			distlist[[i]]<-distlist[[i]]/nwg[i]
 			
 			}
-			realdist<-(distlist[[1]]-distlist[[2]])
-	alist<-0
-	for (tt in 1:rounds)
+			if (distabs)
+			{realdist<-abs(distlist[[1]]-distlist[[2]])
+			}
+			else
+			{realdist<-distlist[[1]]-distlist[[2]]
+			}
+	
+	alist<-as.list(1:rounds)
+	
+
+	permu<-function(x)
 		{	distlist0<-list()
-			Gmeans0 <- matrix(0, ng, l)
+			Gmeans0 <- matrix(0, ng, l)		
         	b0<-list()
 			shake<-sample(1:n)
 			l1 <- 0
@@ -72,9 +80,15 @@ permuvar<-function(data,groups,rounds)
 			distlist0[[i]]<-distlist0[[i]]/nwg[i]
 
 			}
-		alist[tt]<-abs(distlist0[[1]]-distlist0[[2]])
+		if (distabs)
+			{out<-abs(distlist0[[1]]-distlist0[[2]])
+			}
+		else
+			{out<-distlist0[[1]]-distlist0[[2]]
+			}
+		return(out)
 		}
-		
+		alist<-unlist(mclapply(alist,permu))
 	return(list(alist,realdist))
 	
 

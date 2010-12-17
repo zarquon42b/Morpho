@@ -175,13 +175,42 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,distabs=FALSE)
 		angs<-(1:rounds)*2-1
 		dists<-uns[2*(1:rounds)]
 		sortdist<-sort(dists)
-			if (max(sortdist) < disto)
-			{probadist <-1/rounds
+		
+		if (distabs)
+			{
+				if (max(sortdist) < disto)
+					{probadist <-1/rounds
+					}
+			else
+				{marg<-min(which(sortdist >= disto))
+				probadist<-(rounds-marg)/rounds
+				}
 			}
+		
 		else
-			{marg<-min(which(sortdist >= disto))
-			probadist<-(rounds-marg)/rounds
-			}	
+			{if (disto > 0)
+				{if (max(sortdist) < disto)
+					{probadist <-1/rounds
+					}
+				else
+					{marg<-min(which(sortdist >= disto))
+					probadist<-(rounds-marg)/rounds
+					}
+				}
+			else
+				{
+
+					if (min(sortdist) > disto)
+					{probadist <-1/rounds
+					}
+				else
+					{marg<-max(which(sortdist <= disto))
+					probadist<-(marg)/rounds
+					}
+				}
+		}
+		
+		
 		sortang<-sort(uns[angs])
 		if (max(sortang) < out)
 			{proba <-1/rounds
