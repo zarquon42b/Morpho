@@ -25,7 +25,7 @@ mc.tps3d<-function(M,refmat,tarmat,lambda=0)
 
       }
 	#cat("calculating x displacement\n")
-    	a.list<-as.list(1:3)
+    	a.list<-as.list(1:m)
 	warpM<-function(i)
 		{
 		transo<-mc.fx(refmat,M,coeff[,i])
@@ -42,7 +42,7 @@ mc.tps3d<-function(M,refmat,tarmat,lambda=0)
     #    transM[,i]<-mc.fx(refmat,M,coeff[,i],time=FALSE)
     #}
 	a.list<-mclapply(a.list,warpM)
-	for(i in 1:3)
+	for(i in 1:m)
 	{transM[,i]<-a.list[[i]]}
 
     return(transM)
