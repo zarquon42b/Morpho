@@ -1,4 +1,4 @@
-proc.weight<-function(data,number,ref)
+proc.weight<-function(data,number,ref,report=TRUE)
 {	
 	col<-3
 	l<-dim(data)[3]
@@ -24,7 +24,10 @@ proc.weight<-function(data,number,ref)
 		}
 	weight<-sort(share,decreasing=T)
 	out<-data.frame(dat.which,weight)
-	cat(paste("  reference was",id[ref],"\n"))
+	if (report)
+		{
+		cat(paste("  reference was",id[ref],"\n"))
+		}
 	return(list(data=out,reference=id[ref],rho.all=data))
 }
 	

@@ -9,7 +9,7 @@ for calculation of a shape model by averaging the observations neighbouring the 
 by similarity.
 }
 \usage{
-proc.weight(data, number, ref)
+proc.weight(data, number, ref,report=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +20,9 @@ proc.weight(data, number, ref)
 %%     ~~Describe \code{number} here~~
 }
   \item{ref}{integer: position in the array that is used as reference.
+%%     ~~Describe \code{ref} here~~
+}
+ \item{report}{logical: require report about name of the reference.
 %%     ~~Describe \code{ref} here~~
 }
 }

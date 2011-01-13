@@ -3,14 +3,20 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{estimate missing landmarks
 }
-\description{if landmarks are missing they will be replaced by a warping of a population mean onto the deficient configuration using a Thin-Plate-Spline based on the existing landmarks
+\description{if landmarks are missing they will be replaced by a warping of a population mean or a weighted estimate onto the deficient configuration using a Thin-Plate-Spline based on the existing landmarks
 }
 \usage{
-mc.fixLMtps(data)
+mc.fixLMtps(data,comp=3,weight=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{array containing landmark data
+%%     ~~Describe \code{data} here~~
+}
+  \item{comp}{integer: select how many of the closest observations are to be taken to calculate an initial estimate.
+%%     ~~Describe \code{data} here~~
+}
+  \item{weight}{logical: requests the calculation of an estimate based on the procrustes distance.
 %%     ~~Describe \code{data} here~~
 }
 }

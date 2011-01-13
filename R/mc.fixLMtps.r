@@ -1,4 +1,4 @@
-mc.fixLMtps<-function(data)
+mc.fixLMtps<-function(data,comp=3,weight=TRUE)
 {		n<-dim(data)[3]
 		k<-dim(data)[1]
 		m<-dim(data)[2]
@@ -22,12 +22,40 @@ mc.fixLMtps<-function(data)
 		#### calc mean of complete configs ###
 		check<-which(checkvec==1)
 		data.c<-data[,,-check]
+		
+		### rotate incomplete data onto mean ###
+		lmsdat<-data
+		
 		#print(data.c)
-		mean0<-mc.procGPA(data.c)$mshape
+		proc.c<-mc.procGPA(data.c)
+		mean0<-proc.c$mshape
 		
 		for (i in 1:length(check))
-			{miss<-checklist[[check[i]]]
-			out[,,check[i]]<-mc.tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
+			{
+			miss<-checklist[[check[i]]]
+			if (weight) ### calculate weighted estimates of missing data ###
+				{
+			### rotate incomplete data onto mean ###
+				rotmiss<-rotonto(mean0[-miss,],data[-miss,,check[i]],scaling=TRUE)$yrot
+				allrot<-abind(rotmiss,proc.c$rotated[-miss,,])
+			### calculate weights according to procrustes distance ###			
+				wcalc<-proc.weight(allrot,comp,1,report=FALSE)
+				lms<-proc.c$rotated[,,wcalc$data$nr-1]
+				lm.est<-matrix(0,dim(data)[1],m)
+			
+			for (j in 1:comp)
+				{lm.est<-lm.est+lms[,,j]*wcalc$data$weight[j]
+				}
+			
+			tpsout<-mc.tps3d(lm.est,lm.est[-miss,],data[-miss,,check[i]])
 			}
-		return(list(out=out,mshape=mean0,checklist=checklist,check=check))
+			else
+				{tpsout<-mc.tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
+				}
+			#print(tpsout)
+			lmsdat[,,check[i]]<-lm.est
+			
+			out[,,check[i]]<-tpsout
+			}
+		return(list(out=out,mshape=mean0,checklist=checklist,check=check,lmsdat=lmsdat))
 }
