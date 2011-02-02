@@ -22,11 +22,11 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 		{a.list<-as.list(1:n)
       		CS<-unlist(mclapply(a.list,CSfun,array=A))
 			
-		if (CSinit==TRUE)
-          		{ 
-			for (i in 1:n)
-            			{A[,,i]<-A[,,i]/CS[i]}
-          		}
+		#if (CSinit==TRUE)
+        #  		{ 
+		#	for (i in 1:n)
+         #   			{A[,,i]<-A[,,i]/CS[i]}
+         # 		}
 		}
       		
       
@@ -40,16 +40,15 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 		dataslide<-Semislide(A, SMvector=SMvector,outlines=outlines,tol=tol,deselect=deselect,recursive=recursive,iterations=iterations,pcaoutput=FALSE,pairedLM=pairedLM,initproc=initproc)
         	A<-dataslide
         
-        
-        	{a.list<-as.list(1:n)
+            a.list<-as.list(1:n)
       		CS<-unlist(mclapply(a.list,CSfun,array=A))
 			
-		if (CSinit==TRUE)
-          		{ 
-			for (i in 1:n)
-            			{A[,,i]<-A[,,i]/CS[i]}
-          		}
-		}
+		#if (CSinit==TRUE)
+        #  		{ 
+		#	for (i in 1:n)
+         #   			{A[,,i]<-A[,,i]/CS[i]}
+         # 		}
+		
  	       }
 ###### create mirrored configs ######
         if (!is.null(pairedLM))
@@ -65,7 +64,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 
 ###### proc fit of all configs ###### 
 	cat("performing Procrustes Fit ")        
-	proc<-mc.procGPA(Aall,scale=scale)
+	proc<-mc.procGPA(Aall,scale=scale,CSinit=CSinit)
     procrot<-proc$rotated
 	
 	dimna<-dimnames(dataarray)

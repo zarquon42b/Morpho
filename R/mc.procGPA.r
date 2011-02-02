@@ -24,7 +24,7 @@ for ( i in 1:n)
 	
 	mshape<-x[,,1]	
 	### align mean by principal axes ###	
-	rotms<-t(eigen(crossprod(proc$mshape))$vectors)
+	rotms<-eigen(crossprod(mshape))$vectors
 		if (det(rotms) < 0)
 			{rotms[,1]<-rotms[,1]*-1
 			}
@@ -84,7 +84,7 @@ for ( i in 1:n)
 		for( i in 1:n)
 			{x[,,i]<-arr.list[[i]][[1]]
 			}	
-		
+
 		
 		x2<-gdif(x)
 		p2<-abs(x1-x2)
