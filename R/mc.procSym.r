@@ -66,7 +66,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 ###### proc fit of all configs ###### 
 	cat("performing Procrustes Fit ")        
 	proc<-mc.procGPA(Aall,scale=scale)
-        procrot<-proc$rotated
+    procrot<-proc$rotated
 	
 	dimna<-dimnames(dataarray)
 	if (!is.null(pairedLM))

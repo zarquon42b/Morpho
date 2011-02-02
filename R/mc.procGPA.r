@@ -13,7 +13,7 @@ mc.procGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE)
 for ( i in 1:n)
 		{arr.list[[i]]<-list(x[,,i],1)
 		}
-	mshape<-x[,,1]	
+	
 	if (CSinit)
 		{arr.list<-mclapply(arr.list,function(x){x[[1]]<-apply(x[[1]],2,scale,scale=F);x[[1]]<-x[[1]]/sqrt(sum(x[[1]]^2));return(list(x[[1]],x[[2]]))})
 		}
@@ -21,8 +21,14 @@ for ( i in 1:n)
 	else 
 		{arr.list<-mclapply(arr.list,function(x){x[[1]]<-apply(x[[1]],2,scale,scale=F);return(list(x[[1]],x[[2]]))})
 		}
+	
+	mshape<-x[,,1]	
+
 	while (p1 > tol)
 		{
+		if (CSinit)
+			{mshape<-mshape/c.size(mshape)
+			}
 		mshape_old<-mshape
 
 	### rotation of all configs on current consensus ###		
@@ -82,6 +88,16 @@ for ( i in 1:n)
 		}
 	}
 		mshape<-apply(x,c(1,2),mean)
+		if (CSinit)
+			{
+			
+			msize<-c.size(mshape)
+			mshape<-mshape/msize
+			if (scale)
+				{
+				x<-x/msize
+				}
+			}
 		t1<-Sys.time()
 		cat(paste("in... ",format(t1-t0)[[1]],"\n"))
 		
