@@ -24,18 +24,18 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10)
 	Sc<-cov(vecs)
 	
 	### explore eigenstructure of BE ###	
-	eigBE<-eigen(BE)
-	zero<-which(eigBE$values<tol)
-	diaginv<-diagBE<-eigBE$values*0
-	diagBE[-zero]<-eigBE$values[-zero]^(-alpha/2)
-	diaginv[-zero]<-eigBE$values[-zero]^(alpha/2)
+	eigBE<-svd(BE)
+	zero<-which(eigBE$d<tol)
+	diaginv<-diagBE<-eigBE$d*0
+	diagBE[-zero]<-eigBE$d[-zero]^(-alpha/2)
+	diaginv[-zero]<-eigBE$d[-zero]^(alpha/2)
 	IM<-diag(rep(1,m))
 	
 	if (alpha !=0)
 		{	
-		BE2<-IM%x%(eigBE$vectors%*%diag(diagBE)%*%t(eigBE$vectors))
+		BE2<-IM%x%(eigBE$u%*%diag(diagBE)%*%t(eigBE$v))
 	
-		invBE2<-IM%x%(eigBE$vectors%*%diag(diaginv)%*%t(eigBE$vectors))
+		invBE2<-IM%x%(eigBE$u%*%diag(diaginv)%*%t(eigBE$v))
 		}
 	else
 		{BE2<-diag(rep(1,k*m))
@@ -75,7 +75,7 @@ print(t(msrot[,1])%*%msrot[,2])
 		
 		}
 	
-	return(list(bescores=bescores,uniscores=uniscores,BE2=BE2,vecs=vecs,U=U,covSc=eigCOVCOM,invBE2=invBE2,proc=proc,rotms=rotms))
+	return(list(bescores=bescores,uniscores=uniscores,BE2=BE2,vecs=vecs,U=U,covSc=eigCOVCOM,invBE2=invBE2,proc=proc))
 }
 	
 	
