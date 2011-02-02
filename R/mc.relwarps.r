@@ -33,7 +33,7 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10)
 	
 	if (alpha !=0)
 		{	
-		BE2<-IM%x%(eigBE$u%*%diag(diagBE)%*%t(eigBE$v))
+		BE2<-IM%x%(eigBE$v%*%diag(diagBE)%*%t(eigBE$u))
 	
 		invBE2<-IM%x%(eigBE$u%*%diag(diaginv)%*%t(eigBE$v))
 		}
