@@ -23,12 +23,16 @@ for ( i in 1:n)
 		}
 	
 	mshape<-x[,,1]	
-
+	### align mean by principal axes ###	
+	rotms<-t(eigen(crossprod(proc$mshape))$vectors)
+		if (det(rotms) < 0)
+			{rotms[,1]<-rotms[,1]*-1
+			}
+	mshape<-mshape%*%rotms
+	
 	while (p1 > tol)
 		{
-		if (CSinit)
-			{mshape<-mshape/c.size(mshape)
-			}
+		
 		mshape_old<-mshape
 
 	### rotation of all configs on current consensus ###		
@@ -90,7 +94,6 @@ for ( i in 1:n)
 		mshape<-apply(x,c(1,2),mean)
 		if (CSinit)
 			{
-			
 			msize<-c.size(mshape)
 			mshape<-mshape/msize
 			if (scale)

@@ -57,11 +57,12 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10)
 	if (m==2)
 		{rotms<-t(eigen(crossprod(proc$mshape))$vectors)
 		if (det(rotms) < 0)
-			{rotms[,1]<-rotms[,1]*-1
-			rotms<-rotms#%*%matrix(c(0,-1,1,0),2,2)
+			{#rotms[,1]<-rotms[,1]*-1
+			rotms<-rotms*c(1,-1)#%*%matrix(c(0,-1,1,0),2,2)
 			}
 		
 		msrot<-(proc$mshape%*%rotms)/c.size(proc$mshape)
+		plot(msrot,asp=1)
 		al<-sum(msrot[,1]^2)
 		be<-sum(msrot[,2]^2)
 		ga<-sqrt(al*be)
