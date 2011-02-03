@@ -1,17 +1,18 @@
-mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10)
+mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 {	n<-dim(data)[3]
 	m<-dim(data)[2]
 	k<-dim(data)[1]
 
 	### superimpose data ###
 	proc<-mc.procGPA(data,scale=scale,CSinit=CSinit)
-	
+	if (orp)
+	proc$rotated<-orp(proc$rotated)
 	### create bending energy matrix ###
 	if (m==2)
 		{BE<-CreateL2D(proc$mshape)$Lsubk
 		}
 	else
-		{BE<-CreateL(proc$mshape)$Lsubk
+		{BE<--(CreateL(proc$mshape)$Lsubk)
 		}
 	### vectorize and scale superimposed data ###
 	vecs<-matrix(0,n,k*m)
@@ -24,18 +25,22 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10)
 	Sc<-cov(vecs)
 	
 	### explore eigenstructure of BE ###	
-	eigBE<-svd(BE)
-	zero<-which(eigBE$d<tol)
-	diaginv<-diagBE<-eigBE$d*0
-	diagBE[-zero]<-eigBE$d[-zero]^(-alpha/2)
-	diaginv[-zero]<-eigBE$d[-zero]^(alpha/2)
+	eigBE<-eigen(BE,symmetric=TRUE)
+	
+	eigBE$values<-Re(eigBE$values)
+	eigBE$vectors<-Re(eigBE$vectors)
+	
+	zero<-which(eigBE$values<tol)
+	diaginv<-diagBE<-eigBE$values*0
+	diagBE[-zero]<-eigBE$values[-zero]^(-alpha/2)
+	diaginv[-zero]<-eigBE$values[-zero]^(alpha/2)
 	IM<-diag(rep(1,m))
 	
 	if (alpha !=0)
 		{	
-		BE2<-IM%x%(eigBE$v%*%diag(diagBE)%*%t(eigBE$u))
+		BE2<-IM%x%(eigBE$vectors%*%diag(diagBE)%*%t(eigBE$vectors))
 	
-		invBE2<-IM%x%(eigBE$u%*%diag(diaginv)%*%t(eigBE$v))
+		invBE2<-IM%x%(eigBE$vectors%*%diag(diaginv)%*%t(eigBE$vectors))
 		}
 	else
 		{BE2<-diag(rep(1,k*m))
@@ -44,10 +49,8 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10)
 	
 	### generate covariance structure of scaled space ###
 		covcom<-BE2%*%Sc%*%BE2	
-		eigCOVCOM<-eigen(covcom)
+		eigCOVCOM<-eigen(covcom,symmetric=TRUE)
 		nonz<-which(eigCOVCOM$values>tol)
-	
-		#finalmat<-t(eigCOVCOM$vectors[,nonz])%*%BE2
 		bescores<-t(t(eigCOVCOM$vectors[,nonz])%*%BE2%*%t(vecs))
 
 	
@@ -62,8 +65,6 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10)
 			}
 		
 		msrot<-(proc$mshape%*%rotms)/c.size(proc$mshape)
-print(t(msrot[,1])%*%msrot[,2])
-		plot(msrot,asp=1)
 		al<-sum(msrot[,1]^2)
 		be<-sum(msrot[,2]^2)
 		ga<-sqrt(al*be)
@@ -71,11 +72,31 @@ print(t(msrot[,1])%*%msrot[,2])
 		u2<-c(-be*msrot[,1],al*msrot[,2])/ga
 		U<-cbind(u1,u2)
 		uniscores<-vecs%*%U
-		
-		
 		}
+
+### create Variance table according to eigenvalues ###
+		values<-eigCOVCOM$values[nonz]
+		if (length(values)==1)
+          	{Var<-values}
+        else
+        	{
+          	Var<-matrix(NA,length(values),3)
+          	Var[,1]<-values
+        
+          	for (i in 1:length(values))
+            		{
+              		Var[i,2]<-(values[i]/sum(values))*100
+            		}
+          	Var[1,3]<- Var[1,2]
+          	for (i in 2:length(values))
+           		{         
+             		Var[i,3]<-Var[i,2]+ Var[i-1,3]
+            		}
+          	colnames(Var)<-c("eigenvalues","% Variance","Cumulative %")
+        	}
+      
 	
-	return(list(bescores=bescores,uniscores=uniscores,BE2=BE2,vecs=vecs,U=U,covSc=eigCOVCOM,invBE2=invBE2,proc=proc))
+	return(list(bescores=bescores,uniscores=uniscores,BE2=BE2,vecs=vecs,U=U,covSc=eigCOVCOM,invBE2=invBE2,proc=proc,Var=Var))
 }
 	
 	
