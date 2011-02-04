@@ -1,4 +1,4 @@
-tps3d<-function(M,refmat,tarmat)
+tps3d<-mc.tps3d<-function(M,refmat,tarmat)
 {   
     q<-dim(M)[1]
     p<-dim(refmat)[1]
@@ -15,16 +15,17 @@ tps3d<-function(M,refmat,tarmat)
     m2<-rbind(tarmat,matrix(0,m+1,m))
     coeff<-matrix(NA,p+m+1,m)
     transM<-matrix(NA,q,m)
-    for (i in 1:m)
-      {
-        coeff[,i]<-Linv%*%m2[,i]
+    #for (i in 1:m)
+    #  {
+        coeff<-Linv%*%m2
 
-      }
-    for (i in 1:m)
-    {
-        transM[,i]<-fx(refmat,M,coeff[,i])
-    }
+     # }
+    #for (i in 1:m)
+    #{
+        transM<-fx(refmat,M,coeff)
+   # }
     return(transM)
     
 }
+
   
