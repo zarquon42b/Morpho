@@ -11,7 +11,7 @@ SUBROUTINE tpsfx(A,M,B,N,Bh,x,coefs,tot)
 	
 		do i = 1,M
   		tmp(1,1:3) = A(i,1:3) - B(t,1:3)
-		x(i) = sqrt(sum(tmp(1,1:3) **2))
+		x(i) = -sqrt(sum(tmp(1,1:3) **2))
 		!x(i) = matmul(coefs,)!x(i)*coefs(i)
 		!naf = sum(x)
 		end do

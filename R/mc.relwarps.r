@@ -12,7 +12,7 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 		{BE<-CreateL2D(proc$mshape)$Lsubk
 		}
 	else
-		{BE<--(CreateL(proc$mshape)$Lsubk)
+		{BE<-(CreateL(proc$mshape)$Lsubk)
 		}
 	### vectorize and scale superimposed data ###
 	vecs<-matrix(0,n,k*m)
