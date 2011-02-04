@@ -47,10 +47,10 @@ mc.fixLMtps<-function(data,comp=3,weight=TRUE)
 				{lm.est<-lm.est+lms[,,j]*wcalc$data$weight[j]
 				}
 			
-			tpsout<-mc.tps3d(lm.est,lm.est[-miss,],data[-miss,,check[i]])
+			tpsout<-tps3d(lm.est,lm.est[-miss,],data[-miss,,check[i]])
 			}
 			else
-				{tpsout<-mc.tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
+				{tpsout<-tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
 				}
 			#print(tpsout)
 			lmsdat[,,check[i]]<-lm.est

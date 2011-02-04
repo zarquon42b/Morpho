@@ -113,12 +113,12 @@ estShapeFull<-function(data,bone,skin,dowel,fixwarp,ref,n0,userot=NULL,shapelist
 				}
 			if (warp)
 			{			
-			mesh<-mc.warp.mesh(mesh,refdat,estim)
+			mesh<-warp.mesh(mesh,refdat,estim)
 			}
 			else
 				{mesh<-NULL
 				}
-			#meshbone<-mc.warp.mesh(meshrot,lm.rot[bone,],data[bone,,ref])
+			#meshbone<-warp.mesh(meshrot,lm.rot[bone,],data[bone,,ref])
 			#meshbon<-adnormals(mesh)	
 			
 

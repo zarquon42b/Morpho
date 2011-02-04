@@ -69,7 +69,7 @@ mc.unify.list<-function(lm.data,ref,surpath="sur/",ext=".ply",files=NULL,ray=FAL
 			}
 		else
 			
-			{tmp<-mc.unify.mesh(refprocmesh,procmesh,proc$rotated[,,ref],proc$rotated[,,i],ray=ray,tol=tol)
+			{tmp<-unify.mesh(refprocmesh,procmesh,proc$rotated[,,ref],proc$rotated[,,i],ray=ray,tol=tol)
 			if (keep)			
 				{uni.list[[i]]<-tmp$unimesh
 				#warplist[[i]]<-tmp$warp.mesh

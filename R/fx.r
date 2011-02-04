@@ -1,6 +1,5 @@
-mc.fx<-fx<-function(refmat,M,coefs,time=TRUE)
+fx<-function(refmat,M,coefs,time=TRUE)
 { 	
-	print(coefs)
 	q<-dim(M)[1]
   	p<-dim(refmat)[1]
   	m<-dim(refmat)[2]
@@ -10,7 +9,7 @@ mc.fx<-fx<-function(refmat,M,coefs,time=TRUE)
 		storage.mode(M)<-"double"
 		storage.mode(refmat)<-"double"
 		storage.mode(coefs)<-"double"
-		splM<-.Fortran("tpsfxo",refmat,p,M,q,M1,refmat[,1],coefs,M)[[8]]
+		splM<-.Fortran("tpsfx",refmat,p,M,q,M1,refmat[,1],coefs,M)[[8]]
 		}
 	
 	else if (m==2)
@@ -23,7 +22,6 @@ mc.fx<-fx<-function(refmat,M,coefs,time=TRUE)
 		Z1<-Z*log(Z)
 		Z1[which(is.na(Z1))]<-0
 		M1<-cbind(1,M)
-		print(M1)
 		splM[i,]<-t(coefs[(p+1):(p+3),])%*%M1[i,]+t(coefs[1:p,])%*%Z1
 	
       }

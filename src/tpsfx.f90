@@ -1,4 +1,4 @@
-SUBROUTINE tpsfxo(A,M,B,N,Bh,x,coefs,tot)
+SUBROUTINE tpsfx(A,M,B,N,Bh,x,coefs,tot)
 
    IMPLICIT NONE
 	integer :: M,i,t,N
@@ -21,6 +21,6 @@ SUBROUTINE tpsfxo(A,M,B,N,Bh,x,coefs,tot)
 	
 	end do
 	
-END SUBROUTINE tpsfxo
+END SUBROUTINE tpsfx
 
 
