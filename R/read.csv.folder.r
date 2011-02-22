@@ -38,7 +38,11 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 				dat[count]<-check[1]
 				}
 			else
-				{dat[count]<-which(rn==x[j])
+				{empty <- which(rn==x[j])
+                                 if (length(empty) !=0)
+                                   {
+                                     dat[count]<-which(rn==x[j])
+                                   }
 				}
 			count<-count+1
 			}
