@@ -35,21 +35,26 @@ closemesh <- function(point,mesh)
 
 closemeshf <- function(point,mesh)
   {
-    vb <- t(mesh$vb[1:3,])
-    it <- t(mesh$it)
-    nvb <- dim(it)[1]
-    nit <- dim(vb)[1]
+    vb <- (mesh$vb[1:3,])
+    it <- (mesh$it)
+    nvb <- dim(it)[2]
+    nit <- dim(vb)[2]
     dif<-0
+    
     clost <- c(0,0,0)
     normals <- diag(1:3)
     storage.mode(it) <- "integer"
+        storage.mode(nvb) <- "integer"
+    
+    storage.mode(nit) <- "integer"
+
     storage.mode(normals) <- "double"
     storage.mode(point) <- "double"
     storage.mode(vb) <- "double"
     storage.mode(dif) <- "double"
     storage.mode(clost) <- "double"
     out <- .Fortran("closemesh",point,vb,nvb,it,nit,normals,clost,dif)
-   
+    gc()
     return(out)
   }
                 
