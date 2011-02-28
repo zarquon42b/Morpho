@@ -2,7 +2,7 @@ SUBROUTINE updateSearch(VB,nvb,IT,nit,DAT)
 
 IMPLICIT NONE
 	integer :: nit,IT(3,nit),ittmp(3),i,nvb
-	real*8 :: VB(3,nvb),DAT(nit,12),vbtmp(3,3),e0(3),e1(3),B(3)
+	real :: VB(3,nvb),DAT(nit,12),vbtmp(3,3),e0(3),e1(3),B(3)
 ! real*8, pointer :: e0(:),e1(:),B(:)
  
  do i=1,nit

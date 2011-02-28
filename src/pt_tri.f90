@@ -2,21 +2,22 @@ SUBROUTINE pt_tri(point,VBvec,clost)
 
 IMPLICIT NONE
 	!integer ::
-	real*8 :: point(1,1:3),clost(1,1:3),VBvec(1,12),normals(3,3)
- real*8 :: B1(1,1:3),e0(1,1:3),e1(1,1:3),dv(1,1:3),a,b,c,d,e,f,det,s,t,numer,denom
- 
+	real :: point(3),clost(3)
+ real ::d,e,f,det,s,t,numer,denom,dv(3)
+ real :: VBvec(12)
+ real :: B1(3),e0(3),e1(3),a,b,c
 
- B1(1,1:3) = VBvec(1,1:3)
- dv(1,1:3) = point(1,1:3)-B1(1,1:3)
- e0(1,1:3) = VBvec(1,4:6)
- e1(1,1:3) = VBvec(1,7:9)
+ B1 = VBvec(1:3)
+ dv = point(1:3)-B1(1:3)
+ e0 = VBvec(4:6)
+ e1 = VBvec(7:9)
 	!data ntmp(1,1:3) / 0,0,0 /
- a = VBvec(1,10)
- b = VBvec(1,11)
- c = VBvec(1,12)
- d = dot_product(e0(1,1:3),dv(1,1:3))
- e = dot_product(e1(1,1:3),dv(1,1:3))
- f = dot_product(dv(1,1:3),dv(1,1:3))
+ a = VBvec(10)
+ b = VBvec(11)
+ c = VBvec(12)
+ d = dot_product(e0(:),dv(:))
+ e = dot_product(e1(:),dv(:))
+ f = dot_product(dv(:),dv(:))
 
  det = a*c - b*b
  s = b*2
@@ -35,7 +36,7 @@ IMPLICIT NONE
  t = 1-s
  
 
- clost(1,1:3) = B1(1,1:3)+ s*e0(1,1:3) + t*e1(1,1:3)
+ clost(:) = B1(:)+ s*e0(:) + t*e1(:)
  
  !c = matmul(transpose(e1),e1)
  !do i = 1,N
