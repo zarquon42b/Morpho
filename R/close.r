@@ -9,6 +9,7 @@ close <- function(point,matr,normals)
     a <- .Fortran("closest",point,matr,normals,clost)
     return(a)
   }
+
 closemesh <- function(point,mesh)
   {
     vb <- mesh$vb[1:3,]
@@ -57,7 +58,75 @@ closemeshf <- function(point,mesh)
     gc()
     return(out)
   }
-                
+closemeshf1 <- function(point,mesh)
+  {
+    vb <- (mesh$vb[1:3,])
+    it <- (mesh$it)
+    nvb <- dim(it)[2]
+    nit <- dim(vb)[2]
+    dif<-0
+    
+    clost <- c(0,0,0)
+   
+    storage.mode(it) <- "integer"
+    storage.mode(nvb) <- "integer"
+    
+    storage.mode(nit) <- "integer"
 
-                   
-                    
+    
+    storage.mode(point) <- "double"
+    storage.mode(vb) <- "double"
+    storage.mode(dif) <- "double"
+    storage.mode(clost) <- "double"
+    out <- .Fortran("pt_mesh",point,vb,nvb,it,nit,clost,dif)
+    gc()
+    return(out)
+  }
+                
+upsearch<-function(mesh)
+  {
+    vb <- (mesh$vb[1:3,])
+    it <- (mesh$it)
+    nvb <- dim(it)[2]
+    nit <- dim(vb)[2]
+    DAT<-matrix(0,nit,12)
+      storage.mode(DAT)<-"double"
+
+    storage.mode(it) <- "integer"
+    storage.mode(nvb) <- "integer"
+    storage.mode(nit) <- "integer"
+    storage.mode(vb) <- "double"              
+   a<- .Fortran("updateSearch",vb,nvb,it,nit,DAT)
+    return(a)
+  }
+pt_tri<-function(point,mesh)
+  {
+    vb <- (mesh$vb[1:3,])
+    it <- (mesh$it)
+    nvb <- dim(it)[2]
+    nit <- dim(vb)[2]
+   }
+closemat <- function(matr,mesh)
+  {
+    vb <- (mesh$vb[1:3,])
+    it <- (mesh$it)
+    nvb <- dim(it)[2]
+    nit <- dim(vb)[2]
+    dif<-rep(0,nvb)
+    nmat<-dim(matr)[1]
+    clost <- c(0,0,0)
+   
+    storage.mode(it) <- "integer"
+    storage.mode(nvb) <- "integer"
+    
+    storage.mode(nit) <- "integer"
+    storage.mode(nmat) <- "integer"
+     storage.mode(matr) <- "double"
+    storage.mode(point) <- "double"
+    storage.mode(vb) <- "double"
+    storage.mode(dif) <- "double"
+    storage.mode(clost) <- "double"
+    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif)
+    gc()
+    return(out)
+  }
