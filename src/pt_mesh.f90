@@ -1,7 +1,7 @@
-SUBROUTINE pt_mesh(point,VB,nvb,IT,nit,clost,dif)
+SUBROUTINE pt_mesh(point,VB,nvb,IT,nit,clost,dif,fptr)
 
 IMPLICIT NONE
-	integer ::nit, IT(3,nit),ittmp(3),i,nvb,j
+	integer ::nit, IT(3,nit),ittmp(3),i,nvb,j,fptr
 	real*8 :: point(1,1:3),clost(1,1:3),clostmp(1,1:3),VB(3,nvb),normals(3,3),dist(1,3),dif,dif_old,DAT(nit,12),vbtmp(12)
  clostmp(1,1:3) = (/9999,9999,9999/)
  dif_old=1e10
@@ -20,7 +20,7 @@ IMPLICIT NONE
     if (dif <= dif_old) then
       dif_old = dif
       clost = clostmp
-      
+      fptr = i
    end if
       
 

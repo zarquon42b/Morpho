@@ -1,8 +1,8 @@
-SUBROUTINE pt_upmesh(point,DAT,ndat,clost,dif)
+SUBROUTINE pt_upmesh(point,DAT,ndat,clost,dif,fptr)
 
 IMPLICIT NONE
-	integer ::ndat,i
-	real :: point(3),clost(3),clostmp(3),dist(3),dif,dif_old,DAT(ndat,12), vbtmp(12)
+	integer ::ndat,i,fptr
+	real :: point(3),clost(3),clostmp(3),dist(3),dif,dif_old,DAT(ndat,15), vbtmp(12)
  !real*8, target :: DAT(ndat,12)
  !real*8, pointer :: vbtmp(:)
 
@@ -21,7 +21,7 @@ IMPLICIT NONE
     if (dif <= dif_old) then
       dif_old = dif
       clost = clostmp
-      
+      fptr = i
    end if
       
 

@@ -65,9 +65,9 @@ closemeshf1 <- function(point,mesh)
     nvb <- dim(it)[2]
     nit <- dim(vb)[2]
     dif<-0
-    
+    fptr <- 0
     clost <- c(0,0,0)
-   
+    storage.mode(fptr) <- "integer"
     storage.mode(it) <- "integer"
     storage.mode(nvb) <- "integer"
     
@@ -78,7 +78,7 @@ closemeshf1 <- function(point,mesh)
     storage.mode(vb) <- "double"
     storage.mode(dif) <- "double"
     storage.mode(clost) <- "double"
-    out <- .Fortran("pt_mesh",point,vb,nvb,it,nit,clost,dif)
+    out <- .Fortran("pt_mesh",point,vb,nvb,it,nit,clost,dif,fptr)
     gc()
     return(out)
   }
@@ -112,21 +112,24 @@ closemat <- function(matr,mesh)
     it <- (mesh$it)
     nvb <- dim(it)[2]
     nit <- dim(vb)[2]
-    dif<-rep(0,nvb)
+   
     nmat<-dim(matr)[1]
+     dif<-rep(0,nmat)
+     fptr <- 0
     clost <- c(0,0,0)
+    storage.mode(fptr) <- "integer"
    
     storage.mode(it) <- "integer"
     storage.mode(nvb) <- "integer"
     
     storage.mode(nit) <- "integer"
     storage.mode(nmat) <- "integer"
-     storage.mode(matr) <- "double"
+    storage.mode(matr) <- "double"
     storage.mode(point) <- "double"
     storage.mode(vb) <- "double"
     storage.mode(dif) <- "double"
     storage.mode(clost) <- "double"
-    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif)
+    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr)
     gc()
     return(out)
   }
