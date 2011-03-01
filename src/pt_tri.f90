@@ -1,11 +1,11 @@
 SUBROUTINE pt_tri(point,VBvec,clost)
 
 IMPLICIT NONE
-	!integer ::
-	real :: point(3),clost(3)
- real ::d,e,f,det,s,t,numer,denom,dv(3)
- real :: VBvec(12)
- real :: B1(3),e0(3),e1(3),a,b,c
+
+ real*8 :: point(3),clost(3)
+ real*8 :: d,e,f,det,s,t,numer,denom,dv(3)
+ real*8 :: VBvec(12)
+ real*8 :: B1(3),e0(3),e1(3),a,b,c
 
  B1 = VBvec(1:3)
  dv = point(1:3)-B1(1:3)
@@ -22,6 +22,11 @@ IMPLICIT NONE
  det = a*c - b*b
  s = b*2
  t=b*d - a*e
+ !if (s+t <= det) then
+ !   if (s < 0) then
+  !     if (t < 0) then
+  !        !region 4 
+
  det = 1/det
  s = s*det
  t= t*det
@@ -30,15 +35,16 @@ IMPLICIT NONE
     s = 0
  else
     denom = a -2 * b +c
+    if (numer >= denom) then
+       s = numer
+    else
     s = (numer/denom)
-    
+ end if
  end if
  t = 1-s
  
 
  clost(:) = B1(:)+ s*e0(:) + t*e1(:)
  
- !c = matmul(transpose(e1),e1)
- !do i = 1,N
 
 END SUBROUTINE pt_tri

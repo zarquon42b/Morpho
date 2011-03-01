@@ -115,7 +115,7 @@ closemat <- function(matr,mesh)
    
     nmat<-dim(matr)[1]
      dif<-rep(0,nmat)
-     fptr <- 0
+     fptr <- dif
     clost <- c(0,0,0)
     storage.mode(fptr) <- "integer"
    
@@ -133,3 +133,61 @@ closemat <- function(matr,mesh)
     gc()
     return(out)
   }
+mesh_mesh<- function(mesh1,mesh,rhotol)
+  {
+    matr <- t(mesh1$vb[1:3,])
+    if (is.null(mesh1$normals))
+      {mesh1 <- adnormals(mesh1)
+     }
+    normals <- mesh1$normals
+    tarnorm <- mesh$normals
+    vb <- (mesh$vb[1:3,])
+    it <- (mesh$it)
+    nvb <- dim(it)[2]
+    nit <- dim(vb)[2]
+    
+    nmat<-dim(matr)[1]
+     dif<-rep(0,nmat)
+     fptr <- 0
+    clost <- c(0,0,0)
+    storage.mode(fptr) <- "integer"
+   
+    storage.mode(it) <- "integer"
+    storage.mode(nvb) <- "integer"
+    storage.mode(normals) <- "double"
+    storage.mode(tarnorm) <- "double"
+    storage.mode(rhotol) <- "double"
+    storage.mode(nit) <- "integer"
+    storage.mode(nmat) <- "integer"
+    storage.mode(matr) <- "double"
+    storage.mode(point) <- "double"
+    storage.mode(vb) <- "double"
+    storage.mode(dif) <- "double"
+    storage.mode(clost) <- "double"
+    out <- .Fortran("rho_mesh",matr,nmat,normals,vb,nvb,it,nit,tarnorm,dif,fptr)
+    gc()
+    return(out)
+  }
+pt_upmesh <- function(x,mesh)
+{
+  vb <- (mesh$vb[1:3,])
+  it <- (mesh$it)
+  nvb <- dim(it)[2]
+  nit <- dim(vb)[2]
+  dif<-0
+  fptr <- 0
+  clost <- c(0,0,0)
+  storage.mode(fptr) <- "integer"
+  storage.mode(it) <- "integer"
+  storage.mode(nvb) <- "integer"
+  storage.mode(nit) <- "integer"
+
+    
+    storage.mode(point) <- "double"
+    storage.mode(vb) <- "double"
+    storage.mode(dif) <- "double"
+    storage.mode(clost) <- "double"
+    out <- .Fortran("pt_upmesh",point,vb,nvb,it,nit,clost,dif,fptr)
+    gc()
+    return(out)
+}
