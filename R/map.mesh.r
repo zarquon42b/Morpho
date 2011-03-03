@@ -27,7 +27,7 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2)
         rsme <- mean(tmptar$quality)
 
          }
-      }
+      
      gc()
    # dist <-  mean(sqrt(diag(tcrossprod(tar.lm-ref.lm))))
     return(list(mesh=tmp.mesh,rsme=rsme))

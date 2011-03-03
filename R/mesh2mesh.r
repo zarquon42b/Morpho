@@ -15,7 +15,7 @@ mesh2mesh<-function(mesh1,tarmesh,clean=TRUE)
 	
   if (clean &&!is.character(tarmesh) )
     {
-      if (!is.character(tarmesh)
+      if (!is.character(tarmesh))
           {unlink(c("target.ply"))
           }
       unlink("out_cloud.ply")
