@@ -1,50 +1,203 @@
-SUBROUTINE pt_tri(point,VBvec,clost)
+SUBROUTINE pt_tri(point,VBvec,clost,region,sqdist)
 
 IMPLICIT NONE
-
+integer :: region
  real*8 :: point(3),clost(3)
- real*8 :: d,e,f,det,s,t,numer,denom,dv(3)
- real*8 :: VBvec(12)
- real*8 :: B1(3),e0(3),e1(3),a,b,c
+ real*8 :: det,s,t,numer,denom,dv(3),invDet,tmp0,tmp1
+ real*8 :: VBvec(1:12)
+ real*8 :: B(3),e0(3),e1(3)
+ real*8 :: a00,a01,a11,b0,b1,c,sqdist
 
- B1 = VBvec(1:3)
- dv = point(1:3)-B1(1:3)
- e0 = VBvec(4:6)
- e1 = VBvec(7:9)
-	!data ntmp(1,1:3) / 0,0,0 /
- a = VBvec(10)
- b = VBvec(11)
- c = VBvec(12)
- d = dot_product(e0(:),dv(:))
- e = dot_product(e1(:),dv(:))
- f = dot_product(dv(:),dv(:))
+ B(:) = VBvec(1:3)
+ dv(1:3) = B(1:3) - point(1:3)
+ e0(1:3) = VBvec(4:6)
+ e1(1:3) = VBvec(7:9)
+ a00 = VBvec(10)
+ a01 = VBvec(11)
+ a11 = VBvec(12)
+ b0 = dot_product(e0(1:3),dv(1:3))
+ b1 = dot_product(e1(1:3),dv(1:3))
+ c = dot_product(dv(1:3),dv(1:3))
+ det = abs(a00*a11 - a01*a01)
+ s = a01*b1- a11*b0
+ t = a01*b0 - a00*b1
 
- det = a*c - b*b
- s = b*2
- t=b*d - a*e
- !if (s+t <= det) then
- !   if (s < 0) then
-  !     if (t < 0) then
-  !        !region 4 
+ if (s+t <= det) then
+    
+    if (s < 0) then
+       if (t < 0) then
 
- det = 1/det
- s = s*det
- t= t*det
- numer = c+d-b-d
- if (numer <=0) then
-    s = 0
+          !region 4 begin
+          region = 4
+
+          if (b0 < 0) then
+             t = 0
+             if ( -b0 >= a00) then
+                s = 1
+                sqdist = a00 + 2*b0 + c
+             else
+                s = -b0/a00
+                sqdist = b0*s + c
+             end if
+         
+          else
+             s = 0
+             if ( b1 >= 0 ) then
+                t=0
+                sqdist = c
+             else if (-b1 >= a11) then
+                t = 1
+                sqdist = a11 + 2*b1 + c
+             else
+                t = -b1/a11
+                sqdist = b1*t +c
+             end if
+          end if
+       else
+          !region 3 begin
+          region = 3
+          s = 0
+          if (b1 >=0) then
+             t=0
+             sqdist = c
+          else if (-b1 >= a11) then
+             t = 1
+             sqdist = a11+2*b1+c
+          else
+             t = -b1/a11
+             sqdist = b1*t+c
+          end if
+          !region3 end
+       end if
+       
+
+    else if (t < 0) then
+       !region 5 begin
+       region = 5
+       t = 0
+       if (b0 >= 0) then
+          s = 0
+          sqdist = c
+       else if (-b0 >=a00) then
+          s = 1
+          sqdist = a00 + 2*b0 + c
+       else 
+          s = -b0/a00
+          sqdist = b0*s + c
+
+       end if
+       !region 5 end
+
+    else        
+       !region 0 begin
+       region = 0
+       invDet = 1/det
+       s = s*invDet
+       t=  t*invDet
+       sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t + 2*b1) + c
+       ! region 0 end
+    end if
+
+
  else
-    denom = a -2 * b +c
-    if (numer >= denom) then
-       s = numer
-    else
-    s = (numer/denom)
- end if
- end if
- t = 1-s
- 
+    if (s < 0) then
+       !region 2 begin
+       region = 2
+       tmp0 = a01 + b0
+       tmp1 = a11 + b1
+       if (tmp1 > tmp0) then
+          numer = tmp1 - tmp0
+          denom = a00 - 2*a01 + a11
 
- clost(:) = B1(:)+ s*e0(:) + t*e1(:)
- 
+          if (numer >= denom) then
+             s = 1
+             t = 0
+             sqdist = a00 + 2*b0 + c
 
+          else               
+             s = numer/denom
+             t = 1 - s
+             sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t +2*b1) + c
+          end if
+
+       else 
+          s = 0
+          if (tmp1 <= 0) then
+             t = 1
+             sqdist = a11+2*b1+c
+          else if (b1 >= 0) then
+             t = 0
+             sqdist = c
+          else
+             t = -b1/a11
+             sqdist = b1*t + c
+          end if
+          !region 2 end
+       end if
+    else if (t < 0) then
+       ! region 6 begin
+       region = 6
+       tmp0 = a01 + b1
+       tmp1 = a00 + b0
+       if (tmp1 > tmp0) then
+          numer = tmp1 - tmp0
+          denom = a00 - 2*a01 + a11
+          if (numer >= denom) then                             
+             t = 1
+             s = 0
+             sqdist = a11 + 2*b1 + c
+          else 
+             t = numer/denom
+             s = 1 - t
+             sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t + 2*b1) + c
+          end if
+
+       else
+          t = 0
+          if (tmp1 <= 0) then
+             s = 1
+             sqdist = a00 + 2*b0 + c
+          else if ( b0 >=0) then
+             s = 0
+             sqdist = c
+          else
+             s = -b0/a00
+             sqdist = b0*s +c
+          end if
+       end if
+       else
+          numer = a11 + b1 - a01 - b0
+          if (numer <= 0) then
+             s = 0
+             t = 1 
+             sqdist = a11+ 2*b1 + c
+          else
+             denom = a00 - 2*a01 + a11;
+             if (numer >= denom) then
+
+             s =1
+             t = 0
+             sqdist = a00 + 2*b0 + c
+
+          else
+
+             s = numer/denom
+             t = 1 - s
+             sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t + 2*b1) + c
+
+          end if
+          
+       end if
+    end if
+
+
+
+
+
+ end if!// closes first if
+
+
+ 
+ !sqdist = sqdist+1
+ clost = B + s*e0 + t*e1
 END SUBROUTINE pt_tri

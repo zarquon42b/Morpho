@@ -83,7 +83,7 @@ closemeshf1 <- function(point,mesh)
     return(out)
   }
                 
-upsearch<-function(mesh)
+upsearch<-function(point,mesh)
   {
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
@@ -110,8 +110,8 @@ closemat <- function(matr,mesh)
   {
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
-    nvb <- dim(it)[2]
-    nit <- dim(vb)[2]
+    nvb <- dim(vb)[2]
+    nit <- dim(it)[2]
    
     nmat<-dim(matr)[1]
      dif<-rep(0,nmat)
@@ -129,12 +129,62 @@ closemat <- function(matr,mesh)
     storage.mode(vb) <- "double"
     storage.mode(dif) <- "double"
     storage.mode(clost) <- "double"
-    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr)
+    outmatr <- matr
+    region <- fptr
+    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr,outmatr,region)
     gc()
     return(out)
   }
-mesh_mesh<- function(mesh1,mesh,rhotol)
+mc.closemat <- function(matr,mesh,cores=getOption("cores")
   {
+    if cores=NULL
+    {cores=3
+   }
+    mclist <- list()
+    
+    vb <- (mesh$vb[1:3,])
+    it <- (mesh$it)
+    nvb <- dim(vb)[2]
+    nit <- dim(it)[2]
+    nmat<-dim(matr)[1]
+    dif<-rep(0,nmat)
+    fptr <- dif
+    clost <- c(0,0,0)
+
+    iter <- as.integer(nmat/cores)
+    for (i in 1:(cores-1))
+      {mclist[[i]] <- matr[(1:iter)+((i-1)*iter),]
+     }
+    mclist[[cores]] <-  matr[-c(1:((cores-1)*iter)),]
+    
+
+    # set variable storage mode
+    storage.mode(fptr) <- "integer"
+    storage.mode(it) <- "integer"
+    storage.mode(nvb) <- "integer" 
+    storage.mode(nit) <- "integer"
+    storage.mode(nmat) <- "integer"
+    storage.mode(matr) <- "double"
+    storage.mode(point) <- "double"
+    storage.mode(vb) <- "double"
+    storage.mode(dif) <- "double"
+    storage.mode(clost) <- "double"
+
+    outmatr <- matr
+    region <- fptr
+    mcfun(i) <-function(i)
+      {out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr,outmatr,region)[[9]]
+       return(out)
+     }
+    mclist <- mclapply(mclist,closemat,mesh=mesh)
+    gc()
+    outmat <- NULL
+    for (i in 1:cores)
+      {outmat <- rbind(outmat,mclist[[i]])
+                     }
+    return(out)
+  }
+mesh_mesh<- function(mesh1,mesh,rhotol)9
     matr <- t(mesh1$vb[1:3,])
     if (is.null(mesh1$normals))
       {mesh1 <- adnormals(mesh1)
@@ -164,6 +214,7 @@ mesh_mesh<- function(mesh1,mesh,rhotol)
     storage.mode(vb) <- "double"
     storage.mode(dif) <- "double"
     storage.mode(clost) <- "double"
+
     out <- .Fortran("rho_mesh",matr,nmat,normals,vb,nvb,it,nit,tarnorm,dif,fptr)
     gc()
     return(out)
@@ -172,8 +223,8 @@ pt_upmesh <- function(x,mesh)
 {
   vb <- (mesh$vb[1:3,])
   it <- (mesh$it)
-  nvb <- dim(it)[2]
-  nit <- dim(vb)[2]
+  nit <- dim(it)[2]
+  nvb <- dim(vb)[2]
   dif<-0
   fptr <- 0
   clost <- c(0,0,0)

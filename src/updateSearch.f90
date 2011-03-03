@@ -12,11 +12,11 @@ IMPLICIT NONE
     !print *,vbtmp
     
     DAT(i,1:3) = vbtmp(1,1:3)!B1
-    B = DAT(i,1:3)
+    B(:) = DAT(i,1:3)
     DAT(i,4:6) = vbtmp(2,1:3)-vbtmp(1,1:3)!e0
-    e0 = DAT(i,4:6)
+    e0(1:3) = DAT(i,4:6)
     DAT(i,7:9) = vbtmp(3,1:3)-vbtmp(1,1:3)!e1
-    e1 = DAT(i,7:9)
+    e1(1:3) = DAT(i,7:9)
     DAT(i,10) = dot_product(e0(:),e0(:))!a
     DAT(i,11) = dot_product(e0(:),e1(:))!b
     DAT(i,12) = dot_product(e1(:),e1(:))!c
