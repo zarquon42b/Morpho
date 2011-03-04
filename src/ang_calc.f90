@@ -11,6 +11,6 @@ SUBROUTINE angcal(xv,nx,yv,ny,rho)
  yv(:) = yv(:)/ly
  
  rho = acos((sum((xv-yv)**2)-2)/(-2))
- print *, xv
+ !print *, xv
 
 END SUBROUTINE angcal
