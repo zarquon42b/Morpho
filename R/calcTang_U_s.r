@@ -100,7 +100,7 @@ calcTang_U_s<-function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surfa
 
 
 #### end surfaces ####
-	    	
+	gc() 	
 	SMsort<-sort(SMvector)
 	if (!is.null(surface))    	
 		{		
