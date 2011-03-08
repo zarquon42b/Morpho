@@ -146,7 +146,7 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=1,split=1000,iter=1,lm=NULL,rhotol=
         w.mesh <- unify.mesh(mesh1,mesh2,mesh1.lm,slideall,ray=F,tol=tol)
   # w.mesh$vb[1:3,] <- t(dataslide)
  #  w.mesh <- adnormals(w.mesh)
-    
+    gc()
         return(list(norm=norm,dat=dat,mesh=w.mesh,slideall=slideall,dist1=dist1,rho=rho,dataslide=dataslide,rhoex=rhoex))
   }
     
