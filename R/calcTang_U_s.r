@@ -1,4 +1,4 @@
-calcTang_U_s<-function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surface=NULL,deselect=FALSE)
+calcTang_U_s<-function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surface=NULL,free=NULL,deselect=FALSE)
 {     	
 	
 		
@@ -11,13 +11,19 @@ calcTang_U_s<-function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surfa
 		SMvector<-c(1:k)[-SMvector]
 		}
       	m<-length(SMvector)
-	if (is.null(surface))
+        if ( !is.null(free))
+          {
+            tanvec<-matrix(0,k,dims*3)
+            U<-matrix(0,dims*k,m*3)
+         }
+	else if(!is.null(surface))
+          {
+            tanvec<-matrix(0,k,dims*2)
+            U<-matrix(0,dims*k,m*2)
+          }
+	else
 		{tanvec<-matrix(0,k,dims)
       		U<-matrix(0,dims*k,m)
-		}
-	else
-		{tanvec<-matrix(0,k,dims*2)
-      		U<-matrix(0,dims*k,m*2)
 		}
       	Gamma0<-c(datamatrix)
       
@@ -86,23 +92,48 @@ calcTang_U_s<-function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surfa
 			lt<-length(surface)
        			temp<-surface
 			for (i in 1:lt)
-                    		{
-					tanp<-tanplan(normalmatrix[temp[i],])
-					tanvec[temp[i],]<-c(tanp$y,tanp$z)				
-				}
-			}
-#		pointset<-datamatrix[temp,]
-#		write.obj(cbind("v",pointset),filename="temp")
-#		write(paste("<!DOCTYPE FilterScript>\n","<FilterScript>\n"," <filter name=\"Compute normals for point sets\">\n", "<Param type=\"RichInt\" value=\"10\" name=\"K\"/>\n","</filter>\n","</FilterScript>",sep=""),file="norm.mlx")
-#		}
-#		command<-"meshlabserver -i temp.obj -o temp1.obj -s norm.mlx -om vn"
-#		system(command)
+                          {
+                            tanp<-tanplan(normalmatrix[temp[i],])
+                            tanvec[temp[i],1:6]<-c(tanp$y,tanp$z)				
+                          }
+                      }
 
 
 #### end surfaces ####
+
+### procedure for free sliding points ####
+
+        if (!is.null(free))
+          {
+            lf <-length(free)
+            tmp <- free
+            for (i in 1:lf)
+              {tanvec[tmp[i],] <- c(1,0,0,0,1,0,0,0,1)
+             }
+          }
+        
+### end free sliding ##
+        
 	gc() 	
 	SMsort<-sort(SMvector)
-	if (!is.null(surface))    	
+
+        if (!is.null(free))
+          {		
+            for (i in 1:m)
+              {
+                U[SMsort[i],i]<-tanvec[SMsort[i],1]
+                U[k+SMsort[i],i]<-tanvec[SMsort[i],2] 
+                U[2*k+SMsort[i],i]<-tanvec[SMsort[i],3]
+                U[SMsort[i],(i+m)]<-tanvec[SMsort[i],4]
+                U[k+SMsort[i],(i+m)]<-tanvec[SMsort[i],5]
+                U[2*k+SMsort[i],(i+m)]<-tanvec[SMsort[i],6]
+                U[SMsort[i],(i+2*m)]<-tanvec[SMsort[i],7]
+                U[k+SMsort[i],(i+2*m)]<-tanvec[SMsort[i],8]
+                U[2*k+SMsort[i],(i+2*m)]<-tanvec[SMsort[i],9]
+              }
+                        
+		}
+        else if (!is.null(surface))    	
 		{		
 			for (i in 1:m)
       			{
