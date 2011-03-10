@@ -1,4 +1,4 @@
-relax.mesh <- function(mesh1,mesh2,ray=T,tol=1,split=1000,iter=1,lm=NULL,rhotol=0.7,sdmax=3,uselog=FALSE)
+relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhotol=0.7,sdmax=3,uselog=FALSE)
   {
     nlm <- NULL
     free <- NULL
@@ -7,7 +7,11 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=1,split=1000,iter=1,lm=NULL,rhotol=
     
     vb.lm <- NULL
     norm.lm <- NULL
-    
+    if (is.null(tol) && ray)
+      {
+        tol <- mesh2mesh(mesh1,mesh2)$quality
+        tol <- quantile(tol,probs=0.9)
+      }
     
     vb.m1 <- t(mesh1$vb[1:3,]) ### original vertices (of mesh1)
     norm.m1 <- t(mesh1$normals[1:3,]) ###original normals (of mesh1)
@@ -150,7 +154,8 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=1,split=1000,iter=1,lm=NULL,rhotol=
       }
     else
       {
-        difsd <- mean(dif.be)+sdmax*(sd(dif.be))
+        #difsd <- mean(dif.be)+sdmax*(sd(dif.be))
+        difsd <- quantile
         difex <- which(dif.be > difsd)
       }
    
