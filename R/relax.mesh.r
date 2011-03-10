@@ -1,4 +1,4 @@
-relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhotol=0.7,sdmax=3,uselog=FALSE)
+relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhotol=0.7,sdmax=3,quant.be=0.95)
   {
     nlm <- NULL
     free <- NULL
@@ -11,6 +11,7 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
       {
         tol <- mesh2mesh(mesh1,mesh2)$quality
         tol <- quantile(tol,probs=0.9)
+        cat(paste("estimated tolerance for: ",tol,"\n"))
       }
     
     vb.m1 <- t(mesh1$vb[1:3,]) ### original vertices (of mesh1)
@@ -146,18 +147,18 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
 #### end bending energy check ############################     
 
     rhoex <- which(rho > rhotol)
-    if (uselog)
-      {
-        logdif <- log(dif.be)
-        diflogsd <-  mean(logdif)+sdmax*(sd(logdif))
-        difex <- which(log(dif.be) > diflogsd)
-      }
-    else
-      {
+    #if (uselog)
+    #  {
+    #   logdif <- log(dif.be)
+    #  diflogsd <-  mean(logdif)+sdmax*(sd(logdif))
+    #   difex <- which(log(dif.be) > diflogsd)
+    # }
+    #else
+    # {
         #difsd <- mean(dif.be)+sdmax*(sd(dif.be))
-        difsd <- quantile
+        difsd <- quantile(dif.be,probs=quant.be)
         difex <- which(dif.be > difsd)
-      }
+     # }
    
     tmp <- which(difex %in% rhoex)
     difex <- difex[-tmp]
@@ -216,9 +217,11 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
           
             mesh1.lm <- vb.m1
 
-        w.mesh <- unify.mesh(mesh1,mesh2,mesh1.lm,slideall,ray=F,tol=tol)
+        w.mesh <- unify.mesh(mesh1,mesh2,mesh1.lm,slideall,ray=ray,tol=tol)
 
     gc()
-        return(list(norm=norm,dat=dat,mesh=w.mesh,slideall=slideall,dist1=dist1,rho=rho,dataslide=dataslide,rhoex=rhoex,dif.be=dif.be))
+        return(list(norm=norm,dat=dat,mesh=w.mesh,slideall=slideall,dist1=dist1,rho=rho,dataslide=dataslide,rhoex=rhoex,dif.be=dif.be,mesh1.lm=mesh1.lm))
   }
     
+
+
