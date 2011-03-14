@@ -1,5 +1,6 @@
-relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhotol=0.7,sdmax=3,quant.be=0.95)
+relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhotol=0.7,sdmax=3,quant.be=0.95,tol2=NULL)
   {
+    
     nlm <- NULL
     free <- NULL
     surface <- NULL
@@ -13,6 +14,10 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
         tol <- quantile(tol,probs=0.9)
         cat(paste("estimated tolerance for: ",tol,"\n"))
       }
+    if (is.null(tol2))
+      {
+        tol2 <- tol
+      }
     
     vb.m1 <- t(mesh1$vb[1:3,]) ### original vertices (of mesh1)
     norm.m1 <- t(mesh1$normals[1:3,]) ###original normals (of mesh1)
@@ -22,8 +27,7 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
         w.mesh<-ray2mesh(mesh1,mesh2,tol=tol)
         if (!is.null(lm))
           {lmini <- proj.read(lm,mesh1,readnormals=TRUE)  ### get normals from additional landmarks
-          w.lm <- ray2mesh(lmini,mesh2,tol=tol)  ### throw landmarks on target along ray has to be worked on yet
-         #  w.lm <- proj.read(t(lmini$vb[1:3,]),mesh2)
+          w.lm <- ray2mesh(lmini,mesh2,tol=tol)  ### throw landmarks on target along ray 
          }
       }
     else
@@ -34,14 +38,12 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
            w.lm <- proj.read(lm,mesh2,readnormals=TRUE)  ###throw landmarks on target
          }
       }
-### projected vertices and normal on target mesh ###
+################## projected vertices and normal on target mesh ################
 
-    vb1 <- t(w.mesh$vb[1:3,])
-    norm1 <- t(w.mesh$normals[1:3,])
-    dist1 <- w.mesh$quality
+    vb1 <- t(w.mesh$vb[1:3,]) ### projected vertices
+    norm1 <- t(w.mesh$normals[1:3,]) ### normals of vb1
+    dist1 <- w.mesh$quality ### distance of vb.m1 to mesh2
     k <- dim(vb1)[1]
-
-    slideall <- NULL
 
     if (!is.null(lm))
       {
@@ -50,13 +52,9 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
         lm1.norm <- t(lmini$normals[1:3,]) ### original landmarks' normals (on mesh1)
         vb.lm <- t(w.lm$vb[1:3,]) ### projected landmarks
         norm.lm <- t(w.lm$normals[1:3,])### projected landmarks' normals
-       
       }
-   
-   
-   
-        
-### check for invalid normals of vertices ###
+           
+############### check for invalid normals of vertices #################
         
     cnt <- 0
     degnorm <- NULL
@@ -76,9 +74,9 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
         norm1 <- norm1[-degnorm,]
         dist1 <- dist1[-degnorm]
       }
-### update vertex number after removal of invalid normals
+######### update vertex number after removal of invalid normals ########
         k1 <- dim(vb1)[1]
- ### check for invalid normals of landmarks ###
+#################### check for invalid normals of landmarks ############
  if (!is.null(lm))
       {
         cnt <- 0
@@ -96,11 +94,7 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
             lm1 <- lm1[-degnlm,]
             lm1.norm <- lm1.norm[-degnlm,]
             vb.lm<- vb.lm[-degnlm,]
-            norm.lm <-  norm.lm[-degnlm,]
-
-### update landmark number after removal of invalid normals
-           
-            nlm1 <- dim(lm1)[1]
+            nlm1 <- dim(lm1)[1] ### update landmark number
           }      
       }
     
@@ -113,8 +107,8 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
         split <- k1
       }
     
-        sample.vb <- sample(1:k1) ### scramble vertex indices
-        tmp <- sample.vb[(1:split)]#+(i*split)]
+    sample.vb <- sample(1:k1) ### scramble vertex indices
+    tmp <- sample.vb[(1:split)]#+(i*split)]
     
     dat <- rbind(vb.lm,vb1[tmp,])  ### subset of projected vertices
     #dist1 <- dist1[tmp] ### subset of vector of distances between projection and origin
@@ -127,39 +121,25 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
     rho <- NULL
     for (i in 1:split)
       {
-        rho[i] <- angle.calc(norm[i,],norm.m1[i,])$rho
-            
+        rho[i] <- angle.calc(norm[i,],norm.m1[i,])$rho        
       }
 
-### end angle check ####################################################### 
+######################## end angle check #########################
 
 
-#### find projected points with high bending energy #############
- # print (dim(L$Lsubk))
-  #  print(dim(dat))
+####### find projected points with high bending energy ###########
+ 
     coeff <- L$Lsubk%*%dat
     coeff <- rbind(coeff,matrix(0,3,3))
     dif.be <- fx(vb.m1,dat,coeff)
     dif.be <- dif.be^2
     dif.be <- apply(dif.be,1,sum)
-   
-    
-#### end bending energy check ############################     
+       
+####################### end bending energy check ##################
 
-    rhoex <- which(rho > rhotol)
-    #if (uselog)
-    #  {
-    #   logdif <- log(dif.be)
-    #  diflogsd <-  mean(logdif)+sdmax*(sd(logdif))
-    #   difex <- which(log(dif.be) > diflogsd)
-    # }
-    #else
-    # {
-        #difsd <- mean(dif.be)+sdmax*(sd(dif.be))
-        difsd <- quantile(dif.be,probs=quant.be)
-        difex <- which(dif.be > difsd)
-     # }
-   
+    rhoex <- which(rho > rhotol) 
+    difsd <- quantile(dif.be,probs=quant.be)
+    difex <- which(dif.be > difsd)
     tmp <- which(difex %in% rhoex)
     difex <- difex[-tmp]
     rhoex <- c(rhoex,difex)
@@ -168,12 +148,12 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
       {
         free <- rhoex
         surface <- (1:split)[-rhoex]
-        }
+      }
     else
       {surface <- 1:split
      }
     gc()
-#### start relaxation against reference ########
+#### start relaxation against reference ##########################
     
         for (i in 1:iter)
           { 
@@ -184,24 +164,22 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
             gc()
             pro <- proj.read(dataslide,mesh2)
             dat <- t(pro$vb)
-            norm <- t(pro$normals)
-  
+            norm <- t(pro$normals)  
             gc()
+
             if (iter > 1)
               {
                 rho <- NULL
                 for (i in 1:split)
                   {
                     rho[i] <- angle.calc(norm[i,],norm.m1[i,])$rho
-                  }
-                     
+                  }                     
                 rhoex <- which(rho > rhotol)
                 if (length(rhoex > 0))
                   {
                     free <- rhoex
                     surface <- (1:split)[-rhoex]
-                  }
-                
+                  }                
                 else
                   {surface <- 1:split
                  }
@@ -209,18 +187,15 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
               }
           }
 
-##### end relaxation #########################
+##### end relaxation ###########################################
     
-    slideall <- dat
-   
-       
-          
-            mesh1.lm <- vb.m1
-
-        w.mesh <- unify.mesh(mesh1,mesh2,mesh1.lm,slideall,ray=ray,tol=tol)
+#### unify mesh using the newly aquired corresponding points ###
+    
+    w.mesh <- unify.mesh(mesh1,mesh2,vb.m1,dat,ray=ray,tol=tol2)
 
     gc()
-        return(list(norm=norm,dat=dat,mesh=w.mesh,slideall=slideall,dist1=dist1,rho=rho,dataslide=dataslide,rhoex=rhoex,dif.be=dif.be,mesh1.lm=mesh1.lm))
+
+    return(list(norm=norm,dat=dat,mesh=w.mesh,dist1=dist1,rho=rho,dataslide=dataslide,rhoex=rhoex,dif.be=dif.be))
   }
     
 
