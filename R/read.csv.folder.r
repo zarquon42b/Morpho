@@ -70,7 +70,8 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 	nas0<-which(is.na(arr))	### check for NAs and store information about missing Landmark and individual
 	nas1<-as.integer(nas0/(xlen*ylen))+1
 	nas<-nas1[-(which(duplicated(nas1)))]
-	if (length(nas)!=0)
+        
+	if (length(nas) > 0)
 		{NA.list<-list()
 			for (i in 1:length(nas))
 			{nas2<-nas0[which(nas1==nas[i])]%%(xlen*ylen)
@@ -78,9 +79,17 @@ read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep="
 			nas2<-nas2[-which(duplicated(nas2))]
 			if (0 %in% nas2)
 				{nas2[which(nas2==0)]<-xlen}
-			NA.list[[as.character(nas[i])]]<-sort(nas2)
-			}
-		}
+                         if (length(nas2) > 0)
+                           {
+                             NA.list[[as.character(nas[i])]]<-sort(nas2)
+                           }
+                         else
+                           {
+                             NA.list[[as.character(nas[i])]] <- NULL
+                             nas <- nas[-i]
+                           }
+                       }
+               }
 	else 
 		{nas<-NULL
 		}	
