@@ -31,7 +31,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,which.fix,prefi
         if (!is.null(inflate))
           {
           atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide)
-          tps.lm <- proj.read(tps.lm,atlas.warp,readnormals=TRUE)
+          tps.lm <- proj.read(tps.lm,atlas.warp,readnormals=TRUE,smooth=FALSE)
           
           tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
           tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol) ### deflate in opposite direction
