@@ -1,4 +1,4 @@
-place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,which.fix,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,deselect=TRUE,inflate=NULL)
+place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,deselect=TRUE,inflate=NULL,relax.patch=TRUE)
   {
     n <- dim(dat.array)[3]
     k <- dim(dat.array)[1]
@@ -23,7 +23,13 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,which.fix,prefi
             slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
             tps.lm <- tps3d(patch,atlas.lm,slide)
           }
-        else
+        else if (!is.null(SMvector) && is.null(outlines) )
+          {
+            sm <- SMvector
+            slide <- t(tmp.data$vb[1:3,])           
+            tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]))
+          }
+          else
           
           {
             sm <- 1:k
@@ -41,10 +47,30 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,which.fix,prefi
           tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol) ### deflate in opposite direction
           relax <- rbind(slide,t(tps.lm$vb[1:3,]))
           normals <- rbind(slide,t(tps.lm$normals[1:3,]))
+          
+          
+          if (relax.patch) ### relax against reference
+            
+            {
+              surface <-c((k+1):(patch.dim+k)) ## define surface as appended to preset landmarks
+              outltmp <- append(outlines,curves) ## add curves from patch to predefined curves
+              remout <- which(surface %in%outlines) 
+
+              surface <- surface[-remout] ### remove patch curves from surface 
+              if (length(surface)==0)
+                {surface <- NULL
+               }
               
-          U1 <-calcTang_U_s(relax,normals,SMvector=sm,outlines=outlines,surface=c((k+1):(patch.dim+k)),deselect=deselect)                       
-          tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
-          tps.lm <- proj.read(tps.lm,tmp.name,readnormals=FALSE)
+              U1 <-calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,deselect=deselect)
+              
+              tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
+              
+              tps.lm <- proj.read(tps.lm,tmp.name,readnormals=FALSE)
+            }
+          else
+            {
+               tps.lm <- t(tps.lm$vb[1:3,])
+            }
         }
 ### just project warped patch on surface (suitable for singlelayer meshes)
         else
