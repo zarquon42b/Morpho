@@ -1,4 +1,4 @@
-proc.weight<-function(data,number,ref,report=TRUE,reg=0)
+proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE)
 {	
 	col<-3
         rho<-0
@@ -25,6 +25,9 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0)
             else
               {id<-dimnames(data)[[1]]}
           }
+        if (log)
+          {rho <- log(rho)
+         }
         nr<-c(1:l)
         data<-data.frame(nr,id,rho)
         dat.sort.i<-data[order(data[,col]),]
