@@ -53,18 +53,22 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             
             {
               surface <-c((k+1):(patch.dim+k)) ## define surface as appended to preset landmarks
+              
               outltmp <- append(outlines,curves) ## add curves from patch to predefined curves
-              remout <- which(surface %in%outlines) 
-
-              surface <- surface[-remout] ### remove patch curves from surface 
-              if (length(surface)==0)
+              print(outltmp)
+              remout <- which(surface %in% outlines)
+              print(remout)
+              if (length(remout) > 0)
+                {
+                  surface <- surface[-remout] ### remove patch curves from surface 
+                }
+                  if (length(surface)==0)
                 {surface <- NULL
                }
-              
+               print(surface)
               U1 <-calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,deselect=deselect)
               
               tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
-              
               tps.lm <- proj.read(tps.lm,tmp.name,readnormals=FALSE)
             }
           else
