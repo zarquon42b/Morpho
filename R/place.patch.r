@@ -1,4 +1,4 @@
-place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,deselect=TRUE,inflate=NULL,relax.patch=TRUE)
+place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,deselect=TRUE,inflate=NULL,relax.patch=TRUE,rhotol=NULL)
   {
     n <- dim(dat.array)[3]
     k <- dim(dat.array)[1]
@@ -43,21 +43,45 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
           {
           atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide)
           tps.lm <- proj.read(tps.lm,atlas.warp,readnormals=TRUE,smooth=FALSE)
+
+          warp.norm <- tps.lm$normals[1:3,]### keep projected normals
+
           tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
           tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol) ### deflate in opposite direction
+
           relax <- rbind(slide,t(tps.lm$vb[1:3,]))
           normals <- rbind(slide,t(tps.lm$normals[1:3,]))
-          
-          
+
+          surface <-c((k+1):(patch.dim+k))  ## define surface as appended to preset landmarks
+          free <- NULL
+### compare normals of projection and original points
+          if (!is.null(rhotol))
+            {
+         
+              rho <- NULL
+              for (j in 1:patch.dim)
+                {
+                  rho[j] <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])$rho
+                }
+              rhoex <- which(rho > rhotol) 
+              
+              if (length(rhoex) > 0)
+                {
+                  free <- surface[rhoex]
+                  surface <- surface[-rhoex]
+                }
+            }
+          gc()
+### end compare normals #### 
+
+### relax patch against reference ###
           if (relax.patch) ### relax against reference
             
             {
-              surface <-c((k+1):(patch.dim+k)) ## define surface as appended to preset landmarks
-              
+                           
               outltmp <- append(outlines,curves) ## add curves from patch to predefined curves
-              print(outltmp)
               remout <- which(surface %in% outlines)
-              print(remout)
+
               if (length(remout) > 0)
                 {
                   surface <- surface[-remout] ### remove patch curves from surface 
@@ -65,12 +89,14 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                   if (length(surface)==0)
                 {surface <- NULL
                }
-               print(surface)
-              U1 <-calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,deselect=deselect)
+              
+              U1 <-calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
               
               tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
               tps.lm <- proj.read(tps.lm,tmp.name,readnormals=FALSE)
             }
+### end relaxation ########################
+          
           else
             {
                tps.lm <- t(tps.lm$vb[1:3,])
