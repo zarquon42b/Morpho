@@ -76,7 +76,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
 ###### project into tangent space ######
 	###test###        
 		#meanall<-apply(proc$rotated[,,1:n],c(1,2),mean)
-        if (orp==TRUE)
+        if (orp==TRUE && CSinit==TRUE)
         	{
 		procrot<-orp(proc$rotated)
         	}
