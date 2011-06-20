@@ -34,17 +34,16 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
       {
         w.mesh<-mesh2mesh(mesh1,mesh2)
         if (!is.null(lm))
-          {lmini <- proj.read(lm,mesh1)  ### get normals from additional landmarks
+          {lmini <- proj.read(lm,mesh1,readnormals=TRUE)  ### get normals from additional landmarks
            w.lm <- proj.read(lm,mesh2,readnormals=TRUE)  ###throw landmarks on target
          }
       }
 ################## projected vertices and normal on target mesh ################
-
+    
     vb1 <- t(w.mesh$vb[1:3,]) ### projected vertices
     norm1 <- t(w.mesh$normals[1:3,]) ### normals of vb1
     dist1 <- w.mesh$quality ### distance of vb.m1 to mesh2
     k <- dim(vb1)[1]
-
     if (!is.null(lm))
       {
         nlm <- dim(lm)[1]
@@ -57,6 +56,8 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
 ############### check for invalid normals of vertices #################
         
     cnt <- 0
+    mask <- apply(norm1,2,is.nan)
+    norm1[mask] <- 0
     degnorm <- NULL
     for ( i in 1:k)
       
@@ -80,6 +81,8 @@ relax.mesh <- function(mesh1,mesh2,ray=T,tol=NULL,split=1000,iter=1,lm=NULL,rhot
  if (!is.null(lm))
       {
         cnt <- 0
+        mask <- apply(norm.lm,2,is.nan)
+        norm.lm[mask] <- 0
         degnlm <- NULL
         for ( i in 1:nlm)
       
