@@ -4,7 +4,8 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
     round <- 0
     p <- 1e10
     rsme <- 1e11
-   
+    adnormals <- TRUE
+    cloud <- FALSE
     rot <- rotmesh.onto(mesh1,lm1,lm2)
     tmp.mesh1 <- rot$mesh
     
@@ -15,7 +16,10 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
           tmp.mesh <- rotsub$mesh
         }
       else
+### interactive selection of mesh region
         {
+          adnormals <- FALSE
+          cloud <- TRUE
           open3d()
           wire3d(mesh1,col=3)
           selcheck <- 0
@@ -40,8 +44,9 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
                       rgl.pop("shapes",id=view)
                     }               
                 }
-
               }
+          ## end selection
+          
           rotsub <- rotonmat(subset,lm1,lm2)
           tmp.mesh <- proj.read(subset,tmp.mesh1)
           tmp.mesh$vb <- rbind(tmp.mesh$vb,1)
@@ -57,19 +62,22 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
         round <- round+1
         rsme_old <- rsme
         tmp.mesh_old <- tmp.mesh
-        tmptar <- rbind(tmp.lm,t(tmp.mesh$vb[1:3,]))
+        tmptar <- rbind(tmp.lm,t(tmp.mesh$vb[1:3,])) ### add landmarks to vertices of rotated reference mesh
         
         if (is.null(raytol))
           {
+            ## project coordinates on target
             tmptar <- proj.read(tmptar,mesh2)
           }
+
         
         else
 
-          {tmptar <- proj.read(tmptar,tmp.mesh)
-           
-           tmptar <-  ray2mesh(tmptar,mesh2,tol=raytol,strict=strict)
-         }
+          {
+            ## project coordinates on target along ray
+            tmptar <- proj.read(tmptar,tmp.mesh1)           
+            tmptar <- ray2mesh(tmptar,mesh2,tol=raytol,strict=strict)
+          }
         
         tar.lm <- t(tmptar$vb[1:3,])
         ref.lm <- rbind(tmp.lm,t(tmp.mesh$vb[1:3,]))
@@ -85,20 +93,23 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
         if (!is.null(n)) 
           {
             if (n > dim(tar.lm)[1])
-              {n <-  dim(tar.lm)[1]
-             }
+              {
+                n <-  dim(tar.lm)[1]
+              }
             if (n == 0)
-              {surf <- 1:lmdim
-               ntmp <- lmdim
-             }
+              {
+                surf <- 1:lmdim
+                ntmp <- lmdim
+              }
             else
-              { ntmp <- n
+              {
+                ntmp <- n
                 surf <- c(1:lmdim,sample((lmdim+1):dim(tar.lm)[1])[1:(n-lmdim)])
               }
             tar.lm <- tar.lm[surf,]
             ref.lm <- ref.lm[surf,]
             tar.norm <-  tar.norm[surf,]
-                                        # print(tar.norm)
+                                        
             L <- CreateL(ref.lm)
             U <- calcTang_U_s(tar.lm,tar.norm,SMvector=1:ntmp,deselect=FALSE,surface=1:ntmp)
             slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
@@ -106,29 +117,33 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
             
             tar.lm <- t(pro$vb[1:3,])
           }
-        
 ### end relaxation
+        
         if (!uselm)
-          {tar.lm <- tar.lm[-c(1:lmdim),]
-           ref.lm <- ref.lm[-c(1:lmdim),]
-         }
-        
-        tmp.mesh <- rotmesh.onto(tmp.mesh,ref.lm,tar.lm,adnormals=F)$mesh ## ro
+          {
+            tar.lm <- tar.lm[-c(1:lmdim),]
+            ref.lm <- ref.lm[-c(1:lmdim),]
+          }
+
         tmp <- rotmesh.onto(tmp.mesh1,ref.lm,tar.lm) ## rotate mesh
-        
         tmp.mesh1 <- tmp$mesh
         tmp.lm <- tmp$yrot[1:lmdim,]
-        
+
+        if (cloud)
+          {
+            tmp.mesh <- rotmesh.onto(tmp.mesh,ref.lm,tar.lm,adnormals=adnormals)$mesh 
+          }
+        else
+          {
+            tmp.mesh <- tmp.mesh1
+          }
         
 ### check distance
         rs <- tmptar$quality
         rsme <- mean(tmptar$quality)
         
       }
-    
-   
                                         # dist <-  mean(sqrt(diag(tcrossprod(tar.lm-ref.lm))))
     return(list(mesh=tmp.mesh1,rsme=rsme,lm=tmp.lm,tar.lm=tar.lm))
-    
   }
 
