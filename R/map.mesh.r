@@ -1,16 +1,22 @@
 
-map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,strict=TRUE,n=NULL,uselm=TRUE)
+map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,strict=TRUE,n=NULL,uselm=TRUE,subset=NULL)
   {
     round <- 0
     p <- 1e10
     rsme <- 1e11
-    tmp.mesh <- mesh1
+   
     rot <- rotmesh.onto(mesh1,lm1,lm2)
-    tmp.mesh <- rot$mesh
+    tmp.mesh1 <- rot$mesh
+     
+     if (!is.null(subset))
+       {rotsub <- rotmesh.onto(subset,lm1,lm2)
+         tmp.mesh <- rotsub$mesh
+      }
     tmp.lm <- rot$yrot
+    
     ref.lm <- t(tmp.mesh$vb[1:3,])
     lmdim <- dim(lm1)[1]
-
+   
     while(p > tol && round < it )
       {
         round <- round+1
@@ -87,9 +93,13 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
           {tar.lm <- tar.lm[-c(1:lmdim),]
            ref.lm <- ref.lm[-c(1:lmdim),]
          }
-        tmp <- rotmesh.onto(tmp.mesh,ref.lm,tar.lm) ## rotate mesh
-        tmp.mesh <- tmp$mesh
+
+        tmp.mesh <- rotmesh.onto(tmp.mesh,ref.lm,tar.lm)$mesh ## ro
+        tmp <- rotmesh.onto(tmp.mesh1,ref.lm,tar.lm) ## rotate mesh
+
+        tmp.mesh1 <- tmp$mesh
         tmp.lm <- tmp$yrot[1:lmdim,]
+        
       
 ### check distance
         rs <- tmptar$quality
@@ -99,7 +109,7 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
       
      gc()
    # dist <-  mean(sqrt(diag(tcrossprod(tar.lm-ref.lm))))
-    return(list(mesh=tmp.mesh,rsme=rsme,lm=tmp.lm,tar.lm=tar.lm))
+    return(list(mesh=tmp.mesh1,rsme=rsme,lm=tmp.lm,tar.lm=tar.lm))
    
   }
         
