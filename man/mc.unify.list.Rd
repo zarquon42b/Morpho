@@ -23,7 +23,7 @@
   \item{surpath}{character: path to folder, that contains mesh files.
 
 }
-  \item{ext}{character: extension of files (only necessary if "meshes" is not specified).
+  \item{ext}{character: extension of files (only necessary if "files" is not specified).
 
 }
  \item{files}{character vector: vector of filenames in the same order as corresponding landmark configuration in lm.data.
@@ -38,7 +38,7 @@
 \item{rawout}{character: if specified, the unified mesh in the original coordinate system will be saved in the specified folder using the original name but with the file extension ".ply".
 %%     ~~Describe \code{mesh2} here~~
 }
-\item{rawout}{character: if specified, the unified mesh in the procrustes coordinate system will be saved in the specified folder using the original name but with the file extension ".ply".
+\item{uniout}{character: if specified, the unified mesh in the procrustes coordinate system will be saved in the specified folder using the original name but with the file extension ".ply".
 %%     ~~Describe \code{mesh2} here~~
 }
 \item{keep}{logical: if FALSE, the meshes will only be written to disk, and output will be an empty list.
@@ -76,36 +76,7 @@ E.g.: if observation nr. 3 is called obs3, the corresponding mesh has to be name
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function(meshlist,proc,ref)
-{	
-	n<-dim(proc)[[3]]
-	uni.list<-list()
-	nam<-names(meshlist)
-	namref<-dimnames(proc)[[3]][ref]
-	jref<-grep(namref,nam)
-	njref<-names(meshlist)[[jref]]
-	
-	
-	for (i in 1:n)
-	{	nm0<-dimnames(proc)[[3]][i]
-		j<-grep(nm0,nam)
-		nj<-names(meshlist)[[j]]
-		if (i == ref)
-			{uni.list[[i]]<-meshlist[[j]]
-			
-			}
-		else
-			{uni.list[[i]]<-mc.unify.mesh(meshlist[[jref]],meshlist[[j]],proc[,,ref],proc[,,i])$unimesh
-			}
-		
-		
-		names(uni.list)[i]<-nj
-		#print(j)
-	}
-		
-		return(uni.list)
-	}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
