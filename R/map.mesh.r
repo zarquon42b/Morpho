@@ -10,58 +10,63 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
     rot <- rotmesh.onto(mesh1,lm1,lm2)
     tmp.mesh1 <- rot$mesh
     
-    if (!is.null(subset) && subset !=FALSE)
+    if (!is.null(subset))
       {
-      if ("mesh3d" %in% class(subset))
-        {
-          rotsub <- rotmesh.onto(subset,lm1,lm2)
-          tmp.mesh <- rotsub$mesh
-        }
-      else
+        if (!is.logical(subset))
+          {
+            if ("mesh3d" %in% class(subset))
+              { 
+                rotsub <- rotmesh.onto(subset,lm1,lm2)
+                tmp.mesh <- rotsub$mesh
+              }
+          }
+            else if (subset == TRUE)
 ### interactive selection of mesh region
-        {
-          adnormals <- FALSE
-          cloud <- TRUE
-          open3d()
-          wire3d(mesh1,col=3)
-          selcheck <- 0
-          
-          cat("select a region using the right mouse button\n")
-          while (selcheck == 0)             
-            {
-             rgl.bringtotop(stay = FALSE)
-              if (interactive())
-                { f <-  select3d("right")
-                  subset <- t(mesh1$vb[1:3,])
-                  selected <- which(f(subset))
-                  selcheck <- length(selected)
-                  if (selcheck != 0)
-                    {
-                      subset <- subset[selected,]
-                      view <- points3d(subset,col=2,cex=2)
-                     
-                      answer <- readline("do you like the view? (y/n)\n")
-                      if (answer == "n")
-                        {
+              {
+                adnormals <- FALSE
+                cloud <- TRUE
+                open3d()
+                wire3d(mesh1,col=3)
+                selcheck <- 0
+                
+                cat("select a region using the right mouse button\n")
+                while (selcheck == 0)             
+                  {
+                    rgl.bringtotop(stay = FALSE)
+                    if (interactive())
+                      { f <-  select3d("right")
+                        subset <- t(mesh1$vb[1:3,])
+                        selected <- which(f(subset))
+                        selcheck <- length(selected)
+                        if (selcheck != 0)
+                          {
+                            subset <- subset[selected,]
+                            view <- points3d(subset,col=2,cex=2)
+                            
+                            answer <- readline("do you like the view? (y/n)\n")
+                            if (answer == "n")
+                              {
                           selcheck <- 0
                           rgl.pop("shapes",id=view)   
                         }   
-                    }
-                  else
-                    { cat("nothing selected")
-                    }
+                          }
+                        else
+                          { cat("nothing selected")
+                          }
                        
-                }
-               
-              }
+                      }
+                    
+                  }
+                
           ## end selection
-          
-          rotsub <- rotonmat(subset,lm1,lm2,scale=F)
-          tmp.mesh <- proj.read(rotsub,tmp.mesh1)       
-          tmp.mesh$vb <- rbind(tmp.mesh$vb,1)
+                
+                rotsub <- rotonmat(subset,lm1,lm2,scale=F)
+                tmp.mesh <- proj.read(rotsub,tmp.mesh1)       
+                tmp.mesh$vb <- rbind(tmp.mesh$vb,1)
           rgl.close()
-        }
-    }
+              }
+          
+      }
     else
       {tmp.mesh <- tmp.mesh1
      }
