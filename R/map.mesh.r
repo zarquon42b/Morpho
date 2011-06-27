@@ -1,6 +1,7 @@
 
-map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,strict=TRUE,n=NULL,uselm=TRUE,subset=NULL)
+map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,strict=TRUE,n=NULL,uselm=TRUE,subset=NULL,fix=NULL)
   {
+    
     round <- 0
     p <- 1e10
     rsme <- 1e11
@@ -8,8 +9,9 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
     cloud <- FALSE
     rot <- rotmesh.onto(mesh1,lm1,lm2)
     tmp.mesh1 <- rot$mesh
-
-    if (!is.null(subset))
+    
+    if (!is.null(subset) && subset !=FALSE)
+      {
       if ("mesh3d" %in% class(subset))
         {
           rotsub <- rotmesh.onto(subset,lm1,lm2)
@@ -55,10 +57,14 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
           ## end selection
           
           rotsub <- rotonmat(subset,lm1,lm2,scale=F)
-          tmp.mesh <- proj.read(rotsub,tmp.mesh1)
+          tmp.mesh <- proj.read(rotsub,tmp.mesh1)       
           tmp.mesh$vb <- rbind(tmp.mesh$vb,1)
           rgl.close()
-        }     
+        }
+    }
+    else
+      {tmp.mesh <- tmp.mesh1
+     }
                
     tmp.lm <- rot$yrot
     ref.lm <- t(tmp.mesh$vb[1:3,])
@@ -118,14 +124,30 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
             tar.norm <-  tar.norm[surf,]
                                         
             L <- CreateL(ref.lm)
-            U <- calcTang_U_s(tar.lm,tar.norm,SMvector=1:ntmp,deselect=FALSE,surface=1:ntmp)
+            if (!is.null(fix))
+              { ## keep original set of landmarks in place ###
+                tar.lm[fix,] <- lm2[fix,]
+                SMvector <- c(1:ntmp)[-fix]
+              }
+            else
+              {
+                 SMvector <- 1:ntmp
+              }
+            U <- calcTang_U_s(tar.lm,tar.norm,SMvector=SMvector,deselect=FALSE,surface=1:ntmp)
             slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
             pro <- proj.read(slide,mesh2)
             
             tar.lm <- t(pro$vb[1:3,])
           }
+        else
+              {if (!is.null(fix)) ## keep original set of landmarks in place ###
+                {
+                  tar.lm[fix,] <- lm2[fix,]
+                 # SMvector <- c(1:ntmp)[-fix]
+                }
+             }
 ### end relaxation
-        
+        lmrot <- ref.lm[1:lmdim,]
         if (!uselm)
           {
             tar.lm <- tar.lm[-c(1:lmdim),]
@@ -151,6 +173,6 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
         
       }
                                         # dist <-  mean(sqrt(diag(tcrossprod(tar.lm-ref.lm))))
-    return(list(mesh=tmp.mesh1,rsme=rsme,lm=tmp.lm,tar.lm=tar.lm))
+    return(list(mesh=tmp.mesh1,rsme=rsme,lmrot=lmrot))
   }
 
