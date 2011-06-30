@@ -1,4 +1,4 @@
-qf <- function(image=TRUE,history=FALSE)
+fq <- function(image=TRUE,history=FALSE)
   {
     if (image)
       {
