@@ -1,4 +1,4 @@
-ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE)
+ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE)
 { 
 
   options <- NULL
@@ -32,11 +32,11 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
   if (is.null(mesh1$it))
     {
       cmd <- paste("rayproject reference.ply ",target," -cloud",options," -t ",tol," -o ",outname,sep="")
-      system(paste("rayproject reference.ply ",target," -cloud",options," -t ",tol," -o ",outname,sep=""))
+      system(paste("rayproject reference.ply ",target," -cloud",options," -t ",tol," -o ",outname,sep=""),ignore.stdout=ignore.stdout)
     }
   else
     { cmd <- paste("rayproject reference.ply ",target,options," -t ",tol," -o ",outname,sep="")
-      system(paste("rayproject reference.ply ",target,options," -t ",tol," -o ",outname,sep=""))
+      system(paste("rayproject reference.ply ",target,options," -t ",tol," -o ",outname,sep=""),ignore.stdout=ignore.stdout)
     }
   
 
@@ -49,4 +49,3 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
   if (readback)
     {return(outmesh)
    }
-}
