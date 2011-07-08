@@ -49,3 +49,4 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
   if (readback)
     {return(outmesh)
    }
+}

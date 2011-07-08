@@ -179,28 +179,28 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
       	PCs_Asym<-0
       	if (!is.null(pairedLM))
       		{
-      		asymtan<-matrix(NA,n,m*k)
-      		for(i in 1:n)
-      			{ 
-       		 	asymmean<-apply(Asymm,c(1,2),mean)
-        		asymtan[i,]<-c(Asymm[,,i]-asymmean)
-			}
-       
-      		pcasym<-prcomp(asymtan)
-       		asvalues<-0
-       		eigva<-pcasym$sdev^2
-		for (i in 1:length(eigv))
-       		{
-			if (eigva[i] > 1e-14)
-        			{
-				asvalues[i]<-eigva[i]
-         			}
-        		}
-        	lva<-length(asvalues)
-		PCs_Asym<-pcasym$rotation[,1:lva]
-         	PCscore_asym<-pcasym$x[,1:lva]
-                rownames(PCscore_asym) <- dimnames(dataarray)[[3]]
-
+                  asymmean<-apply(Asymm,c(1,2),mean)
+                  asymtan<-matrix(NA,n,m*k)
+                  for(i in 1:n)
+                    { 
+                      asymtan[i,]<-c(Asymm[,,i]-asymmean)
+                    }
+                  
+                  pcasym<-prcomp(asymtan,center=FALSE)
+                  asvalues<-0
+                  eigva<-pcasym$sdev^2
+                  for (i in 1:length(eigv))
+                    {
+                      if (eigva[i] > 1e-14)
+                        {
+                          asvalues[i]<-eigva[i]
+                        }
+                    }
+                  lva<-length(asvalues)
+                  PCs_Asym<-pcasym$rotation[,1:lva]
+                  PCscore_asym<-pcasym$x[,1:lva]
+                  rownames(PCscore_asym) <- dimnames(dataarray)[[3]]
+                  
 ###### create a neat variance table for Asym ######
         	if (length(asvalues)==1)
           		{

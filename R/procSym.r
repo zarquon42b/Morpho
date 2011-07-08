@@ -164,27 +164,28 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
       	PCs_Asym<-0
       	if (pairedLM[1]!=0) 
       		{
-      		asymtan<-matrix(NA,n,m*k)
-      		for(i in 1:n)
-      			{ 
-       		 	asymmean<-apply(Asymm,c(1,2),mean)
-        		asymtan[i,]<-c(Asymm[,,i]-asymmean)
-			}
-       
-      		pcasym<-prcomp(asymtan)
-       		asvalues<-0
-       		eigva<-pcasym$sdev^2
-		for (i in 1:length(eigv))
-       		{
-			if (eigva[i] > 1e-14)
-        			{
-				asvalues[i]<-eigva[i]
-         			}
-        		}
-        	lva<-length(asvalues)
-		PCs_Asym<-pcasym$rotation[,1:lva]
-         	PCscore_asym<-pcasym$x[,1:lva]
-
+                  asymmean<-apply(Asymm,c(1,2),mean)
+                  asymtan<-matrix(NA,n,m*k)
+                  for(i in 1:n)
+                    { 
+                      
+                      asymtan[i,]<-c(Asymm[,,i]-asymmean)
+                    }
+                  
+                  pcasym<-prcomp(asymtan)
+                  asvalues<-0
+                  eigva<-pcasym$sdev^2
+                  for (i in 1:length(eigv))
+                    {
+                      if (eigva[i] > 1e-14)
+                        {
+                          asvalues[i]<-eigva[i]
+                        }
+                    }
+                  lva<-length(asvalues)
+                  PCs_Asym<-pcasym$rotation[,1:lva]
+                  PCscore_asym<-pcasym$x[,1:lva]
+                  
 
 ###### create a neat variance table for Asym ######
         	if (length(asvalues)==1)
