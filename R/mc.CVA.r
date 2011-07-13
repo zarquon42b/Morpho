@@ -199,6 +199,23 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 		proc.distout<-as.dist(proc.disto)
 	
     	}
+        else
+          {
+            proc.disto<-matrix(0, ng, ng)
+            if(!is.null(lev))
+              {rownames(proc.disto)<-lev
+               colnames(proc.disto)<-lev
+             }	
+            for (j1 in 1:(ng - 1)) 
+              {
+       		for (j2 in (j1 + 1):ng) 
+                  {proc.disto[j2, j1] <- sqrt(sum((Gmeans[j1, ]- Gmeans[j2,])^2))
+                 }
+              }
+            proc.distout<-as.dist(proc.disto)
+            
+          }
+
 ### Permutation Test for Distances	
 	if (rounds != 0) 
 	{pmatrix <- matrix(NA, ng, ng) ### generate distance matrix Mahal
@@ -302,6 +319,56 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
 		
 		pmatrix.proc<-as.dist(pmatrix.proc)
 		}
+         else ## case if input is datamatrix only euclidean distances will be calculated
+           	{pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
+		if(!is.null(lev))
+			{rownames(pmatrix.proc)<-lev
+			colnames(pmatrix.proc)<-lev
+			}
+		roun.proc<-function(i)
+			{b1 <- list()
+			dist.mat<-matrix(0,ng,ng)
+            		shake <- sample(1:n)
+            		Gmeans1 <- matrix(0, ng, l)
+            		l1 <- 0
+            		for (j in 1:ng) 
+				{b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
+                		l1 <- l1 + length(b[[j]])
+                		Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
+            			}
+			
+            		for (j1 in 1:(ng - 1)) 
+				{for (j2 in (j1 + 1):ng) 
+					{dist.mat[j2, j1] <-sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))
+                			}
+            			}
+			
+			return(dist.mat)
+			}
+		
+        	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
+        	a.list<-as.list(1:rounds)
+		a.list<-mclapply(a.list,roun.proc)
+		
+		for (i in 1:rounds)
+			{dist.mat.proc[,,i]<-a.list[[i]]
+			}
+		for (j1 in 1:(ng - 1)) 
+			{for (j2 in (j1 + 1):ng) 
+				{sorti <- sort(dist.mat.proc[j2, j1, ])
+				if (max(sorti) < proc.disto[j2, j1]) 
+					{pmatrix.proc[j2, j1] <- 1/rounds
+                			}
+               			else 
+                  			{marg <- min(which(sorti >= proc.disto[j2, j1]))
+                  			pmatrix.proc[j2, j1] <- (rounds - marg)/rounds
+                			}
+            			}
+        		}
+		
+		pmatrix.proc<-as.dist(pmatrix.proc)
+		}
+         
 	pmatrix <- as.dist(pmatrix)
 	
 	}
