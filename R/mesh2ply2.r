@@ -17,13 +17,18 @@ mesh2ply2<-function(x,filename="default",curvature=TRUE,neighbour=2)
   vn<-dim(vert)[2]
   vn.all<-3
   texfile<-x$TextureFile
-  faceraw<-rbind(fd,face) 
+ 
+ 
   
   header <- c(vn,fn)
   if (curvature)
     {header <- c(vn,fn,neighbour,1)
-         }
-  
+     faceraw <- face
+   }
+  else
+    {
+      faceraw<-rbind(fd,face)
+    }
 ### start writing to file ###
   
   
