@@ -1,10 +1,15 @@
-deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T,lines=TRUE)
-{	open3d()
-	k<-dim(matrix)[1]
+deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T,lines=TRUE,add=FALSE,col1=2,col2=3)
+{
+
+  if (!add)
+    {
+      open3d()
+    }
+  k<-dim(matrix)[1]
 	sz <- (c.size(matrix)/sqrt(k))*(1/80)
-	spheres3d(matrix,col=2,radius=sz)
+	spheres3d(matrix,col=col1,radius=sz)
 	if(both)
-          {spheres3d(tarmatrix,col=3,radius=sz)
+          {spheres3d(tarmatrix,col=col2,radius=sz)
            if (lines)
              {
                for (i in 1:k)
