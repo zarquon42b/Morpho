@@ -151,7 +151,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 	PCs<-princ$rotation[,1:lv]
  	PCscore_sym<-princ$x[,1:lv]
         rownames(PCscore_sym) <- dimnames(dataarray)[[3]]
-	
+	rownames(tan) <- rownames(PCscore_sym)
 	
 ###### create a neat variance table for Sym ###### 
         if (length(values)==1)
@@ -200,7 +200,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
                   PCs_Asym<-pcasym$rotation[,1:lva]
                   PCscore_asym<-pcasym$x[,1:lva]
                   rownames(PCscore_asym) <- dimnames(dataarray)[[3]]
-                  
+                  rownames(asymtan) <- rownames(PCscore_sym)
 ###### create a neat variance table for Asym ######
         	if (length(asvalues)==1)
           		{
@@ -229,10 +229,18 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 	cat(paste("Operation completed in",t1-t0,"secs\n"))
 
 	if (!is.null(pairedLM))
-      	{return(list(size=CS,rotated=proc$rotated[,,1:n],rotmir=proc$rotated[,,(n+1):(2*n)],Sym=Symarray,Asym=Asymm,asymmean=asymmean,mshape=(meanshape+asymmean),
-	symmean=meanshape,Symtan=tan,Asymtan=asymtan,PCsym=PCs,PCscore_sym=PCscore_sym,eigensym=values,SymVar=SymVar,PCasym=PCs_Asym,PCscore_asym=PCscore_asym,eigenasym=asvalues,AsymVar=AsymVar,orpdata=orpdata[,,1:n],orpmir=orpdata[,,(n+1):(2*n)],rmsrho=proc$rmsrho,rho=rho,dataslide= dataslide))
+      	{out <- list(size=CS,rotated=proc$rotated[,,1:n],rotmir=proc$rotated[,,(n+1):(2*n)],Sym=Symarray,Asym=Asymm,asymmean=asymmean,mshape=(meanshape+asymmean),
+	symmean=meanshape,Symtan=tan,Asymtan=asymtan,PCsym=PCs,PCscore_sym=PCscore_sym,eigensym=values,SymVar=SymVar,PCasym=PCs_Asym,PCscore_asym=PCscore_asym,eigenasym=asvalues,AsymVar=AsymVar,orpdata=orpdata[,,1:n],orpmir=orpdata[,,(n+1):(2*n)],rmsrho=proc$rmsrho,rho=rho,dataslide= dataslide,pairedLM=pairedLM)
+
+         class(out) <- "symproc"
+         return(out)
       }
       
-      	else  {return(list(size=CS,rotated=proc$rotated,mshape=meanshape,tan=tan,PCs=PCs,PCscores=PCscore_sym,eigenvalues=values,Variance=SymVar,orpdata=orpdata[,,1:n] ,rmsrho=proc$rmsrho,rho=rho,dataslide= dataslide))
+      	else
+          {
+            out <- list(size=CS,rotated=proc$rotated,mshape=meanshape,tan=tan,PCs=PCs,PCscores=PCscore_sym,eigenvalues=values,Variance=SymVar,orpdata=orpdata[,,1:n] ,rmsrho=proc$rmsrho,rho=rho,dataslide= dataslide)
+
+            class(out) <- "nosymproc"
+            return(out)
       }
 }
