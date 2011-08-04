@@ -1,4 +1,4 @@
-vecx<-function(x)
+vecx<-function(x,byrow=FALSE)
 {  dims<-dim(x)
 	n<-dims[3]
 	k<-dims[1]
@@ -7,8 +7,15 @@ vecx<-function(x)
    
 	vecs<-matrix(0,n,k*m)
 	for(i in 1:n)
-		{vecs[i,]<-as.vector(x[,,i])
-		}
+          {
+            if (byrow)
+              {
+                vecs[i,]<-as.vector(t(x[,,i]))
+              }
+            else
+              {vecs[i,]<-as.vector(x[,,i])
+             }
+          }
    if (!is.null(names))
      {
        rownames(vecs) <- names

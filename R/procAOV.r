@@ -24,7 +24,7 @@ procAOV <- function(symproc)
     df.ind <- (nlev-1)*(3*pl+2*sl-4)
     df.side <- 3*pl+sl-3
     df.indxside <- (nlev-1)*(3*pl+sl-3)
-    df.res <- (r-1)*nlev*(3*(2*pl+1)-7)
+    df.res <- (r-1)*nlev*(3*(2*pl+sl)-7)
     side <- sum(symproc$asymmean^2)*n
      
 
