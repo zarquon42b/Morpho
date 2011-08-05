@@ -41,7 +41,7 @@ procAOV <- function(symproc)
    
     indxside <- sum(unlist(lapply(a,asymfun)))
     ind <- sum(unlist(lapply(a,symfun)))
-    allsq <- sum((symproc$Asymtan[,]+symproc$Symtan[,])^2)
+    allsq <- sum((symproc$Asymtan[,]+symproc$Symtan[,])^2)+side
     res <- allsq-(ind+indxside+side)
     
 
