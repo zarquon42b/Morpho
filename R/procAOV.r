@@ -55,6 +55,7 @@ procAOV <- function(symproc)
 
    
     out <- data.frame(out,F.values,sig)
+    rownames(out) <- c("ind","side","ind.x.side","error")
     
    colnames(out) <- c("SS","MS","df","F","p-value")
     return(out)
