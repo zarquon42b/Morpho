@@ -28,28 +28,28 @@ procAOV <- function(symproc)
     side <- sum(symproc$asymmean^2)*n
      
 
-      asymfun <- function(x)
-        {
-          x <- sum(apply(symproc$Asymtan[x,],2,mean)^2)*length(x)
-          return(x)
-        }
-         symfun <- function(x)
-        {
-          x <- sum(apply(symproc$Symtan[x,],2,mean)^2)*length(x)
-          return(x)
-        }
-   
+    asymfun <- function(x)
+      {
+        x <- sum(apply(symproc$Asymtan[x,],2,mean)^2)*length(x)
+        return(x)
+      }
+    symfun <- function(x)
+      {
+        x <- sum(apply(symproc$Symtan[x,],2,mean)^2)*length(x)
+        return(x)
+      }
+    
     indxside <- sum(unlist(lapply(a,asymfun)))
     ind <- sum(unlist(lapply(a,symfun)))
     allsq <- sum((symproc$Asymtan[,]+symproc$Symtan[,])^2)+side
     res <- allsq-(ind+indxside+side)
     
-
-    
+        
     outss <- c(ind,side,indxside,res)
     outdf <- as.integer(c(df.ind,df.side,df.indxside,df.res))
+    exVar <- outss/allsq
     outms <- outss/outdf
-    out <- data.frame(outss,outms,outdf)
+    out <- data.frame(outss,outms,exVar,outdf)
     F.values <- c(outms[1]/outms[3],outms[2]/outms[3],outms[3]/outms[4],NA)
     sig <- c(pf(F.values[1],outdf[1],outdf[3],lower.tail=F),pf(F.values[2],outdf[2],outdf[3],lower.tail=F),pf(F.values[3],outdf[3],outdf[4],lower.tail=F),NA);
 
@@ -57,6 +57,6 @@ procAOV <- function(symproc)
     out <- data.frame(out,F.values,sig)
     rownames(out) <- c("ind","side","ind.x.side","error")
     
-   colnames(out) <- c("SS","MS","df","F","p-value")
+    colnames(out) <- c("SS","MS","exVar","df","F","p-value")
     return(out)
   }
