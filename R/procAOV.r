@@ -13,10 +13,12 @@ procAOV <- function(symproc)
     nlev <- length(indlev)
     alist <- list()
 
+    
     for (i in 1:length(indlev))
       {
        alist[[i]] <- grep(indlev[i],indnames)
       }
+    
     r <- length(alist[[1]])
     pl <- dim(symproc$pairedLM)[1]
     sl <- k-2*pl
@@ -38,10 +40,17 @@ procAOV <- function(symproc)
         x <- sum(apply(symproc$Symtan[x,],2,mean)^2)*length(x)
         return(x)
       }
-    
-    indxside <- sum(unlist(lapply(a,asymfun)))
-    ind <- sum(unlist(lapply(a,symfun)))
-    allsq <- sum((symproc$Asymtan[,]+symproc$Symtan[,])^2)+side
+    if (length(alist[[1]]) > 1)
+        {
+          
+          indxside <- sum(unlist(lapply(alist,asymfun)))
+          ind <- sum(unlist(lapply(alist,symfun)))
+        }
+        else
+        {indxside <- sum(symproc$Asymtan^2)
+         ind <- sum(symproc$Symtan^2)
+        }
+    allsq <- sum(symproc$Asymtan[,]^2+symproc$Symtan[,]^2)+side
     res <- allsq-(ind+indxside+side)
     
         
