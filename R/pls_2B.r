@@ -11,7 +11,7 @@ pls_2B <- function(y,x)
     cova <- cov(cbind(x,y))
     svd.cova <- svd(cova[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
     
-    #fitted.values <- t(svd.cova$v%*%t(svd.cova$u)%*%t(x))
+    fitted.values <- t(svd.cova$v%*%t(svd.cova$u)%*%t(x))
     z1 <- x%*%svd.cova$u
     fitted.values <- (fitted.values) %*%t(svd.cova$v)
     z2 <-  y%*%svd.cova$v
@@ -21,6 +21,6 @@ pls_2B <- function(y,x)
         {cors[i] <- cor(z1[,i],z2[,i])
        }
     
-    out <- list(svd=svd.cova,z2=z2,z1=z1,cor=cors)
+    out <- list(svd=svd.cova,z2=z2,z1=z1,cor=cors,fitted.values=fitted.values)
     return(out)
   }
