@@ -75,7 +75,7 @@ mc.permudist <- function(data,groups,rounds=1000,which=1:2)
     dists <- foreach(i= 1:rounds,.combine=c) %dopar%
     permu(i)
     p.value <- length(which(dists >= dist))
-    if (length(p.value) > 0)
+    if (p.value > 0)
       {
         p.value <- p.value/rounds
         names(p.value) <- "p-value"
