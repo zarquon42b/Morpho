@@ -3,8 +3,8 @@ mc.pls2B <- function(y,x,tol=1e-12,rounds=0)
     require(foreach)
     require(doMC)
     registerDoMC()
-    pname <- NULL
-    p.values <- NULL
+    
+    
     if (length(dim(x)) == 3)
       {
         x <- vecx(x)
@@ -48,28 +48,26 @@ mc.pls2B <- function(y,x,tol=1e-12,rounds=0)
         svs.tmp <- svd.cova.tmp$d
         return(svs.tmp[1:l.covas])
       }
-    
+    p.values <- rep(NA,l.covas)
     if (rounds > 0)
       {
-        pname <- "p-value"
         permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
         
         p.val <- function(x,rand.x)
           {
             p.value <- length(which(rand.x >= x))
-            print(p.value)
-            
+                       
             if (p.value > 0)
               {
                 p.value <- p.value/rounds
               }
             else
               {p.value <- 1/rounds}
-            
+            gc()
             return(p.value)
           }
             
-            p.values <- rep(0,l.covas)
+            
             for (i in 1:l.covas)
               {
                 p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
@@ -78,8 +76,9 @@ mc.pls2B <- function(y,x,tol=1e-12,rounds=0)
                }
           }
         ### create covariance table
+    
     Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
-    colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient",pname)
-    out <- list(svd=svd.cova,z2=z2,z1=z1,cor=cors,CoVar=Cova,permuscores=permuscores)
+    colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient", "p-value")
+    out <- list(svd=svd.cova,z2=z2,z1=z1,cor=cors,CoVar=Cova)
     return(out)
   }
