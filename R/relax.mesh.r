@@ -17,8 +17,9 @@ relax.mesh <- function(mesh1,mesh2,ray=T,conv.tol=1e-5,tol=NULL,split=1000,iter=
         if (is.null(tol) && ray)
           {
             tol <- mesh2mesh(mesh1,mesh2)$quality
-            tol <- quantile(tol,probs=0.9)
+            tol <- max(tol)
             cat(paste("estimated tolerance for: ",tol,"\n"))
+            
           }
         if (is.null(tol2))
           {
@@ -210,13 +211,11 @@ relax.mesh <- function(mesh1,mesh2,ray=T,conv.tol=1e-5,tol=NULL,split=1000,iter=
       }
     
 #### unify mesh using the newly aquired corresponding points ###
-    
-    w.mesh <- unify.mesh(mesh1,mesh2,vb.m1,dat,ray=ray,tol=tol2)
+   
+    w.mesh <- ray2mesh(mesh1,mesh2,tol=tol2)
+      #unify.mesh(mesh1,mesh2,vb.m1,dat,ray=ray,tol=tol2)
 
     gc()
 
-    return(list(norm=norm,dat=dat,mesh=w.mesh,dist1=dist1,rho=rho,dataslide=dataslide,rhoex=rhoex,dif.be=dif.be))
+    return(list(norm=norm,dat=dat,mesh=w.mesh, warp.mesh=mesh1,dist1=dist1,rho=rho,dataslide=dataslide,rhoex=rhoex,dif.be=dif.be))
   }
-    
-
-
