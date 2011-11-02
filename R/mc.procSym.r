@@ -1,4 +1,4 @@
-mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE)
+mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
 {     	t0<-Sys.time()
 	A<-dataarray
       	k<-dim(A)[1]
@@ -36,7 +36,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
           }
 ###### create mirrored configs ######
         if (!is.null(pairedLM))
-          {
+          { 
             Amir<-A
             for (i in 1:n)
               {Amir[,,i]<-A[,,i]%*%Mir
@@ -47,8 +47,30 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
         else {Aall<-A}
         
 ###### proc fit of all configs ###### 
-	cat("performing Procrustes Fit ")        
-	proc<-mc.procGPA(Aall,scale=scale,CSinit=CSinit)
+	cat("performing Procrustes Fit ")
+        if (!is.null(use.lm)) ### only use subset for rotation and scaling
+	{
+          proc <- mc.procGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit)
+          tmp <- Aall
+          for (i in 1:dim(Aall)[3])
+            {
+              tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE)
+              if (center.part)
+                {
+                  tmp[,,i] <- apply(tmp[,,i],2,scale,scale=F) ## center shapes
+                }
+              else
+                {
+                  orp <- FALSE
+               }
+            }
+          proc$rotated <- tmp
+          proc$mshape <- apply(tmp,1:2,mean) ##calc new meanshape
+        }
+        else
+          {
+            proc<-mc.procGPA(Aall,scale=scale,CSinit=CSinit)
+          }
         procrot<-proc$rotated
         dimna<-dimnames(dataarray)
 

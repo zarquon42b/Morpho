@@ -1,4 +1,4 @@
-procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE)
+procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL)
 {     
 	A<-dataarray
       	k<-dim(A)[1]
@@ -42,11 +42,28 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
       
       else {Aall<-A}
 
-###### proc fit of all configs ###### 
-        proc<-sc.procGPA(Aall,scale=scale,CSinit=CSinit)
+###### proc fit of all configs ######
+      	cat("performing Procrustes Fit ")
+        
+        if (!is.null(use.lm)) ### only use subset for rotation and scaling
+          {
+            proc <- sc.procGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit)
+            tmp <- Aall
+            for (i in 1:dim(Aall)[3])
+              {
+                tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE)
+                tmp[,,i] <- apply(tmp[,,i],2,scale,scale=F) ## center shapes
+              }
+            proc$rotated <- tmp
+            proc$mshape <- apply(tmp,1:2,mean) ##calc new meanshape
+          }
+        else
+          {
+            proc<-sc.procGPA(Aall,scale=scale,CSinit=CSinit)
+          } 
+        
         procrot<-proc$rotated
-	
-	dimna<-dimnames(dataarray)
+        dimna<-dimnames(dataarray)
 	if (pairedLM[1]!=0)
 		{			
 			dimna[[m]]<-c(dimna[[m]],dimna[[m]])
