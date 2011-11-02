@@ -88,7 +88,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
           {
             rho[i]<-angle.calc(proc$rotated[,,i],proc$mshape)$rho
           }
-        
+        rmsrho <- sqrt(sum(rho^2))
         orpdata<-0
 
 ###### project into tangent space ######
@@ -235,7 +235,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
 	
 	if (pairedLM[1]!=0)
       	{out <- (list(size=CS,rotated=proc$rotated[,,1:n],rotmir=proc$rotated[,,(n+1):(2*n)],Sym=Symarray,Asym=Asymm,asymmean=asymmean,mshape=(meanshape+asymmean),
-	symmean=meanshape,Symtan=tan,Asymtan=asymtan,PCsym=PCs,PCscore_sym=PCscore_sym,eigensym=values,SymVar=SymVar,PCasym=PCs_Asym,PCscore_asym=PCscore_asym,eigenasym=asvalues,AsymVar=AsymVar,orpdata=orpdata[,,1:n],orpmir=orpdata[,,(n+1):(2*n)],rmsrho=proc$rmsrho,rho=rho,dataslide= dataslide))
+	symmean=meanshape,Symtan=tan,Asymtan=asymtan,PCsym=PCs,PCscore_sym=PCscore_sym,eigensym=values,SymVar=SymVar,PCasym=PCs_Asym,PCscore_asym=PCscore_asym,eigenasym=asvalues,AsymVar=AsymVar,orpdata=orpdata[,,1:n],orpmir=orpdata[,,(n+1):(2*n)],rmsrho=rmsrho,rho=rho,dataslide= dataslide))
          class(out) <- "symproc"
          return(out)
       }

@@ -85,6 +85,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 	rho<-NULL
         a.list<-as.list(1:n)
         rho<-unlist(mclapply(a.list,rhofun))
+        rmsrho <- sqrt(sum(rho^2))
         orpdata<-NULL
 
 ###### project into tangent space ######
@@ -238,7 +239,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
         
       	else
           {
-            out <- list(size=CS,rotated=proc$rotated,mshape=meanshape,tan=tan,PCs=PCs,PCscores=PCscore_sym,eigenvalues=values,Variance=SymVar,orpdata=orpdata[,,1:n] ,rmsrho=proc$rmsrho,rho=rho,dataslide= dataslide)
+            out <- list(size=CS,rotated=proc$rotated,mshape=meanshape,tan=tan,PCs=PCs,PCscores=PCscore_sym,eigenvalues=values,Variance=SymVar,orpdata=orpdata[,,1:n] ,rmsrho=rmsrho,rho=rho,dataslide= dataslide)
             
             class(out) <- "nosymproc"
             return(out)
