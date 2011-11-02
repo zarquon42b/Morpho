@@ -6,7 +6,7 @@ scaleproc<-function (a3, proc.output = FALSE)
     n <- dim(a3)[3]
     aa <- apply(zd, c(3), norm)^2
     s <- sum(aa)
-    omat <- t(vec1(zd))
+    omat <- vecx(zd)
     kk <- dim(omat)[2]
     nn <- dim(omat)[1]
     if (nn > kk) {
@@ -36,7 +36,7 @@ scaleproc<-function (a3, proc.output = FALSE)
         h <- sqrt(s/aa) * V[, 1]
     }
     if (kk >= nn) {
-        zz <- cor(vec1(zd))
+        zz <- cor(t(vecx(zd)))
         h <- sqrt(s/aa) * eigen(zz)$vectors[, 1]
     }
     h <- abs(h)

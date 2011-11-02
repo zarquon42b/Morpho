@@ -1,6 +1,10 @@
 mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0)
 
-{	
+{
+  if (iterations == 0)
+    {
+      iterations <- 1e10
+    }
 
 	if (is.null(outlines) && is.null(surp))	
 		{stop("nothing to slide")}
@@ -141,150 +145,79 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
        # calculation for a defined max. number of iterations
                    
       	
-		if (iterations!=0)
-		{count<-1
-        	while (p1>tol && count <= iterations)
-        		{dataslide_old<-dataslide
-			mshape_old<-mshape           
-           		cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
-          		if (recursive==TRUE)    # slided Semilandmarks are used in next iteration step
-          			{dat.array<-dataslide
-				}
-          		if (m==3)
-            		{L<-CreateL(mshape)
-				}
-          		else 
-            		{L<-CreateL2D(mshape)
-				} 
-			
-			a.list<-as.list(1:n)
-                         slido<-function(j)          		
-			        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
-            			dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
-				return(dataslido)
-				}
-			a.list<-mclapply(a.list,slido)
-		
-		###projection onto surface
-			for (j in 1:n)
-				{
-				proj.back(a.list[[j]],sur.name[j])
-				a<-read.table("out_cloud.ply",skip=14,sep=" ")
-				vs<-as.matrix(a[,1:3])
-				vn<-as.matrix(a[,4:6])
-				dataslide[,,j]<-vs
-				vn.array[,,j]<-vn		
-				unlink("out_cloud.ply") #clean up
-				}
-		
-			cat("estimating sample mean shape...")          	
-			proc<-mc.procGPA(dataslide,scale=scale,CSinit=CSinit)
-			mshape<-proc$mshape
-			if (pairedLM[1]!=0)# create symmetric mean to get rid of assymetry along outline after first relaxation
-      			{Mir<-diag(c(-1,1,1))
-      			A<-mshape
-      			Amir<-mshape%*%Mir
-      			Amir[c(pairedLM),]<-Amir[c(pairedLM[,2:1]),]
-      			symproc<-rotonto(A,Amir)
-      			mshape<-(A+Amir)/2
-      			}     
-			p1_old<-p1
-			testproc<-rotonto(mshape_old,mshape)			   	
-			p1<-sum(diag(crossprod((testproc$X/c.size(testproc$X))-(testproc$Y/c.size(testproc$Y)))))
-		
-	### check for increasing convergence criterion ###		
-			if (inc.check)
-				{
-				if (p1 > p1_old)
-					{dataslide<-dataslide_old
-					cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
-					p1<-0
-					} 
-				else
-					{cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
-         	 			count<-count+1         
-					}
-				}
-			else
-				{cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
-         	 		count<-count+1         
-				}          	
-     			}
-      }
+
+  count<-1
+  while (p1>tol && count <= iterations)
+    {
+      dataslide_old<-dataslide
+      mshape_old<-mshape           
+      cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
+      if (recursive==TRUE)    # slided Semilandmarks are used in next iteration step
+        {
+          dat.array<-dataslide
+        }
+      if (m==3)
+        {
+          L<-CreateL(mshape)
+        }
+      else 
+        {
+          L<-CreateL2D(mshape)
+        } 
       
+      a.list<-as.list(1:n)
+      slido<-function(j)          		
+        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
+         dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+         return(dataslido)
+       }
+      a.list<-mclapply(a.list,slido)
       
-      if (iterations==0)   # calculation until convergence of meanshape
-      	{count<-1
-        	while (p1>tol)
-        		{dataslide_old<-dataslide
-			mshape_old<-mshape           
-           		cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
-          		if (recursive==TRUE)    # slided Semilandmarks are used in next iteration step
-          			{dat.array<-dataslide
-				}
-          		if (m==3)
-            		{L<-CreateL(mshape)
-				}
-          		else 
-            		{L<-CreateL2D(mshape)
-				} 
-			
-			a.list<-as.list(1:n)
-                        slido<-function(j)          		
-			        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
-            			dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
-				return(dataslido)
-				}
-			a.list<-mclapply(a.list,slido)
-		
-		###projection onto surface
-			for (j in 1:n)
-				{
-				proj.back(a.list[[j]],sur.name[j])
-				a<-read.table("out_cloud.ply",skip=14,sep=" ")
-				vs<-as.matrix(a[,1:3])
-				vn<-as.matrix(a[,4:6])
-				dataslide[,,j]<-vs
-				vn.array[,,j]<-vn		
-				unlink("out_cloud.ply") #clean up
-				} 
-			
-			cat("estimating sample mean shape...")          	
-			proc<-mc.procGPA(dataslide,scale=scale,CSinit=CSinit)
-			mshape<-proc$mshape
-			if (pairedLM[1]!=0)# create symmetric mean to get rid of assymetry along outline after first relaxation
-      			{Mir<-diag(c(-1,1,1))
-      			A<-mshape
-      			Amir<-mshape%*%Mir
-      			Amir[c(pairedLM),]<-Amir[c(pairedLM[,2:1]),]
-      			symproc<-rotonto(A,Amir)
-      			mshape<-(A+Amir)/2
-      			}     
-			p1_old<-p1
-			testproc<-rotonto(mshape_old,mshape)			   	
-			p1<-sum(diag(crossprod((testproc$X/c.size(testproc$X))-(testproc$Y/c.size(testproc$Y)))))
-		
-	### check for increasing convergence criterion ###		
-			if (inc.check)
-				{
-				if (p1 > p1_old)
-					{dataslide<-dataslide_old
-					cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
-					p1<-0
-					} 
-				else
-					{cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
-         	 			count<-count+1         
-					}
-				}
-			else
-				{cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
-         	 		count<-count+1         
-				}          	
-     			}
-		}
-	
+###projection onto surface
+      for (j in 1:n)
+        {
+          proj.back(a.list[[j]],sur.name[j])
+          a<-read.table("out_cloud.ply",skip=14,sep=" ")
+          vs<-as.matrix(a[,1:3])
+          vn<-as.matrix(a[,4:6])
+          dataslide[,,j]<-vs
+          vn.array[,,j]<-vn		
+          unlink("out_cloud.ply") #clean up
+        }
+      
+      cat("estimating sample mean shape...")          	
+      proc<-mc.procGPA(dataslide,scale=scale,CSinit=CSinit)
+      mshape<-proc$mshape
+      if (pairedLM[1]!=0)# create symmetric mean to get rid of assymetry along outline after first relaxation
+        {Mir<-diag(c(-1,1,1))
+         A<-mshape
+         Amir<-mshape%*%Mir
+         Amir[c(pairedLM),]<-Amir[c(pairedLM[,2:1]),]
+         symproc<-rotonto(A,Amir)
+         mshape<-(A+Amir)/2
+       }     
+      p1_old<-p1
+      testproc<-rotonto(mshape_old,mshape)			   	
+      p1<-sum(diag(crossprod((testproc$X/c.size(testproc$X))-(testproc$Y/c.size(testproc$Y)))))
+      
+### check for increasing convergence criterion ###		
+      if (inc.check)
+        {
+          if (p1 > p1_old)
+            {dataslide<-dataslide_old
+             cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
+             p1<-0
+           } 
+          else
+            {cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
+             count<-count+1         
+           }
+        }
+      else
+        {cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
+         count<-count+1         
+       }          	
+    }
+
        return(list(dataslide=dataslide,vn.array=vn.array))
 }
-
-

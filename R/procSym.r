@@ -1,4 +1,4 @@
-procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE,ignore.ref=FALSE)
+procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE)
 {     
 	A<-dataarray
       	k<-dim(A)[1]
@@ -11,14 +11,8 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
       	if (SMvector[1]==0) 
 		{ 
       		CS<-apply(A,3,c.size)
-		
-		if (CSinit==TRUE)
-          		{ 
-			for (i in 1:n)
-            			{A[,,i]<-A[,,i]/CS[i]}
-          		}
-		}
-      		
+              }
+        
       
       
       
@@ -49,7 +43,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
       else {Aall<-A}
 
 ###### proc fit of all configs ###### 
-        proc<-procGPA(Aall,pcaoutput=FALSE,scale=scale,reflect=reflect)
+        proc<-sc.procGPA(Aall,scale=scale,CSinit=CSinit)
         procrot<-proc$rotated
 	
 	dimna<-dimnames(dataarray)
@@ -64,13 +58,13 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
 
 
         
-	rho<-proc$rho
-          if (reflect==TRUE && ignore.ref==TRUE)
+	rho<-NULL
+          
+        for (i in 1:n)
           {
-          for (i in 1:n)
-            {rho[i]<-riemdist(proc$rotated[,,i],proc$mshape)}
+            rho[i]<-angle.calc(proc$rotated[,,i],proc$mshape)$rho
           }
-         
+        
         orpdata<-0
 
 ###### project into tangent space ######
@@ -136,7 +130,9 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
         	}
 	lv<-length(values)
 	PCs<-princ$rotation[,1:lv]
- 	PCscore_sym<-princ$x[,1:lv]
+ 	PCscore_sym<-as.matrix(princ$x[,1:lv])
+        rownames(PCscore_sym) <- dimnames(dataarray)[[3]]
+	rownames(tan) <- rownames(PCscore_sym)
 
 ###### create a neat variance table for Sym ###### 
         if (length(values)==1)
@@ -184,7 +180,9 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
                     }
                   lva<-length(asvalues)
                   PCs_Asym<-pcasym$rotation[,1:lva]
-                  PCscore_asym<-pcasym$x[,1:lva]
+                  PCscore_asym<-as.matrix(pcasym$x[,1:lva])
+                  rownames(PCscore_asym) <- dimnames(dataarray)[[3]]
+                  rownames(asymtan) <- rownames(PCscore_sym)
                   
 
 ###### create a neat variance table for Asym ######
