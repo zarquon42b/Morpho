@@ -1,20 +1,41 @@
-rotonto<-function(x,y,scaling=FALSE,signref=TRUE)
+rotonto<-function(x,y,scaling=FALSE,signref=TRUE,reflection=TRUE)
 { 	reflect=0
   	m<-dim(x)[2]
   	X<-apply(x,2,scale,scale=F)
   	Y<-apply(y,2,scale,scale=F)
   	XY<-crossprod(X,Y)
   	sv1<-svd(XY)
+        
 	#dd<-diag(sign(sv1$d))
 	gamm<-tcrossprod(sv1$v,sv1$u)
 	#gamm<-(sv1$v)%*%gamm
   	
   	if(sign(det(gamm))<1)
 	  {	reflect<-1
-		if (signref)
-  		 {cat("reflection involved\n")
-		 }
-	  }
+		if (signref && reflection)
+                  {cat("reflection involved\n")
+                 }
+                if (!reflection)
+                  {
+                    u <- sv1$u
+                    v <- sv1$v
+                    chk1 <- Re(prod(eigen(v)$values))
+                    chk2 <- Re(prod(eigen(u)$values))
+                    if ((chk1 < 0) && (chk2 > 0))
+                      {
+                        v[, dim(v)[2]] <- v[, dim(v)[2]] * (-1)
+                        gamm <- v %*% t(u)
+                      }
+                    if ((chk2 < 0) && (chk1 > 0))
+                      {
+                        u[, dim(u)[2]] <- u[, dim(u)[2]] * (-1)
+                        gamm <- v %*% t(u)
+                      }
+                  }
+              }
+                
+                  
+	  
   	trans<-x[1,]-X[1,]
   	transy<-y[1,]-Y[1,]
   	#yrot<-Y%*%gamm

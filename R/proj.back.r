@@ -1,4 +1,4 @@
-proj.back<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE)
+proj.back<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.stdout=FALSE)
 {	
 	smoothopt<-NULL
 	if (!smooth)
@@ -15,7 +15,7 @@ proj.back<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE)
 		}
 	
 	#command<-paste("trimesh_project"," ",dataname," ",surface," ",outname,sep="")	
-	system(command)
+	system(command,ignore.stdout=ignore.stdout)
 	unlink(paste(dataname,".obj",sep="")) #clean up
 	
 }

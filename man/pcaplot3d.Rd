@@ -1,6 +1,6 @@
-\name{pcaplot}
+\name{pcaplot3d}
 \Rdversion{1.1}
-\alias{pcaplot}
+\alias{pcaplot3d}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 visualization of shape change
@@ -9,19 +9,17 @@ visualization of shape change
   visualization of the shape changes explained by Principal components
   }
 \usage{
-pcaplot(refshape, PCs, Scores, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1)
+pcaplot3d.nosymproc(x, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1)
+pcaplot3d.symproc(x, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1,sym=TRUE)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{refshape}{a k x m matrix of a reference configuration - e.g. the meanshape 
+  \item{x}{a object derived from the function mc.procSym or procSym
+    calculated on 3D coordinates.
 %%     ~~Describe \code{refshape} here~~
 }
-  \item{PCs}{a matrix containing the Principal Components (e.g. the $PCs output of the procSym function).
-%%     ~~Describe \code{PCs} here~~
-}
-  \item{Scores}{a matrix containing the PC scores (e.g. the $PCscores output of the procSym function).
-%%     ~~Describe \code{Scores} here~~
-}
+  
   \item{pcshow}{a vector containing the PCscores to be visualized.
 %%     ~~Describe \code{pcshow} here~~
 }

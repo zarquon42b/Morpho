@@ -1,15 +1,21 @@
-ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE)
+ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE)
 { 
 
   options <- NULL
+  opt <- FALSE
   target <- "target.ply"
   if (inbound == TRUE)
-    {
+    { opt <- TRUE
       options <- "--inbound" # set option to search along negative nromals first
     }
   if (strict == TRUE)
-    {options <- paste(options,"--strict") #mark vertices that are not hit along rays
+    {
+      opt <- TRUE
+      options <- paste(options,"--strict") #mark vertices that are not hit along rays
    }
+  if (opt)
+    { options <- paste(" ",options,sep="")
+    }
   if (is.null(outname))
     {outname<-"project.mesh.ply"
    }
@@ -25,14 +31,17 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
   
   if (is.null(mesh1$it))
     {
-      system(paste("rayproject reference.ply ",target," -cloud ",options," -t ",tol," -o ",outname,sep=""))
+      cmd <- paste("rayproject reference.ply ",target," -cloud",options," -t ",tol," -o ",outname,sep="")
+      system(paste("rayproject reference.ply ",target," -cloud",options," -t ",tol," -o ",outname,sep=""),ignore.stdout=ignore.stdout)
     }
   else
-    {
-      system(paste("rayproject reference.ply ",target," ",options," -t ",tol," -o ",outname,sep=""))
+    { cmd <- paste("rayproject reference.ply ",target,options," -t ",tol," -o ",outname,sep="")
+      system(paste("rayproject reference.ply ",target,options," -t ",tol," -o ",outname,sep=""),ignore.stdout=ignore.stdout)
     }
   
-  
+
+ # print (cmd)
+
   outmesh<-ply2mesh(outname,readnormals=TRUE)
   if (clean)
     {unlink(c("reference.ply","target.ply"))

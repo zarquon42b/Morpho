@@ -4,17 +4,18 @@
 \alias{Morpho}
 \docType{package}
 \title{
-loads of stuff relating to Geometric Morphometrics
+loads of stuff relating to Geometric Morphometrics and shape analysis
 }
 \description{
-A toolbox for Morphometric calculations. Including sliding operations for Semilandmarks and Warping of .Obj meshs.
+A toolbox for Morphometric calculations. Including sliding operations
+for Semilandmarks, importing, exporting and manipulating 3D-surface meshes
 }
 \details{
 \tabular{ll}{
 Package: \tab Morpho\cr
 Type: \tab Package\cr
-Version: \tab 0.9\cr
-Date: \tab 2011-03-15\cr
+Version: \tab 0.11\cr
+Date: \tab 2011-08-19\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }

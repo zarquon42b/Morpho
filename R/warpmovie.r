@@ -7,8 +7,8 @@ warpmovie<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovi
 			setwd(folder)
 			}
 		}
-	
-	
+	open3d()
+                                        #	points3d(t(x$vb[1:3,]),col="white",cex=0)
 	#print(folder)
 	for (i in 0:n)
 		{mesh<-x
@@ -34,5 +34,6 @@ warpmovie<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovi
 			rgl.pop("shapes",id=a)	
 			}
 		}
+        rgl.close()
 	setwd(wdold)
 }
