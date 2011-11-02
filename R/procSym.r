@@ -1,4 +1,4 @@
-procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL)
+procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
 {     
 	A<-dataarray
       	k<-dim(A)[1]
@@ -52,7 +52,14 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
             for (i in 1:dim(Aall)[3])
               {
                 tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE)
-                tmp[,,i] <- apply(tmp[,,i],2,scale,scale=F) ## center shapes
+                if (center.part)
+                {
+                  tmp[,,i] <- apply(tmp[,,i],2,scale,scale=F) ## center shapes
+                }
+              else
+                {
+                  orp <- FALSE
+               }
               }
             proc$rotated <- tmp
             proc$mshape <- apply(tmp,1:2,mean) ##calc new meanshape
