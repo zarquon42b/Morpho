@@ -88,7 +88,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
           {
             rho[i]<-angle.calc(proc$rotated[,,i],proc$mshape)$rho
           }
-        rmsrho <- sqrt(sum(rho^2))
+        rmsrho <- sqrt(mean(rho^2))
         orpdata<-0
 
 ###### project into tangent space ######

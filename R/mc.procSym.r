@@ -85,7 +85,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 	rho<-NULL
         a.list<-as.list(1:n)
         rho<-unlist(mclapply(a.list,rhofun))
-        rmsrho <- sqrt(sum(rho^2))
+        rmsrho <- sqrt(mean(rho^2))
         orpdata<-NULL
 
 ###### project into tangent space ######
