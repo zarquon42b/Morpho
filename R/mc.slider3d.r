@@ -1,4 +1,4 @@
-mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0)
+mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL)
 
 {
   if (iterations == 0)
@@ -167,12 +167,13 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
       
       a.list<-as.list(1:n)
       slido<-function(j)          		
-        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
+        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights)
+        
          dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
          return(dataslido)
        }
       a.list<-mclapply(a.list,slido)
-      
+
 ###projection onto surface
       for (j in 1:n)
         {

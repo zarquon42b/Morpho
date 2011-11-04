@@ -1,4 +1,4 @@
-calcGamma<-function(Gamma0,Lsubk3,U,dims)
+calcGamma<-function(Gamma0,Lsubk3,U,dims,weights=NULL)
        {
 	ULU<-crossprod(U,(Lsubk3%*%U))
 	dU<-dim(ULU)[1]
@@ -10,7 +10,11 @@ calcGamma<-function(Gamma0,Lsubk3,U,dims)
 		{cat("calcGamma: singular matrix: general inverse will be used.\n")
 		B<-mpinv(ULU)		
 		}
-	Gamma1<-Gamma0-U%*%B%*%crossprod(U,(Lsubk3%*%Gamma0))
+        if (is.null(weights))
+          {
+            weights <- 1
+          }
+	Gamma1<-Gamma0-weights*(U%*%B%*%crossprod(U,(Lsubk3%*%Gamma0)))
         Gamatrix<-matrix(Gamma1,length(Gamma1)/dims,dims)
         return(list(Gamma1=Gamma1,Gamatrix=Gamatrix))
         }
