@@ -1,13 +1,15 @@
-subroutine spinimage(SO,VB,p,n,dimvb)
+subroutine spinimage(Sp,ij,i,ab,imax,jmax,bs)
   implicit none
-  integer :: i,dimvb
-  real*8 :: SO(dimvb,2),VB(3,dimvb),p(3),x(3),n(3)
+  integer :: ij(i,2),imax,jmax,k,i
+  real*8 :: Sp(imax,jmax),ab(i,2),bs
 
-do i = 1,dimvb
-   x = VB(1:3,i)
-   x = x - p
-   SO(i,1) = sqrt(sum(x**2)-dot_product(n,x)**2)
-   SO(i,2) = dot_product(n,x)
+do k = 1,i
+   Sp(ij(k,1),ij(k,2)+1) = Sp(ij(k,1),ij(k,2)+1)+ab(k,1)*(bs-ab(k,2))
+   Sp(ij(k,1),ij(k,2)) = Sp(ij(k,1),ij(k,2))+(bs-ab(k,1))*(bs-ab(k,2))        
+   Sp(ij(k,1)+1,ij(k,2)+1) = Sp(ij(k,1)+1,ij(k,2)+1)+ab(k,1)*ab(k,2)
+   Sp(ij(k,1)+1,ij(k,2)) = Sp(ij(k,1)+1,ij(k,2))+ab(k,2)*(bs-ab(k,1))
+   
+  
 
 end do
 end subroutine spinimage
