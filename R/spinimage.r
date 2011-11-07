@@ -1,4 +1,4 @@
-spinimage <- function(mesh,O,bs,tol=NULL,rho=pi/2,iwidth=100)
+spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
   {
     ### tol=max tolerance for beta
     angcomp <- NULL
@@ -13,7 +13,7 @@ spinimage <- function(mesh,O,bs,tol=NULL,rho=pi/2,iwidth=100)
             out <- angle.calc(normals[,i],comp)$rho
             return(out)
           }
-        angcomp <- unlist(lapply(as.list(1:dimvb),angtest))
+        angcomp <- unlist(mclapply(as.list(1:dimvb),angtest))
         rm <- which(abs(angcomp) < rho)
         VB <- VB[,rm]
       }
@@ -30,44 +30,45 @@ spinimage <- function(mesh,O,bs,tol=NULL,rho=pi/2,iwidth=100)
     storage.mode(n) <- "double"
 ### create spinmap
     S0 <- .Fortran("spinmap",S0,VB,p,n,dimvb)[[1]]
+    #print(dim(S0))
 
 ### create spinimage
-    if (is.null(tol))
-      {tol <- mdist+1
+    if (is.null(resB))
+      {
+        W <- mdist
+        resB <- ceiling((2*W/bs)+1)        
      }
     else
       {
-        bsmall <- which(abs(S0[,2]) <= tol)
+        W <- ((resB-2)*bs)/2
+       print(W)
+        bsmall <- which(abs(S0[,2]) <= W)
         S0 <- S0[bsmall,]
       }
-    bmax <- ceiling(2*tol)
-    amax <- ceiling(mdist)
-    imax <- iwidth
-    #imax <- (2*bmax/bs)+1
-    jmax <- imax
-    #jmax <- (amax/bs)+1
-    i <- floor((bmax-S0[,2])/bs)+1
-    j <- floor(S0[,1]/bs)+1
-   
-    ij <- cbind(i,j)
-     cleanij <- unique(c(which(i > iwidth),which(j > iwidth)))
-    if (length(cleanij > 0))
-      {ij <- ij[-cleanij,]
-       S0 <- S0[-cleanij,]
-     }
-       ij <- ij[,]
-   
-   
+    if (is.null(resA))
+      {
+        resA <- ceiling((mdist/bs)+1)
+      }
+    amax <- (mdist)
+    imax <- resB
     
-    a <- S0[,1]-ij[,1]*bs
-    b <- S0[,2]+ij[,2]*bs
-                                        #bmax/2-ij[,2]*bs
-   
+    #imax <- (2*bmax/bs)+1
+    jmax <- resA
+    #jmax <- (amax/bs)+1
+    i <- floor((W-S0[,2])/bs)+1
+    print(max(i))
+    j <- floor(S0[,1]/bs)+1
+    jclean <- which(j < resA)
+    ij <- cbind(i,j)   
+    ij <- ij[jclean,]
+    a <- S0[jclean,1]-ij[,1]*bs
+    b <- S0[jclean,2]+ij[,2]*bs                                      #bmax/2-ij[,2]*bs
     ab <- cbind(a,b)
+    
     #ab <- ab[,]
     Sp <- matrix(0,imax,jmax)
     storage.mode(ij) <- "integer"
-    storage.mode(imax) <- "integer"
+    storage.mode(imax) <- "integer"   
     storage.mode(jmax) <- "integer"
     storage.mode(Sp) <- "double"
     storage.mode(bs) <- "double"
