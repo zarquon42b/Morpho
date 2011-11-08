@@ -6,21 +6,25 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
     normals <- mesh$normals[1:3,]
     dimvb <- dim(VB)[2]
     comp <- normals[1:3,O]
+    reso <- meshres(mesh)
+    bs <- bs*reso
+### check angles
     if (!is.null(rho))
       {
-        angtest <- function(i)
-          {
-            out <- angle.calc(normals[,i],comp)$rho
-            return(out)
-          }
-        angcomp <- unlist(mclapply(as.list(1:dimvb),angtest))
+        angcomp <- rep(0,dimvb)
+        mat <- t(mesh$normals[1:3,])
+        storage.mode(angcomp) <- "double"
+        storage.mode(mat) <- "double"
+        dimat <- dim(mat)[1]
+        dimat2 <- dim(mat)[2]
+        angcomp <- .Fortran("angcomp",angcomp,comp,mat,dimat,dimat2)[[1]]
         rm <- which(abs(angcomp) < rho)
         VB <- VB[,rm]
       }
+### end check angles  
     
     bbox <- expand.grid(range(VB))
-    mdist <- max(dist(bbox))
-    
+    mdist <- max(dist(bbox))    
     dimvb <- dim(VB)[2]
     p <- mesh$vb[1:3,O]
     n <- mesh$normals[1:3,O]
@@ -30,8 +34,7 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
     storage.mode(n) <- "double"
 ### create spinmap
     S0 <- .Fortran("spinmap",S0,VB,p,n,dimvb)[[1]]
-    #print(dim(S0))
-
+    
 ### create spinimage
     if (is.null(resB))
       {
@@ -41,7 +44,6 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
     else
       {
         W <- ((resB-2)*bs)/2
-       print(W)
         bsmall <- which(abs(S0[,2]) <= W)
         S0 <- S0[bsmall,]
       }
@@ -49,14 +51,10 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
       {
         resA <- ceiling((mdist/bs)+1)
       }
-    amax <- (mdist)
-    imax <- resB
-    
-    #imax <- (2*bmax/bs)+1
+    amax <- mdist
+    imax <- resB  
     jmax <- resA
-    #jmax <- (amax/bs)+1
     i <- floor((W-S0[,2])/bs)+1
-    print(max(i))
     j <- floor(S0[,1]/bs)+1
     jclean <- which(j < resA)
     ij <- cbind(i,j)   
@@ -73,10 +71,10 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
     storage.mode(Sp) <- "double"
     storage.mode(bs) <- "double"
     storage.mode(ab) <- "double"    
-    print(dim(ab))
-    print(range(ij))
-    print(dim(ij))
-    print(dim(Sp))
+   # print(dim(ab))
+   # print(range(ij))
+   # print(dim(ij))
+   # print(dim(Sp))
     out <- NULL
     out <- .Fortran("spinimage",Sp,ij,dim(ij)[1],ab,imax,jmax,bs)[[1]]
     return(list(Sp=out,S0=S0,rm=rm,ij=ij))

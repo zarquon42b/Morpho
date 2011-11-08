@@ -1,8 +1,10 @@
  
-    # ----- Define a function for plotting a matrix ----- #
 plotspin <- function(x, ...){
+  x <- abs(x$Sp)/max(abs(x$Sp))
      min <- min(x)
      max <- max(x)
+  lim <- c(1,max(dim(x)))
+  print(lim)
      yLabels <- rownames(x)
      xLabels <- colnames(x)
      title <-c()
@@ -59,7 +61,7 @@ axis(BELOW<-1, at=1:length(xLabels), labels=xLabels, cex.axis=0.7)
  par(mar = c(3,2.5,2.5,2))
  image(1, ColorLevels,
       matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),
-      col=ColorRamp,useRaster=T,
+      col=ColorRamp,useRaster=T,xlim=lim,ylim=lim,
       xlab="",ylab="",
       xaxt="n")
 
