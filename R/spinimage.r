@@ -6,8 +6,11 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
     normals <- mesh$normals[1:3,]
     dimvb <- dim(VB)[2]
     comp <- normals[1:3,O]
-    reso <- meshres(mesh)
-    bs <- bs*reso
+    if (!is.null(mesh$it))
+      {
+        reso <- meshres(mesh)
+        bs <- bs*reso
+      }
 ### check angles
     if (!is.null(rho))
       {
@@ -43,26 +46,30 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
      }
     else
       {
-        W <- ((resB-2)*bs)/2
-        bsmall <- which(abs(S0[,2]) <= W)
+        W <-((resB-2)*bs)
+        bsmall <- which(abs(S0[,2]) <= W/2)
         S0 <- S0[bsmall,]
       }
     if (is.null(resA))
       {
         resA <- ceiling((mdist/bs)+1)
       }
+    S0[,2] <- W/2-S0[,2]
     amax <- mdist
     imax <- resB  
     jmax <- resA
-    i <- floor((W-S0[,2])/bs)+1
-    j <- floor(S0[,1]/bs)+1
-    jclean <- which(j < resA)
+    i <- floor((S0[,2])/bs)
+    j <- floor(S0[,1]/bs)
+    jclean <- which(j < (resA-1))
     ij <- cbind(i,j)   
     ij <- ij[jclean,]
-    a <- S0[jclean,1]-ij[,1]*bs
-    b <- S0[jclean,2]+ij[,2]*bs                                      #bmax/2-ij[,2]*bs
+    a <- S0[jclean,2]-(ij[,1])*bs
+    b <- S0[jclean,1]-(ij[,2])*bs                                      #bmax/2-ij[,2]*bs
     ab <- cbind(a,b)
-    
+   # print(range(ab[,1]))
+   #     print(range(ab[,2]))
+
+    ij <- ij+1
     #ab <- ab[,]
     Sp <- matrix(0,imax,jmax)
     storage.mode(ij) <- "integer"
@@ -77,5 +84,5 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
    # print(dim(Sp))
     out <- NULL
     out <- .Fortran("spinimage",Sp,ij,dim(ij)[1],ab,imax,jmax,bs)[[1]]
-    return(list(Sp=out,S0=S0,rm=rm,ij=ij))
+    return(list(Sp=out,S0=S0,rm=rm,ij=ij,ab=ab))
   }

@@ -1,10 +1,10 @@
  
-plotspin <- function(x, ...){
-  x <- abs(x$Sp)/max(abs(x$Sp))
+plotspin <- function(x,ramp=TRUE,...){
+ #plot x <- abs(x$Sp)/max(abs(x$Sp))
      min <- min(x)
      max <- max(x)
-  lim <- c(1,max(dim(x)))
-  print(lim)
+ # lim <- c(1,max(dim(x)))
+ # print(lim)
      yLabels <- rownames(x)
      xLabels <- colnames(x)
      title <-c()
@@ -32,9 +32,10 @@ if( is.null(xLabels) ){
 if( is.null(yLabels) ){
    yLabels <- c(1:nrow(x))
 }
-
-layout(matrix(data=c(1,2), nrow=1, ncol=2), widths=c(4,1), heights=c(1,1))
-
+if (ramp)
+  {
+    layout(matrix(data=c(1,2), nrow=1, ncol=2), widths=c(4,1), heights=c(1,1))
+  }
  # Red and green range from 0 to 1 while Blue ranges from 1 to 0
  ColorRamp <- gray(seq(1,0,length=256))  # Red
                  #  seq(0,0,length=256),  # Green
@@ -59,13 +60,13 @@ axis(BELOW<-1, at=1:length(xLabels), labels=xLabels, cex.axis=0.7)
 
  # Color Scale
  par(mar = c(3,2.5,2.5,2))
- image(1, ColorLevels,
-      matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),
-      col=ColorRamp,useRaster=T,xlim=lim,ylim=lim,
-      xlab="",ylab="",
-      xaxt="n")
+     if (ramp)
+       {
+         image(1, ColorLevels, matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),      col=ColorRamp,useRaster=T, xlab="",ylab="", xaxt="n")
+       #  layout(1)
+      }
 
- layout(1)
+# 
 }
 # ----- END plot function ----- #
 
