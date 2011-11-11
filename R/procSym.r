@@ -45,7 +45,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
 ###### proc fit of all configs ######
       	cat("performing Procrustes Fit ")
         
-        if (!is.null(use.lm)) ### only use subset for rotation and scaling
+        if (!is.null(use.lm)) ### only use subset for rotation and scale
           {
             proc <- sc.procGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit)
             tmp <- Aall

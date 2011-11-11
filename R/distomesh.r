@@ -62,7 +62,7 @@ distomesh<-function(dataarray,meshlist,landm,margin,reflect=TRUE,tol=5)
           for (i in 1:n)
           { cat(i)
           #Procrustes Fit ohne Skalierung der zu vergleichenden Matrizen
-          proc.a<-rotonto(landm[[j]],dataarray[,,i],scaling=F,signref=F)
+          proc.a<-rotonto(landm[[j]],dataarray[,,i],scale=F,signref=F)
           fit.list[[j]][,,i]<-proc.a$yrot
           land.list[[j]]<-landm[[j]]
           testa<-proc.a$X

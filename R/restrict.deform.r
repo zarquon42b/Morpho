@@ -1,9 +1,16 @@
-restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE)
+restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE,nPC=NULL)
   {
     dims <- dim(x)
     mshape <- model$mshape
     PCs <- model$PCs
-    pc.used <-which(model$Variance[,3] < maxVar)
+    if (is.null(nPC))
+      {
+        pc.used <-which(model$Variance[,3] < maxVar)
+      }
+    else
+      {
+        pc.used <- 1:nPC
+      }
     sds <-model$Variance[pc.used,1]
     prob <- TRUE
     sdl <- length(pc.used)
@@ -29,6 +36,7 @@ restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE)
             signum <- sign(xscore[i])
             if (abs(xscore[i]) > (sd*sq.sds[i]))
               {
+                #print(i)
                 prob=FALSE
                 xscore[i] <- sd*sq.sds[i]*signum
               }
@@ -39,8 +47,14 @@ restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE)
     return(list(restr.x=restr.x,prob=prob))
   }
 
-warp.restrict <- function(x,which,tar.lm,model,tol=1e-3,sd=3,maxVar=95,scale=F,recurse=T,uniform=TRUE,iterations=NULL)
+warp.restrict <- function(x,which,tar.lm,model,tol=1e-5,sd=3,maxVar=95,scale=F,recurse=T,uniform=TRUE,iterations=NULL,nPC=NULL,stop.prob=TRUE)
   {
+    if (is.null(nPC))
+      {
+        pc.used <-which(model$Variance[,3] < maxVar)
+        print(paste("First ",max(pc.used)," PCs used"))
+      }
+      
     x.lm <- x[which,]
     sd.i <- sd    
     tmp <- x
@@ -54,22 +68,26 @@ warp.restrict <- function(x,which,tar.lm,model,tol=1e-3,sd=3,maxVar=95,scale=F,r
         tmp.old <- tmp     
         tmp <- tps3d(tmp,tmp.lm,tar.lm)
         tmp <- tmp/c.size(tmp)
-        tmp <- rotonto(model$mshape,tmp,scaling=F)$yrot
-        tmp.res <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale)
+        tmp <- rotonto(model$mshape,tmp,scale=T)$yrot
+        tmp.res <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC)
         tmp <-tmp.res$restr.x
-        if (tmp.res$prob)
-          {
-            #if (!sd.i >= sd)
-            p <- 0
-          }
+        
         tmp <-rotonmat(tmp,tmp[which,],tar.lm,scale=T)
         
         if (recurse)
           {
             tmp.lm <- tmp[which,]
           }
-        p <- angle.calc(tmp,tmp.old)$rho
-                                        # print(p)
+        if (tmp.res$prob && stop.prob)
+          {
+            cat(paste("probable shape within the boundaries of",sd, "sd reached\n"))
+            #if (!sd.i >= sd)
+            p <- 0
+          }
+        else
+          {
+            p <- angle.calc(tmp,tmp.old)$rho
+          }                         # print(p)
         if (uniform)
           {
             if (p > p.old)
@@ -84,9 +102,16 @@ warp.restrict <- function(x,which,tar.lm,model,tol=1e-3,sd=3,maxVar=95,scale=F,r
               p <- 0
             }
       }
-    
+    if (tmp.res$prob)
+      { cat(paste("a probable shape was reached after",count,"iterations\n"))
+        
+      }
+    else
+      { cat("progress terminated without reaching probability\n")
+      }
+    tmp.res <- rotonmat(tmp.res$restr.x,tmp.res$restr.x[which,],tar.lm,scale=T)
     clean.out <- tmp
     clean.out[which,] <-tar.lm 
     
-    return(list(raw=tmp,clean=clean.out))
+    return(list(raw=tmp,clean=clean.out,tmp=tmp.res))
   }

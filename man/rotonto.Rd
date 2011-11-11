@@ -1,13 +1,20 @@
 \name{rotonto}
 \alias{rotonto}
+\alias{rotreverse}
+
+
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{rotates and translates one matrix onto an other
+\title{rotates, translates and scales one matrix onto an other using
+  Procrustes fitting
 }
 \description{
-rotate a matrix onto an other without loosing information about the location of the targetmatrix
+rotate a matrix onto an other without loosing information about the
+location of the targetmatrix
+and reverse this transformations using rotreverse
 }
 \usage{
-rotonto(x, y, scaling = FALSE, signref = TRUE)
+rotonto(x, y, scale = FALSE, signref = TRUE)
+rotreverse(mat,rot)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,12 +24,18 @@ rotonto(x, y, scaling = FALSE, signref = TRUE)
   \item{y}{k x m matrix which will be rotated (reference matrix)
 %%     ~~Describe \code{y} here~~
 }
-  \item{scaling}{logical: scale matrix to minimize sums of squares
-%%     ~~Describe \code{scaling} here~~
+  \item{scale}{logical: scale matrix to minimize sums of squares
+%%     ~~Describe \code{scale} here~~
 }
   \item{signref}{logical: report if reflections were involved in the rotation
 %%     ~~Describe \code{signref} here~~
+} \item{mat}{matrix on which the reverse transformations have to be applied
+%%     ~~Describe \code{signref} here~~
 }
+ \item{rot}{an object resulting from the former application of rotonto
+%%     ~~Describe \code{signref} here~~
+}
+
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -55,36 +68,15 @@ rotonto(x, y, scaling = FALSE, signref = TRUE)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+library(shapes)
+lims <- c(min(gorf.dat[,,1:2]),max(gorf.dat[,,1:2]))
+rot <- rotonto(gorf.dat[,,1],gorf.dat[,,2]) ### rotate the second onto
+the first config
+plot(rot$yrot,pch=19,xlim=lims,ylim=lims) ## view result
+points(gorf.dat [,,2],pch=19,col=2) ## view original config
+rev1 <- rotreverse(rot$yrot,rot)
+points(rev1,cex=2) ### show inversion by larger circles around original configuration
 
-function (x, y, scaling = FALSE, signref = T) 
-{
-    m <- dim(x)[2]
-    X <- apply(x, 2, scale, scale = F)
-    Y <- apply(y, 2, scale, scale = F)
-    XY <- crossprod(X, Y)
-    sv1 <- svd(XY)
-    gamm <- (sv1$v) \%*\% t(sv1$u)
-    if (sign(det(gamm)) < 1 && signref == T) {
-        cat("reflection involved")
-    }
-    trans <- x[1, ] - X[1, ]
-    transy <- y[1, ] - Y[1, ]
-    sig <- sign(det(XY))
-    del <- sv1$d
-    ctrace <- function(MAT) sum(diag(crossprod(MAT)))
-    bet <- sum(del)/ctrace(Y)
-    if (scaling == TRUE) {
-        yrot <- bet * Y \%*\% gamm
-    }
-    else {
-        yrot <- Y \%*\% gamm
-    }
-    yrot <- t(apply(yrot, 1, function(x) {
-        x + trans
-    }))
-    return(list(yrot = yrot, Y = Y, X = X, trans = trans, transy = transy, 
-        gamm = gamm))
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

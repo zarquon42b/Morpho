@@ -1,4 +1,4 @@
-rotonto<-function(x,y,scaling=FALSE,signref=TRUE,reflection=TRUE)
+rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE)
 { 	reflect=0
   	m<-dim(x)[2]
   	X<-apply(x,2,scale,scale=F)
@@ -43,16 +43,31 @@ rotonto<-function(x,y,scaling=FALSE,signref=TRUE,reflection=TRUE)
   	del<-sv1$d
    #del[m]<-sig*abs(del[m])
   	ctrace <- function(MAT) sum(diag(crossprod(MAT)))
-  	bet<-sum(del)/ctrace(Y)
   
-  	if (scaling == TRUE)
-    		{yrot<-bet*Y%*%gamm
+  
+  	if (scale == TRUE)
+    		{
+                  bet<-sum(del)/ctrace(Y)
+                  yrot<-bet*Y%*%gamm
 		}
   	else
-    		{yrot<-Y%*%gamm
+    		{
+                  bet <- 1
+                  yrot<-Y%*%gamm
 		}
 	Y<-yrot  	
 	yrot<-t(apply(yrot,1,function(x){x+trans}))
   
   	return(list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect))
 }
+rotreverse <- function(mat,rot)
+  {
+    transfun <- function(x,trans)
+      {
+        x <- x+trans
+      }
+    
+    out <- t(apply(mat,1,transfun,-rot$trans))
+    out <- t(apply((out%*%t(rot$gamm))*1/rot$bet,1,transfun,rot$transy))
+    return(out)
+  }

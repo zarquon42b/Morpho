@@ -79,7 +79,7 @@ for ( i in 1:n)
 		arr.list<-mclapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F);return(list(x[[1]],x[[2]]))})
 		
 		
-	### scaling step ####
+	### scale step ####
 		
 		for( i in 1:n)
 			{x[,,i]<-arr.list[[i]][[1]]

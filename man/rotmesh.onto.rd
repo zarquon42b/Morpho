@@ -34,7 +34,7 @@ rotmesh.onto(obj, refmat, tarmat,adnormals = TRUE, scale = FALSE)
 \value{ 
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-    \item{obj }{rotated mesh}
+    \item{mesh }{rotated mesh}
     \item{yrot }{rotated refmat}
 %% ...
 }
