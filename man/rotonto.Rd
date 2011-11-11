@@ -70,8 +70,7 @@ rotreverse(mat,rot)
 \examples{
 library(shapes)
 lims <- c(min(gorf.dat[,,1:2]),max(gorf.dat[,,1:2]))
-rot <- rotonto(gorf.dat[,,1],gorf.dat[,,2]) ### rotate the second onto
-the first config
+rot <- rotonto(gorf.dat[,,1],gorf.dat[,,2]) ### rotate the second onto the first config
 plot(rot$yrot,pch=19,xlim=lims,ylim=lims) ## view result
 points(gorf.dat [,,2],pch=19,col=2) ## view original config
 rev1 <- rotreverse(rot$yrot,rot)
