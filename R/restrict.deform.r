@@ -19,11 +19,15 @@ restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE,nPC=NULL)
 
     if (scale)
       {
-        Mt <- qchisq((pnorm(sd)),df=sdl)
-        prob <- sum(xscore^2/sds)
-        if (prob > Mt )
+        Mt <- qchisq(1-2*pnorm(sd,lower.tail=F),df=sdl)
+        probs <- sum(xscore^2/sds)
+      #  print(Mt)
+      #  print(probs)
+        if (probs > Mt )
         {
-          sca <- Mt/prob
+          prob=FALSE
+          sca <- Mt/probs
+          
           xscore <- xscore*sqrt(sca)
         }
       }
