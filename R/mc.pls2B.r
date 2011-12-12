@@ -1,7 +1,5 @@
 mc.pls2B <- function(y,x,tol=1e-12,rounds=0)
   {
-    require(foreach)
-    require(doMC)
     registerDoMC()
     
     

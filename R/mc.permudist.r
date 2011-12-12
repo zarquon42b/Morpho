@@ -1,7 +1,5 @@
 mc.permudist <- function(data,groups,rounds=1000,which=1:2)
   {
-    require(foreach)
-    require(doMC)
     registerDoMC()
 ### configure grouping ####
     N <- data
