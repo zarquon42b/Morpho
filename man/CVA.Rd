@@ -95,8 +95,8 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste(
   # add 80% ellipses
   require(car)
   for(ii in 1:length(levels(facto))){
-         data.ellipse(cva.1$CVscores[facto==levels(facto)[ii],1],cva.1$CVscores[facto==levels(facto)[ii],2],
-                    add=T,levels=.80, col=c(1:7)[ii])}
+         dataEllipse(cva.1$CVscores[facto==levels(facto)[ii],1],cva.1$CVscores[facto==levels(facto)[ii],2],
+                    add=TRUE,levels=.80, col=c(1:7)[ii])}
 
   # histogram per group
   require(lattice)
