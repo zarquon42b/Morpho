@@ -1,5 +1,5 @@
-procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
-{     
+procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
+{	t0<-Sys.time()     
 	A<-dataarray
       	k<-dim(A)[1]
       	m<-dim(A)[2]     
@@ -8,17 +8,20 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
       	dataslide<-NULL
       	CS<-NULL
       
-      	if (SMvector[1]==0) 
+      	 if (is.null(SMvector))   
 		{ 
       		CS<-apply(A,3,c.size)
               }
         
       
       
-      
-      if (SMvector[1]!=0)           # includes sliding of Semilandmarks
-      		{ 	
-		dataslide<-Semislide(A, SMvector=SMvector,outlines=outlines,tol=tol,deselect=deselect,recursive=recursive,iterations=iterations,pcaoutput=FALSE,pairedLM=pairedLM,initproc=initproc)
+       if (!is.null(SMvector))           # includes sliding of Semilandmarks
+          {
+            if (is.null(outlines))
+              {stop("please specify outlines")
+             } 	
+              
+            dataslide<-Semislide(A, SMvector=SMvector,outlines=outlines,tol=tol,deselect=deselect,recursive=recursive,iterations=iterations,pcaoutput=FALSE,pairedLM=pairedLM,initproc=initproc)
         	A<-dataslide
         
         
@@ -31,7 +34,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
           		}
  	       }
 ###### create mirrored configs ######
-        if (pairedLM[1]!=0)
+       if (!is.null(pairedLM))
         {
             Amir<-A
             for (i in 1:n)
@@ -71,7 +74,8 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
         
         procrot<-proc$rotated
         dimna<-dimnames(dataarray)
-	if (pairedLM[1]!=0)
+        if (!is.null(pairedLM))
+
 		{			
 			dimna[[m]]<-c(dimna[[m]],dimna[[m]])
 		}
@@ -79,8 +83,6 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
         	dimnames(proc$rotated)<-dimna
        	
  	meanshape<-proc$mshape
-
-
         
 	rho<-NULL
           
@@ -103,7 +105,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
 		
       
 ###### calculate Symmetric means ######
-	if (pairedLM[1]!=0) 
+        if (!is.null(pairedLM)) 
       		{
  	### generate symmetrized mean for each individual between original and mirrored configuration ###      		
 		Symarray<-A
@@ -141,7 +143,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
       	dimnames(Symarray)<-dimnames(dataarray)
       
 ###### PCA Sym Component ###### 
-       		princ<-prcomp(tan)
+        princ<-prcomp(tan)
 	values<-0
       	eigv<-princ$sdev^2
 	
@@ -182,7 +184,7 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
 ###### PCA Asym Component ###### 
       	asvalues<-0
       	PCs_Asym<-0
-      	if (pairedLM[1]!=0) 
+        if (!is.null(pairedLM)) 
       		{
                   asymmean<-apply(Asymm,c(1,2),mean)
                   asymtan<-matrix(NA,n,m*k)
@@ -232,8 +234,11 @@ procSym<-function(dataarray,pairedLM=0,SMvector=0,outlines=0,orp=TRUE,tol=1e-05,
         		}
 		} 
 ###### output ######
+        t1<-Sys.time()
+	cat(paste("Operation completed in",t1-t0,"secs\n"))
+        
 	
-	if (pairedLM[1]!=0)
+	if (!is.null(pairedLM))
       	{out <- (list(size=CS,rotated=proc$rotated[,,1:n],rotmir=proc$rotated[,,(n+1):(2*n)],Sym=Symarray,Asym=Asymm,asymmean=asymmean,mshape=(meanshape+asymmean),
 	symmean=meanshape,Symtan=tan,Asymtan=asymtan,PCsym=PCs,PCscore_sym=PCscore_sym,eigensym=values,SymVar=SymVar,PCasym=PCs_Asym,PCscore_asym=PCscore_asym,eigenasym=asvalues,AsymVar=AsymVar,orpdata=orpdata[,,1:n],orpmir=orpdata[,,(n+1):(2*n)],rmsrho=rmsrho,rho=rho,dataslide= dataslide))
          class(out) <- "symproc"
