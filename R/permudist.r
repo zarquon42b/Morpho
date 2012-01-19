@@ -1,6 +1,14 @@
-mc.permudist <- function(data,groups,rounds=1000,which=1:2)
+mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2)
   {
-    registerDoMC()
+    if(.Platform$OS.type == "windows")
+     {
+      registerDoParallel()
+    }
+    else
+      {
+        registerDoMC()
+      }
+    
 ### configure grouping ####
     N <- data
     if (is.vector(N))

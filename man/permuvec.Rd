@@ -1,5 +1,5 @@
-\name{mc.permuvec}
-\alias{mc.permuvec}
+\name{permuvec}
+\alias{permuvec}
 \title{ perfom permutation testing on angles and distances between
   subgroups of two major groups.
 }
@@ -10,7 +10,7 @@
  between sex related differences in two populations differ significantly.
 }
 \usage{
-mc.permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol = 1e-10)
+permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol = 1e-10)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

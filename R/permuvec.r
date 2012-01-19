@@ -1,7 +1,15 @@
-mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10)
+permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10)
 
 {
-  registerDoMC()
+  if(.Platform$OS.type == "windows")
+     {
+      registerDoParallel()
+    }
+    else
+      {
+        registerDoMC()
+      }
+ # registerDoMC()
 ### define groups ####
   rawgroup<-groups	
   lev<-NULL	
@@ -165,7 +173,7 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10)
 ### calc angle compare vector lengths ###
   
   disto<-abs(mahadist[1]-mahadist[2])
-  out<-angle.calc(meanvec[1,],meanvec[2,])$rho
+  out<-Morpho::angle.calc(meanvec[1,],meanvec[2,])$rho
   
   
 ### permutate over groups ###	
@@ -213,7 +221,7 @@ mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10)
                                         #covW0<-covW0/(n-(ng*nsub))
       dist<-abs(mahadist0[1]-mahadist0[2])
       
-      return(c(angle.calc(meanvectmp[1,],meanvectmp[2,])$rho,dist))
+      return(c(Morpho::angle.calc(meanvectmp[1,],meanvectmp[2,])$rho,dist))
     }
   
   tt <- foreach(i= 1:rounds,.combine=c) %dopar% permuta(i)
