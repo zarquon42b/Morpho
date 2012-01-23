@@ -1,4 +1,4 @@
-warpmovie<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovie")
+warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovie",add=F)
 {	wdold<-getwd()
 	if(!is.null(folder))
 		{
@@ -7,7 +7,10 @@ warpmovie<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovi
 			setwd(folder)
 			}
 		}
-	open3d()
+        if (!add)
+          {
+            open3d()
+          }
                                         #	points3d(t(x$vb[1:3,]),col="white",cex=0)
 	#print(folder)
 	for (i in 0:n)
