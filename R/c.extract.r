@@ -1,4 +1,4 @@
-c.extract<-function(pts.file)
+cExtract<-function(pts.file)
 {	if (is.character(pts.file))
 		{x<-read.pts(pts.file)
 		}

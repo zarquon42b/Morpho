@@ -28,7 +28,7 @@ pcaplot3d.symproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE)
           for (i in 1:npc)
           {sds[i]<-sd(Scores[,i])}
 
-      sz <- c.size(refshape)/sqrt(k)*(1/80)
+      sz <- cSize(refshape)/sqrt(k)*(1/80)
 
       #if (!spheres)
       spheres3d(refshape,  col = color,radius=sz)
@@ -62,7 +62,7 @@ pcaplot3d.nosymproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1)
           for (i in 1:npc)
           {sds[i]<-sd(Scores[,i])}
 
-      sz <- c.size(refshape)/sqrt(k)*(1/80)
+      sz <- cSize(refshape)/sqrt(k)*(1/80)
 
       #if (!spheres)
       spheres3d(refshape,  col = color,radius=sz)

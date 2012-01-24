@@ -1,4 +1,4 @@
-plot.normals <- function(x,long=1,lwd=1)
+plotNormals <- function(x,long=1,lwd=1)
   {
     if ( ! "mesh3d" %in% class(x))
       {stop("please provide object of class mesh3d")

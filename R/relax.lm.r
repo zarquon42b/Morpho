@@ -28,7 +28,7 @@ relax.lm <- function(mesh1,lm1,mesh2,lm2,lm,ray=T,tol=NULL,split=1000,iter=1,rho
       {
         w.mesh<-ray2mesh(mesh1,mesh2,tol=tol)
         if (!is.null(lm))
-          {lmini <- proj.read(lm,mesh1,readnormals=TRUE)  ### get normals from additional landmarks
+          {lmini <- projRead(lm,mesh1,readnormals=TRUE)  ### get normals from additional landmarks
           w.lm <- ray2mesh(lmini,mesh2,tol=tol)  ### throw landmarks on target along ray 
          }
       }
@@ -36,8 +36,8 @@ relax.lm <- function(mesh1,lm1,mesh2,lm2,lm,ray=T,tol=NULL,split=1000,iter=1,rho
       {
         w.mesh<-mesh2mesh(mesh1,mesh2)
         if (!is.null(lm))
-          {lmini <- proj.read(lm,mesh1)  ### get normals from additional landmarks
-           w.lm <- proj.read(lm,mesh2,readnormals=TRUE)  ###throw landmarks on target
+          {lmini <- projRead(lm,mesh1)  ### get normals from additional landmarks
+           w.lm <- projRead(lm,mesh2,readnormals=TRUE)  ###throw landmarks on target
          }
       }
 ################## projected vertices and normal on target mesh ################
@@ -164,7 +164,7 @@ relax.lm <- function(mesh1,lm1,mesh2,lm2,lm,ray=T,tol=NULL,split=1000,iter=1,rho
             gc()
             dataslide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
             gc()
-            pro <- proj.read(dataslide,mesh2)
+            pro <- projRead(dataslide,mesh2)
             dat <- t(pro$vb)
             norm <- t(pro$normals)  
             gc()

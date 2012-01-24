@@ -9,7 +9,7 @@ difplot.lm2D<-function(refshape,targetshape,color=4,lwd=1,lcol=2,main=main)
     
     
       
-      #sz <- (c.size(refshape)/sqrt(k))*(1/80)
+      #sz <- (cSize(refshape)/sqrt(k))*(1/80)
 	
       #if (!spheres)
       plot(refshape,  col = color,main=main,asp=1,axes=FALSE,xlab="",ylab="")

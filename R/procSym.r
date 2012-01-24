@@ -10,7 +10,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
       
       	 if (is.null(SMvector))   
 		{ 
-      		CS<-apply(A,3,c.size)
+      		CS<-apply(A,3,cSize)
               }
         
       
@@ -26,7 +26,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
         
         
         	for (i in 1:n)
-        		CS<-apply(A,3,c.size)
+        		CS<-apply(A,3,cSize)
         	if (CSinit==TRUE)
           		{ 
 			for (i in 1:n)

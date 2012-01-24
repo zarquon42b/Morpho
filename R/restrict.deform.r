@@ -71,7 +71,7 @@ warp.restrict <- function(x,which,tar.lm,model,tol=1e-5,sd=3,maxVar=95,scale=F,r
         p.old <- p
         tmp.old <- tmp     
         tmp <- tps3d(tmp,tmp.lm,tar.lm)
-        tmp <- tmp/c.size(tmp)
+        tmp <- tmp/cSize(tmp)
         tmp <- rotonto(model$mshape,tmp,scale=T)$yrot
         tmp.res <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC)
         tmp <-tmp.res$restr.x

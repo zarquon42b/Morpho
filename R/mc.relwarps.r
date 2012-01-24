@@ -64,7 +64,7 @@ mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 			#rotms<-rotms*c(1,-1)#%*%matrix(c(0,-1,1,0),2,2)
 			}
 		
-		msrot<-(proc$mshape%*%rotms)/c.size(proc$mshape)
+		msrot<-(proc$mshape%*%rotms)/cSize(proc$mshape)
 		al<-sum(msrot[,1]^2)
 		be<-sum(msrot[,2]^2)
 		ga<-sqrt(al*be)

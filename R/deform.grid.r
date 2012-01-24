@@ -7,7 +7,7 @@ deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T,l
       open3d()
     }
   k<-dim(matrix)[1]
-	sz <- (c.size(matrix)/sqrt(k))*(1/80)
+	sz <- (cSize(matrix)/sqrt(k))*(1/80)
 	spheres3d(matrix,col=col1,radius=sz)
 	if(both)
           {spheres3d(tarmatrix,col=col2,radius=sz)

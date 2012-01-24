@@ -61,7 +61,7 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
           ## end selection
                 
                 rotsub <- rotonmat(subset,lm1,lm2,scale=F)
-                tmp.mesh <- proj.read(rotsub,tmp.mesh1)       
+                tmp.mesh <- projRead(rotsub,tmp.mesh1)       
                 tmp.mesh$vb <- rbind(tmp.mesh$vb,1)
           rgl.close()
               }
@@ -85,7 +85,7 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
         if (is.null(raytol))
           {
             ## project coordinates on target
-            tmptar <- proj.read(tmptar,mesh2)
+            tmptar <- projRead(tmptar,mesh2)
           }
 
         
@@ -93,7 +93,7 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
 
           {
             ## project coordinates on target along ray
-            tmptar <- proj.read(tmptar,tmp.mesh1)           
+            tmptar <- projRead(tmptar,tmp.mesh1)           
             tmptar <- ray2mesh(tmptar,mesh2,tol=raytol,strict=strict)
           }
         
@@ -140,7 +140,7 @@ map.mesh <- function(mesh1,lm1,mesh2,lm2,tol=1e-3,it=2,overlap=0.8,raytol=NULL,s
               }
             U <- calcTang_U_s(tar.lm,tar.norm,SMvector=SMvector,deselect=FALSE,surface=1:ntmp)
             slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
-            pro <- proj.read(slide,mesh2)
+            pro <- projRead(slide,mesh2)
             
             tar.lm <- t(pro$vb[1:3,])
           }

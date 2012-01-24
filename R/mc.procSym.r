@@ -1,4 +1,4 @@
-mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
+mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
 {     	t0<-Sys.time()
 	A<-dataarray
       	k<-dim(A)[1]
@@ -10,7 +10,7 @@ mc.procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRU
 
 	### create functions for multicore usage ###      	
 	CSfun<-function(i,array)
-		{cs<-c.size(array[,,i])
+		{cs<-cSize(array[,,i])
 		return(cs)
 		}
 	rhofun<-function(i)

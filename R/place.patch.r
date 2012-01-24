@@ -13,7 +13,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
     for(i in 1:n)
       {
         tmp.name <- paste(path,prefix,name[i],".ply",sep="")
-        tmp.data <- proj.read(dat.array[,,i],tmp.name,readnormals=TRUE)
+        tmp.data <- projRead(dat.array[,,i],tmp.name,readnormals=TRUE)
 
 ### relax existing curves against atlas ###
         if (!is.null(outlines))
@@ -21,7 +21,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             sm <- SMvector
             U<-calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
             slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
-            slide <- proj.read(slide,tmp.name,readnormals=FALSE)
+            slide <- projRead(slide,tmp.name,readnormals=FALSE)
             tps.lm <- tps3d(patch,atlas.lm,slide)
           }
         else if (!is.null(SMvector) && is.null(outlines) )
@@ -41,7 +41,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         if (!is.null(inflate))
           {
           atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide)
-          tps.lm <- proj.read(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE)
+          tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE)
           warp.norm <- tps.lm$normals[1:3,]### keep projected normals
 
           tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
@@ -92,7 +92,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
               U1 <-calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
               
               tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
-              tps.lm <- proj.read(tps.lm,tmp.name,readnormals=FALSE)
+              tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE)
             }
 ### end relaxation ########################
           
@@ -104,7 +104,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 ### just project warped patch on surface (suitable for singlelayer meshes)
         else
           {
-            tps.lm <- proj.read(tps.lm,tmp.name,readnormals=FALSE)
+            tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE)
           }
         out[,,i] <-rbind(dat.array[,,i],tps.lm)
       }

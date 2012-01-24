@@ -1,4 +1,4 @@
-proj.back<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.stdout=FALSE)
+projBack<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.stdout=FALSE)
 {	
 	smoothopt<-NULL
 	if (!smooth)

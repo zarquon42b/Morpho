@@ -10,8 +10,8 @@
     \code{procSym} performs Procrustes superimposition including sliding of semilandmarks in 3d
 }
 \usage{
-mc.procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
-procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,reflect=FALSE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
+mc.procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
+procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -55,9 +55,7 @@ procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,C
   \item{sizeshape}{Logical: if TRUE, a log transformed variable of Centroid Size will be added to the shapedata as first variable before performing the PCA. 
 %%     ~~Describe \code{reflect} here~~
 }
-  \item{sizeshape}{Logical: indicating if PCA in shape-size-space is requested
-%%     ~~Describe \code{reflect} here~~
-}
+
   \item{initproc}{Logical: indicating if the first Relaxation step is performed against the mean of an initial Procrustes superimposition. 
                   Symmetrical configurations will be relaxed against a perfectly symmetrical mean.
 %%     ~~Describe \code{initproc} here~~

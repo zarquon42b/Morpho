@@ -7,7 +7,7 @@ unify.mesh<-function(mesh1,mesh2,data1,data2,ray=FALSE,tol=NULL,updateNormals=TR
 	else
 		{updateNormals<-FALSE
 		if (is.null(tol))
-			{tol<-3*c.size(data1)/dim(data1)[1]}
+			{tol<-3*cSize(data1)/dim(data1)[1]}
                 
 		uni.warp2<-ray2mesh(warp.m2,mesh2,tol=tol)
 		}

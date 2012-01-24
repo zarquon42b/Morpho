@@ -1,5 +1,5 @@
-\name{proj.read}
-\alias{proj.read}
+\name{projRead}
+\alias{projRead}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Project points onto the closest point on a mesh
 
@@ -8,7 +8,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-proj.read(lm, mesh, readnormals = TRUE)
+projRead(lm, mesh, readnormals = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -55,12 +55,12 @@ file2mesh needs the command line tool trimesh_project (http://sourceforge.net/pr
 ## The function is currently defined as
 function(lm,mesh,readnormals=TRUE)
 {	if (is.character(mesh))
-		{proj.back(lm,mesh)
+		{projBack(lm,mesh)
 		}
 	
 	else 
 		{mesh2ply(mesh,"dump0")
-		proj.back(lm,"dump0.ply")
+		projBack(lm,"dump0.ply")
 		unlink("dump0.ply")
 		}
 	

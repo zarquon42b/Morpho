@@ -89,7 +89,7 @@ slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur
       
   cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
   {for (j in 1:n)
-     {proj.back(dat.array[,,j],sur.name[j])
+     {projBack(dat.array[,,j],sur.name[j])
       a<-read.table("out_cloud.ply",skip=14,sep=" ")
       vs<-as.matrix(a[,1:3])
       vn<-as.matrix(a[,4:6])
@@ -140,7 +140,7 @@ slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur
             		dataslide[,,j]<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
             
 ###projection onto surface
-            proj.back(dataslide[,,j],sur.name[j])
+            projBack(dataslide[,,j],sur.name[j])
             a<-read.table("out_cloud.ply",skip=14,sep=" ")
             vs<-as.matrix(a[,1:3])
             vn<-as.matrix(a[,4:6])
@@ -161,7 +161,7 @@ slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur
       			mshape<-(A+Amir)/2
           }          	
         p1_old<-p1		
-        p1<-sum(diag(crossprod((mshape_old/c.size(mshape_old))-(mshape/c.size(mshape)))))
+        p1<-sum(diag(crossprod((mshape_old/cSize(mshape_old))-(mshape/cSize(mshape)))))
         
 ### check for increasing convergence criterion ###				
         if (inc.check)

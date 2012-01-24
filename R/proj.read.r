@@ -1,11 +1,11 @@
-proj.read<-function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE)
+projRead<-function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE)
 {	if (is.character(mesh))
-		{proj.back(lm,mesh,ignore.stdout=ignore.stdout)
+		{projBack(lm,mesh,ignore.stdout=ignore.stdout)
 		}
 	
 	else 
 		{mesh2ply(mesh,"dump0")
-		proj.back(lm,"dump0.ply",smooth=smooth,ignore.stdout=ignore.stdout)
+		projBack(lm,"dump0.ply",smooth=smooth,ignore.stdout=ignore.stdout)
 		unlink("dump0.ply")
 		}
 	

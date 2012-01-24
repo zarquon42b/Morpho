@@ -16,7 +16,7 @@ difplot.lm<-function(refshape,targetshape,color=4,lwd=1,lcol=2,rgl.new=TRUE)
     
     
       
-      sz <- (c.size(refshape)/sqrt(k))*(1/80)
+      sz <- (cSize(refshape)/sqrt(k))*(1/80)
 	
       #if (!spheres)
       spheres3d(refshape,  col = color,radius=sz)

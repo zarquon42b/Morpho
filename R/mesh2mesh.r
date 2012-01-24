@@ -8,7 +8,7 @@ mesh2mesh<-function(mesh1,tarmesh,clean=TRUE)
       {tarply <- tarmesh
      }
   vert<-t(mesh1$vb[1:3,])
-  proj.back(vert,tarply)
+  projBack(vert,tarply)
   imp.vert<-ply2mesh("out_cloud.ply",readnormals=TRUE)
   outmesh<-mesh1
   outmesh$vb[1:3,]<-imp.vert$vb

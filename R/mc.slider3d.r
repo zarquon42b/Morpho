@@ -101,7 +101,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 			proj<-function(j)          		
 			        {
             			
-				proj.back(dat.array[,,j],sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
+				projBack(dat.array[,,j],sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
 				a<-read.table(paste(j,".tmp",sep=""),skip=14,sep=" ")
 				vs<-as.matrix(a[,1:3])
 				vn<-as.matrix(a[,4:6])
@@ -177,7 +177,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 ###projection onto surface
       for (j in 1:n)
         {
-          proj.back(a.list[[j]],sur.name[j])
+          projBack(a.list[[j]],sur.name[j])
           a<-read.table("out_cloud.ply",skip=14,sep=" ")
           vs<-as.matrix(a[,1:3])
           vn<-as.matrix(a[,4:6])
@@ -199,7 +199,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
        }     
       p1_old<-p1
       testproc<-rotonto(mshape_old,mshape)			   	
-      p1<-sum(diag(crossprod((testproc$X/c.size(testproc$X))-(testproc$Y/c.size(testproc$Y)))))
+      p1<-sum(diag(crossprod((testproc$X/cSize(testproc$X))-(testproc$Y/cSize(testproc$Y)))))
       
 ### check for increasing convergence criterion ###		
       if (inc.check)

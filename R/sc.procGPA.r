@@ -94,7 +94,7 @@ for ( i in 1:n)
 		mshape<-apply(x,c(1,2),mean)
 		if (CSinit)
 			{
-			msize<-c.size(mshape)
+			msize<-cSize(mshape)
 			mshape<-mshape/msize
 			if (scale)
 				{

@@ -5,7 +5,7 @@ orp<-function(A)
   n<-dim(A)[3]
   
   mshape1<-apply(A,c(1,2),mean)
-  m.size <-c.size(mshape1)
+  m.size <-cSize(mshape1)
   Y1<-as.vector(mshape1/m.size)
   oo<-as.matrix(rep(1,n))%*%as.vector(Y1)
   I<-diag(1,k*p)

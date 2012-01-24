@@ -8,7 +8,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle", dist.mat.out = FALSE, reflect = FALSE)
+regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle", dist.mat.out = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,9 +27,9 @@ regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle", dist.mat.out = FAL
   \item{dist.mat.out}{Logical: If TRUE, output will contain distance matrices.
 %%     ~~Describe \code{dist.mat.out} here~~
 }
-  \item{reflect}{Logical: indicating if reflection is required for Procrustes superimposition.
+%%  \item{reflect}{Logical: indicating if reflection is required for Procrustes superimposition.
 %%     ~~Describe \code{reflect} here~~
-}
+%%}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

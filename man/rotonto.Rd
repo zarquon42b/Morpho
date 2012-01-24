@@ -42,7 +42,6 @@ rotreverse(mat,rot)
 }
 \value{
 %%  ~Describe the value returned
-  If it is a LIST, use
   	\item{yrot }{rotated and translated matrix}
  	 \item{Y }{centred and rotated reference matrix }
 	\item{X }{centred target matrix }

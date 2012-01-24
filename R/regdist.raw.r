@@ -1,5 +1,5 @@
-regdist.raw<-function(dataarray,plot=TRUE,main="",rho="angle",dist.mat.out=FALSE,reflect=FALSE)
-{     proc<-procSym(dataarray,reflect=reflect)
+regdist.raw<-function(dataarray,plot=TRUE,main="",rho="angle",dist.mat.out=FALSE)
+{     proc<-procSym(dataarray)
       x<-proc$rotated
       n<-dim(x)[3]
       m<-dim(x)[2]
