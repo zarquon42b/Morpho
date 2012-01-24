@@ -46,5 +46,13 @@ Stefan Schlager
 }
 
 \seealso{
-    \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply}}
+    \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warpmovie3d}}
+  }
+  
+  \examples{
+data(nose)##load data
+##warp a mesh onto another landmark configuration:
+warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+shade3d(warpnose.long,col=skin1)
+
 }

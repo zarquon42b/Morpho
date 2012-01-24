@@ -1,12 +1,12 @@
-\name{mc.fixLMtps}
-\alias{mc.fixLMtps}
+\name{fixLMtps}
+\alias{fixLMtps}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{estimate missing landmarks
 }
 \description{if landmarks are missing they will be replaced by a warping of a population mean or a weighted estimate onto the deficient configuration using a Thin-Plate-Spline based on the existing landmarks
 }
 \usage{
-mc.fixLMtps(data,comp=3,weight=TRUE)
+fixLMtps(data,comp=3,weight=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,7 +16,9 @@ mc.fixLMtps(data,comp=3,weight=TRUE)
   \item{comp}{integer: select how many of the closest observations are to be taken to calculate an initial estimate.
 %%     ~~Describe \code{data} here~~
 }
-  \item{weight}{logical: requests the calculation of an estimate based on the procrustes distance.
+  \item{weight}{logical: requests the calculation of an estimate based
+    on the procrustes distance. Otherwise the sample's consensus is used
+    as reference.
 %%     ~~Describe \code{data} here~~
 }
 }

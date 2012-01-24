@@ -4,6 +4,7 @@ warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmo
 		{
 			if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
 			{folder<-paste(folder,"/",sep="")
+                         dir.create(folder,showWarnings=F)
 			setwd(folder)
 			}
 		}
@@ -18,7 +19,7 @@ warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmo
 		mesh$vb[1:3,]<-(i/n)*y$vb[1:3,]+(1-(i/n))*x$vb[1:3,]
 		a <- shade3d(mesh,col=col)
 		if (i ==0)
-			{readline("please select view\n")
+			{readline("please select view and press return\n")
 			}
 	
 		filename <- sprintf("%s%03d.png", movie, i)
