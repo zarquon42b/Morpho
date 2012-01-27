@@ -1,0 +1,75 @@
+\name{groupPCA}
+\alias{groupPCA}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Perform PCA based of the group means' covariance matrix}
+\description{
+Calculate covariance matrix of the groupmeans and project all
+observations into the eigenspace of this covariance matrix. This
+displays a low dimensional between group structure of a high dimensional problem.
+}
+\usage{
+groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{dataarray}{Either a k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Or alternatively a n x m Matrix where n is the numeber of observations and m the number of variables (this can be PC scores for example)
+}
+  \item{groups}{a chracter/factor vector or a list of numeric vectors containing either the positions in an array or the rows of the matrix of the observations belonging to the same group)
+%%     ~~Describe \code{groups} here~~
+}
+  \item{rounds}{integer: number of permutations if a permutation test of the euclidean distance between group means is requested.If rounds = 0, no test is performed.
+}
+  \item{tol}{threshold to ignore eigenvalues of the covariance matrix.
+%%     ~~Describe \code{tol} here~~
+}
+  \item{cores}{integer: how many cores of the Computer are allowed to be
+    used. If cores= NULL, I have experienced warnings on windows machines.
+%%     ~~Describe \code{cores} here~~
+}
+}
+\details{
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+  \item{eigenvalues }{Non-zero eigenvalues of the groupmean covariance matrix.}
+  \item{groupPCs }{PC-axes - i.e. eigenvectors of the groupmean covariance matrix. }
+  \item{Variance}{table displaying the variance explained by eache eigenvalue. }
+  \item{Scores}{Scores of all observation in the PC-space}
+  \item{probs}{p-values of pairwise groupdifferences - based on
+    permuation testing }
+  \item{groupdists}{Euclidean distances between groups' averages}
+  \item{groupmeans}{Groupmeans}
+
+
+
+}
+\references{Mitteroecker P,  Bookstein F 2011. Linear Discrimination, Ordination, and the Visualization of Selection Gradients in Modern Morphometrics. Evolutionary Biology 38:100-114.
+}
+\author{
+Stefan Schlager}
+\note{
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+ \code{\link{CVA}}, ~~~
+}
+\examples{
+require(car)
+data(iris)
+vari=iris[,1:4]
+facto=iris[,5]
+
+pca.1=groupPCA(vari,groups=facto,rounds=1000)
+### plot scores
+scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
+  
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

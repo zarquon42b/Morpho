@@ -240,7 +240,7 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
   else
     {
       marg<-min(which(sortdist >= disto))
-      probadist<-(rounds-marg)/rounds
+      probadist<-(rounds-marg+1)/rounds
     }      
   sortang<-sort(uns[angs])
   if (max(sortang) < out)
@@ -249,7 +249,7 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
   else
     {
       marg<-min(which(sortang >= out))
-      proba<-(rounds-marg)/rounds
+      proba<-(rounds-marg+1)/rounds
     }      
 
   return(list(angle=out,dist=disto,meanvec=meanvec,permutangles=sortang,permudists=sortdist,p.angle=proba,p.dist=probadist,subdist=mahadist))

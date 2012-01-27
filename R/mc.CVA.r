@@ -1,204 +1,215 @@
 mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 10000, cv = TRUE) 
 {	
-	lev<-NULL	
-	if (is.character(groups))
-		{groups<-as.factor(groups)
-		}
-	if (is.factor(groups))
-		{
-		lev<-levels(groups)
-		levn<-length(lev)
-		group<-list()
-		count<-1
-		groupcheck<-0
-		for (i in 1:levn)
-			{	tmp0<-which(groups==lev[i])	
-					if (length(tmp0) != 0)
-					{			
-					group[[count]]<-tmp0
-					groupcheck[count]<-i
-					count<-count+1
-					
-					}
-			}
-		lev<-lev[groupcheck]
-		groups<-group
-		}
-
-    	N <- dataarray
-    	b <- groups
-    
-	if (length(dim(N)) == 3) 
-		{ n <- dim(N)[3]
-        	k <- dim(N)[1]
-        	m <- dim(N)[2]
-        	l <- k * m
-        	ng <- length(groups)
-		if (length(unlist(groups)) != n)
-			{warning("group affinity and sample size not corresponding!")
-			}
-
-        	nwg <- c(rep(0, ng))
-        	for (i in 1:ng) 
-			{nwg[i] <- length(b[[i]])
-       			}
+  lev<-NULL	
+  if (is.character(groups))
+    {
+      groups<-as.factor(groups)
+    }
+  if (is.factor(groups))
+    {
+      lev<-levels(groups)
+      levn<-length(lev)
+      group<-list()
+      count<-1
+      groupcheck<-0
+      for (i in 1:levn)
+        {
+          tmp0<-which(groups==lev[i])	
+          if (length(tmp0) != 0)
+            {			
+              group[[count]]<-tmp0
+              groupcheck[count]<-i
+              count<-count+1
+              
+            }
+        }
+      lev<-lev[groupcheck]
+      groups<-group
+    }
+  
+  N <- dataarray
+  b <- groups
+  
+  if (length(dim(N)) == 3) 
+    {
+      n <- dim(N)[3]
+      k <- dim(N)[1]
+      m <- dim(N)[2]
+      l <- k * m
+      ng <- length(groups)
+      if (length(unlist(groups)) != n)
+        {
+          warning("group affinity and sample size not corresponding!")
+        }
+      
+      nwg <- c(rep(0, ng))
+      for (i in 1:ng) 
+        {
+          nwg[i] <- length(b[[i]])
+        }
+      
+      B <- matrix(0, n, m * k)
+      for (i in 1:n) 
+        {
+          B[i, ] <- as.vector(N[, , i])
+        }
         	
-		B <- matrix(0, n, m * k)
-        	for (i in 1:n) 
-			{B[i, ] <- as.vector(N[, , i])
-        		}
-        	
-        	Gmeans <- matrix(0, ng, m * k)
-        		for (i in 1:ng) {
-            		Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2),mean))
-        	}
-        Grandm <- as.vector(apply(N, c(1:2), mean))
-	Tmatrix<-B
-	B<-t(t(B)-Grandm)
-	Amatrix <- B
-    }
-    else {
-        n <- dim(N)[1]
-        l <- dim(N)[2]
-	if (length(unlist(groups)) != n)
-		{warning("group affinity and sample size not corresponding!")
-		}
-        ng <- length(groups)
-        nwg <- c(rep(0, ng))
-        for (i in 1:ng) {
-            nwg[i] <- length(b[[i]])
+      Gmeans <- matrix(0, ng, m * k)
+      for (i in 1:ng)
+        {
+          Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2),mean))
         }
-        B <- as.matrix(N)
-        #Amatrix <- B
-        Gmeans <- matrix(0, ng, l)
-        for (i in 1:ng) {
-            Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+      Grandm <- as.vector(apply(N, c(1:2), mean))
+      Tmatrix<-B
+      B<-t(t(B)-Grandm)
+      Amatrix <- B
+    }
+  else
+    {
+      n <- dim(N)[1]
+      l <- dim(N)[2]
+      if (length(unlist(groups)) != n)
+        {
+          warning("group affinity and sample size not corresponding!")
         }
-        Grandm <- apply(N, 2, mean)
-	B<-t(t(B)-Grandm)
-	Amatrix <- B
-    }
-    resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
-	
-    if (weighting == TRUE) {
-        for (i in 1:ng) {
-            resB[i, ] <- sqrt(nwg[i]) * resB[i, ]
+      ng <- length(groups)
+      nwg <- c(rep(0, ng))
+      for (i in 1:ng)
+        {
+          nwg[i] <- length(b[[i]])
         }
-        X <- resB
+      B <- as.matrix(N)
+                                        #Amatrix <- B
+      Gmeans <- matrix(0, ng, l)
+      for (i in 1:ng) {
+        Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+      }
+      Grandm <- apply(N, 2, mean)
+      B<-t(t(B)-Grandm)
+      Amatrix <- B
     }
-    else {
-        X <- sqrt(n/ng) * resB
-    }
-    
-    covW <- 0
+  resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
+  
+  if (weighting == TRUE) {
     for (i in 1:ng) {
-        covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
+      resB[i, ] <- sqrt(nwg[i]) * resB[i, ]
     }
-
-	
-    W <- covW
-    covW <- covW/(n - ng)
-    eigW <- eigen(W)
-    eigcoW <- eigen(covW)
-    U <- eigW$vectors
-    E <- eigW$values
-    Ec <- eigcoW$values
-    Ec2 <- Ec
-	
-    if (min(E) < tolinv) {
-        cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", 
-            tolinv, "\n"))
-        for (i in 1:length(eigW$values)) {
-            if (Ec[i] < tolinv) {
-                E[i] <- 0
-                Ec[i] <- 0
-                Ec2[i] <- 0
-            }
-            else {
-                E[i] <- sqrt(1/E[i])
-                Ec[i] <- sqrt(1/Ec[i])
-                Ec2[i] <- (1/Ec2[i])
-            }
+    X <- resB
+  }
+  else {
+    X <- sqrt(n/ng) * resB
+  }
+  
+  covW <- 0
+  for (i in 1:ng) {
+    covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
+  }
+  
+  
+  W <- covW
+  covW <- covW/(n - ng)
+  eigW <- eigen(W)
+  eigcoW <- eigen(covW)
+  U <- eigW$vectors
+  E <- eigW$values
+  Ec <- eigcoW$values
+  Ec2 <- Ec
+  
+  if (min(E) < tolinv)
+    {
+      cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", 
+                tolinv, "\n"))
+      for (i in 1:length(eigW$values)) {
+        if (Ec[i] < tolinv) {
+          E[i] <- 0
+          Ec[i] <- 0
+          Ec2[i] <- 0
         }
-    }
-    else {
-        for (i in 1:length(eigW$values)) {
-            E[i] <- sqrt(1/E[i])
-            Ec[i] <- sqrt(1/Ec[i])
-            Ec2[i] <- (1/Ec2[i])
+        else {
+          E[i] <- sqrt(1/E[i])
+          Ec[i] <- sqrt(1/Ec[i])
+          Ec2[i] <- (1/Ec2[i])
         }
+      }
     }
-
-
-    invcW <- diag(Ec)
-    irE <- diag(E)
-    ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
-    eigZ <- eigen(ZtZ,symmetric=TRUE)
-    A <- Re(eigZ$vectors[, 1:(ng - 1)])
-    CV <- U %*% invcW %*% A
-    CVvis <- covW %*% CV
-    CVscores <- Amatrix %*% CV
-
-    roots <- eigZ$values[1:(ng - 1)]
-    if (length(roots) == 1) {
-        Var <- matrix(roots, 1, 1)
-        colnames(Var) <- "Canonical root"
+  else {
+    for (i in 1:length(eigW$values)) {
+      E[i] <- sqrt(1/E[i])
+      Ec[i] <- sqrt(1/Ec[i])
+      Ec2[i] <- (1/Ec2[i])
     }
-    else {
-        Var <- matrix(NA, length(roots), 3)
-        Var[, 1] <- as.vector(roots)
-        for (i in 1:length(roots)) {
-            Var[i, 2] <- (roots[i]/sum(roots)) * 100
-        }
-        Var[1, 3] <- Var[1, 2]
-        for (i in 2:length(roots)) {
-            Var[i, 3] <- Var[i, 2] + Var[i - 1, 3]
-        }
-        colnames(Var) <- c("Canonical roots", "% Variance", "Cumulative %")
+  }
+  
+  
+  invcW <- diag(Ec)
+  irE <- diag(E)
+  ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
+  eigZ <- eigen(ZtZ,symmetric=TRUE)
+  A <- Re(eigZ$vectors[, 1:(ng - 1)])
+  CV <- U %*% invcW %*% A
+  CVvis <- covW %*% CV
+  CVscores <- Amatrix %*% CV
+  
+  roots <- eigZ$values[1:(ng - 1)]
+  if (length(roots) == 1) {
+    Var <- matrix(roots, 1, 1)
+    colnames(Var) <- "Canonical root"
+  }
+  else {
+    Var <- matrix(NA, length(roots), 3)
+    Var[, 1] <- as.vector(roots)
+    for (i in 1:length(roots)) {
+      Var[i, 2] <- (roots[i]/sum(roots)) * 100
     }
-    if (plot == TRUE && ng == 2) {
-	lim<-range(CVscores[,1])+c(-1,1)
-	yli<-c(0,0.7)
-        coli <- rainbow(2, alpha = 0.5)
-        hi<-hist(CVscores[b[[1]], ], col = coli[1], xlim = lim, ylim=yli, main = "CVA", xlab = "CV Scores",breaks=15,freq=F)
-        hist(CVscores[b[[2]], ], col = coli[2], add = TRUE,breaks=15,freq=F)
+    Var[1, 3] <- Var[1, 2]
+    for (i in 2:length(roots)) {
+      Var[i, 3] <- Var[i, 2] + Var[i - 1, 3]
     }
-    U2 <- eigcoW$vectors
-    winv <- U2 %*% (diag(Ec2)) %*% t(U2)
-    disto <- matrix(0, ng, ng)
-	if(!is.null(lev))
-		{rownames(disto)<-lev
-		colnames(disto)<-lev
-		}
-	proc.distout<-NULL
-	pmatrix<-NULL
-	pmatrix.proc<-NULL
-    
+    colnames(Var) <- c("Canonical roots", "% Variance", "Cumulative %")
+  }
+  if (plot == TRUE && ng == 2) {
+    lim<-range(CVscores[,1])+c(-1,1)
+    yli<-c(0,0.7)
+    coli <- rainbow(2, alpha = 0.5)
+    hi<-hist(CVscores[b[[1]], ], col = coli[1], xlim = lim, ylim=yli, main = "CVA", xlab = "CV Scores",breaks=15,freq=F)
+    hist(CVscores[b[[2]], ], col = coli[2], add = TRUE,breaks=15,freq=F)
+  }
+  U2 <- eigcoW$vectors
+  winv <- U2 %*% (diag(Ec2)) %*% t(U2)
+  disto <- matrix(0, ng, ng)
+  if(!is.null(lev))
+    {rownames(disto)<-lev
+     colnames(disto)<-lev
+   }
+  proc.distout<-NULL
+  pmatrix<-NULL
+  pmatrix.proc<-NULL
+  
 ### calculate Mahalanobis Distance between Means
-    	for (j1 in 1:(ng - 1)) 
-		{
-        	for (j2 in (j1 + 1):ng) 
-			{disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2,]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
-        		}
-    		}
-
+  for (j1 in 1:(ng - 1)) 
+    {
+      for (j2 in (j1 + 1):ng) 
+        {disto[j2, j1] <- sqrt((Gmeans[j1, ] - Gmeans[j2,]) %*% winv %*% (Gmeans[j1, ] - Gmeans[j2, ]))
+       }
+    }
+  
 ### calculate Procrustes Distance between Means
-	if (length(dim(N)) == 3)
-	{
-	proc.disto<-matrix(0, ng, ng)
-	if(!is.null(lev))
-		{rownames(proc.disto)<-lev
-		colnames(proc.disto)<-lev
-		}	
-	for (j1 in 1:(ng - 1)) 
-		{
-       		for (j2 in (j1 + 1):ng) 
-			{proc.disto[j2, j1] <- angle.calc(Gmeans[j1, ], Gmeans[j2,])$rho
-        		}
-    		}
-		proc.distout<-as.dist(proc.disto)
-	
-    	}
+  if (length(dim(N)) == 3)
+    {
+      proc.disto<-matrix(0, ng, ng)
+      if(!is.null(lev))
+        {rownames(proc.disto)<-lev
+         colnames(proc.disto)<-lev
+       }	
+      for (j1 in 1:(ng - 1)) 
+        {
+          for (j2 in (j1 + 1):ng) 
+            {proc.disto[j2, j1] <- angle.calc(Gmeans[j1, ], Gmeans[j2,])$rho
+           }
+        }
+      proc.distout<-as.dist(proc.disto)
+      
+    }
         else
           {
             proc.disto<-matrix(0, ng, ng)
@@ -215,7 +226,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
             proc.distout<-as.dist(proc.disto)
             
           }
-
+  
 ### Permutation Test for Distances	
 	if (rounds != 0) 
 	{pmatrix <- matrix(NA, ng, ng) ### generate distance matrix Mahal
@@ -265,13 +276,14 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
                 		}
                		else 
                   		{marg <- min(which(sorti >= disto[j2, j1]))
-                  		pmatrix[j2, j1] <- (rounds - marg)/rounds
+                  		pmatrix[j2, j1] <- (rounds - marg+1)/rounds
                 		}
             		}
         	}
 
     	if (length(dim(N)) == 3)
-		{pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
+		{
+                  pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
 		if(!is.null(lev))
 			{rownames(pmatrix.proc)<-lev
 			colnames(pmatrix.proc)<-lev
@@ -312,7 +324,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
                 			}
                			else 
                   			{marg <- min(which(sorti >= proc.disto[j2, j1]))
-                  			pmatrix.proc[j2, j1] <- (rounds - marg)/rounds
+                  			pmatrix.proc[j2, j1] <- (rounds - marg+1)/rounds
                 			}
             			}
         		}
@@ -361,7 +373,7 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
                 			}
                			else 
                   			{marg <- min(which(sorti >= proc.disto[j2, j1]))
-                  			pmatrix.proc[j2, j1] <- (rounds - marg)/rounds
+                  			pmatrix.proc[j2, j1] <- (rounds - marg +1)/rounds
                 			}
             			}
         		}

@@ -228,7 +228,7 @@
                 }
                 else {
                   marg <- min(which(sorti >= disto[j2, j1]))
-                  pmatrix[j2, j1] <- (rounds - marg)/rounds
+                  pmatrix[j2, j1] <- (rounds - marg+1)/rounds
                 }
             }
         }
@@ -266,7 +266,7 @@
                 			}
                			else 
                   			{marg <- min(which(sorti >= proc.disto[j2, j1]))
-                  			pmatrix.proc[j2, j1] <- (rounds - marg)/rounds
+                  			pmatrix.proc[j2, j1] <- (rounds - marg+1)/rounds
                 			}
             			}
         		}

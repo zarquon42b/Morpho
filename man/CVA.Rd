@@ -28,7 +28,8 @@ mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=1
   \item{plot}{Logical: determins whether in the two-sample case a histogramm ist to be plotted.
 %%     ~~Describe \code{plot} here~~
 }
- \item{rounds}{integer: number of permutations if a permutation test of the mahalanobis distance between group means is requested.If rounds = 0, no test is performed.
+ \item{rounds}{integer: number of permutations if a permutation test of
+   the mahalanobis and Procrustes distance between group means is requested.If rounds = 0, no test is performed.
 %%     ~~Describe \code{plot} here~~
 }
  \item{cv}{logical: requests a Jackknife Crossvalidation.
