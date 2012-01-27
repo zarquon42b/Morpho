@@ -186,7 +186,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
             for (j2 in (j1 + 1):ng) 
               {
                 sorti <- sort(dist.mat.proc[j2, j1,])
-                print(max(sorti))
+                
                 if (max(sorti) < proc.disto[j2, j1]) 
                   {
                     pmatrix.proc[j2, j1] <- 1/rounds
@@ -194,9 +194,9 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
                 else 
                   {
                     marg <- min(which(sorti >= proc.disto[j2, j1]))
-                    pmatrix.proc[j2, j1] <- (rounds - marg)/rounds
+                    pmatrix.proc[j2, j1] <- (rounds - (marg-1))/rounds
                   }
-               # print(pmatrix.proc)
+               
 
               }
           }
