@@ -65,7 +65,7 @@ mc.slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=N
   \item{initproc}{requests initial Procrustes fit before sliding.
 %%     ~~Describe \code{initproc} here~~
 }
-  \item{pairedLM}{A X x 2 matrix containing the paired LM. E.g. the left column contains the lefthand landmarks, while the right side contains the corresponding right hand landmarks. - This will ideally create symmetric mean to get rid of assymetry along outline after first relaxation. The effect is not yet tested.
+  \item{pairedLM}{A X x 2 numeric matrix with the indices of the rows containing paired Landmarks. E.g. the left column contains the lefthand landmarks, while the right side contains the corresponding right hand landmarks. - This will ideally create symmetric mean to get rid of assymetry along outline after first relaxation. The effect is not yet tested.
 %%     ~~Describe \code{pairedLM} here~~
 }
 }
@@ -76,8 +76,9 @@ mc.slider is a multicore version of slider3d and thus faster - but only working 
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
- \item{dataslide }{array containing slidden Landmarks}
-%%  \item{vn.array }{array containing Landmark normals}
+ \item{dataslide }{array containing slidden Landmarks in the original
+   space - not yet processed by a Procrustes analysis.}
+ \item{vn.array }{array containing Landmark normals}
 %% ...
 }
 \references{\code{Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of symmetric structures: quantifying variation among individuals and asymmetry. Evolution 56(10):1909-1920.}
