@@ -171,8 +171,9 @@ mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRU
     lim<-range(CVscores[,1])+c(-1,1)
     yli<-c(0,0.7)
     coli <- rainbow(2, alpha = 0.5)
-    hi<-hist(CVscores[b[[1]], ], col = coli[1], xlim = lim, ylim=yli, main = "CVA", xlab = "CV Scores",breaks=15,freq=F)
-    hist(CVscores[b[[2]], ], col = coli[2], add = TRUE,breaks=15,freq=F)
+    histo <- hist(CVscores,plot=F)
+    hist(CVscores[b[[1]], ], col = coli[1],add=F,breaks=histo$breaks, main = "CVA", xlab = "CV Scores")
+    hist(CVscores[b[[2]], ], col = coli[2], add = TRUE,breaks=histo$breaks)
   }
   U2 <- eigcoW$vectors
   winv <- U2 %*% (diag(Ec2)) %*% t(U2)
