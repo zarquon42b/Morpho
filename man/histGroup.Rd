@@ -1,0 +1,61 @@
+\name{histGroup}
+\alias{histGroup}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+plot hsitogram for multiple groups.
+}
+\description{
+plot a histogram for multiple groups, each group colored individually
+}
+\usage{
+histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname, ylab, alpha = 0.5)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{data}{vector containing data.
+%%     ~~Describe \code{data} here~~
+}
+  \item{groups}{grouping factors
+%%     ~~Describe \code{groups} here~~
+}
+  \item{main,xlab,ylab}{these arguments to title have useful defaults here.
+%%     ~~Describe \code{main} here~~
+}
+ 
+  \item{alpha}{numeric between 0 and 1. Sets the transparency of the colors
+%%     ~~Describe \code{alpha} here~~
+}
+}
+\details{Just a wrapper for the function hist from the "graphics" package
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+Stefan Schlager}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+data(iris)
+histGroup(iris$Petal.Length,iris$Species)
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

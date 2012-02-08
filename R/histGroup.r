@@ -1,4 +1,4 @@
-histGroup <- function(data,groups,xlab=dataname,ylab,alpha=0.5, main=paste("Histogram of" , dataname))
+histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=dataname,ylab,alpha=0.5)
   {
    
     dataname <- paste(deparse(substitute(data), 500), collapse="\n")
