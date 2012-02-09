@@ -141,7 +141,7 @@ relax.mesh <- function(mesh1,mesh2,ray=T,conv.tol=1e-5,tol=NULL,split=1000,iter=
 ####### find projected points with high bending energy ###########
  
         coeff <- L$Lsubk%*%dat
-        coeff <- rbind(coeff,matrix(0,3,3))
+        coeff <- rbind(coeff,matrix(0,4,3))
         dif.be <- fx(vb.m1,dat,coeff)
         dif.be <- dif.be^2
         dif.be <- apply(dif.be,1,sum)
