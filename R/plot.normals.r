@@ -12,14 +12,15 @@ plotNormals <- function(x,long=1,lwd=1)
     n.mesh <- list()
     lvb <- dim(x$vb)[2]
     vb <- x$vb
-    vb.norm <- x$vb+long*rbind(x$normals,0)
+    vb.norm <- vb+long*rbind(x$normals[1:3,],0)
     vb <- cbind(vb,vb.norm)
     it <- rbind(1:lvb,1:lvb,(1:lvb)+lvb)
     n.mesh$vb <- vb
     n.mesh$it <- it
     class(n.mesh) <- c("mesh3d","shape3d")
-    n.mesh$primitivetype <- "triangle"
+   # n.mesh$primitivetype <- "triangle"
     wire3d(n.mesh,color=3,lwd=lwd)
+    
   }
     
       

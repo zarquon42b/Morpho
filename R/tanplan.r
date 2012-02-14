@@ -8,6 +8,7 @@ tanplan<-function(x)
 			{
 			y<-c(0,0,0)	
 			y[which(x==0)]<-1
+                        y <- y/sqrt(sum(y^2))
 			}
 		else 
 			{
