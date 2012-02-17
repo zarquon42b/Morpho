@@ -79,21 +79,16 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
     di<-dim(CV)[2]
 	
 	for (i in 1:di)
-		{
-		rho<-angle.calc(test[,i ],CV[,i])
-		if (rho$rho > pi/2)
-				
-			{CV[,i]<-CV[,i]*(-1)
-			
-			#print(paste("yes",i))
-			}
-
-		}
-    
-    
- 	
-      
-    ##
+          {
+            rho<-angle.calc(test[,i ],CV[,i])
+            if (rho$rho > pi/2)
+              
+              {
+                CV[,i]<-CV[,i]*(-1)			
+              }
+            
+          }
+        
     return(list(CV=CV))
 }
   

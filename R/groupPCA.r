@@ -1,4 +1,4 @@
-groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
+groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,cores=NULL)
   {
     if(.Platform$OS.type == "windows")
      {
@@ -18,6 +18,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
       }
     if (is.factor(groups))
       {
+        factors <- groups
         lev<-levels(groups)
         levn<-length(lev)
         group<-list()
@@ -101,6 +102,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
     
     valScores <- which(eigenGmeans$values > tol)
     groupScores <- B%*%(eigenGmeans$vectors[,valScores])
+    groupPCs=eigenGmeans$vectors[,valScores]
     
     ###### create a neat variance table for the groupmean PCA ###### 
     values <- eigenGmeans$values[valScores]
@@ -202,6 +204,27 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
           }
         pmatrix.proc<-as.dist(pmatrix.proc)
       }
-    return(list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm))
+
+    crovafun <- function(x)
+      {
+        
+        PCs <- groupPCAcrova(B[-x,],factors[-x],tol=tol,groupPCs=groupPCs)$PCs
+        out <- B[x,]%*%PCs
+        
+        
+        return(out)
+      }
+    if (cv)
+      {
+        crossval <- foreach(x=1:n) %do% crovafun(x)
+      }
+        
+     CV <- groupScores
+    for (i in 1:n)
+      {
+        CV[i,] <- crossval[[i]]
+      }
+     
+    return(list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV))
         
   }

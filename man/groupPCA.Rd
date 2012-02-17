@@ -9,7 +9,7 @@ observations into the eigenspace of this covariance matrix. This
 displays a low dimensional between group structure of a high dimensional problem.
 }
 \usage{
-groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL)
+groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL,cv=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,7 +21,11 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL)
   \item{rounds}{integer: number of permutations if a permutation test of the euclidean distance between group means is requested.If rounds = 0, no test is performed.
 }
   \item{tol}{threshold to ignore eigenvalues of the covariance matrix.
-%%     ~~Describe \code{tol} here~~
+    %%     ~~Describe \code{tol} here~~
+    \item{cv}{logical:requires leaving-one-out crossvalidation
+    
+%%     ~~Describe \code{cores} here~~
+}
 }
   \item{cores}{integer: how many cores of the Computer are allowed to be
     used. If cores= NULL, I have experienced warnings on windows machines.
@@ -42,6 +46,8 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL)
     permuation testing }
   \item{groupdists}{Euclidean distances between groups' averages}
   \item{groupmeans}{Groupmeans}
+  \item{Grandmean}{Grand mean}
+  \item{CV}{Cross-validated scores}
 
 
 
