@@ -101,9 +101,13 @@ procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,C
   \item{rho }{vector of Riemannian distance from the mean}
 }
 \references{
-\code{Dryden IL, and Mardia KV. 1998. Statistical shape analysis. Chichester.}
-\code{Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of symmetric structures: quantifying variation among individuals and asymmetry. Evolution 56(10):1909-1920.}
-\code{Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. «Semilandmarks in Three Dimensions,» in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.}
+  Dryden IL, and Mardia KV. 1998. Statistical shape analysis. Chichester.
+  
+Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of
+symmetric structures: quantifying variation among individuals and
+asymmetry. Evolution 56(10):1909-1920.
+
+Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. «Semilandmarks in Three Dimensions,» in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.
 
 
 }

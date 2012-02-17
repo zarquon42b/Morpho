@@ -9,7 +9,7 @@ observations into the eigenspace of this covariance matrix. This
 displays a low dimensional between group structure of a high dimensional problem.
 }
 \usage{
-groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL,cv=TRUE)
+groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, cores = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,7 +22,7 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL,cv=TRUE)
 }
   \item{tol}{threshold to ignore eigenvalues of the covariance matrix.}
     %%     ~~Describe \code{tol} here~~
-    \item{cv}{logical:requires leaving-one-out crossvalidation
+    \item{cv}{logical: requests leaving-one-out crossvalidation
     
 %%     ~~Describe \code{cores} here~~
 }
