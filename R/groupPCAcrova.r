@@ -115,6 +115,6 @@ groupPCAcrova <- function(dataarray, groups,tol=1e-10,groupPCs)
 		}
    
    
-    return(list(PCs=PCs))
+    return(list(PCs=PCs,Grandmean=Grandm))
         
   }

@@ -20,13 +20,13 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cores = NULL,cv=TRUE)
 }
   \item{rounds}{integer: number of permutations if a permutation test of the euclidean distance between group means is requested.If rounds = 0, no test is performed.
 }
-  \item{tol}{threshold to ignore eigenvalues of the covariance matrix.
+  \item{tol}{threshold to ignore eigenvalues of the covariance matrix.}
     %%     ~~Describe \code{tol} here~~
     \item{cv}{logical:requires leaving-one-out crossvalidation
     
 %%     ~~Describe \code{cores} here~~
 }
-}
+
   \item{cores}{integer: how many cores of the Computer are allowed to be
     used. If cores= NULL, I have experienced warnings on windows machines.
 %%     ~~Describe \code{cores} here~~

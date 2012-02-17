@@ -22,9 +22,23 @@ histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname,
 %%     ~~Describe \code{main} here~~
 }
  
-  \item{alpha}{numeric between 0 and 1. Sets the transparency of the colors
+\item{alpha}{numeric between 0 and 1. Sets the transparency of the colors
 %%     ~~Describe \code{alpha} here~~
-}
+}  
+ \item{breaks}{one of:
+    \itemize{
+      \item a vector giving the breakpoints between histogram cells,
+      \item a single number giving the number of cells for the histogram,
+      \item a character string naming an algorithm to compute the
+      number of cells (see \sQuote{Details}),
+      \item a function to compute the number of cells.
+    }
+    In the last three cases the number is a suggestion only.
+  }
+
+
+%%     ~~Describe \code{alpha} here~~
+
 }
 \details{Just a wrapper for the function hist from the "graphics" package
 %%  ~~ If necessary, more details than the description above ~~

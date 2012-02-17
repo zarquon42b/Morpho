@@ -94,6 +94,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,cores=N
             Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
           }
         Grandm <- apply(Gmeans, 2, mean)
+        Tmatrix <- B
 	B<-t(t(B)-Grandm)
 	Amatrix <- B
       }
@@ -208,8 +209,8 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,cores=N
     crovafun <- function(x)
       {
         
-        PCs <- groupPCAcrova(B[-x,],factors[-x],tol=tol,groupPCs=groupPCs)$PCs
-        out <- B[x,]%*%PCs
+        crovtmp <- groupPCAcrova(Tmatrix[-x,],factors[-x],tol=tol,groupPCs=groupPCs)
+        out <- (Tmatrix[x,]-crovtmp$Grandmean)%*%crovtmp$PCs
         
         
         return(out)

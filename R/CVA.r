@@ -96,6 +96,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
         Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
       }
        Grandm <- as.vector(apply(Gmeans, 2, mean))
+      Tmatrix<-B
       B<-t(t(B)-Grandm)
       Amatrix <- B
     }
@@ -422,7 +423,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
             		}
 		
             	tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3)
-            	out <- Amatrix[i3, ] %*% tmp$CV
+            	out <- (Tmatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
 		return(out)
         	}
 	a.list<-tmplapply(a.list,crova)

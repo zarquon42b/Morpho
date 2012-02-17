@@ -89,7 +89,7 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
             
           }
         
-    return(list(CV=CV))
+    return(list(CV=CV,Grandmean=Grandm))
 }
   
   
