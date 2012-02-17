@@ -19,7 +19,7 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
         for (i in 1:ng) {
             Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
         }
-        Grandm <- apply(N[-ind,], 2, mean)
+        Grandm <- apply(Gmeans, 2, mean)
     
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
     if (weighting == TRUE) {

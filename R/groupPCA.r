@@ -68,7 +68,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
                     {
                       Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2),mean))
                     }
-                  Grandm <- as.vector(apply(N, c(1:2), mean))
+                  Grandm <- as.vector(apply(Gmeans, c(1:2), mean))
                   Tmatrix<-B
                   B<-t(t(B)-Grandm)
                   Amatrix <- B
@@ -92,7 +92,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cores=NULL)
           {
             Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
           }
-        Grandm <- apply(N, 2, mean)
+        Grandm <- apply(Gmeans, 2, mean)
 	B<-t(t(B)-Grandm)
 	Amatrix <- B
       }
