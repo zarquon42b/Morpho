@@ -1,10 +1,10 @@
-mc.relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
+relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 {	n<-dim(data)[3]
 	m<-dim(data)[2]
 	k<-dim(data)[1]
 
 	### superimpose data ###
-	proc<-mc.procGPA(data,scale=scale,CSinit=CSinit)
+	proc<-sc.procGPA(data,scale=scale,CSinit=CSinit)
 	if (orp)
 	proc$rotated<-orp(proc$rotated)
 	### create bending energy matrix ###

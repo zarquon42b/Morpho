@@ -1,7 +1,7 @@
 \name{CVA}
 \Rdversion{1.1}
 \alias{CVA}
-\alias{mc.CVA}
+%%\alias{mc.CVA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Canonical Variate Analysis
 }
@@ -10,7 +10,7 @@ performs a Canonical Variate Analysis.
 }
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE)
-mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE) ### multicore version of CVA (only available on UNIX systems).
+%%mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE) ### multicore version of CVA (only available on UNIX systems).
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

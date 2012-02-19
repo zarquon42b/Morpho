@@ -1,6 +1,18 @@
 mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL)
 
 {
+### register platform specific $lapply version
+   if(.Platform$OS.type == "windows")
+     {
+     # registerDoParallel(cores=cores)
+      tmplapply <- lapply
+    }
+    else
+      {
+      #  registerDoMC(cores=cores)
+        tmplapply <- mclapply
+      }
+   
   if (iterations == 0)
     {
       iterations <- 1e10
@@ -110,7 +122,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
 				unlink(paste(j,".tmp",sep="")) #clean up
 				return(list(dataslido,datanorm))
 				}
-			p.list<-mclapply(p.list,proj)
+			p.list<-tmplapply(p.list,proj)
 			
 		###projection onto surface
 			for (j in 1:n)
@@ -127,7 +139,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
       
 	if(initproc==TRUE) # perform proc fit before sliding
       		{cat("Inital procrustes fit ...")	
-			procini<-mc.procGPA(dat.array,scale=scale,CSinit=CSinit)
+			procini<-sc.procGPA(dat.array,scale=scale,CSinit=CSinit)
         		mshape<-procini$mshape
         		}
       dataslide<-dat.array
@@ -172,7 +184,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
          dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
          return(dataslido)
        }
-      a.list<-mclapply(a.list,slido)
+      a.list<-tmplapply(a.list,slido)
 
 ###projection onto surface
       for (j in 1:n)
@@ -187,7 +199,7 @@ mc.slider3d<-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
         }
       
       cat("estimating sample mean shape...")          	
-      proc<-mc.procGPA(dataslide,scale=scale,CSinit=CSinit)
+      proc<-sc.procGPA(dataslide,scale=scale,CSinit=CSinit)
       mshape<-proc$mshape
       if (pairedLM[1]!=0)# create symmetric mean to get rid of assymetry along outline after first relaxation
         {Mir<-diag(c(-1,1,1))
