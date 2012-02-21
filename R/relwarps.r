@@ -1,4 +1,4 @@
-relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
+relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
 {	n<-dim(data)[3]
 	m<-dim(data)[2]
 	k<-dim(data)[1]
@@ -61,7 +61,7 @@ relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 		U<-NULL
 		uniscores<-NULL
         
-	if (m==1)
+	if (m==0)
 		{
                   rotms<-eigen(crossprod(proc$mshape))$vectors
                   if (det(rotms) < 0)
@@ -80,41 +80,48 @@ relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
                   uniscores<-vecs%*%U
 		}
         else
-          {
+          { met="r1"
             vecData <- vecx(proc$rotated)
+            if (met=="r1")
+              {
 ### Rohlf first method ###
-            
-            E <- eigBE$vectors[,-zero]
-            N <- diag(rep(1,k))-E%*%solve(crossprod(E))%*%t(E)
-            V <- t(t(vecData)-as.vector(proc$mshape))
-          #  NIk <- matrix(0,k+m,k+m)
-            NIk <- kronecker(E,diag(rep(1,m)))
-            
-         #   for (i in 1:m)
-         #     {
-               
-         #       NIk[((i-1)*k+1):(i*k),((i-1)*k+1):(i*k)] <- N
-         #     }
-            print(c(dim(V),dim(N)))
-            svdBend <- svd(V%*%NIk)
-            LS <- svdBend$u%*%diag(svdBend$d)
-            uniscores <- LS[,1:(m+0.5*m*(m-1)-1)]
-
+                
+                E <- eigBE$vectors[,-zero]
+                N <- diag(rep(1,k))-E%*%solve(crossprod(E))%*%t(E)
+                V <-vecs
+                NIk <- matrix(0,k*m,k*m)
+               # NIk <- kronecker(E,diag(rep(1,m)))
+                
+                for (i in 1:m)
+                 {
+                    
+                    NIk[((i-1)*k+1):(i*k),((i-1)*k+1):(i*k)] <- N
+                 }
+                 
+                svdBend <- svd(V%*%NIk)
+                 #print(dim(svdBend$v))
+                LS <- svdBend$u%*%diag(svdBend$d)
+              
+                uniscores <- LS[,1:(m+0.5*m*(m-1)-1)]
+              }
+            else
+              {
 ####Rohlf second method
           
-           # Bxyz <- NULL
-           # tXcInv <- solve(crossprod(proc$mshape))
-           # for(i in 1:m)
-           #   {  
-           #     Bxyz <- cbind(Bxyz,t(tXcInv%*%t(proc$mshape)%*%t(vecData[,((i-1)*k+1):(i*k)])))
-           #     print(dim(Bxyz))
-           #   }
-           # Bend <- cbind(t(Bxyz[[1]]),t(Bxyz[[2]]),t(Bxyz[[3]]))
-           # print(dim(Bxyz))
-           # svdBend <- svd(Bxyz)
-           # LS <- svdBend$u%*%diag(svdBend$d)
-           # print(dim(LS))
-           # uniscores <- LS[,1:(m+0.5*m*(m-1)-1)]
+                Bxyz <- NULL
+                tXcInv <- solve(crossprod(proc$mshape))
+                for(i in 1:m)
+                  {  
+                    Bxyz <- cbind(Bxyz,t(tXcInv%*%t(proc$mshape)%*%t(vecData[,((i-1)*k+1):(i*k)])))
+                    print(((i-1)*k+1):(i*k))
+                  }
+                Bend <- cbind(t(Bxyz[[1]]),t(Bxyz[[2]]),t(Bxyz[[3]]))
+                                        # print(dim(Bxyz))
+            svdBend <- svd(Bxyz)
+                LS <- svdBend$u%*%diag(svdBend$d)
+                print(dim(LS))
+                uniscores <- LS[,1:(m+0.5*m*(m-1)-1)]
+              }
           }
         
 
@@ -140,9 +147,5 @@ relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
         	}
       
 	
-	return(list(bescores=bescores,uniscores=uniscores,BE2=BE2,vecs=vecs,U=U,covSc=eigCOVCOM,invBE2=invBE2,proc=proc,Var=Var))
+	return(list(bescores=bescores,uniscores=uniscores,BE2=BE2,vecs=vecs,U=U,covSc=eigCOVCOM,invBE2=invBE2,proc=proc,Var=Var,mshape=proc$mshape,rotated=proc$rotated,uniPCs=svdBend$v[,1:(m+0.5*m*(m-1)-1)]))
 }
-	
-	
-
-	
