@@ -6,7 +6,10 @@ relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 	### superimpose data ###
 	proc<-sc.procGPA(data,scale=scale,CSinit=CSinit)
 	if (orp)
-	proc$rotated<-orp(proc$rotated)
+          {
+            proc$rotated<-orp(proc$rotated)
+          }
+        proc$mshape <- apply(proc$rotated,1:2,mean)
 	### create bending energy matrix ###
 	if (m==2)
 		{BE<-CreateL2D(proc$mshape)$Lsubk
@@ -46,7 +49,7 @@ relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 		{BE2<-diag(rep(1,k*m))
 		invBE2<-BE2
 		}
-	
+
 	### generate covariance structure of scaled space ###
 		covcom<-BE2%*%Sc%*%BE2	
 		eigCOVCOM<-eigen(covcom,symmetric=TRUE)
@@ -57,22 +60,63 @@ relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 	### calculate uniform component scores ###
 		U<-NULL
 		uniscores<-NULL
-	if (m==2)
-		{rotms<-eigen(crossprod(proc$mshape))$vectors
-		if (det(rotms) < 0)
-			{rotms[,1]<-rotms[,1]*-1
-			#rotms<-rotms*c(1,-1)#%*%matrix(c(0,-1,1,0),2,2)
-			}
-		
+        
+	if (m==1)
+		{
+                  rotms<-eigen(crossprod(proc$mshape))$vectors
+                  if (det(rotms) < 0)
+                    {rotms[,1]<-rotms[,1]*-1
+                                        #rotms<-rotms*c(1,-1)#%*%matrix(c(0,-1,1,0),2,2)
+                   }
+		print(dim(rotms))
 		msrot<-(proc$mshape%*%rotms)/cSize(proc$mshape)
 		al<-sum(msrot[,1]^2)
 		be<-sum(msrot[,2]^2)
 		ga<-sqrt(al*be)
 		u1<-c(al*msrot[,2],be*msrot[,1])/ga
 		u2<-c(-be*msrot[,1],al*msrot[,2])/ga
-		U<-cbind(u1,u2)
-		uniscores<-vecs%*%U
+                  U<-cbind(u1,u2)
+                 
+                  uniscores<-vecs%*%U
 		}
+        else
+          {
+            vecData <- vecx(proc$rotated)
+### Rohlf first method ###
+            
+            E <- eigBE$vectors[,-zero]
+            N <- diag(rep(1,k))-E%*%solve(crossprod(E))%*%t(E)
+            V <- t(t(vecData)-as.vector(proc$mshape))
+          #  NIk <- matrix(0,k+m,k+m)
+            NIk <- kronecker(E,diag(rep(1,m)))
+            
+         #   for (i in 1:m)
+         #     {
+               
+         #       NIk[((i-1)*k+1):(i*k),((i-1)*k+1):(i*k)] <- N
+         #     }
+            print(c(dim(V),dim(N)))
+            svdBend <- svd(V%*%NIk)
+            LS <- svdBend$u%*%diag(svdBend$d)
+            uniscores <- LS[,1:(m+0.5*m*(m-1)-1)]
+
+####Rohlf second method
+          
+           # Bxyz <- NULL
+           # tXcInv <- solve(crossprod(proc$mshape))
+           # for(i in 1:m)
+           #   {  
+           #     Bxyz <- cbind(Bxyz,t(tXcInv%*%t(proc$mshape)%*%t(vecData[,((i-1)*k+1):(i*k)])))
+           #     print(dim(Bxyz))
+           #   }
+           # Bend <- cbind(t(Bxyz[[1]]),t(Bxyz[[2]]),t(Bxyz[[3]]))
+           # print(dim(Bxyz))
+           # svdBend <- svd(Bxyz)
+           # LS <- svdBend$u%*%diag(svdBend$d)
+           # print(dim(LS))
+           # uniscores <- LS[,1:(m+0.5*m*(m-1)-1)]
+          }
+        
 
 ### create Variance table according to eigenvalues ###
 		values<-eigCOVCOM$values[nonz]
