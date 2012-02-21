@@ -1,4 +1,4 @@
-relwarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
+relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=FALSE)
 {	n<-dim(data)[3]
 	m<-dim(data)[2]
 	k<-dim(data)[1]
