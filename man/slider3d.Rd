@@ -1,5 +1,5 @@
 \name{slider3d}
-\alias{mc.slider3d}
+
 \alias{slider3d}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -9,8 +9,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,pairedLM=0)
-mc.slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0)
+slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

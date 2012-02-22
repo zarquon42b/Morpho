@@ -1,5 +1,4 @@
-\name{mc.procSym}
-\alias{mc.procSym}
+\name{procSym}
 \alias{procSym}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -10,7 +9,6 @@
     \code{procSym} performs Procrustes superimposition including sliding of semilandmarks in 3d
 }
 \usage{
-mc.procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
 procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
