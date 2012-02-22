@@ -1,8 +1,8 @@
 Package: Morpho
 Type: Package
 Title: Calculations and visualizations related to Geometric Morphometrics
-Version: 0.13.2
-Date: 2012-02-08
+Version: 0.14
+Date: 2012-02-22
 Author: Stefan Schlager
 Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 Description: A toolset for Geometric Morphometrics and mesh processing.
