@@ -49,7 +49,7 @@ procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,C
                               0 means iteration until convergence.
 %%     ~~Describe \code{iterations} here~~
 }
-  \item{scale}{Logical: indicating if scaling is required
+  \item{scale}{Logical: indicating if scaling is requested
 %%     ~~Describe \code{scale} here~~
 }
   \item{sizeshape}{Logical: if TRUE, a log transformed variable of Centroid Size will be added to the shapedata as first variable before performing the PCA. 

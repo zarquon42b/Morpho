@@ -42,18 +42,8 @@ read.pts(file = "x")
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (file = "x") 
-{
-    pts <- read.table(file, skip = 2)
-    rownames(pts) <- pts[, 1]
-    pts <- pts[, 2:4]
-    return(pts)
-  }
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
