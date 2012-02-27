@@ -86,3 +86,35 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
     out <- .Fortran("spinimage",Sp,ij,dim(ij)[1],ab,imax,jmax,bs)[[1]]
     return(list(Sp=out,S0=S0,rm=rm,ij=ij,ab=ab))
   }
+spinimageLM <- function(mat,mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
+  {
+    registerDoMC()
+    pro <- projRead(mat,mesh,readnormals=TRUE)
+    vn <- dim(mesh$vb)[2]
+    nlm <- dim(mat)[1]
+    out <- list()
+    tmpmesh <- mesh
+    tmpmesh$vb <- cbind(tmpmesh$vb,rbind(pro$vb,1))
+    tmpmesh$normals <- cbind(tmpmesh$normals,pro$normals)
+    mcspin <- function(x)
+      {
+        ret <- spinimage(tmpmesh,x,bs=bs,rho=rho,resA=resA,resB=resB)$Sp
+        return(ret)
+      }
+        
+        
+    out <- foreach (i= ((1:nlm)+vn)) %dopar% mcspin(i)
+      return(out)
+  }
+ spinimageMesh <- function(mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
+  {
+    registerDoMC()
+    vn <- dim(mesh$vb)[2]
+    mcspin <- function(x)
+      {
+        ret <- spinimage(mesh,x,bs=bs,rho=rho,resA=resA,resB=resB)$Sp
+        return(ret)
+      }
+    out <- foreach (i= (1:vn)) %dopar% mcspin(i)
+    return(out)
+  }
