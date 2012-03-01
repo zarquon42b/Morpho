@@ -1,5 +1,5 @@
 
-deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T,lines=TRUE,add=FALSE,col1=2,col2=3)
+deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T,lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3)
 {
 
   if (!add)
@@ -13,13 +13,14 @@ deform.grid<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T,l
           {spheres3d(tarmatrix,col=col2,radius=sz)
            if (lines)
              {
+              
                linemesh <- list()
                linemesh$vb <- t(cbind(rbind(matrix,tarmatrix),1))
                linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
                class(linemesh) <- "mesh3d"
-               wire3d(linemesh,lwd=1.5)
-              # for (i in 1:k)
-              #   lines3d(rbind(matrix[i,],tarmatrix[i,]),lwd=1.5)
+               wire3d(linemesh,lwd=1.5,col=lcol,lit=FALSE)
+#               for (i in 1:k)
+                 #lines3d(rbind(matrix[i,],tarmatrix[i,]),lwd=1.5)
              }
          }
 	x2<-x1<-x3<-c(0:(ngrid-1))/ngrid;x0<-as.matrix(expand.grid(x1,x2,x3))

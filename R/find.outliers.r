@@ -1,22 +1,30 @@
-find.outliers<-function(A,color=4,lwd=1,lcol=2)
+find.outliers <- mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 {   	
 	raw<-A
 	n<-dim(A)[3]
 	k<-dim(A)[1]
 	m<-dim(A)[2]
-	A<-procGPA(A,distances=FALSE,pcaoutput=FALSE)
+	A<-sc.procGPA(A)
 
-###from here on the same as mc.find.outliers ###	
-	rho<-0
-	for(i in 1:n)
-		{rho[i]<-angle.calc(A$rotated[,,i],A$mshape)$rho
+###from here on the same as find.outliers ###		
+	rho<-NULL
+        a.list<-as.list(1:n)
+        rhofun<-function(i)
+            	{rho<-angle.calc(A$rotated[,,i],A$mshape)$rho
+		return(rho)          	
 		}
+	rho<-unlist(mclapply(a.list,rhofun))
 	A$rho<-rho
 	
 	
     	#rgl.clear()
     	#rgl.bg(color = "white")
-   	disti<-data.frame(c(1:n),A$rho)
+		
+		if (is.null(dimnames(raw)[[3]]))
+{		dimnames(raw)[[3]]<-rep("",n)}
+		
+		disti<-data.frame(c(1:n),A$rho,dimnames(raw)[[3]])
+			
     	disti.sort<-disti[order(disti[,2],decreasing=T),]
     	colnames(disti.sort)[1]<-"# in array"
     	rownames(disti.sort)<-c(1:n)
@@ -36,7 +44,7 @@ find.outliers<-function(A,color=4,lwd=1,lcol=2)
 		{difplot.lm2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1])
 		}
       
-      	cat(paste("outlier #",t1,": ",disti.sort[t1,1],"     procrustes dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
+      	cat(paste("outlier #",t1,": ",disti.sort[t1,1]," - ",disti.sort[t1,3],"     procrustes dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
       	
 	if (disti.sort[t1,1] %in% outlier)
 		{ answer<-substr(readline(" already added to outlierlist! remove from list (y/N/s)?\ny=yes,n=no,s=switch landmarks: "), 1L,1L)

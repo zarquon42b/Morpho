@@ -1,4 +1,4 @@
-plotNormals <- function(x,long=1,lwd=1)
+plotNormals <- function(x,long=1,lwd=1,col=1)
   {
     if ( ! "mesh3d" %in% class(x))
       {stop("please provide object of class mesh3d")
@@ -19,7 +19,7 @@ plotNormals <- function(x,long=1,lwd=1)
     n.mesh$it <- it
     class(n.mesh) <- c("mesh3d","shape3d")
    # n.mesh$primitivetype <- "triangle"
-    wire3d(n.mesh,color=3,lwd=lwd)
+    wire3d(n.mesh,color=col,lwd=lwd,lit=FALSE)
     
   }
     
