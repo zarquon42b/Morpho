@@ -8,7 +8,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-find.outliers(A, color = 4, lwd = 1, lcol = 2, sz = 0, output = TRUE)
+find.outliers(A, color = 4, lwd = 1, lcol = 2)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,7 +23,8 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, sz = 0, output = TRUE)
 }
   \item{lcol}{color of lines visualizing distances of the individual landmarks from mean.
 %%     ~~Describe \code{lcol} here~~
-}
+} 
+
 
 }
 \details{
