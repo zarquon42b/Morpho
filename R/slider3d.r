@@ -97,29 +97,18 @@ mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,su
       	ini<-rotonto(dat.array[,,1],dat.array[,,2],signref=FALSE) # create mean between first tow configs to avoid singular BE Matrix
 	mshape<-(ini$Y+ini$X)/2
       
-	cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))	
-			p.list<-as.list(1:n)
-			proj<-function(j)          		
-			        {
-            			
-				projBack(dat.array[,,j],sur.name[j],dataname=paste(j,"out",sep=""),outname=paste(j,".tmp",sep=""))
-				a<-read.table(paste(j,".tmp",sep=""),skip=14,sep=" ")
-				vs<-as.matrix(a[,1:3])
-				vn<-as.matrix(a[,4:6])
-				dataslido<-vs
-				datanorm<-vn
-				unlink(paste(j,".tmp",sep="")) #clean up
-				return(list(dataslido,datanorm))
-				}
-			p.list<-mclapply(p.list,proj,mc.cores=mc.cores)
-			
-		###projection onto surface
-			for (j in 1:n)
-				{
-				dat.array[,,j]<-p.list[[j]][[1]]
-				vn.array[,,j]<-p.list[[j]][[2]]
-				#unlink("out_cloud.ply") #clean up
-				}
+	cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
+  for (j in 1:n)
+        {
+          projBack(dat.array[,,j],sur.name[j])
+          a<-read.table("out_cloud.ply",skip=14,sep=" ")
+          vs<-as.matrix(a[,1:3])
+          vn<-as.matrix(a[,4:6])
+          dat.array[,,j ]<-vs
+          vn.array[,,j] <-vn		
+          unlink("out_cloud.ply") #clean up
+        }
+		
 			
 			cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
 		
