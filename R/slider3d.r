@@ -1,17 +1,6 @@
 mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL)
 
 {
-### register platform specific $lapply version
-   if(.Platform$OS.type == "windows")
-     {
-     # registerDoParallel(cores=cores)
-      tmplapply <- lapply
-    }
-    else
-      {
-      #  registerDoMC(cores=cores)
-        tmplapply <- mclapply
-      }
    
   if (iterations == 0)
     {
@@ -122,7 +111,7 @@ mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,su
 				unlink(paste(j,".tmp",sep="")) #clean up
 				return(list(dataslido,datanorm))
 				}
-			p.list<-tmplapply(p.list,proj)
+			p.list<-mclapply(p.list,proj)
 			
 		###projection onto surface
 			for (j in 1:n)
@@ -184,7 +173,7 @@ mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,su
          dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
          return(dataslido)
        }
-      a.list<-tmplapply(a.list,slido)
+      a.list<-mclapply(a.list,slido)
 
 ###projection onto surface
       for (j in 1:n)

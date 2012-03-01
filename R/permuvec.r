@@ -1,15 +1,8 @@
 permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10)
 
 {
-  if(.Platform$OS.type == "windows")
-     {
-      registerDoParallel()
-    }
-    else
-      {
-        registerDoMC()
-      }
- # registerDoMC()
+  registerDoParallel() ##register parallel backend
+  
 ### define groups ####
   rawgroup<-groups	
   lev<-NULL	

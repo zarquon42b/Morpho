@@ -1,13 +1,7 @@
 groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,cores=NULL)
   {
-    if(.Platform$OS.type == "windows")
-     {
-      registerDoParallel(cores=cores)
-    }
-    else
-      {
-        registerDoMC(cores=cores)
-      }
+    registerDoParallel(cores=cores)### register parallel backend
+        
     pmatrix.proc <- NULL
     proc.distout <- NULL
     

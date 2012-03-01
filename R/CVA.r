@@ -2,16 +2,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
 {
   
   lev<-NULL
-  if(.Platform$OS.type == "windows")
-     {
-     # registerDoParallel(cores=cores)
-      tmplapply <- lapply
-    }
-    else
-      {
-      #  registerDoMC(cores=cores)
-        tmplapply <- mclapply
-      }	
+  
   if (is.character(groups))
     {
       groups<-as.factor(groups)
@@ -273,7 +264,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
 	
         dist.mat<- array(0, dim = c(ng, ng, rounds))
         a.list<-as.list(1:rounds)
-	a.list<-tmplapply(a.list,roun)
+	a.list<-mclapply(a.list,roun)
 	for (i in 1:rounds)
 		{dist.mat[,,i]<-a.list[[i]]
 		#print(a.list)[[i]]
@@ -324,7 +315,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
 		
         	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
         	a.list<-as.list(1:rounds)
-		a.list<-tmplapply(a.list,roun.proc)
+		a.list<-mclapply(a.list,roun.proc)
 		
 		for (i in 1:rounds)
 			{dist.mat.proc[,,i]<-a.list[[i]]
@@ -373,7 +364,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
 		
         	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
         	a.list<-as.list(1:rounds)
-		a.list<-tmplapply(a.list,roun.proc)
+		a.list<-mclapply(a.list,roun.proc)
 		
 		for (i in 1:rounds)
 			{dist.mat.proc[,,i]<-a.list[[i]]
@@ -426,7 +417,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
             	out <- (Tmatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
 		return(out)
         	}
-	a.list<-tmplapply(a.list,crova)
+	a.list<-mclapply(a.list,crova)
 	for (i in 1:n)
 	CVcv[i,]<-a.list[[i]]
 	

@@ -88,7 +88,7 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
   }
 spinimageLM <- function(mat,mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
   {
-    registerDoMC()
+    registerDoParallel() ##register parallel backend
     pro <- projRead(mat,mesh,readnormals=TRUE)
     vn <- dim(mesh$vb)[2]
     nlm <- dim(mat)[1]
@@ -108,7 +108,8 @@ spinimageLM <- function(mat,mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
   }
  spinimageMesh <- function(mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
   {
-    registerDoMC()
+    registerDoParallel() ##register parallel backend
+    
     vn <- dim(mesh$vb)[2]
     mcspin <- function(x)
       {
