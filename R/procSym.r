@@ -50,7 +50,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
         
         if (!is.null(use.lm)) ### only use subset for rotation and scale
           {
-            proc <- sc.procGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit)
+            proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit)
             tmp <- Aall
             for (i in 1:dim(Aall)[3])
               {
@@ -69,7 +69,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
           }
         else
           {
-            proc<-sc.procGPA(Aall,scale=scale,CSinit=CSinit)
+            proc<-ProcGPA(Aall,scale=scale,CSinit=CSinit)
           } 
         
         procrot<-proc$rotated

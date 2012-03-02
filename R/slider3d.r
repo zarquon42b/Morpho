@@ -1,4 +1,4 @@
-mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = getOption("mc.cores", 2L))
+mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
 
 {
      
@@ -117,7 +117,7 @@ mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,su
       
 	if(initproc==TRUE) # perform proc fit before sliding
       		{cat("Inital procrustes fit ...")	
-			procini<-sc.procGPA(dat.array,scale=scale,CSinit=CSinit)
+			procini<-ProcGPA(dat.array,scale=scale,CSinit=CSinit)
         		mshape<-procini$mshape
         		}
       dataslide<-dat.array
@@ -177,7 +177,7 @@ mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,su
         }
       
       cat("estimating sample mean shape...")          	
-      proc<-sc.procGPA(dataslide,scale=scale,CSinit=CSinit)
+      proc<-ProcGPA(dataslide,scale=scale,CSinit=CSinit)
       mshape<-proc$mshape
       if (pairedLM[1]!=0)# create symmetric mean to get rid of assymetry along outline after first relaxation
         {Mir<-diag(c(-1,1,1))

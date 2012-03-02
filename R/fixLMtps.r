@@ -27,7 +27,7 @@ fixLMtps<-function(data,comp=3,weight=TRUE)
 		lmsdat<-data
 		
 		#print(data.c)
-		proc.c<-sc.procGPA(data.c)
+		proc.c<-ProcGPA(data.c)
 		mean0<-proc.c$mshape
 		
 		for (i in 1:length(check))

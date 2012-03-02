@@ -1,7 +1,7 @@
-mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2)
+mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores = detectCores())
   {
     
-    registerDoParallel()
+    registerDoParallel(cores=mc.cores)
    
 ### configure grouping ####
     N <- data

@@ -10,7 +10,8 @@
  between sex related differences in two populations differ significantly.
 }
 \usage{
-permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol = 1e-10)
+permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol =
+ 1e-10, mc.cores=detectCores()))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,6 +34,11 @@ permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol = 1e-10)
 }
   \item{tol}{threshold for inverting covariance matrix.
 %%     ~~Describe \code{tol} here~~
+}
+\item{mc.cores}{integer: determines how many cores to use for the computation. The default
+  is autodetect. But in case, it doesn't work as expected cores can be
+  set manually.
+%%     ~~Describe \code{initproc} here~~
 }
 }
 \details{

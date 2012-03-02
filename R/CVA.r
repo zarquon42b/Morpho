@@ -1,4 +1,4 @@
-CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 10000, cv = TRUE) 
+CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 10000, cv = TRUE, mc.cores=detectCores()) 
 {
   
   lev<-NULL
@@ -264,7 +264,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
 	
         dist.mat<- array(0, dim = c(ng, ng, rounds))
         a.list<-as.list(1:rounds)
-	a.list<-mclapply(a.list,roun)
+	a.list<-mclapply(a.list,roun,mc.cores=mc.cores)
 	for (i in 1:rounds)
 		{dist.mat[,,i]<-a.list[[i]]
 		#print(a.list)[[i]]
@@ -315,7 +315,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
 		
         	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
         	a.list<-as.list(1:rounds)
-		a.list<-mclapply(a.list,roun.proc)
+		a.list<-mclapply(a.list,roun.proc,mc.cores=mc.cores)
 		
 		for (i in 1:rounds)
 			{dist.mat.proc[,,i]<-a.list[[i]]
@@ -364,7 +364,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
 		
         	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
         	a.list<-as.list(1:rounds)
-		a.list<-mclapply(a.list,roun.proc)
+		a.list<-mclapply(a.list,roun.proc,mc.cores=mc.cores)
 		
 		for (i in 1:rounds)
 			{dist.mat.proc[,,i]<-a.list[[i]]
@@ -417,7 +417,7 @@ CVA <- mc.CVA<-function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plo
             	out <- (Tmatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
 		return(out)
         	}
-	a.list<-mclapply(a.list,crova)
+	a.list<-mclapply(a.list,crova,mc.cores=mc.cores)
 	for (i in 1:n)
 	CVcv[i,]<-a.list[[i]]
 	

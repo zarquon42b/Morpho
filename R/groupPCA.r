@@ -1,6 +1,6 @@
-groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,cores=NULL)
+groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=detectCores())
   {
-    registerDoParallel(cores=cores)### register parallel backend
+    registerDoParallel(cores=mc.cores)### register parallel backend
         
     pmatrix.proc <- NULL
     proc.distout <- NULL

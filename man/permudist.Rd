@@ -8,7 +8,7 @@
   distances obtained by random assignment of observations to this groups.
 }
 \usage{
-permudist(data, groups, rounds = 1000, which = 1:2)
+permudist(data, groups, rounds = 1000, which = 1:2, mc.cores = detectCores())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,6 +24,11 @@ permudist(data, groups, rounds = 1000, which = 1:2)
   \item{which}{in case the factor levels are >2 this determins which
     factorlevels to use
 %%     ~~Describe \code{which} here~~
+}
+\item{mc.cores}{integer: determines how many cores to use for the computation. The default
+  is autodetect. But in case, it doesn't work as expected cores can be
+  set manually.
+%%     ~~Describe \code{initproc} here~~
 }
 }
 \details{

@@ -1,7 +1,7 @@
-permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10)
+permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
 
 {
-  registerDoParallel() ##register parallel backend
+  registerDoParallel(cores = mc.cores) ##register parallel backend
   
 ### define groups ####
   rawgroup<-groups	

@@ -1,6 +1,6 @@
-pls2B <- function(y,x,tol=1e-12,rounds=0)
+pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
   {
-    registerDoParallel()##register parallel backend
+    registerDoParallel(cores=mc.cores)##register parallel backend
    
     
     if (length(dim(x)) == 3)

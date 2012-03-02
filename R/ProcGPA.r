@@ -1,4 +1,4 @@
-sc.procGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
+ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
 {
   t0<-Sys.time()
   x<-dat.array
@@ -8,7 +8,7 @@ sc.procGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
   k<-dim(dat.array)[1]
   m<-dim(dat.array)[2]
   x1<-gdif(dat.array)
-                                        #vec.mat<-matrix(NA,n,k*m)
+                                       
   arr.list<-list(0)	
 ###rotation step ####
   for ( i in 1:n)
@@ -23,7 +23,7 @@ sc.procGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
   
   else 
     {
-      arr.list<-mclapply(arr.list,function(x){x[[1]]<-apply(x[[1]],2,scale,scale=F);return(list(x[[1]],x[[2]]))})
+      arr.list<-lapply(arr.list,function(x){x[[1]]<-apply(x[[1]],2,scale,scale=F);return(list(x[[1]],x[[2]]))})
     }
   
   mshape<-x[,,1]	

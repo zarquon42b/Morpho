@@ -9,7 +9,7 @@
 performs a Canonical Variate Analysis.
 }
 \usage{
-CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE)
+CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE,mc.cores=detectCores())
 %%mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE) ### multicore version of CVA (only available on UNIX systems).
 }
 %- maybe also 'usage' for other objects documented here.
@@ -52,6 +52,11 @@ CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=1000
 \item{CVvis }{Canonical Variates projected back into the original space - to be used for visualization purposes, for details see example below.}
 \item{Dist }{Mahalanobis Distances between group means - if requested tested by permutation test if the input is an array it is assumed to be superimposed Landmark Data and Procrustes Distance will be calculated.}
 \item{CVcv }{A matrix containing crossvalidated CV scores}
+\item{mc.cores}{integer: determines how many cores to use for the
+  computation. The default is to autodetect. But in case, it doesn't work as expected cores can be
+  set manually.
+%%     ~~Describe \code{initproc} here~~
+}
 }
 \references{Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of
   Canonical Variate Analysis: Syst. Zool., 30(3), 268-280.

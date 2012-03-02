@@ -9,7 +9,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0)
+slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,mc.cores=detectCores())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -66,10 +66,15 @@ slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL
 }
   \item{pairedLM}{A X x 2 numeric matrix with the indices of the rows containing paired Landmarks. E.g. the left column contains the lefthand landmarks, while the right side contains the corresponding right hand landmarks. - This will ideally create symmetric mean to get rid of assymetry along outline after first relaxation. The effect is not yet tested.
 %%     ~~Describe \code{pairedLM} here~~
+}  
+\item{mc.cores}{integer: determines how many cores to use for the
+  computation. The default is autodetect. But in case, it doesn't work as expected cores can be
+  set manually.
+%%     ~~Describe \code{initproc} here~~
 }
 }
 \details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
-mc.slider is a multicore version of slider3d and thus faster - but only working on UNIX systems!!)
+
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{

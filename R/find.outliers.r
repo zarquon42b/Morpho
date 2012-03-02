@@ -4,7 +4,7 @@ find.outliers <- mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 	n<-dim(A)[3]
 	k<-dim(A)[1]
 	m<-dim(A)[2]
-	A<-sc.procGPA(A)
+	A<-ProcGPA(A)
 
 ###from here on the same as find.outliers ###		
 	rho<-NULL

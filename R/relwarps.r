@@ -5,7 +5,7 @@ relWarps<-function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
   k<-dim(data)[1]
   datanames <- dimnames(data)[[3]]
 ### superimpose data ###
-  proc<-sc.procGPA(data,scale=scale,CSinit=CSinit,silent=TRUE)
+  proc<-ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE)
   if (orp)
     {
       proc$rotated<-orp(proc$rotated)
