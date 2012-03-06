@@ -1,4 +1,4 @@
-mc.slider3d <- slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
+slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
 
 {
      
