@@ -1,91 +1,118 @@
-restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE,nPC=NULL)
+restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE,nPC=NULL,probs=FALSE,reference=NULL)
   {
     dims <- dim(x)
     mshape <- model$mshape
     PCs <- model$PCs
-    if (is.null(nPC))
+    restr.x <- NULL
+    if (is.null(nPC)) ### select first # of PCs below threshold of total variance
       {
         pc.used <-which(model$Variance[,3] < maxVar)
       }
     else
       {
-        pc.used <- 1:nPC
+        pc.used <- 1:nPC ## use predefined # of PCs
       }
     sds <-model$Variance[pc.used,1]
     prob <- TRUE
     sdl <- length(pc.used)
+    xtmp <- x-mshape
+    if (!is.null(reference))
+      {       
+        xtmp[reference,] <- 0 ## set reference=mshape
+      }
     
-    xscore <- t(PCs[,pc.used])%*%as.vector(x-mshape)
+    xscore <- t(PCs[,pc.used])%*%as.vector(xtmp)
 
-    if (scale)
+    if (scale) ### use chisquare distribution of mahalanobis distance
       {
         Mt <- qchisq(1-2*pnorm(sd,lower.tail=F),df=sdl)
         probs <- sum(xscore^2/sds)
-      #  print(Mt)
-      #  print(probs)
         if (probs > Mt )
         {
           prob=FALSE
           sca <- Mt/probs
-          
           xscore <- xscore*sqrt(sca)
         }
       }
-    else
+    else ### use probability hypercuboid
       {
-        sq.sds <- sqrt(sds)
-       
-        for (i in 1:length(xscore))
+        sq.sds <- sqrt(sds)        
+        for (i in 1:length(xscore)) ## check if PCscores are below threshold
           {
             signum <- sign(xscore[i])
             if (abs(xscore[i]) > (sd*sq.sds[i]))
               {
-                #print(i)
                 prob=FALSE
                 xscore[i] <- sd*sq.sds[i]*signum
               }
           }
       }
-    
-    restr.x <- matrix(PCs[,pc.used]%*%xscore,dims[1],dims[2])+mshape
+    if (!probs)
+      {
+        restr.x <- matrix(PCs[,pc.used]%*%xscore,dims[1],dims[2])+mshape
+        if (!is.null(reference))
+          {
+            restr.x[reference,] <- x[reference,]
+          }
+      }
     return(list(restr.x=restr.x,prob=prob))
   }
 
-warp.restrict <- function(x,which,tar.lm,model,tol=1e-5,sd=3,maxVar=95,scale=F,recurse=T,uniform=TRUE,iterations=NULL,nPC=NULL,stop.prob=TRUE)
+warpRestrict <- function(x,which,tar.lm,model,tol=1e-5,sd=3,maxVar=95,scale=F,recurse=T,uniform=TRUE,iterations=NULL,nPC=NULL,stop.prob=TRUE,spline=TRUE,useReference=FALSE)
   {
+
+    reference <- NULL
+    if (useReference)### "which" will be ignored when calculating probability
+      {
+        reference <- which
+      }
+    tmp.res <- list()
+    tmp.res$prob <-  FALSE
     if (is.null(nPC))
       {
         pc.used <-which(model$Variance[,3] < maxVar)
         print(paste("First ",max(pc.used)," PCs used"))
       }
-      
+    
     x.lm <- x[which,]
     sd.i <- sd    
     tmp <- x
     tmp.lm <- x.lm
     p <- 1e10
     count <- 0
+    tmp.old <- tmp     
+    tmp <- tps3d(tmp,tmp.lm,tar.lm)## warp onto target
+    tmp <- rotonto(model$mshape,tmp,scale=T)$yrot ### register in database space
+    
     while(p > tol)
-      { count <- count+1
-       
+      {
+        cat(paste("running iteration",count,"\n"))
         p.old <- p
-        tmp.old <- tmp     
-        tmp <- tps3d(tmp,tmp.lm,tar.lm)
-        tmp <- tmp/cSize(tmp)
-        tmp <- rotonto(model$mshape,tmp,scale=T)$yrot
-        tmp.res <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC)
-        tmp <-tmp.res$restr.x
-        
-        tmp <-rotonmat(tmp,tmp[which,],tar.lm,scale=T)
-        
-        if (recurse)
+        tmp.old <- tmp
+        prob <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC,probs=T)$prob
+        if (!prob) ### not yet probable
           {
-            tmp.lm <- tmp[which,]
+            ## restrict to boundaries
+            tmp.orig <- tmp
+            tmp <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC,probs=F,reference=reference)$restr.x
+            
+            if (spline) ###use restricted data and warp it onto target
+              {
+                tmp.lm <- tmp[which,] 
+                tmp <- tps3d(tmp,tmp.lm,tar.lm)
+                tmp <- rotonto(model$mshape,tmp,scale=T)$yrot ### register in database space
+              }
+            else ### replace restricted reference lm with original ones
+              {
+                tmp[which,] <- tmp.orig[which,]
+                tmp <- rotonto(model$mshape,tmp,scale=T)$yrot ### register in database space
+              }
           }
-        if (tmp.res$prob && stop.prob)
+        
+        if (prob && stop.prob)
           {
             cat(paste("probable shape within the boundaries of",sd, "sd reached\n"))
-            #if (!sd.i >= sd)
+                                        #if (!sd.i >= sd)
             p <- 0
           }
         else
@@ -105,17 +132,18 @@ warp.restrict <- function(x,which,tar.lm,model,tol=1e-5,sd=3,maxVar=95,scale=F,r
             {
               p <- 0
             }
+        count <- count+1
       }
-    if (tmp.res$prob)
-      { cat(paste("a probable shape was reached after",count,"iterations\n"))
-        
+    if (prob)
+      {
+        cat(paste("a probable shape was reached after",count-1,"iterations\n"))
       }
     else
-      { cat("progress terminated without reaching probability\n")
+      {
+        cat("progress terminated without reaching probability\n")
       }
-    tmp.res <- rotonmat(tmp.res$restr.x,tmp.res$restr.x[which,],tar.lm,scale=T)
+    tmp <- rotonmat(tmp,tmp[which,],tar.lm,scale=T)
     clean.out <- tmp
-    clean.out[which,] <-tar.lm 
     
     return(list(raw=tmp,clean=clean.out,tmp=tmp.res))
   }
