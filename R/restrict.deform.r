@@ -1,4 +1,4 @@
-restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE,nPC=NULL,probs=FALSE,reference=NULL)
+restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE,nPC=NULL,probab=FALSE,reference=NULL)
   {
     dims <- dim(x)
     mshape <- model$mshape
@@ -47,7 +47,7 @@ restrict <- function(x,model,sd=3,maxVar=95,scale=FALSE,nPC=NULL,probs=FALSE,ref
               }
           }
       }
-    if (!probs)
+    if (!probab)
       {
         restr.x <- matrix(PCs[,pc.used]%*%xscore,dims[1],dims[2])+mshape
         if (!is.null(reference))
@@ -80,22 +80,25 @@ warpRestrict <- function(x,which,tar.lm,model,tol=1e-5,sd=3,maxVar=95,scale=F,re
     tmp.lm <- x.lm
     p <- 1e10
     count <- 0
+    tmp.orig <- tmp
     tmp.old <- tmp     
     tmp <- tps3d(tmp,tmp.lm,tar.lm)## warp onto target
     tmp <- rotonto(model$mshape,tmp,scale=T)$yrot ### register in database space
     
     while(p > tol)
       {
+        
         cat(paste("running iteration",count,"\n"))
         p.old <- p
         tmp.old <- tmp
-        prob <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC,probs=T)$prob
+        prob <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC,probab=T)$prob
         if (!prob) ### not yet probable
           {
             ## restrict to boundaries
-            tmp.orig <- tmp
-            tmp <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC,probs=F,reference=reference)$restr.x
-            
+           
+            tmp <- restrict(tmp,model=model,sd=sd.i,maxVar=maxVar,scale=scale,nPC=nPC,probab=F,reference=reference)$restr.x
+           # print(dim(tmp))
+             tmp.orig <- tmp
             if (spline) ###use restricted data and warp it onto target
               {
                 tmp.lm <- tmp[which,] 
@@ -142,8 +145,9 @@ warpRestrict <- function(x,which,tar.lm,model,tol=1e-5,sd=3,maxVar=95,scale=F,re
       {
         cat("progress terminated without reaching probability\n")
       }
+    tmp.orig <- rotonmat(tmp.orig,tmp.orig[which,],tar.lm,scale=T)
     tmp <- rotonmat(tmp,tmp[which,],tar.lm,scale=T)
     clean.out <- tmp
     
-    return(list(raw=tmp,clean=clean.out,tmp=tmp.res))
+    return(list(raw=tmp.orig,clean=clean.out,tmp=tmp.res))
   }

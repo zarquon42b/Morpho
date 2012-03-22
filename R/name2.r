@@ -1,6 +1,17 @@
 name2factor <- function(x,sep="_",which,collapse=sep,dif=NULL)
   {
-    names <- dimnames(x)[[3]]
+    if (length(dim(x))==3)
+      {
+        names <- dimnames(x)[[3]]
+      }
+    else if (length(dim(x))==2)
+      {
+        names <- dimnames(x)[[1]]
+      }
+    else
+      {
+        names <- names(x)
+      }
     fac <- strsplit(names,split=sep)
     
     for (i in 1:length(fac))
@@ -14,7 +25,18 @@ name2factor <- function(x,sep="_",which,collapse=sep,dif=NULL)
   }
 name2num <- function(x,sep="_",which,collapse=sep,dif=TRUE)
   {
-    names <- dimnames(x)[[3]]
+    if (length(dim(x))==3)
+      {
+        names <- dimnames(x)[[3]]
+      }
+    else if (length(dim(x))==2)
+      {
+        names <- dimnames(x)[[1]]
+      }
+    else
+      {
+        names <- names(x)
+      }
     fac <- strsplit(names,split=sep)
     
     for (i in 1:length(fac))
