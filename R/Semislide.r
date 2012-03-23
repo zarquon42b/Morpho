@@ -1,4 +1,4 @@
-Semislide<-function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursive=TRUE,iterations=0,pcaoutput=TRUE,initproc=FALSE,pairedLM=0)
+Semislide<-function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursive=TRUE,iterations=0,pcaoutput=TRUE,initproc=FALSE,pairedLM=NULL)
 
 {     n<-dim(dataframe)[3]
       k<-dim(dataframe)[1]
@@ -16,7 +16,7 @@ Semislide<-function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursi
       }
       dataslide<-dataframe
       
-      if (pairedLM[1]!=0)# create symmetric mean to get rid of assymetry along outline after first relaxation
+      if (!is.null(pairedLM))# create symmetric mean to get rid of assymetry along outline after first relaxation
       {
       Mir<-diag(c(-1,1,1))
       A<-mshape
