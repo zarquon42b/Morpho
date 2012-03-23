@@ -97,6 +97,9 @@ procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,C
   \item{AsymVar }{Table of the explained "Asymmetrical" Variance by the PCs}
   \item{orpdata }{k x m x n array of the rotated configurations projected into tangent space}
   \item{rho }{vector of Riemannian distance from the mean}
+   \item{dataslide }{array containing slidden Landmarks in the original
+   space - not yet processed by a Procrustes analysis. Only available if
+  a sliding process was requested.}
 }
 \references{
   Dryden IL, and Mardia KV. 1998. Statistical shape analysis. Chichester.
