@@ -79,6 +79,7 @@ anonymize <- function(data,path=NULL,dest.path=NULL,ext=".ply",split="_",remove=
     {
       for ( i in 1:length(orig))
         {
+          dir.create(dest.path, showWarnings = F)
           system(paste("cp ",path,"/",orig[i],ext," ", dest.path,"/",alias[i],ext,sep=""))
         }
     }
