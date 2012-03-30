@@ -209,9 +209,10 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         
         return(out)
       }
+
     if (cv)
       {
-        crossval <- foreach(x=1:n) %do% crovafun(x)
+        crossval <- foreach(x=1:n) %dopar% crovafun(x)
       }
         
      CV <- groupScores
