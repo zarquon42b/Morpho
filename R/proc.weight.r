@@ -1,4 +1,4 @@
-proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE)
+proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=TRUE)
 {	
 	col<-3
         rho<-0
@@ -15,10 +15,24 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE)
         else
           {
             l<-dim(data)[1]
-            covtmp <- cov(data)
-            eig <- eigen(covtmp,symmetric=TRUE)
-            covtmp <- t(eig$vectors)%*%diag(eig$values+reg)%*%eig$vectors
-            rho <- mahalanobis(data,covtmp,center=data[ref,])
+            if (mahalanobis)
+              {
+                covtmp <- cov(data)
+                if (reg != 0)
+                  {
+                    {
+                      eig <- eigen(covtmp,symmetric=TRUE)
+                      covtmp <- t(eig$vectors)%*%diag(eig$values+reg)%*%eig$vectors
+                    }
+                  }
+              }
+            else
+              {
+                covtmp <- diag(ncol(data))
+              }
+            rho <- mahalanobis(data,cov=covtmp,center=data[ref,])
+            
+
             if (is.null(dimnames(data)[[1]]))
               {id<-as.character(c(1:l))
              }
@@ -26,8 +40,9 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE)
               {id<-dimnames(data)[[1]]}
           }
         if (log)
-          {rho <- log(rho)
-         }
+          {
+            rho <- log(rho)
+          }
         nr<-c(1:l)
         data<-data.frame(nr,id,rho)
         dat.sort.i<-data[order(data[,col]),]
@@ -49,6 +64,3 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE)
         return(list(data=out,reference=id[ref],rho.all=data))
         
 }
-	
-	
-
