@@ -1,13 +1,16 @@
-NNshapeReg <- function(x,y,n,mahalanobis=FALSE)
+NNshapeReg <- function(x,y,n,mahalanobis=FALSE,mc.cores = detectCores())
 
   {
+    registerDoParallel(mc.cores)
     out <- y
-    for (i in 1:dim(y)[1])
+    estfun <- function(i)
       {
         weighcalc <- proc.weight(x,n,i,mahalanobis=mahalanobis,report=F)$data
         ws <- diag(weighcalc$weight)
-        out[i,] <- apply(t(t(y[weighcalc$nr,])%*%ws),2,mean)
+        tmpres <- apply(t(t(y[weighcalc$nr,])%*%ws),2,sum)
+        return(tmpres)
       }
+    out <- foreach(i=1:dim(x)[1],.combine=rbind) %dopar% estfun(i)
     return(out)
   }
     
