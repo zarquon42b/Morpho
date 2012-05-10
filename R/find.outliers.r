@@ -1,21 +1,36 @@
-find.outliers <- mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
+find.outliers <- mc.find.outliers<-function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL)
 {   	
 	raw<-A
 	n<-dim(A)[3]
 	k<-dim(A)[1]
 	m<-dim(A)[2]
 	A<-ProcGPA(A)
-
+        disType <- "Procrustes"
 ###from here on the same as find.outliers ###		
 	rho<-NULL
-        a.list<-as.list(1:n)
-        rhofun<-function(i)
-            	{rho<-angle.calc(A$rotated[,,i],A$mshape)$rho
-		return(rho)          	
-		}
-	rho<-unlist(mclapply(a.list,rhofun))
-	A$rho<-rho
-	
+        if (!mahalanobis)
+          {
+            a.list<-as.list(1:n)
+            rhofun<-function(i)
+              {rho<-angle.calc(A$rotated[,,i],A$mshape)$rho
+               return(rho)          	
+             }
+            rho<-unlist(mclapply(a.list,rhofun))
+            A$rho<-rho
+          }
+        else
+          {
+            cat("mahalanobis distance is used\n")
+            PCs <- prcomp(vecx(A$rotated))$x
+            if (!is.null(PCuse))
+              {
+                PCs <- PCs[,1:PCuse]
+              }
+            A$rho <- mahalanobis(PCs,cov=cov(PCs),center=0)
+            disType <- "Mahalanobis D^2"
+            
+                          
+          }
 	
     	#rgl.clear()
     	#rgl.bg(color = "white")
@@ -44,7 +59,7 @@ find.outliers <- mc.find.outliers<-function(A,color=4,lwd=1,lcol=2)
 		{difplot.lm2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1])
 		}
       
-      	cat(paste("outlier #",t1,": ",disti.sort[t1,1]," - ",disti.sort[t1,3],"     procrustes dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
+      	cat(paste("outlier #",t1,": ",disti.sort[t1,1]," - ",disti.sort[t1,3],"     ",disType," dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
       	
 	if (disti.sort[t1,1] %in% outlier)
 		{ answer<-substr(readline(" already added to outlierlist! remove from list (y/N/s)?\ny=yes,n=no,s=switch landmarks: "), 1L,1L)

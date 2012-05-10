@@ -8,7 +8,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-find.outliers(A, color = 4, lwd = 1, lcol = 2)
+find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis=FALSE, PCuse=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,8 +24,13 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2)
   \item{lcol}{color of lines visualizing distances of the individual landmarks from mean.
 %%     ~~Describe \code{lcol} here~~
 } 
-
-
+  \item{mahalanobis}{logical: use mahalanobis distance to find outliers.
+%%     ~~Describe \code{lcol} here~~
+}  
+\item{PCuse}{integer: Restrict mahalanobis distance to the first n
+  Principal components.
+%%     ~~Describe \code{lcol} here~~
+} 
 }
 \details{
 
