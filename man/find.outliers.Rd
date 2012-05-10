@@ -39,9 +39,12 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis=FALSE, PCuse=NULL)
 
 %%  If it is a LIST, use
  \item{data.cleaned}{array (in original coordinate system) containing the changes applied and outliers eliminated }
- \item{outlier }{Description of 'comp2'}
+ \item{outlier }{vector with integers indicating the positions in the
+ original array that have been marked as outliers.}
  \item{dist.sort }{table showing the distance to mean for each observation - decreasing by distance}
+ \item{type }{what kind of distance was used}
 }
+
 \references{
 %% ~put references to the literature/web site here ~
 }
