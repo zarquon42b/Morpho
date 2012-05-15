@@ -38,7 +38,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         if (inc.check)
           {
             if (p1 > p1_old)
-              {dataslide<-dataslide_old
+              {dataslide<-lm_old
                cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
                p1<-0
              } 
