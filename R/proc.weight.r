@@ -1,4 +1,4 @@
-proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=TRUE)
+proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FALSE)
 {	
 	col<-3
         rho<-0
