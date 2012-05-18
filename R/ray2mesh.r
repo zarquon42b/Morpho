@@ -44,7 +44,7 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
 
   outmesh<-ply2mesh(outname,readnormals=TRUE)
   if (clean)
-    {unlink(c("reference.ply","target.ply"))
+    {unlink(c("reference.ply","target.ply","project.mesh.ply"))
    }
   if (readback)
     {return(outmesh)
