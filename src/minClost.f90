@@ -1,8 +1,8 @@
-SUBROUTINE minClost(X,x1,Y,y1,out)
+SUBROUTINE minClost(X,x1,Y,y1,out,distout)
   
   IMPLICIT NONE
   integer :: 	x1,y1,i,j,out(x1)
-  real*8 :: 	X(x1,3), Y(y1,3),tmp, tmpvec(3), dist
+  real*8 :: 	X(x1,3), Y(y1,3),tmp, tmpvec(3), dist, distout(x1)
   
  do i = 1,x1
     dist=1e10
@@ -12,6 +12,7 @@ SUBROUTINE minClost(X,x1,Y,y1,out)
        if (tmp < dist) then
           dist = tmp
           out(i) = j
+          distout(i)=tmp
        end if
     end do
  end do
