@@ -26,5 +26,5 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
     png(filename=paste(file,".png",sep=""),width=widxheight[1],height=widxheight[2])
     image(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     dev.off()
-    return(dists)
+    return(list(dists=dists,cols=ramp[distqual]))
   }
