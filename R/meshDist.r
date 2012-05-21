@@ -1,5 +1,6 @@
 meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE)
   {
+    ramp <- blue2green2red(steps)
     if(!ray)
       {
         dists <- projRead(t(mesh1$vb[1:3,]),mesh2,readnormals=T)$quality
@@ -45,7 +46,7 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
 plot.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL)
   {
 
-     if (!is.null(from) || !is.null(to) || !is.null(to))
+     if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange))
        {
          colMesh <- x$colMesh
          if(is.null(steps))
@@ -62,12 +63,12 @@ plot.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FAL
          if (is.null(from))
              {from <- 0
             }
-             if (is.null(to))
-             {to <- quantile(dists,probs=uprange)    
-            }
-             if(ceiling)
-             {to <- ceiling(to)
-            }
+         if (is.null(to))
+           {to <- quantile(dists,probs=uprange)    
+          }
+         if(ceiling)
+           {to <- ceiling(to)
+          }
          ramp <- blue2green2red(steps)
          colseq <- seq(from=from,to=to,length.out=steps)
          coldif <- colseq[2]-colseq[1]
