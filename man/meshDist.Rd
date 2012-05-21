@@ -54,6 +54,9 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
  \item{save}{logical: save a colored mesh.
 %%     ~~Describe \code{raytol} here~~
 }
+\item{plot}{logical: visualise result as 3D-plot and distance charts
+%%     ~~Describe \code{raytol} here~~
+}
 }
 \details{this function needs the command line tools from the Auxiliaries section in http://sourceforge.net/projects/morpho-rpackage/files/ installed. 
 }
@@ -63,6 +66,8 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
 \item{dists}{vector with distances.
 }
 \item{cols}{vector with color values.
+}
+\item{params}{list of parameters used.
   }
 %%     ~~Describe \code{raytol} here~~
 }
@@ -78,7 +83,7 @@ Stefan Schlager}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{plot.meshDist}}, \code{\link{export.meshDist}}
 }
 \examples{
 data(nose)##load data
