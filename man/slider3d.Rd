@@ -3,9 +3,13 @@
 \alias{slider3d}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
- slides Semilandmarks along curves and surfaces in 3D
+ slides Semilandmarks along curves and surfaces in 3D by minimising
+ bending energy of a thin-plate spline deformation.
+
 }
-\description{slides Semilandmarks along curves and surfaces in 3D - for LINUX including multicore support.
+\description{slides Semilandmarks along curves and surfaces in 3D. The
+  positions on the surface are sought which minimise bending energy (of
+  a thin-plate spline deformation)
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
