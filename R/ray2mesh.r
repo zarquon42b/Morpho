@@ -1,4 +1,4 @@
-ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE)
+ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE)
 { 
 
   options <- NULL
@@ -13,10 +13,15 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
       opt <- TRUE
       options <- paste(options,"--strict") #mark vertices that are not hit along rays
    }
+  if (mindist == TRUE)
+    {
+      opt <- TRUE
+      options <- paste(options,"--minray") #use closest point in and outward
+    }
   if (opt)
     { options <- paste(" ",options,sep="")
     }
-  if (is.null(outname))
+  if (is.null(outname))git 
     {outname<-"project.mesh.ply"
    }
   if (is.character(tarmesh))
