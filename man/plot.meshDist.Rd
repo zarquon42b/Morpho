@@ -51,7 +51,7 @@
   }
 }
 \details{
-  plot.meshDist renders the colored mesh and displays the color ramp.
+  render.meshDist renders the colored mesh and displays the color ramp.
   export.meshDist exports the colored mesh as ply file and the color
   chart as png file.
 }
