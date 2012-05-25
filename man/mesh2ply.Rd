@@ -3,22 +3,27 @@
 \alias{mesh2obj}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-export mesh objects
+export mesh objects to disk.
 }
 \description{
 export an object of class mesh3d to a common mesh file.
 }
 \usage{
-mesh2ply(x, filename = "default")
+mesh2ply(x, filename = "default",col = NULL)
 mesh2obj(x, filename = "default")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{object of class mesh3d - see rgl documentation for further details.
+  \item{x}{object of class mesh3d - see rgl documentation for further
+    details. (At the moment only triangular meshes are supported)
 %%     ~~Describe \code{x} here~~
 }
   \item{filename}{character: Path/name of the requested output - extension will be added manually.
 %%     ~~Describe \code{filename} here~~
+}
+ \item{col}{ Writes color information to ply file. Can be either a single color value or a vector containing a color
+   value for each vertex of the mesh.
+%%     ~~Describe \code{x} here~~
 }
 }
 \details{

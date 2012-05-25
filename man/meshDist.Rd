@@ -9,7 +9,7 @@
 calculates the distances from a mesh to another at each vertex; either
 closest point or along the normals}
 \usage{
-meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim = "100x800", uprange = 1, ray = TRUE, raytol = 1e+10,save=FALSE)
+meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -83,7 +83,7 @@ Stefan Schlager}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{plot.meshDist}}, \code{\link{export.meshDist}}
+\code{\link{render.meshDist}}, \code{\link{export.meshDist}}
 }
 \examples{
 data(nose)##load data

@@ -6,10 +6,12 @@
 warping a mesh onto another configuration
 }
 \description{
-      warps an the surface of a mesh3d object onto another configuration via reference and target landmark configuration.
+      warps an the surface of a mesh3d object onto another configuration
+      via reference and target landmark configuration by using a
+      thin-plate spline interpolation.
 }
 \usage{
-warp.mesh(mesh, matr, matt, updateNormals = TRUE) 
+warp.mesh(mesh, matr, matt, lambda = 0, updateNormals = TRUE) 
 
 }
 
@@ -26,7 +28,9 @@ warp.mesh(mesh, matr, matt, updateNormals = TRUE)
   }
   \item{updateNormals}{Logical: requests the (re)calculation of vertex normals.
   }
- 
+  \item{lambda}{integer: regularisation parameter of the TPS.
+
+}
 }
 
 

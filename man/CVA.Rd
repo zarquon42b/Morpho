@@ -9,7 +9,8 @@
 performs a Canonical Variate Analysis.
 }
 \usage{
-CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE,mc.cores=detectCores())
+CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot =
+TRUE,rounds=10000,cv=TRUE, mc.cores=detectCores())
 %%mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE) ### multicore version of CVA (only available on UNIX systems).
 }
 %- maybe also 'usage' for other objects documented here.
@@ -34,6 +35,11 @@ CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=1000
 }
  \item{cv}{logical: requests a Jackknife Crossvalidation.
 %%     ~~Describe \code{plot} here~~
+}
+\item{mc.cores}{integer: how many cores of the Computer are allowed to be
+    used. Default is use autodetection by using detectCores()
+    from the parallel package.
+%%     ~~Describe \code{cores} here~~
 }
 }
 \details{

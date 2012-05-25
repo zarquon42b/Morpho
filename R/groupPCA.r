@@ -193,8 +193,6 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
                     marg <- min(which(sorti >= proc.disto[j2, j1]))
                     pmatrix.proc[j2, j1] <- (rounds - (marg-1))/rounds
                   }
-               
-
               }
           }
         pmatrix.proc<-as.dist(pmatrix.proc)
@@ -202,17 +200,14 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
 
     crovafun <- function(x)
       {
-        
         crovtmp <- groupPCAcrova(Tmatrix[-x,],factors[-x],tol=tol,groupPCs=groupPCs)
-        out <- (Tmatrix[x,]-crovtmp$Grandmean)%*%crovtmp$PCs
-        
-        
+        out <- (Tmatrix[x,]-crovtmp$Grandmean)%*%crovtmp$PCs      
         return(out)
       }
 
     if (cv)
       {
-        crossval <- foreach(x=1:n) %dopar% crovafun(x)
+        crossval <- foreach(i=1:n) %dopar% crovafun(i)
       }
         
      CV <- groupScores

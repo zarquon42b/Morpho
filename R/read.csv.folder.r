@@ -1,4 +1,4 @@
-read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep=";",pattern="csv",addSpec=NULL,back=T)
+read.csv.folder<-function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep=";",pattern="csv",addSpec=NULL,back=TRUE)
 {	
 	if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
 		{folder<-paste(folder,"/",sep="")

@@ -9,7 +9,7 @@ observations into the eigenspace of this covariance matrix. This
 displays a low dimensional between group structure of a high dimensional problem.
 }
 \usage{
-groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, cores = NULL)
+groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = detectCores())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,8 +27,9 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, cores = NULL)
 %%     ~~Describe \code{cores} here~~
 }
 
-  \item{cores}{integer: how many cores of the Computer are allowed to be
-    used. If cores= NULL, I have experienced warnings on windows machines.
+  \item{mc.cores}{integer: how many cores of the Computer are allowed to be
+    used. Default is use autodetection by using detectCores()
+    from the parallel package.
 %%     ~~Describe \code{cores} here~~
 }
 }

@@ -13,7 +13,7 @@ location of the targetmatrix
 and reverse this transformations using rotreverse
 }
 \usage{
-rotonto(x, y, scale = FALSE, signref = TRUE)
+rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE)
 rotreverse(mat,rot)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -33,6 +33,10 @@ rotreverse(mat,rot)
 %%     ~~Describe \code{signref} here~~
 }
  \item{rot}{an object resulting from the former application of rotonto
+%%     ~~Describe \code{signref} here~~
+}
+\item{reflection}{allow reflections.
+
 %%     ~~Describe \code{signref} here~~
 }
 

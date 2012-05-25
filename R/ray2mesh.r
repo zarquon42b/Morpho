@@ -21,7 +21,7 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
   if (opt)
     { options <- paste(" ",options,sep="")
     }
-  if (is.null(outname))git 
+  if (is.null(outname))
     {outname<-"project.mesh.ply"
    }
   if (is.character(tarmesh))

@@ -11,7 +11,7 @@ Semislide<-function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursi
       iterations <- 1e10
     }
   
-  ini<-rotonto(dataframe[,,1],dataframe[,,2],reflect=T)
+  ini<-rotonto(dataframe[,,1],dataframe[,,2],reflection=T)
   mshape<-(ini$X+ini$Y)/2
   
   if(initproc==TRUE) # perform proc fit before sliding

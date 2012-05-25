@@ -8,7 +8,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-projRead(lm, mesh, readnormals = TRUE)
+projRead(lm, mesh, readnormals = TRUE, clean = TRUE, smooth = TRUE, ignore.stdout = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,9 +21,18 @@ projRead(lm, mesh, readnormals = TRUE)
   \item{readnormals}{logical: return normals of projected points.
 %%     ~~Describe \code{readnormals} here~~
 }
+  \item{clean}{logical: remove dumpfiles.
+%%     ~~Describe \code{readnormals} here~~
+}
+  \item{smooth}{logical: rerurn smoothed normals.
+%%     ~~Describe \code{readnormals} here~~
+}
+ \item{ ignore.stdout}{logical: supress console output.
+%%     ~~Describe \code{readnormals} here~~
+}
 }
 \details{
-file2mesh needs the command line tool trimesh_project (http://sourceforge.net/projects/morpho-rpackage/files/) installed.
+projRead needs the command line tool trimesh_project (http://sourceforge.net/projects/morpho-rpackage/files/) installed.
 }
 \value{either a m x3 matrix containing projected points or a list, where
 %%  ~Describe the value returned
@@ -48,26 +57,6 @@ file2mesh needs the command line tool trimesh_project (http://sourceforge.net/pr
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function(lm,mesh,readnormals=TRUE)
-{	if (is.character(mesh))
-		{projBack(lm,mesh)
-		}
-	
-	else 
-		{mesh2ply(mesh,"dump0")
-		projBack(lm,"dump0.ply")
-		unlink("dump0.ply")
-		}
-	
-	data<-ply2mesh("out_cloud.ply",readnormals=readnormals)
-	unlink("out_cloud.ply")
-	return(data)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

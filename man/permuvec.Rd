@@ -11,7 +11,7 @@
 }
 \usage{
 permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol =
- 1e-10, mc.cores=detectCores()))
+ 1e-10, mc.cores=detectCores())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

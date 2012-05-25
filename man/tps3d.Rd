@@ -9,7 +9,7 @@ thin plate spline mapping
       maps a datamatrix via thin plate spline between calculated by a reference on a target configuration in 2D and 3D
 }
 \usage{
-tps3d(M, refmat, tarmat)
+tps3d(M, refmat, tarmat, lambda = 0)
 }
 
 \arguments{
@@ -20,6 +20,9 @@ tps3d(M, refmat, tarmat)
 
 }
   \item{tarmat}{target matrix - e.g. landmark configuration on a target surface
+
+  }
+   \item{lambda}{integer: regularisation parameter of the TPS.
 
 }
 }

@@ -9,7 +9,7 @@ for calculation of a shape model by averaging the observations neighbouring the 
 by similarity.
 }
 \usage{
-proc.weight(data, number, ref,report=TRUE)
+proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,6 +23,16 @@ proc.weight(data, number, ref,report=TRUE)
 %%     ~~Describe \code{ref} here~~
 }
  \item{report}{logical: require report about name of the reference.
+%%     ~~Describe \code{ref} here~~
+}
+\item{reg}{numeric: regularise mahalanobis distance by adding reg to the
+  diagonal of eigenvalues of the covariance matrix.
+%%     ~~Describe \code{ref} here~~
+}
+\item{log}{logical: use the logarithm of the distances.
+%%     ~~Describe \code{ref} here~~
+}
+\item{mahalanobis}{logical: use mahalanobis distance.
 %%     ~~Describe \code{ref} here~~
 }
 }

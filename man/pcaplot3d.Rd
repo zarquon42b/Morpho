@@ -1,6 +1,8 @@
 \name{pcaplot3d}
 \Rdversion{1.1}
 \alias{pcaplot3d}
+\alias{pcaplot3d.nosymproc}
+\alias{pcaplot3d.symproc}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 visualization of shape change
@@ -8,9 +10,10 @@ visualization of shape change
 \description{
   visualization of the shape changes explained by Principal components
   }
-\usage{
-pcaplot3d.nosymproc(x, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1)
-pcaplot3d.symproc(x, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1,sym=TRUE)
+  \usage{
+pcaplot3d(x,...)
+\method{pcaplot3d}{symproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1,sym=TRUE,...)
+\method{pcaplot3d}{nosymproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1,...)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -31,6 +34,13 @@ pcaplot3d.symproc(x, pcshow = c(1, 2, 3), mag = 3, color = 4, lwd = 1,sym=TRUE)
 }
   \item{lwd}{width of the lines representing the shape change.
 %%     ~~Describe \code{lwd} here~~
+}
+ \item{sym}{logical: if TRUE the symmetric component of shape is
+  displayed. Otherwise the asymmetric one.
+%%     ~~Describe \code{lwd} here~~
+}
+\item{\dots}{Additional parameters which will be passed to the
+  methods.
 }
 }
 \details{

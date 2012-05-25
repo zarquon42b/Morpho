@@ -8,7 +8,7 @@ batch import data from files
 imports all data files contained in a specified folder.
 }
 \usage{
-read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec = ".", sep = ";", pattern = "csv",addSpec=NULL,back=TaddSpec=NULL,back=T)
+read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec = ".", sep = ";", pattern = "csv",addSpec=NULL, back = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

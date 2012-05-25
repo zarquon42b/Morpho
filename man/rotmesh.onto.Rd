@@ -1,18 +1,19 @@
 \name{rotmesh.onto}
 \alias{rotmesh.onto}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{rotate a mesh
+\title{rotate ,scale and translate a mesh based on landmark information.
 
 }
-\description{    rotates and reflects a mesh onto a set of landmarks
+\description{rotates and reflects a mesh onto by calculating the
+  transformation from two sets of referenced landmarks.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-rotmesh.onto(obj, refmat, tarmat,adnormals = TRUE, scale = FALSE)
+rotmesh.onto(mesh, refmat, tarmat,adnormals = TRUE, scale = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{obj}{ 3D mesh imported with the read.obj fuction
+  \item{mesh}{object of class mesh3d.
 %%     ~~Describe \code{obj} here~~
 }
   \item{refmat}{ k x m matrix with landmarks on the mesh
@@ -50,7 +51,7 @@ rotmesh.onto(obj, refmat, tarmat,adnormals = TRUE, scale = FALSE)
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{\code{\link{shapelist3d}},\code{\link{warp_obj}} ,\code{\link{trimesh.obj}},\code{\link{read.obj}} ,\code{\link{write.obj}} 
+\seealso{\code{\link{file2mesh}},\code{\link{warp.mesh}} ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{

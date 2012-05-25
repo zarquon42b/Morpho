@@ -4,21 +4,28 @@
 \title{projects the vertices of a mesh onto the surface of another one.
 
 }
-\description{projects the vertices of a mesh onto the surface of another one.
+\description{projects the vertices of a mesh onto the surface of another
+  one by searching for the closest point on the target by for each vertex.
 
 }
 \usage{
-mesh2mesh(mesh1, tarmesh, clean = TRUE)
+mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{mesh1}{mesh to project (object of class "mesh3d")
+  \item{mesh1}{mesh to project. Can be  an object of class "mesh3d" or
+    path to an external mesh file (ply, obj, stl).
 %%     ~~Describe \code{mesh1} here~~
 }
-  \item{tarmesh}{mesh to project onto (object of class "mesh3d")
-%%     ~~Describe \code{tarmesh} here~~
+  \item{tarmesh}{mesh to project onto. Can be  an object of class "mesh3d" or
+    path to an external mesh file (ply, obj, stl).
 }
   \item{clean}{logical: request removing of dumpfiles.
+%%     ~~Describe \code{clean} here~~
+}
+  \item{cloud}{logical: if TRUE and mesh1 is an external mesh file, face
+    information will not be read from this file (saves time), as there
+    is none present.
 %%     ~~Describe \code{clean} here~~
 }
 }
@@ -29,8 +36,7 @@ mesh2mesh(mesh1, tarmesh, clean = TRUE)
 %%  ~Describe the value returned
 %%  If it is a LIST, use
   \item{mesh}{projected mesh}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+
 }
 \references{
 %% ~put references to the literature/web site here ~

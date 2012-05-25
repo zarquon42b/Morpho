@@ -1,4 +1,4 @@
-plot.curves <- function(curve,text=FALSE,color="rainbow")
+plotCurves <- function(curve,text=FALSE,color="rainbow")
   {
     limits <- as.integer(levels((as.factor(curve$id))))
     if (color !="rainbow")
@@ -24,7 +24,7 @@ plot.curves <- function(curve,text=FALSE,color="rainbow")
       }
   }
 
-read.curves <- function(x)
+readCurves <- function(x)
   {
     tmp <- as.numeric(readLines(x,n=1))
     tmp1 <-  readLines(x,n=tmp+3)

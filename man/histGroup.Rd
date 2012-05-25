@@ -8,7 +8,8 @@ plot hsitogram for multiple groups.
 plot a histogram for multiple groups, each group colored individually
 }
 \usage{
-histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname, ylab, alpha = 0.5)
+histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname, ylab, alpha = 0.5,breaks =
+                 "Sturges")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

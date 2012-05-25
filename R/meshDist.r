@@ -39,11 +39,12 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
     class(out) <- "meshDist"
     if (plot)
       {
-        plot(out)
+        render(out)
       }
     return(out)
   }
-plot.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL)
+render <- function(x,...) UseMethod("render")
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,...)
   {
 
      if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange))
@@ -92,9 +93,9 @@ plot.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FAL
   }
 
 export <- function(x,...)UseMethod("export")
-export.meshDist <- function(x,save=FALSE,file="default",imagedim="100x800")
+export.meshDist <- function(x,file="default",imagedim="100x800",...)
 {
-  ramp <- x$ramp
+  ramp <- x$colramp
   widxheight <- as.integer(strsplit(imagedim,split="x")[[1]])
   mesh2ply(x$colMesh,col=x$cols)
   png(filename=paste(file,".png",sep=""),width=widxheight[1],height=widxheight[2])

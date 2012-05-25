@@ -1,5 +1,5 @@
-pcaplot3d <- function(x,pcshow=c(1,2,3),mag=3,color=3,lwd=1, ...) UseMethod("pcaplot3d")
-pcaplot3d.symproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE)
+pcaplot3d <- function (x,...) UseMethod("pcaplot3d")
+pcaplot3d.symproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...) 
 {   
                                         #rgl.open()
                                         #rgl.bg(color = "white")
@@ -41,7 +41,7 @@ pcaplot3d.symproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE)
           {lines3d(rbind(refshape[j,],pc[j,]),col=rainb[i],lwd=lwd)}
       }
 }
-pcaplot3d.nosymproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1)
+pcaplot3d.nosymproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
 {   
     #rgl.open()
     #rgl.bg(color = "white")

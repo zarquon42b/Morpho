@@ -5,13 +5,13 @@ bone2skin<-function(data,bonemesh,skinmesh)
   clB <- clS <- FALSE
   if (!is.character(bonemesh))
     {
-      mesh2ply(bonemesh,file="bonemesh")
+      mesh2ply(bonemesh,filename="bonemesh")
       bonemesh <- "bonemesh.ply"
       clB=TRUE
     }
   if (!is.character(skinmesh))
     {
-      mesh2ply(skinmesh,file="skinmesh")
+      mesh2ply(skinmesh,filename="skinmesh")
       skinmesh <- "skinmesh.ply"
       clS=TRUE
     }
