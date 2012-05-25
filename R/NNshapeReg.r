@@ -1,6 +1,7 @@
 NNshapeReg <- function(x,y,n,mahalanobis=FALSE,mc.cores = detectCores())
 
   {
+    i <- NULL
     registerDoParallel(mc.cores)
     out <- y
     estfun <- function(i)

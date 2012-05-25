@@ -42,7 +42,7 @@ Stefan Schlager
 
 
 \seealso{
-\code{\link{warp_obj}}
+\code{\link{warp.mesh}}
 }
 
 

@@ -21,7 +21,7 @@ SUBROUTINE mesh_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,matnorm,ta
      
     
   end do
- print *,itnorm(1,:)
+! print *,itnorm(1,:)
 !  do j = 1,nmat
 
  !    point(:) = matr(j,1:3)
@@ -35,8 +35,8 @@ SUBROUTINE mesh_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,matnorm,ta
 
   !end do
   call updateSearch(VB,nvb,IT,nit,DAT)
-   print *,nit
-   print *,nmat
+!   print *,nit
+!   print *,nmat
 
 
    !iterate over matrix rows

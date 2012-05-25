@@ -1,5 +1,6 @@
 cylinder <- function(x,dirs,length,radius=1,fine=20,adNormals=FALSE)
   {
+### create a 3D mesh representing a cylinder and place it in a requested positon
 ### create initial circle ###
     seqby <- 2/fine
     circ <- seq(from=0,to=(2-seqby), by=seqby)*pi

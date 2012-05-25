@@ -1,5 +1,6 @@
 spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
   {
+   
     ### tol=max tolerance for beta
     angcomp <- NULL
     VB <- mesh$vb[1:3,]
@@ -88,6 +89,7 @@ spinimage <- function(mesh,O,bs,rho=pi/2,resA=NULL,resB=NULL)
   }
 spinimageLM <- function(mat,mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
   {
+    i <- NULL
     registerDoParallel() ##register parallel backend
     pro <- projRead(mat,mesh,readnormals=TRUE)
     vn <- dim(mesh$vb)[2]
@@ -108,6 +110,7 @@ spinimageLM <- function(mat,mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
   }
  spinimageMesh <- function(mesh,bs,rho=pi/2,resA=NULL,resB=NULL)
   {
+     i <- NULL
     registerDoParallel() ##register parallel backend
     
     vn <- dim(mesh$vb)[2]

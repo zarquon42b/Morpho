@@ -1,4 +1,4 @@
-slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
+slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
 
 {
      
@@ -88,10 +88,7 @@ slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",su
 		sur.name<-paste(sur.path,"/",sur.name,".",sur.type,sep="")
       	}
 	
-	if (clean.init==TRUE)
-		{clean.mesh(dat.array=dat.array,sur.path=sur.path,sur.name=sur.name,sur.type=sur.type)
-		}
-      
+     
 	p1<-10^12
       	
       	ini<-rotonto(dat.array[,,1],dat.array[,,2],signref=FALSE) # create mean between first tow configs to avoid singular BE Matrix

@@ -7,6 +7,7 @@ Author: Stefan Schlager
 Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 Description: A toolset for Geometric Morphometrics and mesh processing.
 SystemRequirements: trimesh_project, rayproject, ply2ascii (http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
+Suggests: car, lattice
 Depends: R (>= 2.14.0), rgl,shapes,parallel,foreach,doParallel,colorRamps
 License: GPL-2
 LazyLoad: yes

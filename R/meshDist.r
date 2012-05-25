@@ -95,7 +95,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
 export <- function(x,...)UseMethod("export")
 export.meshDist <- function(x,file="default",imagedim="100x800",...)
 {
-  ramp <- x$colramp
+  colramp <- x$colramp
   widxheight <- as.integer(strsplit(imagedim,split="x")[[1]])
   mesh2ply(x$colMesh,col=x$cols)
   png(filename=paste(file,".png",sep=""),width=widxheight[1],height=widxheight[2])

@@ -13,7 +13,8 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",clean.init=FALSE,tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=FALSE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores=detectCores())
+slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",
+tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores=detectCores())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,9 +40,6 @@ slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL
 }
   \item{sur.type}{character:if all surfaces are of the same file format and the names stored in dat.array, the file format will be specified here.
 %%     ~~Describe \code{sur.type} here~~
-}
-  \item{clean.init}{request an initial cleaning of all meshes by removing duplicate vertices and faces. Only possible when mehslab is installed and the path added to System PATH.
-%%     ~~Describe \code{clean.init} here~~
 }
   \item{tol}{numeric: Threshold for convergence in the sliding process
 %%     ~~Describe \code{tol} here~~

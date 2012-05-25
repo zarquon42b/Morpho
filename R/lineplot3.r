@@ -1,4 +1,4 @@
-lineplot3<-function(x,point,col=1,lwd=1,line_antialias = FALSE)
+lineplot3d<-function(x,point,col=1,lwd=1,line_antialias = FALSE)
 {     
 
   if (is.list(point)==TRUE)
