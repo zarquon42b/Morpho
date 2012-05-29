@@ -52,7 +52,10 @@ open3d()
         
         if (!is.null(path))
           {
-            rend(file2mesh(tmp.name),col=col,alpha=alpha)
+            tmpmesh <- file2mesh(tmp.name)
+            rend(tmpmesh,col=col,alpha=alpha)
+            rm(tmpmesh)
+            gc()
           }
         answer <- readline(paste("viewing #",i,"next"))
         i <- i+1
