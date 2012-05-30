@@ -1,4 +1,4 @@
-ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE) 
+ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
 {
 
   x <- filename
@@ -7,11 +7,15 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
   infos <- A[1:end]
   vertinfo <- strsplit(A[grep("element vertex", infos)], " ")
   faceinfo <- strsplit(A[grep("element face", infos)], " ")
-  texinfo<-NULL	
+  texinfo<-NULL
+  colmat <- NULL
+  material <- NULL
                                         #if (length(grep("property list uchar float texcoord",A))==1) 
   qualinfo<-grep("property float quality", infos)
+  vertbegin <- grep("element vertex",infos)
+  facebegin <- grep("element face",infos)
   if (length(qualinfo)==1)
-    {qualine<-qualinfo-grep("element vertex",infos)
+    {qualine<-qualinfo-vertbegin
      qual<-TRUE
    }
   else 
@@ -22,18 +26,42 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
   vert <- apply(vert.all[, 1:3], 2, as.numeric)
   vert.n <- NULL
   quality<-NULL
-  if (length(grep("property float nx", A)) == 1) {
-    vert.n <- t(vert.all[, 4:6])
-    if (qual)
-      {quality<-as.vector(vert.all[,qualine])}
-  }
-  
+  if (length(grep("property float nx", infos)) == 1)
+    {
+      normstart <- grep("property float nx", infos)-vertbegin
+      vert.n <- t(vert.all[, normstart:(normstart+2)])
+      if (qual)
+        {quality<-as.vector(vert.all[,qualine])}
+    }
+
+  if (readcol)##check for colored vertices
+    {
+      color <- grep("property uchar red",infos)
+      if (length(color > 0))
+          { if (color[1] < facebegin)
+              {
+                colbegin <- color[1]-vertbegin
+                colmat <- vert.all[,colbegin:(colbegin+2)]
+                colmat <- apply(colmat,1,function(x){rgb(x[1],x[2],x[3],maxColorValue=255)})
+              }
+          }
+    }
+
   if (fn !=0)
     {
       face.all <- read.table(x, skip = end + vn, nrows = fn)
-      face <- face.all[, 2:4]+1
-      mesh <- list(vb = rbind(t(vert), 1), it = t(face), primitivetype = "triangle", material = NULL,normals = vert.n)
+      face <- t(face.all[, 2:4]+1)
+      
+      if (!is.null(colmat))
+        {
+          dimface <- dim(face)
+          material$color <- apply(face,1:2,function(x){x <- colmat[x]})
+        }
+      mesh <- list(vb = rbind(t(vert), 1), it = face, primitivetype = "triangle", material = material,normals = vert.n)
+
+      
       class(mesh) <- c("mesh3d", "shape3d")
+      
     }
   else
     {if (is.null(vert.n) || readnormals==FALSE)
@@ -56,9 +84,7 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE)
      mesh$tex<-t(tex)
      mesh$TextureFile<-strsplit(A[grep("comment TextureFile", infos)], " ")[[1]][3]
    } 
-  
-  
-  
+    
 ### check for normals and update if required ###
   if (fn !=0)	
     {if (adnormals && is.null(mesh$normals) ) {

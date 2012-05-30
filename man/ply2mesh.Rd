@@ -10,7 +10,7 @@ Import 3D surface mesh files
 imports 3D mesh files and store them as an R .object of class mesh3d
 }
 \usage{
-ply2mesh(filename, adnormals = TRUE,readnormals = FALSE)
+ply2mesh(filename, adnormals = TRUE,readnormals = FALSE,readcol=FALSE)
 obj2mesh(filename, adnormals = TRUE)
 file2mesh(filename, clean = TRUE)
 }
@@ -23,6 +23,9 @@ file2mesh(filename, clean = TRUE)
 %%     ~~Describe \code{adnormals} here~~
 }
 \item{readnormals}{Logical: Import vertex normals (if available), although no face information is present.
+%%     ~~Describe \code{adnormals} here~~
+}
+\item{readcol}{Logical: Import vertex colors (if available).
 %%     ~~Describe \code{adnormals} here~~
 }
 \item{clean}{Logical: Delete dumpfiles.
