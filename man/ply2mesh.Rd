@@ -12,7 +12,7 @@ imports 3D mesh files and store them as an R .object of class mesh3d
 \usage{
 ply2mesh(filename, adnormals = TRUE,readnormals = FALSE,readcol=FALSE)
 obj2mesh(filename, adnormals = TRUE)
-file2mesh(filename, clean = TRUE)
+file2mesh(filename, clean = TRUE,readcol=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

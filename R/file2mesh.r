@@ -1,12 +1,15 @@
-file2mesh<-function(filename,clean=TRUE)
+file2mesh<-function(filename,clean=TRUE,readcol=FALSE)
  
 {
-  noclean=NULL
+  options=NULL
   if (!clean)
-    {noclean <- " --noclean"
+    {options <- paste(options,"--noclean")
    }
-  system(paste("ply2ascii ",filename," dump.ascii.ply",noclean,sep=""))
-  mesh<-ply2mesh("dump.ascii.ply")
+  if (readcol)
+    {options <- paste(options,"--color")
+   }
+  system(paste("ply2ascii ",filename," dump.ascii.ply",options,sep=""))
+  mesh<-ply2mesh("dump.ascii.ply",readcol=readcol)
   unlink("dump.ascii.ply")
   return(mesh)
 }
