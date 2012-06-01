@@ -45,7 +45,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
           warp.norm <- tps.lm$normals[1:3,]### keep projected normals
 
           tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
-         tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol) ### deflate in opposite direction
+         tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol,angmax=rhotol) ### deflate in opposite direction
       
                  
           relax <- rbind(slide,t(tps.lm$vb[1:3,]))

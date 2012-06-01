@@ -1,4 +1,4 @@
-ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE)
+ray2mesh<-function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE)
 { 
 
   options <- NULL
@@ -17,6 +17,11 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,clean=TRUE,outname=NULL,readback=TRUE,inb
     {
       opt <- TRUE
       options <- paste(options,"--minray") #use closest point in and outward
+    }
+  if (!is.null(angmax))
+    {
+      opt <- TRUE
+      options <- paste(options,"--angmax",angmax) #check for normals
     }
   if (opt)
     { options <- paste(" ",options,sep="")
