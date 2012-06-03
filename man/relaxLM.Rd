@@ -56,7 +56,7 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name = NULL, 
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{\code{Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. «Semilandmarks in Three Dimensions,» in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.}
+\references{\code{Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.}
 %% ~put references to the literature/web site here ~
 }
 \author{Stefan Schlager

@@ -93,7 +93,7 @@ tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRU
 %% ...
 }
 \references{\code{Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of symmetric structures: quantifying variation among individuals and asymmetry. Evolution 56(10):1909-1920.}
-\code{Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. «Semilandmarks in Three Dimensions,» in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.}
+\code{Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.}
 %% ~put references to the literature/web site here ~
 }
 \author{Stefan Schlager
