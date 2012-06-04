@@ -42,7 +42,7 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
               {
                 colbegin <- color[1]-vertbegin
                 colmat <- vert.all[,colbegin:(colbegin+2)]
-                colmat <- apply(colmat,1,function(x){rgb(x[1],x[2],x[3],maxColorValue=255)})
+                colmat <- rgb(colmat[,1],colmat[,2],colmat[,3],maxColorValue=255)
               }
           }
     }
@@ -55,13 +55,15 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
       if (!is.null(colmat))
         {
           dimface <- dim(face)
-          material$color <- apply(face,1:2,function(x){x <- colmat[x]})
+          colfun <- function(x)
+            {
+              x <- colmat[x]
+              return(x)
+            }
+          material$color <- colfun(face)
         }
-      mesh <- list(vb = rbind(t(vert), 1), it = face, primitivetype = "triangle", material = material,normals = vert.n)
-
-      
+      mesh <- list(vb = rbind(t(vert), 1), it = face, primitivetype = "triangle", material = material,normals = vert.n)      
       class(mesh) <- c("mesh3d", "shape3d")
-      
     }
   else
     {if (is.null(vert.n) || readnormals==FALSE)
@@ -74,8 +76,6 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
      
    }
 ### generate object of class mesh3d ###	
-  
-  
   
 ### add TexCoords ###
   if (length(grep("property list uchar float texcoord",A))==1 && length(grep("comment TextureFile",A))==1)

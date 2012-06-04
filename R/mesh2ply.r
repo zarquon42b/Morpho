@@ -18,6 +18,15 @@ mesh2ply<-function(x,filename="default",col=NULL)
   vn<-dim(vert)[2]
   vn.all<-3
   texfile<-x$TextureFile
+
+  if (is.null(col) && !is.null(x$material$color))
+    {
+      col=rep("#FFFFFF",vn)
+      tmp1 <- data.frame(as.vector(x$it))
+      tmp1$rgb <- x$material$color
+      tmp1 <- unique(tmp1)
+      col[tmp1[,1]] <- tmp1$rgb
+    }
   
 ### start writing to file ###
   
