@@ -31,7 +31,8 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
         dev.off()
       }
     colorall <- ramp[distqual]
-    mesh1$material$color <- apply(mesh1$it,1:2,function(x){x <- colorall[x];return(x)})
+    colfun <- function(x){x <- colorall[x];return(x)}
+    mesh1$material$color <- colfun(mesh1$it)
      colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
      
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling)
@@ -75,7 +76,8 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
          coldif <- colseq[2]-colseq[1]
          distqual <- ceiling((dists/coldif)+1e-14)
          colorall <- ramp[distqual]
-         colMesh$material$color <- apply(colMesh$it,1:2,function(x){x <- colorall[x];return(x)})
+         colfun <- function(x){x <- colorall[x];return(x)}
+         colMesh$material$color <- colfun(colMesh$it)
          colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
        }
      else
