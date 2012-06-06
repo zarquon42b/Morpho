@@ -1,9 +1,10 @@
-meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE)
+meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE)
   {
+    neg=FALSE
     ramp <- blue2green2red(steps)
     if(!ray)
       {
-        dists <- projRead(t(mesh1$vb[1:3,]),mesh2,readnormals=T)$quality
+        dists <- projRead(t(mesh1$vb[1:3,]),mesh2,readnormals=T,sign=sign)$quality
       }
     else
       {
@@ -11,8 +12,23 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
       }
     
     if (is.null(from))
-      {from <- 0
-     }
+      {
+        mindist <- min(dists)
+        if (sign && mindist < 0 )
+          {
+            from <- quantile(dists,probs=(1-uprange)) 
+            #from <- mindist
+            neg <- TRUE            
+          }
+        else
+          {
+            from <- 0
+          }
+      }
+    if (from < 0)
+      {
+        neg <- TRUE
+      }
     if (is.null(to))
       {to <- quantile(dists,probs=uprange)    
      }
@@ -21,7 +37,20 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
      }
     colseq <- seq(from=from,to=to,length.out=steps)
     coldif <- colseq[2]-colseq[1]
-    distqual <- ceiling((dists/coldif)+1e-14)
+    if (neg && sign)
+      {
+         negseq <- length(which(colseq<0))
+         poseq <- steps-negseq
+         maxseq <- max(c(negseq,poseq))
+         ramp <- blue2green2red(maxseq*2)
+         ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
+         distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
+         distqual[which(distqual < 0)] <- 1e5
+      }
+    else
+      {
+        distqual <- ceiling((dists/coldif)+1e-14)
+      }
     if (save)
       {
         mesh2ply(mesh1,col=ramp[distqual],filename=file)
@@ -35,8 +64,8 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
     mesh1$material$color <- colfun(mesh1$it)
      colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
      
-    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling)
-    out <- list(colMesh=mesh1,dists=dists,cols=ramp[distqual],colramp=colramp,params=params)
+    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign)
+    out <- list(colMesh=mesh1,dists=dists,cols=ramp[distqual],colramp=colramp,params=params,distqual=distqual)
     class(out) <- "meshDist"
     if (plot)
       {
@@ -47,9 +76,12 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
 render <- function(x,...) UseMethod("render")
 render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,...)
   {
-
+    
      if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange))
        {
+         neg=FALSE
+         dists <- x$dists
+         sign <- x$params$sign
          colMesh <- x$colMesh
          if(is.null(steps))
            {steps <- x$params$steps
@@ -60,11 +92,26 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
          if(is.null(uprange))
            {uprange <- x$params$uprange
           }
-         dists <- x$dists
          
          if (is.null(from))
-             {from <- 0
-            }
+           {
+             mindist <- min(dists)
+             if (sign && mindist < 0 )
+               {
+                 from <- quantile(dists,probs=(1-uprange)) 
+                                        #from <- mindist
+                 neg <- TRUE            
+               }
+             else
+               {
+                 from <- 0
+               }
+             
+           }
+         if (from < 0)
+           {
+             neg <- TRUE
+           }         
          if (is.null(to))
            {to <- quantile(dists,probs=uprange)    
           }
@@ -74,7 +121,21 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
          ramp <- blue2green2red(steps)
          colseq <- seq(from=from,to=to,length.out=steps)
          coldif <- colseq[2]-colseq[1]
-         distqual <- ceiling((dists/coldif)+1e-14)
+          if (neg && sign)
+            {
+              
+              negseq <- length(which(colseq<0))
+              poseq <- steps-negseq
+              maxseq <- max(c(negseq,poseq))
+              ramp <- blue2green2red(maxseq*2)
+              ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
+              distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
+              distqual[which(distqual < 0)] <- 1e5
+            }
+          else
+            {
+              distqual <- ceiling((dists/coldif)+1e-14)
+            }
          colorall <- ramp[distqual]
          colfun <- function(x){x <- colorall[x];return(x)}
          colMesh$material$color <- colfun(colMesh$it)
