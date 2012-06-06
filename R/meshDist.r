@@ -45,7 +45,7 @@ meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="
          ramp <- blue2green2red(maxseq*2)
          ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
          distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
-         distqual[which(distqual < 0)] <- 1e5
+         distqual[which(distqual < 1)] <- steps+1
       }
     else
       {
@@ -105,8 +105,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
              else
                {
                  from <- 0
-               }
-             
+               }             
            }
          if (from < 0)
            {
@@ -121,21 +120,20 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
          ramp <- blue2green2red(steps)
          colseq <- seq(from=from,to=to,length.out=steps)
          coldif <- colseq[2]-colseq[1]
-          if (neg && sign)
-            {
-              
-              negseq <- length(which(colseq<0))
-              poseq <- steps-negseq
-              maxseq <- max(c(negseq,poseq))
-              ramp <- blue2green2red(maxseq*2)
-              ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
-              distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
-              distqual[which(distqual < 0)] <- 1e5
-            }
-          else
-            {
-              distqual <- ceiling((dists/coldif)+1e-14)
-            }
+         if (neg && sign)
+           {
+             negseq <- length(which(colseq<0))
+             poseq <- steps-negseq
+             maxseq <- max(c(negseq,poseq))
+             ramp <- blue2green2red(maxseq*2)
+             ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
+             distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
+             distqual[which(distqual < 1)] <- steps+1
+           }
+         else
+           {
+             distqual <- ceiling((dists/coldif)+1e-14)
+           }
          colorall <- ramp[distqual]
          colfun <- function(x){x <- colorall[x];return(x)}
          colMesh$material$color <- colfun(colMesh$it)
@@ -152,8 +150,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
      if(output)
        {return(out)
       }
-   
-  }
+   }
 
 export <- function(x,...)UseMethod("export")
 export.meshDist <- function(x,file="default",imagedim="100x800",...)
