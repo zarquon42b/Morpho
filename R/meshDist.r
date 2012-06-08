@@ -177,7 +177,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
     shade3d(colMesh)
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
-    if (!is.null(tol) && tol != 0)
+    if (!is.null(tol) && sum(tol) != 0)
       {
         image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col="green",useRaster=TRUE,add=TRUE)
       }
@@ -197,7 +197,7 @@ export.meshDist <- function(x,file="default",imagedim="100x800",...)
   png(filename=paste(file,".png",sep=""),width=widxheight[1],height=widxheight[2])
   diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
   image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
-   if (!is.null(tol) && tol != 0)
+   if (!is.null(tol) && sum(tol) != 0)
       {
         image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col="green",useRaster=TRUE,add=TRUE)
 
