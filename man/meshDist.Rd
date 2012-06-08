@@ -9,7 +9,7 @@
 calculates the distances from a mesh to another at each vertex; either
 closest point or along the normals}
 \usage{
-meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot = TRUE,sign=FALSE,tol=NULL)
+meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot = TRUE,sign=FALSE,tol=NULL,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -62,6 +62,9 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
 }
 \item{tol}{numeric: threshold to color distances within this threshold green.
 }
+\item{\dots}{additional arguments passed to  \code{\link{shade3d}}. See
+  \code{\link{rgl.material}} for details.
+}
 }
 \details{this function needs the command line tools from the Auxiliaries section in http://sourceforge.net/projects/morpho-rpackage/files/ installed. 
 }
@@ -90,7 +93,7 @@ Stefan Schlager}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{render.meshDist}}, \code{\link{export.meshDist}}
+\code{\link{render.meshDist}}, \code{\link{export.meshDist}}, \code{\link{shade3d}}
 }
 \examples{
 data(nose)##load data

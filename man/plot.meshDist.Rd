@@ -43,8 +43,7 @@
   \item{imagedim}{character of type 100x200 where 100 determines the
     width and 200 the height of the image.
   }
-  \item{\dots}{Additional parameters which will be passed to the
-    methods.
+  \item{\dots}{for render.meshDist: additional arguments passed to  \code{\link{shade3d}}. See  \code{\link{rgl.material}} for details.
   }
 }
 \details{
@@ -66,7 +65,8 @@ Stefan Schlager}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
- \code{\link{meshDist}}
+ \code{\link{meshDist}}, \code{\link{shade3d}}
+
 }
 \examples{
 
