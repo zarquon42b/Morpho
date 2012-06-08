@@ -1,6 +1,9 @@
 \name{render.meshDist}
 \alias{render.meshDist}
 \alias{export.meshDist}
+\alias{render}
+\alias{export}
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   plot or save the results of meshDist 
@@ -17,31 +20,25 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{object of class meshDist
-    %%     ~~Describe \code{x} here~~
   }
   \item{from}{numeric: minimum distance to color; default is set to 0 mm
-    %%     ~~Describe \code{from} here~~
   }
   \item{to}{numeric: maximum distance to color; default is set to the maximum distance
-    %%     ~~Describe \code{to} here~~
   }
   \item{steps}{integer: determines how many intermediate colors the color ramp has.
-    %%     ~~Describe \code{steps} here~~
   }
   \item{ceiling}{logical: if TRUE, the next larger integer of "to" is
     used
-    %%     ~~Describe \code{ceiling} here~~
   }
   \item{output}{logical: return updated colored mesh.
-    %%     ~~Describe \code{ceiling} here~~
   }
   \item{uprange}{numeric between 0 and 1: restricts "to" to a quantile of
     "to", if to is NULL.
-    %%     ~~Describe \code{uprange} here~~
   }
+  \item{tol}{numeric: threshold to color distances within this threshold green.
+  }    
   \item{file}{character: filename for mesh and image files
     produced. E.g. "mydist" will produce the files mydist.ply and mydist.png
-    %%     ~~Describe \code{file} here~~
   } 
   \item{imagedim}{character of type 100x200 where 100 determines the
     width and 200 the height of the image.
@@ -51,7 +48,8 @@
   }
 }
 \details{
-  render.meshDist renders the colored mesh and displays the color ramp.
+  render.meshDist renders the colored mesh and displays the color ramp
+  and returns an object of class "meshDist".
   export.meshDist exports the colored mesh as ply file and the color
   chart as png file.
 }

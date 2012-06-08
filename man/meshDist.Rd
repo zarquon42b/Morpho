@@ -9,7 +9,7 @@
 calculates the distances from a mesh to another at each vertex; either
 closest point or along the normals}
 \usage{
-meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot = TRUE)
+meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot = TRUE,sign=FALSE,tol=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -57,6 +57,11 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
 \item{plot}{logical: visualise result as 3D-plot and distance charts
 %%     ~~Describe \code{raytol} here~~
 }
+\item{sign}{logical: request signed distances.
+%%     ~~Describe \code{raytol} here~~
+}
+\item{tol}{numeric: threshold to color distances within this threshold green.
+}
 }
 \details{this function needs the command line tools from the Auxiliaries section in http://sourceforge.net/projects/morpho-rpackage/files/ installed. 
 }
@@ -72,7 +77,9 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
 %%     ~~Describe \code{raytol} here~~
 }
 \references{
-%% ~put references to the literature/web site here ~
+  Detection of inside/outside uses the algorithm proposed in:
+
+  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed Distance Fields From Triangle Meshes. Informatics and Mathematical Modelling, .
 }
 \author{
 Stefan Schlager}
@@ -89,13 +96,16 @@ Stefan Schlager}
 data(nose)##load data
 ##warp a mesh onto another landmark configuration:
 warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
-##calculate the distances
-distance <- meshDist(warpnose.long,shortnose.mesh)
-### now you can find two files called example.ply and example.png in
-#your working directory. You can view the ply file e.g. with meshlab
-#(https://sourceforge.net/projects/meshlab/) and see the mesh colored
-#according to the differences. The color legend is displayed in example.png.
-  
+
+## Not run:
+meshDist(warpnose.long,shortnose.mesh)
+## End(Not run)
+
+## Not run:
+#use signed distances and
+#color distances < 0.01 green:
+meshDist(warpnose.long,shortnose.mesh,sign=T,tol=0.01)
+## End(Not run)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
