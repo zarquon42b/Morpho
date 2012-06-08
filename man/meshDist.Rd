@@ -20,6 +20,10 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
     character pointing to a surface mesh (ply, obj or stl file) 
 %%     ~~Describe \code{mesh2} here~~
 }
+ \item{distvec}{vector: optional, a vector containing distances for each
+   vertex of mesh1, if distvec != NULL, mesh2 will be ignored. 
+%%     ~~Describe \code{mesh2} here~~
+}
   \item{from}{numeric: minimum distance to color; default is set to 0 mm
 %%     ~~Describe \code{from} here~~
 }
@@ -57,7 +61,8 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
 \item{plot}{logical: visualise result as 3D-plot and distance charts
 %%     ~~Describe \code{raytol} here~~
 }
-\item{sign}{logical: request signed distances.
+\item{sign}{logical: request signed distances. Only meaningful, if mesh2
+  is specified or distvec contains signed distances.
 %%     ~~Describe \code{raytol} here~~
 }
 \item{tol}{numeric: threshold to color distances within this threshold green.

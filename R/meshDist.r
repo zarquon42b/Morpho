@@ -1,15 +1,28 @@
-meshDist <- function(mesh1,mesh2,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE,tol=NULL,...)
+meshDist <- function(mesh1,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE,tol=NULL,...)
   {
     neg=FALSE
     ramp <- blue2green2red(steps-1)
-    if(!ray)
+    if (is.null(distvec))
       {
-        dists <- projRead(t(mesh1$vb[1:3,]),mesh2,readnormals=T,sign=sign)$quality
+        if(!ray)
+          {
+            dists <- projRead(t(mesh1$vb[1:3,]),mesh2,readnormals=T,sign=sign)$quality
+          }
+        else
+          {
+            dists <- ray2mesh(mesh1,mesh2,tol=raytol)$quality
+          }
       }
     else
       {
-        dists <- ray2mesh(mesh1,mesh2,tol=raytol)$quality
-      }
+        
+        dists <- distvec
+        if (!sign)
+          {
+            dists <- abs(dists)
+          }
+        
+      }  
     
     if (is.null(from))
       {
