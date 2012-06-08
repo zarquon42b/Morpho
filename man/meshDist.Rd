@@ -24,14 +24,14 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
    vertex of mesh1, if distvec != NULL, mesh2 will be ignored. 
 %%     ~~Describe \code{mesh2} here~~
 }
-  \item{from}{numeric: minimum distance to color; default is set to 0 mm
+  \item{from}{numeric: minimum distance to be colorised; default is set to 0 mm
 %%     ~~Describe \code{from} here~~
 }
-  \item{to}{numeric: maximum distance to color; default is set to the maximum distance
+  \item{to}{numeric: maximum distance to be colorised; default is set to the maximum distance
 %%     ~~Describe \code{to} here~~
 }
-  \item{steps}{integer: determines how many intermediate colors the color ramp has.
-%%     ~~Describe \code{steps} here~~
+  \item{steps}{integer: determines break points for color ramp: n steps
+    will produce n-1 colors.
 }
   \item{ceiling}{logical: if TRUE, the next larger integer of "to" is
     used
