@@ -1,4 +1,6 @@
-meshDist <- function(mesh1,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE,tol=NULL,...)
+meshDist <- function(x,...) UseMethod("meshDist")
+
+meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE,tol=NULL,...)
   {
     neg=FALSE
     ramp <- blue2green2red(steps-1)
@@ -6,11 +8,11 @@ meshDist <- function(mesh1,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ce
       {
         if(!ray)
           {
-            dists <- projRead(t(mesh1$vb[1:3,]),mesh2,readnormals=T,sign=sign)$quality
+            dists <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=sign)$quality
           }
         else
           {
-            dists <- ray2mesh(mesh1,mesh2,tol=raytol)$quality
+            dists <- ray2mesh(x,mesh2,tol=raytol)$quality
           }
       }
     else
@@ -46,6 +48,7 @@ meshDist <- function(mesh1,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ce
     if(ceiling)
       {to <- ceiling(to)
      }
+    to <- to+1e-10
     colseq <- seq(from=from,to=to,length.out=steps)
     coldif <- colseq[2]-colseq[1]
     if (neg && sign)
@@ -79,10 +82,10 @@ meshDist <- function(mesh1,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ce
       }   
    
     colfun <- function(x){x <- colorall[x];return(x)}
-    mesh1$material$color <- colfun(mesh1$it)
+    x$material$color <- colfun(x$it)
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
-    out <- list(colMesh=mesh1,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual)
+    out <- list(colMesh=x,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual)
     class(out) <- "meshDist"
 
     if (plot)
@@ -98,10 +101,15 @@ meshDist <- function(mesh1,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ce
 render <- function(x,...) UseMethod("render")
 render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,...)
   {
+    dists <- x$dists
+    colorall <- x$colorall
+    colramp <- x$colramp
+    params <- x$params
+    distqual <- x$distqual
     if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol))
       {
         neg=FALSE
-        dists <- x$dists
+        
         sign <- x$params$sign
         colMesh <- x$colMesh
         if(is.null(steps))
@@ -138,6 +146,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
         if(ceiling)
           {to <- ceiling(to)
          }
+        to <- to+1e-10
         ramp <- blue2green2red(steps-1)
         colseq <- seq(from=from,to=to,length.out=steps)
         coldif <- colseq[2]-colseq[1]
@@ -192,7 +201,10 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
             image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col="green",useRaster=TRUE,add=TRUE)
           }
       }
-    out <- list(colMesh=colMesh,colramp=colramp)
+    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
+    out <- list(colMesh=colMesh,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual)
+    #out <- list(colMesh=colMesh,colramp=colramp)
+    class(out) <- "meshDist"
     if(output)
       {invisible(out)
      }
@@ -204,7 +216,7 @@ export.meshDist <- function(x,file="default",imagedim="100x800",...)
   tol <- x$params$tol
   colramp <- x$colramp
   widxheight <- as.integer(strsplit(imagedim,split="x")[[1]])
-  mesh2ply(x$colMesh,col=x$cols,file=file)
+  mesh2ply(x$colMesh,col=x$cols,filename=file)
   png(filename=paste(file,".png",sep=""),width=widxheight[1],height=widxheight[2])
   diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
   image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")

@@ -1,19 +1,29 @@
 \name{meshDist}
+\alias{meshDist.mesh3d}
+\alias{meshDist.matrix}
 \alias{meshDist}
+
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  calculates distances between surface meshes and renders and/or saves a
-  colored mesh and image with color legend.
+  calculates and visualises distances between surface meshes or 3D
+  coordinates and a surface mesh.
 }
 \description{
-calculates the distances from a mesh to another at each vertex; either
+calculates the distances from a mesh or a set of 3D coordinates to another at each vertex; either
 closest point or along the normals}
 \usage{
-meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot = TRUE,sign=FALSE,tol=NULL,...)
+\method{meshDist}{mesh3d}(x, mesh2=NULL,distvec=NULL, from = NULL, to
+= NULL, steps = 20,ceiling = FALSE, file = "default", imagedim =
+"100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot =
+TRUE,sign=FALSE,tol=NULL,...)
+
+\method{meshDist}{matrix}(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=FALSE,tol=NULL,type=c("s","p"),radius=NULL,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{mesh1}{reference mesh; object of class "mesh3d"
+  \item{x}{reference mesh; object of class "mesh3d" or a n x 3 matrix
+    containing 3D coordinates.
 %%     ~~Describe \code{mesh1} here~~
 }
   \item{mesh2}{target mesh: either object of class "mesh3d" or a
@@ -21,7 +31,7 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
 %%     ~~Describe \code{mesh2} here~~
 }
  \item{distvec}{vector: optional, a vector containing distances for each
-   vertex of mesh1, if distvec != NULL, mesh2 will be ignored. 
+   vertex of mesh1, if distvec != NULL, x will be ignored. 
 %%     ~~Describe \code{mesh2} here~~
 }
   \item{from}{numeric: minimum distance to be colorised; default is set to 0 mm
@@ -67,13 +77,20 @@ meshDist(mesh1, mesh2, from = NULL, to = NULL, steps = 20, ceiling = FALSE, file
 }
 \item{tol}{numeric: threshold to color distances within this threshold green.
 }
+\item{type}{character: "s" shows coordinates as spheres, while "p" shows
+  3D dots.
+}
+\item{radius}{determines size of spheres; if not specified, optimal
+  radius size will be estimated by centroid size of the configuration.
+}
 \item{\dots}{additional arguments passed to  \code{\link{shade3d}}. See
   \code{\link{rgl.material}} for details.
 }
 }
 \details{this function needs the command line tools from the Auxiliaries section in http://sourceforge.net/projects/morpho-rpackage/files/ installed. 
 }
-\value{
+\value{Returns an object of class "meshDist" if the input is a surface
+  mesh and one of class "matrixDist" if input is a matrix containing 3D coordinates.
 \item{colMesh}{object of mesh3d with colors added
 }
 \item{dists}{vector with distances.
@@ -98,7 +115,7 @@ Stefan Schlager}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{render.meshDist}}, \code{\link{export.meshDist}}, \code{\link{shade3d}}
+\code{\link{render.meshDist}},, \code{\link{export.meshDist}}, \code{\link{shade3d}}
 }
 \examples{
 data(nose)##load data
@@ -112,7 +129,7 @@ meshDist(warpnose.long,shortnose.mesh)
 ## Not run:
 #use signed distances and
 #color distances < 0.01 green:
-meshDist(warpnose.long,shortnose.mesh,sign=T,tol=0.01)
+meshDist(warpnose.long,shortnose.mesh,sign=TRUE,tol=0.01)
 ## End(Not run)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

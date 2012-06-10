@@ -1,5 +1,6 @@
 \name{render.meshDist}
 \alias{render.meshDist}
+\alias{render.matrixDist}
 \alias{export.meshDist}
 \alias{render}
 \alias{export}
@@ -13,7 +14,10 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,...)
+\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,...)
+
+\method{render}{matrixDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,...)
+
 \method{export}{meshDist}(x,file="default",imagedim="100x800",...)
 
 }
@@ -43,6 +47,13 @@
   \item{imagedim}{character of type 100x200 where 100 determines the
     width and 200 the height of the image.
   }
+  \item{type}{character: "s" shows coordinates as spheres, while "p" shows
+    3D dots.
+  }
+  \item{radius}{determines size of spheres; if not specified, optimal
+    radius size will be estimated by centroid size of the configuration.
+  }
+
   \item{\dots}{for render.meshDist: additional arguments passed to  \code{\link{shade3d}}. See  \code{\link{rgl.material}} for details.
   }
 }

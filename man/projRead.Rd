@@ -8,7 +8,8 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-projRead(lm, mesh, readnormals = TRUE, clean = TRUE, smooth = TRUE, ignore.stdout = FALSE)
+projRead(lm, mesh, readnormals = TRUE, clean = TRUE, smooth = TRUE,
+ignore.stdout = FALSE, sign=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,8 +28,11 @@ projRead(lm, mesh, readnormals = TRUE, clean = TRUE, smooth = TRUE, ignore.stdou
   \item{smooth}{logical: rerurn smoothed normals.
 %%     ~~Describe \code{readnormals} here~~
 }
- \item{ ignore.stdout}{logical: supress console output.
+ \item{ignore.stdout}{logical: supress console output.
 %%     ~~Describe \code{readnormals} here~~
+}
+\item{sign}{logical: request signed distances.
+%%     ~~Describe \code{raytol} here~~
 }
 }
 \details{
@@ -41,12 +45,13 @@ projRead needs the command line tool trimesh_project (http://sourceforge.net/pro
 \item{normals }{3 x m matrix containing normals}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
+\references{ Detection of inside/outside uses the algorithm proposed in:
+
+  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed Distance Fields From Triangle Meshes. Informatics and Mathematical Modelling.
 }
+
 \author{
-%%  ~~who you are~~
-}
+Stefan Schlager}
 \note{
 %%  ~~further notes~~
 }
