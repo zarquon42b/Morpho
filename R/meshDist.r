@@ -90,7 +90,7 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
 
     if (plot)
       {
-        render(out,output=FALSE)
+        render(out,output=FALSE,...)
       }
     if (save)
       {
@@ -101,6 +101,7 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
 render <- function(x,...) UseMethod("render")
 render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,...)
   {
+    
     dists <- x$dists
     colorall <- x$colorall
     colramp <- x$colramp
@@ -191,7 +192,8 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
         colramp <- x$colramp
         colMesh <- x$colMesh
       }
-    shade3d(colMesh,...)
+   
+    shade3d(colMesh,specular="black",...)
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
     if (!is.null(tol))
