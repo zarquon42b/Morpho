@@ -1,17 +1,18 @@
-meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=FALSE,tol=NULL,type=c("s","p"),radius=NULL,...)
+meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=FALSE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,...)
   {
     x <- list(vb=t(x),it=(1:dim(x)[1]))
     class(x) <- "mesh3d"
-    out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,...)
+    out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,displace=FALSE,...)
     class(out) <- "matrixDist"
-    render(out,radius=radius,type=type)
+    render(out,radius=radius,type=type,displace=displace)
     invisible(out)
   }
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,...)
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,...)
   {
+    clost=x$clost
     type=type[1]
     dists <- x$dists
-    colorall <- x$colorall
+    colorall <- x$cols
     colramp <- x$colramp
     params <- x$params
     distqual <- x$distqual    
@@ -116,6 +117,16 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output
               }
             spheres3d(t(colMesh$vb),col=colMesh$material$color,radius=radius,...)
           }
+     if (displace)
+      {
+        dismesh <-colMesh
+        vl <- dim(colMesh$vb)[2]
+        dismesh$vb <- cbind(rbind(colMesh$vb,1),rbind(clost,1))
+        dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)
+        dismesh$material$color <- rbind(colorall,colorall,colorall)
+        wire3d(dismesh,lit=FALSE)
+      }
+    
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
     if (!is.null(tol))

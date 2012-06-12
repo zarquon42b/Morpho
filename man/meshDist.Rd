@@ -16,7 +16,7 @@ closest point or along the normals}
 \method{meshDist}{mesh3d}(x, mesh2=NULL,distvec=NULL, from = NULL, to
 = NULL, steps = 20,ceiling = FALSE, file = "default", imagedim =
 "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot =
-TRUE,sign=FALSE,tol=NULL,...)
+TRUE,sign=FALSE,tol=NULL,displace=FALSE,shade=TRUE,...)
 
 \method{meshDist}{matrix}(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=FALSE,tol=NULL,type=c("s","p"),radius=NULL,...)
 }
@@ -76,6 +76,12 @@ TRUE,sign=FALSE,tol=NULL,...)
 %%     ~~Describe \code{raytol} here~~
 }
 \item{tol}{numeric: threshold to color distances within this threshold green.
+}
+\item{displace}{logical: if TRUE, displacement vectors between original
+  and closest points are drawn colored according to the distance.
+}
+\item{shade}{logical: if FALSE, the rendering of the colored surface
+  will be supressed.
 }
 \item{type}{character: "s" shows coordinates as spheres, while "p" shows
   3D dots.

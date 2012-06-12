@@ -1,6 +1,6 @@
 meshDist <- function(x,...) UseMethod("meshDist")
 
-meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE,tol=NULL,...)
+meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE,tol=NULL,displace=FALSE,shade=TRUE,...)
   {
     neg=FALSE
     ramp <- blue2green2red(steps-1)
@@ -8,11 +8,15 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
       {
         if(!ray)
           {
-            dists <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=sign)$quality
+            promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=sign)
+            clost <- promesh$vb
+            dists <- promesh$quality
           }
         else
           {
-            dists <- ray2mesh(x,mesh2,tol=raytol)$quality
+            promesh <- ray2mesh(x,mesh2,tol=raytol)
+            clost <- promesh$vb
+            dists <- promesh$quality
           }
       }
     else
@@ -85,12 +89,12 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
     x$material$color <- colfun(x$it)
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
-    out <- list(colMesh=x,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual)
+    out <- list(colMesh=x,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     class(out) <- "meshDist"
 
     if (plot)
       {
-        render(out,output=FALSE,...)
+        render(out,output=FALSE,displace=displace,shade=shade,...)
       }
     if (save)
       {
@@ -99,11 +103,11 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
     invisible(out)
   }
 render <- function(x,...) UseMethod("render")
-render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,...)
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,...)
   {
-    
+    clost <- x$clost
     dists <- x$dists
-    colorall <- x$colorall
+    colorall <- x$cols
     colramp <- x$colramp
     params <- x$params
     distqual <- x$distqual
@@ -192,8 +196,19 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
         colramp <- x$colramp
         colMesh <- x$colMesh
       }
-   
-    shade3d(colMesh,specular="black",...)
+    if (shade)
+      {
+        shade3d(colMesh,specular="black",...)
+      }
+    if (displace)
+      {
+        dismesh <-colMesh
+        vl <- dim(colMesh$vb)[2]
+        dismesh$vb <- cbind(colMesh$vb,rbind(clost,1))
+        dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)
+        dismesh$material$color <- rbind(colorall,colorall,colorall)
+        wire3d(dismesh,lit=FALSE)
+      }
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
     if (!is.null(tol))
@@ -204,7 +219,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
           }
       }
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
-    out <- list(colMesh=colMesh,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual)
+    out <- list(colMesh=colMesh,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     #out <- list(colMesh=colMesh,colramp=colramp)
     class(out) <- "meshDist"
     if(output)
