@@ -14,9 +14,12 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
           }
         else
           {
-            promesh <- ray2mesh(x,mesh2,tol=raytol)
-            clost <- promesh$vb
+            promesh <- ray2mesh(x,mesh2,tol=raytol,mindist=TRUE)
+            clost <- promesh$vb[1:3,]
             dists <- promesh$quality
+            if (!sign)
+              {dists <- abs(dists)
+             }
           }
       }
     else
