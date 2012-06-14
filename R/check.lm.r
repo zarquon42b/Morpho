@@ -1,5 +1,6 @@
-check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,alpha=0.7,begin=1,render="w",point=c("s","p"))
+check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,alpha=0.7,begin=1,render="w",point=c("s","p"),add=FALSE)
   {
+    outid <- NULL
     point=point[1]
     arr <- FALSE
     if (point == "s")
@@ -36,29 +37,31 @@ check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,
       {
         rend <- shade3d
       }
-open3d()
-    while (i <= n)
+    if (!add)
       {
-        
+        open3d()
+      }
+        while (i <= n)
+      {
         tmp.name <- paste(path,prefix,name[i],suffix,sep="")
         if (arr)
           {
-            rendpoint(dat.array[,,i],radius=radius)
+            outid <- rendpoint(dat.array[,,i],radius=radius)
           }
         else
           {
-            rendpoint(dat.array[[i]],radius=radius)
+            outid <- rendpoint(dat.array[[i]],radius=radius)
           }
         
         if (!is.null(path))
           {
             tmpmesh <- file2mesh(tmp.name)
-            rend(tmpmesh,col=col,alpha=alpha)
+            outid <- c(outid,rend(tmpmesh,col=col,alpha=alpha))
             rm(tmpmesh)
             gc()
           }
         answer <- readline(paste("viewing #",i,"next"))
         i <- i+1
-        rgl.clear()
+        rgl.pop(id=outid)
       }
   }
