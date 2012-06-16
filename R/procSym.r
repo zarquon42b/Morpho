@@ -4,7 +4,9 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
       	k<-dim(A)[1]
       	m<-dim(A)[2]     
       	n<-dim(A)[3]
-      	Mir<-diag(c(-1,1,1))
+        Mir <- rep(1,m)
+        Mir[1] <- -1
+      	Mir<-diag(Mir)
       	dataslide<-NULL
       	CS<-NULL
       
