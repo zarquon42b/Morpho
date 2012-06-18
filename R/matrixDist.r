@@ -1,4 +1,4 @@
-meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=FALSE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,...)
+meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,...)
   {
     x <- list(vb=t(x),it=(1:dim(x)[1]))
     class(x) <- "mesh3d"
@@ -7,26 +7,35 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
     render(out,radius=radius,type=type,displace=displace)
     invisible(out)
   }
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,...)
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,sign=NULL,...)
   {
     clost=x$clost
     type=type[1]
     dists <- x$dists
+    distsOrig <- dists
     colorall <- x$cols
     colramp <- x$colramp
     params <- x$params
     distqual <- x$distqual    
     
-    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol))
+    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol) || !is.null(sign))
       {
         
         neg=FALSE
         dists <- x$dists
-        sign <- x$params$sign
+        distsOrig <- dists
         colMesh <- x$colMesh
         if(is.null(steps))
           {steps <- x$params$steps
          }
+         if(is.null(sign))
+          {sign <- x$params$sign
+         }
+        if (!sign)
+          {
+            distsOrig <- dists
+            dists <- abs(dists)
+          }
         if(is.null(ceiling))
           {ceiling <- x$params$ceiling
          }
@@ -137,7 +146,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output
           }
       }
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
-    out <- list(colMesh=colMesh,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual)
+    out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual)
     #out <- list(colMesh=colMesh,colramp=colramp)
      class(out) <- "matrixDist"
     if(output)
