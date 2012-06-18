@@ -14,9 +14,10 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,sign=NULL,...)
+\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,displace = FALSE, shade = TRUE,sign=NULL,...)
 
-\method{render}{matrixDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,...)
+\method{render}{matrixDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace = FALSE, sign =
+                 NULL,...)
 
 \method{export}{meshDist}(x,file="default",imagedim="100x800",...)
 
@@ -39,9 +40,16 @@
   \item{uprange}{numeric between 0 and 1: restricts "to" to a quantile of
     "to", if to is NULL.
   }
-  \item{tol}{numeric: threshold to color distances within this threshold green.
+  \item{tol}{numeric: threshold to color distances within this threshold
+    green.
   }
-   \item{sign}{logical: request signed distances to be visualised.
+  \item{displace}{logical: if TRUE, displacement vectors between original
+    and closest points are drawn colored according to the distance.
+  }
+  \item{shade}{logical: if FALSE, the rendering of the colored surface
+    will be supressed.
+  }
+  \item{sign}{logical: request signed distances to be visualised.
   }   
   \item{file}{character: filename for mesh and image files
     produced. E.g. "mydist" will produce the files mydist.ply and mydist.png
