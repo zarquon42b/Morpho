@@ -18,7 +18,7 @@ closest point or along the normals}
 "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot =
 TRUE,sign=FALSE,tol=NULL,displace=FALSE,shade=TRUE,...)
 
-\method{meshDist}{matrix}(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=FALSE,tol=NULL,type=c("s","p"),radius=NULL,...)
+\method{meshDist}{matrix}(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

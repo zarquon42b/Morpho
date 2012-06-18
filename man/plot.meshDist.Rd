@@ -14,7 +14,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,...)
+\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,sign=NULL,...)
 
 \method{render}{matrixDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,...)
 
@@ -40,7 +40,9 @@
     "to", if to is NULL.
   }
   \item{tol}{numeric: threshold to color distances within this threshold green.
-  }    
+  }
+   \item{sign}{logical: request signed distances to be visualised.
+  }   
   \item{file}{character: filename for mesh and image files
     produced. E.g. "mydist" will produce the files mydist.ply and mydist.png
   } 

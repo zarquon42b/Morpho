@@ -1,6 +1,6 @@
 meshDist <- function(x,...) UseMethod("meshDist")
 
-meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=FALSE,tol=NULL,displace=FALSE,shade=TRUE,...)
+meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,...)
   {
     neg=FALSE
     ramp <- blue2green2red(steps-1)
@@ -8,15 +8,22 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
       {
         if(!ray)
           {
-            promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=sign)
+            promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=T)
             clost <- promesh$vb
             dists <- promesh$quality
+            distsOrig <- dists
+            if (!sign)
+              {dists <- abs(dists)
+             }
+            
+            
           }
         else
           {
             promesh <- ray2mesh(x,mesh2,tol=raytol,mindist=TRUE)
             clost <- promesh$vb[1:3,]
             dists <- promesh$quality
+            distsOrig <- dists
             if (!sign)
               {dists <- abs(dists)
              }
@@ -92,7 +99,7 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
     x$material$color <- colfun(x$it)
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
-    out <- list(colMesh=x,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
+    out <- list(colMesh=x,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     class(out) <- "meshDist"
 
     if (plot)
@@ -106,23 +113,32 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
     invisible(out)
   }
 render <- function(x,...) UseMethod("render")
-render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,...)
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,sign=NULL,...)
   {
     clost <- x$clost
     dists <- x$dists
+    distsOrig <- dists
     colorall <- x$cols
     colramp <- x$colramp
     params <- x$params
     distqual <- x$distqual
-    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol))
+    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign))
       {
         neg=FALSE
         
-        sign <- x$params$sign
+        
         colMesh <- x$colMesh
         if(is.null(steps))
           {steps <- x$params$steps
          }
+        if(is.null(sign))
+          {sign <- x$params$sign
+         }
+        if (!sign)
+          {
+            distsOrig <- dists
+            dists <- abs(dists)
+          }
         if(is.null(ceiling))
           {ceiling <- x$params$ceiling
          }
@@ -222,7 +238,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
           }
       }
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
-    out <- list(colMesh=colMesh,dists=dists,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
+    out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     #out <- list(colMesh=colMesh,colramp=colramp)
     class(out) <- "meshDist"
     if(output)
