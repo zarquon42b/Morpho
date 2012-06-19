@@ -31,7 +31,9 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
       }
     else
       {
+        clost <- NULL
         dists <- distvec
+        distsOrig <- dists
         if (!sign)
           {
             dists <- abs(dists)
