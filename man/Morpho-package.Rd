@@ -14,8 +14,8 @@ for Semilandmarks, importing, exporting and manipulating 3D-surface meshes
 \tabular{ll}{
 Package: \tab Morpho\cr
 Type: \tab Package\cr
-Version: \tab 0.15.99\cr
-Date: \tab 2012-06-04\cr
+Version: \tab 0.16\cr
+Date: \tab 2012-06-22\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
