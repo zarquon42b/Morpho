@@ -9,7 +9,7 @@ export mesh objects to disk.
 export an object of class mesh3d to a common mesh file.
 }
 \usage{
-mesh2ply(x, filename = "default",col = NULL)
+mesh2ply(x, filename = "default",col = NULL, writeNormals=FALSE)
 mesh2obj(x, filename = "default")
 }
 %- maybe also 'usage' for other objects documented here.
@@ -21,8 +21,11 @@ mesh2obj(x, filename = "default")
   \item{filename}{character: Path/name of the requested output - extension will be added manually.
 %%     ~~Describe \code{filename} here~~
 }
- \item{col}{ Writes color information to ply file. Can be either a single color value or a vector containing a color
-   value for each vertex of the mesh.
+ \item{col}{ Writes color information to ply file. Can be either a single color value or a vector containing a color value for each vertex of the mesh.
+%%     ~~Describe \code{x} here~~
+}
+ \item{writeNormals}{logical: if TRUE, existing normals of a mesh are
+   written to file - can slow things down for very large meshes.
 %%     ~~Describe \code{x} here~~
 }
 }

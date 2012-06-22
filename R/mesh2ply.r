@@ -1,4 +1,4 @@
-mesh2ply<-function(x,filename="default",col=NULL)
+mesh2ply<-function(x,filename="default",col=NULL,writeNormals=FALSE)
 {	
 
   if (is.matrix(x))
@@ -26,6 +26,11 @@ mesh2ply<-function(x,filename="default",col=NULL)
       tmp1$rgb <- x$material$color
       tmp1 <- unique(tmp1)
       col[tmp1[,1]] <- tmp1$rgb
+    }
+
+  if (!writeNormals)
+    {
+      x$normals <- NULL
     }
   
 ### start writing to file ###

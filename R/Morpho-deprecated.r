@@ -23,3 +23,8 @@ mc.CVA <-function (...)
   .Deprecated("CVA", package="Morpho")
   CVA(...)
 }
+deform.grid <-function (...)
+{
+  .Deprecated("deformGrid3d", package="Morpho")
+  deformGrid3d(...)
+}
