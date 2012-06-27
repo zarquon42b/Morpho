@@ -56,12 +56,12 @@ closematKD <- function(matr,mesh,k=50,...)
     region <- fptr
     out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region)
     gc()
-    
+   
     return(out)
   }
-closemeshKD <- function(matr,mesh,k=50,...)
+closemeshKD <- function(inmesh,mesh,k=50,...)
   {
-    matr <- t(matr$vb[1:3,])
+    matr <- t(inmesh$vb[1:3,])
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
     nvb <- dim(vb)[2]
@@ -88,7 +88,8 @@ closemeshKD <- function(matr,mesh,k=50,...)
     region <- fptr
     out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region)
     gc()
-    return(out)
+    inmesh$vb[1:3,] <- t(out[[11]])
+    return(inmesh)
   }
 mcClosemat <- function(matr,mesh,cores=detectCores())
   {
