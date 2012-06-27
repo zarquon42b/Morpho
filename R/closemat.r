@@ -37,7 +37,7 @@ closematKD <- function(matr,mesh,k=50,...)
      dif<-rep(0,nmat)
      fptr <- dif
     bary <- barycenter(mesh)
-    clostInd <- knnx.index(bary,matr,k=k,...)
+    clostInd <- nn2(bary,matr,k=k,...)$nn.idx
     storage.mode(k) <- "integer"
     storage.mode(clostInd) <- "integer"
     clost <- c(0,0,0)
@@ -71,7 +71,7 @@ closemeshKD <- function(inmesh,mesh,k=50,...)
      dif<-rep(0,nmat)
      fptr <- dif
     bary <- barycenter(mesh)
-    clostInd <- knnx.index(bary,matr,k=k,...)
+    clostInd <- nn2(bary,matr,k=k,...)$nn.idx
     storage.mode(k) <- "integer"
     clost <- c(0,0,0)
     storage.mode(fptr) <- "integer"
@@ -89,6 +89,7 @@ closemeshKD <- function(inmesh,mesh,k=50,...)
     out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region)
     gc()
     inmesh$vb[1:3,] <- t(out[[11]])
+    inmesh$quality <- out[[9]]
     return(inmesh)
   }
 mcClosemat <- function(matr,mesh,cores=detectCores())
