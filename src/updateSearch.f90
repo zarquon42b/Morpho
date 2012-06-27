@@ -1,4 +1,5 @@
 SUBROUTINE updateSearch(VB,nvb,IT,nit,DAT)
+!! sort data to use for closest point on triangle search
 
 IMPLICIT NONE
 	integer :: nit,IT(3,nit),ittmp(3),i,nvb

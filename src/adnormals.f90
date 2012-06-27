@@ -1,10 +1,10 @@
-SUBROUTINE adnormals(VB,M,IT,N,O,normals)
+SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals)
 
    IMPLICIT NONE
-	integer :: M,i,j,t,N,IT(3,N),O
-	real*8 :: VB(3,M),l,ntmp(1,1:3),tmp0(1,1:3),tmp1(1,1:3),normals(4,M),co
+	integer :: nvb,i,j,t,nit,IT(3,nit),O
+	real*8 :: VB(3,nvb),l,ntmp(1,1:3),tmp0(1,1:3),tmp1(1,1:3),normals(4,nvb),co
 	data ntmp(1,1:3) / 0,0,0 /
-	do i = 1,N
+	do i = 1,nit
 	tmp0(1,1:3) = VB(1:3,IT(1,i))-VB(1:3,IT(3,i))
 	tmp1(1,1:3) = VB(1:3,IT(2,i))-VB(1:3,IT(1,i))
 	!ntmp(1,1:3) = tmp0(1,1:3)
@@ -33,19 +33,12 @@ SUBROUTINE adnormals(VB,M,IT,N,O,normals)
 		 end if
 		end do
  	end do
-	do i = 1,M
+	do i = 1,nvb
 	normals(1:4,i) = normals(1:4,i)/normals(4,i)
 	call veclen(normals,l)
 	call normalize(normals(1:3,i),l)
 	end do
 contains
- subroutine crossp (x,y,z)
-	real*8 :: x(1,1:3),y(1,1:3),z(1,1:3)
-	
-	z(1,1) = x(1,2)*y(1,3)-x(1,3)*y(1,2)
-	z(1,2) = x(1,3)*y(1,1)-x(1,1)*y(1,3)
-	z(1,3) = x(1,1)*y(1,2)-x(1,2)*y(1,1)
- end subroutine crossp
  subroutine veclen (x,l)
 	real*8 :: x(1,1:3),l
 	l=sqrt(sum(x(1,1:3)**2))

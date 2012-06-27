@@ -1,5 +1,5 @@
 SUBROUTINE pt_tri(point,VBvec,clost,region,sqdist)
-
+!!! calculate distance between point and triangle
 IMPLICIT NONE
 integer :: region
  real*8 :: point(3),clost(3)
