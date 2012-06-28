@@ -22,8 +22,10 @@ closemat <- function(matr,mesh,sign=FALSE)
     storage.mode(clost) <- "double"
     outmatr <- matr
     region <- fptr
-    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr,outmatr,region,sign)
+    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr))
     gc()
+    out <- out[c(7:10,13)]
+    names(out) <- c("dist","fptr","clost","region","clostnorm")
     return(out)
   }
 closematKD <- function(matr,mesh,k=50,sign=FALSE,...)
