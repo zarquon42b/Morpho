@@ -16,7 +16,7 @@ closest point or along the normals}
 \method{meshDist}{mesh3d}(x, mesh2=NULL,distvec=NULL, from = NULL, to
 = NULL, steps = 20,ceiling = FALSE, file = "default", imagedim =
 "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot =
-TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,...)
+TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,method=c("vcglib","morpho"),...)
 
 \method{meshDist}{matrix}(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace = FALSE,...)
 }
@@ -82,6 +82,10 @@ TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,...)
 }
 \item{shade}{logical: if FALSE, the rendering of the colored surface
   will be supressed.
+}
+\item{method}{accepts: "vcglib" and "morpho". vcglib uses a command line
+  tool using vcglib headers, morpho uses fortran routines using kd-tree
+  search for closest triangles.
 }
 \item{type}{character: "s" shows coordinates as spheres, while "p" shows
   3D dots.

@@ -1,15 +1,23 @@
 meshDist <- function(x,...) UseMethod("meshDist")
 
-meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,...)
+meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,method=c("vcglib","morpho"),...)
   {
+    method=substring(method[1],1L,1L)
     neg=FALSE
     ramp <- blue2green2red(steps-1)
     if (is.null(distvec))
       {
         if(!ray)
           {
-            promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=T)
-            clost <- promesh$vb
+            if (method == "v")
+            {
+              promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=T)
+            }
+            else
+              {
+                promesh <- closemeshKD(x,mesh2,sign=T)
+              }
+            clost <- promesh$vb[1:3,]
             dists <- promesh$quality
             distsOrig <- dists
             if (!sign)

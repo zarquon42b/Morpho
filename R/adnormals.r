@@ -1,4 +1,4 @@
-adnormals<- function(x) 
+adnormals<- function(x,angle=TRUE) 
 {	#### this is basically the function addNormals from the rgl-package with an option for checking degenerated faces ####
 	
 
@@ -18,7 +18,7 @@ adnormals<- function(x)
 	storage.mode(v)<-"double"
 	storage.mode(normals)<-"double"
 	storage.mode(it)<-"integer"
-    out<-.Fortran("adnormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals)$normals
+    out<-.Fortran("adnormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals,angle)$normals
 	
 
   normals <- out#/out[4,]
