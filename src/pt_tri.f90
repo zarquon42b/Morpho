@@ -201,3 +201,32 @@ integer :: region
  !sqdist = sqdist+1
  clost = B + s*e0 + t*e1
 END SUBROUTINE pt_tri
+
+
+subroutine pt_triplane(point,VBvec,clost,sqdist)
+!!! calculate distance between point and triangle plane
+!!! updates clost and sqdist (closest point on plane and squared distance)
+IMPLICIT NONE
+integer :: region
+real*8 :: point(3),clost(3)
+real*8 :: det,s,t,numer,denom,dv(3),invDet,tmp0,tmp1,normal(3)
+real*8 :: VBvec(1:12),difvec(3)
+real*8 :: B(3),e0(3),e1(3),p0p0(3)
+real*8 :: a00,a01,a11,b0,b1,c,sqdist,p0p0dist,alpha
+
+B(:) = VBvec(1:3)
+dv(1:3) = B(1:3) - point(1:3)
+e0(1:3) = VBvec(4:6)
+e1(1:3) = VBvec(7:9)
+call crossp(e0,e1,normal)
+normal = normal/sqrt(dot_product(normal,normal))
+difvec = point-B
+difvec = difvec/sqrt(dot_product(difvec,difvec))
+alpha = dot_product(difvec,normal)
+p0p0dist = sqrt(dot_product(B -point,B -point))*alpha
+p0p0 = -p0p0dist*normal
+clost = point + p0p0
+sqdist = p0p0dist**2
+END SUBROUTINE pt_triplane
+
+

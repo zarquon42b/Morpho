@@ -1,4 +1,4 @@
-closemat <- function(matr,mesh)
+closemat <- function(matr,mesh,sign=FALSE)
   {
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
@@ -22,12 +22,16 @@ closemat <- function(matr,mesh)
     storage.mode(clost) <- "double"
     outmatr <- matr
     region <- fptr
-    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr,outmatr,region)
+    out <- .Fortran("matr_mesh",matr,nmat,vb,nvb,it,nit,dif,fptr,outmatr,region,sign)
     gc()
     return(out)
   }
-closematKD <- function(matr,mesh,k=50,...)
+closematKD <- function(matr,mesh,k=50,sign=FALSE,...)
   {
+    if (is.null(mesh$normals))
+      {
+        mesh <- adnormals(mesh)
+      }
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
     nvb <- dim(vb)[2]
@@ -54,13 +58,17 @@ closematKD <- function(matr,mesh,k=50,...)
     storage.mode(clost) <- "double"
     outmatr <- matr*0
     region <- fptr
-    out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region)
+    out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr))
     gc()
    
     return(out)
   }
-closemeshKD <- function(inmesh,mesh,k=50,...)
+closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,...)
   {
+    if (is.null(mesh$normals))
+      {
+        mesh <- adnormals(mesh)
+      }
     matr <- t(inmesh$vb[1:3,])
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
@@ -72,6 +80,7 @@ closemeshKD <- function(inmesh,mesh,k=50,...)
      fptr <- dif
     bary <- barycenter(mesh)
     clostInd <- nn2(bary,matr,k=k,...)$nn.idx
+   # clostInd <- knnx.index(bary,matr,k=k,algorithm="kd_tree",...)
     storage.mode(k) <- "integer"
     clost <- c(0,0,0)
     storage.mode(fptr) <- "integer"
@@ -86,10 +95,12 @@ closemeshKD <- function(inmesh,mesh,k=50,...)
     storage.mode(clost) <- "double"
     outmatr <- matr
     region <- fptr
-    out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region)
+    out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr))
     gc()
     inmesh$vb[1:3,] <- t(out[[11]])
     inmesh$quality <- out[[9]]
+    inmesh$normals <- rbind(out[[15]],1)
+    inmesh$ptr <- out[[10]]
     return(inmesh)
   }
 mcClosemat <- function(matr,mesh,cores=detectCores())
