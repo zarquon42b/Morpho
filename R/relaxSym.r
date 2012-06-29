@@ -14,29 +14,32 @@ relaxSym <- function(mesh1,mesh2,sigma,gamma=2,n,f)
       D2 <- t(mesh2$vb[1:3,]) - M
       storage.mode(i) <- "integer"
       print(dim(S))
-      time <- system.time(out <- .Fortran("displace_mesh_gauss",S,nmat,S,nrow(S),M,nrow(M),D1,D2,sigma,gamma,S));print(time)
+      time <- system.time(out <- .Fortran("displace_mesh_gauss",S,nmat,S,nrow(S),M,nrow(M),D1,D2,sigma,gamma,S*0));print(time)
       mesh1$vb[1:3,] <- t(S+out[[11]])
     }
   
   return(list(out=out,S=S,meshout=mesh1))
 }
-relaxSymtest <- function(mesh1,mesh2,sigma,gamma=2,n,f)
+relaxSymtest <- function(mesh1,mesh2,sigma,gamma=2,n,f,oneway=F,k=1)
 {
   sigma0 <- sigma
- M0 <- t(mesh2$vb[1:3,])
+  M0 <- t(mesh2$vb[1:3,])
   S0 <- t(mesh1$vb[1:3,])
-  sigma <- (sigma0*f^(-1))^2
+  sigma <- (sigma0*f^(-k))^2
   S <- t(closemeshKD(mesh1,mesh2,sign=F)$vb[1:3,])
   M <-  t(closemeshKD(mesh2,mesh1,sign=F)$vb[1:3,])
   D1 <- S-S0
   D2 <- M-M0
+  storage.mode(S0) <- "double"
+  storage.mode(M0) <- "double"
+  storage.mode(D1) <- "double"
+  storage.mode(D2) <- "double"
   storage.mode(n) <- "integer"
                                         #out <- .Fortran("relax_pt",S[1,],S,nrow(S),M,nrow(M),D1,D2,sigma,gamma,k,c(0,0,0))
-      time <- system.time(out <- .Fortran("displace_mesh_gauss",S[1:n,],n,S0,nrow(S0),M0,nrow(M0),D1,D2,sigma,gamma,S[1:n,]));print(time)
-     # mesh1$vb[1:3,] <- t(S+out[[12]])
- 
+      time <- system.time(out <- .Fortran("displace_mesh_gauss",S0[n,],length(n),S0,nrow(S0),M0,nrow(M0),D1,D2,sigma,gamma,S0[n,],oneway));print(time)
+    
   
-  return(list(out=out,S=S,addit=S0[1:n,]+out[[11]],M=M,S=S,D1=D1,D2=D2))
+  return(list(out=out,S=S,addit=S0[n,]+out[[11]],M=M,S=S,D1=D1,D2=D2))
 }
-require(Morpho)
-dyn.load("../Morpho/src/test.so")
+#require(Morpho)
+#dyn.load("../Morpho/src/test.so")
