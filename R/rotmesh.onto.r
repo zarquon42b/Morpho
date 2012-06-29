@@ -1,5 +1,5 @@
 rotmesh.onto<-function(mesh,refmat,tarmat,adnormals=TRUE,scale=FALSE)
-{ 	rot<-rotonto(tarmat,refmat)
+{ 	rot<-rotonto(tarmat,refmat,scale=scale)
 	
 	transymat<-diag(c(rep(1,4)))
 	transymat[4,1:3]<--rot$transy
