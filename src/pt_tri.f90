@@ -4,7 +4,7 @@ IMPLICIT NONE
 integer :: region
  real*8 :: point(3),clost(3)
  real*8 :: det,s,t,numer,denom,dv(3),invDet,tmp0,tmp1
- real*8 :: VBvec(1:12)
+ real*8 :: VBvec(1:13)
  real*8 :: B(3),e0(3),e1(3)
  real*8 :: a00,a01,a11,b0,b1,c,sqdist
 
@@ -18,7 +18,8 @@ integer :: region
  b0 = dot_product(e0(1:3),dv(1:3))
  b1 = dot_product(e1(1:3),dv(1:3))
  c = dot_product(dv(1:3),dv(1:3))
- det = abs(a00*a11 - a01*a01)
+ !det = abs(a00*a11 - a01*a01)
+ det =  VBvec(13)
  s = a01*b1- a11*b0
  t = a01*b0 - a00*b1
 
