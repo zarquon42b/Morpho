@@ -6,7 +6,7 @@ subroutine displace_mesh_gauss(matr,nmat,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,outmat,
   real*8 :: sigma,gamma,k,outmat(nmat,3)
   real*8 :: outpoint(3),point(3),S0(nmat,3)
   logical :: oneway
-  Pvb=Pvb+D2
+  !Pvb=Pvb+D2
   do i = 1,nmat
      
      point = matr(i,1:3)
@@ -25,7 +25,7 @@ subroutine relax_pt(point,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,outpoint,oneway)
   real*8 :: outpoint(3),outpoint2(3),diffvec(3)
   logical :: oneway
 
-  !outpoint = outpoint*0
+  outpoint = outpoint*0
   outpoint2=outpoint
   g1sum = 0.0
   g2sum = 0.0

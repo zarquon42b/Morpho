@@ -31,12 +31,12 @@ relaxSymtest <- function(mesh1,mesh2,sigma,gamma=2,n,f,oneway=F,k=1)
   D1 <- S-S0
   D2 <- M-M0
   storage.mode(S0) <- "double"
-  storage.mode(M0) <- "double"
+  storage.mode(M) <- "double"
   storage.mode(D1) <- "double"
   storage.mode(D2) <- "double"
   storage.mode(n) <- "integer"
                                         #out <- .Fortran("relax_pt",S[1,],S,nrow(S),M,nrow(M),D1,D2,sigma,gamma,k,c(0,0,0))
-      time <- system.time(out <- .Fortran("displace_mesh_gauss",S0[n,],length(n),S0,nrow(S0),M0,nrow(M0),D1,D2,sigma,gamma,S0[n,],oneway));print(time)
+      time <- system.time(out <- .Fortran("displace_mesh_gauss",S0[n,],length(n),S0,nrow(S0),M,nrow(M),D1,D2,sigma,gamma,S0[n,]*0,oneway));print(time)
     
   
   return(list(out=out,S=S,addit=S0[n,]+out[[11]],M=M,S=S,D1=D1,D2=D2))
