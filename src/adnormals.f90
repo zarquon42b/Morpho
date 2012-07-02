@@ -36,7 +36,7 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
            if (angweight .eqv. .false.) then 
               normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))-ntmp(1,1:3)
               !call normalize(normals(1:3,IT(j,i)),l)
-              normals(4,IT(j,i)) = normals(4,IT(j,i)) + 1
+              !normals(4,IT(j,i)) = normals(4,IT(j,i)) + 1
            else
               normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))-ntmp(1,1:3)*angtmp(j)
            end if
@@ -45,7 +45,7 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
               normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))+ntmp(1,1:3)
               !normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))
               !call normalize(normals(1:3,IT(j,i)),l)
-              normals(4,IT(j,i)) = normals(4,IT(j,i)) + 1
+              !normals(4,IT(j,i)) = normals(4,IT(j,i)) + 1
            else
               normals(1:3,IT(j,i)) = normals(1:3,IT(j,i))+ntmp(1,1:3)*angtmp(j)
            end if
@@ -53,23 +53,24 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
      end do
   end do
   do i = 1,nvb
-      if (angweight .eqv. .false.) then 
-     normals(1:4,i) = normals(1:4,i)/normals(4,i)
-end if
-     call veclen(normals,l)
-     call normalize(normals(1:3,i),l)
+    !  if (angweight .eqv. .false.) then 
+    ! normals(1:4,i) = normals(1:4,i)/normals(4,i)
+!end if
+     !call veclen(normals,l)
+     !call normalize(normals(1:3,i))
   end do
 contains
   subroutine veclen (x,l)
-    real*8 :: x(1,1:3),l
-    l=sqrt(sum(x(1,1:3)**2))
+    real*8 :: x(3),l
+    l=sqrt(sum(x**2))
     
   end subroutine veclen
-  subroutine normalize (x,l)
-    real*8 :: x(1,1:3),l
+  subroutine normalize (x)
+    real*8 :: x(3),l
     call veclen(x,l)	
-    x(1,1:3) = x(1,1:3)/l
-    
+    if (l > 0) then
+    x = x/l
+    end if 
   end subroutine normalize
 END SUBROUTINE adnormals
 
