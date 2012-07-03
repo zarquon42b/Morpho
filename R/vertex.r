@@ -9,6 +9,7 @@ unrefVertex <- function(mesh)
 rmVertex <- function(mesh,index)
   {
      it <- mesh$it
+     
     itdim <- dim(it)
     lRm <- length(index)
    
@@ -24,22 +25,28 @@ rmVertex <- function(mesh,index)
         x <- indOut[x]
         return(x)
       }
-    
-     it <- matrix(facefun(it),itdim)
-     checkface <- rep(0,itdim[2])
-     storage.mode(it) <-  "integer"
-     storage.mode(checkface) <- "integer"
-    
-     checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]
-     invalface <- which(checkface == 0) #;print(invalface)
-     if (length(invalface) > 0)
-       {
-         mesh$it <- it[,-invalface]
-       }
-     else
-       {
-         mesh$it <- it
-       }
+    if (!is.null(it))
+      {
+        it <- matrix(facefun(it),itdim)
+        checkface <- rep(0,itdim[2])
+        storage.mode(it) <-  "integer"
+        storage.mode(checkface) <- "integer"
+        
+        checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]
+        invalface <- which(checkface == 0) #;print(invalface)
+        if (length(invalface) > 0)
+          {
+            mesh$it <- it[,-invalface]
+          }
+        else
+          {
+            mesh$it <- it
+          }
+        if (0 %in% dim(it))
+          {mesh$it <- NULL
+         }
+      }
+      
     mesh$vb <- mesh$vb[,-index]
     mesh <- adnormals(mesh)
 return(mesh)

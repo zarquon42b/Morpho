@@ -6,7 +6,7 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
   real*8 ::angtmp(3),pi,tmp2(1,1:3)
   logical :: angweight
 
-
+ ! pi = ACOS(0.0)
   !PI=4.D0*DATAN(1.D0)
 
   data ntmp(1,1:3) / 0,0,0 /
@@ -17,18 +17,18 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
      tmp2(1,1:3) = VB(1:3,IT(2,i))-VB(1:3,IT(3,i))
      call angcal (tmp0,3,tmp1,3,angtmp(1))
      call angcal (-tmp1,3,tmp2,3,angtmp(2))
-     angtmp(3) = 3.141527-angtmp(1)-angtmp(2)
+     angtmp(3) = 3.141592653589793239  -angtmp(1)-angtmp(2)
   end if
 
      call crossp(tmp0,tmp1,ntmp)
-     call veclen(ntmp,l)
-     if (l==0) then	
-        ntmp(1,1:3) = (/0 , 0 , 0/)
+     !call veclen(ntmp,l)
+     !if (l==0) then	
+     !   ntmp(1,1:3) = (/0 , 0 , 0/)
         
-     else
-        ntmp = ntmp/l
+     !else
+     !   ntmp = ntmp/l
 	
-     end if
+     !end if
 		
      do j = 1,3
         co =sum(normals(1:3,IT(j,i))*ntmp(1,1:3))
@@ -57,7 +57,7 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
     ! normals(1:4,i) = normals(1:4,i)/normals(4,i)
 !end if
      !call veclen(normals,l)
-     !call normalize(normals(1:3,i))
+     call normalize(normals(1:3,i))
   end do
 contains
   subroutine veclen (x,l)

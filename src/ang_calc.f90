@@ -7,9 +7,12 @@ SUBROUTINE angcal(xv,nx,yv,ny,rho)
  lx = sqrt(dot_product(xv(:),xv(:)))
  ly = sqrt(dot_product(yv(:),yv(:)))
 !print *,lx
+if (lx > 0) then 
  xv(:) = xv(:)/lx
- yv(:) = yv(:)/ly
- 
+end if
+if (ly > 0) then
+  yv(:) = yv(:)/ly
+ end if
  rho = acos((sum((xv-yv)**2)-2)/(-2))
  !print *, xv
 
