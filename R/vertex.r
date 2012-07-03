@@ -60,6 +60,16 @@ vert2points <- function(mesh)
 rmUnrefVertex <- function(mesh)
   {
     unref <- unrefVertex(mesh)
-    mesh <- rmVertex(mesh,unref)
+    lunr <- length(unref)
+    
+    if (lunr > 0)
+      {
+        mesh <- rmVertex(mesh,unref)
+        cat(paste(" removed",lunr,"unreferenced vertices\n"))
+      }
+    else
+      {
+        cat(" nothing to remove\n")
+      }
     return(mesh)
   }
