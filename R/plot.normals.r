@@ -13,6 +13,7 @@ plotNormals <- function(x,long=1,lwd=1,col=1)
     lvb <- dim(x$vb)[2]
     vb <- x$vb
     vb.norm <- vb+long*rbind(x$normals[1:3,],0)
+    vb.norm[4,] <- 1
     vb <- cbind(vb,vb.norm)
     it <- rbind(1:lvb,1:lvb,(1:lvb)+lvb)
     n.mesh$vb <- vb
