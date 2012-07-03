@@ -8,7 +8,7 @@ subroutine displace_mesh_gauss(iomat,nmat,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,oway,c
   logical :: oway
   !Pvb=Pvb+D2
   matr = iomat
-
+! $OMP PARALLEL DO private(i, tmpW, tmpP,point) shared(Pvb, Wvb, ncl, iomat,gamma,sigma,oway)
   do i = 1,nmat
      tmpW(:) = clIW(i,:)
      tmpP(:) = clIP(i,:)
@@ -16,6 +16,8 @@ subroutine displace_mesh_gauss(iomat,nmat,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,oway,c
      call relax_pt(point,Wvb(tmpW,:),ncl,Pvb(tmpP,:),ncl,D1(tmpW,:),D2(tmpP,:),sigma,gamma,iomat(i,:),oway)
      !outmat(i,1:3) = outpoint  
   end do
+! $OMP END PARALLEL DO 
+
 end subroutine displace_mesh_gauss
 
 subroutine relax_pt(point,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,outpoint,oway)

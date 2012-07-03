@@ -14,6 +14,9 @@ SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,
   real*8 :: point(3),signo
   logical :: sign
   call updateSearch(VB,nvb,IT,nit,DAT)
+
+! $OMP PARALLEL DO private(i, clost,tmpnorm,region,ptrtmp,diff) shared(outmatr,fptr,dif,regionv,outnorm,DAT)
+
   do i = 1,nmat
      
      point(:) = matr(i,1:3)
@@ -38,6 +41,8 @@ SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,
         
      end if
   end do
+! $OMP END PARALLEL DO 
+
   
 END SUBROUTINE matr_mesh
 
@@ -54,7 +59,9 @@ SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dif,fptr,outmatr,regio
   logical :: sign
   real*8 :: tmpdat(k,13)
   call updateSearch(VB,nvb,IT,nit,DAT)
-  do i = 1,nmat
+! $OMP PARALLEL DO private(i, clost,tmpnorm,region,ptrtmp,diff) shared(outmatr,fptr,dif,regionv,outnorm,clostInd,DAT)
+  
+do i = 1,nmat
      
      point(:) = matr(i,1:3)
      tmpdat = DAT(clostInd(i,:),:)
@@ -78,4 +85,6 @@ SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dif,fptr,outmatr,regio
      end if
      
   end do
+! $OMP END PARALLEL DO 
+
 END SUBROUTINE matr_meshKD
