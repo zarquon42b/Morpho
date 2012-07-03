@@ -14,7 +14,6 @@ SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,
   real*8 :: point(3),signo
   logical :: sign
   call updateSearch(VB,nvb,IT,nit,DAT)
-  
   do i = 1,nmat
      
      point(:) = matr(i,1:3)
@@ -55,7 +54,6 @@ SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dif,fptr,outmatr,regio
   logical :: sign
   real*8 :: tmpdat(k,13)
   call updateSearch(VB,nvb,IT,nit,DAT)
-  
   do i = 1,nmat
      
      point(:) = matr(i,1:3)
@@ -80,5 +78,4 @@ SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dif,fptr,outmatr,regio
      end if
      
   end do
-  
 END SUBROUTINE matr_meshKD

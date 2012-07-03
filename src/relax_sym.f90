@@ -8,6 +8,7 @@ subroutine displace_mesh_gauss(iomat,nmat,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,oway,c
   logical :: oway
   !Pvb=Pvb+D2
   matr = iomat
+
   do i = 1,nmat
      tmpW(:) = clIW(i,:)
      tmpP(:) = clIP(i,:)
@@ -15,8 +16,6 @@ subroutine displace_mesh_gauss(iomat,nmat,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,oway,c
      call relax_pt(point,Wvb(tmpW,:),ncl,Pvb(tmpP,:),ncl,D1(tmpW,:),D2(tmpP,:),sigma,gamma,iomat(i,:),oway)
      !outmat(i,1:3) = outpoint  
   end do
-
-
 end subroutine displace_mesh_gauss
 
 subroutine relax_pt(point,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,outpoint,oway)
@@ -29,8 +28,8 @@ subroutine relax_pt(point,Wvb,nw,Pvb,np,D1,D2,sigma,gamma,outpoint,oway)
 
   outpoint = outpoint*0
   outpoint2=outpoint
-  g1sum = 0.0
-  g2sum = 0.0
+  g1sum = 0d0
+  g2sum = 0d0
   
   do i = 1,nw     
      call gaussian_dsmooth(sigma,point,Wvb(i,:),g1tmp)
