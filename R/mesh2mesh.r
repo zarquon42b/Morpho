@@ -1,5 +1,9 @@
-mesh2mesh<-function(mesh1,tarmesh,clean=TRUE,cloud=FALSE)
+mesh2mesh<-function(mesh1,tarmesh,clean=TRUE,cloud=FALSE,sign=FALSE)
 {
+  options <- NULL
+  if (sign)
+    {options <- paste(options,"--sign")
+   }
   it <- NULL
   if (!is.character(tarmesh))
     {mesh2ply(tarmesh,"target")
@@ -21,7 +25,7 @@ mesh2mesh<-function(mesh1,tarmesh,clean=TRUE,cloud=FALSE)
         {
           it <- file2mesh(mesh1)$it
         }
-      system(paste("trimesh_project ",mesh1," ",tarply, sep=""))
+      system(paste("trimesh_project ",mesh1," ",tarply,options, sep=""))
     }
   outmesh <- ply2mesh("out_cloud.ply",readnormals=TRUE)
   class(outmesh) <- c("mesh3d","shapes3d")
