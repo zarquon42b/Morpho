@@ -17,3 +17,17 @@ if (ly > 0) then
  !print *, xv
 
 END SUBROUTINE angcal
+
+subroutine angcheck(norm1,n,norm2,out)
+IMPLICIT NONE
+integer :: n,i 
+real*8 :: norm1(3,n), norm2(3,n),out(n)
+
+do i = 1,n
+
+ call angcal(norm1(:,i),3,norm2(:,i),3,out(i))
+
+end do
+
+end subroutine angcheck
+
