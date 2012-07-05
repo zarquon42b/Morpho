@@ -1,9 +1,9 @@
-icp <- function(mesh1,mesh2,iterations=3,scale=T,lm1=NULL,lm2=NULL,uprange=0.9,rhotol=pi,k=50)
+icp <- function(mesh1,mesh2,iterations=3,scale=T,lm1=NULL,lm2=NULL,uprange=0.9,rhotol=pi,k=50,reflection=FALSE)
   {
 
     if (!is.null(lm1))## perform initial rough registration
       {
-        mesh1 <- rotmesh.onto(mesh1,lm1,lm2,scale=T)$mesh
+        mesh1 <- rotmesh.onto(mesh1,lm1,lm2,scale=T,reflection=reflection)$mesh
         
       }
     

@@ -1,5 +1,5 @@
-rotmesh.onto<-function(mesh,refmat,tarmat,adnormals=TRUE,scale=FALSE)
-{ 	rot<-rotonto(tarmat,refmat,scale=scale)
+rotmesh.onto<-function(mesh,refmat,tarmat,adnormals=TRUE,scale=FALSE,reflection=FALSE)
+{ 	rot<-rotonto(tarmat,refmat,scale=scale,reflection=reflection)
 	
 	transymat<-diag(c(rep(1,4)))
 	transymat[4,1:3]<--rot$transy
@@ -15,10 +15,10 @@ rotmesh.onto<-function(mesh,refmat,tarmat,adnormals=TRUE,scale=FALSE)
   	#mesh$vb[1:3,]<-t(centmeshr)
 	mesh$vb<-(apply(t(mesh$vb),1,function(x){x%*%transmat}))
   	
-	if (sign(det(rot$gamm)<0))
+	if (sign(det(rot$gamm)<0 && reflection))
   		{mesh<-conv2backf(mesh)
 		}
-	if (adnormals)
+	if (adnormals) 
 		{mesh<-adnormals(mesh)
 		}
 
