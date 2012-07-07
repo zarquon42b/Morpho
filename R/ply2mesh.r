@@ -22,8 +22,8 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
     {qual <- FALSE}
   fn <- as.numeric(faceinfo[[1]][3])
   vn <- as.numeric(vertinfo[[1]][3])
-  vert.all <- read.table(x, skip = end, sep = " ", nrows = vn)
-  vert <- apply(vert.all[, 1:3], 2, as.numeric)
+  vert.all <- read.table(x, skip = end, sep = " ", nrows = vn,colClasses="numeric")
+  vert <- vert.all[, 1:3]
   vert.n <- NULL
   quality<-NULL
   if (length(grep("property float nx", infos)) == 1)
@@ -49,7 +49,7 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
 
   if (fn !=0)
     {
-      face.all <- read.table(x, skip = end + vn, nrows = fn)
+      face.all <- read.table(x, skip = end + vn, nrows = fn,colClasses="integer")
       face <- t(face.all[, 2:4]+1)
       
       if (!is.null(colmat))
@@ -60,7 +60,7 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
               x <- colmat[x]
               return(x)
             }
-          material$color <- colfun(face)
+          material$color <- matrix(colfun(face),dim(face))
         }
       mesh <- list(vb = rbind(t(vert), 1), it = face, primitivetype = "triangle", material = material,normals = vert.n)      
       class(mesh) <- c("mesh3d", "shape3d")
@@ -92,7 +92,7 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
       mesh <- adnormals(mesh)	
     }
    }
-  if (qual && readnormals)
+  if (qual && !is.null(mesh$normals))
     {mesh$quality<-quality
    }
   return(mesh)
