@@ -22,7 +22,9 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
     {qual <- FALSE}
   fn <- as.numeric(faceinfo[[1]][3])
   vn <- as.numeric(vertinfo[[1]][3])
-  vert.all <- read.table(x, skip = end, sep = " ", nrows = vn,colClasses="numeric")
+  #vert.all <- read.table(x, skip = end, sep = " ", nrows = vn,colClasses="numeric")
+  vert.all <- scan(x, skip = end, nlines=vn,quiet=TRUE)
+  vert.all <- matrix(vert.all,vn,length(vert.all)/vn,byrow=T)
   vert <- vert.all[, 1:3]
   vert.n <- NULL
   quality<-NULL
@@ -49,7 +51,9 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
 
   if (fn !=0)
     {
-      face.all <- read.table(x, skip = end + vn, nrows = fn,colClasses="integer")
+       face.all <- scan(x, skip = end+vn, nlines=fn,quiet=TRUE,what=integer())
+       face.all <- matrix(face.all,fn,length(face.all)/fn,byrow=T)
+      #face.all <- read.table(x, skip = end + vn, nrows = fn,colClasses="integer")
       face <- t(face.all[, 2:4]+1)
       
       if (!is.null(colmat))
