@@ -20,7 +20,7 @@ relaxSym <- function(mesh1,mesh2,sigma,gamma=2,n,f)
   
   return(list(out=out,S=S,meshout=mesh1))
 }
-relaxSymtest <- function(mesh1,mesh2,sigma,gamma=2,W0,f,oneway=F,k=1,nh=NULL,...)
+relaxSymtest <- function(mesh1,mesh2,sigma,gamma=2,W0,f,oneway=F,k=1,nh=NULL,tol=NULL,...)
 {
    t0 <- Sys.time()
   sigma0 <- sigma
