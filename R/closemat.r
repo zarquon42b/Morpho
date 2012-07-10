@@ -65,7 +65,7 @@ closematKD <- function(matr,mesh,k=50,sign=FALSE,...)
    
     return(out)
   }
-closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,...)
+closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,cores=detectCores(),...)
   {
     if (is.null(mesh$normals))
       {
@@ -81,7 +81,7 @@ closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,...)
      dif<-rep(0,nmat)
      fptr <- dif
     bary <- barycenter(mesh)
-    clostInd <- mcNNindex(bary,matr,k=k,...)
+    clostInd <- mcNNindex(bary,matr,k=k,cores=cores,...)
     #clostInd <- nn2(bary,matr,k=k,...)$nn.idx
    # clostInd <- knnx.index(bary,matr,k=k,algorithm="kd_tree",...)
     storage.mode(k) <- "integer"

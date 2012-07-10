@@ -15,7 +15,7 @@ mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
         tmp0 <- nn2(target,x,k=k,searchtype="priority",...)$nn.idx
         return(tmp0)
       }
-    tmp <- mclapply(mclist,tmpfun)
+    tmp <- mclapply(mclist,tmpfun,mc.cores=cores)
     for (i in 1:cores)
       {
         out <- rbind(out,tmp[[i]])

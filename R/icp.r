@@ -1,4 +1,4 @@
-icp <- function(mesh1,mesh2,iterations=3,scale=T,lm1=NULL,lm2=NULL,uprange=0.9,rhotol=pi,k=50,reflection=FALSE)
+icp <- function(mesh1,mesh2,iterations=3,scale=T,lm1=NULL,lm2=NULL,uprange=0.9,rhotol=pi,k=50,reflection=FALSE,cores=detectCores())
   {
 
     if (!is.null(lm1))## perform initial rough registration
@@ -9,8 +9,8 @@ icp <- function(mesh1,mesh2,iterations=3,scale=T,lm1=NULL,lm2=NULL,uprange=0.9,r
     
     
     for( i in 1:iterations)
-      {
-        proMesh <- closemeshKD(mesh1,mesh2,k=k) ## project mesh1 onto mesh2
+      { cat("*")
+        proMesh <- closemeshKD(mesh1,mesh2,k=k,cores=cores) ## project mesh1 onto mesh2
         x1 <- vert2points(mesh1)
         x2 <- vert2points(proMesh)
         x2norm <- proMesh$normals
@@ -36,6 +36,7 @@ icp <- function(mesh1,mesh2,iterations=3,scale=T,lm1=NULL,lm2=NULL,uprange=0.9,r
         mesh1 <- rotmesh.onto(mesh1,x1[good,],x2[good,],scale=scale)$mesh
         
       }
+    cat("\n")
     return(mesh1)
   }
         
