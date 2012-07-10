@@ -18,7 +18,7 @@ projBack<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.st
 	else
 		{command<-paste("trimesh_project"," ",dataname,".obj"," ",surface," -o ",outname,options,sep="")
 		}
-	
+	#print(command)
 	#command<-paste("trimesh_project"," ",dataname," ",surface," ",outname,sep="")	
 	system(command,ignore.stdout=ignore.stdout)
 	unlink(paste(dataname,".obj",sep="")) #clean up

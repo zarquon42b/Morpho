@@ -81,7 +81,8 @@ closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,...)
      dif<-rep(0,nmat)
      fptr <- dif
     bary <- barycenter(mesh)
-    clostInd <- nn2(bary,matr,k=k,...)$nn.idx
+    clostInd <- mcNNindex(bary,matr,k=k,...)
+    #clostInd <- nn2(bary,matr,k=k,...)$nn.idx
    # clostInd <- knnx.index(bary,matr,k=k,algorithm="kd_tree",...)
     storage.mode(k) <- "integer"
     clost <- c(0,0,0)

@@ -1,6 +1,5 @@
 ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
 {
-
   x <- filename
   A <- readLines(x, n = 100)
   end <- which(A == "end_header")
@@ -10,24 +9,26 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
   texinfo<-NULL
   colmat <- NULL
   material <- NULL
-                                        #if (length(grep("property list uchar float texcoord",A))==1) 
+  ##if (length(grep("property list uchar float texcoord",A))==1) 
   qualinfo<-grep("property float quality", infos)
   vertbegin <- grep("element vertex",infos)
   facebegin <- grep("element face",infos)
   if (length(qualinfo)==1)
-    {qualine<-qualinfo-vertbegin
-     qual<-TRUE
-   }
+    {
+      qualine<-qualinfo-vertbegin
+      qual<-TRUE
+    }
   else 
     {qual <- FALSE}
   fn <- as.numeric(faceinfo[[1]][3])
   vn <- as.numeric(vertinfo[[1]][3])
-  #vert.all <- read.table(x, skip = end, sep = " ", nrows = vn,colClasses="numeric")
+  ##vert.all <- read.table(x, skip = end, sep = " ", nrows = vn,colClasses="numeric")
   vert.all <- scan(x, skip = end, nlines=vn,quiet=TRUE)
   vert.all <- matrix(vert.all,vn,length(vert.all)/vn,byrow=T)
   vert <- vert.all[, 1:3]
   vert.n <- NULL
   quality<-NULL
+
   if (length(grep("property float nx", infos)) == 1)
     {
       normstart <- grep("property float nx", infos)-vertbegin
@@ -54,11 +55,11 @@ ply2mesh<-function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
     {
       datatype <- double()
     }
-if (fn !=0)
+  if (fn !=0)
     {
-       face.all <- scan(x, skip = end+vn, nlines=fn,quiet=TRUE,what=datatype)
-       face.all <- matrix(face.all,fn,length(face.all)/fn,byrow=T)
-      #face.all <- read.table(x, skip = end + vn, nrows = fn,colClasses="integer")
+      face.all <- scan(x, skip = end+vn, nlines=fn,quiet=TRUE,what=datatype)
+      face.all <- matrix(face.all,fn,length(face.all)/fn,byrow=T)
+      ##face.all <- read.table(x, skip = end + vn, nrows = fn,colClasses="integer")
       face <- t(face.all[, 2:4]+1)
       
       if (!is.null(colmat))
@@ -76,12 +77,16 @@ if (fn !=0)
     }
   else
     {if (is.null(vert.n) || readnormals==FALSE)
-       {cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
-        mesh<-vert}	
+       {
+         cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
+         mesh<-vert
+       }	
     else if (readnormals)
-      {cat(paste("mesh contains no faces. vertices and vertex normals are stored in a list\n"))
-       mesh<-list(vb=t(vert),normals=vert.n)
-     }	
+      {
+        cat(paste("mesh contains no faces. vertices and vertex normals are stored in a list\n"))
+        mesh<-list(vb=t(vert),normals=vert.n)
+        class(mesh) <- "mesh3d"
+      }	
      
    }
 ### generate object of class mesh3d ###	
@@ -93,17 +98,22 @@ if (fn !=0)
      mesh$tex<-t(tex)
      mesh$TextureFile<-strsplit(A[grep("comment TextureFile", infos)], " ")[[1]][3]
    } 
-    
+  
 ### check for normals and update if required ###
   if (fn !=0)	
-    {if (adnormals && is.null(mesh$normals) ) {
-      cat("calculating normals...\n")
-      mesh <- adnormals(mesh)	
+    {if (adnormals && "mesh3d" %in% class(mesh) )
+       {
+         if (is.null(mesh$normals))
+           {
+             cat("calculating normals...\n")
+             mesh <- adnormals(mesh)
+           }
+       }
+   }
+  if (qual && !is.matrix(mesh))
+    {
+      mesh$quality <- quality
     }
-   }
-  if (qual && !is.null(mesh$normals))
-    {mesh$quality<-quality
-   }
   return(mesh)
 }
 
