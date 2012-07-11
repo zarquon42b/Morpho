@@ -102,13 +102,14 @@ gaussDisplMesh3d <- function(mesh1,mesh2,iterations=10,smooth=NULL,smoothit=10,s
                 mesh1 <- smoothMesh3d(mesh1,method=smoothtype,iteration=smoothit)
                  cat("smoothing finished\n")
               }
+          }
             tmp <- gaussDisplace(mesh1,mesh2,sigma=sigma,gamma=gamma,f=f,W0=vert2points(mesh1),nh=nh,k=i,tol=toldist,cores=cores,k0=k0)
             mesh1$vb[1:3,] <- t(tmp$addit)
             if (!is.null(patch) && repro)
               {
                 mesh1$vb[1:3,cols] <- t(closematKD(t(mesh1$vb[1:3,cols]),mesh1)[[11]])
               }
-          }
+          
         time1 <- Sys.time()
         cat(paste("completed iteration",i, "in", time1-time0, "seconds\n"))
         cat("****************\n")
