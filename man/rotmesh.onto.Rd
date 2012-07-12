@@ -9,7 +9,8 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-rotmesh.onto(mesh, refmat, tarmat,adnormals = TRUE, scale = FALSE)
+rotmesh.onto(mesh, refmat, tarmat,adnormals = TRUE, scale = FALSE
+, reflection = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,6 +29,9 @@ rotmesh.onto(mesh, refmat, tarmat,adnormals = TRUE, scale = FALSE)
  \item{scale}{ logical: if TRUE the mesh will be scaled according to the size of the target.
 %%     ~~Describe \code{tarmat} here~~
 }
+ \item{reflection}{logical: allow reflection.
+    
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
