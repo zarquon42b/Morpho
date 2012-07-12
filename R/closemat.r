@@ -65,13 +65,22 @@ closematKD <- function(matr,mesh,k=50,sign=FALSE,...)
    
     return(out)
   }
-closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,cores=detectCores(),...)
+closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),...)
   {
     if (is.null(mesh$normals))
       {
         mesh <- adnormals(mesh)
       }
-    matr <- t(inmesh$vb[1:3,])
+    if (is.matrix(x))
+      {
+        matr <- x
+        x <- list()
+        x$vb <- rbind(t(matr),1)
+      }
+    else
+      {
+        matr <- t(x$vb[1:3,])
+      }
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
     nvb <- dim(vb)[2]
@@ -82,12 +91,11 @@ closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,cores=detectCores(),...)
      fptr <- dif
     bary <- barycenter(mesh)
     clostInd <- mcNNindex(bary,matr,k=k,cores=cores,...)
-    #clostInd <- nn2(bary,matr,k=k,...)$nn.idx
-   # clostInd <- knnx.index(bary,matr,k=k,algorithm="kd_tree",...)
+    ##clostInd <- nn2(bary,matr,k=k,...)$nn.idx
+    ##clostInd <- knnx.index(bary,matr,k=k,algorithm="kd_tree",...)
     storage.mode(k) <- "integer"
     clost <- c(0,0,0)
     storage.mode(fptr) <- "integer"
-   
     storage.mode(it) <- "integer"
     storage.mode(nvb) <- "integer"    
     storage.mode(nit) <- "integer"
@@ -100,11 +108,11 @@ closemeshKD <- function(inmesh,mesh,k=50,sign=FALSE,cores=detectCores(),...)
     region <- fptr
     out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr))
     gc()
-    inmesh$vb[1:3,] <- t(out[[11]])
-    inmesh$quality <- out[[9]]
-    inmesh$normals <- rbind(out[[15]],1)
-    inmesh$ptr <- out[[10]]
-    return(inmesh)
+    x$vb[1:3,] <- t(out[[11]])
+    x$quality <- out[[9]]
+    x$normals <- rbind(out[[15]],1)
+    x$ptr <- out[[10]]
+    return(x)
   }
 mcClosemat <- function(matr,mesh,cores=detectCores())
   {
