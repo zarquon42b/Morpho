@@ -1,5 +1,6 @@
-typprob <- function(x,data,small=FALSE,method=c("chisquare","wilson"))
+typprob <- function(x,data,small=FALSE,method=c("chisquare","wilson"),center=NULL)
   {
+    
     method <- substr(method[1],1L,1L)
     if (is.matrix(x))
       nx <- dim(x)[2]
@@ -7,7 +8,12 @@ typprob <- function(x,data,small=FALSE,method=c("chisquare","wilson"))
       nx <- length(x)
 
     ndata <- dim(data)[1]
-    dists <- mahalanobis(x,apply(data,2,mean),cov(data))
+    if (is.null(center))
+      {
+        center <- apply(data,2,mean)
+      }
+    
+    dists <- mahalanobis(x,center=center,cov(data))
     if (method == "w")
       {
         if (small)
@@ -30,7 +36,7 @@ typprob <- function(x,data,small=FALSE,method=c("chisquare","wilson"))
     
     return(alpha)
   }
-typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01)
+typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01,sep=FALSE)
   {
     if (!is.factor(groups))
       {
@@ -42,7 +48,14 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
     nlev <- length(glev)
     for( i in 1:nlev)
       {
-        tmp <- typprob(x,data[groups==glev[i],],small=small,method=method)
+        if (sep)
+          {
+            tmp <- typprob(x,data[groups==glev[i],],small=small,method=method)
+          }
+        else
+          {
+             tmp <- typprob(x,data,small=small,method=method,center=apply(data[groups==glev[i],],2,mean))
+          }
         probs <- cbind(probs,tmp)
       }
     colnames(probs) <- as.character(glev)
