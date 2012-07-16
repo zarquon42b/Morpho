@@ -24,13 +24,10 @@ integer :: region
  t = a01*b0 - a00*b1
 
  if (s+t <= det) then
-    
     if (s < 0) then
        if (t < 0) then
-
           !region 4 begin
           region = 4
-
           if (b0 < 0) then
              t = 0
              if ( -b0 >= a00) then
@@ -40,7 +37,6 @@ integer :: region
                 s = -b0/a00
                 sqdist = b0*s + c
              end if
-         
           else
              s = 0
              if ( b1 >= 0 ) then
@@ -70,8 +66,6 @@ integer :: region
           end if
           !region3 end
        end if
-       
-
     else if (t < 0) then
        !region 5 begin
        region = 5
@@ -85,10 +79,8 @@ integer :: region
        else 
           s = -b0/a00
           sqdist = b0*s + c
-
        end if
        !region 5 end
-
     else        
        !region 0 begin
        region = 0
@@ -98,8 +90,6 @@ integer :: region
        sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t + 2*b1) + c
        ! region 0 end
     end if
-
-
  else
     if (s < 0) then
        !region 2 begin
@@ -109,18 +99,15 @@ integer :: region
        if (tmp1 > tmp0) then
           numer = tmp1 - tmp0
           denom = a00 - 2*a01 + a11
-
           if (numer >= denom) then
              s = 1
              t = 0
              sqdist = a00 + 2*b0 + c
-
           else               
              s = numer/denom
              t = 1 - s
              sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t +2*b1) + c
           end if
-
        else 
           s = 0
           if (tmp1 <= 0) then
@@ -152,7 +139,6 @@ integer :: region
              s = 1 - t
              sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t + 2*b1) + c
           end if
-
        else
           t = 0
           if (tmp1 <= 0) then
@@ -166,39 +152,26 @@ integer :: region
              sqdist = b0*s +c
           end if
        end if
+    else
+       numer = a11 + b1 - a01 - b0
+       if (numer <= 0) then
+          s = 0
+          t = 1 
+          sqdist = a11+ 2*b1 + c
        else
-          numer = a11 + b1 - a01 - b0
-          if (numer <= 0) then
-             s = 0
-             t = 1 
-             sqdist = a11+ 2*b1 + c
-          else
-             denom = a00 - 2*a01 + a11;
-             if (numer >= denom) then
-
+          denom = a00 - 2*a01 + a11;
+          if (numer >= denom) then
              s =1
              t = 0
              sqdist = a00 + 2*b0 + c
-
           else
-
              s = numer/denom
              t = 1 - s
              sqdist = s*(a00*s + a01*t + 2*b0) + t*(a01*s + a11*t + 2*b1) + c
-
           end if
-          
        end if
     end if
-
-
-
-
-
  end if!// closes first if
-
-
- 
  !sqdist = sqdist+1
  clost = B + s*e0 + t*e1
 END SUBROUTINE pt_tri

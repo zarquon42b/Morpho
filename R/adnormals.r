@@ -24,7 +24,7 @@ adnormals<- function(x,angle=TRUE)
   normals <- out#/out[4,]
 
   x$normals <- normals
-  x
+  return(x)
 }
 
 

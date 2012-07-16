@@ -99,7 +99,7 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),method=0,...)
     storage.mode(it) <- "integer"
     storage.mode(nvb) <- "integer"    
     storage.mode(nit) <- "integer"
-     storage.mode(method) <- "integer"
+    storage.mode(method) <- "integer"
     storage.mode(nmat) <- "integer"
     storage.mode(matr) <- "double"
     storage.mode(vb) <- "double"
