@@ -1,4 +1,4 @@
-typprob <- function(x,data,small=FALSE,method=c("chisquare","wilson"),center=NULL)
+typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=NULL, cova=NULL)
   {
     
     method <- substr(method[1],1L,1L)
@@ -12,8 +12,12 @@ typprob <- function(x,data,small=FALSE,method=c("chisquare","wilson"),center=NUL
       {
         center <- apply(data,2,mean)
       }
+    if (is.null(cova))
+      {
+        cova <- cov(data)
+      }
     
-    dists <- mahalanobis(x,center=center,cov(data))
+    dists <- mahalanobis(x,center=center,cov=cova)
     if (method == "w")
       {
         if (small)
@@ -46,15 +50,17 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
     probs <- NULL
     glev <- levels(groups)
     nlev <- length(glev)
+    if (sep)
+      cova <- covW(data,groups)
     for( i in 1:nlev)
       {
-        if (sep)
+        if (sep)# use separate covariance matrices for scaling
           {
             tmp <- typprob(x,data[groups==glev[i],],small=small,method=method)
           }
-        else
+        else #used pooled within group covariance
           {
-             tmp <- typprob(x,data,small=small,method=method,center=apply(data[groups==glev[i],],2,mean))
+            tmp <- typprob(x,data,small=small,method=method,center=apply(data[groups==glev[i],],2,mean),cova=cova)
           }
         probs <- cbind(probs,tmp)
       }
@@ -70,3 +76,24 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
     return(out)
   }
         
+covW <- function(data,groups)
+  {
+if (!is.factor(groups))
+  {
+    groups <- as.factor(groups)
+    warning("groups coerced to factors")
+  }
+ndata <- dim(data)[1]
+probs <- NULL
+glev <- levels(groups)
+nlev <- length(glev)
+covWithin <- 0
+for( i in 1:nlev)
+  {
+    #data[groups==glev[i],] <- apply(data[groups==glev[i],],2,scale,scale=F)
+    covWithin <- covWithin + cov(data[groups==glev[i],]) * length(which(groups==
+    glev[i]))
+  }
+covWithin <- covWithin/(ndata - nlev)
+    return(covWithin)
+  }

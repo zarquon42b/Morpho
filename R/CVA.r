@@ -25,7 +25,6 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
               group[[count]]<-tmp0
               groupcheck[count]<-i
               count<-count+1
-              
             }
         }
       lev<-lev[groupcheck]
@@ -43,9 +42,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       l <- k * m
       ng <- length(groups)
       if (length(unlist(groups)) != n)
-        {
-          warning("group affinity and sample size not corresponding!")
-        }
+        warning("group affinity and sample size not corresponding!")
       
       nwg <- c(rep(0, ng))
       for (i in 1:ng) 
@@ -58,7 +55,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         {
           B[i, ] <- as.vector(N[, , i])
         }
-        	
+      
       Gmeans <- matrix(0, ng, m * k)
       for (i in 1:ng)
         {
@@ -89,7 +86,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       for (i in 1:ng) {
         Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
       }
-       Grandm <- as.vector(apply(Gmeans, 2, mean))
+      Grandm <- as.vector(apply(Gmeans, 2, mean))
       Tmatrix<-B
       B<-t(t(B)-Grandm)
       Amatrix <- B
@@ -110,7 +107,6 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
   for (i in 1:ng) {
     covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
   }
-  
   
   W <- covW
   covW <- covW/(n - ng)
@@ -145,8 +141,6 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       Ec2[i] <- (1/Ec2[i])
     }
   }
-  
-  
   invcW <- diag(Ec)
   irE <- diag(E)
   ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
