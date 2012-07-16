@@ -105,7 +105,17 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
   
   covW <- 0
   for (i in 1:ng) {
-    covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
+    if (!is.vector(B[b[[i]],]))
+      covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
+    else
+      {
+        covW <- covW+diag(1,l)
+        if (cv)
+          {
+            cv <- FALSE
+            warning("group with one entry found - crossvalidation will be disabled.")
+          }
+      }
   }
   
   W <- covW
@@ -410,7 +420,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
                 		}
             		}
 		
-            	tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3)
+            	tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3,weighting=weighting)
             	out <- (Tmatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
 		return(out)
         	}

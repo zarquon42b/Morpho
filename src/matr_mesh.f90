@@ -1,4 +1,4 @@
-SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,sign,outnorm)
+SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,sign,outnorm,mm)
   
   !! run brute force search of closest triangle on a mesh for each point given in 
   !! a matrix (matr)
@@ -7,7 +7,7 @@ SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,
   
   IMPLICIT NONE
   integer ::nit, IT(3,nit),ittmp(3),i,nvb,nmat,fptr(nmat),ptrtmp,regionv(nmat)
-  integer :: region
+  integer :: region,mm
   real*8 :: clost(3),VB(3,nvb),normals(3,3),dif(nmat),VBnormals(3,nvb),tmpnorm(3),tmpdiff(3)
   real*8 :: DAT(nit,13),diff,outmatr(nmat,3)
   real*8 ::  matr(nmat,3),outnorm(3,nmat)
@@ -21,7 +21,7 @@ SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,
      
      point(:) = matr(i,1:3)
      
-     call pt_upmesh(point,DAT,nit,clost,diff,ptrtmp,region)
+     call pt_upmesh(point,DAT,nit,clost,diff,ptrtmp,region,mm)
      outmatr(i,:) = clost(:)
      dif(i) = diff
      fptr(i) = ptrtmp
@@ -46,12 +46,12 @@ SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,
   
 END SUBROUTINE matr_mesh
 
-SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dif,fptr,outmatr,regionv,VBnormals,sign,outnorm)
+SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dif,fptr,outmatr,regionv,VBnormals,sign,outnorm,mm)
   
   
   IMPLICIT NONE
   integer ::nit,k, IT(3,nit),ittmp(3),nvb, clostInd(nmat,k),nmat,fptr(nmat),ptrtmp,regionv(nmat),i
-  integer :: region
+  integer :: region,mm
   real*8 :: clost(3),VB(3,nvb),normals(3,3),dif(nmat)
   real*8 :: DAT(nit,13),diff,outmatr(nmat,3)
   real*8 :: matr(nmat,3),outnorm(3,nmat)
@@ -65,7 +65,7 @@ do i = 1,nmat
      
      point(:) = matr(i,1:3)
      tmpdat = DAT(clostInd(i,:),:)
-     call pt_upmesh(point,tmpdat,k,clost,diff,ptrtmp,region)
+     call pt_upmesh(point,tmpdat,k,clost,diff,ptrtmp,region,mm)
      outmatr(i,:) = clost(:)
      dif(i) = diff
      fptr(i) = clostInd(i,ptrtmp)

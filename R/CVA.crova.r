@@ -34,8 +34,11 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
    
     covW <- 0
     for (i in 1:ng) {
+       if (!is.vector(B[b[[i]],]))
         covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
-    }
+       else
+         covW <- covW+diag(1,l)
+              }
     W <- covW
     covW <- covW/(n - ng)
     eigW <- eigen(W)

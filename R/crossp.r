@@ -6,3 +6,4 @@ crossp<-function(x,y)
 	out[3]<- x[1]*y[2]-x[2]*y[1]
  return(out)
  }
+

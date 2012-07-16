@@ -65,7 +65,7 @@ closematKD <- function(matr,mesh,k=50,sign=FALSE,...)
    
     return(out)
   }
-closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),...)
+closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),method=0,...)
   {
     if (is.null(mesh$normals))
       {
@@ -99,6 +99,7 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),...)
     storage.mode(it) <- "integer"
     storage.mode(nvb) <- "integer"    
     storage.mode(nit) <- "integer"
+     storage.mode(method) <- "integer"
     storage.mode(nmat) <- "integer"
     storage.mode(matr) <- "double"
     storage.mode(vb) <- "double"
@@ -106,7 +107,7 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),...)
     storage.mode(clost) <- "double"
     outmatr <- matr
     region <- fptr
-    out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr))
+    out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr),method)
     gc()
     x$vb[1:3,] <- t(out[[11]])
     x$quality <- out[[9]]
