@@ -30,7 +30,8 @@ do i = 1,ndat
       !dif = dot_product(dist(:),dist(:))
       
       if (sqdist <= dif_old) then
-         diff = sqrt(sqdist)
+         diff = abs(sqdist)
+         diff = sqrt(diff)
          dif_old = sqdist
          clost = clostmp
          fptr = i
