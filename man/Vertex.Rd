@@ -4,15 +4,14 @@
 \alias{vert2points}
 \alias{rmUnrefVertex}
 \title{some little helpers for vertex operations on triangular meshes
-%%  ~~function to do ... ~~
 }
 \description{
 remove (unreferenced vertices from triangular meshes)}
 \usage{
 unrefVertex(mesh)
-rmVertex <- function(mesh,index)
-vert2points <- function(mesh)
-rmUnrefVertex <- function(mesh)
+rmVertex(mesh,index)
+vert2points(mesh)
+rmUnrefVertex(mesh)
 
 }
 \arguments{
@@ -20,8 +19,6 @@ rmUnrefVertex <- function(mesh)
   }
   \item{index}{vector containing indices of vertices to be removed.
 }
-}
-\details{
 }
 \value{unrefVertex: vector with indices of unreferenced vertices.
   
@@ -36,11 +33,8 @@ rmUnrefVertex <- function(mesh)
 
 \author{
 Stefan Schlager}
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+
 
 \seealso{
  \code{\link{ply2mesh}}, \code{\link{file2mesh}} 

@@ -17,7 +17,7 @@ CreateL2D<-function(matrix)
 	L1<-try(solve(L),silent=TRUE)
     	if (class(L1)=="try-error")
 		{cat("singular matrix: general inverse will be used.\n")
-		L1<-mpinv(L)		
+		L1<-ginv(L)		
 		}
     Lsubk<-L1[1:k,1:k]
     Lsubk3<-rbind(cbind(Lsubk,matrix(0,k,k)),cbind(matrix(0,k,k),Lsubk))

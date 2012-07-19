@@ -28,43 +28,7 @@ closemat <- function(matr,mesh,sign=FALSE)
     names(out) <- c("dist","fptr","clost","region","clostnorm")
     return(out)
   }
-closematKD <- function(matr,mesh,k=50,sign=FALSE,...)
-  {
-    if (is.null(mesh$normals))
-      {
-        mesh <- adnormals(mesh)
-      }
-    vb <- (mesh$vb[1:3,])
-    it <- (mesh$it)
-    nvb <- dim(vb)[2]
-    nit <- dim(it)[2]
-    
-    nmat<-dim(matr)[1]
-     dif<-rep(0,nmat)
-     fptr <- dif
-    bary <- barycenter(mesh)
-    clostInd <- nn2(bary,matr,k=k,...)$nn.idx
-    storage.mode(k) <- "integer"
-    storage.mode(clostInd) <- "integer"
-    clost <- c(0,0,0)
-    storage.mode(fptr) <- "integer"
-   
-    storage.mode(it) <- "integer"
-    storage.mode(nvb) <- "integer"
-    
-    storage.mode(nit) <- "integer"
-    storage.mode(nmat) <- "integer"
-    storage.mode(matr) <- "double"
-    storage.mode(vb) <- "double"
-    storage.mode(dif) <- "double"
-    storage.mode(clost) <- "double"
-    outmatr <- matr*0
-    region <- fptr
-    out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr))
-    gc()
-   
-    return(out)
-  }
+
 closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),method=0,...)
   {
     if (is.null(mesh$normals))

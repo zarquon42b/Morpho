@@ -8,7 +8,7 @@ calcGamma<-function(Gamma0,Lsubk3,U,dims,weights=NULL)
 	B<-try(solve(ULU),silent=TRUE)
     	if (class(B)=="try-error")
 		{cat("calcGamma: singular matrix: general inverse will be used.\n")
-		B<-mpinv(ULU)		
+		B<-ginv(ULU)		
 		}
         if (is.null(weights))
           {

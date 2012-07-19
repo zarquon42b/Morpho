@@ -2,15 +2,15 @@
 \alias{typprob}
 \alias{typprobClass}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 calculate typicality probabilities}
 \description{
 get the probability for an observation belonging to a given multivariate
 nromal distribution}
 \usage{
-typprob(x,data,small=FALSE,method=c("chisquare","wilson"))
-typprobClass(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01)
+typprob(x,data,small=FALSE,method=c("chisquare","wilson"), center = NULL, cova = NULL) 
+typprobClass(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01,
+sep = FALSE) 
 
 }
 \arguments{
@@ -21,7 +21,7 @@ typprobClass(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.
   }
   \item{groups}{vector containing grouping information.
   }
-  \item{small}{adjustion of Mahalanobis D² for small sample sizes as
+  \item{small}{adjustion of Mahalanobis D^2 for small sample sizes as
     suggested by Wilson (1981), only takes effect when method="wilson".
   }
    \item{method}{select method for probability estimation. Available
@@ -32,6 +32,14 @@ typprobClass(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.
    }
    \item{outlier}{probability threshold below which a specimen will not
      be assigned to any group-
+   }
+   \item{sep}{logical: if TRUE, probability will be calculated from the
+    pooled within group covariance matrix.
+  }
+   \item{center}{vector: specify custom vector to calculate distance
+     to. If not defined, group mean will be used.
+  }\item{cova}{covariance matrix to calculate mahalanobis-distance:
+    specify custom covariance matrix to calculate distance.
   }
 }
 
@@ -71,8 +79,8 @@ plot(probas,maha,xlab="Probability",ylab="Mahalanobis D^2")
 
 data2 <- procSym(abind(gorf.dat,gorm.dat))$PCscores[,1:3]
 fac <- as.factor(c(rep("female",dim(gorf.dat)[3]),rep("male",dim(gorm.dat)[3])))
-typClass <- typprobClass(data2,data2,fac,method="w",small=TRUE)## only
-59 specimen is rather small.
+typClass <- typprobClass(data2,data2,fac,method="w",small=TRUE)
+## only 59 specimen is rather small.
 typClass2 <- typprobClass(data2,data2,fac,method="c")## use default settings
 
 ### check results for first method:

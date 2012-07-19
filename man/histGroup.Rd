@@ -2,7 +2,7 @@
 \alias{histGroup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-plot hsitogram for multiple groups.
+plot histogram for multiple groups.
 }
 \description{
 plot a histogram for multiple groups, each group colored individually

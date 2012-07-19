@@ -25,9 +25,7 @@ PCdist(PCs, PCscores, x = 5, plot.type="b")
 %%     ~~Describe \code{x} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{a vector of R-squared values between subspace and fullspace distances and a barplot depicting the correlations belonging to the subspace.
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -35,21 +33,10 @@ PCdist(PCs, PCscores, x = 5, plot.type="b")
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+Stefan Schlager}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 a<-procSym(gorf.dat)
 PCdist(a$PCs, a$PCscores, x = 2)

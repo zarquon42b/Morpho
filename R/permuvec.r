@@ -156,7 +156,7 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
     }
   mahadist<-NULL
 ### invert covariance matrix
-  coinv<-mpinv(covW,tol=tol)
+  coinv<-ginv(covW,tol=tol)
                                         # print(dim(coinv))
   for (i in 1:ng) ## calc Mahalanobisdistance ### 
     {mahadist[i]<-sqrt(meanvec[i,]%*%coinv%*%meanvec[i,])

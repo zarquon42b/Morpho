@@ -1,5 +1,8 @@
 scaleproc<-function (a3, proc.output = FALSE) 
-{	#### this is a copy of the function "bgpa" from the shapes package ####
+{
+#### this is a copy of the function "bgpa" from the shapes package ####
+#### Copyright by Ian Dryden
+  
     h <- 0
     zd <- a3
     s <- 0

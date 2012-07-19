@@ -9,7 +9,7 @@
 
 }
 \usage{
-mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE)
+mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE, sign = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,6 +28,8 @@ mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE)
     is none present.
 %%     ~~Describe \code{clean} here~~
 }
+ \item{sign}{logical: if TRUE, signed distances are returned.
+}
 }
 \details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
 
@@ -38,20 +40,16 @@ mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE)
   \item{mesh}{projected mesh}
 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+\references{ Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
+  Signed Distance Fields From Triangle Meshes. Informatics and
+  Mathematical Modelling.
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+}
+\author{Stefan Schlager
+}
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{ply2mesh}},  \code{\link{closemeshKD}}
 }
 \examples{
 }

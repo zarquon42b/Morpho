@@ -10,8 +10,7 @@
   plot or save the results of meshDist 
 %%  ~~function to do ... ~~
 }
-\description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+\description{  Visualise or save the results of meshDist to disk. 
 }
 \usage{
 \method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,displace = FALSE, shade = TRUE,sign=NULL,...)

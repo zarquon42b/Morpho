@@ -16,7 +16,7 @@ storage.mode(matrix)<-"double"
 	L1<-try(solve(L),silent=TRUE)
     	if (class(L1)=="try-error")
 		{cat("CreateL: singular matrix: general inverse will be used.\n")
-		L1<-mpinv(L)		
+		L1<-ginv(L)		
 		}
 
 	Lsubk<-L1[1:k,1:k]

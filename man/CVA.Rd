@@ -10,7 +10,7 @@ performs a Canonical Variate Analysis.
 }
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot =
-TRUE,rounds=10000,cv=TRUE, mc.cores=detectCores())
+TRUE,rounds=0, cv=FALSE, mc.cores=detectCores())
 %%mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE) ### multicore version of CVA (only available on UNIX systems).
 }
 %- maybe also 'usage' for other objects documented here.
@@ -42,9 +42,7 @@ TRUE,rounds=10000,cv=TRUE, mc.cores=detectCores())
 %%     ~~Describe \code{cores} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use      CV = CV, CVscores = CVscores, Grandm = Grandm,    groupmeans = groupmeans, Var = Var, CVvis = CVvis, B = B
@@ -73,14 +71,10 @@ Klingenberg, C. P. & Monteiro, L. R. 2005 Distances and directions in multidimen
 \author{
 Stefan Schlager
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{groupPCA}}
 }
 \examples{
 alldat<-procSym(abind(gorf.dat,gorm.dat))   # perform procrustes fit on raw data

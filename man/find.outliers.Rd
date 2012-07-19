@@ -32,7 +32,10 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis=FALSE, PCuse=NULL)
 %%     ~~Describe \code{lcol} here~~
 } 
 }
-\details{
+\details{This function performs a procrustes fit and tries sorts all
+  specimen according to their distances (either Procrustes or
+  Mahalanobis-distance) and provides visual help for rearranging
+  landmarks and/or excluding outliers.
 
 }
 \value{
@@ -45,24 +48,16 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis=FALSE, PCuse=NULL)
  \item{type }{what kind of distance was used}
 }
 
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{Stefan Schlager
 %%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{typprob}},\code{\link{typprobClass}}
 }
-\examples{
 
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
