@@ -1,4 +1,4 @@
-warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovie",add=F)
+warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,...)
 {	wdold<-getwd()
 	if(!is.null(folder))
 		{
@@ -17,7 +17,7 @@ warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmo
 	for (i in 0:n)
 		{mesh<-x
 		mesh$vb[1:3,]<-(i/n)*y$vb[1:3,]+(1-(i/n))*x$vb[1:3,]
-		a <- shade3d(mesh,col=col)
+		a <- shade3d(mesh,col=col,...)
 		if (i ==0)
 			{readline("please select view and press return\n")
 			}
@@ -32,7 +32,7 @@ warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmo
 		for (i in 1:(n-1))
 			{mesh<-x
 			mesh$vb[1:3,]<-(i/n)*x$vb[1:3,]+(1-(i/n))*y$vb[1:3,]
-			a <- shade3d(mesh,col=col)
+			a <- shade3d(mesh,col=col,...)
 			filename <- sprintf("%s%03d.png", movie, i+n)
 			rgl.snapshot(filename,fmt="png")
 			rgl.pop("shapes",id=a)	
