@@ -16,7 +16,7 @@ rmVertex <- function(mesh,index)
     vbn <- dim(mesh$vb)[2]
     indOrig <-  1:vbn
     indOut <- indOrig*0
-    indNew <- 1:(vbn-lRm)
+    indNew <- 1:(vbn-lRm)     
     indOut[-index] <- indNew
 #print(indOut)
     
@@ -37,6 +37,8 @@ rmVertex <- function(mesh,index)
         if (length(invalface) > 0)
           {
             mesh$it <- it[,-invalface]
+            if(!is.null(mesh$material$color))
+              mesh$material$color <- mesh$material$color[,-invalface]
           }
         else
           {

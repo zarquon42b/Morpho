@@ -22,10 +22,10 @@ mesh2ply<-function(x,filename="default",col=NULL,writeNormals=FALSE)
   if (is.null(col) && !is.null(x$material$color))
     {
       col=rep("#FFFFFF",vn)
-      tmp1 <- data.frame(as.vector(x$it))
-      tmp1$rgb <- x$material$color
+      tmp1 <- data.frame(it=as.vector(x$it))
+      tmp1$rgb <- as.vector(x$material$color)
       tmp1 <- unique(tmp1)
-      col[tmp1[,1]] <- tmp1$rgb
+      col[tmp1$it] <- tmp1$rgb
     }
 
   if (!writeNormals)
