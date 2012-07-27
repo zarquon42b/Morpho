@@ -106,7 +106,7 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
       }   
    
     colfun <- function(x){x <- colorall[x];return(x)}
-    x$material$color <- colfun(x$it)
+    x$material$color <- matrix(colfun(x$it),dim(x$it))
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
     out <- list(colMesh=x,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
@@ -213,7 +213,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
              colorall[good] <- "#00FF00"
            }
         colfun <- function(x){x <- colorall[x];return(x)}
-        colMesh$material$color <- colfun(colMesh$it)
+        colMesh$material$color <- matrix(colfun(colMesh$it),dim(x$it))
         colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
       }
     else
