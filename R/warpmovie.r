@@ -12,8 +12,11 @@ warpmovie3d<-function(x,y,n,col=skin1,palindrome=FALSE,folder=NULL,movie="warpmo
           {
             open3d()
           }
-                                        #	points3d(t(x$vb[1:3,]),col="white",cex=0)
-	#print(folder)
+        ## get bbox
+        bbox <- apply(rbind(vert2points(x),vert2points(y)),2,range)
+        bbox <- expand.grid(bbox[,1],bbox[,2],bbox[,3])
+        points3d(bbox,col="white")
+                            
 	for (i in 0:n)
 		{
                   mesh<-x
