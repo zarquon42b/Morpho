@@ -74,7 +74,7 @@ Stefan Schlager}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
- \code{\link{rotmesh.onto]]
+ \code{\link{rotmesh.onto}}
 }
 \examples{
 library(shapes)
