@@ -13,7 +13,8 @@ location of the targetmatrix
 and reverse this transformations using rotreverse
 }
 \usage{
-rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE)
+rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE, weights
+= NULL)
 rotreverse(mat,rot)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -39,6 +40,10 @@ rotreverse(mat,rot)
 
 %%     ~~Describe \code{signref} here~~
 }
+\item{weights}{vector of length k, containing weights for each
+  landmark. 
+%%     ~~Describe \code{signref} here~~
+}
 
 }
 \details{
@@ -56,19 +61,20 @@ rotreverse(mat,rot)
 %% ...
 }
 \references{
+  Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C. (1976). A solution to the weighted Procrustes problem
+in which the transformation is in agreement with the loss function. Psychometrika, 41,547-550.
+
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
-}
+Stefan Schlager}
 \note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{rotmesh.onto]]
 }
 \examples{
 library(shapes)

@@ -1,10 +1,19 @@
-rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE)
+rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL)
 { 	reflect=0
   	m<-dim(x)[2]
   	X<-apply(x,2,scale,scale=F)
   	Y<-apply(y,2,scale,scale=F)
-  	XY<-crossprod(X,Y)
-  	sv1<-svd(XY)
+        if (!is.null(weights))
+          {
+            Dn <- diag(weights)
+            X1 <- Dn%*%X
+            Y1 <- Dn%*%Y
+            XY <- crossprod(X1,Y1)
+          }
+        else
+          XY<-crossprod(X,Y)
+
+        sv1<-svd(XY)
         
 	#dd<-diag(sign(sv1$d))
 	gamm<-tcrossprod(sv1$v,sv1$u)
@@ -47,7 +56,10 @@ rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE)
   
   	if (scale == TRUE)
     		{
-                  bet<-sum(del)/ctrace(Y)
+                  if (!is.null(weights))
+                    bet <- sum(del)/ctrace(Y1)
+                  else
+                    bet<-sum(del)/ctrace(Y)
                   yrot<-bet*Y%*%gamm
 		}
   	else
