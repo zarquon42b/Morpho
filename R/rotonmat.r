@@ -1,4 +1,4 @@
-rotonmat<-function(X,refmat,tarmat,scale=TRUE,scaling=FALSE,reflection=FALSE)
+rotonmat<-function(X,refmat,tarmat,scale=TRUE,reflection=FALSE)
 {	
 	ro<-rotonto(tarmat,refmat,scale=scale,signref=F,reflection=reflection)
 	

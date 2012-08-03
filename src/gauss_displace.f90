@@ -91,7 +91,7 @@ subroutine relax_pt(pt,Wvb,nw,Pvb,np,D1,D2,sigma,gam,outpt,ow,dif1,dif2)
   g1sum = 0d0
   g2sum = 0d0
   !$OMP PARALLEL DO shared(sigma,Wvb,pt) private(i,g1tmp)
-  !OMP& REDUCTION(+:g1sum,outpt) 
+   !OMP& REDUCTION(+:g1sum,outpt) 
  
   do i = 1,nw  
      call gaussian_dsmooth(sigma,pt,Wvb(i,:),g1tmp)
