@@ -1,8 +1,19 @@
-rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL)
+rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE)
 { 	reflect=0
   	m<-dim(x)[2]
-  	X<-apply(x,2,scale,scale=F)
+        if (!is.null(weights))
+          weights <- weights/sum(weights)
+       
+        X<-apply(x,2,scale,scale=F)
   	Y<-apply(y,2,scale,scale=F)
+         if (centerweight && !is.null(weights))
+          {
+            
+            xcent <- apply(X*weights,2,sum)
+            ycent <- apply(Y*weights,2,sum)
+            X<-scale(X,scale=F,center=xcent)
+            Y<-scale(Y,scale=F,center=ycent)
+          }
         if (!is.null(weights))
           {
             Dn <- diag(weights)
