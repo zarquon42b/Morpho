@@ -1,5 +1,8 @@
-ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
+ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE)
 {
+  if (!is.null(weights))
+    weights <- weights/sum(weights)
+
   t0<-Sys.time()
   x<-dat.array
   p1<-1e10
@@ -26,7 +29,12 @@ ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
       arr.list<-lapply(arr.list,function(x){x[[1]]<-apply(x[[1]],2,scale,scale=F);return(list(x[[1]],x[[2]]))})
     }
   
-  mshape<-x[,,1]	
+  mshape<-x[,,1]
+   if (centerweight && !is.null(weights))
+          {
+            mcent <- apply(mshape*weights,2,sum)           
+            mshape<-scale(mshape,scale=F,center=mcent)
+          }
 ### align mean by principal axes ###	
   rotms<-eigen(crossprod(mshape))$vectors
   if (det(rotms) < 0)
@@ -40,7 +48,7 @@ ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
       mshape_old<-mshape
       
 ### rotation of all configs on current consensus ###		
-      arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F);return(list(x[[1]],x[[2]]))})
+      arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F,weights=weights,centerweight=centerweight);return(list(x[[1]],x[[2]]))})
       
       for( i in 1:n)
         {
@@ -63,7 +71,9 @@ ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
       while (p2 > tol)
         {
           for( i in 1:n)
-            {
+            { if (!is.null(weights))
+                x[,,i]<-arr.list[[i]][[1]]*weights
+            else
               x[,,i]<-arr.list[[i]][[1]]
             }
           eigc<-scaleproc(x)
@@ -76,7 +86,7 @@ ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE)
           arr.list<-lapply(arr.list,function(x){x[[1]]<-x[[1]]*x[[2]];return(list(x[[1]],x[[2]]))})         
                     
 ### rotation of all configs on current consensus ###		
-          arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F);return(list(x[[1]],x[[2]]))})
+          arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F,weights=weights,centerweight=centerweight);return(list(x[[1]],x[[2]]))})
           		
 ### scale step ####
           
