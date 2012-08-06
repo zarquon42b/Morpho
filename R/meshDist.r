@@ -213,7 +213,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
              colorall[good] <- "#00FF00"
            }
         colfun <- function(x){x <- colorall[x];return(x)}
-        colMesh$material$color <- matrix(colfun(colMesh$it),dim(x$it))
+        colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
         colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
       }
     else
