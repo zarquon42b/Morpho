@@ -21,7 +21,8 @@ tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRU
   \item{dat.array}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Ideally the dimnames[[3]] vector contains the names of the surface model (without file extension) - e.g. if the model is named "surface.ply", the name of the corresponding matrix of the array would be "surface"
 %%     ~~Describe \code{dat.array} here~~
 }
-  \item{SMvector}{A vector containing the landmarks on the curve(s) that are allowed to slide
+  \item{SMvector}{A vector containing the landmarks on the curve(s) and
+    surfaces that are allowed to slide
 %%     ~~Describe \code{SMvector} here~~
 }
   \item{outlines}{A vector (or if threre are several curves) a list of vectors (containing the rowindices) of the (Semi-)landmarks forming the curve(s) in the successive position on the curve - including the beginning and end points, that are not allowed to slide.
