@@ -123,7 +123,7 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
     invisible(out)
   }
 render <- function(x,...) UseMethod("render")
-render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,sign=NULL,...)
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,sign=NULL,...)
   {
     clost <- x$clost
     dists <- x$dists
@@ -132,6 +132,10 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
     colramp <- x$colramp
     params <- x$params
     distqual <- x$distqual
+    if (rgl.cur() !=0)
+      {
+        rgl.clear()
+      }
     if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign))
       {
         neg=FALSE
@@ -251,9 +255,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=F
     out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     #out <- list(colMesh=colMesh,colramp=colramp)
     class(out) <- "meshDist"
-    if(output)
-      {invisible(out)
-     }
+    invisible(out)
   }
 
 export <- function(x,...)UseMethod("export")

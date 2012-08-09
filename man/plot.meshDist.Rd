@@ -13,7 +13,7 @@
 \description{  Visualise or save the results of meshDist to disk. 
 }
 \usage{
-\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,displace = FALSE, shade = TRUE,sign=NULL,...)
+\method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,displace = FALSE, shade = TRUE,sign=NULL,...)
 
 \method{render}{matrixDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace = FALSE, sign =
                  NULL,...)
