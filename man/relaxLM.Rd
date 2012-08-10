@@ -10,7 +10,8 @@ sample mean)
 
 }
 \usage{
-relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name = NULL, tol = 1e-05, deselect = FALSE, inc.check = TRUE, iterations = 0)
+relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name
+= NULL, mesh=NULL, tol = 1e-05, deselect = FALSE, inc.check = TRUE, iterations = 0)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,7 +30,13 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name = NULL, 
   \item{surp}{A vector containing Semilandmarks positioned on surfaces.
 %%     ~~Describe \code{surp} here~~
 }
-  \item{sur.name}{character: containing the filename of the corresponding surface. 
+  \item{sur.name}{character: containing the filename of the corresponding surface.When specified,
+   mesh has to be NULL. 
+%%     ~~Describe \code{sur.name} here~~
+}
+ \item{mesh}{triangular mesh of class "mesh3d" loaded into the R workspace, when specified,
+   "sur.name" has to be NULL. The function \code{\link{closemeshKD}}
+   will be used for reprojection onto the surface.
 %%     ~~Describe \code{sur.name} here~~
 }
   \item{tol}{numeric: Threshold for convergence in the sliding
