@@ -1,14 +1,16 @@
 meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,...)
   {
-    x <- list(vb=t(x),it=(1:dim(x)[1]))
+    x <- list(vb=t(x),it=matrix(1:dim(x)[1]),1,dim(x)[1])
     class(x) <- "mesh3d"
     out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,displace=FALSE,...)
     class(out) <- "matrixDist"
     render(out,radius=radius,type=type,displace=displace)
     invisible(out)
   }
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,sign=NULL,...)
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,sign=NULL,...)
   {
+    if (rgl.cur() !=0)
+      rgl.clear()
     clost=x$clost
     type=type[1]
     dists <- x$dists
@@ -149,7 +151,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output
     out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual)
     #out <- list(colMesh=colMesh,colramp=colramp)
      class(out) <- "matrixDist"
-    if(output)
-      {invisible(out)
-     }
+   
+     invisible(out)
+     
   }
