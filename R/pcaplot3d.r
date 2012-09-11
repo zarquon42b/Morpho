@@ -37,8 +37,11 @@ pcaplot3d.symproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...)
   for (i in 1:length(pcshow))
       {pc<-refshape+matrix(PCs[,pcshow[i]]*mag[i]*sds[pcshow[i]],k,3)
 
-          for (j in 1:k)
-          {lines3d(rbind(refshape[j,],pc[j,]),col=rainb[i],lwd=lwd)}
+       linemesh <- list()
+       linemesh$vb <- t(cbind(rbind(refshape,pc),1))
+       linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
+       class(linemesh) <- "mesh3d"
+       wire3d(linemesh,lwd=lwd,lit=F,col=rainb[i])
       }
 }
 pcaplot3d.nosymproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
@@ -71,7 +74,13 @@ pcaplot3d.nosymproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
   for (i in 1:length(pcshow))
       {pc<-refshape+matrix(PCs[,pcshow[i]]*mag[i]*sds[pcshow[i]],k,3)
 
-          for (j in 1:k)
-          {lines3d(rbind(refshape[j,],pc[j,]),col=rainb[i],lwd=lwd)}
+       linemesh <- list()
+       linemesh$vb <- t(cbind(rbind(refshape,pc),1))
+       linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
+       class(linemesh) <- "mesh3d"
+       wire3d(linemesh,lwd=lwd,lit=F,col=rainb[i])
+       
+         # for (j in 1:k)
+         # {lines3d(rbind(refshape[j,],pc[j,]),col=rainb[i],lwd=lwd)}
       }
 }

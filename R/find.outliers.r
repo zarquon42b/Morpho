@@ -191,5 +191,5 @@ find.outliers <- mc.find.outliers<-function(A,color=4,lwd=1,lcol=2,mahalanobis=F
   if (! is.null(outlier))
     {raw<-raw[,,-outlier]
    }
-  return(list(data.cleaned=raw,outlier=outlier,dist.sort=disti.sort,type=disType))
+  invisible(list(data.cleaned=raw,outlier=outlier,dist.sort=disti.sort,type=disType))
 }
