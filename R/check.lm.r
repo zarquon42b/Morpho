@@ -1,5 +1,7 @@
-check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,alpha=0.7,begin=1,render="w",point=c("s","p"),add=FALSE)
+check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,alpha=0.7,begin=1,render="w",point=c("s","p"),add=FALSE,Rdata=FALSE)
   {
+    if (!Rdata)
+      load <- file2mesh
     outid <- NULL
     point=point[1]
     arr <- FALSE
@@ -55,9 +57,19 @@ check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,
         
         if (!is.null(path))
           {
-            tmpmesh <- file2mesh(tmp.name)
+            if (!Rdata)
+              { tmpmesh <- load(tmp.name)
+              }
+            else
+              {load(tmp.name)
+               tmp.name <- gsub(path,"",tmp.name)
+               tmpmesh <- get(tmp.name)
+             }
+               
             outid <- c(outid,rend(tmpmesh,col=col,alpha=alpha))
             rm(tmpmesh)
+            if (Rdata)
+              rm(list=tmp.name)
             gc()
           }
         answer <- readline(paste("viewing #",i,"next"))
