@@ -204,16 +204,17 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         out <- (Tmatrix[x,]-crovtmp$Grandmean)%*%crovtmp$PCs      
         return(out)
       }
-
+    CV=NULL
     if (cv)
       {
         crossval <- foreach(i=1:n) %dopar% crovafun(i)
-      }
+      
         
      CV <- groupScores
     for (i in 1:n)
       {
         CV[i,] <- crossval[[i]]
+      }
       }
      
     return(list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV))
