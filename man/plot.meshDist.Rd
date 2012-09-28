@@ -15,7 +15,7 @@
 \usage{
 \method{render}{meshDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,displace = FALSE, shade = TRUE,sign=NULL,...)
 
-\method{render}{matrixDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,output=FALSE,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace = FALSE, sign =
+\method{render}{matrixDist}(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace = FALSE, sign =
                  NULL,...)
 
 \method{export}{meshDist}(x,file="default",imagedim="100x800",...)
@@ -33,8 +33,6 @@
   }
   \item{ceiling}{logical: if TRUE, the next larger integer of "to" is
     used
-  }
-  \item{output}{logical: return updated colored mesh.
   }
   \item{uprange}{numeric between 0 and 1: restricts "to" to a quantile of
     "to", if to is NULL.

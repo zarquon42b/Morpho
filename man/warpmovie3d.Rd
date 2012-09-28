@@ -10,7 +10,7 @@ meshes into each other}
   differences into a predefined set of steps.
 }
 \usage{
-warpmovie3d(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F)
+warpmovie3d(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,25 +33,21 @@ warpmovie3d(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "wa
   \item{folder}{character: output folder for created images (optional)
 %%     ~~Describe \code{folder} here~~
 }
-  \item{movie}{character: name of teh output files
+  \item{movie}{character: name of the output files
 %%     ~~Describe \code{movie} here~~
 }
   \item{add}{logical: if TRUE, the movie will be added to the focussed rgl-windows.
 %%     ~~Describe \code{add} here~~
 }
+  \item{\dots}{additional arguments passed to \code{\link{shade3d}}.
+%%     ~~Describe \code{add} here~~
 }
-\details{
 }
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+\details{A series of png files will be saved to disk. These can be
+  joined to animated gifs by external programs such as imagemagick or
+  used to create animations in PDFs in a latex environment (e.g. latex package: aninmate).
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Stefan Schlager}
 \note{

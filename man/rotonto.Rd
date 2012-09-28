@@ -14,7 +14,7 @@ and reverse this transformations using rotreverse
 }
 \usage{
 rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE, weights
-= NULL)
+= NULL, centerweight = FALSE))
 rotreverse(mat,rot)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -42,6 +42,12 @@ rotreverse(mat,rot)
 }
 \item{weights}{vector of length k, containing weights for each
   landmark. 
+%%     ~~Describe \code{signref} here~~
+}
+\item{centerweights}{logical: if weights are defined and
+  centerweigths=TRUE, the matrix will be centered according to these
+  weights instead of the barycenter.
+
 %%     ~~Describe \code{signref} here~~
 }
 
