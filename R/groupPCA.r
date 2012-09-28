@@ -209,7 +209,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
 
     crovafun <- function(x)
       {
-        crovtmp <- groupPCAcrova(Tmatrix[-x,],factors[-x],tol=tol,groupPCs=groupPCs)
+        crovtmp <- Morpho::groupPCAcrova(Tmatrix[-x,],factors[-x],tol=tol,groupPCs=groupPCs)
         out <- (Tmatrix[x,]-crovtmp$Grandmean)%*%crovtmp$PCs      
         return(out)
       }
