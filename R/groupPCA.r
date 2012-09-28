@@ -20,7 +20,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         groupcheck<-0
         for (i in 1:levn)
           {
-            tmp0<-which(groups==lev[i])	
+            tmp0 <- which(groups==lev[i])	
             if (length(tmp0) != 0)
               {			
                 group[[count]]<-tmp0
@@ -28,6 +28,12 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
                 count<-count+1
                 
               }
+            if (length(tmp0)==1)
+                {
+                  cv=FALSE
+                  warning("group with one entry found - crossvalidation will be disabled.")
+               }
+           
           }
         lev<-lev[groupcheck]
         groups<-group
@@ -157,7 +163,10 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
               {
                 b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
                 l1 <- l1 + length(b[[j]])
-                Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
+                tmpmat <- Amatrix[b1[[j]],]
+                if ( length(b[[j]])==1)
+                  tmpmat <- t(as.matrix(tmpmat))
+                Gmeans1[j, ] <- apply(tmpmat, 2, mean)
               }
             
             for (j1 in 1:(ng - 1)) 
@@ -208,13 +217,12 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     if (cv)
       {
         crossval <- foreach(i=1:n) %dopar% crovafun(i)
-      
         
-     CV <- groupScores
-    for (i in 1:n)
-      {
-        CV[i,] <- crossval[[i]]
-      }
+        CV <- groupScores
+        for (i in 1:n)
+          {
+            CV[i,] <- crossval[[i]]
+          }
       }
      
     return(list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV))

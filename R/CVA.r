@@ -59,7 +59,11 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       Gmeans <- matrix(0, ng, m * k)
       for (i in 1:ng)
         {
-          Gmeans[i, ] <- as.vector(apply(N[, , b[[i]]], c(1:2),mean))
+          tmparr <- (N[, , b[[i]]])
+          if (length(b[[i]]) > 1)
+            Gmeans[i, ] <- as.vector(apply(tmparr, c(1:2),mean))
+          else
+            Gmeans[i, ] <- tmparr
         }
       Grandm <- as.vector(apply(Gmeans, 2, mean))
       Tmatrix<-B
@@ -84,7 +88,10 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
                                         #Amatrix <- B
       Gmeans <- matrix(0, ng, l)
       for (i in 1:ng) {
-        Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+        if (length(b[[i]]) > 1)
+          Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+        else
+          Gmeans[i, ] <- N[b[[i]], ]
       }
       Grandm <- as.vector(apply(Gmeans, 2, mean))
       Tmatrix<-B
@@ -221,214 +228,216 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       proc.distout<-as.dist(proc.disto)
       
     }
-        else
-          {
-            proc.disto<-matrix(0, ng, ng)
-            if(!is.null(lev))
-              {rownames(proc.disto)<-lev
-               colnames(proc.disto)<-lev
-             }	
-            for (j1 in 1:(ng - 1)) 
-              {
-       		for (j2 in (j1 + 1):ng) 
-                  {proc.disto[j2, j1] <- sqrt(sum((Gmeans[j1, ]- Gmeans[j2,])^2))
-                 }
-              }
-            proc.distout<-as.dist(proc.disto)
-            
-          }
+  else
+    {
+      proc.disto<-matrix(0, ng, ng)
+      if(!is.null(lev))
+        {rownames(proc.disto)<-lev
+         colnames(proc.disto)<-lev
+       }	
+      for (j1 in 1:(ng - 1)) 
+        {
+          for (j2 in (j1 + 1):ng) 
+            {proc.disto[j2, j1] <- sqrt(sum((Gmeans[j1, ]- Gmeans[j2,])^2))
+           }
+        }
+      proc.distout<-as.dist(proc.disto)
+    }
   
 ### Permutation Test for Distances	
-	if (rounds != 0) 
-	{pmatrix <- matrix(NA, ng, ng) ### generate distance matrix Mahal
-	if(!is.null(lev))
-		{rownames(pmatrix)<-lev
-		colnames(pmatrix)<-lev
-		}
-	
-	
-	
-	
-	roun<-function(i)
-	{b1 <- list(numeric(0))
-		dist.mat<-matrix(0,ng,ng)
+  if (rounds != 0) 
+    {pmatrix <- matrix(NA, ng, ng) ### generate distance matrix Mahal
+     if(!is.null(lev))
+       {rownames(pmatrix)<-lev
+        colnames(pmatrix)<-lev
+      }
+     
+     roun<-function(i)
+       {b1 <- list(numeric(0))
+        dist.mat<-matrix(0,ng,ng)
+        shake <- sample(1:n)
+        Gmeans1 <- matrix(0, ng, l)
+        l1 <- 0
+        for (j in 1:ng) {
+          b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
+          l1 <- l1 + length(b[[j]])
+          tmpmat <- Amatrix[b1[[j]],]
+          if ( length(b[[j]])==1)
+            tmpmat <- t(as.matrix(tmpmat))
+          Gmeans1[j, ] <- apply(tmpmat, 2, mean)
+          
+        }
+        for (j1 in 1:(ng - 1)) {
+          for (j2 in (j1 + 1):ng) {
+            dist.mat[j2, j1] <- sqrt((Gmeans1[j1, ] - Gmeans1[j2, ]) %*% winv %*% (Gmeans1[j1,] - Gmeans1[j2, ]))
+          }
+        }
+        return(dist.mat)
+      }
+     
+     dist.mat<- array(0, dim = c(ng, ng, rounds))
+     a.list<-as.list(1:rounds)
+     a.list<-mclapply(a.list,roun,mc.cores=mc.cores)
+     for (i in 1:rounds)
+       {dist.mat[,,i]<-a.list[[i]]
+        
+      }
+     
+     for (j1 in 1:(ng - 1)) 
+       {for (j2 in (j1 + 1):ng) 
+          {sorti <- sort(dist.mat[j2, j1, ])
+           if (max(sorti) < disto[j2, j1]) 
+             {pmatrix[j2, j1] <- 1/rounds
+            }
+           else 
+             {marg <- min(which(sorti >= disto[j2, j1]))
+              pmatrix[j2, j1] <- (rounds - marg+1)/rounds
+            }
+         }
+      }
+     
+     if (length(dim(N)) == 3)
+       {
+         pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
+         if(!is.null(lev))
+           {rownames(pmatrix.proc)<-lev
+            colnames(pmatrix.proc)<-lev
+          }
+         roun.proc<-function(i)
+           {b1 <- list()
+            dist.mat<-matrix(0,ng,ng)
             shake <- sample(1:n)
             Gmeans1 <- matrix(0, ng, l)
             l1 <- 0
-            for (j in 1:ng) {
-                b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
-                l1 <- l1 + length(b[[j]])
-                Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, 
-                  mean)
-            }
-            for (j1 in 1:(ng - 1)) {
-                for (j2 in (j1 + 1):ng) {
-                  dist.mat[j2, j1] <- sqrt((Gmeans1[j1, ] - Gmeans1[j2, ]) %*% winv %*% (Gmeans1[j1,] - Gmeans1[j2, ]))
+            for (j in 1:ng) 
+              {b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
+               l1 <- l1 + length(b[[j]])
+               tmpmat <- Tmatrix[b1[[j]],]
+               if ( length(b[[j]]) > 1)
+                 Gmeans1[j, ] <- apply(tmpmat, 2, mean)
+               else 
+                 Gmeans1[j, ] <- tmpmat
+             }
+            
+            for (j1 in 1:(ng - 1)) 
+              {for (j2 in (j1 + 1):ng) 
+                 {dist.mat[j2, j1] <- angle.calc(Gmeans1[j1, ],Gmeans1[j2, ])$rho
                 }
-            }
-	return(dist.mat)
-	}
-	
-        dist.mat<- array(0, dim = c(ng, ng, rounds))
-        a.list<-as.list(1:rounds)
-	a.list<-mclapply(a.list,roun,mc.cores=mc.cores)
-	for (i in 1:rounds)
-		{dist.mat[,,i]<-a.list[[i]]
-		#print(a.list)[[i]]
-		}
-        #pmatrix <- matrix(0, ng, ng)
-	
-	
-        for (j1 in 1:(ng - 1)) 
-		{for (j2 in (j1 + 1):ng) 
-			{sorti <- sort(dist.mat[j2, j1, ])
-                	if (max(sorti) < disto[j2, j1]) 
-				{pmatrix[j2, j1] <- 1/rounds
-                		}
-               		else 
-                  		{marg <- min(which(sorti >= disto[j2, j1]))
-                  		pmatrix[j2, j1] <- (rounds - marg+1)/rounds
-                		}
-            		}
-        	}
-
-    	if (length(dim(N)) == 3)
-		{
-                  pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
-		if(!is.null(lev))
-			{rownames(pmatrix.proc)<-lev
-			colnames(pmatrix.proc)<-lev
-			}
-		roun.proc<-function(i)
-			{b1 <- list()
-			dist.mat<-matrix(0,ng,ng)
-            		shake <- sample(1:n)
-            		Gmeans1 <- matrix(0, ng, l)
-            		l1 <- 0
-            		for (j in 1:ng) 
-				{b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
-                		l1 <- l1 + length(b[[j]])
-                		Gmeans1[j, ] <- apply(Tmatrix[b1[[j]], ], 2, mean)
-            			}
-			
-            		for (j1 in 1:(ng - 1)) 
-				{for (j2 in (j1 + 1):ng) 
-					{dist.mat[j2, j1] <- angle.calc(Gmeans1[j1, ],Gmeans1[j2, ])$rho
-                			}
-            			}
-			
-			return(dist.mat)
-			}
-		
-        	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
-        	a.list<-as.list(1:rounds)
-		a.list<-mclapply(a.list,roun.proc,mc.cores=mc.cores)
-		
-		for (i in 1:rounds)
-			{dist.mat.proc[,,i]<-a.list[[i]]
-			}
-		for (j1 in 1:(ng - 1)) 
-			{for (j2 in (j1 + 1):ng) 
-				{sorti <- sort(dist.mat.proc[j2, j1, ])
-				if (max(sorti) < proc.disto[j2, j1]) 
-					{pmatrix.proc[j2, j1] <- 1/rounds
-                			}
-               			else 
-                  			{marg <- min(which(sorti >= proc.disto[j2, j1]))
-                  			pmatrix.proc[j2, j1] <- (rounds - marg+1)/rounds
-                			}
-            			}
-        		}
-		
-		pmatrix.proc<-as.dist(pmatrix.proc)
-		}
-         else ## case if input is datamatrix only euclidean distances will be calculated
-           	{pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
-		if(!is.null(lev))
-			{rownames(pmatrix.proc)<-lev
-			colnames(pmatrix.proc)<-lev
-			}
-		roun.proc<-function(i)
-			{b1 <- list()
-			dist.mat<-matrix(0,ng,ng)
-            		shake <- sample(1:n)
-            		Gmeans1 <- matrix(0, ng, l)
-            		l1 <- 0
-            		for (j in 1:ng) 
-				{b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
-                		l1 <- l1 + length(b[[j]])
-                		Gmeans1[j, ] <- apply(Amatrix[b1[[j]], ], 2, mean)
-            			}
-			
-            		for (j1 in 1:(ng - 1)) 
-				{for (j2 in (j1 + 1):ng) 
-					{dist.mat[j2, j1] <-sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))
-                			}
-            			}
-			
-			return(dist.mat)
-			}
-		
-        	dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
-        	a.list<-as.list(1:rounds)
-		a.list<-mclapply(a.list,roun.proc,mc.cores=mc.cores)
-		
-		for (i in 1:rounds)
-			{dist.mat.proc[,,i]<-a.list[[i]]
-			}
-		for (j1 in 1:(ng - 1)) 
-			{for (j2 in (j1 + 1):ng) 
-				{sorti <- sort(dist.mat.proc[j2, j1, ])
-				if (max(sorti) < proc.disto[j2, j1]) 
-					{pmatrix.proc[j2, j1] <- 1/rounds
-                			}
-               			else 
-                  			{marg <- min(which(sorti >= proc.disto[j2, j1]))
-                  			pmatrix.proc[j2, j1] <- (rounds - marg +1)/rounds
-                			}
-            			}
-        		}
-		
-		pmatrix.proc<-as.dist(pmatrix.proc)
-		}
+             }
+            return(dist.mat)
+          }
          
-	pmatrix <- as.dist(pmatrix)
-	
-	}
-	
-	disto <- as.dist(disto)
-	
-    	Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.distout, probsMaha = pmatrix,probsProc = pmatrix.proc)
-    	if (length(dim(N)) == 3) 
-		{Grandm <- matrix(Grandm, k, m)
-        	groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m,ng))
-    		}
-   
-	else 
-		{groupmeans <- Gmeans
-    		}
-    CVcv <- NULL
-    if (cv == TRUE) {
-        CVcv <- CVscores
-        ng <- length(groups)
-	a.list<-as.list(1:n)
-	crova<-function(i3)
-		{bb <- groups
-            	for (j in 1:ng) 
-			{if (i3 %in% bb[[j]] == TRUE) 
-				{bb[[j]] <- bb[[j]][-(which(bb[[j]] == i3))]
-                		}
-            		}
-		
-            	tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3,weighting=weighting)
-            	out <- (Tmatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
-		return(out)
-        	}
-	a.list<-mclapply(a.list,crova,mc.cores=mc.cores)
-	for (i in 1:n)
-	CVcv[i,]<-a.list[[i]]
-	
-    }
-    return(list(CV = CV, CVscores = CVscores, Grandm = Grandm, 
-        groupmeans = groupmeans, Var = Var, CVvis = CVvis, Dist = Dist,CVcv = CVcv))
+         dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
+         a.list<-as.list(1:rounds)
+         a.list<-mclapply(a.list,roun.proc,mc.cores=mc.cores)
+         
+         for (i in 1:rounds)
+           {dist.mat.proc[,,i]<-a.list[[i]]
+          }
+         for (j1 in 1:(ng - 1)) 
+           {for (j2 in (j1 + 1):ng) 
+              {sorti <- sort(dist.mat.proc[j2, j1, ])
+               if (max(sorti) < proc.disto[j2, j1]) 
+                 {pmatrix.proc[j2, j1] <- 1/rounds
+                }
+               else 
+                 {marg <- min(which(sorti >= proc.disto[j2, j1]))
+                  pmatrix.proc[j2, j1] <- (rounds - marg+1)/rounds
+                }
+             }
+          }
+         
+         pmatrix.proc<-as.dist(pmatrix.proc)
+       }
+     else ## case if input is datamatrix only euclidean distances will be calculated
+       {pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
+        if(!is.null(lev))
+          {rownames(pmatrix.proc)<-lev
+           colnames(pmatrix.proc)<-lev
+         }
+        roun.proc<-function(i)
+          {b1 <- list()
+           dist.mat<-matrix(0,ng,ng)
+           shake <- sample(1:n)
+           Gmeans1 <- matrix(0, ng, l)
+           l1 <- 0
+           for (j in 1:ng) 
+             {b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
+              l1 <- l1 + length(b[[j]])
+              tmpmat <- Amatrix[b1[[j]],]
+              if ( length(b[[j]])==1)
+                tmpmat <- t(as.matrix(tmpmat))
+              Gmeans1[j, ] <- apply(tmpmat, 2, mean)
+            }
+           
+           for (j1 in 1:(ng - 1)) 
+             {for (j2 in (j1 + 1):ng) 
+                {dist.mat[j2, j1] <-sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))
+               }
+            }
+           return(dist.mat)
+         }
+        
+        dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
+        a.list<-as.list(1:rounds)
+        a.list<-mclapply(a.list,roun.proc,mc.cores=mc.cores)
+        
+        for (i in 1:rounds)
+          {dist.mat.proc[,,i]<-a.list[[i]]
+         }
+        for (j1 in 1:(ng - 1)) 
+          {for (j2 in (j1 + 1):ng) 
+             {sorti <- sort(dist.mat.proc[j2, j1, ])
+              if (max(sorti) < proc.disto[j2, j1]) 
+                {pmatrix.proc[j2, j1] <- 1/rounds
+               }
+              else 
+                {marg <- min(which(sorti >= proc.disto[j2, j1]))
+                 pmatrix.proc[j2, j1] <- (rounds - marg +1)/rounds
+               }
+            }
+         }
+        
+        pmatrix.proc<-as.dist(pmatrix.proc)
+      }
+     
+     pmatrix <- as.dist(pmatrix)
+     
+   }
+  
+  disto <- as.dist(disto)
+  
+  Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.distout, probsMaha = pmatrix,probsProc = pmatrix.proc)
+  if (length(dim(N)) == 3) 
+    {Grandm <- matrix(Grandm, k, m)
+     groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m,ng))
+   }
+  
+  else 
+    {groupmeans <- Gmeans
+   }
+  CVcv <- NULL
+  if (cv == TRUE) {
+    CVcv <- CVscores
+    ng <- length(groups)
+    a.list<-as.list(1:n)
+    crova<-function(i3)
+      {bb <- groups
+       for (j in 1:ng) 
+         {if (i3 %in% bb[[j]] == TRUE) 
+            {bb[[j]] <- bb[[j]][-(which(bb[[j]] == i3))]
+           }
+        }
+       
+       tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3,weighting=weighting)
+       out <- (Tmatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
+       return(out)
+     }
+    a.list<-mclapply(a.list,crova,mc.cores=mc.cores)
+    for (i in 1:n)
+      CVcv[i,]<-a.list[[i]]
+    
+  }
+  return(list(CV = CV, CVscores = CVscores, Grandm = Grandm, 
+              groupmeans = groupmeans, Var = Var, CVvis = CVvis, Dist = Dist,CVcv = CVcv))
 }
