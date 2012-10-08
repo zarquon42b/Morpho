@@ -1,5 +1,5 @@
-warpmovie3d <- function (x,y,n,col="white",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,...) UseMethod("warpmovie3d")
-warpmovie3d.matrix<-function(x,y,n,col="white",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,radius=NULL,links=NULL,lwd=1,...)
+warpmovie3d <- function (x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,...) UseMethod("warpmovie3d")
+warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,radius=NULL,links=NULL,lwd=1,...)
 {	wdold<-getwd()
 	if(!is.null(folder))
 		{

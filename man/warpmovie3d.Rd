@@ -6,15 +6,15 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Creates a sequence of images showing predefined steps of warping two 
-meshes into each other}
-\description{given two meshes with the same amount of vertices and faces
-  (e.g a mesh and its warped counterpart), the starting mesh will be
-  subsequently transformed into the final mesh by splitting the
+meshes or landmark configurations into each other}
+\description{given two landmark configurations or two meshes with the same amount of vertices and faces
+  (e.g a mesh and its warped counterpart), the starting configuration/mesh will be
+  subsequently transformed into the final configuration/mesh by splitting the
   differences into a predefined set of steps.
 }
 \usage{
-\method{warpmovie3d}{mesh3d}(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F,...)
-\method{warpmovie3d}{matrix}(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL, lwd=1,...)
+\method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F,...)
+\method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL, lwd=1,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -79,6 +79,10 @@ data(nose)##load data
 ##warp a mesh onto another landmark configuration:
 warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
 warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
+
+### restrict to landmarks
+warpmovie3d(shortnose.lm,longnose.lm,n=15,movie="matrixmovie")## create 15 images.
+
 ### the images are now stored in your current working directory and can
 ### be concatenated to a gif using an external program such as imagemagick.
 }

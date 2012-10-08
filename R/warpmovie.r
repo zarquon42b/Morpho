@@ -1,4 +1,4 @@
-warpmovie3d.mesh3d<-function(x,y,n,col="white",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,...)
+warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,...)
 {	wdold<-getwd()
 	if(!is.null(folder))
 		{
