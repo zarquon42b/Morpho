@@ -1,5 +1,5 @@
 warpmovie3d <- function (x,y,n,col="white",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,...) UseMethod("warpmovie3d")
-warpmovie3d.matrix<-function(x,y,n,col="white",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,radius=NULL,...)
+warpmovie3d.matrix<-function(x,y,n,col="white",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,radius=NULL,links=NULL,lwd=1,...)
 {	wdold<-getwd()
 	if(!is.null(folder))
 		{
@@ -27,6 +27,10 @@ warpmovie3d.matrix<-function(x,y,n,col="white",palindrome=FALSE,folder=NULL,movi
                   mesh <-(i/n)*y+(1-(i/n))*x
                  
                   a <- spheres3d(mesh,col=col,radius=radius,...)
+                  if (!is.null(links))
+                    {a1 <- lineplot(mesh,links,col=col,lwd=lwd)
+                    a <- append(a,a1)
+                   }
                   if (i ==0)
                     {readline("please select view and press return\n")
                    }
@@ -42,6 +46,8 @@ warpmovie3d.matrix<-function(x,y,n,col="white",palindrome=FALSE,folder=NULL,movi
 			{mesh<-x
                          mesh <- (i/n)*x+(1-(i/n))*y
                          a <- spheres3d(mesh,col=col,radius=radius,...)
+                         if (!is.null(links))
+                            a <- append(a,lineplot(mesh,links,col=col,lwd=lwd))
                          filename <- sprintf("%s%03d.png", movie, i+n)
                          rgl.snapshot(filename,fmt="png")
                          rgl.pop("shapes",id=a)	

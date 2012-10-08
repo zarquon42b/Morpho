@@ -1,5 +1,8 @@
 \name{warpmovie3d}
+\alias{warpmovie3d.mesh3d}
+\alias{warpmovie3d.matrix}
 \alias{warpmovie3d}
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Creates a sequence of images showing predefined steps of warping two 
@@ -10,7 +13,8 @@ meshes into each other}
   differences into a predefined set of steps.
 }
 \usage{
-warpmovie3d(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F,...)
+\method{warpmovie3d}{mesh3d}(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F,...)
+\method{warpmovie3d}{matrix}(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL, lwd=1,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,10 +40,20 @@ warpmovie3d(x, y, n, col = skin1, palindrome = FALSE, folder = NULL, movie = "wa
   \item{movie}{character: name of the output files
 %%     ~~Describe \code{movie} here~~
 }
-  \item{add}{logical: if TRUE, the movie will be added to the focussed rgl-windows.
+\item{add}{logical: if TRUE, the movie will be added to the focussed rgl-windows.
+%%     ~~Describe \code{add} here~~
+} 
+\item{radius}{numeric: define size of spheres (overides atuomatic size estimation).
+%%     ~~Describe \code{add} here~~
+} 
+\item{links}{vector or list of vectors containing wireframe information
+  to connect landmarks (optional).
 %%     ~~Describe \code{add} here~~
 }
-  \item{\dots}{additional arguments passed to \code{\link{shade3d}}.
+\item{lwd}{numeric: controls width of lines defined by "links".
+ %%     ~~Describe \code{add} here~~
+}
+\item{\dots}{additional arguments passed to \code{\link{shade3d}}.
 %%     ~~Describe \code{add} here~~
 }
 }
