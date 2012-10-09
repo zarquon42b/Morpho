@@ -1,4 +1,4 @@
-groupPCAcrova <- function(dataarray, groups,tol=1e-10,groupPCs)
+groupPCAcrova <- function(dataarray, groups,tol=1e-10,groupPCs,weighting=weighting)
   {
    
     pmatrix.proc <- NULL
@@ -90,7 +90,17 @@ groupPCAcrova <- function(dataarray, groups,tol=1e-10,groupPCs)
 	Amatrix <- B
       }
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
-    eigenGmeans <- eigen(cov(resB))
+     if (weighting==TRUE)
+      {
+        tmpcov <- tcrossprod(Gmeans[1,])*0
+        for( i in 1:ng)
+          {
+            tmpcov <- tmpcov+tcrossprod(resB[i,])
+          }
+        eigenGmeans <- eigen(tmpcov)
+      }
+    else
+      eigenGmeans <- eigen(cov(resB))
    
     valScores <- which(eigenGmeans$values > tol)
     groupScores <- B%*%(eigenGmeans$vectors[,valScores])

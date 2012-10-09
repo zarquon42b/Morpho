@@ -9,7 +9,7 @@ observations into the eigenspace of this covariance matrix. This
 displays a low dimensional between group structure of a high dimensional problem.
 }
 \usage{
-groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = detectCores())
+groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = detectCores(),weighting=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,6 +30,10 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = det
   \item{mc.cores}{integer: how many cores of the Computer are allowed to be
     used. Default is use autodetection by using detectCores()
     from the parallel package.
+%%     ~~Describe \code{cores} here~~
+}
+ \item{weighting}{logical:weight between groups covariance matrix
+    according to group sizes.
 %%     ~~Describe \code{cores} here~~
 }
 }
@@ -53,7 +57,14 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = det
 
 
 }
-\references{Mitteroecker P,  Bookstein F 2011. Linear Discrimination, Ordination, and the Visualization of Selection Gradients in Modern Morphometrics. Evolutionary Biology 38:100-114.
+\references{Mitteroecker P,  Bookstein F 2011. Linear Discrimination,
+  Ordination, and the Visualization of Selection Gradients in Modern
+  Morphometrics. Evolutionary Biology 38:100-114.
+
+  
+Boulesteix, A. L. 2005: A note on between-group PCA, International Journal of Pure and Applied Mathematics 19, 359-366.
+
+  
 }
 \author{
 Stefan Schlager}

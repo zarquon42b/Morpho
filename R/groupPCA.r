@@ -1,4 +1,4 @@
-groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=detectCores())
+groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=detectCores(), weighting=TRUE)
   {
     registerDoParallel(cores=mc.cores)### register parallel backend
         
@@ -99,11 +99,21 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
 	Amatrix <- B
       }
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
-    eigenGmeans <- eigen(cov(resB))
+    if (weighting==TRUE)
+      {
+        tmpcov <- tcrossprod(Gmeans[1,])*0
+        for( i in 1:ng)
+          {
+            tmpcov <- tmpcov+tcrossprod(resB[i,])
+          }
+        eigenGmeans <- eigen(tmpcov)
+      }
+    else
+      eigenGmeans <- eigen(cov(resB))
     
     valScores <- which(eigenGmeans$values > tol)
     groupScores <- B%*%(eigenGmeans$vectors[,valScores])
-    groupPCs=eigenGmeans$vectors[,valScores]
+    groupPCs <- eigenGmeans$vectors[,valScores]
     
     ###### create a neat variance table for the groupmean PCA ###### 
     values <- eigenGmeans$values[valScores]
