@@ -47,7 +47,9 @@ warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
                          mesh <- (i/n)*x+(1-(i/n))*y
                          a <- spheres3d(mesh,col=col,radius=radius,...)
                          if (!is.null(links))
-                            a <- append(a,lineplot(mesh,links,col=col,lwd=lwd))
+                           {a1 <- lineplot(mesh,links,col=col,lwd=lwd)
+                            a <- append(a,a1)
+                          }
                          filename <- sprintf("%s%03d.png", movie, i+n)
                          rgl.snapshot(filename,fmt="png")
                          rgl.pop("shapes",id=a)	
