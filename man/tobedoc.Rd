@@ -15,6 +15,7 @@
 \alias{procAOV}
 \alias{qqmat}
 \alias{r2morphoj}
+\alias{r2morphologika}
 \alias{relax.mesh}
 \alias{rotonmat}
 \alias{showPC}
