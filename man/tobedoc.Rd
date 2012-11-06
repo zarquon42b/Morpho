@@ -8,7 +8,6 @@
 \alias{bone2skin}
 \alias{bone3}
 \alias{check.lm}
-\alias{exVar}
 \alias{name2factor}
 \alias{name2num}
 \alias{place.patch}
@@ -20,6 +19,7 @@
 \alias{rotonmat}
 \alias{showPC}
 \alias{signDist}
+\alias{read.mpp}
 \alias{skin1}
 \alias{skin2}
 \alias{skin3}

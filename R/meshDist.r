@@ -10,9 +10,9 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
         if(!ray)
           {
             if (method == "v")
-            {
-              promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=T)
-            }
+              {
+                promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=T)
+              }
             else
               {
                 promesh <- closemeshKD(x,mesh2,sign=T)
@@ -23,8 +23,6 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
             if (!sign)
               {dists <- abs(dists)
              }
-            
-            
           }
         else
           {
@@ -104,7 +102,7 @@ meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
         good <- which(abs(dists) < tol[2])
         colorall[good] <- "#00FF00"
       }   
-   
+    
     colfun <- function(x){x <- colorall[x];return(x)}
     x$material$color <- matrix(colfun(x$it),dim(x$it))
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
@@ -139,8 +137,6 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
     if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign))
       {
         neg=FALSE
-        
-        
         colMesh <- x$colMesh
         if(is.null(steps))
           {steps <- x$params$steps
@@ -203,19 +199,19 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             distqual <- ceiling((dists/coldif)+1e-14)
           }
         colorall <- ramp[distqual]
-         if (!is.null(tol))
-           {
-             if (sign)
-               {
-                 tol <- c(-tol,tol)
-               }
-             else
-               {
-                 tol <- c(0,tol)
-               }
-             good <- which(abs(dists) < tol[2])
-             colorall[good] <- "#00FF00"
-           }
+        if (!is.null(tol))
+          {
+            if (sign)
+              {
+                tol <- c(-tol,tol)
+              }
+            else
+              {
+                tol <- c(0,tol)
+              }
+            good <- which(abs(dists) < tol[2])
+            colorall[good] <- "#00FF00"
+          }
         colfun <- function(x){x <- colorall[x];return(x)}
         colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
         colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
@@ -253,7 +249,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
       }
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
     out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
-    #out <- list(colMesh=colMesh,colramp=colramp)
+                                        #out <- list(colMesh=colMesh,colramp=colramp)
     class(out) <- "meshDist"
     invisible(out)
   }
@@ -276,4 +272,4 @@ export.meshDist <- function(x,file="default",imagedim="100x800",...)
         }
     }
   dev.off()
- }
+}

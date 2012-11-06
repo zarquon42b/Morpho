@@ -1,0 +1,60 @@
+\name{exVar}
+\alias{exVar}
+\alias{exVar.lm}
+\alias{exVar.mvr}
+
+\title{
+calculate variance of a distribution stemming from a prediction model}
+\description{
+calculates a quotient of the overall varriance within a predicted distribution to
+that from the original one}
+\usage{
+exVar(model, ...)
+\method{exVar}{lm}(model,...)
+\method{exVar}{mvr}(model,ncomp,val=FALSE,...)
+}
+\arguments{
+  \item{model}{a model of classes "lm" or "mvr" (from the package "pls")
+}
+  \item{ncomp}{How many latent variables to use (only for mvr models)
+}
+\item{val}{use cross-vaildated predictions (only for mvr models)
+
+}
+\item{\dots}{currently unused additional arguments.
+}
+}
+\details{This function calculates a naive extension of the univariate
+  R^2-value by dividing the  variance in the predicted dat by the
+  variance of the original data. No additional adjustments are made!!
+}
+\value{
+
+  returns the quotient.
+
+}
+\references{Langsrud O, Juergensen K, Ofstad R, Naes T. 2007. Analyzing Designed Experiments with Multiple Responses Journal of Applied Statistics 34:1275-1296.
+ 
+}
+\author{
+Stefan Schlager }
+\note{The result is only!! a rough estimate of the variance explained
+  by a multivariate model. And the result can be misleading - especially
+  when there are many predictor variables involved. If one is interested
+  in the value each factor/covariate explains, we recommend a 50-50
+  MANOVA perfomed by the R-package "ffmanova", which reports this value
+  factor-wise.
+}
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+
+lm1 <- lm(as.matrix(iris[,1:4]) ~ iris[,5])
+exVar(lm1)
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

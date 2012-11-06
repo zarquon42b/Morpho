@@ -53,7 +53,10 @@ anonymize <- function(data,path=NULL,dest.path=NULL,ext=".ply",split="_",remove=
     }
   else
     {
-      alias <- sample(sprintf("%04d",1:length(orig)))
+      if (sample)
+        alias <- sample(sprintf("%04d",1:length(orig)))
+      else
+        alias <- sprintf("%04d",1:length(orig))
     }
   
   alias.frame[,remove[1]] <- alias

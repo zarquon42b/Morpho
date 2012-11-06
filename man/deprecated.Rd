@@ -22,5 +22,7 @@
 
 \title{
 deprecated functions of Morpho}
+\description{deprecated functions of Morpho
+}
 
 \keyword{internal}
