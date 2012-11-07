@@ -79,7 +79,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
         if (!is.null(pairedLM))
 
 		{			
-			dimna[[m]]<-c(dimna[[m]],dimna[[m]])
+			dimna[[3]]<-c(dimna[[3]],dimna[[3]])
 		}
 			
         	dimnames(proc$rotated)<-dimna
