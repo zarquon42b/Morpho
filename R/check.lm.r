@@ -1,5 +1,7 @@
-check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,alpha=0.7,begin=1,render="w",point=c("s","p"),add=FALSE,Rdata=FALSE)
+checkLM <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,alpha=0.7,begin=1,render="w",point=c("s","p"),add=FALSE,Rdata=FALSE)
   {
+    marked <- NULL
+    j <- 1
     if (!Rdata)
       load <- file2mesh
     outid <- NULL
@@ -43,7 +45,7 @@ check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,
       {
         open3d()
       }
-        while (i <= n)
+    while (i <= n)
       {
         tmp.name <- paste(path,prefix,name[i],suffix,sep="")
         if (arr)
@@ -72,8 +74,20 @@ check.lm <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,
               rm(list=tmp.name)
             gc()
           }
-        answer <- readline(paste("viewing #",i,"next"))
-        i <- i+1
+        answer <- readline(paste("viewing #",i,"next (m=mark current | s=stop viewing)\n"))
+        if (answer == "m")
+          {
+            marked[j] <- i
+            j <- j+1
+          }
+        if (answer == "s")
+          {
+            
+            i <- n+1
+          }
+         else
+           i <- i+1
         rgl.pop(id=outid)
       }
+    return(marked)
   }
