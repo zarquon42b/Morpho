@@ -2,7 +2,7 @@
 \alias{proc.weight}
 
 \title{
-calculate weights inverse to the procrustes-distances from the specified observation.
+calculate weights inverse to the distances from the specified observation.
 }
 \description{
 for calculation of a shape model by averaging the observations neighbouring the configuration in question, it is necessary to calculate weights
@@ -36,15 +36,17 @@ proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = F
 %%     ~~Describe \code{ref} here~~
 }
 }
-\details{
+\details{distances of zero will get a weight of 1e12 (this is scaled to
+  all weights summing to one), thus weights for observations further
+  away are converging to zero.
 
 }
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-\item{data }{dataframe containing id, procrustes distance and weight according to the reference}
-\item{reference }{returns dimnames(data)[[3]][ref]}
-\item{rho.all }{dataframe containing Procrustes distances to references of all observations}
+\item{data }{dataframe containing id, procrustes/mahalanobis distance and weight according to the reference}
+\item{reference }{returns observations' names if available}
+\item{rho.all }{dataframe containing distances to references of all observations}
 %% ...
 }
 \references{
@@ -64,34 +66,15 @@ proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = F
 }
 \examples{
 
+proc <- procSym(gorf.dat)
+##get weights for the the four specimen closest to the first observation.
+weights <- proc.weight(proc$rotated,4,1)
 
-## The function is currently defined as
-function (data, number, ref) 
-{
-    col <- 2
-    l <- dim(data)[3]
-    rho <- 0
-    for (i in 1:l) {
-        rho[i] <- angle.calc(data[, , ref], data[, , i])$rho
-    }
-    if (is.null(dimnames(data)[[3]])) {
-        id <- as.character(c(1:l))
-    }
-    else {
-        id <- dimnames(data)[[3]]
-    }
-    data <- data.frame(id, rho)
-    dat.sort.i <- data[order(data[, col]), ]
-    dat.which <- dat.sort.i[2:(number + 1), ]
-    all <- sum(dat.which[, col])
-    share <- 0
-    for (i in 1:length(dat.which[, col])) {
-        share[i] <- dat.which[i, col]/all
-    }
-    weight <- sort(share, decreasing = T)
-    out <- data.frame(dat.which, weight)
-    cat(paste("  reference was", id[ref], "\n"))
-    return(list(data = out, reference = id[ref], rho.all = data))
-  }
+##estimate the first specimen by weighted neighbour shapes.
+estim <- proc$mshape*0;for (i in 1:4){estim <-estim+proc$rotated[,,weights$data$nr[i]]*weights$data$weight[i]}
+
+### visualise
+plot(estim,asp=1)## show estimation
+points(proc$rotated[,,1],col=3)##show original
 }
 
