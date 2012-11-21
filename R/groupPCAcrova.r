@@ -22,11 +22,6 @@ groupPCAcrova <- function(dataarray, groups,tol=1e-10,groupPCs,weighting=weighti
                 groupcheck[count]<-i
                 count<-count+1
               }
-            if (length(tmp0)==0)
-              {
-                cv=FALSE
-                warning("group with one entry found - crossvalidation will be disabled.")
-              }
           }
         lev<-lev[groupcheck]
         groups<-group
