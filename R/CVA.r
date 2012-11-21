@@ -33,45 +33,13 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
   
   N <- dataarray
   b <- groups
-  
+  n3 <- FALSE
   if (length(dim(N)) == 3) 
     {
-      n <- dim(N)[3]
-      k <- dim(N)[1]
-      m <- dim(N)[2]
-      l <- k * m
-      ng <- length(groups)
-      if (length(unlist(groups)) != n)
-        warning("group affinity and sample size not corresponding!")
-      
-      nwg <- c(rep(0, ng))
-      for (i in 1:ng) 
-        {
-          nwg[i] <- length(b[[i]])
-        }
-      
-      B <- matrix(0, n, m * k)
-      for (i in 1:n) 
-        {
-          B[i, ] <- as.vector(N[, , i])
-        }
-      
-      Gmeans <- matrix(0, ng, m * k)
-      for (i in 1:ng)
-        {
-          tmparr <- (N[, , b[[i]]])
-          if (length(b[[i]]) > 1)
-            Gmeans[i, ] <- as.vector(apply(tmparr, c(1:2),mean))
-          else
-            Gmeans[i, ] <- tmparr
-        }
-      Grandm <- as.vector(apply(Gmeans, 2, mean))
-      Tmatrix<-B
-      B<-t(t(B)-Grandm)
-      Amatrix <- B
+      N <- vecx(N)
+      n3 <- TRUE
     }
-  else
-    {
+ 
       n <- dim(N)[1]
       l <- dim(N)[2]
       if (length(unlist(groups)) != n)
@@ -97,7 +65,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       Tmatrix<-B
       B<-t(t(B)-Grandm)
       Amatrix <- B
-    }
+    
   resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
   
   if (weighting == TRUE) {
@@ -212,7 +180,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     }
   
 ### calculate Procrustes Distance between Means
-  if (length(dim(N)) == 3)
+  if (n3)
     {
       proc.disto<-matrix(0, ng, ng)
       if(!is.null(lev))

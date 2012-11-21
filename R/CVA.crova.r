@@ -16,9 +16,13 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
         B <- as.matrix(N)
         Amatrix <- B
         Gmeans <- matrix(0, ng, l)
-        for (i in 1:ng) {
-            Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
-        }
+         for (i in 1:ng)
+           {
+             if(nwg[i] > 1)
+               Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+             else
+               Gmeans[i, ] <- N[b[[i]], ]
+           }  
         Grandm <- apply(Gmeans, 2, mean)
     
     resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
