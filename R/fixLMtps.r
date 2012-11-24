@@ -51,12 +51,12 @@ fixLMtps<-function(data,comp=3,weight=TRUE)
 			}
 			else
                           {tpsout<-tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
-                           lm.est <- mean0
+                          
 				}
 			#print(tpsout)
-			lmsdat[,,check[i]]<-lm.est
+			#lmsdat[,,check[i]]<-lm.est
 			
 			out[,,check[i]]<-tpsout
 			}
-		return(list(out=out,mshape=mean0,checklist=checklist,check=check,lmsdat=lmsdat))
+		return(list(out=out,mshape=mean0,checklist=checklist,check=check))
 }
