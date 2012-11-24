@@ -50,7 +50,8 @@ fixLMtps<-function(data,comp=3,weight=TRUE)
 			tpsout<-tps3d(lm.est,lm.est[-miss,],data[-miss,,check[i]])
 			}
 			else
-				{tpsout<-tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
+                          {tpsout<-tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
+                           lm.est <- mean0
 				}
 			#print(tpsout)
 			lmsdat[,,check[i]]<-lm.est
