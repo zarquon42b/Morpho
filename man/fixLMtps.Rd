@@ -1,9 +1,8 @@
 \name{fixLMtps}
 \alias{fixLMtps}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{estimate missing landmarks
 }
-\description{if landmarks are missing they will be replaced by a warping of a population mean or a weighted estimate onto the deficient configuration using a Thin-Plate-Spline based on the existing landmarks
+\description{Missing landmarks are estimated by deforming a sample average or a weighted estimate of the configurations most similar onto the deficient configuration. The deformation is performed by a Thin-plate-spline interpolation calculated by the available landmarks.
 }
 \usage{
 fixLMtps(data,comp=3,weight=TRUE)
@@ -22,8 +21,7 @@ fixLMtps(data,comp=3,weight=TRUE)
 %%     ~~Describe \code{data} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+\details{This function tries to estimate missing landmark data by mapping weighted averages from complete datasets onto the missing specimen. The weights are the inverted Procrustes (see  \code{\link{proc.weight}}) distances between the 'comp' closest specimen (using the available landmark configuration).
 }
 \value{
 %%  ~Describe the value returned
@@ -34,60 +32,35 @@ fixLMtps(data,comp=3,weight=TRUE)
 \item{check }{vector containing position of observations in data where at least one missing coordinate was found }
 %% ...
 }
-\references{
-%
+\references{Bookstein FL. 1989. Principal Warps: Thin-plate splines and the decomposition of deformations IEEE Transactions on pattern analysis and machine intelligence 11.
+
 }
 \author{Stefan Schlager
 %%  ~~who you are~~
 }
-\note{
+\note{Be aware that these estimates might be grossly wrong when the
+  missing landmark is quite far off the rest of the landmarks (due to
+  the radial basis function used in the Thin-plate spline interpolation.
 %%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{proc.weight}},  \code{\link{tps3d}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function(data)
-{		n<-dim(data)[3]
-		k<-dim(data)[1]
-		m<-dim(data)[2]
-		checklist<-list()
-		checkvec<-rep(0,n)
-		out<-data
-	### check for missing landmarks ###
-		for (i in 1:n)
-			{count<-0
-			found<-FALSE
-			checklist[[i]]<-NA
-			for (j in 1:k)
-				{
-				if (NA\%in\%data[j,,i])
-					{count<-count+1
-					checklist[[i]][count]<-j
-					checkvec[i]<-1
-					}
-				}
-			}
-		#### calc mean of complete configs ###
-		check<-which(checkvec==1)
-		data.c<-data[,,-check]
-		#print(data.c)
-		mean0<-mc.procGPA(data.c)$mshape
-		
-		for (i in 1:length(check))
-			{miss<-checklist[[check[i]]]
-			out[,,check[i]]<-mc.tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
-			}
-		return(list(out=out,mshape=mean0,checklist=checklist,check=check))
-  }
+data <- gorf.dat
+### set first landmark of first specimen to NA
+data[1,,1] <- NA
+repair <- fixLMtps(data,comp=5)
+### view difference between estimated and actual landmark
+plot(repair$out[,,1],asp=1,pch=21,cex=0.7,col=2)#estimated landmark
+points(gorf.dat[,,1],col=3,pch=20)#actual landmark
+
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
