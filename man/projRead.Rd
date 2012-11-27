@@ -9,7 +9,7 @@
 }
 \usage{
 projRead(lm, mesh, readnormals = TRUE, clean = TRUE, smooth = TRUE,
-ignore.stdout = FALSE, sign=FALSE)
+ignore.stdout = FALSE, sign = FALSE, outname = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +32,11 @@ ignore.stdout = FALSE, sign=FALSE)
 %%     ~~Describe \code{readnormals} here~~
 }
 \item{sign}{logical: request signed distances.
+%%     ~~Describe \code{raytol} here~~
+}
+\item{outname}{character: name of the dumpfile (only necessary when
+  using parallel backend).
+
 %%     ~~Describe \code{raytol} here~~
 }
 }

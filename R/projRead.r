@@ -24,14 +24,14 @@ projBack<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.st
 	unlink(paste(dataname,".obj",sep="")) #clean up
 	
 }
-projRead<-function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE)
+projRead<-function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE,outname=NULL)
 {	if (is.character(mesh))
-		{projBack(lm,mesh,ignore.stdout=ignore.stdout,sign=sign,smooth=smooth)
+		{projBack(lm,mesh,ignore.stdout=ignore.stdout,sign=sign,smooth=smooth,outname=outname)
 		}
 	
 	else 
 		{mesh2ply(mesh,"dump0")
-		projBack(lm,"dump0.ply",smooth=smooth,ignore.stdout=ignore.stdout,sign=sign)
+		projBack(lm,"dump0.ply",smooth=smooth,ignore.stdout=ignore.stdout,sign=sign,outname=outname)
 		unlink("dump0.ply")
 		}
 	
