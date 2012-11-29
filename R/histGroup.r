@@ -13,7 +13,13 @@ histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=da
     lev <- levels(groups)
     nlev <- length(lev)
     colo <- rainbow(nlev,alpha=alpha)
-    hist(data[groups==lev[1]],breaks=histo$breaks,col=colo[1],main=main,xlab=xlab,ylab=ylab)
+    testrun <- 0
+    for( i in 1:nlev)
+     { testrun[i] <-  max(hist(data[groups==lev[i]],breaks=histo$breaks,plot=F)$counts)
+     }
+   ylim <- max(testrun)
+    ylim <- ylim+0.15*ylim
+    hist(data[groups==lev[1]],breaks=histo$breaks,col=colo[1],main=main,xlab=xlab,ylab=ylab,ylim=c(0,ylim))
     for (i in 2:nlev)
       {
         hist(data[groups==lev[i]],breaks=histo$breaks,col=colo[i],add=T)
