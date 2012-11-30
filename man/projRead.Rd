@@ -34,16 +34,23 @@ ignore.stdout = FALSE, sign = FALSE, outname = NULL)
 \item{sign}{logical: request signed distances.
 %%     ~~Describe \code{raytol} here~~
 }
-\item{outname}{character: name of the dumpfile (only necessary when
+\item{prodump}{character: name of the dumpfile storing the projected
+  points' coordinates (useful when
+  using parallel backend).
+
+%%     ~~Describe \code{raytol} here~~
+}
+\item{lmdump}{character: name of the dumpfile storing data to be projected (useful when
   using parallel backend).
 
 %%     ~~Describe \code{raytol} here~~
 }
 }
 \details{
-projRead needs the command line tool trimesh_project (http://sourceforge.net/projects/morpho-rpackage/files/) installed.
+
 }
-\value{either a m x3 matrix containing projected points or a list, where
+\value{if readnormals = FALSE, a m x 3 matrix containing projected
+  points is returned, otherwise a list, where
 %%  ~Describe the value returned
 %%  If it is a LIST, use
  \item{vb }{3 x m matrix containing projected points}
@@ -57,16 +64,22 @@ projRead needs the command line tool trimesh_project (http://sourceforge.net/pro
 
 \author{
 Stefan Schlager}
-\note{
-%%  ~~further notes~~
+\note{The usage of this function requires the command line tools from
+  trimesh-tools (https://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/) installed.
+ 
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{closemeshKD}}
 }
 \examples{
+
+data(nose)
+repro <- projRead(shortnose.lm,shortnose.mesh)##project landmarks onto
+the surface (they are already pretty close).
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
