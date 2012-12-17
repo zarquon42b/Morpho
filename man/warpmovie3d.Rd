@@ -2,11 +2,12 @@
 \alias{warpmovie3d.mesh3d}
 \alias{warpmovie3d.matrix}
 \alias{warpmovie3d}
+\alias{warpmovie2d}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Creates a sequence of images showing predefined steps of warping two 
-meshes or landmark configurations into each other}
+meshes or landmark configurations (2D and 3D) into each other}
 \description{given two landmark configurations or two meshes with the same amount of vertices and faces
   (e.g a mesh and its warped counterpart), the starting configuration/mesh will be
   subsequently transformed into the final configuration/mesh by splitting the
@@ -14,8 +15,13 @@ meshes or landmark configurations into each other}
 }
 \usage{
 \method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F,...)
-\method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL, lwd=1,...)
+\method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE,
+folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL,
+lwd=1,...)
+
+warpmovie2d(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",links=NULL,lwd=1,imagedim = "800x800",par=list(xaxt="n",yaxt="n",bty="n"),...)
 }
+
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{mesh to start with (object of class mesh3d)
@@ -51,9 +57,16 @@ meshes or landmark configurations into each other}
 %%     ~~Describe \code{add} here~~
 }
 \item{lwd}{numeric: controls width of lines defined by "links".
- %%     ~~Describe \code{add} here~~
+  %%     ~~Describe \code{add} here~~
+  
 }
-\item{\dots}{additional arguments passed to \code{\link{shade3d}}.
+ \item{imagedim}{character of pattern "100x200" where 100 determines the
+    width and 200 the height of the image.
+  }
+   \item{par}{list of graphial parameters: details can be found here: \code{\link{par}}.
+  }
+\item{\dots}{additional arguments passed to \code{\link{shade3d}} (3D)
+ or \code{\link{points}} (2D).
 %%     ~~Describe \code{add} here~~
 }
 }
@@ -64,17 +77,14 @@ meshes or landmark configurations into each other}
 
 \author{
 Stefan Schlager}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
     \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
   }
 
   \examples{
+
+###3D example
 data(nose)##load data
 ##warp a mesh onto another landmark configuration:
 warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
@@ -84,7 +94,14 @@ warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
 warpmovie3d(shortnose.lm,longnose.lm,n=15,movie="matrixmovie")## create 15 images.
 
 ### the images are now stored in your current working directory and can
-### be concatenated to a gif using an external program such as imagemagick.
+### be concatenated to a gif using an external program such as
+### imagemagick.
+
+### 2D example
+bb <- procSym(gorf.dat)
+### morph superimposed first specimen onto sample mean
+warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -9,7 +9,7 @@
 }
 \usage{
 projRead(lm, mesh, readnormals = TRUE, clean = TRUE, smooth = TRUE,
-ignore.stdout = FALSE, sign = FALSE, outname = NULL)
+ignore.stdout = FALSE, sign = FALSE, lmdump=NULL, prodump=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,7 +25,7 @@ ignore.stdout = FALSE, sign = FALSE, outname = NULL)
   \item{clean}{logical: remove dumpfiles.
 %%     ~~Describe \code{readnormals} here~~
 }
-  \item{smooth}{logical: rerurn smoothed normals.
+\item{smooth}{logical: rerturn smoothed normals.
 %%     ~~Describe \code{readnormals} here~~
 }
  \item{ignore.stdout}{logical: supress console output.
@@ -77,8 +77,8 @@ Stefan Schlager}
 \examples{
 
 data(nose)
-repro <- projRead(shortnose.lm,shortnose.mesh)##project landmarks onto
-the surface (they are already pretty close).
+repro <- projRead(shortnose.lm,shortnose.mesh)
+##project landmarks onto the surface (they are already pretty close).
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -5,7 +5,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       mc.cores=1
     }
   lev<-NULL
-  
+  k <- 1
+  m <- 1
   if (is.character(groups))
     {
       groups<-as.factor(groups)
@@ -36,6 +37,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
   n3 <- FALSE
   if (length(dim(N)) == 3) 
     {
+      k <- dim(N)[1]
+      m <- dim(N)[2]
       N <- vecx(N)
       n3 <- TRUE
     }
@@ -264,7 +267,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
          }
       }
      
-     if (length(dim(N)) == 3)
+     if (n3)
        {
          pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix ProcDist for Landmark configurations
          if(!is.null(lev))
@@ -376,9 +379,10 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
   disto <- as.dist(disto)
   
   Dist <- list(GroupdistMaha = disto,GroupdistProc=proc.distout, probsMaha = pmatrix,probsProc = pmatrix.proc)
-  if (length(dim(N)) == 3) 
-    {Grandm <- matrix(Grandm, k, m)
-     groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m,ng))
+  if (n3) 
+    {
+      Grandm <- matrix(Grandm, k,m)
+      groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m,ng))
    }
   
   else 

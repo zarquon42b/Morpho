@@ -51,7 +51,7 @@
   \item{file}{character: filename for mesh and image files
     produced. E.g. "mydist" will produce the files mydist.ply and mydist.png
   } 
-  \item{imagedim}{character of type 100x200 where 100 determines the
+  \item{imagedim}{character of pattern "100x200" where 100 determines the
     width and 200 the height of the image.
   }
   \item{type}{character: "s" shows coordinates as spheres, while "p" shows

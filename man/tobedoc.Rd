@@ -7,7 +7,7 @@
 \alias{bone2}
 \alias{bone2skin}
 \alias{bone3}
-\alias{check.lm}
+\alias{checkLM}
 \alias{name2factor}
 \alias{name2num}
 \alias{place.patch}
