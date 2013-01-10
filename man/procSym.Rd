@@ -6,7 +6,8 @@
   
 }
 \description{
-    \code{procSym} performs Procrustes superimposition including sliding of semilandmarks in 3d
+    \code{procSym} performs Procrustes superimposition including sliding
+    of semi-landmarks on curves/outlines in 2D and 3D.
 }
 \usage{
 procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
@@ -116,13 +117,13 @@ Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three Dim
 Stefan Schlager
 }
 \note{
-%%  ~~further notes~~
+For processing of surface landmarks or including the reprojection of
+slid landmarks back onto 3D-surface representations, the usage of
+\code{\link{slider3d}} is recommended.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\seealso{\code{\link{slider3d}} 
 }
   
 
