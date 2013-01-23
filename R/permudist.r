@@ -8,6 +8,9 @@ mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores
     if (is.vector(N))
       {N <- as.matrix(N)
      }
+    if (dim(N)[2] == 3)
+      {N <- vecx(N)
+     }
     if (!is.factor(groups))
       {groups<-as.factor(groups)
      }
