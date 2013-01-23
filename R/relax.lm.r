@@ -49,7 +49,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
            }
         p1_old<-p1
         testproc<-rotonto(lm_old,vs)			   	
-        p1<-sum(diag(crossprod((testproc$X/cSize(testproc$X))-(testproc$Y/cSize(testproc$Y)))))### check for increasing convergence criterion ###		
+      p1<-sum(diag(crossprod((testproc$X/cSize(testproc$X))-(testproc$Y/cSize(testproc$Y)))))### check for increasing convergence criterion ###		
         if (inc.check)
           {
             if (p1 > p1_old)

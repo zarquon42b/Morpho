@@ -54,7 +54,6 @@ name2num <- function(x,sep="_",which,collapse=sep,dif=TRUE)
         else
           {
             fac[[i]] <- as.numeric(fac[[i]][which])
-            print(fac[[i]])
           }
       }
     fac <-(unlist(fac))
