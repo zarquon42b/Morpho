@@ -9,7 +9,7 @@ plot a histogram for multiple groups, each group colored individually
 }
 \usage{
 histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname, ylab, alpha = 0.5,breaks =
-                 "Sturges")
+                 "Sturges", col = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,6 +22,10 @@ histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname,
   \item{main,xlab,ylab}{these arguments to title have useful defaults here.
 %%     ~~Describe \code{main} here~~
 }
+\item{col}{vector containing color for each group. If NULL, the function
+  "rainbow" is called.
+%%     ~~Describe \code{alpha} here~~
+}  
  
 \item{alpha}{numeric between 0 and 1. Sets the transparency of the colors
 %%     ~~Describe \code{alpha} here~~
