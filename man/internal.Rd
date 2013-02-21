@@ -29,6 +29,7 @@
 \alias{fx}
 \alias{fq}
 \alias{unbias}
+\alias{meshcube}
 
 \alias{rot.proc}
 \alias{projBack}

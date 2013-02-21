@@ -1,4 +1,4 @@
-rotaxis <- function(u,theta)
+rotaxisMat <- function(u,theta)
   {
     crossmat <- function(x)
       {out <- matrix(c(0,x[3],-x[2],-x[3],0,x[1],x[2],-x[1],0),3,3)
@@ -10,21 +10,23 @@ rotaxis <- function(u,theta)
     return(R)
   }
 
-rotaxisPoint <- function(mat,x,y,theta)
+rotaxis <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis")
+
+rotaxis.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
   {
-    u <- y-x
+    u <- pt2-pt1
     ### translate axis
-    matrixTrans <- t(t(mat)-x)
-    rotmatrix <- rotaxis(u,theta)
-    out <- t(t(matrixTrans%*%rotmatrix)+x)
+    matrixTrans <- t(t(x)-pt1)
+    rotmatrix <- rotaxisMat(u,theta)
+    out <- t(t(matrixTrans%*%rotmatrix)+pt1)
     return(out)
   }
 
-rotaxisMesh <- function(mesh,x,y,theta)
+rotaxis.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta)
   {
-    mat <- vert2points(mesh)
-    vb <- rotaxisPoint(mat,x,y,theta)
-    mesh$vb[1:3,] <- t(vb)
-    mesh <- adnormals(mesh)
-    invisible(mesh)
+    mat <- vert2points(x)
+    vb <- rotaxis(mat,pt1,pt2,theta)
+    x$vb[1:3,] <- t(vb)
+    x <- adnormals(x)
+    invisible(x)
   }
