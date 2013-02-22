@@ -1,4 +1,4 @@
-procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
+procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE,pca.method=c("svd","eigen"))
 {	t0<-Sys.time()     
 	A<-dataarray
       	k<-dim(A)[1]
@@ -9,7 +9,10 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
       	Mir<-diag(Mir)
       	dataslide<-NULL
       	CS<-NULL
-      
+        pca.used <- prcomp ##select pcamethod
+        if (pca.method[1] == "eigen")
+          pca.used <- eigenPCA
+        
       	 if (is.null(SMvector))   
 		{ 
       		CS<-apply(A,3,cSize)
@@ -145,7 +148,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
       	dimnames(Symarray)<-dimnames(dataarray)
       
 ###### PCA Sym Component ###### 
-        princ<-prcomp(tan)
+        princ<-pca.used(tan)
 	values<-0
       	eigv<-princ$sdev^2
 	
@@ -196,7 +199,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
                       asymtan[i,]<-c(Asymm[,,i]-asymmean)
                     }
                   
-                  pcasym<-prcomp(asymtan)
+                  pcasym<-pca.used(asymtan)
                   asvalues<-0
                   eigva<-pcasym$sdev^2
                   for (i in 1:length(eigv))

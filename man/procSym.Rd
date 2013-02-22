@@ -10,7 +10,7 @@
     of semi-landmarks on curves/outlines in 2D and 3D.
 }
 \usage{
-procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
+procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE,pca.method=c("svd","eigen"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -66,6 +66,11 @@ procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,C
   subset defined by use.lm will be centered according to the centroid of
   the complete configuration. Otherwise orp will be set to FALSE to
   avoid erroneous projection into tangent space.
+
+}
+ \item{pca.used}{character: if "svd" the routine \code{\link{prcomp}} is
+ called to do the subsequent PCA; otherwise the PCA is determined by an
+ eigendecomposition (written by me) to avoid the infamous error "La.svd(x, nu, nv) : error code 1 from Lapack routine 'dgesdd'".
 
 }
 }
