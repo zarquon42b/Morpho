@@ -45,6 +45,7 @@ histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=da
       }
     if (legend)
       {
+        tmp <- 0
         tmp[1] <- grconvertX(legend.x, 'device')
         tmp[2] <- grconvertY(legend.y, 'device') 
       legend(tmp[1],tmp[2],pch=legend.pch,col=colo,legend=lev,cex=1)

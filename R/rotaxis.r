@@ -10,7 +10,7 @@ rotaxisMat <- function(u,theta)
     return(R)
   }
 
-rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis")
+rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis3d")
 
 rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
   {
@@ -25,7 +25,7 @@ rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
 rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta)
   {
     mat <- vert2points(x)
-    vb <- rotaxis(mat,pt1,pt2,theta)
+    vb <- rotaxis3d(mat,pt1,pt2,theta)
     x$vb[1:3,] <- t(vb)
     x <- adnormals(x)
     invisible(x)

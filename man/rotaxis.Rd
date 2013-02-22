@@ -11,8 +11,8 @@ Rotate an object (matrix or triangular mesh) around an 3D-axis defined
 by two points.
 }
 \usage{
-\method{rotaxis}{matrix}(x, pt1, pt2 = c(0, 0, 0), theta)
-\method{rotaxis}{mesh3d}(x, pt1, pt2 = c(0, 0, 0), theta)
+\method{rotaxis3d}{matrix}(x, pt1, pt2 = c(0, 0, 0), theta)
+\method{rotaxis3d}{mesh3d}(x, pt1, pt2 = c(0, 0, 0), theta)
 
 }
 %- maybe also 'usage' for other objects documented here.
