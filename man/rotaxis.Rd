@@ -1,7 +1,7 @@
-\name{rotaxis}
-\alias{rotaxis}
-\alias{rotaxis.matrix}
-\alias{rotaxis.mesh3d}
+\name{rotaxis3d}
+\alias{rotaxis3d}
+\alias{rotaxis3d.matrix}
+\alias{rotaxis3d.mesh3d}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -50,7 +50,7 @@ Stefan Schlager}
 \examples{
 data(nose)
 shade3d(shortnose.mesh,col=3,specular=1)
-shrot.rot <- rotaxis(shortnose.mesh,pt1=c(1,1,1),theta=pi)
+shrot.rot <- rotaxis3d(shortnose.mesh,pt1=c(1,1,1),theta=pi)
 shade3d(shrot.rot,col=2)
 ###print rotation axis
 

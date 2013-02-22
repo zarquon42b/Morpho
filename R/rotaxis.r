@@ -10,9 +10,9 @@ rotaxisMat <- function(u,theta)
     return(R)
   }
 
-rotaxis <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis")
+rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis")
 
-rotaxis.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
+rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
   {
     u <- pt2-pt1
     ### translate axis
@@ -22,7 +22,7 @@ rotaxis.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
     return(out)
   }
 
-rotaxis.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta)
+rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta)
   {
     mat <- vert2points(x)
     vb <- rotaxis(mat,pt1,pt2,theta)
