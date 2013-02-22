@@ -9,7 +9,7 @@ plot a histogram for multiple groups, each group colored individually
 }
 \usage{
 histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname, ylab, alpha = 0.5,breaks =
-                 "Sturges", col = NULL)
+                 "Sturges", col = NULL, legend=TRUE,legend.x=80,legend.y=80,legend.pch=15))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,6 +40,18 @@ histGroup(data, groups, main = paste("Histogram of", dataname), xlab = dataname,
     }
     In the last three cases the number is a suggestion only.
   }
+  \item{legend}{logical: if TRUE, a legend is plotted
+%%     ~~Describe \code{alpha} here~~
+}  
+\item{legend.x}{x position of the legend from the upper left corner
+%%     ~~Describe \code{alpha} here~~
+}  
+\item{legend.y}{y position of the legend from the upper left corners
+%%     ~~Describe \code{alpha} here~~
+}  
+\item{legend.pch}{integer: define the symbol to visualise group colors (\code{\link{points}}
+%%     ~~Describe \code{alpha} here~~
+}  
 
 
 %%     ~~Describe \code{alpha} here~~
