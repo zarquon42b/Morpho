@@ -1,4 +1,4 @@
-histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=dataname,ylab,col=NULL, alpha=0.5,breaks="Sturges")
+histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=dataname,ylab,col=NULL, alpha=0.5,breaks="Sturges",legend=TRUE,legend.x=80,legend.y=80,legend.pch=15)
   {
    
     dataname <- paste(deparse(substitute(data), 500), collapse="\n")
@@ -42,5 +42,12 @@ histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=da
     for (i in 2:nlev)
       {
         hist(data[groups==lev[i]],breaks=histo$breaks,col=colo[i],add=T)
+      }
+    if (legend)
+      {
+        tmp <- 0
+        tmp[1] <- grconvertX(legend.x, 'device')
+        tmp[2] <- grconvertY(legend.y, 'device') 
+      legend(tmp[1],tmp[2],pch=legend.pch,col=colo,legend=lev,cex=1)
       }
   }
