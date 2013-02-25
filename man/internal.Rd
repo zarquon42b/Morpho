@@ -18,6 +18,7 @@
 \alias{conv2backf}
 \alias{meshres}
 \alias{meshres.mesh3d}
+\alias{eigenPCA}
 \alias{pred.PC}
 \alias{pred.PCmult}
 \alias{read.obj}
