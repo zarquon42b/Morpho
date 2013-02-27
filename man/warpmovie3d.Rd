@@ -14,7 +14,8 @@ meshes or landmark configurations (2D and 3D) into each other}
   differences into a predefined set of steps.
 }
 \usage{
-\method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE, folder = NULL, movie = "warpmovie", add = F,...)
+\method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE,
+folder = NULL, movie = "warpmovie", add = F, close = TRUE,...)
 \method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE,
 folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL,
 lwd=1,...)
@@ -49,6 +50,9 @@ warpmovie2d(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",lin
 \item{add}{logical: if TRUE, the movie will be added to the focussed rgl-windows.
 %%     ~~Describe \code{add} here~~
 } 
+  \item{close}{logical: if TRUE, the rgl window will be closed when finished.
+    width and 200 the height of the image.
+  }
 \item{radius}{numeric: define size of spheres (overides atuomatic size estimation).
 %%     ~~Describe \code{add} here~~
 } 
@@ -63,6 +67,7 @@ warpmovie2d(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",lin
  \item{imagedim}{character of pattern "100x200" where 100 determines the
     width and 200 the height of the image.
   }
+ 
    \item{par}{list of graphial parameters: details can be found here: \code{\link{par}}.
   }
 \item{\dots}{additional arguments passed to \code{\link{shade3d}} (3D)

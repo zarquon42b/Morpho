@@ -1,4 +1,4 @@
-warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,...)
+warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,close=TRUE,...)
 {	wdold<-getwd()
 	if(!is.null(folder))
 		{
@@ -15,7 +15,7 @@ warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
         ## get bbox
         bbox <- apply(rbind(vert2points(x),vert2points(y)),2,range)
         bbox <- expand.grid(bbox[,1],bbox[,2],bbox[,3])
-        points3d(bbox,col="white")
+        points3d(bbox,col="white",alpha=0)
                             
 	for (i in 0:n)
 		{
@@ -44,6 +44,7 @@ warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
                          rgl.pop("shapes",id=a)	
                        }
 		}
-        rgl.close()
+        if (close)
+          rgl.close()
 	setwd(wdold)
 }
