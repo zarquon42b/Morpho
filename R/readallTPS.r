@@ -45,7 +45,7 @@ readallTPS <- function(file)
       }
     names(LMdata) <- nID
     out$LM <- LMdata
- exOut <- F
+
 ### extract outlines
     if (exOut)
       {

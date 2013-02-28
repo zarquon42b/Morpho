@@ -1,11 +1,12 @@
 warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,close=TRUE,...)
-{	wdold<-getwd()
+{	#wdold<-getwd()
 	if(!is.null(folder))
 		{
 			if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
 			{folder<-paste(folder,"/",sep="")
                          dir.create(folder,showWarnings=F)
-			setwd(folder)
+                         movie <- paste(folder,movie,sep="")
+			#setwd(folder)
 			}
 		}
         if (!add)
@@ -46,5 +47,5 @@ warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
 		}
         if (close)
           rgl.close()
-	setwd(wdold)
+	#setwd(wdold)
 }

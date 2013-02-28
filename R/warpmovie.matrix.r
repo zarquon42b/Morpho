@@ -1,12 +1,13 @@
 warpmovie3d <- function (x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",...) UseMethod("warpmovie3d")
 warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,radius=NULL,links=NULL,lwd=1,...)
-{	wdold<-getwd()
+{	#wdold<-getwd()
 	if(!is.null(folder))
 		{
 			if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
 			{folder<-paste(folder,"/",sep="")
                          dir.create(folder,showWarnings=F)
-			setwd(folder)
+                         movie <- paste(folder,movie,sep="")
+			#setwd(folder)
 			}
 		}
         if (!add)
@@ -56,7 +57,7 @@ warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
                        }
 		}
         rgl.close()
-	setwd(wdold)
+	#setwd(wdold)
 }
 warpmovie2d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",links=NULL,lwd=1,imagedim = "800x800",par=list(xaxt="n",yaxt="n",bty="n"),...)
 {	wdold<-getwd()
