@@ -15,7 +15,7 @@ readallTPS <- function(file)
     ID <- grep("ID=",input)
     IDstring <- input[ID]
     nID <-sapply(IDstring,function(x){x <- gsub("=","_",x)})
-    nID <- unlist(nID)
+    nID <- gsub(" ","",unlist(nID))
                                         #nID <- nID[-which(nID == "ID")]
     ##nobs <- length(nID)
     out$ID <- nID
