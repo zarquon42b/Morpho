@@ -15,7 +15,7 @@ meshes or landmark configurations (2D and 3D) into each other}
 }
 \usage{
 \method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE,
-folder = NULL, movie = "warpmovie", add = F, close = TRUE,...)
+folder = NULL, movie = "warpmovie", add = F, close = TRUE,countbegin=0,ask=TRUE,...)
 \method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE,
 folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL,
 lwd=1,...)
@@ -52,6 +52,12 @@ warpmovie2d(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",lin
 } 
   \item{close}{logical: if TRUE, the rgl window will be closed when finished.
     width and 200 the height of the image.
+  }
+  \item{countbegin}{integer: number to start image sequence. 
+    
+  }
+  \item{ask}{logical: if TRUE, the viewpoint can be selected manually.
+    
   }
 \item{radius}{numeric: define size of spheres (overides atuomatic size estimation).
 %%     ~~Describe \code{add} here~~
