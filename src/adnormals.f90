@@ -5,7 +5,7 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
   real*8 :: VB(3,nvb),l,ntmp(1,1:3),tmp0(1,1:3),tmp1(1,1:3),normals(4,nvb),co
   real*8 ::angtmp(3),pi,tmp2(1,1:3)
   logical :: angweight
-
+ 
  ! pi = ACOS(0.0)
   !PI=4.D0*DATAN(1.D0)
 
@@ -15,8 +15,8 @@ SUBROUTINE adnormals(VB,nvb,IT,nit,O,normals,angweight)
      tmp1(1,1:3) = VB(1:3,IT(3,i))-VB(1:3,IT(1,i))
    if (angweight .eqv. .true.) then 
      tmp2(1,1:3) = VB(1:3,IT(2,i))-VB(1:3,IT(3,i))
-     call angcal (tmp0,3,tmp1,3,angtmp(1))
-     call angcal (-tmp1,3,tmp2,3,angtmp(2))
+     call angcal (tmp0,3,tmp1,3,angtmp(1),1)
+     call angcal (-tmp1,3,tmp2,3,angtmp(2),1)
      angtmp(3) = 3.141592653589793239  -angtmp(1)-angtmp(2)
   end if
 
