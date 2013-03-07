@@ -26,7 +26,8 @@ by two points.
   \item{pt2}{numeric vector of length 3, defining second point on the
     rotation axis.
 }
-  \item{theta}{angle to rotate in radians.
+  \item{theta}{angle to rotate in radians. With pt1 being the viewpoint,
+    the rotation is counterclockwise.
 }
 }
 \details{
