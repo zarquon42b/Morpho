@@ -20,10 +20,10 @@ by two points.
   \item{x}{k x 3 matrix containing 3D-coordinates or a triangular mesh
     of class "mesh3d".
 }
-  \item{pt1}{numeric vector of length , defining first point on the
+  \item{pt1}{numeric vector of length 3, defining first point on the
     rotation axis.
 }
-  \item{pt2}{numeric vector of length , defining second point on the
+  \item{pt2}{numeric vector of length 3, defining second point on the
     rotation axis.
 }
   \item{theta}{angle to rotate in radians.
@@ -40,8 +40,8 @@ by two points.
   http://en.wikipedia.org/wiki/Rotation_matrix
 }
 \author{
-Stefan Schlager}
-
+  Stefan Schlager
+}
 
 
 \seealso{

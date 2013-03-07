@@ -32,9 +32,12 @@ END SUBROUTINE angcal
 
 subroutine angcheck(norm1,n,norm2,out,circle)
 IMPLICIT NONE
-integer :: n,i,circle
+integer :: n,i
+integer,optional :: circle
 real*8 :: norm1(3,n), norm2(3,n),out(n)
-
+if (.not. present(circle)) then
+   circle = 1
+end if
 do i = 1,n
 
  call angcal(norm1(:,i),3,norm2(:,i),3,out(i),circle)

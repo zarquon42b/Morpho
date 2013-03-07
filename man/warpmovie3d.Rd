@@ -15,9 +15,9 @@ meshes or landmark configurations (2D and 3D) into each other}
 }
 \usage{
 \method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE,
-folder = NULL, movie = "warpmovie", add = F, close = TRUE,countbegin=0,ask=TRUE,...)
+folder = NULL, movie = "warpmovie", add = FALSE, close = TRUE,countbegin=0,ask=TRUE,...)
 \method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE,
-folder = NULL, movie = "warpmovie", add = F, radius=NULL, links=NULL,
+folder = NULL, movie = "warpmovie", add = FALSE, close=TRUE,countbegin=0,ask=TRUE,radius=NULL, links=NULL,
 lwd=1,...)
 
 warpmovie2d(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",links=NULL,lwd=1,imagedim = "800x800",par=list(xaxt="n",yaxt="n",bty="n"),...)

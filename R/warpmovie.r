@@ -1,4 +1,4 @@
-warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,close=TRUE,countbegin=0,ask=TRUE,...)
+warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,...)
 {	#wdold<-getwd()
   if(!is.null(folder))
     {
@@ -28,7 +28,7 @@ warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
         {readline("please select view and press return\n")
        }
       
-      filename <- sprintf("%s%03d.png", movie, countbegin+i)
+      filename <- sprintf("%s%04d.png", movie, countbegin+i)
       rgl.snapshot(filename,fmt="png")
       rgl.pop("shapes",id=a)
     }
@@ -40,7 +40,7 @@ warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
          mesh$vb[1:3,]<-(i/n)*x$vb[1:3,]+(1-(i/n))*y$vb[1:3,]
          mesh <- adnormals(mesh)
          a <- shade3d(mesh,col=col,...)
-         filename <- sprintf("%s%03d.png", movie, countbegin+i+n)
+         filename <- sprintf("%s%04d.png", movie, countbegin+i+n)
          rgl.snapshot(filename,fmt="png")
          rgl.pop("shapes",id=a)	
        }

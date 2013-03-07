@@ -1,5 +1,5 @@
 warpmovie3d <- function (x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",...) UseMethod("warpmovie3d")
-warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=F,radius=NULL,links=NULL,lwd=1,...)
+warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,radius=NULL,links=NULL,lwd=1,...)
 {	#wdold<-getwd()
 	if(!is.null(folder))
 		{
@@ -32,11 +32,11 @@ warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
                     {a1 <- lineplot(mesh,links,col=col,lwd=lwd)
                     a <- append(a,a1)
                    }
-                  if (i ==0)
+                  if (i ==0 && ask==TRUE)
                     {readline("please select view and press return\n")
                    }
                   
-                  filename <- sprintf("%s%03d.png", movie, i)
+                  filename <- sprintf("%s%04d.png", movie, countbegin+i)
                   rgl.snapshot(filename,fmt="png")
                   rgl.pop("shapes",id=a)
 		}
@@ -51,11 +51,12 @@ warpmovie3d.matrix<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
                            {a1 <- lineplot(mesh,links,col=col,lwd=lwd)
                             a <- append(a,a1)
                           }
-                         filename <- sprintf("%s%03d.png", movie, i+n)
+                         filename <- sprintf("%s%04d.png", movie, countbegin+i+n)
                          rgl.snapshot(filename,fmt="png")
                          rgl.pop("shapes",id=a)	
                        }
 		}
+        if (close)
         rgl.close()
 	#setwd(wdold)
 }
@@ -83,7 +84,7 @@ warpmovie2d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="wa
 		{
                   mesh<-x
                   mesh <-(i/n)*y+(1-(i/n))*x
-                  filename <- sprintf("%s%03d.png", movie, i)
+                  filename <- sprintf("%s%04d.png", movie, i)
                   png(filename,width = widxheight[1], height = widxheight[2])
                   par(par)
                   plot(bbox,asp=1,cex=0,xlab="",ylab="")
