@@ -28,7 +28,8 @@ procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,C
   \item{outlines}{A vector (or if threre are several curves) a list of vectors (containing the rowindices) of the (Semi-)landmarks forming the curve(s) in the successive position on the curve - including the beginning and end points, that are not allowed to slide.
 %%     ~~Describe \code{outlines} here~~
 }
-  \item{orp}{Logical: if TRUE, an orthogonal projection into shape space is performed.
+  \item{orp}{Logical: if TRUE, an orthogonal projection into
+ tangent space is performed.
 %%     ~~Describe \code{orp} here~~
 }
   \item{tol}{numeric: Threshold for convergence in the sliding process
