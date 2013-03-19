@@ -31,6 +31,9 @@ closemat <- function(matr,mesh,sign=FALSE)
 
 closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),method=0,...)
   {
+
+    if(.Platform$OS.type == "windows")
+       cores <- 1
     if (is.null(mesh$normals))
       {
         mesh <- adnormals(mesh)
@@ -81,9 +84,11 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),method=0,...)
   }
 mcClosemat <- function(matr,mesh,cores=detectCores())
   {
+    if(.Platform$OS.type == "windows")
+      cores <- 1
     if (is.null(cores))
-    {cores=3
-   }
+      {cores=3
+     }
     mclist <- list()
     
     vb <- (mesh$vb[1:3,])

@@ -1,7 +1,9 @@
 slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
 
 {
-     
+  if(.Platform$OS.type == "windows")
+    mc.cores <- 1
+
   if (iterations == 0)
     {
       iterations <- 1e10
