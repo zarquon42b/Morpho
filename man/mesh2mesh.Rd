@@ -36,6 +36,9 @@ ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE,
 }
  \item{sign}{logical: if TRUE, signed distances are returned.
  }
+  \item{tol}{numeric: maximum distance to search along ray, closest
+    Euclidean distance will be used, if tol is exceeded.
+  }
   \item{angmax}{numeric: maximum angle (in radians) of normals of
     original and hit point are allowed to differ.
   }

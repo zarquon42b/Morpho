@@ -1,4 +1,3 @@
-
 \name{Morpho-internal}
 \alias{ang}
 \alias{angle.calc}
@@ -25,9 +24,7 @@
 \alias{orp}
 \alias{cSize}
 \alias{closemat}
-\alias{vecx}
 \alias{fx}
-\alias{fq}
 \alias{unbias}
 \alias{meshcube}
 \alias{rot.proc}
