@@ -2,6 +2,8 @@ NNshapeReg <- function(x,y,n,mahalanobis=FALSE,mc.cores = detectCores())
 
   {
     i <- NULL
+    if(.Platform$OS.type == "windows")
+      mc.cores=1
     registerDoParallel(mc.cores)
     out <- y
     estfun <- function(i)

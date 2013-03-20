@@ -1,6 +1,7 @@
 permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
-
 {
+  if(.Platform$OS.type == "windows")
+    mc.cores=1
   registerDoParallel(cores = mc.cores) ##register parallel backend
   
 ### define groups ####
@@ -60,15 +61,15 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
       k <- dim(N)[1]
       m <- dim(N)[2]
       l <- k * m
-                  
+      
       if (length(unlist(groups)) != n)
         {warning("group affinity and sample size not corresponding!")
        }
       
       nwg <- c(rep(0, ng))
-                  for (i in 1:ng) 
-                    {nwg[i] <- length(b[[i]])
-                   }
+      for (i in 1:ng) 
+        {nwg[i] <- length(b[[i]])
+       }
       
       B <- matrix(0, n, m * k)
       for (i in 1:n) 
@@ -128,23 +129,23 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
     }
   
 ### calc subgroup means, residual vectors and pooled within group variance ###
-	covW <- 0	
+  covW <- 0	
   wgroupvar<-NULL
   for (i in 1:ng)
     {	
       for (j in 1:nsub)	
-              {
-                tmp<-subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
-                meanlist[[i]][j,]<-apply(B[tmp,],2,mean)
+        {
+          tmp<-subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
+          meanlist[[i]][j,]<-apply(B[tmp,],2,mean)
 ### calc within subgroups Sum of Squares
-                if (scale)
-                  {
-                    covW<-covW+cov(apply(B[tmp,],2,scale,scale=F))*(length(tmp)-1)
-                  }
-              }
+          if (scale)
+            {
+              covW<-covW+cov(apply(B[tmp,],2,scale,scale=F))*(length(tmp)-1)
+            }
+        }
       
 ### calc pooled groupspecific within subgroups covariance matrix and overall variance ###
-      #print(scale)
+                                        #print(scale)
       
       meanvec[i,]<-(meanlist[[i]][1,]-meanlist[[i]][2,])      
     }
@@ -218,8 +219,8 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
     }
   
   tt <- foreach(i= 1:rounds,.combine=c) %dopar% permuta(i)
-    
-   # mclapply(alist,permuta)
+  
+                                        # mclapply(alist,permuta)
   uns <- unlist(tt)
   angs <- (1:rounds)*2-1
   dists <- uns[2*(1:rounds)]
@@ -247,4 +248,4 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
 
   return(list(angle=out,dist=disto,meanvec=meanvec,permutangles=sortang,permudists=sortdist,p.angle=proba,p.dist=probadist,subdist=mahadist))
 }
-	
+

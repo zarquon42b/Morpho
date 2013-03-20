@@ -1,6 +1,7 @@
 mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores = detectCores())
   {
-    
+    if(.Platform$OS.type == "windows")
+      mc.cores=1
     registerDoParallel(cores=mc.cores)
    
 ### configure grouping ####

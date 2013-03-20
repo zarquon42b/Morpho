@@ -1,7 +1,9 @@
 pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
   {
+    if(.Platform$OS.type == "windows")
+      mc.cores=1
     registerDoParallel(cores=mc.cores)##register parallel backend
-   
+    
     
     if (length(dim(x)) == 3)
       {
@@ -10,8 +12,8 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
     
     xdim <- dim(x)
     ydim <- dim(y)
-   
-      
+    
+    
     
     cova <- cov(cbind(x,y))
     svd.cova <- svd(cova[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
@@ -34,13 +36,13 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
 
 
 ### Permutation testing
-   
-      
+    
+    
     permupls <- function(i)
       {
         x.sample <- sample(1:xdim[1])
         y.sample <- sample(x.sample)
-       
+        
         cova.tmp <- cov(cbind(x[x.sample,],y[y.sample,]))
         svd.cova.tmp <- svd(cova.tmp[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
         svs.tmp <- svd.cova.tmp$d
@@ -54,7 +56,7 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
         p.val <- function(x,rand.x)
           {
             p.value <- length(which(rand.x >= x))
-                       
+            
             if (p.value > 0)
               {
                 p.value <- p.value/rounds
@@ -64,16 +66,16 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
             gc()
             return(p.value)
           }
+        
+        
+        for (i in 1:l.covas)
+          {
+            p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
             
             
-            for (i in 1:l.covas)
-              {
-                p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
-                
-               
-               }
           }
-        ### create covariance table
+      }
+### create covariance table
     
     Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
     colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient", "p-value")
