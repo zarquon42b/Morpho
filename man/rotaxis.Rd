@@ -30,9 +30,7 @@ by two points.
     the rotation is counterclockwise.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
   returns rotated object (including updated normals for mesh3d objects)
 

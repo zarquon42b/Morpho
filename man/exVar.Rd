@@ -46,9 +46,6 @@ Stefan Schlager }
   factor-wise.
 }
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
 lm1 <- lm(as.matrix(iris[,1:4]) ~ iris[,5])

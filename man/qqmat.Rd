@@ -29,9 +29,7 @@ qqmat(x, output = FALSE, square = TRUE)
    \item{d }{Observed distances - unsorted}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
   Stefan Schlager
 }

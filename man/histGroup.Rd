@@ -53,33 +53,18 @@ dataname, ylab, col = NULL, alpha = 0.5,breaks = "Sturges", legend=TRUE,legend.x
 %%     ~~Describe \code{alpha} here~~
 }  
 
-
-%%     ~~Describe \code{alpha} here~~
-
 }
 \details{Just a wrapper for the function hist from the "graphics" package
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Stefan Schlager}
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+ \code{\link{hist}}
 }
 \examples{
 data(iris)

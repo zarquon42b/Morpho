@@ -118,9 +118,7 @@ TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,method=c("vcglib","morpho"),..
 }
 \author{
 Stefan Schlager}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -132,15 +130,15 @@ data(nose)##load data
 ##warp a mesh onto another landmark configuration:
 warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
 
-## Not run:
-meshDist(warpnose.long,shortnose.mesh)
-## End(Not run)
 
-## Not run:
+meshDist(warpnose.long,shortnose.mesh,method="m")
+
+
+
 #use signed distances and
 #color distances < 0.01 green:
-meshDist(warpnose.long,shortnose.mesh,sign=TRUE,tol=0.01)
-## End(Not run)
+meshDist(warpnose.long,shortnose.mesh,sign=TRUE,tol=0.01,method="m")
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

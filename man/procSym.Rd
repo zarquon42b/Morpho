@@ -76,9 +76,7 @@ procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,C
 %
 %}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
   \item{size }{a vector containing the Centroid Size of the configurations}
   

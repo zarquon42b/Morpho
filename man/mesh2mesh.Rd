@@ -55,15 +55,15 @@ ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE,
     \item{mindist}{search in both directions of the ray and use closest points.
   }
 }
-\details{needs trimesh_project and rayproject from trimesh-tools to be installed \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
+\details{needs trimesh_project and rayproject from trimesh-tools to be
+  installed ( \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-  \item{mesh}{projected mesh}
-
+  returns projected mesh
 }
+
+
 \references{ Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
   Signed Distance Fields From Triangle Meshes. Informatics and
   Mathematical Modelling.
@@ -75,6 +75,5 @@ ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE,
 \seealso{
  \code{\link{ply2mesh}},  \code{\link{closemeshKD}}
 }
-\examples{
-}
+
 

@@ -33,9 +33,7 @@ rotmesh.onto(mesh, refmat, tarmat,adnormals = TRUE, scale = FALSE
     
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{ 
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -43,23 +41,15 @@ rotmesh.onto(mesh, refmat, tarmat,adnormals = TRUE, scale = FALSE
     \item{yrot }{rotated refmat}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{  Stefan Schlager
 %%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{\link{file2mesh}},\code{\link{warp.mesh}} ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

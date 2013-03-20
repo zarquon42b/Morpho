@@ -11,8 +11,7 @@ conv2backf(mesh)
   \item{mesh}{
 }
 }
-\details{
-}
+
 \value{returns resulting mesh
 }
 

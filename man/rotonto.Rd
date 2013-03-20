@@ -52,9 +52,6 @@ rotreverse(mat,rot)
 }
 
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 %%  ~Describe the value returned
   	\item{yrot }{rotated and translated matrix}
@@ -74,8 +71,6 @@ in which the transformation is in agreement with the loss function. Psychometrik
 }
 \author{
 Stefan Schlager}
-\note{
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

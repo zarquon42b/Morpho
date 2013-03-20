@@ -37,9 +37,7 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = det
 %%     ~~Describe \code{cores} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -68,8 +66,7 @@ Boulesteix, A. L. 2005: A note on between-group PCA, International Journal of Pu
 }
 \author{
 Stefan Schlager}
-\note{
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

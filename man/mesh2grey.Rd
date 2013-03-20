@@ -25,7 +25,5 @@ Stefan Schlager}
 
 \seealso{ \code{\link{ply2mesh}},\code{\link{file2mesh}}
 }
-\examples{
-}
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

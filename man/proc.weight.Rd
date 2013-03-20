@@ -49,21 +49,7 @@ proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = F
 \item{rho.all }{dataframe containing distances to references of all observations}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
 proc <- procSym(gorf.dat)

@@ -43,9 +43,7 @@ read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec = ".", s
 %%     ~~Describe \code{pattern} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -54,19 +52,13 @@ read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec = ".", s
  \item{NAs }{list: containing vectors containing information which LMs are missing in which observation}
 %% ...
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{Stefan Schlager
 %%  ~~who you are~~
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{read.table}}
 }
 

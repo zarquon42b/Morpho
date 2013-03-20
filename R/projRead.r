@@ -26,6 +26,10 @@ projBack<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.st
 }
 projRead<-function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE,lmdump=NULL,prodump=NULL)
 {
+
+  checkCLI <- try(system("trimesh_project",intern=TRUE),silent=TRUE)
+   if(class(checkCLI) == "try-error")
+      stop("please install trimesh-tools")
   if (is.null(prodump))
     prodump <- "out_cloud.ply"
   if (is.null(lmdump))

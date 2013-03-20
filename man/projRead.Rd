@@ -46,9 +46,7 @@ ignore.stdout = FALSE, sign = FALSE, lmdump=NULL, prodump=NULL)
 %%     ~~Describe \code{raytol} here~~
 }
 }
-\details{
 
-}
 \value{if readnormals = FALSE, a m x 3 matrix containing projected
   points is returned, otherwise a list, where
 %%  ~Describe the value returned
@@ -69,7 +67,7 @@ Stefan Schlager}
  
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+
 
 \seealso{
 \code{\link{closemeshKD}}
@@ -77,8 +75,7 @@ Stefan Schlager}
 \examples{
 
 data(nose)
-repro <- projRead(shortnose.lm,shortnose.mesh)
-##project landmarks onto the surface (they are already pretty close).
+\dontrun{repro <- projRead(shortnose.lm,shortnose.mesh)}
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

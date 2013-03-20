@@ -71,24 +71,16 @@
   chart as png file.
 }
 
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Stefan Schlager}
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
  \code{\link{meshDist}}, \code{\link{shade3d}}
 
 }
-\examples{
 
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
