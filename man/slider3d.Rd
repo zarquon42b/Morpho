@@ -81,7 +81,7 @@ tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRU
 %%     ~~Describe \code{initproc} here~~
 }
 }
-\details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
+\details{needs trimesh_project to be installed (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 
 %%  ~~ If necessary, more details than the description above ~~
 }

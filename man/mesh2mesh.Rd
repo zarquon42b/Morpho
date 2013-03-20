@@ -1,15 +1,21 @@
 \name{mesh2mesh}
 \alias{mesh2mesh}
+\alias{ray2mesh}
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{projects the vertices of a mesh onto the surface of another one.
 
 }
 \description{projects the vertices of a mesh onto the surface of another
-  one by searching for the closest point on the target by for each vertex.
+  one by searching for the closest point (Euclidean distance or along
+  vertex normals) on the target by for each vertex.
 
 }
 \usage{
 mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE, sign = FALSE)
+ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE, 
+    outname = NULL, readback = TRUE, inbound = FALSE, strict = FALSE, 
+    ignore.stdout = FALSE, mindist = FALSE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,9 +35,24 @@ mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE, sign = FALSE)
 %%     ~~Describe \code{clean} here~~
 }
  \item{sign}{logical: if TRUE, signed distances are returned.
+ }
+  \item{angmax}{numeric: maximum angle (in radians) of normals of
+    original and hit point are allowed to differ.
+  }
+  \item{outname}{character: set name of dumpfile used in the process.
+  }
+  \item{readback}{logical: whether the data is to be read into workspace.
+  }
+  \item{inbound}{inverse search direction along rays.
+  }
+   \item{strict}{logical: writes the value 1e12 into vertex quality if no face is hit by the ray.
+   }
+    \item{ignore.stdout}{suppress command line output.
+    }
+    \item{mindist}{search in both directions of the ray and use closest points.
+  }
 }
-}
-\details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
+\details{needs trimesh_project and rayproject from trimesh-tools to be installed \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 
 }
 \value{

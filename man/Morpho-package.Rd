@@ -8,7 +8,11 @@ loads of stuff relating to Geometric Morphometrics and shape analysis
 }
 \description{
 A toolbox for Morphometric calculations. Including sliding operations
-for Semilandmarks, importing, exporting and manipulating 3D-surface meshes
+for Semilandmarks, importing, exporting and manipulating 3D-surface
+meshes. For gaining full functionality, the command line tools provided
+on
+\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}
+have to be installed.
 }
 \details{
 \tabular{ll}{

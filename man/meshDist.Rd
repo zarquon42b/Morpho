@@ -97,7 +97,7 @@ TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,method=c("vcglib","morpho"),..
   \code{\link{rgl.material}} for details.
 }
 }
-\details{this function needs the command line tools from the Auxiliaries section in http://sourceforge.net/projects/morpho-rpackage/files/ installed. 
+\details{this function needs the command line tools from the Auxiliaries section in \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries} installed. 
 }
 \value{Returns an object of class "meshDist" if the input is a surface
   mesh and one of class "matrixDist" if input is a matrix containing 3D coordinates.

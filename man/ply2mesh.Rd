@@ -33,7 +33,7 @@ file2mesh(filename, clean = TRUE,readcol=FALSE)
 }
 }
 \details{
-file2mesh needs the command line tool ply2ascii from the Auxiliaries section in http://sourceforge.net/projects/morpho-rpackage/files/ installed.
+file2mesh needs the command line tool ply2ascii from the Auxiliaries section in \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/} installed.
 }
 \value{
 %%  ~Describe the value returned

@@ -53,7 +53,7 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name
 %%     ~~Describe \code{iterations} here~~
 }
 }
-\details{needs trimesh_project to be installed (http://sourceforge.net/projects/morpho-rpackage/files/)
+\details{needs trimesh_project to be installed (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 
 }
 \value{returns kx3 matrix of slidden landmarks
