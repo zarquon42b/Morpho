@@ -195,7 +195,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
                 asymtan[i,]<-c(Asymm[,,i]-asymmean)
               }
             
-            pcasym<-try(procmp(asymtan),silent=TRUE)
+            pcasym<-try(prcomp(asymtan),silent=TRUE)
             if (class(pcasym) == "try-error")
               pcasym <- eigenPCA(asymtan)
             

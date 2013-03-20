@@ -15,7 +15,6 @@
 \alias{difplot.lm2D}
 \alias{difplot.lm}
 \alias{groupPCAcrova}
-\alias{conv2backf}
 \alias{meshres}
 \alias{meshres.mesh3d}
 \alias{eigenPCA}
@@ -31,7 +30,6 @@
 \alias{fq}
 \alias{unbias}
 \alias{meshcube}
-
 \alias{rot.proc}
 \alias{projBack}
 \alias{setOMP}

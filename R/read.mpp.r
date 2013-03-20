@@ -26,5 +26,7 @@ read.mpp <- function(file)
     data <- lapply(data,subfun)
     tmp <- as.numeric(gsub("\"","",unlist(lapply(data,function(x){x <- x[c(2,4,6)]}))))
     tmp <- matrix(tmp,length(points),3,byrow=T)
+    rownames(tmp) <- infout$name
+    tmp <- tmp[which(infout$active == 1),]
     return(list(data=tmp,info=infout))
   }

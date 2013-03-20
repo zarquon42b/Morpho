@@ -7,7 +7,7 @@
 \description{scales (the vertices of a mesh by a scalar
 }
 \usage{
-scalemesh(mesh, size)
+scalemesh(mesh, size,center = c("bbox", "mean"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,41 +17,29 @@ scalemesh(mesh, size)
   \item{size}{numeric: scale factor
 %%     ~~Describe \code{size} here~~
 }
+\item{center}{character: method to position center of mesh after
+  scaling: values are "bbox", and "mean". See Details for more info.
+%%     ~~Describe \code{size} here~~
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+}
+\details{The mesh's center is determined either as mean of the bounding
+  box (center="bbox") or mean of vertex coordinates (center="mean") and
+  then scaled according to the scaling factor.
 }
 \value{returns a scaled mesh
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+
 }
 
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
+Stefan Schlager}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{rotmesh.onto}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function(mesh,size)
-{	
-	mesh$vb[1:3,]<-mesh$vb[1:3,]*size
-	return(mesh)
-  }
+data(nose)
+largenose <- scalemesh(shortnose.mesh,500)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
