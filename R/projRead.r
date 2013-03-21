@@ -1,5 +1,8 @@
 projBack<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE)
-{	
+{
+  checkCLI <- try(system("trimesh_project",intern=TRUE),silent=TRUE)
+   if(class(checkCLI) == "try-error")
+      stop("please install trimesh-tools")
   options<-NULL
   
   if (!smooth)

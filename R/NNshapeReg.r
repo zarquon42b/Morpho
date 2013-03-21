@@ -1,9 +1,11 @@
 NNshapeReg <- function(x,y,n,mahalanobis=FALSE,mc.cores = detectCores())
   {
     i <- NULL
-    if(.Platform$OS.type == "windows")
-      mc.cores=1
-    registerDoParallel(cores=mc.cores)##register parallel backend
+    win <- FALSE
+     if(.Platform$OS.type == "windows")
+      win <- TRUE
+    else
+      registerDoParallel(cores=mc.cores)### register parallel backend
     out <- y
     estfun <- function(i)
       {
@@ -12,7 +14,10 @@ NNshapeReg <- function(x,y,n,mahalanobis=FALSE,mc.cores = detectCores())
         tmpres <- apply(t(t(y[weighcalc$nr,])%*%ws),2,sum)
         return(tmpres)
       }
-    out <- foreach(i=1:dim(x)[1],.combine=rbind) %dopar% estfun(i)
+    if (win)
+      out <- foreach(i=1:dim(x)[1],.combine=rbind) %do% estfun(i)
+    else
+      out <- foreach(i=1:dim(x)[1],.combine=rbind) %dopar% estfun(i)
     return(out)
   }
 

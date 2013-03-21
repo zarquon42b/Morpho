@@ -1,9 +1,10 @@
 permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
 {
+  win <- FALSE
   if(.Platform$OS.type == "windows")
-      registerDoParallel(makeCluster(1),cores=1)
-    else
-      registerDoParallel(cores=mc.cores)### register parallel backend
+    win <- TRUE
+  else
+    registerDoParallel(cores=mc.cores)### register parallel backend
   
 ### define groups ####
   rawgroup<-groups	
@@ -218,11 +219,12 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
       
       return(c(Morpho::angle.calc(meanvectmp[1,],meanvectmp[2,])$rho,dist))
     }
-  
-  tt <- foreach(i= 1:rounds,.combine=c) %dopar% permuta(i)
-  
+  if (win)
+    tt <- foreach(i= 1:rounds,.combine=c) %do% permuta(i)
+  else
+    tt <- foreach(i= 1:rounds,.combine=c) %dopar% permuta(i)
                                         # mclapply(alist,permuta)
-  uns <- unlist(tt)
+    uns <- unlist(tt)
   angs <- (1:rounds)*2-1
   dists <- uns[2*(1:rounds)]
   sortdist <- sort(dists)

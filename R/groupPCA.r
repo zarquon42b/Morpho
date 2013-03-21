@@ -1,7 +1,8 @@
 groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=detectCores(), weighting=TRUE)
   {
+    win <- FALSE
     if(.Platform$OS.type == "windows")
-      registerDoParallel(makeCluster(1),cores=1)
+      win <- TRUE
     else
       registerDoParallel(cores=mc.cores)### register parallel backend
     
@@ -149,8 +150,11 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
             return(dist.mat)
           }
         
-        dist.mat.proc<- array(0, dim = c(ng, ng, rounds))	
-        a.list <- foreach(i=1:rounds)%dopar%rounproc(i)
+        dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
+        if(win)
+          a.list <- foreach(i=1:rounds)%do%rounproc(i)
+        else
+          a.list <- foreach(i=1:rounds)%dopar%rounproc(i)
         
         for (i in 1:rounds)
           {
@@ -184,7 +188,10 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     CV=NULL
     if (cv)
       {
-        crossval <- foreach(i=1:n) %dopar% crovafun(i)
+        if (win)
+          crossval <- foreach(i=1:n) %do% crovafun(i)
+        else
+          crossval <- foreach(i=1:n) %dopar% crovafun(i)
         CV <- groupScores
         for (i in 1:n)
           {

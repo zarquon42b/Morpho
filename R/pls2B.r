@@ -1,16 +1,19 @@
 pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
   {
-   if(.Platform$OS.type == "windows")
-      registerDoParallel(makeCluster(1),cores=1)
+    win <- FALSE
+    if(.Platform$OS.type == "windows")
+      win <- TRUE
     else
       registerDoParallel(cores=mc.cores)### register parallel backend
-    
     
     if (length(dim(x)) == 3)
       {
         x <- vecx(x)
       }
-    
+    if (length(dim(y)) == 3)
+      {
+        y <- vecx(y)
+      }
     xdim <- dim(x)
     ydim <- dim(y)
     
@@ -34,11 +37,7 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
       {cors[i] <- cor(z1[,i],z2[,i])
      }
 
-
-
 ### Permutation testing
-    
-    
     permupls <- function(i)
       {
         x.sample <- sample(1:xdim[1])
@@ -52,7 +51,10 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
     p.values <- rep(NA,l.covas)
     if (rounds > 0)
       {
-        permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
+        if (win)
+          permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
+        else
+          permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
         
         p.val <- function(x,rand.x)
           {
@@ -68,18 +70,14 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
             return(p.value)
           }
         
-        
         for (i in 1:l.covas)
           {
             p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
-            
-            
           }
       }
 ### create covariance table
-    
     Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
     colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient", "p-value")
-    out <- list(svd=svd.cova,z2=z2,z1=z1,cor=cors,CoVar=Cova)
+    out <- list(svd=svd.cova,Xscores=z1,Yscores=z2,CoVar=Cova)
     return(out)
   }

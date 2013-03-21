@@ -79,12 +79,11 @@ require(car)
 data(iris)
 vari=iris[,1:4]
 facto=iris[,5]
-\dontrun{
 pca.1=groupPCA(vari,groups=facto,rounds=1000,mc.cores=1)
 
 ### plot scores
 scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
- }
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

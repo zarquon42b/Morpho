@@ -1,10 +1,12 @@
 mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores = detectCores())
   {
-     if(.Platform$OS.type == "windows")
-      registerDoParallel(makeCluster(1),cores=1)
+    win <- FALSE
+    if(.Platform$OS.type == "windows")
+      win <- TRUE
     else
       registerDoParallel(cores=mc.cores)### register parallel backend
-   
+    
+    
 ### configure grouping ####
     N <- data
     if (is.vector(N))
@@ -63,7 +65,7 @@ mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores
         
         group.tmp[[1]] <- shake[1:l1]
         group.tmp[[2]] <- shake[(l1+1):lshake]
-     
+        
         if (dim(N)[2] == 1)
           {
             mean1.tmp <- mean(N[group.tmp[[1]]])
@@ -77,8 +79,11 @@ mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores
         disto <- sqrt(sum((mean1.tmp-mean2.tmp)^2))
         return(disto)
       }
-    dists <- foreach(i= 1:rounds,.combine=c) %dopar%
-    permu(i)
+    if (win)
+      dists <- foreach(i= 1:rounds,.combine=c) %do% permu(i)
+    else
+      dists <- foreach(i= 1:rounds,.combine=c) %dopar% permu(i)
+    
     p.value <- length(which(dists >= dist))
     if (p.value > 0)
       {
@@ -88,7 +93,7 @@ mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores
     else
       {
         p.value <- 1/rounds
-         names(p.value) <- "p-value <"
+        names(p.value) <- "p-value <"
       }
     
     return(list(permudist=dists,dist=dist,p.value=p.value))
