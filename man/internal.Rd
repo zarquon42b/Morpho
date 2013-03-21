@@ -33,12 +33,6 @@
 \alias{mcNNindex}
 \alias{write.obj}
 %to be moved to other packages
-% spinimage
-\alias{spinmap}
-\alias{spinimageMesh}
-\alias{spinimageLM}
-\alias{plotspin}
-\alias{spinimage}
 
 %mesheR
 \alias{add.faces}
