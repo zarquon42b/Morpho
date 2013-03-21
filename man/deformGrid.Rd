@@ -58,7 +58,9 @@ Stefan Schlager}
 }
 \examples{
 data(nose)
+\dontrun{
 deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

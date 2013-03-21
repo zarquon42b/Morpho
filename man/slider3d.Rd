@@ -13,8 +13,10 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-slider3d(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",
-tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores=detectCores())
+slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
+sur.name=NULL, ignore=NULL, sur.type="ply", tol=1e-05, deselect=FALSE,
+inc.check=TRUE, recursive=TRUE, iterations=0, initproc=TRUE, speed=TRUE,
+pairedLM=0, weights=NULL, mc.cores=detectCores())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -76,8 +78,9 @@ tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRU
 %%     ~~Describe \code{initproc} here~~
 }
 \item{mc.cores}{integer: determines how many cores to use for the
-  computation. The default is autodetect. But in case, it doesn't work as expected cores can be
-  set manually.
+  computation. The default is autodetect. But in case, it doesn't work
+  as expected cores can be set manually. In Windows, parallel processing
+  is disabled.
 %%     ~~Describe \code{initproc} here~~
 }
 }
@@ -93,8 +96,12 @@ tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRU
  \item{vn.array }{array containing Landmark normals}
 %% ...
 }
-\references{\code{Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of symmetric structures: quantifying variation among individuals and asymmetry. Evolution 56(10):1909-1920.}
-\code{Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.}
+\references{Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape
+  analysis of symmetric structures: quantifying variation among
+  individuals and asymmetry. Evolution 56(10):1909-1920.
+  
+
+  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.
 %% ~put references to the literature/web site here ~
 }
 \author{Stefan Schlager

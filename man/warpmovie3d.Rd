@@ -17,10 +17,12 @@ meshes or landmark configurations (2D and 3D) into each other}
 \method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE,
 folder = NULL, movie = "warpmovie", add = FALSE, close = TRUE,countbegin=0,ask=TRUE,...)
 \method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE,
-folder = NULL, movie = "warpmovie", add = FALSE, close=TRUE,countbegin=0,ask=TRUE,radius=NULL, links=NULL,
-lwd=1,...)
+folder = NULL, movie = "warpmovie", add = FALSE, close=TRUE,
+countbegin=0, ask=TRUE, radius=NULL, links=NULL, lwd=1,...)
 
-warpmovie2d(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",links=NULL,lwd=1,imagedim = "800x800",par=list(xaxt="n",yaxt="n",bty="n"),...)
+warpmovie2d(x, y, n, col = "green", palindrome = FALSE, folder =
+NULL,movie="warpmovie", links=NULL, lwd=1, imagedim = "800x800",
+par=list(xaxt="n", yaxt="n", bty="n"),...)
 }
 
 %- maybe also 'usage' for other objects documented here.

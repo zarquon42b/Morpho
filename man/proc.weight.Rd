@@ -57,7 +57,9 @@ proc <- procSym(gorf.dat)
 weights <- proc.weight(proc$rotated,4,1)
 
 ##estimate the first specimen by weighted neighbour shapes.
-estim <- proc$mshape*0;for (i in 1:4){estim <-estim+proc$rotated[,,weights$data$nr[i]]*weights$data$weight[i]}
+estim <- proc$mshape*0;
+for (i in 1:4)
+{estim <-estim+proc$rotated[,,weights$data$nr[i]]*weights$data$weight[i]}
 
 ### visualise
 plot(estim,asp=1)## show estimation

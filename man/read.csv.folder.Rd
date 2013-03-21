@@ -8,14 +8,16 @@ batch import data from files
 imports all data files contained in a specified folder.
 }
 \usage{
-read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec = ".", sep = ";", pattern = "csv",addSpec=NULL, back = TRUE)
+read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec
+= ".", sep = ";", pattern = "csv", addSpec=NULL, back = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{folder}{character: path to folder
 %%     ~~Describe \code{folder} here~~
 }
-  \item{x}{either a vector specifiing which rows are to be imported, or character vector containing variable names to be sought for.
+  \item{x}{either a vector specifiing which rows are to be imported, or
+    character vector containing variable names to be sought for.
 %%     ~~Describe \code{x} here~~
 }
   \item{y}{a vector specifiing, which columns of the speradsheet ist to be imported.
@@ -49,7 +51,8 @@ read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec = ".", s
 %%  If it is a LIST, use
  \item{arr }{array containing imported data}
  \item{NAs }{vector containing position of observations with NAs}
- \item{NAs }{list: containing vectors containing information which LMs are missing in which observation}
+ \item{NA.list }{list: containing vectors containing information which LMs
+   are missing in  which observation}
 %% ...
 }
 

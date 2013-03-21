@@ -80,15 +80,14 @@ Stefan Schlager
 \examples{
 alldat<-procSym(abind(gorf.dat,gorm.dat))   # perform procrustes fit on raw data
 groups<-as.factor(c(rep("female",30),rep("male",29)))              # create factors
-cvall<-CVA(alldat$orpdata,groups,rounds=1000)     # perform CVA and test Mahalanobis distance between groups with permutation test by 1000 rounds)
+cvall<-CVA(alldat$orpdata,groups,rounds=1000,mc.cores=2)     # perform CVA and test Mahalanobis distance between groups with permutation test by 1000 rounds)
 
 ### Morpho CVA
-require(Morpho)
 data(iris)
 vari=iris[,1:4]
 facto=iris[,5]
 
-cva.1=CVA(vari, groups=facto) #note that the function takes time, to estimate permutations.
+cva.1=CVA(vari, groups=facto,mc.cores=2) #note that the function takes time, to estimate permutations.
 # plot the CVA
 plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")),ylab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"\%")))
   

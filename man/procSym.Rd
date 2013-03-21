@@ -20,14 +20,18 @@ sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
   \item{dataarray}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
 %%     ~~Describe \code{dataarray} here~~
 }
-  \item{pairedLM}{A X x 2 matrix containing the paired LM. E.g. the left column contains the lefthand landmarks, 
+  \item{pairedLM}{A X x 2 matrix containing the indices (rownumbers) of
+    the paired LM. E.g. the left column contains the lefthand landmarks, 
                   while the right side contains the corresponding right hand landmarks.
 %%     ~~Describe \code{pairedLM} here~~
 }
   \item{SMvector}{A vector containing the landmarks on the curve(s) that are allowed to slide
 %%     ~~Describe \code{SMvector} here~~
 }
-  \item{outlines}{A vector (or if threre are several curves) a list of vectors (containing the rowindices) of the (Semi-)landmarks forming the curve(s) in the successive position on the curve - including the beginning and end points, that are not allowed to slide.
+  \item{outlines}{A vector (or if threre are several curves) a list of
+    vectors (containing the rowindices) of the (Semi-)landmarks forming
+    the curve(s) in the successive position on the curve - including the
+    beginning and end points, that are not allowed to slide.
 %%     ~~Describe \code{outlines} here~~
 }
   \item{orp}{Logical: if TRUE, an orthogonal projection into
@@ -43,7 +47,8 @@ sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
   \item{deselect}{Logical: if TRUE, the SMvector is interpreted as those landmarks, that are not allowed to slide.
 %%     ~~Describe \code{deselect} here~~
 }
-  \item{recursive}{Logical: if TRUE, during the iterations of the sliding process, the outcome of the previous iteration will be used. 
+  \item{recursive}{Logical: if TRUE, during the iterations of the
+    sliding process, the outcome of the previous iteration will be used. 
                     Otherwise the original configuration will be used in all iterations. 
 %%     ~~Describe \code{recursive} here~~
 }
@@ -55,7 +60,8 @@ sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
   \item{scale}{Logical: indicating if scaling is requested
 %%     ~~Describe \code{scale} here~~
 }
-  \item{sizeshape}{Logical: if TRUE, a log transformed variable of Centroid Size will be added to the shapedata as first variable before performing the PCA. 
+  \item{sizeshape}{Logical: if TRUE, a log transformed variable of
+    Centroid Size will be added to the shapedata as first variable before performing the PCA. 
 %%     ~~Describe \code{reflect} here~~
 }
 
@@ -116,7 +122,9 @@ Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of
 symmetric structures: quantifying variation among individuals and
 asymmetry. Evolution 56(10):1909-1920.
 
-Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.
+Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in
+Three Dimensions, in Modern Morphometrics in Physical
+Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.
 
 
 }
