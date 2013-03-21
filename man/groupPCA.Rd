@@ -29,8 +29,8 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = det
 
   \item{mc.cores}{integer: how many cores of the Computer are allowed to be
     used. Default is use autodetection by using detectCores()
-    from the parallel package. If you encounter problems on windows, set
-    mc.cores=1.
+    from the parallel package. Parallel processing is disabled on
+    Windows due to occasional errors.
 %%     ~~Describe \code{cores} here~~
 }
  \item{weighting}{logical:weight between groups covariance matrix
@@ -79,11 +79,12 @@ require(car)
 data(iris)
 vari=iris[,1:4]
 facto=iris[,5]
-
+\dontrun{
 pca.1=groupPCA(vari,groups=facto,rounds=1000,mc.cores=1)
+
 ### plot scores
 scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
-  
+ }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

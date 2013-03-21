@@ -1,8 +1,9 @@
 pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
   {
-    if(.Platform$OS.type == "windows")
-      mc.cores=1
-    registerDoParallel(cores=mc.cores)##register parallel backend
+   if(.Platform$OS.type == "windows")
+      registerDoParallel(makeCluster(1),cores=1)
+    else
+      registerDoParallel(cores=mc.cores)### register parallel backend
     
     
     if (length(dim(x)) == 3)

@@ -75,7 +75,9 @@ Stefan Schlager}
 \examples{
 
 data(nose)
-\dontrun{repro <- projRead(shortnose.lm,shortnose.mesh)}
+\dontrun{
+repro <- projRead(shortnose.lm,shortnose.mesh)
+}
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

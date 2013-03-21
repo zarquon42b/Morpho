@@ -37,7 +37,8 @@ permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol =
 }
 \item{mc.cores}{integer: determines how many cores to use for the computation. The default
   is autodetect. But in case, it doesn't work as expected cores can be
-  set manually.
+  set manually.Parallel processing is disabled on
+    Windows due to occasional errors.
 %%     ~~Describe \code{initproc} here~~
 }
 }

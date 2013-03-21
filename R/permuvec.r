@@ -1,8 +1,9 @@
 permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
 {
   if(.Platform$OS.type == "windows")
-    mc.cores=1
-  registerDoParallel(cores = mc.cores) ##register parallel backend
+      registerDoParallel(makeCluster(1),cores=1)
+    else
+      registerDoParallel(cores=mc.cores)### register parallel backend
   
 ### define groups ####
   rawgroup<-groups	

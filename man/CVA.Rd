@@ -58,7 +58,8 @@ TRUE,rounds=0, cv=FALSE, mc.cores=detectCores())
 \item{CVcv }{A matrix containing crossvalidated CV scores}
 \item{mc.cores}{integer: determines how many cores to use for the
   computation. The default is to autodetect. But in case, it doesn't work as expected cores can be
-  set manually.
+  set manually.Parallel processing is disabled on
+    Windows due to occasional errors.
 %%     ~~Describe \code{initproc} here~~
 }
 }

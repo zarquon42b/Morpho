@@ -1,10 +1,9 @@
 NNshapeReg <- function(x,y,n,mahalanobis=FALSE,mc.cores = detectCores())
-
   {
     i <- NULL
     if(.Platform$OS.type == "windows")
       mc.cores=1
-    registerDoParallel(mc.cores)
+    registerDoParallel(cores=mc.cores)##register parallel backend
     out <- y
     estfun <- function(i)
       {
@@ -16,4 +15,4 @@ NNshapeReg <- function(x,y,n,mahalanobis=FALSE,mc.cores = detectCores())
     out <- foreach(i=1:dim(x)[1],.combine=rbind) %dopar% estfun(i)
     return(out)
   }
-    
+

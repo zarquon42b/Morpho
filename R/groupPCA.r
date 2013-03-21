@@ -1,9 +1,9 @@
 groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=detectCores(), weighting=TRUE)
   {
     if(.Platform$OS.type == "windows")
-      mc.cores=1
-
-    registerDoParallel(cores=mc.cores)### register parallel backend
+      registerDoParallel(makeCluster(1),cores=1)
+    else
+      registerDoParallel(cores=mc.cores)### register parallel backend
     
     pmatrix.proc <- NULL
     proc.distout <- NULL
