@@ -201,7 +201,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
             
             asvalues<-0
             eigva<-pcasym$sdev^2
-            for (i in 1:length(eigv))
+            for (i in 1:length(eigva))
               {
                 if (eigva[i] > 1e-14)
                   {
