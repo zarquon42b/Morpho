@@ -10,7 +10,9 @@
     of semi-landmarks on curves/outlines in 2D and 3D.
 }
 \usage{
-procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
+procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,
+CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,
+sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
 %pca.method=c("svd","eigen"))
 }
 %- maybe also 'usage' for other objects documented here.
