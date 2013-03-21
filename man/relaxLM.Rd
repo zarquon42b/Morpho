@@ -46,10 +46,12 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name
   \item{deselect}{Logical: if TRUE, the SMvector is interpreted as those landmarks, that are not allowed to slide.
 %%     ~~Describe \code{deselect} here~~
 }
-  \item{inc.check}{
+  \item{inc.check}{Logical: if TRUE, the program stops when convergence criterion starts increasing and reports result from last iteration.
 %%     ~~Describe \code{inc.check} here~~
 }
-  \item{iterations}{Logical: if TRUE, the program stops when convergence criterion starts increasing and reports result from last iteration.
+  \item{iterations}{integer: maximum amounts the algorithm runs - even
+    when 'tol' is not reached. When iterations=0, the algorithm runs
+    until convergence.
 %%     ~~Describe \code{iterations} here~~
 }
 }
