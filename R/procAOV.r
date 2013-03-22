@@ -1,4 +1,4 @@
-procAOV <- function(symproc)
+procAOV <- function(symproc,indnames=NULL)
   {
     
     if (class(symproc) != "symproc")
@@ -8,17 +8,22 @@ procAOV <- function(symproc)
     k <- dim(symproc$rotated)[1]
     n <- dim(symproc$rotated)[3]
 
-    indnames <- as.factor(rownames(symproc$PCscore_sym))
+    if (is.null(indnames))
+      indnames <- as.factor(rownames(symproc$PCscore_sym))
+    else
+      indnames <- as.factor(indnames)
     indlev <- levels(indnames)
     nlev <- length(indlev)
     alist <- list()
-
     
     for (i in 1:length(indlev))
       {
        alist[[i]] <- grep(indlev[i],indnames)
       }
-    
+
+    checkinds <- lapply(alist,function(x){length(x) == length(alist[[1]])})
+    if (prod(as.integer(unlist(checkinds))) == 0)
+      stop("same number of digitizations is needed for all specimen")
     r <- length(alist[[1]])
     pl <- dim(symproc$pairedLM)[1]
     sl <- k-2*pl
