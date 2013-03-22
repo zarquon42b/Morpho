@@ -1,5 +1,8 @@
-pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
+pls2B <- function(y,x,tol=1e-12, same.config=F, rounds=0, mc.cores=detectCores())
   {
+    landmarks <- FALSE
+    xorig <- x
+    yorig <- y
     win <- FALSE
     if(.Platform$OS.type == "windows")
       win <- TRUE
@@ -8,15 +11,19 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
     
     if (length(dim(x)) == 3)
       {
+        landmarks <- TRUE
         x <- vecx(x)
       }
     if (length(dim(y)) == 3)
-      {
-        y <- vecx(y)
-      }
+      y <- vecx(y)
+    else
+      landmarks <- FALSE
+      
     xdim <- dim(x)
     ydim <- dim(y)
-    
+
+    if (same.config && !landmarks)
+      warning("the option same.config requires landmark array as input")
     
     
     cova <- cov(cbind(x,y))
@@ -42,8 +49,19 @@ pls2B <- function(y,x,tol=1e-12,rounds=0, mc.cores=detectCores())
       {
         x.sample <- sample(1:xdim[1])
         y.sample <- sample(x.sample)
-        
-        cova.tmp <- cov(cbind(x[x.sample,],y[y.sample,]))
+        if (same.config && landmarks)
+          {
+           tmparr <- bindArr(xorig[,,x.sample],yorig[,,y.sample],along=1)
+           tmpproc <- ProcGPA(tmparr,silent=TRUE)
+           x1 <- vecx(tmpproc$rotated[1:dim(xorig)[1],,])
+           y1 <- vecx(tmpproc$rotated[1:dim(yorig)[1],,])
+         }
+        else
+          {
+            x1 <- x
+            y1 <- y
+          }
+        cova.tmp <- cov(cbind(x1[x.sample,],y1[y.sample,]))
         svd.cova.tmp <- svd(cova.tmp[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
         svs.tmp <- svd.cova.tmp$d
         return(svs.tmp[1:l.covas])
