@@ -2,13 +2,15 @@
 \alias{name2factor}
 \alias{name2num}
 
+
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{extract data from array names
 }
 \description{
 extract data from array names and convert to factors or numbers}
 \usage{
-name2factor(x, sep = "_", which, collapse = sep, dif = NULL)
+name2factor(x, sep = "_", which, collapse = sep)
+name2num(x, sep="_", which, collapse=sep, dif=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,7 +29,7 @@ name2factor(x, sep = "_", which, collapse = sep, dif = NULL)
     to be concatenated
 %%     ~~Describe \code{collapse} here~~
 }
-  \item{dif}{calculate difference if two fields containing numbers are selected.
+  \item{dif}{logical: calculate difference if two fields containing numbers are selected.
 }
 }
 \details{If an array is used as input, the data info is expected to be

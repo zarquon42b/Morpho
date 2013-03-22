@@ -1,4 +1,4 @@
-name2factor <- function(x,sep="_",which,collapse=sep,dif=NULL)
+name2factor <- function(x,sep="_",which,collapse=sep)
   {
     if (length(dim(x))==3)
       {
