@@ -4,7 +4,6 @@
 \alias{NNshapeReg}
 \alias{checkLM}
 \alias{place.patch}
-\alias{pls2B}
 \alias{procAOV}
 \alias{r2morphoj}
 \alias{r2morphologika}

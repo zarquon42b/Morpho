@@ -1,4 +1,4 @@
-pls2B <- function(y,x,tol=1e-12, same.config=F, rounds=0, mc.cores=detectCores())
+pls2B <- function(y,x,tol=1e-12, same.config=FALSE, rounds=0, mc.cores=detectCores())
   {
     landmarks <- FALSE
     xorig <- x
