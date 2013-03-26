@@ -26,11 +26,9 @@
 \alias{cSize}
 \alias{closemat}
 \alias{fx}
-\alias{unbias}
 \alias{meshcube}
 \alias{rot.proc}
 \alias{projBack}
-\alias{setOMP}
 \alias{mcNNindex}
 \alias{write.obj}
 %to be moved to other packages
@@ -39,7 +37,6 @@
 \alias{add.faces}
 \alias{del.faces}
 \alias{find.faces}
-\alias{minClost}
 
 %curvature
 \alias{mesh2ply2}
