@@ -33,18 +33,6 @@
 \alias{write.obj}
 %to be moved to other packages
 
-%mesheR
-\alias{add.faces}
-\alias{del.faces}
-\alias{find.faces}
-
-%curvature
-\alias{mesh2ply2}
-\alias{plotCurves}
-\alias{readCurves}
-\alias{file2ply2}
-
-
 %copies from shapes package
 \alias{scaleproc}
 \alias{gdif}
