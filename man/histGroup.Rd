@@ -9,7 +9,7 @@ plot a histogram for multiple groups, each group colored individually
 }
 \usage{
 histGroup(data, groups, main = paste("Histogram of", dataname), xlab =
-dataname, ylab, col = NULL, alpha = 0.5,breaks = "Sturges", legend=TRUE,legend.x=80,legend.y=80,legend.pch=15)
+dataname, ylab, col = NULL, alpha = 0.5,breaks = "Sturges", legend=TRUE,legend.x=80,legend.y=80,legend.pch=15,freq=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -49,10 +49,14 @@ dataname, ylab, col = NULL, alpha = 0.5,breaks = "Sturges", legend=TRUE,legend.x
 \item{legend.y}{y position of the legend from the upper left corners
 %%     ~~Describe \code{alpha} here~~
 }  
-\item{legend.pch}{integer: define the symbol to visualise group colors (\code{\link{points}}
+\item{legend.pch}{integer: define the symbol to visualise group colors (\code{\link{points}})
 %%     ~~Describe \code{alpha} here~~
 }  
-
+\item{freq}{logical: if TRUE, the histogram graphic is a representation
+  of frequencies, the counts component of the result; if FALSE,
+  probability densities are plotted for each group.
+%%     ~~Describe \code{alpha} here~~
+}  
 }
 \details{Just a wrapper for the function hist from the "graphics" package
 %%  ~~ If necessary, more details than the description above ~~
