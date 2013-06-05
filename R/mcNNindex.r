@@ -2,7 +2,9 @@ mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
   
   {
     if(.Platform$OS.type == "windows")
-      cores <- 1
+        cores <- 1
+    if (nrow (query) < 1000)
+        cores <- 1
     out <- NULL
     mclist <- list()
     nx <- dim(query)[1]
