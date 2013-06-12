@@ -59,8 +59,10 @@ rotreverse(mat,rot)
 	\item{X }{centred target matrix }
 	\item{trans }{vector between original position of target and centered reference (during rotation process) }
 	\item{transy }{vector between original position of reference and centered reference (during rotation process) }	
-	\item{gamm }{rotation matrix }	
-	
+	\item{gamm }{rotation matrix }
+	\item{bet }{scaling factor applied }
+	\item{reflect }{if reflect = 1, reflections are involved in the
+	  superimposition. Else, reflect = 0 }	
 %% ...
 }
 \references{
