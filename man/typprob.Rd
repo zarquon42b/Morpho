@@ -71,7 +71,7 @@ Stefan Schlager}
 \examples{
 
 data <- procSym(gorf.dat)$PCscores[,1:3]
-probas <- typprob(data,data,small=T)### get probability for each specimen
+probas <- typprob(data,data,small=TRUE)### get probability for each specimen
 
 ### now we check how this behaves compared to the mahalanobis distance
 maha <- mahalanobis(data,apply(data,2,mean),cov(data))

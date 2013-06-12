@@ -72,9 +72,9 @@ Stefan Schlager}
 ### very arbitrary test:
 ### check if first 4 landmarks covaries with the second 4
 proc <- procSym(gorf.dat)
-pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],same.config=T,rounds=100,mc.cores=2)
+pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],same.config=TRUE,rounds=100,mc.cores=2)
 pls1$CoVar
-layout(matrix(1:4,2,2,byrow=T))
+layout(matrix(1:4,2,2,byrow=TRUE))
 for(i in 1:4)
  plot(pls1$Xscores[,i]~pls1$Yscores[,i])
 

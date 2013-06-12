@@ -65,7 +65,7 @@ covPCA(data,groups)
 \examples{
 require(car)
 cpca <- covPCA(iris[,1:4],iris[,5])
-sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),smooth=F,xlim=range(cpca$PCscores),ylim=range(cpca$PCscores))
+sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),smooth=FALSE,xlim=range(cpca$PCscores),ylim=range(cpca$PCscores))
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
