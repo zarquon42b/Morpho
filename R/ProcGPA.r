@@ -76,7 +76,7 @@ ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weight
             else
               x[,,i]<-arr.list[[i]][[1]]
             }
-          eigc<-bgpa(x)
+          eigc<-scaleproc(x)
           
           for ( i in 1:n)	
             {
