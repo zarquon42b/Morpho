@@ -8,12 +8,15 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle", dist.mat.out = FALSE)
+regdist.raw(dataarray, scale = TRUE, plot = TRUE, main = "", rho = "angle", dist.mat.out = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataarray}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
 %%     ~~Describe \code{dataarray} here~~
+}
+\item{scale}{Logical: if TRUE, a full GPA is performed.
+%%     ~~Describe \code{plot} here~~
 }
   \item{plot}{Logical: whether to plot the distances between observations.
 %%     ~~Describe \code{plot} here~~

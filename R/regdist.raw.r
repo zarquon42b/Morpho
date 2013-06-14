@@ -1,14 +1,10 @@
-regdist.raw<-function(dataarray,plot=TRUE,main="",rho="angle",dist.mat.out=FALSE)
-{     proc<-procSym(dataarray)
+regdist.raw<-function(dataarray,scale=TRUE, plot=TRUE,main="",rho="angle",dist.mat.out=FALSE)
+{     proc<-procSym(dataarray,scale=scale)
       x<-proc$rotated
       n<-dim(x)[3]
       m<-dim(x)[2]
       k<-dim(x)[1]
       y<-proc$orpdata
-
-
-
-
 
       qm<-dist(t(matrix(x,k*m,n)))  #calc  dist. between rotated config
       procdis<-sum(qm^2)/n
