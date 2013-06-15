@@ -1,21 +1,29 @@
-procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
+procSym<-function(dataarray, pairedLM=NULL, SMvector=NULL, outlines=NULL, orp=TRUE, tol=1e-05, CSinit=TRUE, distfun=c("angle","riemann"), deselect=FALSE, recursive=TRUE, iterations=0, scale=TRUE, sizeshape=FALSE, initproc=FALSE, use.lm=NULL, center.part=FALSE)
 {	t0<-Sys.time()     
 	A<-dataarray
       	k<-dim(A)[1]
       	m<-dim(A)[2]     
       	n<-dim(A)[3]
-        Mir <- rep(1,m)
+        Mir <- rep(1, m)
         Mir[1] <- -1
       	Mir<-diag(Mir)
       	dataslide<-NULL
       	CS<-NULL
+        if (substr(distfun[1], 1L, 1L) == "r")
+            distfun <- kendalldist
+        else
+            distfun <- function(x,y)
+                {
+                    rho <- angle.calc(x,y)$rho
+                    return(rho)
+                }
                                         #pca.used <- prcomp ##select pcamethod
                                         #if (pca.method[1] == "eigen")
                                         #  pca.used <- eigenPCA
         
         if (is.null(SMvector))   
           { 
-            CS<-apply(A,3,cSize)
+            CS<-apply(A, 3, cSize)
           }
                         
         if (!is.null(SMvector))           # includes sliding of Semilandmarks
@@ -89,7 +97,7 @@ procSym<-function(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,t
         
         for (i in 1:n)
           {
-            rho[i]<-angle.calc(proc$rotated[,,i],proc$mshape)$rho
+            rho[i]<-distfun(proc$rotated[,,i],proc$mshape)
           }
         rmsrho <- sqrt(mean(rho^2))
         orpdata<-0

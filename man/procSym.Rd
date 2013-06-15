@@ -10,9 +10,9 @@
     of semi-landmarks on curves/outlines in 2D and 3D.
 }
 \usage{
-procSym(dataarray,pairedLM=NULL,SMvector=NULL,outlines=NULL,orp=TRUE,tol=1e-05,
-CSinit=TRUE,deselect=FALSE,recursive=TRUE,iterations=0,scale=TRUE,
-sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
+procSym(dataarray, pairedLM=NULL, SMvector=NULL, outlines=NULL, orp=TRUE, tol=1e-05, 
+CSinit=TRUE, distfun=c("angle","riemann"), deselect=FALSE, recursive=TRUE, iterations=0, scale=TRUE, 
+sizeshape=FALSE, initproc=FALSE, use.lm=NULL, center.part=FALSE)
 %pca.method=c("svd","eigen"))
 }
 %- maybe also 'usage' for other objects documented here.
@@ -42,6 +42,12 @@ sizeshape=FALSE,initproc=FALSE,use.lm=NULL,center.part=FALSE)
 %%     ~~Describe \code{tol} here~~
 }
   \item{CSinit}{Logical: if TRUE, all configurations are initially scaled to Unit Centroid Size.
+%%     ~~Describe \code{CSinit} here~~
+}
+\item{distfun}{character: "riemann" requests a Riemannian distance for
+  calculating distances to mean, while
+  "angle" uses an approximation by calculating the angle between rotated
+  shapes on the unit sphere.
 %%     ~~Describe \code{CSinit} here~~
 }
   \item{deselect}{Logical: if TRUE, the SMvector is interpreted as those landmarks, that are not allowed to slide.

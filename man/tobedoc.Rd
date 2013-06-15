@@ -12,6 +12,8 @@
 \alias{warpRestrict}
 \alias{mcClosemat}
 \alias{get.obj.size}
+\alias{kendalldist}
+
 %dataset
 \alias{longnose.lm}
 \alias{shortnose.lm}
