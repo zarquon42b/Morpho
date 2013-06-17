@@ -16,12 +16,12 @@ have to be installed.
 }
 \details{
 \tabular{ll}{
-Package: \tab Morpho\cr
-Type: \tab Package\cr
-Version: \tab 0.22.1\cr
-Date: \tab 2013-03-07\cr
-License: \tab GPL\cr
-LazyLoad: \tab yes\cr
+Package: Morpho
+Type: Package
+Version: 0.23.3
+Date: 2013-03-07
+License: GPL
+LazyLoad: yes
 }
 
 }
