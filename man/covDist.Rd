@@ -50,7 +50,7 @@ covPCA(data,groups)
   trajectory of the phenotypic covariance matrix, with examples from
   craniofacial shape in rats and humans. Evolution 63:727-737.
 
-  Hastie T, Tibshirani R, Friedman JJH.  2013. The elements of statistical learning. Springer New York, .
+  Hastie T, Tibshirani R, Friedman JJH.  2013. The elements of statistical learning. Springer New York.
 }
 \author{Stefan Schlager
  
@@ -65,7 +65,8 @@ covPCA(data,groups)
 \examples{
 require(car)
 cpca <- covPCA(iris[,1:4],iris[,5])
-sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),smooth=FALSE,xlim=range(cpca$PCscores),ylim=range(cpca$PCscores))
+sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),
+   smooth=FALSE,xlim=range(cpca$PCscores),ylim=range(cpca$PCscores))
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -18,7 +18,9 @@ closest point or along the normals}
 "100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot =
 TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,method=c("vcglib","morpho"),...)
 
-\method{meshDist}{matrix}(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace = FALSE,...)
+\method{meshDist}{matrix}(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,
+ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),
+radius=NULL,displace = FALSE,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

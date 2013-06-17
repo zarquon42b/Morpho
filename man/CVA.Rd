@@ -9,8 +9,8 @@
 performs a Canonical Variate Analysis.
 }
 \usage{
-CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot =
-TRUE,rounds=0, cv=FALSE, mc.cores=detectCores())
+CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
+rounds=0, cv=FALSE, mc.cores=detectCores())
 %%mc.CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,rounds=10000,cv=TRUE) ### multicore version of CVA (only available on UNIX systems).
 }
 %- maybe also 'usage' for other objects documented here.
@@ -78,18 +78,25 @@ Stefan Schlager
 \code{\link{groupPCA}}
 }
 \examples{
-alldat<-procSym(abind(gorf.dat,gorm.dat))   # perform procrustes fit on raw data
-groups<-as.factor(c(rep("female",30),rep("male",29)))              # create factors
-cvall<-CVA(alldat$orpdata,groups,rounds=1000,mc.cores=2)     # perform CVA and test Mahalanobis distance between groups with permutation test by 1000 rounds)
+# perform procrustes fit on raw data
+alldat<-procSym(abind(gorf.dat,gorm.dat))
+# create factors
+groups<-as.factor(c(rep("female",30),rep("male",29)))
+# perform CVA and test Mahalanobis distance
+# between groups with permutation test by 1000 rounds)            
+cvall<-CVA(alldat$orpdata,groups,rounds=1000,mc.cores=2)     
 
 ### Morpho CVA
 data(iris)
 vari=iris[,1:4]
 facto=iris[,5]
 
-cva.1=CVA(vari, groups=facto,mc.cores=2) #note that the function takes time, to estimate permutations.
+cva.1=CVA(vari, groups=facto,mc.cores=2) #note that the function takes
+time, to estimate permutations.
 # plot the CVA
-plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")),ylab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"\%")))
+plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
+   xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")),
+   ylab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"\%")))
   
   text(cva.1$CVscores, as.character(facto), col=as.numeric(facto), cex=.7)
 
@@ -97,18 +104,22 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste(
   for(jj in 1:length(levels(facto))){
         ii=levels(facto)[jj]
     kk=chull(cva.1$CVscores[facto==ii,1:2])
-        lines(cva.1$CVscores[facto==ii,1][c(kk, kk[1])], cva.1$CVscores[facto==ii,2][c(kk, kk[1])], col=jj)
+    lines(cva.1$CVscores[facto==ii,1][c(kk, kk[1])],
+    cva.1$CVscores[facto==ii,2][c(kk, kk[1])], col=jj)
     }
 
   # add 80% ellipses
   require(car)
   for(ii in 1:length(levels(facto))){
-         dataEllipse(cva.1$CVscores[facto==levels(facto)[ii],1],cva.1$CVscores[facto==levels(facto)[ii],2],
+    dataEllipse(cva.1$CVscores[facto==levels(facto)[ii],1],
+    cva.1$CVscores[facto==levels(facto)[ii],2], 
                     add=TRUE,levels=.80, col=c(1:7)[ii])}
 
   # histogram per group
   require(lattice)
-  histogram(~cva.1$CVscores[,1]|facto, layout=c(1,length(levels(facto))),xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")))
+  histogram(~cva.1$CVscores[,1]|facto,
+  layout=c(1,length(levels(facto))),
+          xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")))
   histogram(~cva.1$CVscores[,2]|facto, layout=c(1,length(levels(facto))),
           xlab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"\%")))
 
@@ -125,8 +136,4 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,xlab=paste(
    # or plot it:
    barplot(cva.1$Var[,2])
  
-
-
-
-
  }

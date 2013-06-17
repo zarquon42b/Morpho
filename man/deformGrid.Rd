@@ -6,7 +6,9 @@ visualise differences between two superimposed sets of 3D landmarks}
   landmarks by deforming a cubic grid based on a thin-plate spline interpolation}
   
 \usage{
-deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1, showaxis = c(1, 2, 3), both = T, lines = TRUE, lcol = 1, add = FALSE, col1 = 2, col2 = 3, type = c("s", "p"))
+deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1, showaxis = c(1, 2,
+3),both = T, lines = TRUE, lcol = 1, add = FALSE, col1 = 2,
+col2 = 3, type = c("s", "p"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

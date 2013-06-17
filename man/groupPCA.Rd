@@ -9,7 +9,8 @@ observations into the eigenspace of this covariance matrix. This
 displays a low dimensional between group structure of a high dimensional problem.
 }
 \usage{
-groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE, mc.cores = detectCores(),weighting=TRUE)
+groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE,
+mc.cores = detectCores(),weighting=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -82,7 +83,8 @@ facto=iris[,5]
 pca.1=groupPCA(vari,groups=facto,rounds=1000,mc.cores=1)
 
 ### plot scores
-scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
+scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,
+        by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

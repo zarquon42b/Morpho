@@ -4,11 +4,12 @@
 \title{correlation between shape space and tangent space
 
 }
-\description{performs a full procrustes superimposition of landmark data and calculates the correaltion between tangent and shape space.
+\description{performs a full procrustes superimposition of landmark data and calculates the correlation between tangent and shape space.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-regdist.raw(dataarray, scale = TRUE, plot = TRUE, main = "", rho = "angle", dist.mat.out = FALSE)
+regdist.raw(dataarray, scale = TRUE, plot = TRUE, main = "", rho =
+"angle", dist.mat.out = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
