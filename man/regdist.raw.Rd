@@ -8,7 +8,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-regdist.raw(dataarray, scale = TRUE, plot = TRUE, main = "", rho =
+regdist.raw(dataarray, scale = FALSE, plot = TRUE, main = "", rho =
 "angle", dist.mat.out = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
