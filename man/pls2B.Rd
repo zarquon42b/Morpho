@@ -7,7 +7,7 @@
 Performs a Two-Block PLS on two sets of data and assesses the
 significance of each score by permutation testing}
 \usage{
-pls2B(y, x, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores())
+pls2B(x, y, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
