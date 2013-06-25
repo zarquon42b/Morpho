@@ -41,6 +41,7 @@ works with 2D and 3D configurations}
 \code{\link{pcaplot3d}}
 }
 \examples{
+library(shapes)
 ##2D example
 plot(gorf.dat[,,1],asp=1)
 lineplot(gorf.dat[,,1],point=c(1,5:2,8:6,1),col=2)

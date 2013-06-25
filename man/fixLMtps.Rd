@@ -50,7 +50,7 @@ fixLMtps(data,comp=3,weight=TRUE)
   \code{\link{proc.weight}},  \code{\link{tps3d}}
 }
 \examples{
-
+library(shapes)
 data <- gorf.dat
 ### set first landmark of first specimen to NA
 data[1,,1] <- NA

@@ -69,7 +69,7 @@ variates and generalized distances Human Evolution 7:49-69.
 Stefan Schlager}
 
 \examples{
-
+library(shapes)
 data <- procSym(gorf.dat)$PCscores[,1:3]
 probas <- typprob(data,data,small=TRUE)### get probability for each specimen
 

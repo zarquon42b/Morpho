@@ -69,6 +69,7 @@ Stefan Schlager}
  \code{\link{svd}}
 }
 \examples{
+library(shapes)
 ### very arbitrary test:
 ### check if first 4 landmarks covaries with the second 4
 proc <- procSym(gorf.dat)

@@ -29,6 +29,7 @@ vecx(x, byrow = FALSE)
   Stefan Schlager}
 
 \examples{
+library(shapes)
 data <- vecx(gorf.dat)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

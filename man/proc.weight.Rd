@@ -51,7 +51,7 @@ proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = F
 }
 
 \examples{
-
+library(shapes)
 proc <- procSym(gorf.dat)
 ##get weights for the the four specimen closest to the first observation.
 weights <- proc.weight(proc$rotated,4,1)

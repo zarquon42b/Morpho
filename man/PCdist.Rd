@@ -38,7 +38,8 @@ PCdist(PCs, PCscores, x = 5, plot.type="b")
 Stefan Schlager}
 
 \examples{
-a<-procSym(gorf.dat)
+library(shapes)
+a <- procSym(gorf.dat)
 PCdist(a$PCs, a$PCscores, x = 2)
 
 }

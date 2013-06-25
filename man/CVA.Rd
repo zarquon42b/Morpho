@@ -78,6 +78,7 @@ Stefan Schlager
 \code{\link{groupPCA}}
 }
 \examples{
+library(shapes)
 # perform procrustes fit on raw data
 alldat<-procSym(abind(gorf.dat,gorm.dat))
 # create factors

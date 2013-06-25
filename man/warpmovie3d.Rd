@@ -113,6 +113,7 @@ warpmovie3d(shortnose.lm,longnose.lm,n=15,movie="matrixmovie")## create 15 image
 ### imagemagick.
 
 ### 2D example
+library(shapes)
 bb <- procSym(gorf.dat)
 ### morph superimposed first specimen onto sample mean
 warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")

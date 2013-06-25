@@ -33,6 +33,7 @@ Stefan Schlager
 \code{\link{prcomp}}, \code{\link{procSym}}
 }
 \examples{
+library(shapes)
 ## generate landmarks using
 ##the first PC-score of the first specimen
 
