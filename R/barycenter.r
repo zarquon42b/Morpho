@@ -8,6 +8,6 @@ barycenter <- function(mesh)
     bary <- matrix(0,nit,3)
     storage.mode(bary) <- "double"
 
-    out <- .Fortran("barycenter",vb,nvb,it,nit,bary)[[5]]
+    out <- .Fortran("barycenter",vb,nvb,it,nit,bary,PACKAGE="Morpho")[[5]]
     return(out)
   }
