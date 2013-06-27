@@ -10,7 +10,6 @@ mesh2grey(mesh)
 }
 \arguments{
   \item{mesh}{Object of class mesh3d 
-%%     ~~Describe \code{mesh} here~~
 }
 }
 

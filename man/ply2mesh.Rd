@@ -2,7 +2,6 @@
 \alias{ply2mesh}
 \alias{obj2mesh}
 \alias{file2mesh}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Import 3D surface mesh files
 }
@@ -14,36 +13,24 @@ ply2mesh(filename, adnormals = TRUE,readnormals = FALSE,readcol=FALSE)
 obj2mesh(filename, adnormals = TRUE)
 file2mesh(filename, clean = TRUE,readcol=FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{filename}{character: path to file
-%%     ~~Describe \code{filename} here~~
 }
   \item{adnormals}{Logical: If the file does not contain normal information, they will be calculated in R: Can take some time.
-%%     ~~Describe \code{adnormals} here~~
 }
 \item{readnormals}{Logical: Import vertex normals (if available), although no face information is present.
-%%     ~~Describe \code{adnormals} here~~
 }
 \item{readcol}{Logical: Import vertex colors (if available).
-%%     ~~Describe \code{adnormals} here~~
 }
 \item{clean}{Logical: Delete dumpfiles.
-%%     ~~Describe \code{adnormals} here~~
 }
 }
 \details{
 file2mesh needs the command line tool ply2ascii from the Auxiliaries section in \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/} installed.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
 \item{mesh }{list of class mesh3d - see rgl manual for further details, or a matrix containing vertex information or a list containing vertex and normal information}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

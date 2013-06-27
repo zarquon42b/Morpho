@@ -1,6 +1,5 @@
 \name{pls2B}
 \alias{pls2B}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Two-Block partial least square regression.
 }
 \description{
@@ -9,27 +8,21 @@ significance of each score by permutation testing}
 \usage{
 pls2B(x, y, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores())
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{y}{array containing superimposed landmark data of the first
     block. Matrices are also allowed but the option 'same.config' will
     not work.
-%%     ~~Describe \code{y} here~~
 }
   \item{x}{array containing superimposed landmark data second block.Matrices are also allowed but the option 'same.config' will
     not work.
-%%     ~~Describe \code{x} here~~
 }
   \item{tol}{threshold for discarding singular values.
-%%     ~~Describe \code{tol} here~~
 }
  \item{same.config}{logical: if TRUE each permutation includes new
    superimposition of permuted landmarks. This is necessary if both
    blocks originate from landmarks that are superimposed together.
-%%     ~~Describe \code{tol} here~~
 }
   \item{rounds}{rounds of permutation testing.
-%%     ~~Describe \code{rounds} here~~
 }
   \item{mc.cores}{integer: determines how many cores to use for the computation. The default is autodetect. But in case, it doesn't work as expected cores can be set manually. Parallel processing is disabled on Windows due to occasional errors. 
 
@@ -43,7 +36,6 @@ pls2B(x, y, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores()
   requests superimposition of the permuted configurations (i.e. where
   the the landmarks of block x are replaced by corresponding landmarks
   of other specimen.
-%%  ~~ If necessary, more details than the description above ~~
 }
 \value{
 
@@ -52,8 +44,6 @@ pls2B(x, y, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores()
   \item{Yscores }{PLS-scores of y}
    \item{CoVar }{Dataframe containing singular values, explained
   covariation, correlation coeffictient between PLS-scores and p-values.}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
 }
 \references{Rohlf FJ, Corti M. 2000. Use of two-block partial least-squares to study covariation in shape. Systematic Biology 49:740-753.
 
@@ -63,7 +53,6 @@ pls2B(x, y, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores()
 Stefan Schlager}
 
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
  \code{\link{svd}}
@@ -82,7 +71,4 @@ for(i in 1:4)
 
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{dynamic}
-%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

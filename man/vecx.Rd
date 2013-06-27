@@ -1,6 +1,5 @@
 \name{vecx}
 \alias{vecx}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{convert an 3D array into a matrix
 }
 \description{converts a 3D-array (e.g. containing landmark coordinates)
@@ -9,7 +8,6 @@
 \usage{
 vecx(x, byrow = FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{array
     %%     ~~Describe \code{x} here~~
@@ -32,7 +30,5 @@ vecx(x, byrow = FALSE)
 library(shapes)
 data <- vecx(gorf.dat)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

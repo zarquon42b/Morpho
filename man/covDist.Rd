@@ -1,7 +1,6 @@
 \name{covDist}
 \alias{covPCA}
 \alias{covDist}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   calculate distances and PC-coordinates of covariance matrices
 }
@@ -13,7 +12,6 @@
 covDist(s1, s2)
 covPCA(data,groups)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{s1}{m x m covariance matrix 
     %%     ~~Describe \code{s1} here~~
@@ -57,7 +55,6 @@ covPCA(data,groups)
 }
 
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
   \code{\link{prcomp}}
@@ -69,7 +66,5 @@ sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),
    smooth=FALSE,xlim=range(cpca$PCscores),ylim=range(cpca$PCscores))
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -3,7 +3,6 @@
 \alias{rotaxis3d.matrix}
 \alias{rotaxis3d.mesh3d}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Rotate an object around an arbitrary axis in 3D}
 \description{
@@ -15,7 +14,6 @@ by two points.
 \method{rotaxis3d}{mesh3d}(x, pt1, pt2 = c(0, 0, 0), theta)
 
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{k x 3 matrix containing 3D-coordinates or a triangular mesh
     of class "mesh3d".
@@ -55,7 +53,5 @@ shade3d(shrot.rot,col=2)
 
 lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

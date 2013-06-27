@@ -13,33 +13,25 @@
 permuvec(data, groups, subgroups, rounds = 10000, scale = TRUE, tol =
  1e-10, mc.cores=detectCores())
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{array or matrix containing data.
-%%     ~~Describe \code{data} here~~
 }
   \item{groups}{factors of firs two grouping variables.
-%%     ~~Describe \code{groups} here~~
 }
   \item{subgroups}{factors of the subgrouping.
-%%     ~~Describe \code{subgroups} here~~
 }
   \item{rounds}{number of requested permutation rounds
-%%     ~~Describe \code{rounds} here~~
 }
   \item{scale}{if TRUE: data will be scaled by pooled within group
  covarivance matrix. Otherwise Euclidean distance will be used for
  calculating distances.
-%%     ~~Describe \code{scale} here~~
 }
   \item{tol}{threshold for inverting covariance matrix.
-%%     ~~Describe \code{tol} here~~
 }
 \item{mc.cores}{integer: determines how many cores to use for the computation. The default
   is autodetect. But in case, it doesn't work as expected cores can be
   set manually.Parallel processing is disabled on
     Windows due to occasional errors.
-%%     ~~Describe \code{initproc} here~~
 }
 }
 \details{
@@ -47,8 +39,6 @@ This function calculates  means of all four subgroups and compares the
  residual vectors of the major grouping variables by angle and distance. 
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
   \item{angle }{angle between the vectors of the subgroups means}
   \item{dist }{ditances between subgroups }
   \item{meanvec }{matrix containing the means of all four subgroups.}
@@ -58,11 +48,7 @@ This function calculates  means of all four subgroups and compares the
   \item{p.dist }{p-value of length difference between residual vectors.}
   \item{subdist }{length of residual vectors connecting the subgroups means.}
 
-%% ...
-%% ...
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

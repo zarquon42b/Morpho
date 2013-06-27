@@ -1,6 +1,5 @@
 \name{warp.mesh}
 \alias{warp.mesh}
-%- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{
 warping a mesh onto another configuration

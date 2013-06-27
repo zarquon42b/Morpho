@@ -8,10 +8,8 @@
 \usage{
 covW(data, groups)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{a matrix containing data
-%%     ~~Describe \code{data} here~~
 }
   \item{groups}{grouping variables.
 

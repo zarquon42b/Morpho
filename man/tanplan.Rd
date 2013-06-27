@@ -2,7 +2,6 @@
 \alias{tanplan}
 \alias{crossp}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 calculate the orthogonal complement of a 3D-vector}
 \description{
@@ -14,7 +13,6 @@ tanplan(x)
 crossp(x,y)
 
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{vector of length 3.
   }

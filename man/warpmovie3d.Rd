@@ -4,7 +4,6 @@
 \alias{warpmovie3d}
 \alias{warpmovie2d}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Creates a sequence of images showing predefined steps of warping two 
 meshes or landmark configurations (2D and 3D) into each other}
@@ -25,32 +24,23 @@ NULL,movie="warpmovie", links=NULL, lwd=1, imagedim = "800x800",
 par=list(xaxt="n", yaxt="n", bty="n"),...)
 }
 
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{mesh to start with (object of class mesh3d)
-%%     ~~Describe \code{x} here~~
 }
   \item{y}{resulting mesh (object of class mesh3d), having the same
     amount of vertices and faces than the starting mesh
-%%     ~~Describe \code{y} here~~
 }
   \item{n}{integer: amount of intermediate steps.
-%%     ~~Describe \code{n} here~~
 }
   \item{col}{color of the mesh
-%%     ~~Describe \code{col} here~~
 }
   \item{palindrome}{logical: if TRUE, the procedure will go forth and back.
-%%     ~~Describe \code{palindrome} here~~
 }
   \item{folder}{character: output folder for created images (optional)
-%%     ~~Describe \code{folder} here~~
 }
   \item{movie}{character: name of the output files
-%%     ~~Describe \code{movie} here~~
 }
 \item{add}{logical: if TRUE, the movie will be added to the focussed rgl-windows.
-%%     ~~Describe \code{add} here~~
 } 
   \item{close}{logical: if TRUE, the rgl window will be closed when finished.
     width and 200 the height of the image.
@@ -62,11 +52,9 @@ par=list(xaxt="n", yaxt="n", bty="n"),...)
     
   }
 \item{radius}{numeric: define size of spheres (overides atuomatic size estimation).
-%%     ~~Describe \code{add} here~~
 } 
 \item{links}{vector or list of vectors containing wireframe information
   to connect landmarks (optional).
-%%     ~~Describe \code{add} here~~
 }
 \item{lwd}{numeric: controls width of lines defined by "links".
   %%     ~~Describe \code{add} here~~
@@ -80,7 +68,6 @@ par=list(xaxt="n", yaxt="n", bty="n"),...)
   }
 \item{\dots}{additional arguments passed to \code{\link{shade3d}} (3D)
  or \code{\link{points}} (2D).
-%%     ~~Describe \code{add} here~~
 }
 }
 \details{A series of png files will be saved to disk. These can be
@@ -119,7 +106,5 @@ bb <- procSym(gorf.dat)
 warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

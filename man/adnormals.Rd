@@ -11,10 +11,8 @@ facenormals(x)
 }
 \arguments{
   \item{x}{triangular mesh of class "mesh3d"
-%%     ~~Describe \code{x} here~~
 }
   \item{angle}{logical: if TRUE, angle weighted normals are used.
-%%     ~~Describe \code{angle} here~~
 }
 }
 
@@ -58,7 +56,5 @@ wire3d(shortnose.mesh)
 
   }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -1,6 +1,5 @@
 \name{closemeshKD}
 \alias{closemeshKD}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Project coordinates onto a target triangular surface mesh.
 }
 
@@ -10,7 +9,6 @@
 \usage{
 closemeshKD(x, mesh, k = 50, sign = FALSE, cores = detectCores(), method = 0, ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{k x 3 matrix containing 3D-coordinates or object of class "mesh3d".
 
@@ -19,7 +17,6 @@ closemeshKD(x, mesh, k = 50, sign = FALSE, cores = detectCores(), method = 0, ..
 }
   \item{k}{neighbourhood of kd-tree to search - the larger, the slower -
   but the more likely the absolutely closest point is hit.
-%%     ~~Describe \code{k} here~~
 }
   \item{sign}{logical: if TRUE, signed distances are returned.
 }
@@ -70,7 +67,5 @@ out <- closemeshKD(longnose.lm,shortnose.mesh,sign=TRUE)
 ###longnose.lm is scaled to unit centroid size.
 hist(out$quality)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

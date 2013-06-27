@@ -5,10 +5,8 @@
 \alias{render}
 \alias{export}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   plot or save the results of meshDist 
-%%  ~~function to do ... ~~
 }
 \description{  Visualise or save the results of meshDist to disk. 
 }
@@ -23,7 +21,6 @@ uprange=NULL, tol=NULL, displace = FALSE, shade = TRUE, sign=NULL,...)
 \method{export}{meshDist}(x,file="default",imagedim="100x800",...)
 
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{object of class meshDist
   }
@@ -83,7 +80,5 @@ Stefan Schlager}
 
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

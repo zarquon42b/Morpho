@@ -11,10 +11,8 @@ rotaxisMat(u, theta)
 }
 \arguments{
   \item{u}{a vector around which to rotate
-%%     ~~Describe \code{u} here~~
 }
   \item{theta}{angle in radians to rotate
-%%     ~~Describe \code{theta} here~~
 }
 }
 
@@ -29,7 +27,5 @@ rotaxisMat(u, theta)
 \code{\link{rotaxis3d}}
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

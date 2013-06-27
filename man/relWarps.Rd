@@ -9,13 +9,10 @@ After Procrustes registration the data is scaled by the bending energy
 \usage{
 relWarps(data, scale = TRUE, CSinit = TRUE, alpha = 1, tol = 1e-10, orp = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
-%%     ~~Describe \code{data} here~~
 }
   \item{scale}{Logical: indicating if scaling is requested
-%%     ~~Describe \code{scale} here~~
 }
   \item{CSinit}{Logical: if TRUE, all configurations are initially scaled to Unit Centroid Size.
 
@@ -26,13 +23,10 @@ relWarps(data, scale = TRUE, CSinit = TRUE, alpha = 1, tol = 1e-10, orp = TRUE)
     to be zero
 }
   \item{orp}{logical: request orthogonal projection into tangent space.
-%%     ~~Describe \code{orp} here~~
 }
 }
 
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
 \item{bescores }{relative warp scores}
 \item{uniscores }{uniform scores}
 \item{Var }{non-affine variation explained by each relative warp}
@@ -48,13 +42,9 @@ Bookstein FL, 1991. Morphometric tools for landmark data. Geometry and
 biology. Cambridge Univ. Press, Cambridge.
 
 Rohlf FJ,  Bookstein FL 2003. Computing the Uniform Component of Shape Variation. Systematic Biology 52:66-69.
-%% ~put references to the literature/web site here ~
 }
 \author{Stefan Schlager
-%%  ~~who you are~~
 }
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

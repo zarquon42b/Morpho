@@ -31,9 +31,7 @@
 \alias{projBack}
 \alias{mcNNindex}
 \alias{write.obj}
-%to be moved to other packages
 
-%copies from shapes package
 \alias{scaleproc}
 \alias{gdif}
 \alias{addo}

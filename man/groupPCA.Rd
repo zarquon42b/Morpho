@@ -1,6 +1,5 @@
 \name{groupPCA}
 \alias{groupPCA}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Perform PCA based of the group means' covariance matrix}
 \description{
@@ -12,12 +11,10 @@ displays a low dimensional between group structure of a high dimensional problem
 groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE,
 mc.cores = detectCores(),weighting=TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataarray}{Either a k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Or alternatively a n x m Matrix where n is the numeber of observations and m the number of variables (this can be PC scores for example)
 }
   \item{groups}{a chracter/factor vector or a list of numeric vectors containing either the positions in an array or the rows of the matrix of the observations belonging to the same group)
-%%     ~~Describe \code{groups} here~~
 }
   \item{rounds}{integer: number of permutations if a permutation test of the euclidean distance between group means is requested.If rounds = 0, no test is performed.
 }
@@ -25,24 +22,19 @@ mc.cores = detectCores(),weighting=TRUE)
     %%     ~~Describe \code{tol} here~~
     \item{cv}{logical: requests leaving-one-out crossvalidation
     
-%%     ~~Describe \code{cores} here~~
 }
 
   \item{mc.cores}{integer: how many cores of the Computer are allowed to be
     used. Default is use autodetection by using detectCores()
     from the parallel package. Parallel processing is disabled on
     Windows due to occasional errors.
-%%     ~~Describe \code{cores} here~~
 }
  \item{weighting}{logical:weight between groups covariance matrix
     according to group sizes.
-%%     ~~Describe \code{cores} here~~
 }
 }
 
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
   \item{eigenvalues }{Non-zero eigenvalues of the groupmean covariance matrix.}
   \item{groupPCs }{PC-axes - i.e. eigenvectors of the groupmean covariance matrix. }
   \item{Variance}{table displaying the variance explained by eache eigenvalue. }
@@ -70,7 +62,6 @@ Boulesteix, A. L. 2005: A note on between-group PCA, International Journal of Pu
 Stefan Schlager}
 
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
  \code{\link{CVA}}, ~~~
@@ -87,7 +78,5 @@ scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,
         by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

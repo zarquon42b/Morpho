@@ -1,7 +1,6 @@
 \name{procSym}
 \alias{procSym}
 
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{Procrustes registration
   
 }
@@ -14,67 +13,51 @@ procSym(dataarray, pairedLM=NULL, SMvector=NULL, outlines=NULL, orp=TRUE, tol=1e
 CSinit=TRUE, distfun=c("angle","riemann"), deselect=FALSE,
 recursive=TRUE,iterations=0, scale=TRUE, 
 sizeshape=FALSE, initproc=FALSE, use.lm=NULL, center.part=FALSE)
-%pca.method=c("svd","eigen"))
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataarray}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
-%%     ~~Describe \code{dataarray} here~~
 }
   \item{pairedLM}{A X x 2 matrix containing the indices (rownumbers) of
     the paired LM. E.g. the left column contains the lefthand landmarks, 
                   while the right side contains the corresponding right hand landmarks.
-%%     ~~Describe \code{pairedLM} here~~
 }
   \item{SMvector}{A vector containing the landmarks on the curve(s) that are allowed to slide
-%%     ~~Describe \code{SMvector} here~~
 }
   \item{outlines}{A vector (or if threre are several curves) a list of
     vectors (containing the rowindices) of the (Semi-)landmarks forming
     the curve(s) in the successive position on the curve - including the
     beginning and end points, that are not allowed to slide.
-%%     ~~Describe \code{outlines} here~~
 }
   \item{orp}{Logical: if TRUE, an orthogonal projection into
  tangent space is performed.
-%%     ~~Describe \code{orp} here~~
 }
   \item{tol}{numeric: Threshold for convergence in the sliding process
-%%     ~~Describe \code{tol} here~~
 }
   \item{CSinit}{Logical: if TRUE, all configurations are initially scaled to Unit Centroid Size.
-%%     ~~Describe \code{CSinit} here~~
 }
 \item{distfun}{character: "riemann" requests a Riemannian distance for
   calculating distances to mean, while
   "angle" uses an approximation by calculating the angle between rotated
   shapes on the unit sphere.
-%%     ~~Describe \code{CSinit} here~~
 }
   \item{deselect}{Logical: if TRUE, the SMvector is interpreted as those landmarks, that are not allowed to slide.
-%%     ~~Describe \code{deselect} here~~
 }
   \item{recursive}{Logical: if TRUE, during the iterations of the
     sliding process, the outcome of the previous iteration will be used. 
                     Otherwise the original configuration will be used in all iterations. 
-%%     ~~Describe \code{recursive} here~~
 }
   \item{iterations}{integer: select manually how many iterations will be performed during the sliding process 
                     (usefull, when there is very slow convergence). 
                               0 means iteration until convergence.
-%%     ~~Describe \code{iterations} here~~
 }
   \item{scale}{Logical: indicating if scaling is requested
-%%     ~~Describe \code{scale} here~~
 }
   \item{sizeshape}{Logical: if TRUE, a log transformed variable of
     Centroid Size will be added to the shapedata as first variable before performing the PCA. 
-%%     ~~Describe \code{reflect} here~~
 }
 
   \item{initproc}{Logical: indicating if the first Relaxation step is performed against the mean of an initial Procrustes superimposition. 
                   Symmetrical configurations will be relaxed against a perfectly symmetrical mean.
-%%     ~~Describe \code{initproc} here~~
 }
  \item{use.lm}{vector of integers to define a subset of landmarks to be used for Procrustes registration-
 
@@ -85,11 +68,6 @@ sizeshape=FALSE, initproc=FALSE, use.lm=NULL, center.part=FALSE)
   avoid erroneous projection into tangent space.
 
 }
-% \item{pca.used}{character: if "svd" the routine \code{\link{prcomp}} is
-%called to do the subsequent PCA; otherwise the PCA is determined by an
-% eigendecomposition (written by me) to avoid the infamous error "La.svd(x, nu, nv) : error code 1 from Lapack routine 'dgesdd'".
-%
-%}
 }
 
 \value{
@@ -149,7 +127,5 @@ slid landmarks back onto 3D-surface representations, the usage of
 }
   
 
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

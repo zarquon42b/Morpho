@@ -11,11 +11,6 @@
 predefined colors for bone and skin}
 \description{predefined colors for bone and skin
 }
-%%\usage{data(#E4D1C0)}
-%%\format{
-%%  The format is:
-%% chr "#E4D1C0"
-%%}
 \details{available colors are:
 
   bone1
@@ -32,10 +27,5 @@ predefined colors for bone and skin}
   
   skin4
   
-%%  ~~ If necessary, more details than the __description__ above ~~
 }
-%\examples{
-%data(#E4D1C0)
-%## maybe str(#E4D1C0) ; plot(#E4D1C0) ...
-%}
 \keyword{datasets}

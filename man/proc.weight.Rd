@@ -11,29 +11,22 @@ by similarity.
 \usage{
 proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = FALSE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{array containing landmark configurations
 
 }
   \item{number}{integer: how many of the neighbours are to be involved.
-%%     ~~Describe \code{number} here~~
 }
   \item{ref}{integer: position in the array that is used as reference.
-%%     ~~Describe \code{ref} here~~
 }
  \item{report}{logical: require report about name of the reference.
-%%     ~~Describe \code{ref} here~~
 }
 \item{reg}{numeric: regularise mahalanobis distance by adding reg to the
   diagonal of eigenvalues of the covariance matrix.
-%%     ~~Describe \code{ref} here~~
 }
 \item{log}{logical: use the logarithm of the distances.
-%%     ~~Describe \code{ref} here~~
 }
 \item{mahalanobis}{logical: use mahalanobis distance.
-%%     ~~Describe \code{ref} here~~
 }
 }
 \details{distances of zero will get a weight of 1e12 (this is scaled to
@@ -42,12 +35,9 @@ proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = F
 
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
 \item{data }{dataframe containing id, procrustes/mahalanobis distance and weight according to the reference}
 \item{reference }{returns observations' names if available}
 \item{rho.all }{dataframe containing distances to references of all observations}
-%% ...
 }
 
 \examples{

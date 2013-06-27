@@ -11,14 +11,8 @@
 \alias{deform.grid}
 \alias{mc.permuvec}
 
-%\alias{}
-%\alias{}
-%\alias{}
 
-%curvature
-%\alias{mesh2ply2}
 
-%\alias{groupPCAcrova}
 
 \title{
 deprecated functions of Morpho}

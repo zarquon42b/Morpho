@@ -9,14 +9,11 @@ showPC(scores, PC, mshape)
 }
 \arguments{
   \item{scores}{vector of PC-scores
-%%     ~~Describe \code{scores} here~~
 }
   \item{PC}{Principal components (eigenvectors of the covariance matrix)
     associated with 'scores'.
-%%     ~~Describe \code{PC} here~~
 }
   \item{mshape}{meanshape (that was used to center the data by the PCA)
-%%     ~~Describe \code{mshape} here~~
 }
 }
 \details{Rotates and translates PC-scores derived from shape data back
@@ -45,7 +42,5 @@ plot(lm,asp=1)
 lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 points(lm2,col=2)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
