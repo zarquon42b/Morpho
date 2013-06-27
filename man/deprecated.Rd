@@ -10,7 +10,7 @@
 \alias{c.size}
 \alias{deform.grid}
 \alias{mc.permuvec}
-
+\alias{regdist.raw}
 
 
 

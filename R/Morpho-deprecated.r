@@ -28,3 +28,8 @@ deform.grid <-function (...)
   .Deprecated("deformGrid3d", package="Morpho")
   deformGrid3d(...)
 }
+regdist.raw <-function (...)
+{
+  .Deprecated("regdist", package="Morpho")
+  regdist(...)
+}

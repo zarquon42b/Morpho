@@ -1,13 +1,13 @@
-\name{regdist.raw}
+\name{regdist}
 \alias{regdist}
-\alias{regdist.raw}
+
 \title{correlation between shape space and tangent space
 
 }
-\description{performs a full procrustes superimposition of landmark data and calculates the correlation between tangent and shape space.
+\description{performs a partial Procrustes superimposition of landmark data and calculates the correlation between tangent and shape space.
 }
 \usage{
-regdist.raw(dataarray, plot = TRUE, main = "", rho =
+regdist(dataarray, plot = TRUE, main = "", rho =
 "angle", dist.mat.out = FALSE)
 }
 \arguments{
