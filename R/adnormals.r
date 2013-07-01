@@ -21,9 +21,9 @@ adnormals<- function(x,angle=TRUE)
     out<-.Fortran("adnormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals,angle)$normals
 	
 
-  normals <- out#/out[4,]
-
-  x$normals <- normals
+        normals <- out#/out[4,]
+        normals[4,] <- 1
+        x$normals <- normals
   return(x)
 }
 facenormals<- function(x) 
