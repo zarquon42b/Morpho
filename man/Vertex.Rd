@@ -9,15 +9,18 @@
 remove (unreferenced vertices from triangular meshes)}
 \usage{
 unrefVertex(mesh)
-rmVertex(mesh,index)
+rmVertex(mesh, index, keep=FALSE)
 vert2points(mesh)
 rmUnrefVertex(mesh)
 
 }
 \arguments{
-  \item{mesh}{triangular mesh of class "mesh3d".
+  \item{mesh }{triangular mesh of class "mesh3d".
   }
-  \item{index}{vector containing indices of vertices to be removed.
+  \item{index }{vector containing indices of vertices to be removed.
+  }
+  item{keep }{logical: if TRUE, the vertices specified by 'index' are
+    kept and the rest is removed.
 }
 }
 \value{unrefVertex: vector with indices of unreferenced vertices.

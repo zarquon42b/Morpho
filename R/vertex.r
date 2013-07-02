@@ -6,18 +6,20 @@ unrefVertex <- function(mesh)
     return(unref)
   }
 
-rmVertex <- function(mesh,index)
+rmVertex <- function(mesh,index,keep=FALSE)
   {
-     it <- mesh$it
+      if (! keep)
+          {
+      it <- mesh$it
      
-    itdim <- dim(it)
-    lRm <- length(index)
+      itdim <- dim(it)
+      lRm <- length(index)
    
-    vbn <- dim(mesh$vb)[2]
-    indOrig <-  1:vbn
-    indOut <- indOrig*0
-    indNew <- 1:(vbn-lRm)     
-    indOut[-index] <- indNew
+      vbn <- dim(mesh$vb)[2]
+      indOrig <-  1:vbn
+      indOut <- indOrig*0
+      indNew <- 1:(vbn-lRm)     
+      indOut[-index] <- indNew
 #print(indOut)
     
     facefun <- function(x)
@@ -49,9 +51,12 @@ rmVertex <- function(mesh,index)
          }
       }
       
-    mesh$vb <- mesh$vb[,-index]
-    mesh <- adnormals(mesh)
-return(mesh)
+      mesh$vb <- mesh$vb[,-index]
+      mesh <- adnormals(mesh)
+  }
+      else
+          mesh <- rmVertex(mesh,c(1:ncol(mesh$vb))[-sort(index)])
+      return(mesh)
 
   }
 vert2points <- function(mesh)
