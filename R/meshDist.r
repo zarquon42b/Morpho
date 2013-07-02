@@ -1,6 +1,6 @@
 meshDist <- function(x,...) UseMethod("meshDist")
 
-meshDist.mesh3d <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,file="default",imagedim="100x800",uprange=1,ray=FALSE,raytol=50,save=FALSE,plot=TRUE,sign=TRUE,tol=NULL,displace=FALSE,shade=TRUE,method=c("vcglib","morpho"),...)
+meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("morpho", "vcglib"), ...)
   {
     method=substring(method[1],1L,1L)
     neg=FALSE
