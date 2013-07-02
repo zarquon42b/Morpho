@@ -29,7 +29,7 @@ closemat <- function(matr,mesh,sign=FALSE)
     return(out)
   }
 
-closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=detectCores(),method=0,...)
+closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=1,method=0,...)
   {
 
     if(.Platform$OS.type == "windows")

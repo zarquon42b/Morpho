@@ -7,7 +7,7 @@
   surface are determined and normals at as well as distances to that point are calculated. 
 }
 \usage{
-closemeshKD(x, mesh, k = 50, sign = FALSE, cores = detectCores(), method = 0, ...)
+closemeshKD(x, mesh, k = 50, sign = FALSE, cores = 1, method = 0, ...)
 }
 \arguments{
   \item{x}{k x 3 matrix containing 3D-coordinates or object of class "mesh3d".
