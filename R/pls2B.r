@@ -51,7 +51,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=detectC
         y.sample <- sample(x.sample)
         if (same.config && landmarks)
           {
-           tmparr <- bindArr(xorig[,,x.sample],yorig[,,y.sample],along=1)
+           tmparr <- .bindArr2(xorig[,,x.sample],yorig[,,y.sample],along=1)
            tmpproc <- ProcGPA(tmparr,silent=TRUE)
            x1 <- vecx(tmpproc$rotated[1:dim(xorig)[1],,])
            y1 <- vecx(tmpproc$rotated[1:dim(yorig)[1],,])

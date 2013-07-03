@@ -7,7 +7,6 @@
         xdim <- dim(x)
         ydim <- dim(y)
         newalong <- xdim[along]+ydim[along]
-        print(newalong)
         if (along %in% 1:2)
             {
                 if (along == 1)
@@ -40,7 +39,7 @@ bindArr <- function(...,along=1)
         if (argc > 2)
             {
                 for (i in 3:argc)
-                    newarr <- bindArr2(newarr, args[[i]],along=along)
+                    newarr <- .bindArr2(newarr, args[[i]],along=along)
             }
         return(newarr)
     }
