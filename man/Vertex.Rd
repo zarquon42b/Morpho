@@ -19,7 +19,7 @@ rmUnrefVertex(mesh)
   }
   \item{index }{vector containing indices of vertices to be removed.
   }
-  item{keep }{logical: if TRUE, the vertices specified by 'index' are
+  \item{keep }{logical: if TRUE, the vertices specified by 'index' are
     kept and the rest is removed.
 }
 }

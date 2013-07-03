@@ -32,6 +32,7 @@ qqmat(x, output = FALSE, square = TRUE)
  \code{\link{qqplot}}
 }
 \examples{
+require(MASS)
 ### create normally distributed data
 data <- mvrnorm(100,mu=rep(0,5),Sigma = diag(5:1))
 qqmat(data)
