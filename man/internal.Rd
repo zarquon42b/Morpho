@@ -2,7 +2,6 @@
 \alias{ang}
 \alias{angle.calc}
 \alias{barycenter}
-\alias{bindArr}
 \alias{calcGamma}
 \alias{calcTang_U_s}
 \alias{calcTang_U}
