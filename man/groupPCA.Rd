@@ -19,7 +19,7 @@ mc.cores = detectCores(),weighting=TRUE)
   \item{rounds}{integer: number of permutations if a permutation test of the euclidean distance between group means is requested.If rounds = 0, no test is performed.
 }
   \item{tol}{threshold to ignore eigenvalues of the covariance matrix.}
-    %%     ~~Describe \code{tol} here~~
+    
     \item{cv}{logical: requests leaving-one-out crossvalidation
     
 }
@@ -79,4 +79,4 @@ scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,
 
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

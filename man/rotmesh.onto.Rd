@@ -38,4 +38,4 @@ rotmesh.onto(mesh, refmat, tarmat,adnormals = TRUE, scale = FALSE
 \seealso{\code{\link{file2mesh}},\code{\link{warp.mesh}} ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

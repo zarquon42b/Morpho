@@ -42,4 +42,4 @@ data1 <- rchisq(100,df=3)
 qqmat(data1,square=FALSE)
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

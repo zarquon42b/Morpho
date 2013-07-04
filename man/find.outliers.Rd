@@ -48,4 +48,4 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis=FALSE, PCuse=NULL)
 }
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

@@ -47,4 +47,4 @@ Rohlf FJ,  Bookstein FL 2003. Computing the Uniform Component of Shape Variation
 }
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

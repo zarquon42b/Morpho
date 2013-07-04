@@ -10,12 +10,12 @@ vecx(x, byrow = FALSE)
 }
 \arguments{
   \item{x}{array
-    %%     ~~Describe \code{x} here~~
+    
   }
   \item{byrow}{logical: if TRUE, the resulting vector for each specimen
     will be x1,y1,z1,x2,y2,z2,..., and
     x1,x2,...,y1,y2,...,z1,z2,... otherwise (default)
-    %%     ~~Describe \code{byrow} here~~
+    
   }
 }
 
@@ -31,4 +31,4 @@ library(shapes)
 data <- vecx(gorf.dat)
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

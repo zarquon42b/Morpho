@@ -126,4 +126,4 @@ meshDist(warpnose.long, shortnose.mesh, sign=TRUE, tol=0.01, method="m")
 
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

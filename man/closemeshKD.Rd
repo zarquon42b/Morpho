@@ -68,4 +68,4 @@ out <- closemeshKD(longnose.lm,shortnose.mesh,sign=TRUE)
 hist(out$quality)
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

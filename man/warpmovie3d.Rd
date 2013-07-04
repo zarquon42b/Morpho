@@ -57,7 +57,7 @@ par=list(xaxt="n", yaxt="n", bty="n"),...)
   to connect landmarks (optional).
 }
 \item{lwd}{numeric: controls width of lines defined by "links".
-  %%     ~~Describe \code{add} here~~
+  
   
 }
  \item{imagedim}{character of pattern "100x200" where 100 determines the
@@ -107,4 +107,4 @@ warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x
 
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

@@ -81,4 +81,4 @@ Stefan Schlager}
 }
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

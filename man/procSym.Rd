@@ -128,4 +128,4 @@ slid landmarks back onto 3D-surface representations, the usage of
   
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

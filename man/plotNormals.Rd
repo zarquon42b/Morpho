@@ -31,4 +31,4 @@ plotNormals(shortnose.mesh,col=4,long=0.01)
 
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

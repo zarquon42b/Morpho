@@ -17,7 +17,7 @@ sep = FALSE)
   \item{x}{vector or matrix of data the probability is to be calculated.
   }
   \item{data}{Reference data set.
-    %%     ~~Describe \code{data} here~~
+    
   }
   \item{groups}{vector containing grouping information.
   }
@@ -99,4 +99,4 @@ prop.table(ct1, 1)
 }
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

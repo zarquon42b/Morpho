@@ -54,4 +54,4 @@ shade3d(shrot.rot,col=2)
 lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

@@ -52,4 +52,4 @@ infos$pop.sex <- name2factor(data,which=2:3)
 
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

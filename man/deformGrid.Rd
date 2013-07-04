@@ -53,4 +53,4 @@ deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 }
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

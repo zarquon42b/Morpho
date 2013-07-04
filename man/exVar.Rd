@@ -52,4 +52,4 @@ lm1 <- lm(as.matrix(iris[,1:4]) ~ iris[,5])
 exVar(lm1)
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

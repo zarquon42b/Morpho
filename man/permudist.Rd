@@ -36,4 +36,4 @@ permudist(data, groups, rounds = 1000, which = 1:2, mc.cores = detectCores())
 }
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

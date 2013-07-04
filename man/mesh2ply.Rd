@@ -44,5 +44,5 @@ shade3d(cube,col=3) ## view the green cube
 mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }
 

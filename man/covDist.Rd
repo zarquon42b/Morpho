@@ -14,16 +14,16 @@ covPCA(data,groups)
 }
 \arguments{
   \item{s1}{m x m covariance matrix 
-    %%     ~~Describe \code{s1} here~~
+    
   }
   \item{s2}{m x m covariance matrix 
-    %%     ~~Describe \code{s2} here~~
+    
   }
   \item{data}{matrix containing data with one row per observation.
-    %%     ~~Describe \code{s2} here~~
+    
   }
   \item{groups}{factor: group assignment for each specimen.
-    %%     ~~Describe \code{s2} here~~
+    
   }
 
 }
@@ -67,4 +67,4 @@ sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),
 
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

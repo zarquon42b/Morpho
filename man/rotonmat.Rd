@@ -44,4 +44,4 @@ rotonmat(shortnose.lm,shortnose.lm[1:9,],longnose.lm[1:9,])
 deformGrid3d(shortnose.rot,shortnose.lm,ngrid=0)
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }

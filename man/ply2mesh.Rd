@@ -33,4 +33,4 @@ file2mesh needs the command line tool ply2ascii from the Auxiliaries section in 
 }
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }
