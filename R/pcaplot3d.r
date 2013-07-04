@@ -15,6 +15,9 @@ pcaplot3d.symproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...)
   A<-refshape
   k<-dim(A)[1]
   m<-dim(A)[2]
+  if (is.vector(PCs))
+      PCs <- matrix(PCs,length(PCs),1)
+  
   npc<-dim(PCs)[2]
   lpc<-length(pcshow)
   rainb<-rainbow(lpc)
@@ -49,6 +52,9 @@ pcaplot3d.nosymproc<-function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
   A<-refshape
   k<-dim(A)[1]
   m<-dim(A)[2]
+  if (is.vector(PCs))
+      PCs <- matrix(PCs,length(PCs),1)
+ 
   npc<-dim(PCs)[2]
   lpc<-length(pcshow)
   rainb<-rainbow(lpc)

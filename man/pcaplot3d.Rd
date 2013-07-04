@@ -16,7 +16,7 @@ pcaplot3d(x,...)
 
 }
 \arguments{
-  \item{x}{a object derived from the function mc.procSym or procSym
+  \item{x}{a object derived from the function procSym
     calculated on 3D coordinates.
 }
   
@@ -39,3 +39,13 @@ pcaplot3d(x,...)
 
 \seealso{\code{\link{procSym}}
 }
+\examples{
+
+data(nose)
+#make a tiny sample
+nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
+proc <- procSym(nosearr)
+pcaplot3d(proc,showPC=1,mag=-3)#only one PC available3
+
+}
+
