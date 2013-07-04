@@ -1,0 +1,50 @@
+\name{anonymize}
+\alias{anonymize}
+
+\title{
+Replace ID-strings of data and associated files.
+}
+\description{
+Replace ID-strings with for digits - e.g. for blind observer error testing.
+}
+\usage{
+anonymize(data, path = NULL, dest.path = NULL, ext = ".ply", split = "_", remove = NULL, levels = TRUE, prefix = NULL, suffix = NULL, sample = TRUE)
+}
+\arguments{
+  \item{data}{Named array, matrix or vector containing data.
+
+  }
+   \item{remove}{integer: which entry (separated by \code{split}) of the name is to be removed
+}
+  \item{path}{Path of associated files to be copied to renamed versions.
+}
+  \item{dest.path}{where to put renamed files.
+}
+  \item{ext}{file extension of files to be renamed.
+}
+  \item{split}{character: by which to split specimen-ID
+}
+ 
+  \item{levels}{logical: if a removed entry is to be treated as a
+    factor. E.g. if one specimen has a double entry, the anonymized
+    versions will be named accordingly.
+}
+  \item{prefix}{character: prefix before the alias string.
+}
+  \item{suffix}{character: suffix after the alias ID-string.
+}
+  \item{sample}{logical: whether to randomize alias ID-string. 
+}
+}
+
+\value{
+  \item{data }{data with names replaced}
+  \item{anonymkey }{map of original name and replaced name}
+}
+
+\examples{
+anonymize(iris,remove=1)
+
+}
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }

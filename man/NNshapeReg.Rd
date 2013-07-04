@@ -1,0 +1,51 @@
+\name{NNshapeReg}
+\alias{NNshapeReg}
+\title{
+Estimate the shape by averaging the shape of the nearest neighbours.
+}
+\description{Estimate the shape of one set of landmarks by averaging the shape of the nearest
+  neighbours obtained by a second set of landmarks. Weights are
+  calculated either form Mahalanobis or Procrustes distances. This can
+  be useful for data with missing landmarks.
+
+}
+\usage{
+NNshapeReg(x, y=NULL, n=3, mahalanobis = FALSE, mc.cores = detectCores())
+}
+\arguments{
+  \item{x}{ an array or matrix (one row per specim)  with data used for
+    estimating weights. 
+}
+  \item{y}{ an array or matrix (one row per specim) with landmark data on which the weighted averaging
+    is applied for prediction. If NULL, x will be used for both tasks.
+}
+  \item{n}{amount of nearest neighbours to consider
+}
+  \item{mahalanobis}{logical: use mahalanobis distance
+}
+  \item{mc.cores}{integer: amount of cores used for parallel processing.
+}
+}
+\details{This function calculates weights from one set of shape data and
+  then estimates the shape of another (or same) set of landmarks.
+  CAUTION: landmark data has to be registered beforehand.
+
+}
+\value{matrix or array of estimates.
+}
+\seealso{\code{\link{proc.weight}}, \code{\link{fixLMtps}}
+  }
+\examples{
+library(shapes)
+proc <- procSym(gorf.dat)
+#use the closest 3 specimen based on the first 4 landmarks
+#to estimate the shape
+estim <- NNshapeReg(proc$rotated[1:4,,],proc$rotated,n=3)
+#compare estimation and true config
+plot(proc$rotated[,,1],asp=1)
+points(estim[,,1],col=2)
+
+}
+
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }

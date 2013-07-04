@@ -1,18 +1,9 @@
 \name{needForDocu}
-\alias{BEdetect}
-\alias{anonymize}
-\alias{NNshapeReg}
 \alias{checkLM}
 \alias{place.patch}
 \alias{procAOV}
-\alias{r2morphoj}
-\alias{r2morphologika}
-\alias{relax.mesh}
-\alias{smoothMesh3d}
-\alias{warpRestrict}
-\alias{mcClosemat}
 \alias{get.obj.size}
-\alias{kendalldist}
+
 
 \alias{longnose.lm}
 \alias{shortnose.lm}

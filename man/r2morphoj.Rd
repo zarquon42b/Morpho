@@ -1,0 +1,48 @@
+\name{r2morphoj}
+\alias{r2morphoj}
+\alias{r2morphologika}
+
+\title{Export data to MorphoJ and Morphologika
+
+}
+\description{
+Export data to MorphoJ and Morphologika
+}
+\usage{
+r2morphoj(x, file, id.string = NULL)
+r2morphologika(
+}
+
+\arguments{
+  \item{x}{3-dimensionla array containing landmark data. E.g. the
+  input/output from \code{\link{procSym}}.
+
+}
+  \item{file}{character: name the output file
+
+}
+  \item{id.string}{a string with ids or factors to append
+
+}
+\item{labels}{character vector specify labels to create for Morphologika
+
+}
+\item{labelname,...}{character: name the labels for Morphologika.
+
+}
+}
+
+\examples{
+library(shapes)
+r2morphoj(gorf.dat,file="gorf.dat")
+
+data <- bindArr(gorf.dat, gorm.dat, along=3)
+datalabels <- c(rep("female",dim(gorf.dat)[3]),
+rep("male",dim(gorm.dat)[3]))
+labelname <- "sex"
+r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
+
+}
+
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
