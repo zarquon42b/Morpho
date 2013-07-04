@@ -10,7 +10,7 @@ Export data to MorphoJ and Morphologika
 }
 \usage{
 r2morphoj(x, file, id.string = NULL)
-r2morphologika(
+r2morphologika(x, file=file, labels=NULL, labelname=NULL, ...)
 }
 
 \arguments{
@@ -27,9 +27,11 @@ r2morphologika(
 \item{labels}{character vector specify labels to create for Morphologika
 
 }
-\item{labelname,...}{character: name the labels for Morphologika.
+\item{labelname }{character: name the labels for Morphologika.
 
 }
+\item{\dots}{unused at the moment}
+
 }
 
 \examples{
@@ -45,4 +47,4 @@ r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
 }
 
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~kwd2 }
