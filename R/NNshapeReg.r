@@ -26,7 +26,6 @@ NNshapeReg <- function(x,y=NULL, n=3, mahalanobis=FALSE,mc.cores = detectCores()
     else
       out <- foreach(i=1:dim(x)[1],.combine=rbind) %dopar% estfun(i)
 
-      print(dim(out))
       if (length(outdim) == 3)
           {
               out1 <- array(NA, dim=outdim)
