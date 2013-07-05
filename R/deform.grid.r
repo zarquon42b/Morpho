@@ -2,6 +2,13 @@ deformGrid3d<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1,2,3),both=T,
 {
 
   type <- type[1]
+  if (dim(matrix)[1] > 1000 && type =="s")
+  {
+      answer <- readline("You have a lot of landmarks\n Render them as points (faster)? (yes/NO)\n")
+      if (! substr(answer,1L,1L) %in% c("n","N"))
+          type <- "p"
+  }
+                       
   out3d <- spheres3d
   if (type == "p")
     {out3d <- points3d
