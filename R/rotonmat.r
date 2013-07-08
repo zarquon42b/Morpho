@@ -1,6 +1,6 @@
-rotonmat<-function(X,refmat,tarmat,scale=TRUE,reflection=FALSE)
+rotonmat<-function(X,refmat,tarmat,scale=TRUE,reflection=FALSE, weights=NULL, centerweight=FALSE)
 {	
-	ro<-rotonto(tarmat,refmat,scale=scale,signref=F,reflection=reflection)
+	ro<-rotonto(tarmat,refmat,scale=scale,signref=F,reflection=reflection, weights=weights, centerweight=centerweight)
 	
 	Xrot<-t(apply(X,1,function(x){x-ro$transy}))%*%ro$gamm
 	if (scale)

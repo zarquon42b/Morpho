@@ -6,7 +6,7 @@ rotate matrix of landmarks}
 rotate matrix of landmarks by using a rotation determined by two matrices.
 }
 \usage{
-rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE)
+rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE, weights=NULL, centerweight=FALSE))
 }
 \arguments{
   \item{X}{Matrix to be rotated
@@ -17,7 +17,16 @@ rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE)
 }
   \item{scale}{logical: requests scaling to minimize sums of squared distances
 }
-  \item{reflection}{logical: if TRUE, reflections are allowed.}
+\item{reflection}{logical: if TRUE, reflections are allowed.
+}
+\item{weights}{vector of length k, containing weights for each
+  landmark. 
+}
+\item{centerweight}{logical: if weights are defined and
+  centerweigths=TRUE, the matrix will be centered according to these
+  weights instead of the barycenter.
+
+}
 }
 \details{A matrix is rotated by rotation parameters determined by two
   different matrices. This is usefull, if the rotation parameters are to
