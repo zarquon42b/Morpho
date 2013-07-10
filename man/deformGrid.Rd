@@ -6,8 +6,8 @@ visualise differences between two superimposed sets of 3D landmarks}
   landmarks by deforming a cubic grid based on a thin-plate spline interpolation}
   
 \usage{
-deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1, showaxis = c(1, 2,
-3),both = T, lines = TRUE, lcol = 1, add = FALSE, col1 = 2,
+deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1, showaxis = c(1, 2),
+both = T, lines = TRUE, lcol = 1, add = FALSE, col1 = 2,
 col2 = 3, type = c("s", "p"))
 }
 \arguments{
@@ -22,7 +22,8 @@ col2 = 3, type = c("s", "p"))
 }
   \item{showaxis}{which dimensions of the grid to be plotted.
 }
-  \item{both}{logical: if FALSE, only "matrix" will be plotted.
+  \item{both}{logical: if FALSE, only "matrix" will be plotted. Options
+    are currently 1 and 2.
 }
   \item{lines}{logical: if TRUE, lines between landmarks will be plotted.
 }
