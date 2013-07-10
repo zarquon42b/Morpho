@@ -45,7 +45,7 @@ data(nose)
 #make a tiny sample
 nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
 proc <- procSym(nosearr)
-pcaplot3d(proc,showPC=1,mag=-3)#only one PC available3
+pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
 
 }
 

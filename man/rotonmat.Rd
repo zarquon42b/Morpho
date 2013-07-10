@@ -6,7 +6,7 @@ rotate matrix of landmarks}
 rotate matrix of landmarks by using a rotation determined by two matrices.
 }
 \usage{
-rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE, weights=NULL, centerweight=FALSE))
+rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE, weights=NULL, centerweight=FALSE)
 }
 \arguments{
   \item{X}{Matrix to be rotated
