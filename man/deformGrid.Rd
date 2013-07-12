@@ -20,10 +20,10 @@ col2 = 3, type = c("s", "p"))
 }
   \item{lwd}{width of lines connecting landmarks.
 }
-  \item{showaxis}{which dimensions of the grid to be plotted.
-}
-  \item{both}{logical: if FALSE, only "matrix" will be plotted. Options
-    are currently 1 and 2.
+  \item{showaxis}{integer (vector): which dimensions of the grid to be
+    plotted. Options are combinations of 1,2 and 3.
+    }
+  \item{both}{logical: if FALSE, only "matrix" will be plotted. 
 }
   \item{lines}{logical: if TRUE, lines between landmarks will be plotted.
 }
@@ -49,9 +49,9 @@ Stefan Schlager}
 }
 \examples{
 data(nose)
-\dontrun{
+%\dontrun{
 deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
-}
+%}
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

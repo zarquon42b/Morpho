@@ -59,11 +59,10 @@ deformGrid3d<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=T,
             outmesh <- list(vb = rbind(t(x0),1))
             class(outmesh) <- "mesh3d"
             iq <- matrix(NA, 4, ngrid*(ngrid-1)^2)
-            yinit <- xinit <- NULL
-            if (1 %in% showaxis)
+            yinit <- xinit <- zinit <- NULL
+            if (2 %in% showaxis)
                 {
                     xinit0 <- xinit <- (c(1,2,2+ngrid,1+ngrid))
-                    print(xinit)
                     for( i in 1:(ngrid-2))
                         xinit <- cbind(xinit,(xinit0+i))
                     
@@ -72,11 +71,10 @@ deformGrid3d<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=T,
                         xinit <- cbind(xinit,xinit0+(i*ngrid))
                     
                     xinit0 <- xinit
-                    
                     for (i in 1:(ngrid-1))
                         xinit <- cbind(xinit,xinit0+(i*ngrid^2))
                 }
-            if (2 %in% showaxis)
+            if (1 %in% showaxis)
                 {
                     yinit0 <- yinit <- c(ngrid,ngrid+ngrid^2, 2*ngrid+ngrid^2, 2*ngrid)
                     for( i in 1:(ngrid-2))
@@ -89,7 +87,24 @@ deformGrid3d<-function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=T,
                         yinit <- cbind(yinit,yinit0-i)
                    
                 }
-            outmesh$ib <- cbind(xinit,yinit)
+             if (3 %in% showaxis)
+            {
+                zinit0 <- zinit <- (c(2,1,1+ngrid^2,2+ngrid^2))
+                    print(zinit)
+                    for( i in 1:(ngrid-2))
+                        zinit <- cbind(zinit,(zinit0+i))
+                    
+                   zinit0 <- zinit
+                    for (i in 1:(ngrid-2))
+                        zinit <- cbind(zinit,zinit0+(i*ngrid^2))
+                    
+                    zinit0 <- zinit
+                    
+                    for (i in 1:(ngrid-1))
+                        zinit <- cbind(zinit,zinit0+(i*ngrid))
+            }
+            outmesh$ib <- cbind(xinit,yinit,zinit)
+            #outmesh$ib <- cbind(xinit,yinit)
             wire3d(outmesh,lit=F)
         
         }
