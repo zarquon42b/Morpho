@@ -17,7 +17,7 @@ typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=N
         cova <- cov(data)
       }
     
-    dists <- mahalanobis(x,center=center,cov=cova)
+    dists <- mahalanobis(x, center=center, cov=cova)
     if (method == "w")
       {
         if (small)
@@ -48,7 +48,11 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
         warning("groups coerced to factors")
       }
     probs <- NULL
+    
     glev <- levels(groups)
+    check <- tapply(groups,groups,length)
+    if (NA %in% check)
+        glev <- glev[-which(is.na(check))]
     nlev <- length(glev)
     cova <- NULL
     if (sep)
@@ -87,6 +91,9 @@ if (!is.factor(groups))
 ndata <- dim(data)[1]
 probs <- NULL
 glev <- levels(groups)
+check <- tapply(groups,groups,length)
+if (0 %in% check)
+    glev <- glev[-which(check==0)]
 nlev <- length(glev)
 covWithin <- 0
 for( i in 1:nlev)
