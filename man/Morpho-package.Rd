@@ -18,8 +18,8 @@ have to be installed.
 \tabular{ll}{
 Package: Morpho
 Type: Package
-Version: 0.24.2-0
-Date: 2013-06-27
+Version: 0.25-00
+Date: 2013-07-19
 License: GPL
 LazyLoad: yes
 }
