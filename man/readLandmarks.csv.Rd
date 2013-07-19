@@ -1,0 +1,43 @@
+\name{read.csv.folder}
+\alias{read.csv.folder}
+\title{
+import landmark data from csv files
+}
+\description{
+import landmark data from csv files
+}
+\usage{
+read.csv.folder(file, x, y=2:4, rownames=NULL, header=TRUE, dec=".", sep=";")
+}
+\arguments{
+  \item{file}{character: path to file containing landmark data.
+}
+  \item{x}{either a vector specifiing which rows are to be imported, or
+    character vector containing variable names to be sought for.
+}
+  \item{y}{a vector specifiing, which columns of the speradsheet ist to be imported.
+}
+  \item{rownames}{integer: specifies columns, where variable names are stored.
+}
+  \item{header}{logical : if spreadsheet contains header-row.
+}
+  \item{dec}{character: defines decimal sepearator.
+}
+  \item{sep}{character: defines column seperator.
+}
+  
+}
+
+\value{
+ \item{LM }{matrix containing imported data}
+ \item{NAs }{vector containing rows containing NAs}
+}
+
+\author{Stefan Schlager
+}
+
+
+\seealso{
+\code{\link{read.table}}
+}
+
