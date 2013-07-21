@@ -1,5 +1,5 @@
-\name{read.csv.folder}
-\alias{read.csv.folder}
+\name{readLandmarks.csv}
+\alias{readLandmarks.csv}
 \title{
 import landmark data from csv files
 }
@@ -7,7 +7,7 @@ import landmark data from csv files
 import landmark data from csv files
 }
 \usage{
-read.csv.folder(file, x, y=2:4, rownames=NULL, header=TRUE, dec=".", sep=";")
+readLandmarks.csv(file, x, y=2:4, rownames=NULL, header=TRUE, dec=".", sep=";")
 }
 \arguments{
   \item{file}{character: path to file containing landmark data.
