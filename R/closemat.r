@@ -41,6 +41,7 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=1,method=0,...)
     storage.mode(vb) <- "double"
     storage.mode(dif) <- "double"
     storage.mode(clost) <- "double"
+    storage.mode(clostInd) <- "integer"
     outmatr <- matr
     region <- fptr
     out <- .Fortran("matr_meshKD",matr,nmat,vb,nvb,it,nit,clostInd,k,dif,fptr,outmatr,region,mesh$normals[1:3,],sign,t(matr),method)

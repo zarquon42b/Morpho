@@ -9,7 +9,7 @@ Description: A toolset for Geometric Morphometrics and mesh processing.
 SystemRequirements: trimesh_project, rayproject, ply2ascii (http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
 Suggests: car, lattice, ffmanova, pls, shapes
 Depends: R (>= 2.14.0), rgl, parallel, foreach, Matrix, doParallel
-Imports: MASS, RANN, colorRamps
+Imports: MASS, yaImpute, colorRamps
 License: GPL-2
 LazyLoad: yes
 URL: http://sourceforge.net/projects/morpho-rpackage/
