@@ -19,8 +19,8 @@ mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
             mclist[[1]] <- query
         tmpfun <- function(x,...)
             {
-                tmp0 <- nn2(target,x,k=k,searchtype="priority",...)$nn.idx
-                ##  tmp0 <- ann(ref=target, target=x, k=k, search.type="priority",verbose=FALSE)$knnIndexDist[,1:k] ## ann function from package yaImpute
+                ##tmp0 <- nn2(target,x,k=k,searchtype="priority",...)$nn.idx
+                tmp0 <- ann(ref=target, target=x, k=k, search.type="priority",verbose=FALSE)$knnIndexDist[,1:k] ## ann function from package yaImpute
                 return(tmp0)
             }
         tmp <- mclapply(mclist,tmpfun,mc.cores=cores)

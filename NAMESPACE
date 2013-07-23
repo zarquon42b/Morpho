@@ -1,6 +1,6 @@
 useDynLib(Morpho)
 exportPattern("^[^\\.]")
 importFrom(MASS, ginv)
-importFrom(RANN, nn2)
+importFrom(yaImpute, ann)
 importFrom(colorRamps, blue2green2red)
 import(doParallel)
