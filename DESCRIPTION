@@ -10,7 +10,7 @@ SystemRequirements: trimesh_project, rayproject, ply2ascii (http://sourceforge.n
 Suggests: car, lattice, ffmanova, pls, shapes
 Depends: R (>= 2.14.0), rgl, parallel, foreach, Matrix, doParallel
 Imports: MASS, yaImpute, colorRamps
-Copyright: see inst/COPYRIGHT for details
+Copyright: see COPYRIGHT for details
 License: GPL-2
 LazyLoad: yes
 URL: http://sourceforge.net/projects/morpho-rpackage/
