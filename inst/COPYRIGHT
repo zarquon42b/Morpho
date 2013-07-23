@@ -1,0 +1,7 @@
+Files: R/scaleproc.r
+       R/gdif.r
+       R/addo.r
+       parts of R/kendalldist.r [distance function for 2D configs]
+Copyright: Ian Dryden
+License GPL-2
+

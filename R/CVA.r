@@ -4,7 +4,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     {
       mc.cores=1
     }
-  lev<-NULL
+  lev <- NULL
   k <- 1
   m <- 1
   if (is.character(groups))
@@ -42,6 +42,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
       N <- vecx(N)
       n3 <- TRUE
     }
+  if (is.vector(N) || dim(N)[2] == 1)
+     stop("data should contain at least 2 variable dimensions")
  
       n <- dim(N)[1]
       l <- dim(N)[2]
@@ -55,8 +57,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         {
           nwg[i] <- length(b[[i]])
         }
-      B <- as.matrix(N)
-                                        #Amatrix <- B
+                                              #Amatrix <- N
       Gmeans <- matrix(0, ng, l)
       for (i in 1:ng) {
         if (length(b[[i]]) > 1)
@@ -65,26 +66,26 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
           Gmeans[i, ] <- N[b[[i]], ]
       }
       Grandm <- as.vector(apply(Gmeans, 2, mean))
-      Tmatrix <- B
-      B<-t(t(B)-Grandm)
-      Amatrix <- B
+      Tmatrix <- N
+      N <- t(t(N)-Grandm)
+      N <- N
     
-  resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
+  resN <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
   
   if (weighting == TRUE) {
     for (i in 1:ng) {
-      resB[i, ] <- sqrt(nwg[i]) * resB[i, ]
+      resN[i, ] <- sqrt(nwg[i]) * resN[i, ]
     }
-    X <- resB
+    X <- resN
   }
   else {
-    X <- sqrt(n/ng) * resB
+    X <- sqrt(n/ng) * resN
   }
   
   covW <- 0
   for (i in 1:ng) {
-    if (!is.vector(B[b[[i]],]))
-      covW <- covW + (cov(B[b[[i]],])*(length(b[[i]])-1))
+    if (!is.vector(N[b[[i]],]))
+      covW <- covW + (cov(N[b[[i]],])*(length(b[[i]])-1))
     else
       {
         covW <- covW+diag(1,l)
@@ -133,11 +134,11 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
   irE <- diag(E)
   ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
   eigZ <- eigen(ZtZ,symmetric=TRUE)
-  useEig <- min((ng-1),(l-1))
+  useEig <- min((ng-1), l)
   A <- Re(eigZ$vectors[, 1:useEig])
   CV <- U %*% invcW %*% A
   CVvis <- covW %*% CV
-  CVscores <- Amatrix %*% CV
+  CVscores <- N %*% CV
   
   roots <- eigZ$values[1:useEig]
   if (length(roots) == 1) {
@@ -233,7 +234,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         for (j in 1:ng) {
           b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
           l1 <- l1 + length(b[[j]])
-          tmpmat <- Amatrix[b1[[j]],]
+          tmpmat <- N[b1[[j]],]
           if ( length(b[[j]])==1)
             tmpmat <- t(as.matrix(tmpmat))
           Gmeans1[j, ] <- apply(tmpmat, 2, mean)
@@ -336,7 +337,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
            for (j in 1:ng) 
              {b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
               l1 <- l1 + length(b[[j]])
-              tmpmat <- Amatrix[b1[[j]],]
+              tmpmat <- N[b1[[j]],]
               if ( length(b[[j]])==1)
                 tmpmat <- t(as.matrix(tmpmat))
               Gmeans1[j, ] <- apply(tmpmat, 2, mean)
@@ -402,8 +403,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
            }
         }
        
-       tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3,weighting=weighting)
-       out <- (Amatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
+       tmp <- CVA.crova(N,test=CV, bb, tolinv = tolinv,ind=i3,weighting=weighting)
+       out <- (N[i3, ]-tmp$Grandmean) %*% tmp$CV
        return(out)
      }
     a.list<-mclapply(a.list,crova,mc.cores=mc.cores)

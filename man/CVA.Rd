@@ -62,6 +62,8 @@ Stefan Schlager
 \code{\link{groupPCA}}
 }
 \examples{
+## all examples are kindly provided by Marta Rufino
+
 library(shapes)
 # perform procrustes fit on raw data
 alldat<-procSym(abind(gorf.dat,gorm.dat))
@@ -113,7 +115,8 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
   dendroS$labels=levels(facto)
   par(mar=c(4,4.5,1,1))
   dendroS=as.dendrogram(dendroS)
-  plot(dendroS, main='',sub='', xlab="Geographic areas", ylab='Mahalahobis distance')
+  plot(dendroS, main='',sub='', xlab="Geographic areas",
+          ylab='Mahalahobis distance')
 
  
    # Variance explained by the canonical roots:
