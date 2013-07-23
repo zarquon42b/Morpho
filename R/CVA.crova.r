@@ -80,8 +80,8 @@ CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
         #print(ZtZ)
         tt <- try(eigZ <-svd(ZtZ))
-        
-    A <- Re(eigZ$v[, 1:(ng - 1)])
+    useEig <- min((ng-1),(l-1))     
+    A <- Re(eigZ$v[, 1:useEig])
 	CV <- U %*% invcW %*% A
     di<-dim(CV)[2]
 	

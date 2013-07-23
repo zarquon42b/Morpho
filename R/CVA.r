@@ -65,7 +65,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
           Gmeans[i, ] <- N[b[[i]], ]
       }
       Grandm <- as.vector(apply(Gmeans, 2, mean))
-      Tmatrix<-B
+      Tmatrix <- B
       B<-t(t(B)-Grandm)
       Amatrix <- B
     
@@ -133,12 +133,13 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
   irE <- diag(E)
   ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
   eigZ <- eigen(ZtZ,symmetric=TRUE)
-  A <- Re(eigZ$vectors[, 1:(ng - 1)])
+  useEig <- min((ng-1),(l-1))
+  A <- Re(eigZ$vectors[, 1:useEig])
   CV <- U %*% invcW %*% A
   CVvis <- covW %*% CV
   CVscores <- Amatrix %*% CV
   
-  roots <- eigZ$values[1:(ng - 1)]
+  roots <- eigZ$values[1:useEig]
   if (length(roots) == 1) {
     Var <- matrix(roots, 1, 1)
     colnames(Var) <- "Canonical root"
@@ -402,7 +403,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         }
        
        tmp <- CVA.crova(Amatrix,test=CV, bb, tolinv = tolinv,ind=i3,weighting=weighting)
-       out <- (Tmatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
+       out <- (Amatrix[i3, ]-tmp$Grandmean) %*% tmp$CV
        return(out)
      }
     a.list<-mclapply(a.list,crova,mc.cores=mc.cores)
