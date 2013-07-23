@@ -8,7 +8,8 @@ Replace ID-strings of data and associated files.
 Replace ID-strings with for digits - e.g. for blind observer error testing.
 }
 \usage{
-anonymize(data, remove, path = NULL, dest.path = NULL, ext = ".ply", split = "_", levels = TRUE, prefix = NULL, suffix = NULL, sample = TRUE)
+anonymize(data, remove, path = NULL, dest.path = NULL, ext = ".ply",
+split = "_", levels = TRUE, prefix = NULL, suffix = NULL, sample = TRUE)
 }
 \arguments{
   \item{data}{Named array, matrix or vector containing data.
