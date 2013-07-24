@@ -15,14 +15,9 @@ on
 have to be installed.
 }
 \details{
-\tabular{ll}{
-Package: Morpho
-Type: Package
-Version: 0.25-00
-Date: 2013-07-19
-License: GPL
-LazyLoad: yes
-}
+  \tabular{ll}{ Package: \tab Morpho\cr Type: \tab Package\cr
+  Version: \tab 0.25-00\cr License: \tab
+  GPL\cr LazyLoad: \tab yes\cr }
 
 }
 \author{Stefan Schlager
@@ -32,7 +27,7 @@ Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 
 }
 \references{
-To be announced
+Coming soon (when my dissertation is published)
 }
 
 \keyword{ package }
