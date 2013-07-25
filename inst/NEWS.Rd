@@ -25,4 +25,5 @@
       \item    changed default method in meshDist.mesh3d from vcglib to morpho
       \item    renamed regdist.raw to regdist and removed original regdist (too prone to user error)
     }
+    }
     
