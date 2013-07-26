@@ -3,8 +3,7 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 \section{Changes in Morpho version 0.25 (2013-07-24)}{
-  \item Changes in R code:
-    \itemize{
+  \itemize{
       \item updated COPYRIGHT file
       \item simplified code in CVA and CVA.crova and finally mentioned Marta Rufino for providing all examples in docu for CVA (sorry Marta, I simply forgot)
       \item fixed issue when n-groups > n variables in CVA and CVA.crova
@@ -25,5 +24,5 @@
       \item    changed default method in meshDist.mesh3d from vcglib to morpho
       \item    renamed regdist.raw to regdist and removed original regdist (too prone to user error)
     }
-    }
+  }
     

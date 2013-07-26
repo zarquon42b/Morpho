@@ -1,4 +1,4 @@
-ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE)
+ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE, reflection=TRUE)
 {
   if (!is.null(weights))
     weights <- weights/sum(weights)
@@ -48,7 +48,7 @@ ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weight
       mshape_old<-mshape
       
 ### rotation of all configs on current consensus ###		
-      arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F,weights=weights,centerweight=centerweight);return(list(x[[1]],x[[2]]))})
+      arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F,weights=weights,centerweight=centerweight, reflection=reflection);return(list(x[[1]],x[[2]]))})
       
       for( i in 1:n)
         {
@@ -86,7 +86,7 @@ ProcGPA<-function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weight
           arr.list<-lapply(arr.list,function(x){x[[1]]<-x[[1]]*x[[2]];return(list(x[[1]],x[[2]]))})         
                     
 ### rotation of all configs on current consensus ###		
-          arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F,weights=weights,centerweight=centerweight);return(list(x[[1]],x[[2]]))})
+          arr.list<-lapply(arr.list,function(x){x[[1]]<-rot.proc(x[[1]],x=mshape,scale=F,weights=weights,centerweight=centerweight, reflection=reflection);return(list(x[[1]],x[[2]]))})
           		
 ### scale step ####
           
