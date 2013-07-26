@@ -8,8 +8,8 @@ plot a histogram for multiple groups, each group colored individually
 }
 \usage{
 histGroup(data, groups, main = paste("Histogram of", dataname), xlab =
-dataname, ylab, col = NULL, alpha = 0.5,breaks = "Sturges",
-legend=TRUE,legend.x=80,legend.y=80,legend.pch=15,freq=TRUE)
+          dataname, ylab, col = NULL, alpha = 0.5,breaks = "Sturges",
+          legend=TRUE,legend.x=80,legend.y=80,legend.pch=15,freq=TRUE)
 }
 \arguments{
   \item{data}{vector containing data.

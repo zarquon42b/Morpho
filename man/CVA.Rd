@@ -8,7 +8,7 @@ performs a Canonical Variate Analysis.
 }
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
-rounds=0, cv=FALSE, mc.cores=detectCores())
+    rounds=0, cv=FALSE, mc.cores=detectCores())
 }
 \arguments{
   \item{dataarray}{Either a k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Or alternatively a n x m Matrix where n is the numeber of observations and m the number of variables (this can be PC scores for example)

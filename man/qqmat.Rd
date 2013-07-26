@@ -3,7 +3,7 @@
 \title{Q-Q plot to assess normality of data
 }
 \description{
-qqmat plots Mahalanobisdistances of a given sample to those expected
+qqmat plots Mahalanobisdistances of a given sample against those expected
 from a Gaussian distribution}
 \usage{
 qqmat(x, output = FALSE, square = TRUE)

@@ -12,14 +12,15 @@
 calculates the distances from a mesh or a set of 3D coordinates to another at each vertex; either
 closest point or along the normals}
 \usage{
-\method{meshDist}{mesh3d}(x, mesh2=NULL, distvec=NULL, from = NULL, to
-= NULL, steps = 20, ceiling = FALSE, file = "default", imagedim =
-"100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE, plot =
-TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("morpho", "vcglib"), ...)
+\method{meshDist}{mesh3d}(x, mesh2=NULL, distvec=NULL, from = NULL,
+     to = NULL, steps = 20, ceiling = FALSE, file = "default", imagedim =
+"100x800", uprange = 1, ray = FALSE, raytol = 50, save = FALSE,
+     plot = TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE,
+     method=c("morpho", "vcglib"), ...)
 
 \method{meshDist}{matrix}(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, 
-ceiling=FALSE, uprange=1, plot=TRUE, sign=TRUE, tol=NULL, type=c("s", "p"), 
-radius=NULL, displace = FALSE, ...)
+     ceiling=FALSE, uprange=1, plot=TRUE, sign=TRUE,
+     tol=NULL, type=c("s", "p"), radius=NULL, displace = FALSE, ...)
 }
 \arguments{
   \item{x}{reference mesh; object of class "mesh3d" or a n x 3 matrix

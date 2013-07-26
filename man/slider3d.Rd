@@ -12,9 +12,9 @@
 }
 \usage{
 slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
-sur.name=NULL, ignore=NULL, sur.type="ply", tol=1e-05, deselect=FALSE,
-inc.check=TRUE, recursive=TRUE, iterations=0, initproc=TRUE, speed=TRUE,
-pairedLM=0, weights=NULL, mc.cores=detectCores())
+         sur.name=NULL, ignore=NULL, sur.type="ply", tol=1e-05, deselect=FALSE,
+         inc.check=TRUE, recursive=TRUE, iterations=0, initproc=TRUE,
+         speed=TRUE, pairedLM=0, weights=NULL, mc.cores=detectCores())
 }
 \arguments{
   \item{dat.array}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Ideally the dimnames[[3]] vector contains the names of the surface model (without file extension) - e.g. if the model is named "surface.ply", the name of the corresponding matrix of the array would be "surface"

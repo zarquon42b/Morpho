@@ -9,7 +9,7 @@ displays a low dimensional between group structure of a high dimensional problem
 }
 \usage{
 groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE,
-mc.cores = detectCores(),weighting=TRUE)
+         mc.cores = detectCores(),weighting=TRUE)
 }
 \arguments{
   \item{dataarray}{Either a k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Or alternatively a n x m Matrix where n is the numeber of observations and m the number of variables (this can be PC scores for example)

@@ -10,9 +10,9 @@
 }
 \usage{
 procSym(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05,
-pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE,
-distfun=c("riemann", "angle"),SMvector=NULL, outlines=NULL,  deselect=FALSE,
-recursive=TRUE,iterations=0, initproc=FALSE)
+        pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE,
+        distfun=c("riemann", "angle"),SMvector=NULL, outlines=NULL,  deselect=FALSE,
+        recursive=TRUE,iterations=0, initproc=FALSE)
 }
 \arguments{
   \item{dataarray}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
