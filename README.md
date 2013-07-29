@@ -1,8 +1,7 @@
-##### Installation of the R-package Morpho (latest release): ####
+#### Installation of the R-package Morpho (latest release): ####
    0. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
      
-  
-        
+            
         install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute"))
 
 
@@ -20,48 +19,33 @@ Also required are the packages 'Matrix' and 'parallel' which usually are already
         
         load package: library(Morpho)
 
-##### Installation of the R-package Morpho (latest release) using *devtools*: ####
+#### Installation of the R-package Morpho using *devtools*: ####
+##### install prerequisites ####
 
 1. install *devtools* from within R (Ubuntu/Debian users will have to install *libcurl4-gnutls-dev* beforehand):
 
         install.packages("devtools")
 
-
 2. Install build environment
     * **Windows:** Install latest version of *[Rtools](http://cran.r-project.org/bin/windows/Rtools)*
 During installation of *Rtools* make sure to install the *toolchain*, and to select *"Edit the system path"* (and confirming the installers suggestions).
-    * **OSX:** Install *[XCODE](https://developer.apple.com/xcode/)* and *[gfortran](http://cran.r-project.org/bin/macosx/tools/)*
-    * **Ubuntu/Debian:** make sure you have package *r-base-dev* installed.
+    * **OSX:** Install *[XCODE](https://developer.apple.com/xcode/)*
 
-3. In **R** run the command:
+##### a) install latest release
+run the following command in R:
         
         require(devtools)
         install_url("https://github.com/zarquon42b/Morpho/archive/0.25.zip")
 
-
-##### Installation of the R-package Morpho (latest development code) using *devtools*: ####
-
-1. install *devtools* from within R (Ubuntu/Debian users will have to install *libcurl4-gnutls-dev* beforehand):
-
-        install.packages("devtools")
-
-
-2. Install build environment
-    * **Windows:** Install latest version of *[Rtools](http://cran.r-project.org/bin/windows/Rtools)*
-During installation of *Rtools* make sure to install the *toolchain*, and to select *"Edit the system path"* (and confirming the installers suggestions).
-    * **OSX:** Install *[XCODE](https://developer.apple.com/xcode/)* and *[gfortran](http://cran.r-project.org/bin/macosx/tools/)*
-    * **Ubuntu/Debian:** make sure you have package *r-base-dev* installed.
-
-3. In **R** run the command:
+##### b) install latest development snapshot
+run the following command in R:
         
         require(devtools)
-        install_url("https://github.com/zarquon42b/Morpho/archive/master.zip")
-    
+        install_url("https://github.com/zarquon42b/Rvcg/archive/master.zip")
 
 
 
-
-##### Installation of the command line tools (strongly recommended):###
+#### Installation of the command line tools (strongly recommended):###
    To  gain full functionality of the Morpho R-package (using sliding landmarks, importing meshfiles other than ascii ply files, etc), it is required to download and install the latest version of the command line programms.
 
 1. Download the binaries appropriate for your OS from [https://github.com/zarquon42b/trimesh-cxx/releases](https://github.com/zarquon42b/trimesh-cxx/releases)
@@ -82,7 +66,7 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
     * if everything is alright, you see a help message.
 	
    
-##### Compilation of command line tools:   
+#### Compilation of command line tools:   
 
   1. Install QT-SDK (http://qt-project.org/downloads)
   * make sure to have C++ compilers installed
