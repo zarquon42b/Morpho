@@ -1,8 +1,7 @@
 ##### Installation of the R-package Morpho (latest release): ####
    0. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
      
-   <s>install.packages(c("rgl", "MASS","doParallel","colorRamps","RANN"))</s>
-
+  
         
         install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute"))
 
