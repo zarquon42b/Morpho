@@ -1,4 +1,4 @@
-CVA.crova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0)
+.CVAcrova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0)
 {   
     N <- dataarray
     b <- groups

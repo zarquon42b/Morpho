@@ -39,10 +39,9 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
               }
           }
         lev<-lev[groupcheck]
-        groups<-group
+        groups <- group
       }
     N <- dataarray
-    b <- groups    
     if (length(dim(N)) == 3) 
       N <- vecx(N)
     n <- dim(N)[1]
@@ -53,16 +52,16 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     ng <- length(groups)
     nwg <- c(rep(0, ng))
     for (i in 1:ng) {
-      nwg[i] <- length(b[[i]])
+      nwg[i] <- length(groups[[i]])
     }
-    B <- as.matrix(N)
+    N <- as.matrix(N)
     Gmeans <- matrix(0, ng, l)
     for (i in 1:ng)
       {
         if(nwg[i] > 1)
-          Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+          Gmeans[i, ] <- apply(N[groups[[i]], ], 2, mean)
         else
-           Gmeans[i, ] <- N[b[[i]], ]
+           Gmeans[i, ] <- N[groups[[i]], ]
       }
     if (weighting==TRUE)
       wt <- nwg
@@ -71,12 +70,11 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     wcov <- cov.wt(Gmeans,wt=wt)
     Grandm <- wcov$center
     eigenGmeans <- eigen(wcov$cov)
-    resB <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
-    Tmatrix <- B
-    B <- t(t(B)-Grandm)
-    Amatrix <- B
+    resN <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
+    Tmatrix <- N
+    N <- t(t(N)-Grandm)
     valScores <- which(eigenGmeans$values > tol)
-    groupScores <- B%*%(eigenGmeans$vectors[,valScores])
+    groupScores <- N%*%(eigenGmeans$vectors[,valScores])
     groupPCs <- eigenGmeans$vectors[,valScores]
     
 ###### create a neat variance table for the groupmean PCA ###### 
@@ -126,17 +124,17 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
           }
         rounproc<-function(i)
           {
-            b1 <- list()
+            groups1 <- list()
             dist.mat<-matrix(0,ng,ng)
             shake <- sample(1:n)
             Gmeans1 <- matrix(0, ng, l)
             l1 <- 0
             for (j in 1:ng) 
               {
-                b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])
-                l1 <- l1 + length(b[[j]])
-                tmpmat <- Amatrix[b1[[j]],]
-                if ( length(b[[j]])==1)
+                groups1[[j]] <- c(shake[(l1 + 1):(l1 + (length(groups[[j]])))])
+                l1 <- l1 + length(groups[[j]])
+                tmpmat <- N[groups1[[j]],]
+                if ( length(groups[[j]])==1)
                   tmpmat <- t(as.matrix(tmpmat))
                 Gmeans1[j, ] <- apply(tmpmat, 2, mean)
               }

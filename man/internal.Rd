@@ -7,7 +7,6 @@
 \alias{calcTang_U}
 \alias{CreateL}
 \alias{CreateL2D}
-\alias{CVA.crova}
 \alias{ProcGPA}
 \alias{Semislide}
 \alias{RGB2Grey}
