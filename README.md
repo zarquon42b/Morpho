@@ -8,8 +8,7 @@
 Also required are the packages 'Matrix' and 'parallel' which usually are already installed as R's recommended packages.
 
 
-* Download the version suitable for your OS from [here](https://github.com/zarquon42b/Morpho/releases)
-   Either the compiled package (for Windows and OS X) or the source tarball (Linux).
+* Download the version suitable for your OS from [sourceforge](https://sourceforge.net/projects/morpho-rpackage/) or [github](https://github.com/zarquon42b/Morpho/releases). Either the compiled package (for Windows and OS X) or the source tarball (Linux).
 
 * Installation command from within R: 
    
@@ -19,7 +18,7 @@ Also required are the packages 'Matrix' and 'parallel' which usually are already
         
         load package: library(Morpho)
 
-#### Installation of the R-package Morpho using *devtools*: ####
+#### Installation of the R-package Morpho (development snapshot) using *devtools*: ####
 ##### install prerequisites ####
 
 1. install *devtools* from within R (Ubuntu/Debian users will have to install *libcurl4-gnutls-dev* beforehand):
@@ -31,14 +30,8 @@ Also required are the packages 'Matrix' and 'parallel' which usually are already
 During installation of *Rtools* make sure to install the *toolchain*, and to select *"Edit the system path"* (and confirming the installers suggestions).
     * **OSX:** Install *[XCODE](https://developer.apple.com/xcode/)*
 
-##### a) install latest release
-run the following command in R:
-        
-        require(devtools)
-        install_url("https://github.com/zarquon42b/Morpho/archive/0.25.zip")
 
-##### b) install latest development snapshot
-run the following command in R:
+3. Run the following command in R:
         
         require(devtools)
         install_url("https://github.com/zarquon42b/Rvcg/archive/master.zip")
