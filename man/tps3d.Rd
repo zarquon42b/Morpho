@@ -39,7 +39,23 @@ Stefan Schlager
 }
 
 
+\examples{
+require(Morpho)
+data(nose)
+## define some landmarks
+refind <- c(1:3,4,19:20)
+## use a subset of shortnose.lm as anchor points for a TPS-deformation
+reflm <- shortnose.lm[refind,]
+tarlm <- reflm
+##replace the landmark at the tip of the nose with that of longnose.lm
+tarlm[4,] <- longnose.lm[4,]
+##  deform a set of semilandmarks by applying a TPS-deformation
+##  based on 5 reference points
+deformed <- tps3d(shortnose.lm, reflm, tarlm)
+##visualize results by applying a deformation grid
+deformGrid3d(shortnose.lm,deformed,ngrid = 5)
 
+}
 
 \seealso{
 \code{\link{warp.mesh}}
