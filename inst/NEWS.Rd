@@ -4,6 +4,9 @@
 
 \section{Changes in Morpho version 0.25-1 (2013-08-02)}{
   \itemize{
+    \item added docu for new data set "boneData"
+    \item added examples in procSym and replaced abind with bindArr in fixLMtps and procSym
+    \item added additional example data (landmarks and a bone surface mesh)
     \item added example in tps3d.Rd
     \item updated DESCRIPTION and README
     \item updated README added sourceforge and github download links
