@@ -55,6 +55,25 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name
 
 \seealso{\code{\link{slider3d}}
 }
+\examples{
+data(nose)
+### relax shornose against longnose
+
+# define fix landmarks
+fix <- c(1:5,20:21)
+# define surface patch by specifying row indices of matrices
+# all except those defined as fix
+surp <- c(1:dim(shortnose.lm)[1])[-fix]
+
+relax <- relaxLM(shortnose.lm,
+longnose.lm, mesh=shortnose.mesh, iterations=1,
+SMvector=fix, deselect=T, surp=surp)
+
+# visualize differences red=before and green=after sliding
+deformGrid3d(shortnose.lm, relax, ngrid=0)
+# add surface
+wire3d(shortnose.mesh, col="white")
+}
 
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }
