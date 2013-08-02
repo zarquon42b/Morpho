@@ -46,7 +46,7 @@ procSym<-function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, t
                         Amir[,,i] <- A[,,i]%*%Mir
                         Amir[c(pairedLM),,i] <- Amir[c(pairedLM[,2:1]),,i]
                     }
-                Aall <- abind(A,Amir)
+                Aall <- bindArr(A,Amir,along=3)
             }
         else
             Aall <- A

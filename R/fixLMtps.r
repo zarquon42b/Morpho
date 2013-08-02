@@ -64,7 +64,7 @@ fixLMtps<-function(data,comp=3,weight=TRUE)
         {
           ## rotate incomplete data onto mean ###
           rotmiss <- rotonto(mean0[-miss,],data[-miss,,check[i]],scale=TRUE)$yrot
-          allrot <- abind(rotmiss,proc.c$rotated[-miss,,])
+          allrot <- bindArr(rotmiss,proc.c$rotated[-miss,,], along=3)
           ## calculate weights according to procrustes distance ###			
           wcalc <- proc.weight(allrot,comp,1,report=FALSE)
           lms <- proc.c$rotated[,,wcalc$data$nr-1]

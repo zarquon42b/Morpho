@@ -121,7 +121,36 @@ procSym(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05,
   slid landmarks back onto 3D-surface representations, the usage of
   \code{\link{slider3d}} is recommended.
 }
+\examples{
 
+data(boneData)
+
+### do an analysis of symmetric landmarks
+## visualize landmarks on surface
+ spheres3d(boneLM[,,1])
+wire3d(skull_0144_ch_fe.mesh,col=3)
+## get landmark numbers
+text3d(boneLM[,,1],text=paste(1:10),adj = 1, cex=3)
+## determine paired Landmarks left side:
+left <- c(4,6,8)
+## determine corresponding Landmarks on the right side:
+# important: keep same order
+right <- c(3,5,7)
+pairedLM <- cbind(left,right)
+symproc <- procSym(boneLM, pairedLM=pairedLM)
+## visualize first 3 PCs of symmetric shape
+pcaplot3d(symproc, sym=TRUE)
+## visualize first 3 PCs of asymmetric shape
+pcaplot3d(symproc, sym=FALSE)
+
+## visualze distribution of symmetric PCscores population
+pop <- name2factor(boneLM, which=3)
+require(car)
+spm(~symproc$PCscore_sym[,1:5], groups=pop)
+## visualze distribution of asymmetric PCscores population
+spm(~symproc$PCscore_asym[,1:5], groups=pop)
+
+}
 
 \seealso{\code{\link{slider3d}} 
 }
