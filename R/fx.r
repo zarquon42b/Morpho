@@ -1,4 +1,4 @@
-fx<-function(refmat,M,coefs,time=TRUE)
+.fx<-function(refmat,M,coefs,time=TRUE)
 { 	
 	q<-dim(M)[1]
   	p<-dim(refmat)[1]

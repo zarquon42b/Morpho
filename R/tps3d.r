@@ -15,7 +15,7 @@ tps3d<-function(M,refmat,tarmat,lambda=0)
     coeff<-matrix(NA,p+m+1,m)
     transM<-matrix(NA,q,m)
     coeff<-Linv%*%m2
-    transM<-fx(refmat,M,coeff)
+    transM<-.fx(refmat,M,coeff)
  
     return(transM)
     

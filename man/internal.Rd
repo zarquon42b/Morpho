@@ -16,7 +16,6 @@
 \alias{orp}
 \alias{cSize}
 \alias{closemat}
-\alias{fx}
 \alias{meshcube}
 \alias{rot.proc}
 \alias{projBack}
