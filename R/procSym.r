@@ -91,7 +91,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
 ###test###        
                                         #meanall <- apply(proc$rotated[,,1:n],c(1,2),mean)
         if (orp==TRUE && CSinit==TRUE)
-            procrot <- orp(proc$rotated)
+            procrot <- orp(proc$rotated, mshape=proc$mshape)
         
         orpdata <- procrot
         dimnames(orpdata) <- dimna

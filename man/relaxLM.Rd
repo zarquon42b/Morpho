@@ -64,6 +64,10 @@ fix <- c(1:5,20:21)
 # define surface patch by specifying row indices of matrices
 # all except those defined as fix
 surp <- c(1:dim(shortnose.lm)[1])[-fix]
+## to reduce this example's computation time,
+# we only allow the landmarks on the right side to slide
+# (which keeps the left hand ones fix)
+surp <- surp[1:316]
 
 relax <- relaxLM(shortnose.lm,
          longnose.lm, mesh=shortnose.mesh, iterations=1,
