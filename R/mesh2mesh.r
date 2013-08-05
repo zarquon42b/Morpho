@@ -1,4 +1,4 @@
-mesh2mesh<-function(mesh1,tarmesh,clean=TRUE,cloud=FALSE,sign=FALSE)
+mesh2mesh <- function(mesh1,tarmesh,clean=TRUE,cloud=FALSE,sign=FALSE)
 {
   options <- NULL
   if (sign)
@@ -14,7 +14,7 @@ mesh2mesh<-function(mesh1,tarmesh,clean=TRUE,cloud=FALSE,sign=FALSE)
    }
   if (!is.character(mesh1))
     {
-      vert<-t(mesh1$vb[1:3,])
+      vert <- t(mesh1$vb[1:3,])
       projBack(vert,tarply)
       it <- mesh1$it
     }

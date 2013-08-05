@@ -7,7 +7,7 @@ mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
         out <- NULL
         mclist <- list()
         nx <- dim(query)[1]
-        iter <-floor(nx/cores)
+        iter  <- floor(nx/cores)
         if (cores > 1)
             {
                 for (i in 1:(cores-1))

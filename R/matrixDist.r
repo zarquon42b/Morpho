@@ -123,14 +123,14 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
           {
             if (is.null(radius))
               {
-                k<-dim(x$colMesh$vb)[2]
+                k <- dim(x$colMesh$vb)[2]
                 radius <- (cSize(t(x$colMesh$vb))/sqrt(k))*(1/80)
               }
             spheres3d(t(colMesh$vb),col=colMesh$material$color,radius=radius,...)
           }
      if (displace)
       {
-        dismesh <-colMesh
+        dismesh  <- colMesh
         vl <- dim(colMesh$vb)[2]
         dismesh$vb <- cbind(rbind(colMesh$vb,1),rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)

@@ -1,4 +1,4 @@
-proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FALSE)
+proc.weight <- function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FALSE)
 {
   lmdat <- FALSE
   col <- 3
@@ -8,12 +8,12 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FA
       data <- vecx(data)
       lmdat <- TRUE
     }
-  l<-dim(data)[1]
+  l <- dim(data)[1]
   obsnames <- dimnames(data)[[1]]
   if (lmdat && !mahalanobis)
     {
       for(i in 1:l)
-          rho[i]<-angle.calc(data[ref,],data[i,])
+          rho[i] <- angle.calc(data[ref,],data[i,])
       if (is.null(obsnames))
           id <- as.character(c(1:l))
       else

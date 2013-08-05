@@ -1,4 +1,4 @@
-procSym<-function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE, distfun=c("riemann", "angle"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE)
+procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE, distfun=c("riemann", "angle"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE)
 {	t0 <- Sys.time()     
 	A <- dataarray
       	k <- dim(A)[1]
@@ -30,7 +30,7 @@ procSym<-function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, t
                 dataslide <- Semislide(A, SMvector=SMvector,outlines=outlines,tol=tol,deselect=deselect,recursive=recursive,iterations=iterations,pairedLM=pairedLM,initproc=initproc)
                 A <- dataslide
                 for (i in 1:n)
-                    CS<-apply(A,3,cSize)
+                    CS <- apply(A,3,cSize)
                 if (CSinit==TRUE)
                     { 
                         for (i in 1:n)

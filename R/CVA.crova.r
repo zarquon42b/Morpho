@@ -1,4 +1,4 @@
-.CVAcrova<-function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0)
+.CVAcrova <- function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0)
 {   
     N <- dataarray
     b <- groups
@@ -77,11 +77,11 @@
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
                                         #print(ZtZ)
-    tt <- try(eigZ <-svd(ZtZ))
+    tt <- try(eigZ  <- svd(ZtZ))
     useEig <- min((ng-1), l)     
     A <- Re(eigZ$v[, 1:useEig])
     CV <- U %*% invcW %*% A
-    di<-dim(CV)[2]
+    di <- dim(CV)[2]
     
     for (i in 1:di)
         {
@@ -89,7 +89,7 @@
             if (rho > pi/2)
                 
                 {
-                    CV[,i]<-CV[,i]*(-1)			
+                    CV[,i] <- CV[,i]*(-1)			
                 }
             
         }

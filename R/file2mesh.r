@@ -1,4 +1,4 @@
-file2mesh<-function(filename,clean=TRUE,readcol=FALSE)
+file2mesh <- function(filename,clean=TRUE,readcol=FALSE)
  
 {
   options=NULL
@@ -9,7 +9,7 @@ file2mesh<-function(filename,clean=TRUE,readcol=FALSE)
     {options <- paste(options,"--color")
    }
   system(paste("ply2ascii ",filename," dump.ascii.ply",options,sep=""))
-  mesh<-ply2mesh("dump.ascii.ply",readcol=readcol)
+  mesh <- ply2mesh("dump.ascii.ply",readcol=readcol)
   unlink("dump.ascii.ply")
   return(mesh)
 }

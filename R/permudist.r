@@ -16,25 +16,25 @@ mc.permudist <- permudist <- function(data,groups,rounds=1000,which=1:2,mc.cores
       {N <- vecx(N)
      }
     if (!is.factor(groups))
-      {groups<-as.factor(groups)
+      {groups <- as.factor(groups)
      }
     if (is.factor(groups))
       {
-        lev<-levels(groups)
-        levn<-length(lev)
-        group<-list()
-        count<-1
-        groupcheck<-0
+        lev <- levels(groups)
+        levn <- length(lev)
+        group <- list()
+        count <- 1
+        groupcheck <- 0
         for (i in 1:levn)
-          {	tmp0<-which(groups==lev[i])	
+          {	tmp0 <- which(groups==lev[i])	
                 if (length(tmp0) != 0)
                   {			
-                    group[[count]]<-tmp0
-                    count<-count+1
-                    groupcheck[count]<-i
+                    group[[count]] <- tmp0
+                    count <- count+1
+                    groupcheck[count] <- i
                   }
               }
-        groups<-group
+        groups <- group
       }
 ### end configure grouping ####
 

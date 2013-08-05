@@ -1,4 +1,4 @@
-adnormals<- function(x,angle=TRUE) 
+adnormals <-  function(x,angle=TRUE) 
 {	#### this is basically the function addNormals from the rgl-package with an option for checking degenerated faces ####
 	
 
@@ -15,10 +15,10 @@ adnormals<- function(x,angle=TRUE)
   
   
     it <- x$it
-	storage.mode(v)<-"double"
-	storage.mode(normals)<-"double"
-	storage.mode(it)<-"integer"
-    out<-.Fortran("adnormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals,angle)$normals
+	storage.mode(v) <- "double"
+	storage.mode(normals) <- "double"
+	storage.mode(it) <- "integer"
+    out <- .Fortran("adnormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals,angle)$normals
 	
 
         normals <- out#/out[4,]
@@ -26,7 +26,7 @@ adnormals<- function(x,angle=TRUE)
         x$normals <- normals
   return(x)
 }
-facenormals<- function(x) 
+facenormals <-  function(x) 
 {
     barymesh <- list()
     barymesh$vb <- rbind(t(barycenter(x)),1)
@@ -38,10 +38,10 @@ facenormals<- function(x)
   v <- v[1:3,]
   it <- x$it
   normals <- it*0
-  storage.mode(v)<-"double"
-  storage.mode(normals)<-"double"
-  storage.mode(it)<-"integer"
-  out<-.Fortran("facenormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals)$normals
+  storage.mode(v) <- "double"
+  storage.mode(normals) <- "double"
+  storage.mode(it) <- "integer"
+  out <- .Fortran("facenormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals)$normals
 	
 
   normals <- out#/out[4,]

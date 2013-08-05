@@ -1,4 +1,4 @@
-rot.proc<-function(x, y, scale=TRUE, weights=NULL, centerweight=FALSE, reflection=TRUE)
+rot.proc <- function(x, y, scale=TRUE, weights=NULL, centerweight=FALSE, reflection=TRUE)
     {
         if (centerweight && !is.null(weights))
             {
@@ -18,7 +18,7 @@ rot.proc<-function(x, y, scale=TRUE, weights=NULL, centerweight=FALSE, reflectio
         else
             XY <- crossprod(x,y)	
         sv1 <- svd(XY)
-                                        #dd<-diag(sign(sv1$d))
+                                        #dd <- diag(sign(sv1$d))
         gamm <- tcrossprod(sv1$v,sv1$u)
         if(sign(det(gamm))<1 && ! reflection)
             {
@@ -40,7 +40,7 @@ rot.proc<-function(x, y, scale=TRUE, weights=NULL, centerweight=FALSE, reflectio
                             }
                     }
             }
-                                        #gamm<-(sv1$v)%*%gamm
+                                        #gamm <- (sv1$v)%*%gamm
         del <- sv1$d
         if (scale == TRUE)
             {

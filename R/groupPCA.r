@@ -9,27 +9,27 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     pmatrix.proc <- NULL
     proc.distout <- NULL
     
-    lev<-NULL	
+    lev <- NULL	
     if (is.character(groups))
       {
-        groups<-as.factor(groups)
+        groups <- as.factor(groups)
       }
     if (is.factor(groups))
       {
         factors <- groups
-        lev<-levels(groups)
-        levn<-length(lev)
-        group<-list()
-        count<-1
-        groupcheck<-0
+        lev <- levels(groups)
+        levn <- length(lev)
+        group <- list()
+        count <- 1
+        groupcheck <- 0
         for (i in 1:levn)
           {
             tmp0 <- which(groups==lev[i])	
             if (length(tmp0) != 0)
               {			
-                group[[count]]<-tmp0
-                groupcheck[count]<-i
-                count<-count+1
+                group[[count]] <- tmp0
+                groupcheck[count] <- i
+                count <- count+1
                 
               }
             if (length(tmp0)==1)
@@ -38,7 +38,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
                 warning("group with one entry found - crossvalidation will be disabled.")
               }
           }
-        lev<-lev[groupcheck]
+        lev <- lev[groupcheck]
         groups <- group
       }
     N <- dataarray
@@ -80,29 +80,29 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
 ###### create a neat variance table for the groupmean PCA ###### 
     values <- eigenGmeans$values[valScores]
     if (length(values)==1)
-      {Var<-values}
+      {Var <- values}
     else
       {
-        Var<-matrix(NA,length(values),3)
-        Var[,1]<-values
+        Var <- matrix(NA,length(values),3)
+        Var[,1] <- values
         for (i in 1:length(values))
           {
-            Var[i,2]<-(values[i]/sum(values))*100
+            Var[i,2] <- (values[i]/sum(values))*100
           }
-        Var[1,3]<- Var[1,2]
+        Var[1,3] <-  Var[1,2]
         for (i in 2:length(values))
           {         
-            Var[i,3]<-Var[i,2]+ Var[i-1,3]
+            Var[i,3] <- Var[i,2]+ Var[i-1,3]
           }
-        colnames(Var)<-c("eigenvalues","% Variance","Cumulative %")
+        colnames(Var) <- c("eigenvalues","% Variance","Cumulative %")
       }
     
 ### calculate between group distances ###
-    proc.disto<-matrix(0, ng, ng)
+    proc.disto <- matrix(0, ng, ng)
     if(!is.null(lev))
       {
-        rownames(proc.disto)<-lev
-        colnames(proc.disto)<-lev
+        rownames(proc.disto) <- lev
+        colnames(proc.disto) <- lev
       }	
     for (j1 in 1:(ng - 1)) 
       {
@@ -111,7 +111,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
             proc.disto[j2, j1] <- sqrt(sum((Gmeans[j1, ]- Gmeans[j2,])^2))
           }
       }
-    proc.distout<-as.dist(proc.disto)
+    proc.distout <- as.dist(proc.disto)
     
 ### Permutation Test for Distances	
     if (rounds != 0) 
@@ -119,13 +119,13 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix Euclidean
         if(!is.null(lev))
           {
-            rownames(pmatrix.proc)<-lev
-            colnames(pmatrix.proc)<-lev
+            rownames(pmatrix.proc) <- lev
+            colnames(pmatrix.proc) <- lev
           }
-        rounproc<-function(i)
+        rounproc <- function(i)
           {
             groups1 <- list()
-            dist.mat<-matrix(0,ng,ng)
+            dist.mat <- matrix(0,ng,ng)
             shake <- sample(1:n)
             Gmeans1 <- matrix(0, ng, l)
             l1 <- 0
@@ -142,13 +142,13 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
               {
                 for (j2 in (j1 + 1):ng) 
                   {
-                    dist.mat[j2, j1] <-sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))
+                    dist.mat[j2, j1]  <- sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))
                   }
               }
             return(dist.mat)
           }
         
-        dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
+        dist.mat.proc <-  array(0, dim = c(ng, ng, rounds))
         if(win)
           a.list <- foreach(i=1:rounds)%do%rounproc(i)
         else
@@ -156,7 +156,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         
         for (i in 1:rounds)
           {
-            dist.mat.proc[,,i]<-a.list[[i]]
+            dist.mat.proc[,,i] <- a.list[[i]]
           }
         for (j1 in 1:(ng - 1)) 
           {
@@ -174,7 +174,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
                   }
               }
           }
-        pmatrix.proc<-as.dist(pmatrix.proc)
+        pmatrix.proc <- as.dist(pmatrix.proc)
       }
 
     crovafun <- function(x)

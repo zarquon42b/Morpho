@@ -1,9 +1,9 @@
-warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,...)
-{	#wdold<-getwd()
+warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,...)
+{	#wdold <- getwd()
   if(!is.null(folder))
     {
       if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
-        {folder<-paste(folder,"/",sep="")
+        {folder <- paste(folder,"/",sep="")
          dir.create(folder,showWarnings=F)
          movie <- paste(folder,movie,sep="")
                                         #setwd(folder)
@@ -20,8 +20,8 @@ warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
   
   for (i in 0:n)
     {
-      mesh<-x
-      mesh$vb[1:3,]<-(i/n)*y$vb[1:3,]+(1-(i/n))*x$vb[1:3,]
+      mesh <- x
+      mesh$vb[1:3,] <- (i/n)*y$vb[1:3,]+(1-(i/n))*x$vb[1:3,]
       mesh <- adnormals(mesh)
       a <- shade3d(mesh,col=col,...)
       if (i ==0 && ask==TRUE)
@@ -36,8 +36,8 @@ warpmovie3d.mesh3d<-function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movi
   if (palindrome) ## go the other way ##
     {
       for (i in 1:(n-1))
-        {mesh<-x
-         mesh$vb[1:3,]<-(i/n)*x$vb[1:3,]+(1-(i/n))*y$vb[1:3,]
+        {mesh <- x
+         mesh$vb[1:3,] <- (i/n)*x$vb[1:3,]+(1-(i/n))*y$vb[1:3,]
          mesh <- adnormals(mesh)
          a <- shade3d(mesh,col=col,...)
          filename <- sprintf("%s%04d.png", movie, countbegin+i+n)

@@ -8,7 +8,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     k <- 1
     m <- 1
     if (is.character(groups))
-        groups<-as.factor(groups)
+        groups <- as.factor(groups)
     
     if (is.factor(groups))
         {
@@ -24,7 +24,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
                         {			
                             group[[count]] <- tmp0
                             groupcheck[count] <- i
-                            count<-count+1
+                            count <- count+1
                         }
                 }
             lev <- lev[groupcheck]
@@ -159,8 +159,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         }
     if (plot == TRUE && ng == 2)
         {
-            lim<-range(CVscores[,1])+c(-1,1)
-            yli<-c(0,0.7)
+            lim <- range(CVscores[,1])+c(-1,1)
+            yli <- c(0,0.7)
             coli <- rainbow(2, alpha = 0.5)
             histo <- hist(CVscores,plot=F)
             hist(CVscores[groups[[1]], ], col = coli[1],add=F,breaks=histo$breaks, main = "CVA", xlab = "CV Scores")
@@ -219,7 +219,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     if (cv == TRUE) {
         CVcv <- CVscores
         ng <- length(groups)
-        a.list<-as.list(1:n)
+        a.list <- as.list(1:n)
         crova <- function(i3)
             {
                 bb <- groups
@@ -232,7 +232,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
             }
         a.list <- mclapply(a.list,crova,mc.cores=mc.cores)
         for (i in 1:n)
-            CVcv[i,]<-a.list[[i]]
+            CVcv[i,] <- a.list[[i]]
     }
     return(list(CV = CV, CVscores = CVscores, Grandm = Grandm,
                 groupmeans = groupmeans, Var = Var, CVvis = CVvis,

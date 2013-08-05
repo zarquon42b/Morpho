@@ -1,18 +1,18 @@
-rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE)
+rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE)
 { 	reflect=0
-  	m<-dim(x)[2]
+  	m <- dim(x)[2]
         if (!is.null(weights))
           weights <- weights/sum(weights)
        
-        X<-apply(x,2,scale,scale=F)
-  	Y<-apply(y,2,scale,scale=F)
+        X <- apply(x,2,scale,scale=F)
+  	Y <- apply(y,2,scale,scale=F)
          if (centerweight && !is.null(weights))
           {
             
             xcent <- apply(X*weights,2,sum)
             ycent <- apply(Y*weights,2,sum)
-            X<-scale(X,scale=F,center=xcent)
-            Y<-scale(Y,scale=F,center=ycent)
+            X <- scale(X,scale=F,center=xcent)
+            Y <- scale(Y,scale=F,center=ycent)
           }
         if (!is.null(weights))
           {
@@ -22,16 +22,16 @@ rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,cent
             XY <- crossprod(X1,Y1)
           }
         else
-          XY<-crossprod(X,Y)
+          XY <- crossprod(X,Y)
 
-        sv1<-svd(XY)
+        sv1 <- svd(XY)
         
-	#dd<-diag(sign(sv1$d))
-	gamm<-tcrossprod(sv1$v,sv1$u)
-	#gamm<-(sv1$v)%*%gamm
+	#dd <- diag(sign(sv1$d))
+	gamm <- tcrossprod(sv1$v,sv1$u)
+	#gamm <- (sv1$v)%*%gamm
   	
   	if(sign(det(gamm))<1)
-	  {	reflect<-1
+	  {	reflect <- 1
 		if (signref && reflection)
                   {cat("reflection involved\n")
                  }
@@ -56,12 +56,12 @@ rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,cent
                 
                   
 	  
-  	trans<-x[1,]-X[1,]
-  	transy<-y[1,]-Y[1,]
-  	#yrot<-Y%*%gamm
-  	sig<-sign(det(XY))
-  	del<-sv1$d
-   #del[m]<-sig*abs(del[m])
+  	trans <- x[1,]-X[1,]
+  	transy <- y[1,]-Y[1,]
+  	#yrot <- Y%*%gamm
+  	sig <- sign(det(XY))
+  	del <- sv1$d
+   #del[m] <- sig*abs(del[m])
   	ctrace <- function(MAT) sum(diag(crossprod(MAT)))
   
   
@@ -70,16 +70,16 @@ rotonto<-function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,cent
                   if (!is.null(weights))
                     bet <- sum(del)/ctrace(Y1)
                   else
-                    bet<-sum(del)/ctrace(Y)
-                  yrot<-bet*Y%*%gamm
+                    bet <- sum(del)/ctrace(Y)
+                  yrot <- bet*Y%*%gamm
 		}
   	else
     		{
                   bet <- 1
-                  yrot<-Y%*%gamm
+                  yrot <- Y%*%gamm
 		}
-	Y<-yrot  	
-	yrot<-t(apply(yrot,1,function(x){x+trans}))
+	Y <- yrot  	
+	yrot <- t(apply(yrot,1,function(x){x+trans}))
   
   	return(list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect))
 }

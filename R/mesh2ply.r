@@ -1,23 +1,23 @@
-mesh2ply<-function(x,filename="default",col=NULL,writeNormals=FALSE)
+mesh2ply <- function(x,filename="default",col=NULL,writeNormals=FALSE)
 {	
 
   if (is.matrix(x))
-    {x<-list(vb=x)}
-  filename<-paste(filename,".ply",sep="")
-  vert<-x$vb[1:3,]
-  vert<-round(vert,digits=6)
+    {x <- list(vb=x)}
+  filename <- paste(filename,".ply",sep="")
+  vert <- x$vb[1:3,]
+  vert <- round(vert,digits=6)
   if (!is.null(x$it))
-    {face<-x$it-1
-     fd<-3
-     fn<-dim(face)[2]
+    {face <- x$it-1
+     fd <- 3
+     fn <- dim(face)[2]
    }
   else 
-    {fn<-0
+    {fn <- 0
    }	
-  vert.all<-vert
-  vn<-dim(vert)[2]
-  vn.all<-3
-  texfile<-x$TextureFile
+  vert.all <- vert
+  vn <- dim(vert)[2]
+  vn.all <- 3
+  texfile <- x$TextureFile
 
   if (is.null(col) && !is.null(x$material$color))
     {
@@ -46,14 +46,14 @@ mesh2ply<-function(x,filename="default",col=NULL,writeNormals=FALSE)
   
 ### write vertex infos to header ###
   
-	v.info<-paste("element vertex ",vn,"\n","property float x\nproperty float y\nproperty float z\n",sep="")
+	v.info <- paste("element vertex ",vn,"\n","property float x\nproperty float y\nproperty float z\n",sep="")
  
 	cat(v.info,file=filename,append=TRUE)	
 		if (!is.null(x$normals))
 			{cat("property float nx\nproperty float ny\nproperty float nz\n",file=filename,append=TRUE)
-			norma<-round(x$normals[1:3,],digits=6)
-			vert.all<-rbind(vert,norma)	
-			vn.all<-6		
+			norma <- round(x$normals[1:3,],digits=6)
+			vert.all <- rbind(vert,norma)	
+			vn.all <- 6		
 			}
    if (!is.null(col))    
      {
@@ -91,10 +91,10 @@ mesh2ply<-function(x,filename="default",col=NULL,writeNormals=FALSE)
 	### write face and Texture information ###	
 	if (!is.null(x$it)){
 	if(!is.null(x$tex) && !is.null(x$TextureFile))
-		{tex<-t(x$tex)
-		texn<-dim(tex)[2]
-		faceraw<-rbind(fd,face)
-		facetex<-t(cbind(texn,tex))
+		{tex <- t(x$tex)
+		texn <- dim(tex)[2]
+		faceraw <- rbind(fd,face)
+		facetex <- t(cbind(texn,tex))
 		write.table(format(t(rbind(faceraw,facetex)),scientific=F,trim=T),file=filename,sep=" ",append=TRUE,quote = FALSE, row.names = FALSE, col.names = FALSE, na = "")			
 		}
 	else

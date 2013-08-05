@@ -1,4 +1,4 @@
-permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
+permuvec <- mc.permuvec <- function(data,groups,subgroups,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
 {
   win <- FALSE
   if(.Platform$OS.type == "windows")

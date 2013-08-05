@@ -1,4 +1,4 @@
-addo<-function(a3) 
+addo <- function(a3) 
 {
 #### copy of add in shapes package
 #### Copyright by Ian Dryden

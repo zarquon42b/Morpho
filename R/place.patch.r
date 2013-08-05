@@ -15,7 +15,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         usematrix <- TRUE
         n <- 1
         out <- matrix(NA,(patch.dim+k),3)
-        name <-NULL
+        name  <- NULL
       }
 
    
@@ -34,7 +34,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         if (!is.null(outlines))
           {
             sm <- SMvector
-            U<-.calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
+            U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
             slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
             slide <- projRead(slide,tmp.name,readnormals=FALSE)
             tps.lm <- tps3d(patch,atlas.lm,slide)
@@ -64,7 +64,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             relax <- rbind(slide,t(tps.lm$vb[1:3,]))
             normals <- rbind(slide,t(tps.lm$normals[1:3,]))
 
-            surface <-c((k+1):(patch.dim+k))  ## define surface as appended to preset landmarks
+            surface  <- c((k+1):(patch.dim+k))  ## define surface as appended to preset landmarks
             free <- NULL
 ### compare normals of projection and original points
             if (!is.null(rhotol))
@@ -102,7 +102,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                   {surface <- NULL
                  }
                 
-                U1 <-.calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
+                U1  <- .calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
                 
                 tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
                 tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE)
@@ -120,7 +120,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE)
           }
         if (!usematrix)
-          out[,,i] <-rbind(dat.array[,,i],tps.lm)
+          out[,,i]  <- rbind(dat.array[,,i],tps.lm)
         else
           out <- rbind(dat.array,tps.lm)
       }

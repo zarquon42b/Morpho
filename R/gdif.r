@@ -1,4 +1,4 @@
-gdif<-function (a3) 
+gdif <- function (a3) 
 {
 #### this is a copy of the function "dif" from the shapes package ####
 #### Copyright by Ian Dryden

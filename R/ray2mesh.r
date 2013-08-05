@@ -1,4 +1,4 @@
-ray2mesh<-function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE)
+ray2mesh <- function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE)
 { 
 
   options <- NULL
@@ -28,7 +28,7 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readb
     { options <- paste(" ",options,sep="")
     }
   if (is.null(outname))
-    {outname<-"project.mesh.ply"
+    {outname <- "project.mesh.ply"
    }
   if (is.character(tarmesh))
     { target <- tarmesh
@@ -59,7 +59,7 @@ ray2mesh<-function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readb
 
                                         # print (cmd)
 
-  outmesh<-ply2mesh(outname,readnormals=TRUE)
+  outmesh <- ply2mesh(outname,readnormals=TRUE)
   if (clean)
     {unlink(c("reference.ply","target.ply",outname))
    }

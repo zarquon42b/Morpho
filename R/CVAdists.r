@@ -18,7 +18,7 @@
             roun <- function(i)
                 {   
                     groups1 <- list(numeric(0))
-                    dist.mat<-matrix(0,ng,ng)
+                    dist.mat <- matrix(0,ng,ng)
                     shake <- sample(1:n)
                     Gmeans1 <- matrix(0, ng, l)
                     l1 <- 0
@@ -43,7 +43,7 @@
             a.list <- mclapply(a.list,roun,mc.cores=mc.cores)
             
             for (i in 1:rounds)
-                dist.mat[,,i]<-a.list[[i]]
+                dist.mat[,,i] <- a.list[[i]]
             
             for (j1 in 1:(ng - 1)) 
                 {
@@ -60,10 +60,10 @@
                         }
                 }
             
-            roun.proc<-function(i)
+            roun.proc <- function(i)
                 {
                     groups1 <- list()
-                    dist.mat<-matrix(0,ng,ng)
+                    dist.mat <- matrix(0,ng,ng)
                     shake <- sample(1:n)
                     Gmeans1 <- matrix(0, ng, l)
                     l1 <- 0
@@ -89,7 +89,7 @@
                             }
                 }
             
-            dist.mat.proc<- array(0, dim = c(ng, ng, rounds))
+            dist.mat.proc <-  array(0, dim = c(ng, ng, rounds))
             a.list <- as.list(1:rounds)
             a.list <- mclapply(a.list,roun.proc,mc.cores=mc.cores)
             

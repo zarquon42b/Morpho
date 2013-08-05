@@ -7,14 +7,14 @@ readallTPS <- function(file)
 ### get Landmark infos
     LM <- grep("LM=",input)
     LMstring <- input[LM]
-    nLM <-sapply(LMstring,strsplit,split="=")
+    nLM  <- sapply(LMstring,strsplit,split="=")
     nLM <- unlist(nLM)
     nLM <- as.integer(nLM[-which(nLM == "LM")])
     nobs <- length(nLM)
 ### get ID infos
     ID <- grep("ID=",input)
     IDstring <- input[ID]
-    nID <-sapply(IDstring,function(x){x <- gsub("=","_",x)})
+    nID  <- sapply(IDstring,function(x){x <- gsub("=","_",x)})
     nID <- gsub(" ","",unlist(nID))
                                         #nID <- nID[-which(nID == "ID")]
     ##nobs <- length(nID)
@@ -26,7 +26,7 @@ readallTPS <- function(file)
       {
         exOut <- TRUE
         outlinestring <- input[outline]
-        noutline <-sapply(outlinestring,strsplit,split="=")
+        noutline  <- sapply(outlinestring,strsplit,split="=")
         noutline <- unlist(noutline)
         noutline <- as.integer(noutline[-which(noutline == "OUTLINES")])
         LMoutline <- (sapply(outline,function(x){x <- max(which(LM < x))}))
@@ -64,7 +64,7 @@ readallTPS <- function(file)
                   {
                     tmpnr <- as.integer(unlist(strsplit(input[ptr],split="="))[2])
                                         #printmpnr)
-                    outlinetmp[[j]] <-matrix(as.numeric(unlist(strsplit(input[(ptr+1):(ptr+tmpnr)],split=" "))),tmpnr,2,byrow=TRUE)
+                    outlinetmp[[j]]  <- matrix(as.numeric(unlist(strsplit(input[(ptr+1):(ptr+tmpnr)],split=" "))),tmpnr,2,byrow=TRUE)
                     ptr <- ptr+tmpnr+1
                     j <- j+1
                   }

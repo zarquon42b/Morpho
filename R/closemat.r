@@ -22,8 +22,8 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=1,method=0,...)
     nvb <- dim(vb)[2]
     nit <- dim(it)[2]
     
-    nmat<-dim(matr)[1]
-     dif<-rep(0,nmat)
+    nmat <- dim(matr)[1]
+     dif <- rep(0,nmat)
      fptr <- dif
     bary <- barycenter(mesh)
     clostInd <- mcNNindex(bary,matr,k=k,cores=cores,...)

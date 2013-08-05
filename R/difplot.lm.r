@@ -1,17 +1,17 @@
-.difplotLM<-function(refshape,targetshape,color=4,lwd=1,lcol=2,rgl.new=TRUE)
+.difplotLM <- function(refshape,targetshape,color=4,lwd=1,lcol=2,rgl.new=TRUE)
 {   
     if ( rgl.new == TRUE)
        {
          open3d()
        }
-    A<-refshape
-    k<-dim(A)[1]
-    m<-dim(A)[2]
-    #texx<-apply(targetshape,2,max)
-    #texm<-apply(refshape,2,mean)
-    #texx<-texx*away.fac
-    sds<-0
-     lim<-max(abs(refshape))
+    A <- refshape
+    k <- dim(A)[1]
+    m <- dim(A)[2]
+    #texx <- apply(targetshape,2,max)
+    #texm <- apply(refshape,2,mean)
+    #texx <- texx*away.fac
+    sds <- 0
+     lim <- max(abs(refshape))
     
     
       

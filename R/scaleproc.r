@@ -1,4 +1,4 @@
-scaleproc<-function (a3, proc.output = FALSE) 
+scaleproc <- function (a3, proc.output = FALSE) 
 {
 #### this is a copy of the function "bgpa" from the shapes package ####
 #### Copyright by Ian Dryden

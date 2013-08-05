@@ -1,9 +1,9 @@
-projBack<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE)
+projBack <- function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE)
 {
   checkCLI <- try(system("trimesh_project",intern=TRUE),silent=TRUE)
    if(class(checkCLI) == "try-error")
       stop("please install trimesh-tools")
-  options<-NULL
+  options <- NULL
   
   if (!smooth)
     {options <- paste(options,"--nosmooth")
@@ -13,21 +13,21 @@ projBack<-function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.st
       options <- paste(options,"--sign")
     }
   if (is.null(dataname))
-    {dataname<-"out"}
+    {dataname <- "out"}
   write.obj(cbind("v",data),filename=dataname)
   if (is.null(outname))
-    {command<-paste("trimesh_project"," ",dataname,".obj"," ",surface,options,sep="")
+    {command <- paste("trimesh_project"," ",dataname,".obj"," ",surface,options,sep="")
    }
   else
-    {command<-paste("trimesh_project"," ",dataname,".obj"," ",surface," -o ",outname,options,sep="")
+    {command <- paste("trimesh_project"," ",dataname,".obj"," ",surface," -o ",outname,options,sep="")
    }
                                         #print(command)
-                                        #command<-paste("trimesh_project"," ",dataname," ",surface," ",outname,sep="")	
+                                        #command <- paste("trimesh_project"," ",dataname," ",surface," ",outname,sep="")	
   system(command,ignore.stdout=ignore.stdout)
   unlink(paste(dataname,".obj",sep="")) #clean up
   
 }
-projRead<-function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE,lmdump=NULL,prodump=NULL)
+projRead <- function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE,lmdump=NULL,prodump=NULL)
 {
 
   checkCLI <- try(system("trimesh_project",intern=TRUE),silent=TRUE)
@@ -50,7 +50,7 @@ projRead<-function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout
       unlink(dumpfile)
     }
   
-  data<-ply2mesh(prodump,readnormals=readnormals)
+  data <- ply2mesh(prodump,readnormals=readnormals)
   if (clean)
     {	
       unlink(prodump)
