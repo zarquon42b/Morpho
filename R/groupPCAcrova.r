@@ -72,7 +72,7 @@
         for (i in 1:di)
             {
                 rho <- angle.calc(groupPCs[,i ],PCs[,i])
-                if (rho$rho > pi/2)
+                if (rho > pi/2)
                     {
                         PCs[,i]<-PCs[,i]*(-1)
                     }

@@ -1,6 +1,5 @@
 \name{Morpho-internal}
 \alias{ang}
-\alias{angle.calc}
 \alias{calcGamma}
 \alias{CreateL}
 \alias{CreateL2D}

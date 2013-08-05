@@ -85,8 +85,8 @@
     
     for (i in 1:di)
         {
-            rho<-angle.calc(test[,i ],CV[,i])
-            if (rho$rho > pi/2)
+            rho <- angle.calc(test[,i ],CV[,i])
+            if (rho > pi/2)
                 
                 {
                     CV[,i]<-CV[,i]*(-1)			

@@ -14,7 +14,7 @@ procSym<-function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, t
         else
             distfun <- function(x,y)
                 {
-                    rho <- angle.calc(x,y)$rho
+                    rho <- angle.calc(x,y)
                     return(rho)
                 }
         

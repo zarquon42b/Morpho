@@ -42,7 +42,7 @@ This function calculates  means of all four subgroups and compares the
   \item{angle }{angle between the vectors of the subgroups means}
   \item{dist }{ditances between subgroups }
   \item{meanvec }{matrix containing the means of all four subgroups.}
-  \item{permutangles }{vector containing angles from random permutation. }
+  \item{permutangles }{vector containing angles (in radians) from random permutation. }
   \item{permudists }{vector containing distances from random permutation.}
   \item{p.angle }{p-value of angle between residual vectors.}
   \item{p.dist }{p-value of length difference between residual vectors.}

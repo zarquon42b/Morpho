@@ -82,7 +82,7 @@
                         for (j2 in (j1 + 1):ng)
                             {
                                 if (n3)
-                                    dist.mat[j2, j1] <- angle.calc(Gmeans1[j1, ],Gmeans1[j2, ])$rho
+                                    dist.mat[j2, j1] <- angle.calc(Gmeans1[j1, ],Gmeans1[j2, ])
                                 else
                                     dist.mat[j2, j1] <- sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))   
                                 return(dist.mat)

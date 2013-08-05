@@ -7,54 +7,54 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
     registerDoParallel(cores=mc.cores)### register parallel backend
   
 ### define groups ####
-  rawgroup<-groups	
-  lev<-NULL	
+  rawgroup <- groups	
+  lev <- NULL	
   if (is.character(groups) || is.numeric(groups))
-    {groups<-as.factor(groups)
+    {groups <- as.factor(groups)
    }
   if (is.factor(groups))
     {
-      lev<-levels(groups)
-      levn<-length(lev)
-      group<-list()
-      count<-1
-      groupcheck<-0
+      lev <- levels(groups)
+      levn <- length(lev)
+      group <- list()
+      count <- 1
+      groupcheck <- 0
       for (i in 1:levn)
-        {	tmp0<-which(groups==lev[i])	
+        {	tmp0 <- which(groups==lev[i])	
                 if (length(tmp0) != 0)
                   {			
-                    group[[count]]<-tmp0
-                    count<-count+1
-                    groupcheck[count]<-i
+                    group[[count]] <- tmp0
+                    count <- count+1
+                    groupcheck[count] <- i
                   }
               }
-      groups<-group
+      groups <- group
     }
   
-  levsub<-NULL	
+  levsub <- NULL	
   if (is.character(subgroups) || is.numeric(subgroups))
-    {subgroups<-as.factor(subgroups)
+    {subgroups <- as.factor(subgroups)
    }
   if (is.factor(subgroups))
     {
-      levsub<-levels(subgroups)
-      levnsub<-length(levsub)
-      subgroup<-list()
-      count<-1
+      levsub <- levels(subgroups)
+      levnsub <- length(levsub)
+      subgroup <- list()
+      count <- 1
       for (i in 1:levnsub)
-        {	tmp0<-which(subgroups==levsub[i])
+        {	tmp0 <- which(subgroups==levsub[i])
                 if (length(tmp0) != 0)
-                  {subgroup[[i]]<-tmp0
-                   count<-count+1
+                  {subgroup[[i]] <- tmp0
+                   count <- count+1
                  }
               }
-      subgroups<-subgroup
+      subgroups <- subgroup
     }
-  b<-groups
+  b <- groups
   N <- data
   ng <- length(groups)
-  nsub<-length(subgroups)
-  meanlist<-list()
+  nsub <- length(subgroups)
+  meanlist <- list()
   
 ### prepare data if data is an array ###
   
@@ -93,7 +93,7 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
     B <- as.matrix(N)
     
   }
-  Braw<-B
+  Braw <- B
   nws <- c(rep(0, nsub))
   for (i in 1:nsub)
     {
@@ -104,89 +104,89 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
     {
       for (j in 1:nsub)	
         {
-          tmp<-subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
-          Gmeans[i,]<-Gmeans[i,]+apply(B[tmp,],2,mean)
+          tmp <- subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
+          Gmeans[i,] <- Gmeans[i,]+apply(B[tmp,],2,mean)
         }
-      Gmeans[i,]<-Gmeans[i,]/nsub
+      Gmeans[i,] <- Gmeans[i,]/nsub
     }
   
 ### create empty subgroup mean matrices 
-  meanvec<-matrix(NA,ng,l)
+  meanvec <- matrix(NA,ng,l)
   if (is.factor (rawgroup ) || is.character(rawgroup))
     {
-      rownames(meanvec)<-levels(rawgroup)[groupcheck]
+      rownames(meanvec) <- levels(rawgroup)[groupcheck]
     }
   
   for (i in 1:ng)
     {
-      meanlist[[i]]<-matrix(NA,nsub,l)
+      meanlist[[i]] <- matrix(NA,nsub,l)
     }
   
 ### correct for groupmeans ###
   for (i in 1:ng)
     {
-      gn<-length(groups[[i]])
-      delt<-matrix(Gmeans[i,],gn,l,byrow=T)
-      B[groups[[i]],]<-B[groups[[i]],]-delt
+      gn <- length(groups[[i]])
+      delt <- matrix(Gmeans[i,],gn,l,byrow=T)
+      B[groups[[i]],] <- B[groups[[i]],]-delt
     }
   
 ### calc subgroup means, residual vectors and pooled within group variance ###
   covW <- 0	
-  wgroupvar<-NULL
+  wgroupvar <- NULL
   for (i in 1:ng)
     {	
       for (j in 1:nsub)	
         {
-          tmp<-subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
-          meanlist[[i]][j,]<-apply(B[tmp,],2,mean)
+          tmp <- subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
+          meanlist[[i]][j,] <- apply(B[tmp,],2,mean)
 ### calc within subgroups Sum of Squares
           if (scale)
             {
-              covW<-covW+cov(apply(B[tmp,],2,scale,scale=F))*(length(tmp)-1)
+              covW <- covW+cov(apply(B[tmp,],2,scale,scale=F))*(length(tmp)-1)
             }
         }
       
 ### calc pooled groupspecific within subgroups covariance matrix and overall variance ###
                                         #print(scale)
       
-      meanvec[i,]<-(meanlist[[i]][1,]-meanlist[[i]][2,])      
+      meanvec[i,] <- (meanlist[[i]][1,]-meanlist[[i]][2,])      
     }
   
-  covW<-covW/(n-(ng*nsub))
+  covW <- covW/(n-(ng*nsub))
   if (!scale)
     {
       covW <-  diag(rep(1,dim(B)[2]))
     }
-  mahadist<-NULL
+  mahadist <- NULL
 ### invert covariance matrix
-  coinv<-ginv(covW,tol=tol)
+  coinv <- ginv(covW,tol=tol)
                                         # print(dim(coinv))
   for (i in 1:ng) ## calc Mahalanobisdistance ### 
-    {mahadist[i]<-sqrt(meanvec[i,]%*%coinv%*%meanvec[i,])
+    {mahadist[i] <- sqrt(meanvec[i,]%*%coinv%*%meanvec[i,])
                                         # print(dim(sqrt(meanvec[i,]%*%coinv%*%meanvec[i,])))
    }
   
 ### calc angle compare vector lengths ###
   
-  disto<-abs(mahadist[1]-mahadist[2])
-  out<-Morpho::angle.calc(meanvec[1,],meanvec[2,])$rho
+  disto <- abs(mahadist[1]-mahadist[2])
+  out <- angle.calc(meanvec[1,],meanvec[2,])
   
   
 ### permutate over groups ###	
   
-  alist<-as.list(1:rounds)	
-  testvec<-0
-  permuta<-function(x)
+  alist <- as.list(1:rounds)	
+  testvec <- 0
+  permuta <- function(x)
     {
-      tmplist<-list()
+      tmplist <- list()
       for (i in 1:ng)
         {
-          tmplist[[i]]<-matrix(NA,nsub,l)
+          tmplist[[i]] <- matrix(NA,nsub,l)
         }
-      meanvectmp<-matrix(NA,ng,l)
-      Btmp<-B
+      meanvectmp <- matrix(NA,ng,l)
+      Btmp <- B
       b1 <- list(numeric(0))
-      shake<-sample(1:n)
+      shake <- sample(1:n)
       Gmeans1 <- matrix(0, ng, l)
       l1 <- 0
       for (j in 1:ng) 
@@ -199,25 +199,25 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
         {	
           for (j in 1:nsub)	
             {
-              tmp<-subgroups[[j]][which(subgroups[[j]] %in% b1[[i]])]
-              tmplist[[i]][j,]<-apply(Btmp[tmp,],2,mean)
-                                        #covW0<-covW0+cov(apply(B[tmp,],2,scale,scale=F))*(length(tmp)-1)
+              tmp <- subgroups[[j]][which(subgroups[[j]] %in% b1[[i]])]
+              tmplist[[i]][j,] <- apply(Btmp[tmp,],2,mean)
+                                        #covW0 <- covW0+cov(apply(B[tmp,],2,scale,scale=F))*(length(tmp)-1)
             }
           
-          meanvectmp[i,]<-(tmplist[[i]][1,]-tmplist[[i]][2,])
+          meanvectmp[i,] <- (tmplist[[i]][1,]-tmplist[[i]][2,])
                                         #meanvectmp[i,]
         }
       
-      mahadist0<-NULL
+      mahadist0 <- NULL
       
       for (i in 1:ng) ## calc Mahalanobisdistance ### 
         {
-          mahadist0[i]<-sqrt(meanvectmp[i,]%*%coinv%*%meanvectmp[i,])        
+          mahadist0[i] <- sqrt(meanvectmp[i,]%*%coinv%*%meanvectmp[i,])        
         }
-                                        #covW0<-covW0/(n-(ng*nsub))
-      dist<-abs(mahadist0[1]-mahadist0[2])
+                                        #covW0 <- covW0/(n-(ng*nsub))
+      dist <- abs(mahadist0[1]-mahadist0[2])
       
-      return(c(Morpho::angle.calc(meanvectmp[1,],meanvectmp[2,])$rho,dist))
+      return(c(angle.calc(meanvectmp[1,],meanvectmp[2,]),dist))
     }
   if (win)
     tt <- foreach(i= 1:rounds,.combine=c) %do% permuta(i)
@@ -232,21 +232,21 @@ permuvec <- mc.permuvec<-function(data,groups,subgroups,rounds=10000,scale=TRUE,
 ### calc probabilities ####
   if (max(sortdist) < disto)
     {
-      probadist <-1/rounds
+      probadist  <- 1/rounds
     }
   else
     {
-      marg<-min(which(sortdist >= disto))
-      probadist<-(rounds-marg+1)/rounds
+      marg <- min(which(sortdist >= disto))
+      probadist <- (rounds-marg+1)/rounds
     }      
-  sortang<-sort(uns[angs])
+  sortang <- sort(uns[angs])
   if (max(sortang) < out)
-    {proba <-1/rounds
+    {proba  <- 1/rounds
    }
   else
     {
-      marg<-min(which(sortang >= out))
-      proba<-(rounds-marg+1)/rounds
+      marg <- min(which(sortang >= out))
+      proba <- (rounds-marg+1)/rounds
     }      
 
   return(list(angle=out,dist=disto,meanvec=meanvec,permutangles=sortang,permudists=sortdist,p.angle=proba,p.dist=probadist,subdist=mahadist))

@@ -12,12 +12,12 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FA
   obsnames <- dimnames(data)[[1]]
   if (lmdat && !mahalanobis)
     {
-      for(i in 1:l){rho[i]<-angle.calc(data[ref,],data[i,])$rho}
+      for(i in 1:l)
+          rho[i]<-angle.calc(data[ref,],data[i,])
       if (is.null(obsnames))
-        {id <- as.character(c(1:l))
-       }
+          id <- as.character(c(1:l))
       else
-        {id <- obsnames}
+          id <- obsnames
     }
   else
     {
@@ -39,20 +39,16 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FA
             }
         }
       else
-        {
           covtmp <- diag(ncol(data))
-        }
       rho <- sqrt(mahalanobis(data,cov=covtmp,center=data[ref,],inverted = TRUE))
     }
   
   if (is.null(obsnames))
-    {id <- as.character(c(1:l))
-   }
+      id <- as.character(c(1:l))
   else
-    {id <- obsnames}
+      id <- obsnames
   if (log)
-    {rho <- log(rho)
-   }
+      rho <- log(rho)
   nr <- c(1:l)
   data <- data.frame(nr,id,rho)
   dat.sort.i <- data[order(data[,col]),]
@@ -65,9 +61,8 @@ proc.weight<-function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FA
   weight <- weight/sum(weight)
   out <- data.frame(dat.which,weight)
   if (report)
-    {
       cat(paste("  reference was",id[ref],"\n"))
-    }
+  
   return(list(data=out,reference=id[ref],rho.all=data))
 
 }

@@ -1,0 +1,31 @@
+\name{angle.calc}
+\alias{angle.calc}
+\title{
+calculate angle between two vectors}
+\description{
+calculates unsigned angle between two vectors}
+\usage{
+angle.calc(x, y)
+}
+
+\arguments{
+  \item{x}{numeric vector (or matrix to be interpreted as vector)
+}
+  \item{y}{numeric vector  (or matrix to be interpreted as vector) of same length as \code{x}
+  }
+}
+
+\value{
+  angle between x and y in radians.
+
+}
+
+\examples{
+#calculate angle between two centered and
+# superimposed landmark configuration
+data(boneData)
+opa <- rotonto(boneLM[,,1],boneLM[,,2])
+angle.calc(opa$X, opa$Y)
+}
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }

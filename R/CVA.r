@@ -197,7 +197,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         for (j2 in (j1 + 1):ng)
             {
                 if (n3) 
-                    proc.disto[j2, j1] <- angle.calc(Gmeans[j1, ], Gmeans[j2,])$rho
+                    proc.disto[j2, j1] <- angle.calc(Gmeans[j1, ], Gmeans[j2,])
                 else
                     proc.disto[j2, j1] <- sqrt(sum((Gmeans[j1, ]- Gmeans[j2,])^2))
             }

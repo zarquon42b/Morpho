@@ -73,7 +73,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 rho <- NULL
                 for (j in 1:patch.dim)
                   {
-                    rho[j] <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])$rho
+                    rho[j] <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])
                   }
                 rhoex <- which(rho > rhotol) 
                 
