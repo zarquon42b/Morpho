@@ -1,4 +1,4 @@
-groupPCAcrova <- function(dataarray, groups,tol=1e-10,groupPCs,weighting=weighting)
+.groupPCAcrova <- function(dataarray, groups,tol=1e-10,groupPCs,weighting=weighting)
     { 
         lev<-NULL	
         if (is.character(groups))

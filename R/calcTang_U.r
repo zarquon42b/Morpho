@@ -1,4 +1,4 @@
-calcTang_U<-function(datamatrix,SMvector,outlines,deselect=FALSE)
+.calcTang_U<-function(datamatrix,SMvector,outlines,deselect=FALSE)
 {     	
 	if (is.list(outlines)==FALSE)
       		{

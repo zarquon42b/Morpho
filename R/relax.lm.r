@@ -31,7 +31,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
       {
         lm_old <- vs
         cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
-        U<-calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
+        U<-.calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
         dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
         if (is.null(mesh))
           {

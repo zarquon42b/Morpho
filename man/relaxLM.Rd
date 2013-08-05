@@ -66,8 +66,8 @@ fix <- c(1:5,20:21)
 surp <- c(1:dim(shortnose.lm)[1])[-fix]
 
 relax <- relaxLM(shortnose.lm,
-longnose.lm, mesh=shortnose.mesh, iterations=1,
-SMvector=fix, deselect=TRUE, surp=surp)
+         longnose.lm, mesh=shortnose.mesh, iterations=1,
+         SMvector=fix, deselect=TRUE, surp=surp)
 
 # visualize differences red=before and green=after sliding
 deformGrid3d(shortnose.lm, relax, ngrid=0)

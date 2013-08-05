@@ -156,7 +156,7 @@ slider3d <-function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",su
       
       a.list<-as.list(1:n)
       slido<-function(j)          		
-        {U<-calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights)
+        {U<-.calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights)
         
          dataslido<-calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
          return(dataslido)

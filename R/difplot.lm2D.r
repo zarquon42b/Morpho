@@ -1,4 +1,4 @@
-difplot.lm2D<-function(refshape,targetshape,color=4,lwd=1,lcol=2,main=main)
+.difplotLM2D<-function(refshape,targetshape,color=4,lwd=1,lcol=2,main=main)
 {   
     A<-refshape
     k<-dim(A)[1]

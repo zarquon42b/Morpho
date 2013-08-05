@@ -1,4 +1,4 @@
-difplot.lm<-function(refshape,targetshape,color=4,lwd=1,lcol=2,rgl.new=TRUE)
+.difplotLM<-function(refshape,targetshape,color=4,lwd=1,lcol=2,rgl.new=TRUE)
 {   
     if ( rgl.new == TRUE)
        {

@@ -1,4 +1,4 @@
-calcTang_U_s<-function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surface=NULL,free=NULL,deselect=FALSE,weights=NULL)
+.calcTang_U_s<-function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surface=NULL,free=NULL,deselect=FALSE,weights=NULL)
 {
   dims<-dim(datamatrix)[2]
   k<-dim(datamatrix)[1]
