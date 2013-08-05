@@ -16,7 +16,7 @@ have to be installed.
 }
 \details{
   \tabular{ll}{ Package: \tab Morpho\cr Type: \tab Package\cr
-  Version: \tab 0.25-1\cr License: \tab
+  Version: \tab 0.26-00\cr License: \tab
   GPL\cr LazyLoad: \tab yes\cr }
 
 }
