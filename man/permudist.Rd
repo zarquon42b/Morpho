@@ -34,6 +34,27 @@ permudist(data, groups, rounds = 1000, which = 1:2, mc.cores = detectCores())
 
   
 }
+\examples{
+data(boneData)
+proc <- procSym(boneLM)
+groups <- name2factor(boneLM,which=3)
+perm <- permudist(proc$PCscores, groups=groups, mc.cores=2)
+#visualize results
+hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
+     xlab="distances")#random distances
+points(perm$dist,50,col=2,pch=19)#actual distance
+text(perm$dist,70,label=paste("actual distance\n(p=",perm$p.value,")"))
+
+## now we concentrate only on sex dimorphism between Europeans
+groups <- name2factor(boneLM,which=3:4)
+levels(groups)
+perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, mc.cores=2)
+# plot histogram of random distances
+hist(perm1$permudist, xlim=c(0,0.1),main="measured vs. random distances",
+     xlab="distances")
+points(perm1$dist,50,col=2,pch=19)#actual distance
+text(perm1$dist,60,label=paste("actual distance\n(p=",perm1$p.value,")"))
+}
 
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

@@ -46,5 +46,17 @@ Rohlf FJ,  Bookstein FL 2003. Computing the Uniform Component of Shape Variation
 \author{Stefan Schlager
 }
 
+\examples{
+require(car)
+data(boneData)
+pop <- name2factor(boneLM,which=3)
+rW <- relWarps(boneLM, alpha = -1)
+# plot first 5 relative warps scores grouped by population
+spm(rW$bescores[,1:5],group=pop)
+# plot first 5 uniform component scores grouped by population
+spm(rW$uniscores[,1:5],group=pop)
+##plot non-affine variance associated with each relative warp
+barplot(rW$Var[,2], xlab="relative Warps")
+}
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }
