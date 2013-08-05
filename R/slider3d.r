@@ -1,4 +1,4 @@
-slider3d  <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
 
 {
   if(.Platform$OS.type == "windows")
@@ -104,7 +104,7 @@ slider3d  <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",
           vs <- as.matrix(a[,1:3])
           vn <- as.matrix(a[,4:6])
           dat.array[,,j ] <- vs
-          vn.array[,,j]  <- vn		
+          vn.array[,,j] <- vn		
           unlink("out_cloud.ply") #clean up
         }
 		

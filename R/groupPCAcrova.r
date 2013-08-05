@@ -66,7 +66,7 @@
         if (is.null(dim(groupPCs)))
             {
                 PCs <- matrix(PCs,length(PCs),1)
-                groupPCs <-  matrix(groupPCs,length(groupPCs),1)
+                groupPCs <- matrix(groupPCs,length(groupPCs),1)
             }
         di <- dim(PCs)[2]
         for (i in 1:di)

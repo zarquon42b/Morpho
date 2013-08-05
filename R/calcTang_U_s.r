@@ -109,7 +109,7 @@
   
   if (!is.null(free))
     {
-      lf  <- length(free)
+      lf <- length(free)
       tmp <- free
       for (i in 1:lf)
         {tanvec[tmp[i],] <- c(1,0,0,0,1,0,0,0,1)

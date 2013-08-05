@@ -1,4 +1,4 @@
-readLandmarks.csv  <- function(file, x, y=2:4, rownames=NULL, header=TRUE, dec=".", sep=";")
+readLandmarks.csv <- function(file, x, y=2:4, rownames=NULL, header=TRUE, dec=".", sep=";")
 {	
 	
     xlen <- length(x)
@@ -46,7 +46,7 @@ readLandmarks.csv  <- function(file, x, y=2:4, rownames=NULL, header=TRUE, dec="
     	else
             {
                 data <- read.table(file,header=header,dec=dec,sep=sep)
-                arr  <- as.matrix(data[x,y])
+                arr <- as.matrix(data[x,y])
                 if (is.null(rownames))
                     rown <- c(1:xlen)
                 else

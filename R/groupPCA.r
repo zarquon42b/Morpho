@@ -89,7 +89,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
           {
             Var[i,2] <- (values[i]/sum(values))*100
           }
-        Var[1,3] <-  Var[1,2]
+        Var[1,3] <- Var[1,2]
         for (i in 2:length(values))
           {         
             Var[i,3] <- Var[i,2]+ Var[i-1,3]
@@ -142,13 +142,13 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
               {
                 for (j2 in (j1 + 1):ng) 
                   {
-                    dist.mat[j2, j1]  <- sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))
+                    dist.mat[j2, j1] <- sqrt(sum((Gmeans1[j1, ]-Gmeans1[j2, ])^2))
                   }
               }
             return(dist.mat)
           }
         
-        dist.mat.proc <-  array(0, dim = c(ng, ng, rounds))
+        dist.mat.proc <- array(0, dim = c(ng, ng, rounds))
         if(win)
           a.list <- foreach(i=1:rounds)%do%rounproc(i)
         else

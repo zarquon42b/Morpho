@@ -1,4 +1,4 @@
-lineplot  <- function(x,point,col=1,lwd=1,line_antialias = FALSE,add=TRUE)
+lineplot <- function(x,point,col=1,lwd=1,line_antialias = FALSE,add=TRUE)
 {
   
   if (dim(x)[2] == 3)

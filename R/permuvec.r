@@ -155,7 +155,7 @@ permuvec <- mc.permuvec <- function(data,groups,subgroups,rounds=10000,scale=TRU
   covW <- covW/(n-(ng*nsub))
   if (!scale)
     {
-      covW <-  diag(rep(1,dim(B)[2]))
+      covW <- diag(rep(1,dim(B)[2]))
     }
   mahadist <- NULL
 ### invert covariance matrix
@@ -232,7 +232,7 @@ permuvec <- mc.permuvec <- function(data,groups,subgroups,rounds=10000,scale=TRU
 ### calc probabilities ####
   if (max(sortdist) < disto)
     {
-      probadist  <- 1/rounds
+      probadist <- 1/rounds
     }
   else
     {
@@ -241,7 +241,7 @@ permuvec <- mc.permuvec <- function(data,groups,subgroups,rounds=10000,scale=TRU
     }      
   sortang <- sort(uns[angs])
   if (max(sortang) < out)
-    {proba  <- 1/rounds
+    {proba <- 1/rounds
    }
   else
     {

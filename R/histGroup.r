@@ -35,9 +35,9 @@ histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=da
     testrun <- 0
     for( i in 1:nlev)
      {if(freq)
-       testrun[i] <-  max(hist(data[groups==lev[i]],breaks=histo$breaks,plot=F)$counts)
+       testrun[i] <- max(hist(data[groups==lev[i]],breaks=histo$breaks,plot=F)$counts)
       else
-        testrun[i] <-  max(hist(data[groups==lev[i]],breaks=histo$breaks,plot=F)$density)
+        testrun[i] <- max(hist(data[groups==lev[i]],breaks=histo$breaks,plot=F)$density)
         
      }
     ylim <- max(testrun)

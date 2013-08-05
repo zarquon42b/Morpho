@@ -89,7 +89,7 @@
                             }
                 }
             
-            dist.mat.proc <-  array(0, dim = c(ng, ng, rounds))
+            dist.mat.proc <- array(0, dim = c(ng, ng, rounds))
             a.list <- as.list(1:rounds)
             a.list <- mclapply(a.list,roun.proc,mc.cores=mc.cores)
             

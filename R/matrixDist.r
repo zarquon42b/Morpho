@@ -130,7 +130,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
           }
      if (displace)
       {
-        dismesh  <- colMesh
+        dismesh <- colMesh
         vl <- dim(colMesh$vb)[2]
         dismesh$vb <- cbind(rbind(colMesh$vb,1),rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)

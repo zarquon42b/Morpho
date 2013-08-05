@@ -231,7 +231,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
       }
     if (displace)
       {
-        dismesh  <- colMesh
+        dismesh <- colMesh
         vl <- dim(colMesh$vb)[2]
         dismesh$vb <- cbind(colMesh$vb,rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)

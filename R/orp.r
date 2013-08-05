@@ -6,7 +6,7 @@ orp <- function(A, mshape=NULL)
   if (is.null(mshape))
       mshape <- apply(A,c(1,2),mean)
       
-  m.size  <- cSize(mshape)
+  m.size <- cSize(mshape)
   Xc <- as.vector(mshape/m.size)
   Ikp <- diag(k*p)
   X <- vecx(A)

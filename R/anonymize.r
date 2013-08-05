@@ -56,7 +56,7 @@ anonymize <- function(data ,remove, path=NULL,dest.path=NULL,ext=".ply",split="_
     else
         {
             for (i in 1:length(orig))
-                alias[i]  <- alias.frame[i]
+                alias[i] <- alias.frame[i]
         }
     anonymkey <- data.frame(orig,alias)
     if (!is.null(path))

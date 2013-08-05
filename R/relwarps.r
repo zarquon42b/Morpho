@@ -51,7 +51,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
     bescores <- t(t(eigCOVCOM$vectors[,nonz])%*%BE2%*%t(vecs))
     rownames(bescores) <- rownames(vecs)
     bePCs <- IM %x% eigBE$vectors
-    bePCs  <- bePCs %*% diag(rep(diaginv,3)) %*% t(bePCs) %*%  eigCOVCOM$vectors
+    bePCs <- bePCs %*% diag(rep(diaginv,3)) %*% t(bePCs) %*%  eigCOVCOM$vectors
     
 ### calculate uniform component scores ###
     U <- NULL
@@ -61,7 +61,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
     
     E <- eigBE$vectors[,-zero]
     N <- diag(rep(1,k))-E%*%solve(crossprod(E))%*%t(E)
-    V  <- vecs
+    V <- vecs
     NIk <- IM %x% N
     
     svdBend <- svd(V%*%NIk)
@@ -80,7 +80,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
             
             for (i in 1:length(values))
                 Var[i,2] <- (values[i]/sum(values))*100
-            Var[1,3] <-  Var[1,2]
+            Var[1,3] <- Var[1,2]
             for (i in 2:length(values))
                 Var[i,3] <- Var[i,2]+ Var[i-1,3]
             

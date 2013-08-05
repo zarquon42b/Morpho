@@ -25,7 +25,7 @@ warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
 	for (i in 0:n)
 		{
                   mesh <- x
-                  mesh  <- (i/n)*y+(1-(i/n))*x
+                  mesh <- (i/n)*y+(1-(i/n))*x
                  
                   a <- spheres3d(mesh,col=col,radius=radius,...)
                   if (!is.null(links))
@@ -83,7 +83,7 @@ warpmovie2d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="wa
 	for (i in 0:n)
 		{
                   mesh <- x
-                  mesh  <- (i/n)*y+(1-(i/n))*x
+                  mesh <- (i/n)*y+(1-(i/n))*x
                   filename <- sprintf("%s%04d.png", movie, i)
                   png(filename,width = widxheight[1], height = widxheight[2])
                   par(par)

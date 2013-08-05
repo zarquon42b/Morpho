@@ -16,7 +16,7 @@ rmVertex <- function(mesh,index,keep=FALSE)
       lRm <- length(index)
    
       vbn <- dim(mesh$vb)[2]
-      indOrig <-  1:vbn
+      indOrig <- 1:vbn
       indOut <- indOrig*0
       indNew <- 1:(vbn-lRm)     
       indOut[-index] <- indNew
@@ -31,7 +31,7 @@ rmVertex <- function(mesh,index,keep=FALSE)
       {
         it <- matrix(facefun(it),itdim)
         checkface <- rep(0,itdim[2])
-        storage.mode(it) <-  "integer"
+        storage.mode(it) <- "integer"
         storage.mode(checkface) <- "integer"
         
         checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]

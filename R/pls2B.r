@@ -36,7 +36,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=detectC
     covas <- svs*100
     l.covas <- length(covas)
     z1 <- x%*%svd.cova$u[,1:l.covas] #pls scores of x
-    z2 <-  y%*%svd.cova$v[,1:l.covas] #pls scores of y
+    z2 <- y%*%svd.cova$v[,1:l.covas] #pls scores of y
     
 ### calculate correlations between pls scores
     cors <- 0

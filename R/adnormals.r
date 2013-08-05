@@ -1,4 +1,4 @@
-adnormals <-  function(x,angle=TRUE) 
+adnormals <- function(x,angle=TRUE) 
 {	#### this is basically the function addNormals from the rgl-package with an option for checking degenerated faces ####
 	
 
@@ -26,7 +26,7 @@ adnormals <-  function(x,angle=TRUE)
         x$normals <- normals
   return(x)
 }
-facenormals <-  function(x) 
+facenormals <- function(x) 
 {
     barymesh <- list()
     barymesh$vb <- rbind(t(barycenter(x)),1)
