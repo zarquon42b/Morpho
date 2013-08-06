@@ -140,3 +140,9 @@ export(vert2points)
 export(warp.mesh)
 export(warpmovie2d)
 export(write.pts)
+
+## private functions
+## addo ang calcGamma CreateL CreateL2D eigenPCA export.meshDist gdif meshDist.matrix meshDist.mesh3d meshres.mesh3d orp pcaplot3d.nosymproc pcaplot3d.symproc projBack read.obj render.matrixDist render.meshDist RGB2Grey rotaxis3d.matrix rotaxis3d.mesh3d rot.proc scaleproc Semislide warpmovie3d.matrix warpmovie3d.mesh3d write.obj
+
+## private functions in Morpho beginning with dot:
+## .bindArr2 .calcTang_U_s .calcTang_U .covPCApermut .CVAcrova .CVAdists .difplotLM2D .difplotLM .fx.groupPCAcrova 
