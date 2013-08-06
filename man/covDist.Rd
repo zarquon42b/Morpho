@@ -90,7 +90,7 @@ pop <- name2factor(boneLM, which=3)
 cpca1 <- covPCA(proc$PCscores, groups=pop, rounds = 1000, mc.cores=2)
 ## view p-values:
 cpca1$p.matrix # differences between covariance matrices
-# are (slightly) significant
+# are significant
 ## visualize covariance ellipses of first 5 PCs of shape
 spm(proc$PCscores[,1:5], groups=pop, smooth=FALSE,ellipse=TRUE, by.groups=TRUE)
 ## covariance seems to differ between 1st and 5th PC

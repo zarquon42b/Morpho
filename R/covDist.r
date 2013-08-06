@@ -18,6 +18,8 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
         groups <- factor(groups)
         lev <- levels(groups)
         nlev <- length(lev)
+        for (i in 1:nlev)# center data per group
+            data[groups==lev[i],] <- sweep(data[groups==lev[i],],2, apply(data[groups==lev[i],],2,mean))
         covlist <- list()
         for (i in 1:nlev)
             covlist[[i]] <- cov(data[groups==lev[i],])
