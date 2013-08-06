@@ -31,7 +31,7 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
                     V[j,i] <- covDist(covlist[[j]],covlist[[i]])^2
             }
         V <- V+t(V)
-       
+        dimnames(V) <- list(lev,lev)
         out$dist <- as.dist(V)
         if (rounds > 0)
             out$p.matrix <- .covPCApermut(data, groups, rounds, mc.cores, V)
@@ -59,6 +59,7 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
 {
      if(.Platform$OS.type == "windows")
          mc.cores=1
+     lev <- levels(groups)
      nlev <- length(levels(groups))
      p.matrix <- matrix(NA, nlev, nlev)
      dist.mat <- array(0, dim = c(nlev, nlev, rounds))
@@ -89,7 +90,7 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
                     }
             }
      
-     
+     dimnames(p.matrix) <- list(lev,lev)
      return(as.dist(p.matrix))
  }
      

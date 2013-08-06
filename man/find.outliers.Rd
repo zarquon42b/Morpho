@@ -23,10 +23,10 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis=FALSE, PCuse=NULL)
   Principal components.
 } 
 }
-\details{This function performs a procrustes fit and tries sorts all
+\details{This function performs a procrustes fit and sorts all
   specimen according to their distances (either Procrustes or
-  Mahalanobis-distance) and provides visual help for rearranging
-  landmarks and/or excluding outliers.
+  Mahalanobis-distance) to the sample's consensus. It provides visual
+  help for rearranging landmarks and/or excluding outliers.
 
 }
 \value{
@@ -46,6 +46,21 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis=FALSE, PCuse=NULL)
 \seealso{
 \code{\link{typprob}},\code{\link{typprobClass}}
 }
-
+\examples{
+data(boneData)
+## look for outliers using the mahalanobis distance based on the first
+# 10 PCscores
+\dontrun{
+outliers <- find.outliers(boneLM, mahalanobis= TRUE, PCuse=10)
+n # everything is fine
+n # proceed to next
+s # let's switch some landmarks (3 and 4)
+3
+4
+n # we are done
+y # yes, because now it is an outlier
+s #enough for now
+}
+}
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

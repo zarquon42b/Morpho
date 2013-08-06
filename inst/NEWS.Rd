@@ -5,15 +5,19 @@
 \section{Changes in Morpho version 0.26-00 (2013-NN-NN)}{
   \subsection{R-code}{
     \itemize{
+      \item covPCA now allows permutation tests to check if pairwise distances between covariance matrices are significant 
+      \item removed unnecessary complicated check for empty groups by simply using function 'factor' in 'covW' and 'typprobClass'
       \item white space formatting in code
       \item added option "mshape" to function 'orp' to specify a custom pole for projection
-      \item made function 'fx', 'PCAcrova' and 'calcTang_U' interntal-only by
-      prefixing function name with '.'
+      \item made function 'fx', 'PCAcrova' and 'calcTang_U'
+  interntal-only by prefixing function name with '.'
       \item removed unnecessary sinus calculation in 'angle.calc'
     }
   }
   \subsection{Package documentation}{
     \itemize{
+      \item added examples for 'find.outliers'
+      \item added more examples for covPCA, performing permutation tests
       \item added docu for function 'barycenter'
       \item added a lot of examples to docu and documented data(nose)
       \item added documentation for 'angle.calc'
