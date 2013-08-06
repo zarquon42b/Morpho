@@ -44,8 +44,8 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
                 eigenD <- eigen(D,symmetric = TRUE)
                 eigenD$values <- eigenD$values[1:(nlev-1)]
                 eigenD$vectors <- eigenD$vectors[,1:(nlev-1)]
-                PCscores <- t(t(eigenD$vectors)*sqrt(eigenD$values))
-                rownames(PCscores) <- rownames(eigenD$vectors) <- lev
+                PCscores <- as.matrix(t(t(eigenD$vectors)*sqrt(eigenD$values)))
+                rownames(PCscores) <- lev
                 
                 out$PCscores <- PCscores
                 out$Var <- eigenD$values/sum(eigenD$values)
