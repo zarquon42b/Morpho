@@ -8,8 +8,8 @@ Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 Description: A toolset for Geometric Morphometrics and mesh processing. This includes (among other stuff) mesh deformations based on reference points, permutation tests, detection of outliers, processing of sliding semi-landmarks.
 SystemRequirements: trimesh_project, rayproject, ply2ascii (http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
 Suggests: car, lattice, ffmanova, pls, shapes
-Depends: R (>= 2.14.0), rgl, parallel, foreach, Matrix, doParallel
-Imports: MASS, yaImpute, colorRamps
+Depends: R (>= 2.14.0), rgl, parallel, foreach, doParallel
+Imports: MASS, yaImpute, colorRamps, Matrix
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
 LazyLoad: yes
