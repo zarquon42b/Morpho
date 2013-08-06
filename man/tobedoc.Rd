@@ -3,6 +3,9 @@
 \alias{place.patch}
 \alias{procAOV}
 \alias{get.obj.size}
+\alias{ProcGPA}
+\alias{pred.PC}
+\alias{pred.PCmult}
 \title{
 To be documented soon ;)}
 \description{To be documented soon}
