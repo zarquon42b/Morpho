@@ -87,7 +87,7 @@ data(boneData)
 proc <- procSym(boneLM)
 pop <- name2factor(boneLM, which=3)
 ## compare covariance matrices for PCscores of Procrustes fitted data
-cpca1 <- covPCA(proc$PCscores, groups=pop, rounds = 1000, mc.cores=2)
+cpca1 <- covPCA(proc$PCscores, groups=pop, rounds = 100, mc.cores=2)
 ## view p-values:
 cpca1$p.matrix # differences between covariance matrices
 # are significant
@@ -95,7 +95,7 @@ cpca1$p.matrix # differences between covariance matrices
 spm(proc$PCscores[,1:5], groups=pop, smooth=FALSE,ellipse=TRUE, by.groups=TRUE)
 ## covariance seems to differ between 1st and 5th PC
 ## for demonstration purposes, try only first 4 PCs
-cpca2 <- covPCA(proc$PCscores[,1:4], groups=pop, rounds = 1000,
+cpca2 <- covPCA(proc$PCscores[,1:4], groups=pop, rounds = 100,
 mc.cores=2)
 ## view p-values:
 cpca2$p.matrix # significance is gone

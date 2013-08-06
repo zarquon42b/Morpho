@@ -38,7 +38,7 @@ permudist(data, groups, rounds = 1000, which = 1:2, mc.cores = detectCores())
 data(boneData)
 proc <- procSym(boneLM)
 groups <- name2factor(boneLM,which=3)
-perm <- permudist(proc$PCscores, groups=groups, mc.cores=2)
+perm <- permudist(proc$PCscores, groups=groups, mc.cores=2, rounds=100)
 #visualize results
 hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")#random distances
@@ -48,7 +48,7 @@ text(perm$dist,70,label=paste("actual distance\n(p=",perm$p.value,")"))
 ## now we concentrate only on sex dimorphism between Europeans
 groups <- name2factor(boneLM,which=3:4)
 levels(groups)
-perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, mc.cores=2)
+perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, mc.cores=2, rounds=100)
 # plot histogram of random distances
 hist(perm1$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")
