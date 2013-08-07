@@ -71,8 +71,10 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
              distout <- as.matrix(covPCA(data, permugroup, scores = FALSE)$dist)
              return(distout)
          }
-
-     a.list <- foreach(i=1:rounds)%dopar%permufun(i)
+     if(.Platform$OS.type == "windows")
+         a.list <- foreach(i=1:rounds)%do%permufun(i)
+     else
+         a.list <- foreach(i=1:rounds)%dopar%permufun(i)
      for (i in 1:rounds)
          dist.mat[,,i] <- a.list[[i]]
      #print(dist.mat)
