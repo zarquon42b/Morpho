@@ -1,4 +1,4 @@
-read.mpp <- function(file)
+read.mpp <- function(file, info=FALSE)
   {
     raw <- readLines(file)
     points <- grep("point x",raw)
@@ -28,5 +28,8 @@ read.mpp <- function(file)
     tmp <- matrix(tmp,length(points),3,byrow=T)
     rownames(tmp) <- infout$name
     tmp <- tmp[which(infout$active == 1),]
-    return(list(data=tmp,info=infout))
+    if (info)
+        return(list(data=tmp,info=infout))
+    else
+        return(tmp)
   }
