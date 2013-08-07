@@ -8,9 +8,9 @@
   Workhorse function for procSym, responsible for Procrustes registration
 }
 \usage{
-ProcGPA(dat.array, tol = 1e-05, scale = TRUE, CSinit = FALSE, silent = FALSE, weights = NULL, centerweight = FALSE, reflection = TRUE)
+ProcGPA(dat.array, tol = 1e-05, scale = TRUE, CSinit = FALSE, silent = FALSE,
+        weights = NULL, centerweight = FALSE, reflection = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dat.array}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
   }

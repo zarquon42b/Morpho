@@ -9,10 +9,10 @@
 
 }
 \usage{
-procAOV(symproc, indnames = NULL)
+procAOVsym(symproc, indnames = NULL)
 }
 \arguments{
-  \item{symproc}{object returned by \link{\code{procSym}}, where
+  \item{symproc}{object returned by \code{\link{procSym}}, where
     \code{pairedLM} is specified
 }
   \item{indnames}{vector containing specimen identifiers. Only
