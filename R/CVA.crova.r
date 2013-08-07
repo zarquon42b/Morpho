@@ -4,9 +4,7 @@
     b <- groups
     n <- dim(N)[1]
     l <- dim(N)[2]
-                                        #if (length(unlist(groups)) != (n-1))
-                                        #	{warning("group affinity and sample size not corresponding!")
-                                        #	}
+                                     
     ng <- length(groups)
     nwg <- c(rep(0, ng))
     for (i in 1:ng) {
@@ -14,23 +12,21 @@
     }
        
     Gmeans <- matrix(0, ng, l)
-    for (i in 1:ng)
-        {
-            if(nwg[i] > 1)
-                Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
-            else
-                Gmeans[i, ] <- N[b[[i]], ]
-        }  
+    for (i in 1:ng) {
+        if(nwg[i] > 1)
+            Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+        else
+            Gmeans[i, ] <- N[b[[i]], ]
+    }
     Grandm <- apply(Gmeans, 2, mean)
     N <- t(t(N)-Grandm)
-    resN <- (Gmeans - (c(rep(1, ng)) %*% t(Grandm)))
+    resN <- sweep(Gmeans, 2, Grandm)
     if (weighting == TRUE) {
         for (i in 1:ng) {
             resN[i, ] <- sqrt(nwg[i]) * resN[i, ]
         }
         X <- resN
-    }
-    else {
+    } else {
         X <- sqrt(n/ng) * resN
     }
     
@@ -51,28 +47,24 @@
     Ec2 <- Ec
 
     if (min(E) < tolinv) {
-                                        #cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is",             tolinv, "\n"))
         for (i in 1:length(eigW$values)) {
             if (Ec[i] < tolinv) {
                 E[i] <- 0
                 Ec[i] <- 0
                 Ec2[i] <- 0
-            }
-            else {
+            } else {
                 E[i] <- sqrt(1/E[i])
                 Ec[i] <- sqrt(1/Ec[i])
                 Ec2[i] <- (1/Ec2[i])
             }
         }
-    }
-    else {
+    } else {
         for (i in 1:length(eigW$values)) {
             E[i] <- sqrt(1/E[i])
             Ec[i] <- sqrt(1/Ec[i])
             Ec2[i] <- (1/Ec2[i])
         }
     }
-    
     invcW <- diag(Ec)
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
@@ -83,17 +75,11 @@
     CV <- U %*% invcW %*% A
     di <- dim(CV)[2]
     
-    for (i in 1:di)
-        {
-            rho <- angle.calc(test[,i ],CV[,i])
-            if (rho > pi/2)
-                
-                {
-                    CV[,i] <- CV[,i]*(-1)			
-                }
-            
-        }
-    
+    for (i in 1:di) {
+        rho <- angle.calc(test[,i ],CV[,i])
+        if (rho > pi/2)
+            CV[,i] <- CV[,i]*(-1)			
+    }
     return(list(CV=CV,Grandmean=Grandm))
 }
 

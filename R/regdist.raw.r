@@ -10,12 +10,12 @@ regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", d
       procdis <- sum(qm^2)/n
       procdistmat <- matrix(NA,n,n) #calc rho from angle between rotated configs
       for (i in 1:n)
-          for (j in 1:n)
-              if (rho=="riemdist")
+          for (j in 1:n) {
+              if (rho=="riemdist") {
                   procdistmat[i,j] <- kendalldist(x[,,i],x[,,j])  # riemann dist.
-              else if (rho=="angle")
+              } else if (rho=="angle") 
                   procdistmat[i,j] <- angle.calc(x[,,i],x[,,j])
-      
+          }
       if (rho == "sindist")
           procvec <- asin(qm)
       else
@@ -27,7 +27,7 @@ regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", d
       eudis <- sum(euvec^2)/n
       correlation <- cor(euvec,procvec)^2
       
-      if(plot==TRUE)
+      if (plot==TRUE)
           plot(euvec,procvec,asp=1,xlab="euclid. dist. in tangentspace",ylab=paste("rho as",rho),main=main)
       abline(0,1,col="grey50")
       
@@ -35,5 +35,4 @@ regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", d
           return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2,euc.dist=em,proc.dist=procvec))
       else
           return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2))
-      
   }

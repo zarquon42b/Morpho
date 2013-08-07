@@ -3,128 +3,83 @@
   dims <- dim(datamatrix)[2]
   k <- dim(datamatrix)[1]
   
-  if (is.null(weights))
-    {
+  if (is.null(weights)){
       weights <- 1
-    }
-  else
-    {
+  } else
       weights <- c(weights,weights,weights)
-    } 
-      
+  
   if (deselect==TRUE)
-    {
       SMvector <- c(1:k)[-SMvector]
-    }
+  
   m <- length(SMvector)
-  if ( !is.null(free))
-    {
+  if ( !is.null(free)) {
       tanvec <- matrix(0,k,dims*3)
       U <- matrix(0,dims*k,m*3)
-    }
-  else if(!is.null(surface))
-    {
+  } else if(!is.null(surface)) {
       tanvec <- matrix(0,k,dims*2)
       U <- matrix(0,dims*k,m*2)
-    }
-  else
-    {tanvec <- matrix(0,k,dims)
-     U <- matrix(0,dims*k,m)
-   }
+  } else {
+      tanvec <- matrix(0,k,dims)
+      U <- matrix(0,dims*k,m)
+  }
   Gamma0 <- c(datamatrix)
   
-  
-  if (is.null(outlines) == FALSE)      
-    
-    {  			
-      if (is.list(outlines)==FALSE)
-        {
+  if (is.null(outlines) == FALSE) {  			
+      if (is.list(outlines)==FALSE) {
           outlines <- list(outlines)
-        }
-      for ( j in 1:length(outlines))
-        {
+      }
+      for ( j in 1:length(outlines)) {
           lt <- length(outlines[[j]])
           temp <- outlines[[j]]
           
 ### procedure for open curves ####        	
-          if (outlines[[j]][1]!= outlines[[j]][lt])
-            {
-              for (i in 1:lt)
-                
-                {
-                  if (temp[i]%in%SMvector==TRUE && i!=1 && i!=lt)
-                    {
+          if (outlines[[j]][1]!= outlines[[j]][lt]) {
+              for (i in 1:lt) {
+                  if (temp[i]%in%SMvector==TRUE && i!=1 && i!=lt) {
                       tanvec[temp[i],1:3] <- (datamatrix[temp[i-1],]-datamatrix[temp[i+1],])/sqrt(sum((datamatrix[temp[i-1],]-datamatrix[temp[i+1],])^2))
-                    }
-                                    
-                  else if (temp[i]%in%SMvector==TRUE && i==1)
-                    {
+                  } else if (temp[i]%in%SMvector==TRUE && i==1) {
                       tanvec[temp[i],1:3] <- (datamatrix[temp[i],]-datamatrix[temp[i+1],])/sqrt(sum((datamatrix[temp[i],]-datamatrix[temp[i+1],])^2))
-                    }
-                  
-                  else if (temp[i]%in%SMvector==TRUE && i==lt)
-                    {
+                  } else if (temp[i]%in%SMvector==TRUE && i==lt) {
                       tanvec[temp[i],1:3] <- (datamatrix[temp[i-1],]-datamatrix[temp[i],])/sqrt(sum((datamatrix[temp[i-1],]-datamatrix[temp[i],])^2))
-                    }
-                                        #else {tanvec[i,] <- c(rep(0,dims))}
-                } 
-            }
-          
+                  }
+              } 
+          }
 ### procedure for closed curves ####
-          else if (outlines[[j]][1]== outlines[[j]][lt]) 
-            {
-              for (i in 1:(lt-1))
-                {
-                  if (temp[i]%in%SMvector==TRUE && i!=1 && i!=lt)
-                    {
+          else if (outlines[[j]][1]== outlines[[j]][lt]) {
+              for (i in 1:(lt-1)) {
+                  if (temp[i]%in%SMvector==TRUE && i!=1 && i!=lt) {
                       tanvec[temp[i],1:3] <- (datamatrix[temp[i-1],]-datamatrix[temp[i+1],])/sqrt(sum((datamatrix[temp[i-1],]-datamatrix[temp[i+1],])^2))
-                    }
-                  
-                  else if (temp[i]%in%SMvector==TRUE && i==1)
-                    {
+                  } else if (temp[i]%in%SMvector==TRUE && i==1) {
                       tanvec[temp[i],1:3] <- (datamatrix[temp[lt-1],]-datamatrix[temp[i+1],])/sqrt(sum((datamatrix[temp[lt-1],]-datamatrix[temp[i+1],])^2))
-                    }
-                  
-                                        #else {tanvec[i,] <- c(rep(0,dims))}
-                } 
-            }
-        }
-    }
-  
+                  }
+              } 
+          }
+      }
+  }
 ### procedure for surfaces ###
-  if (is.null (surface) ==F)
-    {	
+  if (is.null (surface) ==F) {	
       lt <- length(surface)
       temp <- surface
-      for (i in 1:lt)
-        {
+      for (i in 1:lt) {
           tanp <- tanplan(normalmatrix[temp[i],])
           tanvec[temp[i],1:6] <- c(tanp$y,tanp$z)				
-        }
-    }
-    
+      }
+  }
 #### end surfaces ####
   
 ### procedure for free sliding points ####
   
-  if (!is.null(free))
-    {
+  if (!is.null(free)) {
       lf <- length(free)
       tmp <- free
       for (i in 1:lf)
-        {tanvec[tmp[i],] <- c(1,0,0,0,1,0,0,0,1)
-       }
-    }
-  
+          tanvec[tmp[i],] <- c(1,0,0,0,1,0,0,0,1)
+  }
 ### end free sliding ##
-  
   gc() 	
   SMsort <- sort(SMvector)
-  
-  if (!is.null(free))
-    {		
-      for (i in 1:m)
-        {
+  if (!is.null(free)) {		
+      for (i in 1:m) {
           U[SMsort[i],i] <- tanvec[SMsort[i],1]
           U[k+SMsort[i],i] <- tanvec[SMsort[i],2] 
           U[2*k+SMsort[i],i] <- tanvec[SMsort[i],3]
@@ -134,35 +89,23 @@
           U[SMsort[i],(i+2*m)] <- tanvec[SMsort[i],7]
           U[k+SMsort[i],(i+2*m)] <- tanvec[SMsort[i],8]
           U[2*k+SMsort[i],(i+2*m)] <- tanvec[SMsort[i],9]
-        }
-      
-    }
-  else if (!is.null(surface))    	
-    {		
-      for (i in 1:m)
-        {
+      }
+  } else if (!is.null(surface)) {		
+      for (i in 1:m) {
           U[SMsort[i],i] <- tanvec[SMsort[i],1]
           U[k+SMsort[i],i] <- tanvec[SMsort[i],2] 
           U[2*k+SMsort[i],i] <- tanvec[SMsort[i],3]
           U[SMsort[i],(i+m)] <- tanvec[SMsort[i],4]
           U[k+SMsort[i],(i+m)] <- tanvec[SMsort[i],5]
           U[2*k+SMsort[i],(i+m)] <- tanvec[SMsort[i],6]
-        }
-    }
-  
-  else 	
-    {
-      for (i in 1:m)
-        {
+      }
+  } else {
+      for (i in 1:m) {
           U[SMsort[i],i] <- tanvec[SMsort[i],1]
           U[k+SMsort[i],i] <- tanvec[SMsort[i],2] 
           U[2*k+SMsort[i],i] <- tanvec[SMsort[i],3]
-        }
-    }
-  
+      }
+  }
   U <- weights*U
-  
-  
   return(list(tanvec=tanvec,SMvector=SMvector,U=U,Gamma0=Gamma0))             
-  
 }     
