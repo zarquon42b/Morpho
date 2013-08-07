@@ -1,9 +1,7 @@
 \name{needForDocu}
 \alias{checkLM}
 \alias{place.patch}
-\alias{procAOV}
 \alias{get.obj.size}
-\alias{ProcGPA}
 \alias{pred.PC}
 \alias{pred.PCmult}
 \title{

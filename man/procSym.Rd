@@ -17,13 +17,13 @@ procSym(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05,
 \arguments{
   \item{dataarray}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
   }
-  \item{scale}{Logical: indicating if scaling is requested
+  \item{scale}{logical: indicating if scaling is requested
   }
   \item{reflect}{logical: allow reflections.
   }
-  \item{CSinit}{Logical: if TRUE, all configurations are initially scaled to Unit Centroid Size.
+  \item{CSinit}{logical: if TRUE, all configurations are initially scaled to Unit Centroid Size.
   }
-  \item{orp}{Logical: if TRUE, an orthogonal projection at the meanshape into
+  \item{orp}{logical: if TRUE, an orthogonal projection at the meanshape into
     tangent space is performed.
   }
   \item{tol}{numeric: Threshold for convergence in the sliding process

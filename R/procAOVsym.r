@@ -1,4 +1,4 @@
-procAOV <- function(symproc,indnames=NULL)
+procAOVsym <- function(symproc,indnames=NULL)
   {
     
     if (class(symproc) != "symproc")
