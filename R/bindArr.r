@@ -36,10 +36,9 @@ bindArr <- function(...,along=1)
         if (argc < 2)
             stop("at least two arguments needed")
         newarr <- .bindArr2(args[[1]],args[[2]], along=along)
-        if (argc > 2)
-            {
-                for (i in 3:argc)
-                    newarr <- .bindArr2(newarr, args[[i]],along=along)
-            }
+        if (argc > 2) {
+            for (i in 3:argc)
+                newarr <- .bindArr2(newarr, args[[i]],along=along)
+        }
         return(newarr)
     }

@@ -17,7 +17,7 @@ Imports:
    foreach (>= 1.4.0), 
    MASS, 
    Matrix, 
-   parallel, 
+   parallel,
    yaImpute
 Copyright: see COPYRIGHTS file for details
 License: GPL-2

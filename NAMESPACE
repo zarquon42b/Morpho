@@ -1,6 +1,6 @@
 useDynLib(Morpho)
 import(doParallel)
-# selective imports
+## selective imports
 importFrom(colorRamps, blue2green2red)
 importFrom(foreach, foreach, '%dopar%', '%do%')
 importFrom(MASS, ginv)
@@ -14,7 +14,7 @@ importClassesFrom("Matrix"
                   , dtCMatrix
                   , sparseMatrix
                   )
-
+##importFrom(rgl, rgl.pop, rgl.clear, rgl.bg, rgl.cur, rgl.snapshot, rgl.close, points3d, spheres3d, wire3d, shade3d, open3d)
 ## export S3 methods
 S3method(meshDist, mesh3d)
 S3method(meshDist, matrix)
@@ -72,6 +72,7 @@ export(histGroup)
 export(kendalldist)
 export(lineplot)
 export(mcNNindex)
+export(mergeMeshes)
 export(mesh2grey)
 export(mesh2mesh)
 export(mesh2obj)

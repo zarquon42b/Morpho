@@ -30,7 +30,9 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
 }
   \item{sur.name}{character vector: containing the filenames of the corresponding surfaces - e.g. if the dat.array[,,i] belongs to surface_i.ply, sur.name[i] would be surface_i.ply. Only necessary if dat.array does not contain surface names. 
 }
- \item{ignore}{vector containing rownames of landmarks that are to be ignored. Indices of outlines/surfaces etc will be updated automatically
+ \item{ignore}{vector containing indices of landmarks that are to be
+          ignored. Indices of outlines/surfaces etc will be updated
+          automatically.
 }
   \item{sur.type}{character:if all surfaces are of the same file format and the names stored in dat.array, the file format will be specified here.
 }
@@ -52,7 +54,7 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
  
   \item{initproc}{requests initial Procrustes fit before sliding.
 }
-  \item{pairedLM}{A X x 2 numeric matrix with the indices of the rows containing paired Landmarks. E.g. the left column contains the lefthand landmarks, while the right side contains the corresponding right hand landmarks. - This will ideally create symmetric mean to get rid of assymetry along outline after first relaxation. The effect is not yet tested.
+  \item{pairedLM}{A X x 2 numeric matrix with the indices of the rows containing paired Landmarks. E.g. the left column contains the lefthand landmarks, while the right side contains the corresponding right hand landmarks. - This will ideally create symmetric mean to get rid of assymetry.
 }  
 \item{weights}{vector: assign a weight to each landmark: the smaller the
   value is, the less it will be affected by sliding. 0 = fix. This is
