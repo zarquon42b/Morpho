@@ -1,8 +1,8 @@
 \name{meshcube}
 \alias{meshcube}
 \title{
-creates a bounding box for a mesh }
-\description{creates a bounding box for a mesh
+calculate the corners of a mesh's bouning box }
+\description{calculate the corners of a mesh's bouning box
 }
 \usage{
 meshcube(x)

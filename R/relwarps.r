@@ -10,10 +10,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
         proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
     
 ### create bending energy matrix ###
-    if (m==2)
-        BE <- CreateL2D(proc$mshape)$Lsubk
-    else
-        BE <- (CreateL(proc$mshape)$Lsubk)
+    BE <- CreateL(proc$mshape)$Lsubk
 ### vectorize and scale superimposed data ###
     vecs <- vecx(proc$rotated)
     vecs <- apply(vecs,2,scale,scale=F)
