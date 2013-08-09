@@ -76,9 +76,13 @@ covW <- function(data,groups)
         groups <- factor(groups)
         glev <- levels(groups)
         nlev <- length(glev)
+        gsizes <- as.vector(tapply(groups, groups, length))
         covWithin <- 0
         for (i in 1:nlev)
-            covWithin <- covWithin + cov(data[groups==glev[i],]) * length(which(groups== glev[i]))
+            if (gsizes[i] > 1)
+                covWithin <- covWithin + (cov(data[groups==glev[i],]) * (gsizes[i]-1))
+            else
+                covWithin <- covWithin+diag(1,ncol(data))
         
         covWithin <- covWithin/(ndata - nlev)
         return(covWithin)

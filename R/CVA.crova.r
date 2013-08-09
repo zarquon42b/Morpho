@@ -1,65 +1,44 @@
-.CVAcrova <- function(dataarray,groups,test=test,weighting=TRUE,tolinv=1e-10,ind=0)
+.CVAcrova <- function(dataarray,groups,test ,weighting=TRUE,tolinv=1e-10)
 {   
+    groups <- factor(groups)
     N <- dataarray
-    b <- groups
     n <- dim(N)[1]
     l <- dim(N)[2]
-                                     
-    ng <- length(groups)
-    nwg <- c(rep(0, ng))
-    for (i in 1:ng) {
-        nwg[i] <- length(b[[i]])
-    }
-       
+    lev <- levels(groups)
+    ng <- length(lev)
+    gsizes <- as.vector(tapply(groups, groups, length))                                 
+   
     Gmeans <- matrix(0, ng, l)
     for (i in 1:ng) {
-        if(nwg[i] > 1)
-            Gmeans[i, ] <- apply(N[b[[i]], ], 2, mean)
+        if (gsizes[i] > 1)
+            Gmeans[i, ] <- apply(N[groups==lev[i], ], 2, mean)
         else
-            Gmeans[i, ] <- N[b[[i]], ]
+            Gmeans[i, ] <- N[groups==lev[i], ]
     }
     Grandm <- apply(Gmeans, 2, mean)
-    N <- t(t(N)-Grandm)
-    resN <- sweep(Gmeans, 2, Grandm)
-    if (weighting == TRUE) {
-        for (i in 1:ng) {
-            resN[i, ] <- sqrt(nwg[i]) * resN[i, ]
-        }
-        X <- resN
+    N <- sweep(N, 2, Grandm)
+    resGmeans <- sweep(Gmeans, 2, Grandm)
+    if (weighting) {
+        for (i in 1:ng) 
+            resGmeans[i, ] <- sqrt(gsizes[i]) * resGmeans[i, ]
+        X <- resGmeans
     } else {
-        X <- sqrt(n/ng) * resN
+        X <- sqrt(n/ng) * resGmeans
     }
-    
-    covW <- 0
-    for (i in 1:ng) {
-        if (!is.vector(N[b[[i]],]))
-            covW <- covW + (cov(N[b[[i]],])*(length(b[[i]])-1))
-        else
-            covW <- covW+diag(1,l)
-    }
-    W <- covW
-    covW <- covW/(n - ng)
-    eigW <- eigen(W)
+    covW <- covW(N, groups)
+    eigW <- eigen(covW*(n - ng))
     eigcoW <- eigen(covW)
     U <- eigW$vectors
     E <- eigW$values
     Ec <- eigcoW$values
     Ec2 <- Ec
 
-    if (min(E) < tolinv) {
-        for (i in 1:length(eigW$values)) {
-            if (Ec[i] < tolinv) {
-                E[i] <- 0
-                Ec[i] <- 0
-                Ec2[i] <- 0
-            } else {
-                E[i] <- sqrt(1/E[i])
-                Ec[i] <- sqrt(1/Ec[i])
-                Ec2[i] <- (1/Ec2[i])
-            }
-        }
-    } else {
-        for (i in 1:length(eigW$values)) {
+    if (min(E) < tolinv)
+        cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
+    for (i in 1:length(eigW$values)) {
+        if (Ec[i] < tolinv) {
+            E[i] <- Ec[i] <- Ec2[i] <- 0
+        } else {
             E[i] <- sqrt(1/E[i])
             Ec[i] <- sqrt(1/Ec[i])
             Ec2[i] <- (1/Ec2[i])
@@ -68,7 +47,6 @@
     invcW <- diag(Ec)
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
-                                        #print(ZtZ)
     tt <- try(eigZ <- svd(ZtZ))
     useEig <- min((ng-1), l)     
     A <- Re(eigZ$v[, 1:useEig])
@@ -76,9 +54,9 @@
     di <- dim(CV)[2]
     
     for (i in 1:di) {
-        rho <- angle.calc(test[,i ],CV[,i])
+        rho <- angle.calc(test[,i],CV[,i])
         if (rho > pi/2)
-            CV[,i] <- CV[,i]*(-1)			
+            CV[,i] <- -CV[,i]		
     }
     return(list(CV=CV,Grandmean=Grandm))
 }

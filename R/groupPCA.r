@@ -11,7 +11,6 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     lev <- NULL	
     
     groups <- factor(groups)
-    factors <- groups
     lev <- levels(groups)
     ng <- length(lev)
     gsizes <- as.vector(tapply(groups, groups, length))
@@ -19,7 +18,6 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         cv <- FALSE
         warning("group with one entry found - crossvalidation will be disabled.")
     }
-    levn <- length(lev)
     N <- dataarray
     if (length(dim(N)) == 3) 
         N <- vecx(N)
@@ -43,9 +41,9 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     wcov <- cov.wt(Gmeans,wt=wt)
     Grandm <- wcov$center
     eigenGmeans <- eigen(wcov$cov)
-    resN <- sweep(Gmeans, 2, Grandm)
+    #resGmeans <- sweep(Gmeans, 2, Grandm)
     Tmatrix <- N
-    N <- t(t(N)-Grandm)
+    N <- sweep(N, 2, Grandm)
     valScores <- which(eigenGmeans$values > tol)
     groupScores <- N%*%(eigenGmeans$vectors[,valScores])
     groupPCs <- eigenGmeans$vectors[,valScores]

@@ -8,9 +8,6 @@
         N <- vecx(N)
     n <- dim(N)[1]
     l <- dim(N)[2]
-    #if (length(unlist(groups)) != n)
-    #    warning("group affinity and sample size not corresponding!")
-
     Gmeans <- matrix(0, ng, l)
     for (i in 1:ng) {
         if(gsizes[i] > 1)
@@ -25,9 +22,8 @@
     wcov <- cov.wt(Gmeans,wt=wt)
     Grandm <- as.vector(wcov$center)
     eigenGmeans <- eigen(wcov$cov)
-    resN <- sweep(Gmeans, 2, Grandm)
     Tmatrix <- N
-    N <- t(t(N)-Grandm)
+    N <- sweep(N, 2, Grandm)
     valScores <- which(eigenGmeans$values > tol)
     groupScores <- N%*%(eigenGmeans$vectors[,valScores])
     PCs <- as.matrix(eigenGmeans$vectors[,valScores])
