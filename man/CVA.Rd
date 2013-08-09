@@ -13,7 +13,7 @@ CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
 \arguments{
   \item{dataarray}{Either a k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Or alternatively a n x m Matrix where n is the numeber of observations and m the number of variables (this can be PC scores for example)
 }
-  \item{groups}{a chracter/factor vector or a list of numeric vectors containing either the positions in an array or the rows of the matrix of the observations belonging to the same group)
+  \item{groups}{a character/factor vector containgin grouping variable.
 }
   \item{weighting}{Logical: Determines whether the between group covariance matrix is to be weighted according to group size.
 }

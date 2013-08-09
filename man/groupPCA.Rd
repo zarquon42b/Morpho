@@ -14,7 +14,7 @@ groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE,
 \arguments{
   \item{dataarray}{Either a k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Or alternatively a n x m Matrix where n is the numeber of observations and m the number of variables (this can be PC scores for example)
 }
-  \item{groups}{a chracter/factor vector or a list of numeric vectors containing either the positions in an array or the rows of the matrix of the observations belonging to the same group)
+  \item{groups}{a character/factor vector containgin grouping variable.
 }
   \item{rounds}{integer: number of permutations if a permutation test of the euclidean distance between group means is requested.If rounds = 0, no test is performed.
 }
