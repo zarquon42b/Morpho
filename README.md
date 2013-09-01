@@ -2,8 +2,8 @@ Morpho
 ======
 Morpho provides a rich toolset for Geometric Morphometrics and mesh processing in R. This includes (among other stuff) mesh deformations based on reference points, permutation tests, detection of outliers, processing of sliding semi-landmarks, im- and export of a variety of triangular surface mesh files.
 
-#### Installation of the R-package Morpho (latest release): ####
-   0. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
+#### Installation of the R-package Morpho from sourceforge/github (latest release): ####
+   * Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
      
             
         install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute"))
