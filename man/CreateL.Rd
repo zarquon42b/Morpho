@@ -39,6 +39,7 @@ CreateL(matrix, lambda = 0)
   \code{\link{tps3d}, \link{warp.mesh}}
 }
 \examples{
+require(rgl)
 data(boneData)
 L <- CreateL(boneLM[,,1])
 ## calculate Bending energy between first and second specimen:

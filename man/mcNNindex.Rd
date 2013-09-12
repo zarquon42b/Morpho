@@ -34,6 +34,7 @@ processing}
 \seealso{ \code{\link{closemeshKD}}
 }
 \examples{
+require(rgl)
 data(boneData)
 # find closest vertex on surface for each landmark
 clost <- mcNNindex(vert2points(skull_0144_ch_fe.mesh),boneLM[,,1], k=1, mc.cores=1)

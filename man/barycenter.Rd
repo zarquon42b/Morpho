@@ -21,7 +21,8 @@ barycenter(mesh)
 \seealso{
   \code{\link{closemeshKD}}
   }
-\examples{
+  \examples{
+require(rgl)
 data(nose)
 bary <- barycenter(shortnose.mesh)
 ##visualize mesh

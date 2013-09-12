@@ -16,6 +16,7 @@ meshcube(x)
 }
 
 \examples{
+require(rgl)
 data(boneData)
 mc <- meshcube(skull_0144_ch_fe.mesh)
 spheres3d(mc)

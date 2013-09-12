@@ -5,7 +5,17 @@
 \section{Changes in Morpho version 0.26-00 (2013-NN-NN)}{
   \subsection{R-code}{
     \itemize{
-      \item covPCA now allows permutation tests to check if pairwise distances between covariance matrices are significant 
+      \item fixed missing '-1' subtraction in 'covW'
+      \item added function 'mergeMeshes' to concatenate multiple triangular meshes.
+      \item made function 'procAOVsym' (procrustes Anova for object
+      symmetry) public.
+      \item made functions 'cSize', 'mcNNindex', 'meshcube', 'meshres', 'ProcGPA' public.
+      \item added option 'info' in 'read.mpp'
+      \item merged 'CreateL' and 'CreateL2D'
+      \item rewrote large parts of 'CVA', 'groupPCA' and 'permudist' to
+  make the code more efficient.
+      \item 'covPCA' now allows permutation tests to check if pairwise
+      distances between covariance matrices are significant and reports rownames for two-group case.
       \item removed unnecessary complicated check for empty groups by simply using function 'factor' in 'covW' and 'typprobClass'
       \item white space formatting in code
       \item added option "mshape" to function 'orp' to specify a custom pole for projection
@@ -22,11 +32,15 @@
       \item added a lot of examples to docu and documented data(nose)
       \item added documentation for 'angle.calc'
       \item added example in 'relaxLM'
+      \item added section "details" in procSym, added example in slider3d
+      \item added example for procAOVsym
     }
   }
   \subsection{Misc}{
     \itemize{
-      \item minor change in DESCRIPTION
+      \item changed foreach, parallel and rgl (needs rgl version >=
+      0.93.963) from 'Depends' to 'Imports' (affecting DESCRIPTION and NAMESPACE)
+      \item massive NAMESPACE editing by switching to manual export instead of regular expression export
     }
   }
 }

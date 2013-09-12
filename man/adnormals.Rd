@@ -40,6 +40,7 @@ only supports triangular meshes}
  \code{\link{ply2mesh}}
 }
 \examples{
+require(rgl)
 data(nose)
 ### calculate vertex normals
 shortnose.mesh$normals <- NULL ##remove normals

@@ -14,7 +14,23 @@ importClassesFrom("Matrix"
                   , dtCMatrix
                   , sparseMatrix
                   )
-##importFrom(rgl, rgl.pop, rgl.clear, rgl.bg, rgl.cur, rgl.snapshot, rgl.close, points3d, spheres3d, wire3d, shade3d, open3d)
+importFrom(rgl
+           , lines3d
+           , open3d
+           , points3d
+           , rgl.bg
+           , rgl.clear
+           , rgl.close
+           , rgl.cur
+           , rgl.pop
+           , rgl.snapshot
+           , shade3d
+           , spheres3d
+           , text3d
+           , translate3d
+           , wire3d           
+           )
+##import(rgl)
 ## export S3 methods
 S3method(meshDist, mesh3d)
 S3method(meshDist, matrix)

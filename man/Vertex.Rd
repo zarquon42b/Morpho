@@ -43,6 +43,7 @@ Stefan Schlager}
  \code{\link{ply2mesh}}, \code{\link{file2mesh}} 
 }
 \examples{
+require(rgl)
 data(nose)
 testmesh <- rmVertex(shortnose.mesh,1:50) ## remove first 50 vertices
 shade3d(testmesh,col=3) ### view result

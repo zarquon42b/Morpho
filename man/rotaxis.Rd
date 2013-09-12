@@ -45,6 +45,7 @@ by two points.
  \code{\link{rotonto}}, \code{\link{rotmesh.onto}}
 }
 \examples{
+require(rgl)
 data(nose)
 shade3d(shortnose.mesh,col=3,specular=1)
 shrot.rot <- rotaxis3d(shortnose.mesh,pt1=c(1,1,1),theta=pi)

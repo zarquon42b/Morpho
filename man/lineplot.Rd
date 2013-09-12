@@ -33,6 +33,7 @@ works with 2D and 3D configurations}
 \code{\link{pcaplot3d}}
 }
 \examples{
+require(rgl)
 library(shapes)
 ##2D example
 plot(gorf.dat[,,1],asp=1)

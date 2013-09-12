@@ -22,6 +22,7 @@ mergeMeshes(...)
 
 }
 \examples{
+require(rgl)
 data(boneData)
 data(nose)
 mergedMesh <- mergeMeshes(shortnose.mesh, skull_0144_ch_fe.mesh)

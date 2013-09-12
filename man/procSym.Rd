@@ -134,7 +134,7 @@ procSym(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05,
   \code{\link{slider3d}} is recommended.
 }
 \examples{
-
+require(rgl)
 data(boneData)
 
 ### do an analysis of symmetric landmarks

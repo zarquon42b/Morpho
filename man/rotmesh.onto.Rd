@@ -40,6 +40,7 @@ rotmesh.onto(mesh, refmat, tarmat, adnormals = FALSE, scale = FALSE
 \seealso{\code{\link{file2mesh}},\code{\link{warp.mesh}} ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 }
 \examples{
+require(rgl)
 data(boneData)
 ## rotate, translate and scale the mesh belonging to the first specimen
 ## onto the landmark configuration of the 10th specimen

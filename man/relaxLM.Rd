@@ -56,6 +56,7 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name
 \seealso{\code{\link{slider3d}}
 }
 \examples{
+require(rgl)
 data(nose)
 ### relax shornose against longnose
 

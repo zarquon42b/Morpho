@@ -23,6 +23,7 @@ conv2backf(mesh)
 \code{\link{adnormals}}
 }
 \examples{
+require(rgl)
 data(nose)
 shade3d(shortnose.mesh,col=3)
 noseinvert <- conv2backf(shortnose.mesh)

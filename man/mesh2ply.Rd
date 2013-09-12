@@ -33,14 +33,15 @@ mesh2obj(x, filename = dataname)
 \code{\link{ply2mesh}}
 }
 \examples{
-vb<-c(-1.8,-1.8,-1.8,1.0,1.8,-1.8,-1.8,1.0,-1.8,1.8,-1.8,1.0,1.8,
+require(rgl)
+vb <- c(-1.8,-1.8,-1.8,1.0,1.8,-1.8,-1.8,1.0,-1.8,1.8,-1.8,1.0,1.8,
 1.8,-1.8,1.0,-1.8,-1.8,1.8,1.0,1.8,
 -1.8,1.8,1.0,-1.8,1.8,1.8,1.0,1.8,1.8,1.8,1.0)
-it<-c(2,1,3,3,4,2,3,1,5,5,7,3,5,1,2,2,6,5,6,8,7,7,5,6,7,8,4,4,3,7,4,8,6,6,2,4)
-vb<-matrix(vb,4,8) ##create vertex matrix
-it<-matrix(it,3,12) ## create face matrix
+it <- c(2,1,3,3,4,2,3,1,5,5,7,3,5,1,2,2,6,5,6,8,7,7,5,6,7,8,4,4,3,7,4,8,6,6,2,4)
+vb <- matrix(vb,4,8) ##create vertex matrix
+it <- matrix(it,3,12) ## create face matrix
 cube<-list(vb=vb,it=it)
-class(cube)<-"mesh3d"
+class(cube) <- "mesh3d"
 shade3d(cube,col=3) ## view the green cube
 mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 }

@@ -24,7 +24,7 @@ plotNormals(x, long = 1, lwd = 1, col = 1)
 Stefan Schlager}
 
 \examples{
-
+require(rgl)
 data(nose)
 shade3d(shortnose.mesh,col=3)
 plotNormals(shortnose.mesh,col=4,long=0.01)
