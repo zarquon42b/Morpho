@@ -9,13 +9,13 @@ Within R:
 
 
 #### Installation of the R-package Morpho from sourceforge/github (latest release): ####
-   1. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
+1. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
      
             
         install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute"))
 
 
-Also required are the packages 'Matrix' and 'parallel' which usually are already installed as R's recommended packages.
+  Also required are the packages 'Matrix' and 'parallel' which usually are already installed as R's recommended packages.
 
 
 2. Download the version suitable for your OS from [sourceforge](https://sourceforge.net/projects/morpho-rpackage/) or [github](https://github.com/zarquon42b/Morpho/releases). Either the compiled package (for Windows and OS X) or the source tarball (Linux).
