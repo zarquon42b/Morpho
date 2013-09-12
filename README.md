@@ -9,7 +9,7 @@ Within R:
 
 
 #### Installation of the R-package Morpho from sourceforge/github (latest release): ####
-   1. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
+1. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
      
             
         install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute"))
