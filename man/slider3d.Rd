@@ -83,7 +83,29 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
 }
 \author{Stefan Schlager
 }
+\examples{
+data(nose)
+###create mesh for longnose
+longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+### write meshes to disk
+mesh2ply(shortnose.mesh, filename="shortnose")
+mesh2ply(longnose.mesh, filename="longnose")
 
+## create landmark array
+data <- bindArr(shortnose.lm, longnose.lm, along=3)
+dimnames(data)[[3]] <- c("shortnose", "longnose")
+
+# define fix landmarks
+fix <- c(1:5,20:21)
+# define surface patch by specifying row indices of matrices
+# all except those defined as fix
+surp <- c(1:dim(shortnose.lm)[1])[-fix]
+\dontrun{
+slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+                  sur.path=".",iterations=1)
+                  # sur.path="." is the current working directory
+}
+}
 
 \seealso{
 \code{\link{relaxLM}}

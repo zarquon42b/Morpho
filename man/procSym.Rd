@@ -69,15 +69,27 @@ procSym(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05,
   }
 
 }
+\details{This function performs Procrustes registration, allowing a
+  variety of options, including scaling, orthogonal projection into
+  tangentspace and relaxation of semi-landmarks on curves (without
+  reprojection onto the surface/actual outline). It also allows the
+  superimpositioning to be performed using only a subset of the
+  available landmark.
+  For taking into account object symmetry, \code{pairedLM} needs to be
+  set. This generates an object of class \code{"symproc"}. Otherwise an object
+  of class \code{"nosymproc"}. 
+  }
 
 \value{
   \item{size }{a vector containing the Centroid Size of the configurations}
   
   \item{rotated }{k x m x n array of the rotated configurations}
   
-  \item{Sym }{k x m x n array of the Symmetrical component - only available for the "Symmetry"-Option}
+  \item{Sym }{k x m x n array of the Symmetrical component - only
+  available for the "Symmetry"-Option (when pairedLM is defined)}
   
-  \item{Asym }{k x m x n array of the Asymmetrical component - only available for the "Symmetry"-Option}
+  \item{Asym }{k x m x n array of the Asymmetrical component - only
+  available for the "Symmetry"-Option (when pairedLM is defined)}
   \item{asymmean }{k x m matrix of mean asymmetric deviation from symmetric mean}
   \item{mshape }{sample meanshape}
   \item{symmean }{meanshape of symmetrized configurations}

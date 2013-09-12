@@ -1,9 +1,15 @@
 Morpho
 ======
 Morpho provides a rich toolset for Geometric Morphometrics and mesh processing in R. This includes (among other stuff) mesh deformations based on reference points, permutation tests, detection of outliers, processing of sliding semi-landmarks, im- and export of a variety of triangular surface mesh files.
+#### Installation of the R-package Morpho from CRAN: ####
+
+Within R:
+       
+       install.packages("Morpho")
+
 
 #### Installation of the R-package Morpho from sourceforge/github (latest release): ####
-   * Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
+   1. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
      
             
         install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute"))
@@ -12,13 +18,13 @@ Morpho provides a rich toolset for Geometric Morphometrics and mesh processing i
 Also required are the packages 'Matrix' and 'parallel' which usually are already installed as R's recommended packages.
 
 
-* Download the version suitable for your OS from [sourceforge](https://sourceforge.net/projects/morpho-rpackage/) or [github](https://github.com/zarquon42b/Morpho/releases). Either the compiled package (for Windows and OS X) or the source tarball (Linux).
+2. Download the version suitable for your OS from [sourceforge](https://sourceforge.net/projects/morpho-rpackage/) or [github](https://github.com/zarquon42b/Morpho/releases). Either the compiled package (for Windows and OS X) or the source tarball (Linux).
 
-* Installation command from within R: 
+3. Installation command from within R: 
    
         install.packages("Path_to_downloaded_package_Morpho[Version_OS]",repos=NULL)
 
-* check if the package can be loaded:
+4. check if the package can be loaded:
         
         load package: library(Morpho)
 
@@ -36,7 +42,7 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
 
 ##### install Morpho #####
 
-* Run the following command in R:
+3. Run the following command in R:
         
         require(devtools)
         install_url("https://github.com/zarquon42b/Rvcg/archive/master.zip")
@@ -48,7 +54,7 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
 
 1. Download the binaries appropriate for your OS from [https://github.com/zarquon42b/trimesh-cxx/releases](https://github.com/zarquon42b/trimesh-cxx/releases)
 
-* Install files:
+2. Install files:
 
     * **Windows:** simply double click trimesh-tools.msi and follow installer instructions.
     * **OSX:**
@@ -58,7 +64,7 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
         * Debian/Ubuntu: Please use my [PPA](https://launchpad.net/~zarquon42/+archive/ppa). The package is called *trimesh-tools*.
         * All other systems: Compile the binaries yourself ([see below](\#compilation-of-command-line-tools)).
 
-* Test if the system finds the files (necessary for Morpho).
+3. Test if the system finds the files (necessary for Morpho).
     1. open a command line terminal
     * type *ply2ascii*
     * if everything is alright, you see a help message.
@@ -67,10 +73,10 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
 #### Compilation of command line tools:   
 
   1. Install QT-SDK (http://qt-project.org/downloads)
-  * make sure to have C++ compilers installed
-  * Get the latest sources
+  2. make sure to have C++ compilers installed
+  3. Get the latest sources
        1. Download the [tarball](https://github.com/zarquon42b/trimesh-cxx/archive/0.2.5.tar.gz)
-       * or use git to obtain the latest snapshot
+       2. or use git to obtain the latest snapshot
                     
             git clone git://git.code.sf.net/p/morpho-rpackage/trimesh-cxx trimesh-cxx
                 
