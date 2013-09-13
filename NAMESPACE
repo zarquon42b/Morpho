@@ -71,6 +71,7 @@ export(conv2backf)
 export(covDist)
 export(covPCA)
 export(covW)
+export(createAtlas)
 export(CreateL)
 export(crossp)
 export(cSize)
@@ -102,7 +103,8 @@ export(obj2mesh)
 export(PCdist)
 export(permudist)
 export(permuvec)
-export(place.patch)
+export(placePatch)
+export(plotAtlas)
 export(plotNormals)
 export(pls2B)
 export(ply2mesh)
@@ -165,7 +167,7 @@ export(mc.slider3d)
 export(regdist.raw)
 
 ## private functions
-## addo ang calcGamma CreateL2D eigenPCA export.meshDist gdif meshDist.matrix meshDist.mesh3d meshres.mesh3d orp pcaplot3d.nosymproc pcaplot3d.symproc projBack read.obj render.matrixDist render.meshDist RGB2Grey rotaxis3d.matrix rotaxis3d.mesh3d rot.proc scaleproc Semislide warpmovie3d.matrix warpmovie3d.mesh3d write.obj
+## addo ang calcGamma CreateL2D eigenPCA export.meshDist gdif meshDist.matrix meshDist.mesh3d meshres.mesh3d orp pcaplot3d.nosymproc pcaplot3d.symproc projBack read.obj render.matrixDist render.meshDist RGB2Grey rotaxis3d.matrix rotaxis3d.mesh3d rot.proc scaleproc Semislide warpmovie3d.matrix warpmovie3d.mesh3d write.obj place.patch
 
 ## private functions in Morpho beginning with dot:
 ## .bindArr2 .calcTang_U_s .calcTang_U .covPCApermut .CVAcrova .CVAdists .difplotLM2D .difplotLM .fx. groupPCAcrova 

@@ -1,6 +1,5 @@
 \name{needForDocu}
 \alias{checkLM}
-\alias{place.patch}
 \alias{get.obj.size}
 \alias{pred.PC}
 \alias{pred.PCmult}
