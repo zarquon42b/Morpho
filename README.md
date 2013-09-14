@@ -74,8 +74,8 @@ Run the following command in R:
   1. Install QT-SDK (http://qt-project.org/downloads)
   2. make sure to have C++ compilers installed
   3. Get the latest sources
-       1. Download the [tarball](https://github.com/zarquon42b/trimesh-cxx/archive/0.2.5.tar.gz)
-       2. or use git to obtain the latest snapshot
+       * Download the [tarball](https://github.com/zarquon42b/trimesh-cxx/archive/0.2.5.tar.gz)
+       * or use git to obtain the latest snapshot
                     
             git clone git://git.code.sf.net/p/morpho-rpackage/trimesh-cxx trimesh-cxx
                 
