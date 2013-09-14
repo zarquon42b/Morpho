@@ -55,13 +55,13 @@ Run the following command in R:
 1. Download the binaries appropriate for your OS from [https://github.com/zarquon42b/trimesh-cxx/releases](https://github.com/zarquon42b/trimesh-cxx/releases)
 
 2. Install files:
- * **Windows:** simply double click trimesh-tools.msi and follow installer instructions.
- * **OSX:**
-     1. extract the .tgz archive and copy these files e.g. to /usr/bin/ 
-     2. you also need the QT libraries QtGui and QtCore installed. If you don't know how to do that, you can download the complete QT libraries from http://qt.nokia.com/downloads and install them on your machine.
- * **Linux:** 
-    * Debian/Ubuntu: Please use my [PPA](https://launchpad.net/~zarquon42/+archive/ppa). The package is called *trimesh-tools*.
-    * All other systems: Compile the binaries yourself ([see below](\#compilation-of-command-line-tools)).
+    * **Windows:** simply double click trimesh-tools.msi and follow installer instructions.
+    * **OSX:**
+        1. extract the .tgz archive and copy these files e.g. to /usr/bin/ 
+        2. you also need the QT libraries QtGui and QtCore installed. If you don't know how to do that, you can download the complete QT libraries from http://qt.nokia.com/downloads and install them on your machine.
+    * **Linux:** 
+        * Debian/Ubuntu: Please use my [PPA](https://launchpad.net/~zarquon42/+archive/ppa). The package is called *trimesh-tools*.
+        * All other systems: Compile the binaries yourself ([see below](\#compilation-of-command-line-tools)).
 
 3. Test if the system finds the files (necessary for Morpho).
     1. open a command line terminal
