@@ -26,14 +26,16 @@ plotAtlas <- function(atlas, radius=1, meshcol="white", add=TRUE)
         legend(-1,1, pch=20, cex=2, col=2:5, legend=c("landmarks", "patch", "curves on all specimen", "curves only on atlas"))
     }
 
-placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", tol=5, ray=TRUE, inflate=NULL, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL)
+placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=TRUE, inflate=NULL,tol=inflate, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL)
     {
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
         if (is.null(keep.fix))
             keep.fix <- 1:dim(atlas$landmarks)[1]
+        if (is.null(tol) && !is.null(inflate))
+            tol <- inflate
             
-        patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext,SMvector = keep.fix)
+        patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext, SMvector = keep.fix)
         return(patched)
     }
 

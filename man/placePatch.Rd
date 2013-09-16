@@ -10,45 +10,47 @@
 }
 \usage{
 placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
-           tol = 5, ray = TRUE, inflate = NULL, relax.patch = TRUE,
+           ray = TRUE, inflate = NULL, tol=inflate, relax.patch = TRUE,
            keep.fix = NULL, rhotol = NULL)
 }
 \arguments{
   \item{atlas}{object of class "atlas" created by \code{\link{createAtlas}}
-}
+  }
   \item{dat.array}{k x 3 x n array containing reference landmarks of the sample.
-}
+  }
   \item{path}{character: specify the directory where the surface meshes
     of the sample are stored.
-}
+  }
   \item{prefix}{character: append a prefix to the specimens names
     (stored in \code{dimnames(dat.array)[[3]]}) to match the
     corresponding file names.
-}
+  }
   \item{fileext}{character: file extension of the surface meshes.
-}
-  \item{tol}{numeric: threshold to follow the ray back after
-    inflation. See details below.
-}
+  }
+  
   \item{ray}{logical: projection will be along surface normals instead
     of simple closest point search.
-}
+  }
   \item{inflate}{inflate (or deflate - if negative sign) the
     semilandmarks along the normals of the deformed atlas to make sure
     that they stay on the outside (inside) of the target mesh.
-}
+  }
+  \item{tol}{numeric: threshold to follow the ray back after
+    inflation. See details below. If no surface is hit after \code{tol}
+    mm, the simple closest point will be used.
+  }
   \item{relax.patch}{logical: request relaxation minimising bending
     energy toward the atlas.
-}
+  }
   \item{keep.fix}{integer: rowindices of those landmarks that are not
     allowed to be relaxed in case \code{relax.patch=TRUE}. If not
     specified, all landmarks will be kept fix.
-}
+  }
   \item{rhotol}{numeric: maximum amount of deviation a hit point's
     normal is allowed to deviate from the normal defined on the
     atlas. If \code{relax.patch=TRUE}, those points exceeding this value
     will be relaxed freely (i.e. not restricted to tangent plane).
-}
+  }
 }
 \details{This function allows the (relatively) easy projection of
   surface points defined on an atlas onto all surface of a given sample
