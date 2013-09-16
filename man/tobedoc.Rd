@@ -1,5 +1,4 @@
 \name{needForDocu}
-\alias{checkLM}
 \alias{get.obj.size}
 \alias{pred.PC}
 \alias{pred.PCmult}

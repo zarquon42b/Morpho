@@ -1,0 +1,76 @@
+\name{checkLM}
+\alias{checkLM}
+\title{
+Visually browse through a sample rendering its landmarks and corresponding surfaces.
+}
+\description{Browse through a sample rendering its landmarks and
+  corresponding surfaces. This is handy e.g. to check if the landmark
+  projection using placePatch was successful, and to mark specific
+  specimen.
+
+}
+\usage{
+checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply", col = 3,
+        radius = 1, alpha = 0.7, begin = 1, render = "w", point = c("s","p"),
+        add = FALSE, Rdata = FALSE)
+}
+\arguments{
+  \item{dat.array}{array or list containing landmark coordinates.
+  }
+  \item{path}{character: path to files where surface meshes are stored locally.
+  }
+  \item{prefix}{prefix to attach to the filenames extracted from
+    \code{dimnames(dat.array)[[3]]} (in case of an array), or \code{names(dat.array)} (in
+    case of a list)
+  }
+  \item{suffix}{suffix to attach to the filenames extracted from
+    \code{dimnames(dat.array)[[3]]} (in case of an array), or \code{names(dat.array)} (in
+    case of a list)
+  }
+  \item{col}{mesh color
+  }
+  \item{radius}{radius of spheres
+  }
+  \item{alpha}{value between 0 and 1. Sets transparency of mesh 1=opaque
+    0= fully transparent.
+}
+  \item{begin}{integer: select a specimen to start with.
+}
+  \item{render}{if render="w", a wireframe will be drawn, else the
+    meshes will be shaded.
+}
+  \item{point}{how to render landmarks. "s"=spheres, "p"=points.
+}
+  \item{add}{logical: add to existing rgl window.
+}
+  \item{Rdata}{logical: if the meshes are previously stored as
+    Rdata-files by calling save(), these are simply loaded and
+    rendered. Otherwise it is assumed that the meshes are stored in
+    standard file formats such as PLY, STL or OBJ, that are then
+    imported with the function \code{\link{file2mesh}}.
+}
+}
+\note{if \code{Rdata=FALSE}, the additional command line tools need to be installed (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
+}
+\value{returns a vector of indices of marked specimen.
+}
+
+\seealso{
+\code{\link{placePatch},\link{file2mesh}}
+}
+\examples{
+data(nose)
+###create mesh for longnose
+longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+### write meshes to disk
+save(shortnose.mesh, file="shortnose")
+save(longnose.mesh, file="longnose")
+
+## create landmark array
+data <- bindArr(shortnose.lm, longnose.lm, along=3)
+dimnames(data)[[3]] <- c("shortnose", "longnose")
+checkLM(data, path="./",Rdata=TRUE, suffix="")
+}
+
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }
