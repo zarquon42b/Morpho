@@ -16,10 +16,14 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
 \arguments{
   \item{atlas}{object of class "atlas" created by \code{\link{createAtlas}}
   }
-  \item{dat.array}{k x 3 x n array containing reference landmarks of the sample.
+  \item{dat.array}{k x 3 x n array containing reference landmarks of the
+    sample or a matrix in case of only one target specimen.
   }
   \item{path}{character: specify the directory where the surface meshes
-    of the sample are stored.
+    of the sample are stored. In case \code{dat.array} is a matrix,
+    \code{path} is needed to specifiy not only the directory, but the
+   specific surface mesh file (without fileextension if specified by
+   \code{fileext}). See examples below.
   }
   \item{prefix}{character: append a prefix to the specimens names
     (stored in \code{dimnames(dat.array)[[3]]}) to match the
@@ -77,7 +81,8 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
  
 }
 \value{array containing the projected coordinates appended to the
-  data.array specified in the input.
+  data.array specified in the input. In case dat.array is a matrix only
+  a matrix is returned.
 }
 \references{mydiss
 
@@ -86,6 +91,41 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
 \author{
 Stefan Schlager}
 \note{needs additional command line tools "trimesh-tools" installed (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}).
+
+}
+
+\examples{
+data(nose)
+require(rgl)
+###create mesh for longnose
+longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+## create atlas
+fix <- c(1:5,20:21)
+atlas <- createAtlas(shortnose.mesh, landmarks =
+           shortnose.lm[fix,], patch=shortnose.lm[-c(1:5,20:21),])
+## view atlas
+plotAtlas(atlas)
+
+## create landmark array with only fix landmarks
+data <- bindArr(shortnose.lm[fix,], longnose.lm[fix,], along=3)
+dimnames(data)[[3]] <- c("shortnose", "longnose")
+
+### write meshes to disk
+mesh2ply(shortnose.mesh, filename="shortnose")
+mesh2ply(longnose.mesh, filename="longnose")
+\dontrun{
+patched <- placePatch(atlas, data, path="./", inflate=5)
+## now show placed patch on target longnose.mesh
+wire3d(longnose.mesh,col=3)
+spheres3d(patched[,,2])
+}
+## same example with only one target specimen
+data <- longnose.lm[fix, ]
+\dontrun{
+patched <- placePatch(atlas, data, path="longnose", inflate=5)
+}
+wire3d(longnose.mesh,col=3)
+spheres3d(patched)
 
 }
 \seealso{
