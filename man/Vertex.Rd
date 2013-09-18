@@ -11,7 +11,7 @@ remove (unreferenced vertices from triangular meshes)}
 unrefVertex(mesh)
 rmVertex(mesh, index, keep=FALSE)
 vert2points(mesh)
-rmUnrefVertex(mesh)
+rmUnrefVertex(mesh, silent=FALSE)
 
 }
 \arguments{
@@ -21,7 +21,10 @@ rmUnrefVertex(mesh)
   }
   \item{keep }{logical: if TRUE, the vertices specified by 'index' are
     kept and the rest is removed.
-}
+  }
+  \item{silent }{logical: suppress output about info on removed
+    vertices.
+  }
 }
 \value{unrefVertex: vector with indices of unreferenced vertices.
   
