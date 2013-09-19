@@ -6,7 +6,7 @@
 \title{some little helpers for vertex operations on triangular meshes
 }
 \description{
-remove (unreferenced vertices from triangular meshes)}
+extract vertex coordinates from meshes, find and/or remove (unreferenced) vertices from triangular meshes}
 \usage{
 unrefVertex(mesh)
 rmVertex(mesh, index, keep=FALSE)
@@ -15,27 +15,38 @@ rmUnrefVertex(mesh, silent=FALSE)
 
 }
 \arguments{
-  \item{mesh }{triangular mesh of class "mesh3d".
+  \item{mesh }{triangular mesh of class \code{mesh3d}.
   }
   \item{index }{vector containing indices of vertices to be removed.
   }
-  \item{keep }{logical: if TRUE, the vertices specified by 'index' are
+  \item{keep }{logical: if \code{TRUE}, the vertices specified by \code{index} are
     kept and the rest is removed.
   }
   \item{silent }{logical: suppress output about info on removed
     vertices.
   }
 }
-\value{unrefVertex: vector with indices of unreferenced vertices.
+\details{\code{unrefVertex} finds unreferenced vertices in triangular
+  meshes of class \code{mesh3d}.
   
-  rmVertex: returns mesh with specified vertices removed and faces and
+  \code{rmVertex} removes specified vertices from triangular meshes.
+  
+  \code{vert2points} extacts vertex coordinates from triangular meshes.
+
+   \code{rmUnrefVertex} removes unreferenced vertices from triangular meshes.
+}
+\value{
+  \code{unrefVertex}: vector with indices of unreferenced vertices.
+  
+  \code{rmVertex}: returns mesh with specified vertices removed and faces and
   normals updated.
   
-  vert2points: k x 3 matrix containing vertex coordinates.
+  \code{vert2points}: k x 3 matrix containing vertex coordinates.
   
-  rmUnrefVertex: mesh with unreferenced vertices removed.
+  \code{rmUnrefVertex}: mesh with unreferenced vertices removed.
   
 }
+
 
 \author{
 Stefan Schlager}
