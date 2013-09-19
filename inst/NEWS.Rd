@@ -5,6 +5,11 @@
 \section{Changes in Morpho version 0.26-00 (2013-NN-NN)}{
   \subsection{R-code}{
     \itemize{
+      \item added function 'checkLM'. Useful to visualize if projection by
+  'placePatch' was successful by browsing through sample. 
+      \item added functions 'placePatch', 'createAtlas' and 'plotAtlas'
+  for defining templates and functions to project (semi-) landmarks from
+  an atlas onto all specimen in a given sample.
       \item fixed missing '-1' subtraction in 'covW'
       \item added function 'mergeMeshes' to concatenate multiple triangular meshes.
       \item made function 'procAOVsym' (procrustes Anova for object
@@ -26,6 +31,7 @@
   }
   \subsection{Package documentation}{
     \itemize{
+      \item added docu and examples for all newly exposed functions (see above)
       \item added examples for 'find.outliers'
       \item added more examples for covPCA, performing permutation tests
       \item added docu for function 'barycenter'

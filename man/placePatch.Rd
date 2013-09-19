@@ -123,9 +123,9 @@ spheres3d(patched[,,2])
 data <- longnose.lm[fix, ]
 \dontrun{
 patched <- placePatch(atlas, data, path="longnose", inflate=5)
-}
 wire3d(longnose.mesh,col=3)
 spheres3d(patched)
+}
 
 }
 \seealso{

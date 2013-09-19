@@ -1,4 +1,4 @@
-checkLM <- function(dat.array,path=NULL,prefix="",suffix=".ply",col=3,radius=1,alpha=0.7,begin=1,render="w",point=c("s","p"),add=FALSE,Rdata=FALSE)
+checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col=3, radius=1, alpha=0.7, begin=1, render="w", point=c("s","p"), add=FALSE, Rdata=FALSE)
   {
     marked <- NULL
     j <- 1

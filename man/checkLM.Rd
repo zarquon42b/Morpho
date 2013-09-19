@@ -17,7 +17,8 @@ checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply", col = 3,
 \arguments{
   \item{dat.array}{array or list containing landmark coordinates.
   }
-  \item{path}{character: path to files where surface meshes are stored locally.
+  \item{path}{optional character: path to files where surface meshes are
+    stored locally. If not specified only landmarks are displayed.
   }
   \item{prefix}{prefix to attach to the filenames extracted from
     \code{dimnames(dat.array)[[3]]} (in case of an array), or \code{names(dat.array)} (in
