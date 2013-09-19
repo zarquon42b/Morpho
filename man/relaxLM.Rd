@@ -66,16 +66,16 @@ fix <- c(1:5,20:21)
 # all except those defined as fix
 surp <- c(1:dim(shortnose.lm)[1])[-fix]
 ## to reduce this example's computation time,
-# we only allow the landmarks on the right side to slide
+# we only allow use the right hand landmarks on the right side to slide
 # (which keeps the left hand ones fix)
 surp <- surp[1:316]
 
-relax <- relaxLM(shortnose.lm,
-         longnose.lm, mesh=shortnose.mesh, iterations=1,
+relax <- relaxLM(shortnose.lm[1:323, ],
+         longnose.lm[1:323, ], mesh=shortnose.mesh, iterations=1,
          SMvector=fix, deselect=TRUE, surp=surp)
 
 # visualize differences red=before and green=after sliding
-deformGrid3d(shortnose.lm, relax, ngrid=0)
+deformGrid3d(shortnose.lm[1:323, ], relax, ngrid=0)
 # add surface
 wire3d(shortnose.mesh, col="white")
 }
