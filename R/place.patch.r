@@ -9,21 +9,40 @@ createAtlas <- function(mesh, landmarks, patch, corrCuves=NULL, patchCurves=NULL
         atlas$patchCurves<- patchCurves
         return(atlas)
     }
-plotAtlas <- function(atlas, radius=1, meshcol="white", add=TRUE)
+plotAtlas <- function(atlas, radius=1, alpha=1, render=c("w","s"), point=c("s", "p"), meshcol="white", add=TRUE, legend=TRUE)
     {
+        outid <- NULL
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
+        point <- point[1]
+        render <- render[1]
+        if (point == "s") {
+            rendpoint <- spheres3d
+        } else if (point == "p") {
+            rendpoint <- points3d
+        } else {
+            stop("argument \"point\" must be \"s\" for spheres or \"p\" for points")
+        }
+        if (render=="w") {
+            rend <- wire3d
+        } else {
+            rend <- shade3d
+        }
         if (add)
             open3d()
-        wire3d(atlas$mesh, col=meshcol)
-        spheres3d(atlas$landmarks,col=2)
-        spheres3d(atlas$patch,col=3,radius=radius/2)
+        if (!is.null(atlas$mesh))
+            outid <- rend(atlas$mesh, col=meshcol, alpha=alpha)
+        outid <- c(outid, rendpoint(atlas$landmarks,col=2))
+        outid <- c(outid,rendpoint(atlas$patch,col=3,radius=radius/2))
         if (!is.null(atlas$corrCurves))
-            spheres3d(atlas$landmarks[unlist(atlas$corrCurves),],col=4,radius=radius+0.001)
+            outid <- c(outid, rendpoint(atlas$landmarks[unlist(atlas$corrCurves),],col=4,radius=radius+0.001))
         if (!is.null(atlas$patchCurves))
-            spheres3d(atlas$patch[unlist(atlas$patchOutlines),],col=5,radius=radius/2+0.001)
-        plot(0,0, xlab="", ylab="", axes =F, cex=0,xlim=c(-1,1), ylim=c(-1,1))
-        legend(-1,1, pch=20, cex=2, col=2:5, legend=c("landmarks", "patch", "curves on all specimen", "curves only on atlas"))
+            outid <- c(outid,rendpoint(atlas$patch[unlist(atlas$patchOutlines),],col=5,radius=radius/2+0.001))
+        if (legend) {
+            plot(0,0, xlab="", ylab="", axes =F, cex=0,xlim=c(-1,1), ylim=c(-1,1))
+            legend(-1,1, pch=20, cex=2, col=2:5, legend=c("landmarks", "patch", "curves on all specimen", "curves only on atlas"))
+        }
+        invisible(outid)
     }
 
 placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=TRUE, inflate=NULL,tol=inflate, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL)
