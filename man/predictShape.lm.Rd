@@ -1,0 +1,82 @@
+\name{predictShape.lm}
+\alias{predictShape.lm}
+\title{
+Predict shapes based on linear models calculated from PCscores}
+\description{Predict shapes based on linear models calculated from
+  PCscores. 
+}
+\usage{
+predictShape.lm(fit, datamod, PC, mshape)
+}
+\arguments{
+  \item{fit}{model of class "lm" where the PCscores are fitted onto 
+}
+  \item{datamod}{a one-sided "model" formula, of the form \code{~ x1 +
+      x2 + ... + xk}, corresponding to the right hand term in the model
+    used in \code{fit}.
+}
+  \item{PC}{Matrix/vector containing Principal components (rotation
+    matrix) corresponding to PC-scores used in \code{fit}.
+}
+  \item{mshape}{meanshape by which the data was centered before rotation
+    in covariance eigenspace.
+}
+}
+\details{This function predicts the landmarks based on models calculated
+  from PCscores.
+  
+}
+\section{Warning}{Make sure that the levels of the variables used in
+  \code{datamod} correspond exactly to those used in
+  \code{fit}. Otherwise model matrix will be calculated erroneous.
+  }
+\value{
+  \item{predicted }{array or matrix containing predicted landmark coordinates}
+\item{predictedPC }{matrix containing predicted PC-scores}
+}
+\seealso{
+\code{\link{model.matrix}, \link{lm}, \link{formula}}
+}
+\examples{
+data(boneData)
+proc <- procSym(boneLM)
+pop <- name2factor(boneLM,which=3)
+##easy model with only one factor based on the first four PCs
+fit <- lm(proc$PCscores[,1:4] ~ pop)
+## get shape for Europeans only
+datamod <- ~as.factor(levels(pop))[2]
+Eu <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
+
+## get shape for Europeans and Chinese
+datamod <- ~as.factor(levels(pop))
+pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
+deformGrid3d(pred$predicted[,,1], pred$predicted[,,2], ngrid = 0)
+
+
+## more complicated model
+
+sex <- name2factor(boneLM,which=4)
+fit <- lm(proc$PCscores[,1:4] ~ pop*sex)
+## predict female for chinese and European
+datamod <- ~(as.factor(levels(pop))*rep(as.factor(levels(sex))[1],2))
+pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
+
+## predict female and malefor chinese and European
+popmod <- factor(c(rep("eu",2),rep("ch",2)))
+sexmod <- rep(as.factor(levels(sex)),2)
+datamod <- ~(popmod*sexmod)
+pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
+
+## add some (randomly generated) numeric covariate
+somevalue <- rnorm(80,sd=10)
+fit <- lm(proc$PCscores[,1:4] ~ pop+somevalue)
+probs <- quantile(somevalue, probs=c(0.05, 0.95))
+## make model for European at 5% and 95% quantile
+popmod <- rep(factor(levels(pop))[2],2)
+datamod <- ~(popmod+probs)
+pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
+
+}
+
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }
