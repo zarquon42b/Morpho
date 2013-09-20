@@ -16,7 +16,7 @@ Imports:
    colorRamps, 
    foreach (>= 1.4.0), 
    MASS, 
-   Matrix, 
+   Matrix (>= 1.0-1), 
    parallel,
    yaImpute
 Copyright: see COPYRIGHTS file for details
