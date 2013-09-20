@@ -13,12 +13,13 @@ predictShape.lm(fit, datamod, PC, mshape)
 }
   \item{datamod}{a one-sided "model" formula, of the form \code{~ x1 +
       x2 + ... + xk}, corresponding to the right hand term in the model
-    used in \code{fit}.
+    used in \code{fit}. If omitted, the predicted shapes of
+    all specimen are calculated based on the fitted values.
 }
   \item{PC}{Matrix/vector containing Principal components (rotation
     matrix) corresponding to PC-scores used in \code{fit}.
 }
-  \item{mshape}{meanshape by which the data was centered before rotation
+  \item{mshape}{matrix of the meanshape's landmarks by which the data was centered before rotation
     in covariance eigenspace.
 }
 }
@@ -71,7 +72,7 @@ pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
 somevalue <- rnorm(80,sd=10)
 fit <- lm(proc$PCscores[,1:4] ~ pop+somevalue)
 probs <- quantile(somevalue, probs=c(0.05, 0.95))
-## make model for European at 5% and 95% quantile
+## make model for European at 5\% and 95\% quantile
 popmod <- rep(factor(levels(pop))[2],2)
 datamod <- ~(popmod+probs)
 pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)

@@ -13,7 +13,7 @@ showPC(scores, PC, mshape)
   \item{PC}{Principal components (eigenvectors of the covariance matrix)
     associated with 'scores'.
 }
-  \item{mshape}{meanshape (that was used to center the data by the PCA)
+  \item{mshape}{matrix containing the meanshape's landmarks (used to center the data by the PCA)
 }
 }
 \details{Rotates and translates PC-scores derived from shape data back

@@ -3,14 +3,20 @@ predictShape.lm <- function(fit, datamod, PC, mshape)
   if (!inherits(fit, "lm"))
       stop("provide linear model of class 'lm'!")
   dims <- dim(mshape)
-  mat <- model.matrix(datamod)
-  pred <- mat%*%fit$coefficients
+  if (!missing(datamod)) {
+      mat <- model.matrix(datamod)
+      pred <- mat%*%fit$coefficients
+      names <- as.matrix(model.frame(datamod))
+      names <-  apply(names,1, paste,collapse= "_")
+      names <- gsub(" ","",names)
+  } else {
+      pred <- predict(fit)
+      names <- rownames(pred)
+  }
   predPC <- t(PC%*%t(pred))
-  names <- as.matrix(model.frame(datamod))
-  names <-  apply(names,1, paste,collapse= "_")
-  names <- gsub(" ","",names)
-  if (dim(mat)[1] > 1) {
-      out <- array(NA,dim=c(dims,dim(mat)[1]))
+  
+  if (dim(pred)[1] > 1) {
+      out <- array(NA,dim=c(dims,dim(pred)[1]))
       for (i in 1:dim(out)[3])
           out[,,i] <- mshape+matrix(predPC[i,],dims[1],dims[2])
   } else {
