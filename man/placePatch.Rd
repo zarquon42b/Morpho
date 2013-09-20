@@ -115,9 +115,8 @@ mesh2ply(shortnose.mesh, filename="shortnose")
 mesh2ply(longnose.mesh, filename="longnose")
 \dontrun{
 patched <- placePatch(atlas, data, path="./", inflate=5)
-## now show placed patch on target longnose.mesh
-wire3d(longnose.mesh,col=3)
-spheres3d(patched[,,2])
+## now browse through placed patches
+checkLM(patched, path="./", atlas=atlas)
 }
 ## same example with only one target specimen
 data <- longnose.lm[fix, ]
@@ -129,7 +128,7 @@ spheres3d(patched)
 
 }
 \seealso{
- \code{\link{createAtlas}, \link{relaxLM}, \link{slider3d}, \link{warp.mesh}}
+ \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM}, \link{slider3d}, \link{warp.mesh}}
 }
 
 

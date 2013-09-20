@@ -60,7 +60,7 @@ checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply", col = "white",
 }
 
 \seealso{
-\code{\link{placePatch},\link{file2mesh}}
+\code{\link{placePatch}, \link{createAtlas}, \link{plotAtlas}, \link{file2mesh}}
 }
 \examples{
 data(nose)

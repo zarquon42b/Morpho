@@ -15,9 +15,13 @@ on
 have to be installed.
 }
 \details{
-  \tabular{ll}{ Package: \tab Morpho\cr Type: \tab Package\cr
-  Version: \tab 0.26-00\cr License: \tab
-  GPL\cr LazyLoad: \tab yes\cr }
+  \tabular{ll}{
+    Package: \tab Morpho\cr
+    Type: \tab Package\cr
+    Version: \tab 0.99\cr
+    Date: \tab 2013-09-20\cr
+    License: \tab GPL\cr
+    LazyLoad: \tab yes\cr }
 
 }
 \author{Stefan Schlager
@@ -27,8 +31,8 @@ Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 
 }
 \references{
-Coming soon (when my dissertation is published)
-}
+Schlager S. 2013. Soft-tissue reconstruction of the human nose - population
+differences and sexual dimorphism.}
 
 \keyword{ package }
 
