@@ -50,8 +50,14 @@ repair <- fixLMtps(data,comp=5)
 plot(repair$out[,,1],asp=1,pch=21,cex=0.7,col=2)#estimated landmark
 points(gorf.dat[,,1],col=3,pch=20)#actual landmark
 
-
-
+## 3D-example:
+data(boneData)
+data <- boneLM
+### set first and 5th landmark of first specimen to NA
+data[c(1,5),,1] <- NA
+repair <- fixLMtps(data,comp=10)
+##  view difference between estimated and actual landmark
+deformGrid3d(repair$out[,,1], boneLM[,,1],ngrid=0)
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

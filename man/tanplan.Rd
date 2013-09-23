@@ -28,6 +28,25 @@ crossp(x,y)
 
   crossp: returns a vector of length 3.
 }
+\examples{
+require(rgl)
 
+x <- c(1,0,0)
+y <- c(0,1,0)
+
+#example tanplan
+z <- tanplan(x)
+#visualize result
+lines3d(rbind(0, x), col=2, lwd=2)
+## show complement
+lines3d(rbind(z$y, 0, z$z), col=3, lwd=2)
+
+# example crossp
+z <- crossp(x, y)
+# show x and y
+lines3d(rbind(x, 0, y), col=2, lwd=2)
+# show z
+lines3d(rbind(0, z), col=3, lwd=2)
+}
 \author{
 Stefan Schlager}

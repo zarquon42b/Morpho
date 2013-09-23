@@ -21,6 +21,10 @@ read.pts(file = "x")
 \seealso{
 \code{\link{read.pts}}
 }
-
+\examples{
+data(nose)
+write.pts(shortnose.lm, filename="shortnose")
+data <- read.pts("shortnose.pts")
+}
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

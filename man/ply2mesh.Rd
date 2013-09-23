@@ -31,6 +31,10 @@ file2mesh needs the command line tool ply2ascii from the Auxiliaries section in 
 \value{
 \item{mesh }{list of class mesh3d - see rgl manual for further details, or a matrix containing vertex information or a list containing vertex and normal information}
 }
-
+\examples{
+data(nose)
+mesh2ply(shortnose.mesh)
+mesh <- ply2mesh("shortnose.mesh.ply")
+}
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }
