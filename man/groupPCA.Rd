@@ -77,6 +77,26 @@ pca.1=groupPCA(vari,groups=facto,rounds=1000,mc.cores=1)
 scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,
         by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
 
+## example with shape data
+data(boneData)
+proc <- procSym(boneLM)
+pop_sex <- name2factor(boneLM, which=3:4)
+gpca <- groupPCA(proc$orpdata, groups=pop_sex, rounds=100, mc.cores=2)
+## visualize shape associated with first between group PC
+dims <- dim(proc$mshape)
+## calculate matrix containing landmarks of grandmean
+grandmean <- matrix(gpca$Grandmean, dims[1], dims[2])
+## calculate landmarks from first between-group PC
+#                   (+2 and -2 standard deviations)
+gpcavis2sd<- showPC(2*sd(gpca$Scores[,1]), gpca$groupPCs, grandmean)
+gpcavis2sd.neg<- showPC(-2*sd(gpca$Scores[,1]), gpca$groupPCs, grandmean)
+deformGrid3d(gpcavis2sd, gpcavis2sd.neg, ngrid = 0)
+require(rgl)
+## visualize grandmean mesh
+grandm.mesh <- warp.mesh(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean)
+wire3d(grandm.mesh, col="white")
+spheres3d(grandmean, radius=0.005)
+
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }
