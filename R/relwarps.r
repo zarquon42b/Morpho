@@ -30,16 +30,13 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
     diaginv[-zero] <- eigBE$values[-zero]^(alpha/2)
     IM <- diag(rep(1,m))
     
-    if (alpha !=0)
-        {	
-            BE2 <- IM%x%(eigBE$vectors%*%diag(diagBE)%*%t(eigBE$vectors))
-            invBE2 <- IM%x%(eigBE$vectors%*%diag(diaginv)%*%t(eigBE$vectors))
-        }
-    else
-        {
-            BE2 <- diag(rep(1,k*m))
-            invBE2 <- BE2
-        }
+    if (alpha !=0) {	
+        BE2 <- IM%x%(eigBE$vectors%*%diag(diagBE)%*%t(eigBE$vectors))
+        invBE2 <- IM%x%(eigBE$vectors%*%diag(diaginv)%*%t(eigBE$vectors))
+    } else {
+        BE2 <- diag(rep(1,k*m))
+        invBE2 <- BE2
+    }
     
 ### generate covariance structure of scaled space ###
     covcom <- BE2%*%Sc%*%BE2	
@@ -68,22 +65,20 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
     
 ### create Variance table according to eigenvalues ###
     values <- eigCOVCOM$values[nonz]
-    if (length(values)==1)
+    if (length(values)==1) {
         Var <- values
-    else
-        {
-            Var <- matrix(NA,length(values),3)
-            Var[,1] <- values
-            
-            for (i in 1:length(values))
-                Var[i,2] <- (values[i]/sum(values))*100
-            Var[1,3] <- Var[1,2]
-            for (i in 2:length(values))
-                Var[i,3] <- Var[i,2]+ Var[i-1,3]
-            
-            colnames(Var) <- c("eigenvalues","% Variance","Cumulative %")
-        }
-    
+    } else {
+        Var <- matrix(NA,length(values),3)
+        Var[,1] <- values
+        
+        for (i in 1:length(values))
+            Var[i,2] <- (values[i]/sum(values))*100
+        Var[1,3] <- Var[1,2]
+        for (i in 2:length(values))
+            Var[i,3] <- Var[i,2]+ Var[i-1,3]
+        
+        colnames(Var) <- c("eigenvalues","% Variance","Cumulative %")
+    }
     
     return(list(bescores=bescores,uniscores=uniscores,Var=Var,mshape=proc$mshape,rotated=proc$rotated,bePCs=bePCs,uniPCs=svdBend$v[,1:(m+0.5*m*(m-1)-1)]))
     
