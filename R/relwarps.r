@@ -48,7 +48,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
     bescores <- t(t(eigCOVCOM$vectors[,nonz])%*%BE2%*%t(vecs))
     rownames(bescores) <- rownames(vecs)
     bePCs <- IM %x% eigBE$vectors
-    bePCs <- bePCs %*% diag(rep(diaginv,3)) %*% t(bePCs) %*%  eigCOVCOM$vectors
+    bePCs <- bePCs %*% diag(rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$vectors
     
 ### calculate uniform component scores ###
     U <- NULL
