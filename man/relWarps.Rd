@@ -30,10 +30,10 @@ relWarps(data, scale = TRUE, CSinit = TRUE, alpha = 1, tol = 1e-10, orp = TRUE)
 \item{bescores }{relative warp scores}
 \item{uniscores }{uniform scores}
 \item{Var }{non-affine variation explained by each relative warp}
-\item{mshape}{sample's conensus shape}
-\item{rotated}{Procrustes superimposed data}
-\item{bePCs}{Vector basis of nonaffine shape variation- relative warps}
-\item{uniPCs}{Vector basis of affine shape variation - uniform component}
+\item{mshape }{sample's conensus shape}
+\item{rotated }{Procrustes superimposed data}
+\item{bePCs }{Vector basis of nonaffine shape variation- relative warps}
+\item{uniPCs }{Vector basis of affine shape variation - uniform component}
 
 
 }
@@ -53,10 +53,23 @@ pop <- name2factor(boneLM,which=3)
 rW <- relWarps(boneLM, alpha = -1)
 # plot first 5 relative warps scores grouped by population
 spm(rW$bescores[,1:5],group=pop)
-# plot first 5 uniform component scores grouped by population
+# plot uniform component scores grouped by population
 spm(rW$uniscores[,1:5],group=pop)
 ##plot non-affine variance associated with each relative warp
 barplot(rW$Var[,2], xlab="relative Warps")
+
+## 2D example:
+require(shapes)
+data <- bindArr(gorf.dat, gorm.dat, along=3)
+sex <- factor(c(rep("fem", dim(gorf.dat)[3]), rep("male",dim(gorm.dat)[3])))
+rW <- relWarps(data, alpha = -1)
+# plot first 3 relative warps scores grouped by population
+spm(rW$bescores[,1:3],group=sex)
+# plot uniform component scores grouped by population
+spm(rW$uniscores[,1:2],group=sex)
+##plot non-affine variance associated with each relative warp
+barplot(rW$Var[,2], xlab="relative Warps")
+
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }
