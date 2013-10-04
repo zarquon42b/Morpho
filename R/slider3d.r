@@ -1,4 +1,4 @@
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores())
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE)
 {
   if(.Platform$OS.type == "windows")
     mc.cores <- 1
@@ -71,6 +71,11 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         }
   
   vn.array <- dat.array
+  data.orig <- dat.array
+  if (deselect)
+      fixLM <- SMvector
+  else
+      fixLM <- 1:k[-SMvector]
   if(length(sur.name)==0) {
       sur.name <- dimnames(dat.array)[[3]]
       sur.name <- paste(sur.path,"/",sur.name,".",sur.type,sep="")
@@ -86,10 +91,13 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
       a <- read.table("out_cloud.ply",skip=14,sep=" ")
       vs <- as.matrix(a[,1:3])
       vn <- as.matrix(a[,4:6])
-      dat.array[,,j ] <- vs
+      dat.array[,,j] <- vs
       vn.array[,,j] <- vn		
       unlink("out_cloud.ply") #clean up
   }
+  if (!fixRepro)# use original positions for fix landmarks
+      dat.array[fixLM,,] <- data.orig[fixLM,,]
+  
   cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
   
 	if (initproc==TRUE) { # perform proc fit before sliding
@@ -138,6 +146,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
           vn.array[,,j] <- vn		
           unlink("out_cloud.ply") #clean up
       }
+      if (!fixRepro)# use original positions for fix landmarks
+          dataslide[fixLM,,] <- data.orig[fixLM,,]
       
       cat("estimating sample mean shape...")          	
       proc <- ProcGPA(dataslide,scale=scale,CSinit=CSinit)

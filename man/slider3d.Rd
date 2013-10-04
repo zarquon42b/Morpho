@@ -14,7 +14,8 @@
 slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
          sur.name=NULL, ignore=NULL, sur.type="ply", tol=1e-05, deselect=FALSE,
          inc.check=TRUE, recursive=TRUE, iterations=0, initproc=TRUE,
-         speed=TRUE, pairedLM=0, weights=NULL, mc.cores=detectCores())
+         speed=TRUE, pairedLM=0, weights=NULL, mc.cores=detectCores(),
+         fixRepro=TRUE)
 }
 \arguments{
   \item{dat.array}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Ideally the dimnames[[3]] vector contains the names of the surface model (without file extension) - e.g. if the model is named "surface.ply", the name of the corresponding matrix of the array would be "surface"
@@ -64,6 +65,9 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
   computation. The default is autodetect. But in case, it doesn't work
   as expected cores can be set manually. In Windows, parallel processing
   is disabled.
+}
+\item{fixRepro}{logical: if \code{TRUE}, fix landmarks will also be projected
+  onto the surface. If you have landmarks not on the surface, select \code{fixRepro=FALSE}
 }
 }
 \details{needs trimesh_project to be installed (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})

@@ -10,7 +10,8 @@ sample mean)
 }
 \usage{
 relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name
-= NULL, mesh=NULL, tol = 1e-05, deselect = FALSE, inc.check = TRUE, iterations = 0)
+        = NULL, mesh=NULL, tol = 1e-05, deselect = FALSE, inc.check = TRUE,
+        iterations = 0, fixRepro=TRUE)
 }
 \arguments{
   \item{lm}{k x 3 matrix containing landmark data to be slidden.
@@ -40,7 +41,10 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL, sur.name
   \item{iterations}{integer: maximum amounts the algorithm runs - even
     when 'tol' is not reached. When iterations=0, the algorithm runs
     until convergence.
-}
+  }
+  \item{fixRepro}{logical: if \code{TRUE}, fix landmarks will also be projected
+    onto the surface. If you have landmarks not on the surface, select \code{fixRepro=FALSE}
+  }
 }
 \details{needs trimesh_project to be installed (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 
