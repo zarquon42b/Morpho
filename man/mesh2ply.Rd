@@ -5,15 +5,17 @@
 export mesh objects to disk.
 }
 \description{
-export an object of class mesh3d to a common mesh file.
+export an object of class mesh3d or a set of coordinates to a common mesh file.
 }
 \usage{
 mesh2ply(x, filename = dataname, col = NULL, writeNormals=FALSE)
 mesh2obj(x, filename = dataname)
 }
 \arguments{
-  \item{x}{object of class mesh3d - see rgl documentation for further
-    details. (At the moment only triangular meshes are supported)
+  \item{x}{object of class \code{mesh3d} - see rgl documentation for further
+    details or a matrix containing vertices, this can either be a
+    \code{k x 3} or a \code{3 x k} matrix, with rows or columns
+    containing vertex coordinates.
 }
   \item{filename}{character: Path/name of the requested output -
     extension will be added atuomatically. If not specified, the file will be named as the exported object.

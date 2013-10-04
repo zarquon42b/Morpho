@@ -1,8 +1,13 @@
 mesh2ply <- function(x,filename=dataname, col=NULL,writeNormals=FALSE)
 {	
-    if (is.matrix(x))
-        x <- list(vb=x)
     dataname <- deparse(substitute(x))
+    if (is.matrix(x)) {
+        dimsx <- dim(x)
+        if (dimsx[2] == 3 && dimsx[1] != 3)
+            x <- t(x)
+        x <- list(vb=x)
+    }
+    
     filename <- paste(filename,".ply",sep="")
     vert <- x$vb[1:3,]
     vert <- round(vert,digits=6)

@@ -1,9 +1,20 @@
 mesh2obj <- function(x,filename=dataname)
-{	x.vb <- cbind("v",t(x$vb[1:3,]))
-	x.it <- cbind("f",t(x$it))
-	obj <- rbind(x.vb,x.it)
-        dataname <- deparse(substitute(x))
-        filename <- paste(filename,".obj",sep="")
-	write.obj(format(obj,scientific=FALSE,trim=TRUE),filename=filename)
+{
+    ismatrix <- FALSE
+    x.it <- NULL
+    dataname <- deparse(substitute(x))
+    if (is.matrix(x)) {
+        ismatrix <- TRUE
+        dimsx <- dim(x)
+        if (dimsx[2] == 3 && dimsx[1] != 3)
+            x <- t(x)
+        x <- list(vb=x)
+    }        
+    x.vb <- cbind("v",t(x$vb[1:3,]))
+    if (! ismatrix)
+        x.it <- cbind("f",t(x$it))
+    obj <- rbind(x.vb,x.it)
+    
+    write.obj(format(obj,scientific=FALSE,trim=TRUE),filename=filename)
 }
 

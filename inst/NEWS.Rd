@@ -2,14 +2,16 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 0.26-00 (2013-NN-NN)}{
+\section{Changes in Morpho version 0.99-00 (2013-10-04)}{
   \subsection{R-code}{
     \itemize{
+      \item added option "silent" in 'rmUnrefVertex'
+      \item fixed error in 'relWarps' preventing it to work for 2D configs
       \item added function 'checkLM'. Useful to visualize if projection by
   'placePatch' was successful by browsing through sample. 
       \item added functions 'placePatch', 'createAtlas' and 'plotAtlas'
   for defining templates and functions to project (semi-) landmarks from
-  an atlas onto all specimen in a given sample.
+  an atlas onto all specimen in a given sample
       \item fixed missing '-1' subtraction in 'covW'
       \item added function 'mergeMeshes' to concatenate multiple triangular meshes.
       \item made function 'procAOVsym' (procrustes Anova for object
@@ -18,9 +20,9 @@
       \item added option 'info' in 'read.mpp'
       \item merged 'CreateL' and 'CreateL2D'
       \item rewrote large parts of 'CVA', 'groupPCA' and 'permudist' to
-  make the code more efficient.
+  make the code more efficient
       \item 'covPCA' now allows permutation tests to check if pairwise
-      distances between covariance matrices are significant and reports rownames for two-group case.
+      distances between covariance matrices are significant and reports rownames for two-group case
       \item removed unnecessary complicated check for empty groups by simply using function 'factor' in 'covW' and 'typprobClass'
       \item white space formatting in code
       \item added option "mshape" to function 'orp' to specify a custom pole for projection
@@ -40,10 +42,13 @@
       \item added example in 'relaxLM'
       \item added section "details" in procSym, added example in slider3d
       \item added example for procAOVsym
+      \item changed parameters in examples for  'pls2B' and 'relaxLM' to decrease completion time
     }
   }
   \subsection{Misc}{
     \itemize{
+      \item removed obsolete Fortran code
+      \item added minimum version for imported package 'Matrix'(>= 1.0-1)
       \item changed foreach, parallel and rgl (needs rgl version >=
       0.93.963) from 'Depends' to 'Imports' (affecting DESCRIPTION and NAMESPACE)
       \item massive NAMESPACE editing by switching to manual export instead of regular expression export
