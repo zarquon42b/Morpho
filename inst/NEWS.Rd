@@ -5,6 +5,9 @@
 \section{Changes in Morpho version 0.99-00 (2013-10-04)}{
   \subsection{R-code}{
     \itemize{
+      \item added option "fixRepro" in 'slider3d' and 'relaxLM' to supress
+  reprojection of fix landmarks onto the surface. This can be useful
+  when some fix landmarks are in "thin air".
       \item added option "silent" in 'rmUnrefVertex'
       \item fixed error in 'relWarps' preventing it to work for 2D configs
       \item added function 'checkLM'. Useful to visualize if projection by
