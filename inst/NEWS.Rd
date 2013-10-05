@@ -6,8 +6,9 @@
   \subsection{R-code}{
     \itemize{
       \item added option "fixRepro" in 'slider3d' and 'relaxLM' to supress
-  reprojection of fix landmarks onto the surface. This can be useful
-  when some fix landmarks are in "thin air".
+      reprojection of fix landmarks onto the surface. This can be useful
+      when some fix landmarks are in "thin air".
+      \item added support for point cloud export in 'mesh2ply' and 'mesh2obj'
       \item added option "silent" in 'rmUnrefVertex'
       \item fixed error in 'relWarps' preventing it to work for 2D configs
       \item added function 'checkLM'. Useful to visualize if projection by
