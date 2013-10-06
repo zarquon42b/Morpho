@@ -10,10 +10,10 @@
 closemeshKD(x, mesh, k = 50, sign = FALSE, cores = 1, method = 0, ...)
 }
 \arguments{
-  \item{x}{k x 3 matrix containing 3D-coordinates or object of class "mesh3d".
+  \item{x}{k x 3 matrix containing 3D-coordinates or object of class \code{mesh3d}.
 
 }
-  \item{mesh}{triangular surface mesh stored as object of class "mesh3d".
+  \item{mesh}{triangular surface mesh stored as object of class \code{mesh3d}.
 }
   \item{k}{neighbourhood of kd-tree to search - the larger, the slower -
   but the more likely the absolutely closest point is hit.
@@ -35,7 +35,7 @@ closemeshKD(x, mesh, k = 50, sign = FALSE, cores = 1, method = 0, ...)
   the closest point on these faces.
 }
 \value{
-  returns an object of class "mesh3d"
+  returns an object of class \code{mesh3d}.
   with:
 
   \item{vb }{4xn matrix containing n vertices as homolougous coordinates.}

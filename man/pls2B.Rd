@@ -18,7 +18,7 @@ pls2B(x, y, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores()
 }
   \item{tol}{threshold for discarding singular values.
 }
- \item{same.config}{logical: if TRUE each permutation includes new
+ \item{same.config}{logical: if \code{TRUE} each permutation includes new
    superimposition of permuted landmarks. This is necessary if both
    blocks originate from landmarks that are superimposed together.
 }
@@ -32,9 +32,9 @@ pls2B(x, y, tol = 1e-12, same.config=FALSE, rounds = 0, mc.cores = detectCores()
   each block maximising the covariance between blocks. The significance
   of each linear combination is assessed by comparing the singular value
   to those obtained from permuted blocks. If both blocks contain
-  landmarks superimposed TOGETHER, the option 'same.config=TRUE'
+  landmarks superimposed TOGETHER, the option \code{same.config=TRUE}
   requests superimposition of the permuted configurations (i.e. where
-  the the landmarks of block x are replaced by corresponding landmarks
+  the the landmarks of block \code{x} are replaced by corresponding landmarks
   of other specimen.
 }
 \value{

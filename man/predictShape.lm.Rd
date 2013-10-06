@@ -9,7 +9,7 @@ Predict shapes based on linear models calculated from PCscores}
 predictShape.lm(fit, datamod, PC, mshape)
 }
 \arguments{
-  \item{fit}{model of class "lm" where the PCscores are fitted onto 
+  \item{fit}{model of class \code{lm} where the PCscores are fitted onto 
 }
   \item{datamod}{a one-sided "model" formula, of the form \code{~ x1 +
       x2 + ... + xk}, corresponding to the right hand term in the model

@@ -5,7 +5,7 @@
 export mesh objects to disk.
 }
 \description{
-export an object of class mesh3d or a set of coordinates to a common mesh file.
+export an object of class \code{mesh3d} or a set of coordinates to a common mesh file.
 }
 \usage{
 mesh2ply(x, filename = dataname, col = NULL, writeNormals=FALSE)
