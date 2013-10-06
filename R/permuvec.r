@@ -1,4 +1,4 @@
-permuvec <- mc.permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
+permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
 {
   win <- FALSE
   if(.Platform$OS.type == "windows")
@@ -83,7 +83,6 @@ permuvec <- mc.permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scal
       
       B <- as.matrix(N)
   }
-  Braw <- B
   nws <- c(rep(0, nsub))
   for (i in 1:nsub)
       nws[i] <- length(subgroups[[i]])
@@ -112,7 +111,6 @@ permuvec <- mc.permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scal
   
 ### calc subgroup means, residual vectors and pooled within group variance ###
   covW <- 0	
-  wgroupvar <- NULL
   for (i in 1:ng) {	
       for (j in 1:nsub) {
           tmp <- subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
@@ -142,7 +140,6 @@ permuvec <- mc.permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scal
   
 ### permutate over groups ###	
   
-  alist <- as.list(1:rounds)	
   testvec <- 0
   permuta <- function(x)
     {

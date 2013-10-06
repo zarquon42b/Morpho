@@ -1,4 +1,4 @@
-mc.permudist <- permudist <- function(data, groups, rounds=1000, which=1:2, mc.cores = detectCores())
+permudist <- function(data, groups, rounds=1000, which=1:2, mc.cores = detectCores())
 {
     win <- FALSE
     if(.Platform$OS.type == "windows")
@@ -19,7 +19,7 @@ mc.permudist <- permudist <- function(data, groups, rounds=1000, which=1:2, mc.c
     if (is.factor(groups)) {
         groups <- factor(groups)
         lev <- levels(groups)
-        levn <- length(lev)
+        #levn <- length(lev)
     }
     old_groups <- groups
     groups <- factor(groups[groups %in% lev[which]])
@@ -27,9 +27,8 @@ mc.permudist <- permudist <- function(data, groups, rounds=1000, which=1:2, mc.c
     N <- N[which(old_groups %in% lev),]
 
 ### end configure grouping ####
-    b <- groups
-    n <- dim(N)[1]
-    l <- dim(N)[2]
+    #n <- dim(N)[1]
+   
     if (dim(N)[2] == 1) {
         mean1 <- mean(N[groups == lev[1]])
         mean2 <- mean(N[groups == lev[2]])
