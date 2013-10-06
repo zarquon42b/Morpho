@@ -55,9 +55,9 @@
                 Gmeans.tmp <- matrix(0, ng, l)
                 for (j in 1:ng) {
                     if(gsizes[j] > 1)
-                        Gmeans.tmp[j, ] <- apply(N[groups==lev[j], ], 2, mean)
+                        Gmeans.tmp[j, ] <- apply(N[shake==lev[j], ], 2, mean)
                     else
-                        Gmeans.tmp[j, ] <- N[groups==lev[j], ]
+                        Gmeans.tmp[j, ] <- N[shake==lev[j], ]
                 }
                 for (j1 in 1:(ng - 1)) 
                     for (j2 in (j1 + 1):ng) {

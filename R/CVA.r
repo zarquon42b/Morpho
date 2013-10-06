@@ -102,9 +102,9 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     disto <- matrix(0, ng, ng)
     rownames(disto) <- colnames(disto) <- lev
          
-    proc.distout <- NULL
-    pmatrix <- NULL
-    pmatrix.proc <- NULL
+    #proc.distout <- NULL
+    #pmatrix <- NULL
+    #pmatrix.proc <- NULL
 
 ### calculate Mahalanobis Distance between Means
     for (i in 1:(ng - 1)) {

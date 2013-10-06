@@ -33,7 +33,10 @@ obj2mesh <- function(filename,adnormals=TRUE)
 	#	}
 	#else 
 	#	{vn.mat_new <- NULL}
-	mesh <- tmesh3d(t(vert.mat),t(face.mat),homogeneous=FALSE)
+        mesh <- list()
+        class(mesh) <- "mesh3d"
+	mesh$vb <- rbind(t(vert.mat),1)
+        mesh$it <- t(face.mat)
 	#mesh$normals <- vn.mat_new
 	
 	if (adnormals && is.null(mesh$normals))

@@ -153,7 +153,7 @@ permuvec <- mc.permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scal
       Btmp <- B
       b1 <- list(numeric(0))
       shake <- sample(1:n)
-      Gmeans1 <- matrix(0, ng, l)
+      #Gmeans1 <- matrix(0, ng, l)
       l1 <- 0
       for (j in 1:ng) {
           b1[[j]] <- c(shake[(l1 + 1):(l1 + (length(b[[j]])))])

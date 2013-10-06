@@ -59,7 +59,7 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
   	trans <- x[1,]-X[1,]
   	transy <- y[1,]-Y[1,]
   	#yrot <- Y%*%gamm
-  	sig <- sign(det(XY))
+  	#sig <- sign(det(XY))
   	del <- sv1$d
    #del[m] <- sig*abs(del[m])
   	ctrace <- function(MAT) sum(diag(crossprod(MAT)))

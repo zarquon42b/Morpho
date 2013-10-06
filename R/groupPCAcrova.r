@@ -6,7 +6,7 @@
     
     if (length(dim(N)) == 3) 
         N <- vecx(N)
-    n <- dim(N)[1]
+    #n <- dim(N)[1]
     l <- dim(N)[2]
     Gmeans <- matrix(0, ng, l)
     for (i in 1:ng) {
@@ -22,10 +22,9 @@
     wcov <- cov.wt(Gmeans,wt=wt)
     Grandm <- as.vector(wcov$center)
     eigenGmeans <- eigen(wcov$cov)
-    Tmatrix <- N
     N <- sweep(N, 2, Grandm)
     valScores <- which(eigenGmeans$values > tol)
-    groupScores <- N%*%(eigenGmeans$vectors[,valScores])
+    #groupScores <- N%*%(eigenGmeans$vectors[,valScores])
     PCs <- as.matrix(eigenGmeans$vectors[,valScores])
     
         if (is.null(dim(groupPCs))) {
