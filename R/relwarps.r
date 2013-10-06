@@ -32,10 +32,10 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
     
     if (alpha !=0) {	
         BE2 <- IM%x%(eigBE$vectors%*%diag(diagBE)%*%t(eigBE$vectors))
-        invBE2 <- IM%x%(eigBE$vectors%*%diag(diaginv)%*%t(eigBE$vectors))
+        ##  invBE2 <- IM%x%(eigBE$vectors%*%diag(diaginv)%*%t(eigBE$vectors))
     } else {
         BE2 <- diag(rep(1,k*m))
-        invBE2 <- BE2
+        ##   invBE2 <- BE2
     }
     
 ### generate covariance structure of scaled space ###
@@ -48,7 +48,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
     bePCs <- bePCs %*% diag(rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$vectors
     
 ### calculate uniform component scores ###
-    U <- NULL
+    ## U <- NULL
     uniscores <- NULL
     
 ### Rohlf first method ###
