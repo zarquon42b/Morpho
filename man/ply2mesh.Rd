@@ -35,6 +35,9 @@ file2mesh needs the command line tool ply2ascii from the Auxiliaries section in 
 data(nose)
 mesh2ply(shortnose.mesh)
 mesh <- ply2mesh("shortnose.mesh.ply")
+
+mesh2obj(shortnose.mesh)
+mesh2 <- obj2mesh("shortnose.mesh.obj")
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

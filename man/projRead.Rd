@@ -52,8 +52,6 @@ Stefan Schlager}
  
 }
 
-
-
 \seealso{
 \code{\link{closemeshKD}}
 }
