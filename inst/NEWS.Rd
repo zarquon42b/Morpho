@@ -2,7 +2,7 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 0.99-00 (2013-10-04)}{
+\section{Changes in Morpho version 1.0beta2 (aka 0.99.1) (2013-10-07)}{
   \subsection{R-code}{
     \itemize{
       \item added option "fixRepro" in 'slider3d' and 'relaxLM' to supress
