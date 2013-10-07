@@ -140,7 +140,6 @@ permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-1
   
 ### permutate over groups ###	
   
-  testvec <- 0
   permuta <- function(x)
     {
       tmplist <- list()

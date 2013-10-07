@@ -157,7 +157,7 @@ export(c.extract)
 export(c.size)
 export(deform.grid)
 export(mc.CVA)
-export(mc.find.outliers)
+#export(mc.find.outliers) removed 7.10.2013
 #export(mc.permudist) removed 6.10.2013
 #export(mc.permuvec) removed 6.10.2013
 export(mc.procSym)

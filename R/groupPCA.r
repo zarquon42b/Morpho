@@ -41,7 +41,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     wcov <- cov.wt(Gmeans,wt=wt)
     Grandm <- wcov$center
     eigenGmeans <- eigen(wcov$cov)
-    #resGmeans <- sweep(Gmeans, 2, Grandm)
+                                        #resGmeans <- sweep(Gmeans, 2, Grandm)
     Tmatrix <- N
     N <- sweep(N, 2, Grandm)
     valScores <- which(eigenGmeans$values > tol)
@@ -75,70 +75,69 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     proc.distout <- as.dist(proc.disto)
 
 ### Permutation Test for Distances	
-if (rounds > 0) {
-    pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix Euclidean
-    if(!is.null(lev)) {
-        rownames(pmatrix.proc) <- lev
-        colnames(pmatrix.proc) <- lev
-    }
-    rounproc <- function(i)
-        {
-            shake <- sample(groups)
-            dist.mat <- matrix(0,ng,ng)
-            Gmeans.tmp <- matrix(0, ng, l)
-            l1 <- 0
-            for (j in 1:ng) {
-                 if(gsizes[j] > 1)
-                     Gmeans.tmp[j, ] <- apply(N[shake==lev[j], ], 2, mean)
-                 else
-                     Gmeans.tmp[j, ] <- N[shake==lev[j], ]
-             }
-            dist.mat <- as.matrix(dist(Gmeans.tmp))
-            return(dist.mat)
+    if (rounds > 0) {
+        pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix Euclidean
+        if(!is.null(lev)) {
+            rownames(pmatrix.proc) <- lev
+            colnames(pmatrix.proc) <- lev
         }
-    
-    dist.mat.proc <- array(0, dim = c(ng, ng, rounds))
-    if(win)
-        a.list <- foreach(i=1:rounds)%do%rounproc(i)
-    else
-        a.list <- foreach(i=1:rounds)%dopar%rounproc(i)
-    
-    for (i in 1:rounds)
-        dist.mat.proc[,,i] <- a.list[[i]]
-    
-    for (j1 in 1:(ng - 1)) {
-        for (j2 in (j1 + 1):ng) {
-            sorti <- sort(dist.mat.proc[j2, j1,])
-            if (max(sorti) < proc.disto[j2, j1]) {
-                pmatrix.proc[j2, j1] <- 1/rounds
-            } else {
-                marg <- min(which(sorti >= proc.disto[j2, j1]))
-                pmatrix.proc[j2, j1] <- (rounds - (marg-1))/rounds
+        rounproc <- function(i)
+            {
+                shake <- sample(groups)
+                dist.mat <- matrix(0,ng,ng)
+                Gmeans.tmp <- matrix(0, ng, l)
+                for (j in 1:ng) {
+                    if(gsizes[j] > 1)
+                        Gmeans.tmp[j, ] <- apply(N[shake==lev[j], ], 2, mean)
+                    else
+                        Gmeans.tmp[j, ] <- N[shake==lev[j], ]
+                }
+                dist.mat <- as.matrix(dist(Gmeans.tmp))
+                return(dist.mat)
+            }
+        
+        dist.mat.proc <- array(0, dim = c(ng, ng, rounds))
+        if(win)
+            a.list <- foreach(i=1:rounds)%do%rounproc(i)
+        else
+            a.list <- foreach(i=1:rounds)%dopar%rounproc(i)
+        
+        for (i in 1:rounds)
+            dist.mat.proc[,,i] <- a.list[[i]]
+        
+        for (j1 in 1:(ng - 1)) {
+            for (j2 in (j1 + 1):ng) {
+                sorti <- sort(dist.mat.proc[j2, j1,])
+                if (max(sorti) < proc.disto[j2, j1]) {
+                    pmatrix.proc[j2, j1] <- 1/rounds
+                } else {
+                    marg <- min(which(sorti >= proc.disto[j2, j1]))
+                    pmatrix.proc[j2, j1] <- (rounds - (marg-1))/rounds
+                }
             }
         }
+        pmatrix.proc <- as.dist(pmatrix.proc)
     }
-    pmatrix.proc <- as.dist(pmatrix.proc)
-}
     crovafun <- function(x)
-    {
-        crovtmp <- .groupPCAcrova(Tmatrix[-x,],groups[-x],tol=tol,groupPCs=groupPCs,weighting=weighting)
-        out <- as.vector(Tmatrix[x,]-crovtmp$Grandmean) %*% as.matrix(crovtmp$PCs)
-        return(out)
-    }
+        {
+            crovtmp <- .groupPCAcrova(Tmatrix[-x,],groups[-x],tol=tol,groupPCs=groupPCs,weighting=weighting)
+            out <- as.vector(Tmatrix[x,]-crovtmp$Grandmean) %*% as.matrix(crovtmp$PCs)
+            return(out)
+        }
     
-CV=NULL
-if (cv) {
-    if (win)
-        crossval <- foreach(i=1:n) %do% crovafun(i)
-    else
-        crossval <- foreach(i = 1:n) %dopar% crovafun(i)
-    CV <- groupScores
-    for (i in 1:n) {
-        if (is.matrix(CV))
-            CV[i,] <- crossval[[i]]
+    CV=NULL
+    if (cv) {
+        if (win)
+            crossval <- foreach(i=1:n) %do% crovafun(i)
         else
-            CV[i] <- crossval[[i]]
+            crossval <- foreach(i = 1:n) %dopar% crovafun(i)
+        CV <- groupScores
+        for (i in 1:n) {
+            if (is.matrix(CV))
+                CV[i,] <- crossval[[i]]
+            else
+                CV[i] <- crossval[[i]]
+        }
     }
-}
-return(list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV))
+    return(list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV))
 }

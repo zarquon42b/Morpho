@@ -1,6 +1,6 @@
 checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white", radius=1, alpha=0.7, begin=1, render=c("w","s"), point=c("s","p"), add=FALSE, Rdata=FALSE, atlas=NULL)
     {
-        k <- k1 <- NULL
+        k <- NULL
         marked <- NULL
         j <- 1
         if (!Rdata)
@@ -38,7 +38,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
             open3d()
         if (!is.null(atlas)) {
             k <- dim(atlas$landmarks)[1]
-            k1 <- dim(atlas$patch)[1]
+            #k1 <- dim(atlas$patch)[1]
         }
         while (i <= n) {
             tmp.name <- paste(path,prefix,name[i],suffix,sep="")

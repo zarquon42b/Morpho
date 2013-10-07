@@ -47,7 +47,7 @@
     invcW <- diag(Ec)
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
-    tt <- try(eigZ <- svd(ZtZ))
+    eigZ <- svd(ZtZ)
     useEig <- min((ng-1), l)     
     A <- Re(eigZ$v[, 1:useEig])
     CV <- U %*% invcW %*% A

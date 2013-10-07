@@ -52,7 +52,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         p1 <- sum(diag(crossprod((testproc$X/cSize(testproc$X))-(testproc$Y/cSize(testproc$Y)))))### check for increasing convergence criterion ###		
         if (inc.check) {
             if (p1 > p1_old) {
-                dataslide <- lm_old
+                vs <- lm_old
                 cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
                 p1 <- 0
             } else {

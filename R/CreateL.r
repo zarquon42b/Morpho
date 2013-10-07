@@ -1,10 +1,9 @@
 CreateL <- function(matrix,lambda=0)
 {
-    if (dim(matrix)[2] ==3) {
+    if (dim(matrix)[2] == 3) {
         k <- dim(matrix)[1]
-        q1 <- matrix(c(rep(1,k)),k,1)
         K <- matrix(0,k,k)
-        Q <- cbind(q1,matrix)
+        Q <- cbind(1,matrix)
         O <- matrix(c(rep(0,16)),4,4)
         
         storage.mode(K) <- "double"
@@ -36,7 +35,6 @@ CreateL <- function(matrix,lambda=0)
 CreateL2D <- function(matrix, lambda=0)
 {
     k <- dim(matrix)[1]
-    q1 <- matrix(c(rep(1,k)),k,1)
     K <- matrix(0,k,k)
     Q <- cbind(1,matrix)
     O <- matrix(0,3,3)

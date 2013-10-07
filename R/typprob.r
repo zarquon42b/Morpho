@@ -66,13 +66,11 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
 
 covW <- function(data,groups)
     {
-        if (!is.factor(groups))
-            {
-                groups <- as.factor(groups)
-                warning("groups coerced to factors")
-            }
+        if (!is.factor(groups)) {
+            groups <- as.factor(groups)
+            warning("groups coerced to factors")
+        }
         ndata <- dim(data)[1]
-        probs <- NULL
         groups <- factor(groups)
         glev <- levels(groups)
         nlev <- length(glev)

@@ -17,6 +17,10 @@ obj2mesh <- function(filename,adnormals=TRUE)
     class(mesh) <- "mesh3d"
     mesh$vb <- rbind(t(vert.mat),1)
     mesh$it <- t(face.mat)
+    if (dim(vn)[1] != 0) {
+        normals <- apply(vn[,2:4], 2, as.numeric)
+        mesh$normals <- rbind(t(normals),1)
+    }
     
     if (adnormals && is.null(mesh$normals))
         mesh <- adnormals(mesh)

@@ -1,8 +1,10 @@
 rotaxisMat <- function(u,theta)
   {
     crossmat <- function(x)
-      {out <- matrix(c(0,x[3],-x[2],-x[3],0,x[1],x[2],-x[1],0),3,3)
-     }
+      {
+          out <- matrix(c(0,x[3],-x[2],-x[3],0,x[1],x[2],-x[1],0),3,3)
+          return(out)
+      }
        
     u <- u/sqrt(sum(crossprod(u)))
     I <- diag(rep(1,3))

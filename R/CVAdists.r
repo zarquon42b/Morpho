@@ -1,6 +1,6 @@
 .CVAdists <- function(N, Tmatrix, groups, rounds, proc.dist, maha.dist, mc.cores,n3, winv )
 {   ## calculates and permutes mahalanobis and euclidean distances for CVA
-    n <- dim(N)[1]
+    #n <- dim(N)[1]
     l <- dim(N)[2]
     lev <- levels(groups)
     ng <- length(lev)

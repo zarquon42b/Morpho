@@ -49,7 +49,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=
         ## create deformation cube
         outmesh <- list(vb = rbind(t(x0),1))
         class(outmesh) <- "mesh3d"
-        iq <- matrix(NA, 4, ngrid*(ngrid-1)^2)
+        
         yinit <- xinit <- zinit <- NULL
         if (2 %in% showaxis) {
             xinit0 <- xinit <- (c(1,2,2+ngrid,1+ngrid))

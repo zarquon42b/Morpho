@@ -1,4 +1,4 @@
-find.outliers <- mc.find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL)
+find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL)
 {   	
     raw <- A
     n <- dim(A)[3]

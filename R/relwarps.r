@@ -1,6 +1,6 @@
 relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
 {
-    n <- dim(data)[3]
+    #n <- dim(data)[3]
     m <- dim(data)[2]
     k <- dim(data)[1]
     datanames <- dimnames(data)[[3]]

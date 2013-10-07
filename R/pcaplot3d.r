@@ -21,8 +21,7 @@ pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...
   sds <- 0
   if (length(mag)==1) 
       mag <- c(rep(mag,lpc))
-  lim <- max(abs(refshape))
-  
+    
   for (i in 1:npc)
       sds[i] <- sd(Scores[,i])
   
@@ -55,8 +54,7 @@ pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
     sds <- 0
     if (length(mag)==1)
         mag <- c(rep(mag,lpc))
-    lim <- max(abs(refshape))
-    
+        
     for (i in 1:npc)
         sds[i] <- sd(Scores[,i])
     sz <- cSize(refshape)/sqrt(k)*(1/80)

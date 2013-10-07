@@ -20,7 +20,7 @@ mesh2ply <- function(x,filename=dataname, col=NULL,writeNormals=FALSE)
     
     vert.all <- vert
     vn <- dim(vert)[2]
-    vn.all <- 3
+    ##vn.all <- 3
     texfile <- x$TextureFile
 
     if (is.null(col) && !is.null(x$material$color)) {
@@ -30,7 +30,6 @@ mesh2ply <- function(x,filename=dataname, col=NULL,writeNormals=FALSE)
         tmp1 <- unique(tmp1)
         col[tmp1$it] <- tmp1$rgb
     }
-    
     if (!writeNormals)
         x$normals <- NULL
     
@@ -54,7 +53,7 @@ mesh2ply <- function(x,filename=dataname, col=NULL,writeNormals=FALSE)
         cat("property float nx\nproperty float ny\nproperty float nz\n",file=filename,append=TRUE)
         norma <- round(x$normals[1:3,],digits=6)
         vert.all <- rbind(vert,norma)	
-        vn.all <- 6		
+        ##vn.all <- 6		
     }
     if (!is.null(col))    
         v.info <- cat("property uchar red\nproperty uchar green\nproperty uchar blue\n",file=filename,append=T)
