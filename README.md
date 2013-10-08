@@ -45,7 +45,7 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
 Run the following command in R:
         
         require(devtools)
-        install_url("https://github.com/zarquon42b/Rvcg/archive/master.zip")
+        install_url("https://github.com/zarquon42b/Morpho/archive/master.zip")
 
 
 
