@@ -46,7 +46,7 @@ ray2mesh <- function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,rea
       system(paste("rayproject reference.ply ",target,options," -t ",tol," -o ",outname,sep=""),ignore.stdout=ignore.stdout)
   }
   
-  outmesh <- ply2mesh(outname,readnormals=TRUE)
+  outmesh <- ply2mesh(outname,readnormals=TRUE, silent=ignore.stdout)
   if (clean)
       unlink(c("reference.ply","target.ply",outname))
   if (readback)

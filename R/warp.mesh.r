@@ -1,7 +1,8 @@
-warp.mesh <- function(mesh,matr,matt,lambda=0,updateNormals=TRUE)
+warp.mesh <- function(mesh,matr,matt,lambda=0,updateNormals=TRUE, silent=FALSE)
 {
     vert <- t(mesh$vb[1:3,])
-    cat("calculating spline...\n")
+    if (!silent)
+        cat("calculating spline...\n")
     warp <- tps3d(vert,matr,matt,lambda=lambda)
     mesh$vb <- rbind(t(warp),1)
     mesh$normals <- NULL
@@ -10,7 +11,8 @@ warp.mesh <- function(mesh,matr,matt,lambda=0,updateNormals=TRUE)
         mesh <- conv2backf(mesh)
     
     if(updateNormals) {
-        cat("updating normals...\n")
+        if (!silent)
+            cat("updating normals...\n")
         mesh <- adnormals(mesh)
     }
     return(mesh)

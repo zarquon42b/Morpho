@@ -20,7 +20,8 @@ ignore.stdout = FALSE, sign = FALSE, lmdump=NULL, prodump=NULL)
 }
 \item{smooth}{logical: rerturn smoothed normals.
 }
- \item{ignore.stdout}{logical: supress console output.
+ \item{ignore.stdout}{logical: supress console messages from system
+   calls.
 }
 \item{sign}{logical: request signed distances.
 }

@@ -41,7 +41,7 @@ projRead <- function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdo
       unlink(dumpfile)
   }
   
-  data <- ply2mesh(prodump,readnormals=readnormals)
+  data <- ply2mesh(prodump,readnormals=readnormals, silent=ignore.stdout)
   if (clean)
       unlink(prodump)
   

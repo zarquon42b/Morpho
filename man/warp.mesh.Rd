@@ -10,7 +10,7 @@ warping a mesh onto another configuration
       thin-plate spline interpolation.
 }
 \usage{
-warp.mesh(mesh, matr, matt, lambda = 0, updateNormals = TRUE) 
+warp.mesh(mesh, matr, matt, lambda = 0, updateNormals = TRUE, silent = FALSE) 
 
 }
 
@@ -28,8 +28,9 @@ warp.mesh(mesh, matr, matt, lambda = 0, updateNormals = TRUE)
   \item{updateNormals}{Logical: requests the (re)calculation of vertex normals.
   }
   \item{lambda}{integer: regularisation parameter of the TPS.
-
-}
+  }
+  \item{silent}{logical: suppress messages.
+  }
 }
 
 

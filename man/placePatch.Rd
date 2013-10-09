@@ -11,7 +11,7 @@
 \usage{
 placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
            ray = TRUE, inflate = NULL, tol=inflate, relax.patch = TRUE,
-           keep.fix = NULL, rhotol = NULL)
+           keep.fix = NULL, rhotol = NULL, silent = FALSE)
 }
 \arguments{
   \item{atlas}{object of class "atlas" created by \code{\link{createAtlas}}
@@ -54,6 +54,8 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
     normal is allowed to deviate from the normal defined on the
     atlas. If \code{relax.patch=TRUE}, those points exceeding this value
     will be relaxed freely (i.e. not restricted to tangent plane).
+  }
+  \item{silent}{logical: suppress messages.
   }
 }
 \details{This function allows the (relatively) easy projection of

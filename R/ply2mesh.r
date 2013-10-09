@@ -1,4 +1,4 @@
-ply2mesh <- function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE)
+ply2mesh <- function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE, silent=FALSE)
 {
     x <- filename
     A <- readLines(x, n = 100)
@@ -68,9 +68,11 @@ ply2mesh <- function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE
         class(mesh) <- c("mesh3d", "shape3d")
     } else {
         if (is.null(vert.n) || readnormals==FALSE) {
-            cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
+            if (!silent)
+                cat(paste("mesh contains no faces. Vertices will be stored in a",vn,"x 3 matrix\n"))
             mesh <- vert
         } else if (readnormals) {
+            if (!silent)
             cat(paste("mesh contains no faces. vertices and vertex normals are stored in a list\n"))
             mesh <- list(vb=t(vert),normals=vert.n)
             class(mesh) <- "mesh3d"
@@ -90,7 +92,8 @@ ply2mesh <- function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE
     if (fn !=0)	{
         if (adnormals && "mesh3d" %in% class(mesh)) {
             if (is.null(mesh$normals)) {
-                cat("calculating normals...\n")
+                if (!silent)
+                    cat("calculating normals...\n")
                 mesh <- adnormals(mesh)
             }
         }

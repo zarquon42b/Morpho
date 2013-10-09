@@ -1,4 +1,4 @@
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE, ignore.stdout=FALSE)
 {
   if(.Platform$OS.type == "windows")
     mc.cores <- 1
@@ -87,14 +87,11 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
   
   cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
   for (j in 1:n) {
-      projBack(dat.array[,,j],sur.name[j])
-      a <- read.table("out_cloud.ply",skip=14,sep=" ")
-      vs <- as.matrix(a[,1:3])
-      vn <- as.matrix(a[,4:6])
-      dat.array[,,j] <- vs
-      vn.array[,,j] <- vn		
-      unlink("out_cloud.ply") #clean up
+      repro <- projRead(dat.array[,,j], sur.name[j], ignore.stdout=ignore.stdout)
+          dat.array[,,j] <- t(repro$vb[1:3,])
+          vn.array[,,j] <- t(repro$normals[1:3,])
   }
+  
   if (!fixRepro)# use original positions for fix landmarks
       dat.array[fixLM,,] <- data.orig[fixLM,,]
   
@@ -138,14 +135,11 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
       
 ###projection onto surface
       for (j in 1:n) {
-          projBack(a.list[[j]],sur.name[j])
-          a <- read.table("out_cloud.ply",skip=14,sep=" ")
-          vs <- as.matrix(a[,1:3])
-          vn <- as.matrix(a[,4:6])
-          dataslide[,,j] <- vs
-          vn.array[,,j] <- vn		
-          unlink("out_cloud.ply") #clean up
+          repro <- projRead(a.list[[j]],sur.name[j], ignore.stdout=ignore.stdout)
+          dataslide[,,j] <- t(repro$vb[1:3,])
+          vn.array[,,j] <- t(repro$normals[1:3,])
       }
+      
       if (!fixRepro)# use original positions for fix landmarks
           dataslide[fixLM,,] <- data.orig[fixLM,,]
       
