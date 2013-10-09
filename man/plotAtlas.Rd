@@ -7,7 +7,7 @@ visualize an atlas defined by createAtlas}
 visualize an atlas defined by createAtlas
 }
 \usage{
-plotAtlas(atlas, radius=1, alpha=1, render=c("w", "s"), point=c("s", "p"),
+plotAtlas(atlas, radius=NULL, alpha=1, render=c("w", "s"), point=c("s", "p"),
           meshcol="white", add=TRUE, legend=TRUE)
 }
 \arguments{

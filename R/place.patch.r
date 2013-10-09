@@ -9,8 +9,10 @@ createAtlas <- function(mesh, landmarks, patch, corrCuves=NULL, patchCurves=NULL
         atlas$patchCurves<- patchCurves
         return(atlas)
     }
-plotAtlas <- function(atlas, radius=1, alpha=1, render=c("w","s"), point=c("s", "p"), meshcol="white", add=TRUE, legend=TRUE)
+plotAtlas <- function(atlas, radius=NULL, alpha=1, render=c("w","s"), point=c("s", "p"), meshcol="white", add=TRUE, legend=TRUE)
     {
+        if (is.null(radius))
+            radius <- (cSize(atlas$landmarks)/sqrt(nrow(atlas$landmarks)))*(1/30)
         outid <- NULL
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
@@ -32,12 +34,12 @@ plotAtlas <- function(atlas, radius=1, alpha=1, render=c("w","s"), point=c("s", 
             open3d()
         if (!is.null(atlas$mesh))
             outid <- rend(atlas$mesh, col=meshcol, alpha=alpha)
-        outid <- c(outid, rendpoint(atlas$landmarks,col=2))
-        outid <- c(outid,rendpoint(atlas$patch,col=3,radius=radius/2))
+        outid <- c(outid, rendpoint(atlas$landmarks,col=2, radius=radius, size=10))
+        outid <- c(outid,rendpoint(atlas$patch,col=3,radius=radius/2, size=5))
         if (!is.null(atlas$corrCurves))
-            outid <- c(outid, rendpoint(atlas$landmarks[unlist(atlas$corrCurves),],col=4,radius=radius+0.001))
+            outid <- c(outid, rendpoint(atlas$landmarks[unlist(atlas$corrCurves),],col=4,radius=radius+0.001, size=11))
         if (!is.null(atlas$patchCurves))
-            outid <- c(outid,rendpoint(atlas$patch[unlist(atlas$patchOutlines),],col=5,radius=radius/2+0.001))
+            outid <- c(outid,rendpoint(atlas$patch[unlist(atlas$patchOutlines),],col=5,radius=radius/2+0.001,size=6))
         if (legend) {
             plot(0,0, xlab="", ylab="", axes =F, cex=0,xlim=c(-1,1), ylim=c(-1,1))
             legend(-1,1, pch=20, cex=2, col=2:5, legend=c("landmarks", "patch", "curves on all specimen", "curves only on atlas"))
@@ -53,14 +55,16 @@ placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=
             keep.fix <- 1:dim(atlas$landmarks)[1]
         if (is.null(tol) && !is.null(inflate))
             tol <- inflate
-            
+        
         patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext, SMvector = keep.fix)
         return(patched)
     }
 
-place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,deselect=TRUE,inflate=NULL,relax.patch=TRUE,rhotol=NULL,fileext=".ply")
+place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,inflate=NULL,relax.patch=TRUE,rhotol=NULL,fileext=".ply")
     {
         k <- dim(dat.array)[1]
+        deselect=TRUE
+        fix <- which(c(1:k) %in% SMvector)
         patch.dim <- dim(patch)[1]
         usematrix <- FALSE
         if (! is.matrix(dat.array)) {
@@ -90,17 +94,19 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 sm <- SMvector
                 U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
                 slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
-                slide <- projRead(slide,tmp.name,readnormals=FALSE)
+                tmp.data <- projRead(slide,tmp.name,readnormals=TRUE)
                 tps.lm <- tps3d(patch,atlas.lm,slide)
             } else if (!is.null(SMvector) && is.null(outlines)) {
                 sm <- SMvector
-                slide <- t(tmp.data$vb[1:3,])           
                 tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]))
             } else {
                 sm <- 1:k
-                slide <- t(tmp.data$vb[1:3,])           
                 tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]))
             }
+
+            slide <- t(tmp.data$vb[1:3,])
+            slidenormals <- t(tmp.data$normals[1:3,])
+            slide[fix,] <- dat.array[fix,,i] #replace projected points with original for fix landmarks
 ### use for mullitlayer meshes to avoid projection inside
             if (!is.null(inflate)) {
                 atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide)
@@ -109,45 +115,47 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 
                 tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
                 tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol,angmax=rhotol) ### deflate in opposite direction
-                relax <- rbind(slide,t(tps.lm$vb[1:3,]))
-                normals <- rbind(slide,t(tps.lm$normals[1:3,]))
-                
-                surface <- c((k+1):(patch.dim+k))  ## define surface as appended to preset landmarks
-                free <- NULL
-### compare normals of projection and original points
-                if (!is.null(rhotol)) {
-                    rho <- NULL
-                    for (j in 1:patch.dim)
-                        rho[j] <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])
-                    
-                    rhoex <- which(rho > rhotol) 
-                    if (length(rhoex) > 0) {
-                        free <- surface[rhoex]
-                        surface <- surface[-rhoex]
-                    }
-                }
-                gc()
-### end compare normals #### 
-                
-### relax patch against reference ###
-                if (relax.patch){ ### relax against reference
-                    outltmp <- append(outlines,curves) ## add curves from patch to predefined curves
-                    remout <- which(surface %in% curves)
-                    
-                    if (length(remout) > 0)
-                        surface <- surface[-remout] ### remove patch curves from surface 
-                    if (length(surface)==0)
-                        surface <- NULL
-                    
-                    U1 <- .calcTang_U_s(relax,normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
-                    tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
-                    tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE)
-                } else {# end relaxation ########################
-                    tps.lm <- t(tps.lm$vb[1:3,])
-                }
             } else {## just project warped patch on surface (suitable for singlelayer meshes)
-                tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE)
+                tps.lm <- projRead(tps.lm,tmp.name,readnormals=TRUE)
             }
+            
+            relax <- rbind(slide,t(tps.lm$vb[1:3,]))
+            normals <- rbind(slidenormals,t(tps.lm$normals[1:3,]))
+            
+            surface <- c((k+1):(patch.dim+k))  ## define surface as appended to preset landmarks
+            free <- NULL
+### compare normals of projection and original points
+            if (!is.null(rhotol)) {
+                rho <- NULL
+                for (j in 1:patch.dim)
+                    rho[j] <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])
+                
+                rhoex <- which(rho > rhotol) 
+                if (length(rhoex) > 0) {
+                    free <- surface[rhoex]
+                    surface <- surface[-rhoex]
+                }
+            }
+            gc()
+### end compare normals #### 
+            
+### relax patch against reference ###
+            if (relax.patch){ ### relax against reference
+                outltmp <- append(outlines,curves) ## add curves from patch to predefined curves
+                remout <- which(surface %in% curves)
+                
+                if (length(remout) > 0)
+                    surface <- surface[-remout] ### remove patch curves from surface 
+                if (length(surface)==0)
+                    surface <- NULL
+                
+                U1 <- .calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
+                tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
+                tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE)
+            } else {# end relaxation ########################
+                tps.lm <- t(tps.lm$vb[1:3,])
+            }
+            
             if (!usematrix)
                 out[,,i] <- rbind(dat.array[,,i],tps.lm)
             else

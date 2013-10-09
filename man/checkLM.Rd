@@ -11,7 +11,7 @@ Visually browse through a sample rendering its landmarks and corresponding surfa
 }
 \usage{
 checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply", col = "white",
-        radius = 1, alpha = 0.7, begin = 1, render = c("w", "s"),
+        radius = NULL, alpha = 0.7, begin = 1, render = c("w", "s"),
         point = c("s","p"), add = FALSE, Rdata = FALSE, atlas=NULL)
 }
 \arguments{
