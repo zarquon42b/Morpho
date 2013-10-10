@@ -127,9 +127,10 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 ### compare normals of projection and original points
             if (!is.null(rhotol)) {
                 rho <- NULL
-                for (j in 1:patch.dim)
-                    rho[j] <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])
-                
+                rho <- sapply(1:patch.dim, function(j) {
+                    out <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])
+                    return(out)
+                })
                 rhoex <- which(rho > rhotol) 
                 if (length(rhoex) > 0) {
                     free <- surface[rhoex]
