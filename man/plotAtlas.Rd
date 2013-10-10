@@ -2,18 +2,21 @@
 \alias{plotAtlas}
 
 \title{
-visualize an atlas defined by createAtlas}
+  visualize an atlas defined by createAtlas}
 \description{
-visualize an atlas defined by createAtlas
+  visualize an atlas defined by createAtlas
 }
 \usage{
-plotAtlas(atlas, radius=NULL, alpha=1, render=c("w", "s"), point=c("s", "p"),
+plotAtlas(atlas, pt.size=NULL, alpha=1, render=c("w", "s"), point=c("s", "p"),
           meshcol="white", add=TRUE, legend=TRUE)
 }
 \arguments{
   \item{atlas}{object of class atlas created by \code{\link{createAtlas}}.
-}
-  \item{radius}{radius of the spheres representing the fix landmarks.
+  }
+  \item{pt.size}{size of plotted points/spheres. If
+    \code{point="s"}. \code{pt.size} defines the radius of the
+    spheres. If \code{point="p"} it sets the variable \code{size} used
+    in \code{point3d}.
   }
   \item{alpha}{value between 0 and 1. Sets transparency of mesh 1=opaque
     0= fully transparent.
@@ -36,7 +39,7 @@ plotAtlas(atlas, radius=NULL, alpha=1, render=c("w", "s"), point=c("s", "p"),
 }
 \value{
   returns invisible vector containing \code{rgl.id} of rendered objects.
-  }
+}
 
 \seealso{\code{\link{placePatch}, \link{createAtlas}}
 }

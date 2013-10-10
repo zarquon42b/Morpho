@@ -11,7 +11,7 @@ Visually browse through a sample rendering its landmarks and corresponding surfa
 }
 \usage{
 checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply", col = "white",
-        radius = NULL, alpha = 0.7, begin = 1, render = c("w", "s"),
+        pt.size = NULL, alpha = 0.7, begin = 1, render = c("w", "s"),
         point = c("s","p"), add = FALSE, Rdata = FALSE, atlas=NULL)
 }
 \arguments{
@@ -30,7 +30,10 @@ checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply", col = "white",
   }
   \item{col}{mesh color
   }
-  \item{radius}{radius of spheres
+  \item{pt.size}{size of plotted points/spheres. If
+    \code{point="s"}. \code{pt.size} defines the radius of the
+    spheres. If \code{point="p"} it sets the variable \code{size} used
+    in \code{point3d}.
   }
   \item{alpha}{value between 0 and 1. Sets transparency of mesh 1=opaque
     0= fully transparent.

@@ -1,7 +1,5 @@
-checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white", radius=NULL, alpha=0.7, begin=1, render=c("w","s"), point=c("s","p"), add=FALSE, Rdata=FALSE, atlas=NULL)
+checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white", pt.size=NULL, alpha=0.7, begin=1, render=c("w","s"), point=c("s","p"), add=FALSE, Rdata=FALSE, atlas=NULL)
     {
-        if (is.null(radius))
-            radius <- (cSize(dat.array[,,1])/sqrt(nrow(dat.array[,,1])))*(1/30)
         k <- NULL
         marked <- NULL
         j <- 1
@@ -9,6 +7,15 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
             load <- file2mesh
         outid <- NULL
         point <- point[1]
+        ## set point/sphere sizes
+        radius <- pt.size
+        if (is.null(radius)) {
+            if (point == "s")
+                radius <- (cSize(dat.array[,,1])/sqrt(nrow(dat.array[,,1])))*(1/30)
+            else
+                radius <- 10
+        }
+        size <- radius
         render <- render[1]
         arr <- FALSE
         point <- point[1]
@@ -49,7 +56,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
             else
                 landmarks <- dat.array[[i]]
             if (is.null(atlas)) { 
-                outid <- rendpoint(landmarks,radius=radius, size=10)
+                outid <- rendpoint(landmarks,radius=radius, size=size)
                                 
                 if (!is.null(path)) {
                     if (!Rdata) {
@@ -81,7 +88,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
                         atlas.tmp$mesh <- get(input)
                     }
                 }
-                outid <- plotAtlas(atlas.tmp, add=FALSE, alpha=alpha, radius=radius, render=render, point=point, meshcol=col, legend=FALSE)
+                outid <- plotAtlas(atlas.tmp, add=FALSE, alpha=alpha, pt.size=radius, render=render, point=point, meshcol=col, legend=FALSE)
                 
             }
                 
