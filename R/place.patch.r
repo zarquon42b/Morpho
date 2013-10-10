@@ -41,12 +41,21 @@ plotAtlas <- function(atlas, pt.size=NULL, alpha=1, render=c("w","s"), point=c("
             open3d()
         if (!is.null(atlas$mesh))
             outid <- rend(atlas$mesh, col=meshcol, alpha=alpha)
-        outid <- c(outid, rendpoint(atlas$landmarks,col=2, radius=radius, size=size))
-        outid <- c(outid,rendpoint(atlas$patch,col=3,radius=radius/2, size=size/2))
+        ## plot reference landmarks and patch
+        landm <- atlas$landmarks
         if (!is.null(atlas$corrCurves))
-            outid <- c(outid, rendpoint(atlas$landmarks[unlist(atlas$corrCurves),],col=4,radius=radius+0.001, size=size+1))
+            landm <- landm[-unlist(atlas$corrCurves),]
+        patch <- atlas$patch
+         if (!is.null(atlas$patchOutlines))
+            patch <- patch[-unlist(atlas$patchOutlines),]
+        outid <- c(outid, rendpoint(landm, col=2, radius=radius, size=size))
+        outid <- c(outid,rendpoint(patch,col=3,radius=radius/2, size=size/2))
+        ## plot reference curves
+        if (!is.null(atlas$corrCurves))
+            outid <- c(outid, rendpoint(atlas$landmarks[unlist(atlas$corrCurves),],col=4,radius=radius, size=size))
+                           
         if (!is.null(atlas$patchCurves))
-            outid <- c(outid,rendpoint(atlas$patch[unlist(atlas$patchOutlines),],col=5,radius=radius/2+0.001,size=(size/2)+1))
+            outid <- c(outid,rendpoint(atlas$patch[unlist(atlas$patchOutlines),],col=5,radius=radius/2,size=size/2))
         if (legend) {
             plot(0,0, xlab="", ylab="", axes =F, cex=0,xlim=c(-1,1), ylim=c(-1,1))
             legend(-1,1, pch=20, cex=2, col=2:5, legend=c("landmarks", "patch", "curves on all specimen", "curves only on atlas"))
