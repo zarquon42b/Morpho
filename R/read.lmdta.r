@@ -1,4 +1,4 @@
-read.lmdta <- function(file="x")
+read.lmdta <- function(file="x", na=9999)
 {         x <- file
           A <- readLines(x)
           em <- which(A=="")
@@ -12,7 +12,13 @@ read.lmdta <- function(file="x")
           B <- as.matrix(read.table(x,skip=eot),na.strings=as.numeric(info[5]))
           tt <- array(t(B),dim=c(ndim,nlms,nspeci))
           arr <- array(NA,dim=c(nlms,ndim,nspeci))
-          for (i in 1:nspeci){arr[,,i] <- t(tt[,,i])}
+          for (i in 1:nspeci)
+              arr[,,i] <- t(tt[,,i])
+
+          nas <- which(arr == na)
+          if (length(nas) > 0)
+           arr[nas] <- NA
+          
           dimnames(arr)[[3]] <- idnames
           return(list(arr=arr,info=info,idnames=idnames))
 }
