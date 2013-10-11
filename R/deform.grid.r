@@ -13,10 +13,13 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=
         open3d()
     
     k <- dim(matrix)[1]
-    sz <- (cSize(matrix)/sqrt(k))*(1/80)
-    out3d(matrix,col=col1,radius=sz)
+    if (type != "p")
+        sz <- (cSize(matrix)/sqrt(k))*(1/80)
+    else
+        sz <- 10
+    out3d(matrix,col=col1,radius=sz, size=sz)
     if(both) {
-        out3d(tarmatrix,col=col2,radius=sz)
+        out3d(tarmatrix,col=col2,radius=sz, size=sz)
         if (lines) {
             linemesh <- list()
             linemesh$vb <- t(cbind(rbind(matrix,tarmatrix),1))
