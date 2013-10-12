@@ -8,16 +8,23 @@ cExtract <- function(pts.file)
     allnames <- row.names(x)
     cs <- grep("C",allnames)
     ps <- grep("P",allnames)
-    if (length(ps)>0)
+    S <- grep("S",allnames)
+    if (length(ps) > 0)
         cs <- c(cs,ps)
     cnames <- row.names(x)[cs]	
-    t <- levels(as.factor(substr(cnames,1,4)))
-    t <- c("S",t)
-    tl <- length(t)
+    olevels <- levels(as.factor(substr(cnames,1,4)))
+    S <- grep("S",allnames)
+    if (length(S) == 0 ) {
+        S <- NULL
+    } else {
+        S <- "S"
+    }
+    olevels <- c(S, olevels)
+    tl <- length(olevels)
     
     out <- list()	
     for (i in 1:tl)
-        out[[t[i]]] <- grep(t[i],allnames)
+        out[[olevels[i]]] <- grep(olevels[i],allnames)
     
     return(out)
 }
