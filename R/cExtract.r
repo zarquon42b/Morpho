@@ -25,6 +25,7 @@ cExtract <- function(pts.file)
     out <- list()	
     for (i in 1:tl)
         out[[olevels[i]]] <- grep(olevels[i],allnames)
-    
+
+    out$coords <- x
     return(out)
 }

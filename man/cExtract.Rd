@@ -18,7 +18,10 @@ cExtract(pts.file)
 }
 }
 
-\value{returns a list containing the vectors with the indices of matrix rows belonging to the in "landmark" defined curves, patches and fix landmarks.
+\value{returns a list containing the vectors with the indices of matrix
+  rows belonging to the in "landmark" defined curves, patches and fix
+  landmarks and a matrix containing landmark coordinates.
+  
 
 }
 
