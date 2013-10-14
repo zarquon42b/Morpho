@@ -1,4 +1,4 @@
-checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white", pt.size=NULL, alpha=0.7, begin=1, render=c("w","s"), point=c("s","p"), add=FALSE, Rdata=FALSE, atlas=NULL)
+checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white", pt.size=NULL, alpha=0.7, begin=1, render=c("w","s"), point=c("s","p"), add=FALSE, Rdata=FALSE, atlas=NULL, text.lm=FALSE)
     {
         k <- NULL
         marked <- NULL
@@ -50,6 +50,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
             #k1 <- dim(atlas$patch)[1]
         }
         while (i <= n) {
+            rgl.bringtotop()
             tmp.name <- paste(path,prefix,name[i],suffix,sep="")
             if (arr)
                 landmarks <- dat.array[,,i]
@@ -57,7 +58,9 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
                 landmarks <- dat.array[[i]]
             if (is.null(atlas)) { 
                 outid <- rendpoint(landmarks,radius=radius, size=size)
-                                
+                if (text.lm)
+                    outid <- c(outid, text3d(landmarks, texts=paste(1:dim(landmarks)[1], sep=""), cex=1, adj=c(1,1.5)))
+                             
                 if (!is.null(path)) {
                     if (!Rdata) {
                         tmpmesh <- file2mesh(tmp.name)

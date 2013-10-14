@@ -19,6 +19,7 @@ importFrom(rgl
            , open3d
            , points3d
            , rgl.bg
+	   , rgl.bringtotop
            , rgl.clear
            , rgl.close
            , rgl.cur
