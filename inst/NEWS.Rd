@@ -5,6 +5,13 @@
 \section{Changes in Morpho version 1.0beta2 (aka 0.99.1) (2013-10-07)}{
   \subsection{R-code}{
     \itemize{
+      \item fixed error in 'mcNNindex' in case k=1
+      \item added landmark matrix to output of 'cExtract'
+      \item set pointsize to 10 in 'deformGrid3d' in case "type="p""
+      \item added options "silent"/"ignore.stdout" to 'ply2mesh',
+      'projRead', 'ray2mesh', 'slider3d' and 
+      'warp.mesh' to supress terminal output
+      \item added option "pt.size" instead of "radius" in 'checkLM' and 'plotAtlas' to control point/sphere size.
       \item added option "fixRepro" in 'slider3d' and 'relaxLM' to supress
       reprojection of fix landmarks onto the surface. This can be useful
       when some fix landmarks are in "thin air".
