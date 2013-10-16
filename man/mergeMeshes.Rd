@@ -10,7 +10,8 @@ vertex normals.
 mergeMeshes(...)
 }
 \arguments{
-  \item{\dots}{triangular meshes of class 'mesh3d' to merge.
+  \item{\dots}{triangular meshes of class \code{'mesh3d'} to merge or a list of
+    triangular meshes.
 
   }
 }

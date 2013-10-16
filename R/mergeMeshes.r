@@ -1,7 +1,11 @@
 mergeMeshes <- function(...)
 {
-    args <- list(...)
-        argc <- length(args)
+    if (is.list(...))
+        args <- (...)
+    else
+        args <- list(...)
+
+    argc <- length(args)
         if (argc < 2)
             stop("at least two arguments needed")
     outmesh <- args[[1]]
