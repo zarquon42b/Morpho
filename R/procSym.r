@@ -73,6 +73,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     for (i in 1:n)
         rho[i] <- distfun(proc$rotated[,,i],proc$mshape)
     rmsrho <- sqrt(mean(rho^2))
+    names(rho) <- dimnames(dataarray)[[3]]
     orpdata <- 0
 
 ###### project into tangent space ######
