@@ -1,9 +1,9 @@
 mergeMeshes <- function(...)
 {
-    if (is.list(...))
-        args <- (...)
-    else
-        args <- list(...)
+    
+    args <- list(...)
+    if (length(args) == 1 && !inherits(args[[1]],"mesh3d"))
+        args <- unlist(args, recursive = FALSE)
 
     argc <- length(args)
         if (argc < 2)
