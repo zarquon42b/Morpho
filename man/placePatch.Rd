@@ -86,7 +86,10 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
   data.array specified in the input. In case dat.array is a matrix only
   a matrix is returned.
 }
-\references{mydiss
+\references{
+  Schlager S. 2013. Soft-tissue reconstruction of the human nose:
+  population differences and sexual dimorphism. PhD thesis,
+  Universitätsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
 
   
 }

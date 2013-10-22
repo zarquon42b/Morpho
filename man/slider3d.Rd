@@ -86,7 +86,22 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
   individuals and asymmetry. Evolution 56(10):1909-1920.
   
 
-  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.
+  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in
+  Three Dimensions, in Modern Morphometrics in Physical
+  Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer
+  Academic/Plenum Publishers.
+
+
+  Schlager S. 2012. Sliding semi-landmarks on symmetric structures in
+  three dimensions. American Journal of Physical Anthropology,
+  147(S52):261. URL: http://dx.doi.org/10.1002/ajpa.21502.
+
+
+  Schlager S. 2013. Soft-tissue reconstruction of the human nose:
+  population differences and sexual dimorphism. PhD thesis,
+  Universitätsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/. 
+  
+
 }
 \author{Stefan Schlager
 }
