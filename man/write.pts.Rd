@@ -7,12 +7,13 @@ exports a matrix containing landmarks into .pts format
 
 }
 \usage{
-write.pts(X, filename)
+write.pts(x, filename=dataname)
 }
 \arguments{
-  \item{X}{k x m matrix containing landmark configuration
+  \item{x}{k x m matrix containing landmark configuration
 }
-  \item{filename}{ filename - extension .pts will be added automatically
+  \item{filename}{character: Path/name of the requested output -
+    extension will be added atuomatically. If not specified, the file will be named as the exported object.
 }
 }
 \details{you can import the information into the program landmarks available at http://graphics.idav.ucdavis.edu/research/EvoMorph

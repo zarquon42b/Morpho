@@ -1,4 +1,4 @@
-mesh2ply <- function(x,filename=dataname, col=NULL,writeNormals=FALSE)
+mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)
 {	
     dataname <- deparse(substitute(x))
     if (is.matrix(x)) {
