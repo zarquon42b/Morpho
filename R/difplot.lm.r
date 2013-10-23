@@ -1,4 +1,4 @@
-.difplotLM <- function(refshape,targetshape,color=4,lwd=1,lcol=2,rgl.new=TRUE)
+.difplotLM <- function(refshape,targetshape,color=4,lwd=1,lcol=2,rgl.new=TRUE, text=TRUE)
 {   
     if (rgl.new == TRUE)
         open3d()
@@ -15,5 +15,6 @@
     linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
     class(linemesh) <- "mesh3d"
     wire3d(linemesh,col=lcol,lwd=lwd,lit=F)
-    text3d(refshape,texts=paste("",c(1:k),sep=""),cex=1,col=lcol,adj=1.2) 
+    if (text)
+        text3d(refshape,texts=paste("",c(1:k),sep=""),cex=1,col=lcol,adj=1.2) 
 }

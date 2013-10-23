@@ -1,4 +1,4 @@
-find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL)
+find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, text=TRUE)
 {   	
     raw <- A
     n <- dim(A)[3]
@@ -41,9 +41,9 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL)
     
     while (t1 <= n ) {
         if (m==3)
-            .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE)
+            .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE, text=text)
         else 
-            .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1])
+            .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1], text=text)
 
         cat(paste("outlier #",t1,": ",disti.sort[t1,1]," - ",disti.sort[t1,3],"     ",disType," dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
         
@@ -76,9 +76,9 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL)
                     
                     if (m==3) {
                         rgl.clear()
-                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE)
+                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE, text=text)
                     } else {
-                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1])
+                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1],text=text)
                     }
                     cat(paste("new distance to mean:",rho.new,"\n"))
                     loop0 <- substr(readline("switch more (y/N)? "),1L,1L)
@@ -126,9 +126,9 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL)
                     rho.new <- angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)
                     if (m==3) {
                         rgl.clear()
-                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE)
+                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE, text=text)
                     } else {
-                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1])
+                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1], text=text)
                     }
                     cat(paste("new distance to mean:",rho.new,"\n"))
                     loop0 <- substr(readline("switch more (y/N)? "),1L,1L)
