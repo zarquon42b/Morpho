@@ -35,8 +35,12 @@ Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 Schlager S. 2013. Soft-tissue reconstruction of the human nose:
 population differences and sexual dimorphism. PhD thesis,
 \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg.
-URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
+URL: \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 }
+\note{
+  For full functionality please install trimesh-tools as described here:
+  \url{http://sourceforge.net/p/morpho-rpackage/wiki/Installation_Morpho/#installation-of-the-command-line-tools-strongly-recommended}
+  }
 
 \keyword{ package }
 

@@ -100,7 +100,7 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
   Schlager S. 2013. Soft-tissue reconstruction of the human nose:
   population differences and sexual dimorphism. PhD thesis,
   \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg.
-  URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
+  URL: \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
   
 
 }
