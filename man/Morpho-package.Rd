@@ -33,7 +33,7 @@ Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 \references{
 Schlager S. 2013. Soft-tissue reconstruction of the human nose:
 population differences and sexual dimorphism. PhD thesis,
-Universitätsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
+Universitaetsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
 }
 
 \keyword{ package }

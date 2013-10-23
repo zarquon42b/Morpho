@@ -89,7 +89,7 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
 \references{
   Schlager S. 2013. Soft-tissue reconstruction of the human nose:
   population differences and sexual dimorphism. PhD thesis,
-  Universitätsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
+  Universitaetsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
 
   
 }
