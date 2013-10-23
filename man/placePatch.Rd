@@ -1,3 +1,4 @@
+\encoding{utf8}
 \name{placePatch}
 \alias{placePatch}
 \title{
@@ -89,7 +90,8 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
 \references{
   Schlager S. 2013. Soft-tissue reconstruction of the human nose:
   population differences and sexual dimorphism. PhD thesis,
-  Universitaetsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
+  \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg.
+  URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
 
   
 }

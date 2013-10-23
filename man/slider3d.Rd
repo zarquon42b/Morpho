@@ -1,5 +1,5 @@
+\encoding{utf8}
 \name{slider3d}
-
 \alias{slider3d}
 \title{
   slides Semilandmarks along curves and surfaces in 3D by minimising
@@ -99,7 +99,8 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
 
   Schlager S. 2013. Soft-tissue reconstruction of the human nose:
   population differences and sexual dimorphism. PhD thesis,
-  Universitaetsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/. 
+  \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg.
+  URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
   
 
 }

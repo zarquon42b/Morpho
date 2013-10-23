@@ -1,3 +1,4 @@
+\encoding{utf8}
 \name{Morpho-package}
 \Rdversion{1.1}
 \alias{Morpho-package}
@@ -33,7 +34,8 @@ Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 \references{
 Schlager S. 2013. Soft-tissue reconstruction of the human nose:
 population differences and sexual dimorphism. PhD thesis,
-Universitaetsbibliothek Freiburg. URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
+\enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg.
+URL: http://www.freidok.uni-freiburg.de/volltexte/9181/.
 }
 
 \keyword{ package }
