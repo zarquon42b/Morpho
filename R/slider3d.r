@@ -1,4 +1,4 @@
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL,ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE, ignore.stdout=FALSE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE, ignore.stdout=FALSE)
 {
   if(.Platform$OS.type == "windows")
     mc.cores <- 1
@@ -87,9 +87,13 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
   
   cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
   for (j in 1:n) {
-      repro <- projRead(dat.array[,,j], sur.name[j], ignore.stdout=ignore.stdout)
-          dat.array[,,j] <- t(repro$vb[1:3,])
-          vn.array[,,j] <- t(repro$normals[1:3,])
+      if (is.null(meshlist))
+          repro <- projRead(dat.array[,,j], sur.name[j], ignore.stdout=ignore.stdout)
+      else
+          repro <- closemeshKD(dat.array[,,j],meshlist[[j]])
+      
+      dat.array[,,j] <- t(repro$vb[1:3,])
+      vn.array[,,j] <- t(repro$normals[1:3,])
   }
   
   if (!fixRepro)# use original positions for fix landmarks
@@ -135,7 +139,10 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
       
 ###projection onto surface
       for (j in 1:n) {
-          repro <- projRead(a.list[[j]],sur.name[j], ignore.stdout=ignore.stdout)
+          if (is.null(meshlist))
+              repro <- projRead(a.list[[j]],sur.name[j], ignore.stdout=ignore.stdout)
+          else
+              repro <- closemeshKD(a.list[[j]],meshlist[[j]])
           dataslide[,,j] <- t(repro$vb[1:3,])
           vn.array[,,j] <- t(repro$normals[1:3,])
       }

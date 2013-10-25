@@ -8,11 +8,10 @@ orp <- function(A, mshape=NULL)
       
   m.size <- cSize(mshape)
   Xc <- as.vector(mshape/m.size)
-  Ikp <- diag(k*p)
   X <- vecx(A)
-  #X <- X/m.size ##remove resizing -> bad for large shape variation
-  X1 <- X%*%(Ikp - tcrossprod(Xc))
-  XcM <- as.matrix(rep(1,n))%*%Xc
-  X1 <- X1+XcM
-  return(proj=array(t(X1), dim=c(p, k, n)))
+  ##direction along mshape onto plane
+  XtoPlane <- t(apply(X,1,function(x){x <- t(crossprod(x,Xc)*Xc)}))
+  X1 <- X-XtoPlane
+  X1 <- t(X1)+Xc
+  return(proj=array(X1, dim=c(p, k, n)))
 }

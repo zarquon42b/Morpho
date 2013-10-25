@@ -1,4 +1,4 @@
-procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE, distfun=c("riemann", "angle"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE)
+procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE)
 {
     t0 <- Sys.time()     
     A <- dataarray
@@ -100,14 +100,9 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         Symarray <- procrot
 
     Symtan <- Symarray
-    for (i in 1:n)
-        Symtan[,,i] <- Symarray[,,i]-meanshape
-    
-    tan <- matrix(NA,n,m*k)
-    for(i in 1:n)
-        tan[i,] <- c(Symtan[,,i])
-    
-    if (sizeshape==TRUE) { 
+    Symtan <- sweep(Symtan, 1:2, meanshape)
+    tan <- vecx(Symtan)
+    if (sizeshape) { 
         CSlog <- log(CS)-mean(log(CS))
         tan <- cbind(CSlog,tan)
     }
@@ -120,10 +115,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
 
     values <- 0
     eigv <- princ$sdev^2
-    for (i in 1:length(eigv)) {
-        if (eigv[i] > 1e-14)
-            values[i] <- eigv[i]
-    }
+    values <- eigv[which(eigv > 1e-14)]
     lv <- length(values)
     PCs <- princ$rotation[,1:lv]
     PCscore_sym <- as.matrix(princ$x[,1:lv])
@@ -150,25 +142,19 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     PCs_Asym <- 0
     if (!is.null(pairedLM)) {
         asymmean <- apply(Asymm,c(1,2),mean)
-        asymtan <- matrix(NA,n,m*k)
-        for(i in 1:n)
-            asymtan[i,] <- c(Asymm[,,i]-asymmean)
+        asymtan <- vecx(sweep(Asymm, 1:2, asymmean))[1:n,]
         pcasym <- try(prcomp(asymtan),silent=TRUE)
         if (class(pcasym) == "try-error")
             pcasym <- eigenPCA(asymtan)
         
-        asvalues <- 0
         eigva <- pcasym$sdev^2
-        for (i in 1:length(eigva)) {
-            if (eigva[i] > 1e-14)
-                asvalues[i] <- eigva[i]
-        }
+        asvalues <- eigva[which(eigva > 1e-14)]
         lva <- length(asvalues)
         PCs_Asym <- pcasym$rotation[,1:lva]
         PCscore_asym <- as.matrix(pcasym$x[,1:lva])
         rownames(PCscore_asym) <- dimnames(dataarray)[[3]]
         rownames(asymtan) <- rownames(PCscore_sym)
-        
+       print(1)  
 ###### create a neat variance table for Asym ######
         if (length(asvalues)==1) {
             AsymVar <- asvalues
@@ -186,6 +172,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
             colnames(AsymVar) <- c("eigenvalues","% Variance","Cumulative %")
         }
     }
+   
 ###### output ######
     t1 <- Sys.time()
     cat(paste("Operation completed in",t1-t0,"secs\n"))

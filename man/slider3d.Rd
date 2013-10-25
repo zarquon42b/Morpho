@@ -12,7 +12,8 @@
 }
 \usage{
 slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
-         sur.name=NULL, ignore=NULL, sur.type="ply", tol=1e-05, deselect=FALSE,
+         sur.name=NULL,  meshlist=NULL, ignore=NULL, sur.type="ply",
+         tol=1e-05,deselect=FALSE,
          inc.check=TRUE, recursive=TRUE, iterations=0, initproc=TRUE,
          speed=TRUE, pairedLM=0, weights=NULL, mc.cores=detectCores(),
          fixRepro=TRUE, ignore.stdout = FALSE)
@@ -30,6 +31,11 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
   \item{sur.path}{Path to the surface models (e.g. ply, obj, stl files)
   }
   \item{sur.name}{character vector: containing the filenames of the corresponding surfaces - e.g. if the dat.array[,,i] belongs to surface_i.ply, sur.name[i] would be surface_i.ply. Only necessary if dat.array does not contain surface names. 
+  }
+  \item{meshlist}{list containing triangular meshes of class 'mesh3d',
+   for example imported with \code{\link{mesh2ply}} or
+   \code{\link{file2mesh}} in the same order as the specimen in the
+   array (see examples below)
   }
   \item{ignore}{vector containing indices of landmarks that are to be
     ignored. Indices of outlines/surfaces etc will be updated
@@ -128,6 +134,10 @@ slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
                   sur.path=".",iterations=1)
                   # sur.path="." is the current working directory
 }
+# now one example with meshes in workspace
+meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
+slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+                  sur.path=".",iterations=1, meshlist=meshlist)
 }
 
 \seealso{
