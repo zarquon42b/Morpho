@@ -7,8 +7,10 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
     L <- CreateL(reference)
     if (deselect)
         fixLM <- SMvector
-    else
+    else if (length(SMvector) < k)
         fixLM <- 1:k[-SMvector]
+    else
+        fixRepro <- TRUE
 
     if (iterations == 0)
         iterations <- 1e10

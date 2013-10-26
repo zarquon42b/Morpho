@@ -74,8 +74,11 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
   data.orig <- dat.array
   if (deselect)
       fixLM <- SMvector
-  else
+  else if (length(SMvector) < k)
       fixLM <- 1:k[-SMvector]
+  else
+      fixRepro <- TRUE
+
   if(length(sur.name)==0) {
       sur.name <- dimnames(dat.array)[[3]]
       sur.name <- paste(sur.path,"/",sur.name,".",sur.type,sep="")
