@@ -4,7 +4,7 @@ import(doParallel)
 importFrom(colorRamps, blue2green2red)
 importFrom(foreach, foreach, '%dopar%', '%do%')
 importFrom(MASS, ginv)
-importFrom(Matrix, sparseMatrix, diag)
+importFrom(Matrix, sparseMatrix, diag, crossprod, solve)
 importFrom(parallel, mclapply, detectCores)
 importFrom(yaImpute, ann)
 importClassesFrom("Matrix"

@@ -6,12 +6,15 @@
   Spline, and sliding of Semilandmarks
 }
 \usage{
-CreateL(matrix, lambda = 0)
+CreateL(matrix, lambda = 0, blockdiag = TRUE)
 }
 \arguments{
   \item{matrix}{ k x 3 or k x 2 matrix containing landmark coordinates.
   }
   \item{lambda}{numeric: regularization factor
+  }
+  \item{blockdiag}{logical: request blockdiagonal matrix Lsubk3 needed
+    for sliding of semilandmarks.
   }
 }
 \value{
@@ -19,7 +22,8 @@ CreateL(matrix, lambda = 0)
   \item{L }{Matrix L as specified in Bookstein (1989)}
   \item{Linv }{Inverse of matrix L as specified in Bookstein (1989)}
   \item{Lsubk }{uper left k x k submatrix of \code{Linv}}
-  \item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and \code{\link{relaxLM}}.
+  \item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and
+  \code{\link{relaxLM}}. Only available if \code{blockdiag = TRUE}.
   }
 }
 \references{
