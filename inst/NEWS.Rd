@@ -2,9 +2,17 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 1.0beta2 (aka 0.99.1) (2013-10-07)}{
+\section{Changes in Morpho version 1.0beta2 (aka 0.99.1) (2013-10-28)}{
   \subsection{R-code}{
     \itemize{
+      \item made reprojection ind 'slider3d' using multiple cores in case "meshlist" is specified
+      \item added option "blockdiag" in 'CreateL' to supress returning blockdiagonal matrix containin Lsubk
+      \item significant speedup in calcGamma (responsible for sliding)
+      \item added option "meshlist" in 'slider3d' and fixed memory
+      allocation problem for orthogonal projection with large amounts of
+      landmarks in 'procSym' (underlying routine 'orp')
+      \item added autonaming of output in write.pts
+      \item 'mergeMeshes' now allows a list of meshes to merge
       \item fixed error in 'mcNNindex' in case k=1
       \item added landmark matrix to output of 'cExtract'
       \item set pointsize to 10 in 'deformGrid3d' in case "type="p""

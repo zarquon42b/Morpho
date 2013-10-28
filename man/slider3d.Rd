@@ -135,8 +135,11 @@ slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
                   # sur.path="." is the current working directory
 }
 # now one example with meshes in workspace
+## to reduce this example's computation time,
+# we only use the right hand semi-landmarks
+surp <- surp[1:316]
 meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
-slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+slide <- slider3d(data[1:323,,], SMvector=fix, deselect=TRUE, surp=surp,
                   sur.path=".",iterations=1, meshlist=meshlist, mc.cores=2)
 }
 

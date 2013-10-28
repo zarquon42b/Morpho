@@ -70,7 +70,7 @@ fix <- c(1:5,20:21)
 # all except those defined as fix
 surp <- c(1:dim(shortnose.lm)[1])[-fix]
 ## to reduce this example's computation time,
-# we only allow use the right hand landmarks on the right side to slide
+# we only use the right hand semi-landmarks
 # (which keeps the left hand ones fix)
 surp <- surp[1:316]
 
