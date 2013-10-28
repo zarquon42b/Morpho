@@ -59,28 +59,31 @@ SUBROUTINE matr_mesh(matr,nmat,VB,nvb,IT,nit,dif,fptr,outmatr,regionv,VBnormals,
   
 END SUBROUTINE matr_mesh
 
-SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dif,fptr,outmatr,regionv,VBnormals,sign,outnorm,mm)
-  
-  
+SUBROUTINE matr_meshKD(matr,nmat,VB,nvb,IT,nit,clostInd,k,dist,fptr,regionv,VBnormals,sign,outnorm,mm)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!  closest point search on a triangle surface mesh                !!!
+!!!  based on a search of the k-closted triangles determined by an  !!!
+!!!  intitial kd-tree search across faces' barycenters              !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   IMPLICIT NONE
   integer ::nit,k, IT(3,nit),ittmp(3),nvb, clostInd(nmat,k),nmat,fptr(nmat),ptrtmp,regionv(nmat),i
   integer :: region,mm
-  real*8 :: clost(3),VB(3,nvb),normals(3,3),dif(nmat)
-  real*8 :: DAT(nit,13),diff,outmatr(nmat,3)
+  real*8 :: clost(3),VB(3,nvb),normals(3,3),dist(nmat)
+  real*8 :: DAT(nit,13),diff
   real*8 :: matr(nmat,3),outnorm(3,nmat)
   real*8 :: point(3),signo,VBnormals(3,nvb),tmpnorm(3),tmpdiff(3)
   logical :: sign
   real*8 :: tmpdat(k,13),nlen
   call updateSearch(VB,nvb,IT,nit,DAT)
-! $OMP PARALLEL DO private(i, clost,tmpnorm,region,ptrtmp,diff) shared(outmatr,fptr,dif,regionv,outnorm,clostInd,DAT)
+! $OMP PARALLEL DO private(i, clost,tmpnorm,region,ptrtmp,diff) shared(outmatr,fptr,dist,regionv,outnorm,clostInd,DAT)
   
 do i = 1,nmat
      
      point(:) = matr(i,1:3)
      tmpdat = DAT(clostInd(i,:),:)
      call pt_upmesh(point,tmpdat,k,clost,diff,ptrtmp,region,mm)
-     outmatr(i,:) = clost(:)
-     dif(i) = diff
+     matr(i,:) = clost(:)
+     dist(i) = diff
      fptr(i) = clostInd(i,ptrtmp)
      regionv(i) = region
      tmpnorm = VBnormals(:,IT(1,fptr(i)))+VBnormals(:,IT(2,fptr(i)))+VBnormals(:,IT(3,fptr(i)))
@@ -95,7 +98,7 @@ do i = 1,nmat
         tmpdiff = clost - point
         signo = dot_product(tmpdiff,tmpnorm)
         if ( signo < 0) then
-           dif(i) = -dif(i)
+           dist(i) = -dist(i)
         end if
         
      end if
