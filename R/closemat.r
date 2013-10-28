@@ -4,27 +4,22 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=1,method=0,...)
     if(.Platform$OS.type == "windows")
        cores <- 1
     if (is.null(mesh$normals))
-      {
         mesh <- adnormals(mesh)
-      }
-    if (is.matrix(x))
-      {
+    if (is.matrix(x)) {
         matr <- x
         x <- list()
         x$vb <- rbind(t(matr),1)
-      }
-    else
-      {
+    } else {
         matr <- t(x$vb[1:3,])
-      }
+    }
     vb <- (mesh$vb[1:3,])
     it <- (mesh$it)
     nvb <- dim(vb)[2]
     nit <- dim(it)[2]
     
     nmat <- dim(matr)[1]
-     dif <- rep(0,nmat)
-     fptr <- dif
+    dif <- rep(0,nmat)
+    fptr <- dif
     bary <- barycenter(mesh)
     clostInd <- mcNNindex(bary,matr,k=k,cores=cores,...)
     ##clostInd <- nn2(bary,matr,k=k,...)$nn.idx

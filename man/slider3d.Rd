@@ -137,7 +137,7 @@ slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 # now one example with meshes in workspace
 meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
 slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
-                  sur.path=".",iterations=1, meshlist=meshlist)
+                  sur.path=".",iterations=1, meshlist=meshlist, mc.cores=2)
 }
 
 \seealso{
