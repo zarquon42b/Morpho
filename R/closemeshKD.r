@@ -1,4 +1,4 @@
-closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=1,method=0,...)
+closemeshKD <- function(x, mesh, k=50, sign=FALSE, barycoords=FALSE, cores=1, method=0,...)
     {
         if(.Platform$OS.type == "windows")
             cores <- 1
@@ -33,14 +33,23 @@ closemeshKD <- function(x,mesh,k=50,sign=FALSE,cores=1,method=0,...)
         storage.mode(dist) <- "double"
         storage.mode(clost) <- "double"
         storage.mode(clostInd) <- "integer"
+        if (barycoords) {
+            baryc <- t(matr)
+            baryn <- nmat
+        } else {
+            baryc <- c(0,0,0)
+            baryn <- as.integer(1)
+        }
         outmatr <- matr
         region <- fptr
-        out <- .Fortran("matr_meshKD",ioMat=matr,nmat,vb,nvb,it,nit,clostInd,k,dist=dist,ptr=fptr,region,normals=mesh$normals[1:3,],sign,outnormals=t(matr),method)
+        out <- .Fortran("matr_meshKD",ioMat=matr,nmat,vb,nvb,it,nit,clostInd,k,dist=dist,faceptr=fptr,region,normals=mesh$normals[1:3,],sign,outnormals=t(matr),method, barycoords=baryc, baryn)
         gc()
         x$vb[1:3,] <- t(out$ioMat)
         x$quality <- out$dist
         x$normals <- rbind(out$outnormals,1)
-        x$ptr <- out$ptr
+        x$faceptr <- out$faceptr
+        if (barycoords)
+            x$barycoords <- out$barycoords
         class(x) <- "mesh3d"
         return(x)
     }

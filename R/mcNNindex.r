@@ -8,14 +8,12 @@ mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
         mclist <- list()
         nx <- dim(query)[1]
         iter <- floor(nx/cores)
-        if (cores > 1)
-            {
-                for (i in 1:(cores-1))
-                    mclist[[i]] <- query[(1:iter)+((i-1)*iter),]
-                
-                mclist[[cores]] <- query[-c(1:((cores-1)*iter)),]
-            }
-        else
+        if (cores > 1) {
+            for (i in 1:(cores-1))
+                mclist[[i]] <- query[(1:iter)+((i-1)*iter),]
+            
+            mclist[[cores]] <- query[-c(1:((cores-1)*iter)),]
+        }  else
             mclist[[1]] <- query
         tmpfun <- function(x,...)
             {
@@ -30,7 +28,5 @@ mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
         } else {
             out <- unlist(tmp)
         }
-            
         return(out)
-
     }

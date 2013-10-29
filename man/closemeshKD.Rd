@@ -7,26 +7,29 @@
   surface are determined and normals at as well as distances to that point are calculated. 
 }
 \usage{
-closemeshKD(x, mesh, k = 50, sign = FALSE, cores = 1, method = 0, ...)
+closemeshKD(x, mesh, k = 50, sign = FALSE, barycoords=FALSE, cores = 1, method = 0, ...)
 }
 \arguments{
   \item{x}{k x 3 matrix containing 3D-coordinates or object of class \code{mesh3d}.
 
-}
+  }
   \item{mesh}{triangular surface mesh stored as object of class \code{mesh3d}.
-}
+  }
   \item{k}{neighbourhood of kd-tree to search - the larger, the slower -
-  but the more likely the absolutely closest point is hit.
-}
+    but the more likely the absolutely closest point is hit.
+  }
   \item{sign}{logical: if TRUE, signed distances are returned.
-}
+  }
+  \item{barycoords}{logical: if \code{TRUE}, barycentric
+    coordinates of the hit points are returned.
+  }
   \item{cores}{integer: how many cores to use for the search algorithm.
-}
+  }
   \item{method}{integer: either 0 or 1, if 0 ordinary Euclidean distance
-  is used, if 1, the distance suggested by Moshfeghi(1994) is calculated.
-}
+    is used, if 1, the distance suggested by Moshfeghi(1994) is calculated.
+  }
   \item{\dots}{additional arguments. currently unavailable.
-}
+  }
 }
 \details{
   The search for the clostest point is designed as follows:
@@ -43,7 +46,7 @@ closemeshKD(x, mesh, k = 50, sign = FALSE, cores = 1, method = 0, ...)
   
   \item{quality }{vector: containing distances to target.}
   \item{it }{4xm matrix containing vertex indices forming triangular
-  faces.Only available, when x is a mesh.}
+    faces.Only available, when x is a mesh.}
 
 }
 \references{ Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
@@ -54,11 +57,11 @@ closemeshKD(x, mesh, k = 50, sign = FALSE, cores = 1, method = 0, ...)
   
 }
 \author{
-Stefan Schlager}
+  Stefan Schlager}
 
 
 \seealso{
-\code{\link{ply2mesh}}
+  \code{\link{ply2mesh}}
 }
 \examples{
 require(rgl)
