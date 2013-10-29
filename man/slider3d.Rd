@@ -33,9 +33,9 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
   \item{sur.name}{character vector: containing the filenames of the corresponding surfaces - e.g. if the dat.array[,,i] belongs to surface_i.ply, sur.name[i] would be surface_i.ply. Only necessary if dat.array does not contain surface names. 
   }
   \item{meshlist}{list containing triangular meshes of class 'mesh3d',
-   for example imported with \code{\link{mesh2ply}} or
-   \code{\link{file2mesh}} in the same order as the specimen in the
-   array (see examples below)
+    for example imported with \code{\link{mesh2ply}} or
+    \code{\link{file2mesh}} in the same order as the specimen in the
+    array (see examples below)
   }
   \item{ignore}{vector containing indices of landmarks that are to be
     ignored. Indices of outlines/surfaces etc will be updated
@@ -81,6 +81,14 @@ slider3d(dat.array, SMvector, outlines=NULL, surp=NULL, sur.path="sur",
 }
 \details{needs trimesh_project to be installed (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 
+}
+\section{Warning}{Depending on the size of the suface meshes and especially the
+  amount of landmarks this can use an extensive amount of your PC's
+  resources, especially when running in parallel. As the computation
+  time and RAM usage of matrix algebra involved is quadratic to the
+  amount of landmarks used, doubling the amount of semi-landmarks will
+  quadruple computation time and system resource usage. You can easily
+  stall you computer with this function with inappropriate data.
 }
 \value{
   \item{dataslide }{array containing slidden Landmarks in the original

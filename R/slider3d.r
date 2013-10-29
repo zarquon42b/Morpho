@@ -75,7 +75,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     if (deselect)
         fixLM <- SMvector
     else if (length(SMvector) < k)
-        fixLM <- 1:k[-SMvector]
+        fixLM <- c(1:k)[-SMvector]
     else
         fixRepro <- TRUE
 
@@ -136,7 +136,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         mshape <- (symproc$X+symproc$Y)/2
     }
     cat(paste("Start sliding...","\n","-------------------------------------------","\n"))
-    
+    gc(verbose=F)
     ## calculation for a defined max. number of iterations
     count <- 1
     while (p1>tol && count <= iterations) {
@@ -203,7 +203,9 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         } else {
             cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
             count <- count+1         
-        }          	
+        }
+        gc(verbose = FALSE)
     }
+    gc(verbose = FALSE)
     return(list(dataslide=dataslide,vn.array=vn.array))
 }
