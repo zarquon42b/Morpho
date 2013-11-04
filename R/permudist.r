@@ -1,7 +1,7 @@
 permudist <- function(data, groups, rounds=1000, which=1:2, mc.cores = detectCores())
 {
     win <- FALSE
-    if(.Platform$OS.type == "windows")
+    if(.Platform$OS.type == "windows" || mc.cores == 1)
         win <- TRUE
     else
         registerDoParallel(cores=mc.cores)### register parallel backend

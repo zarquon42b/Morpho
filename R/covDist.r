@@ -51,20 +51,23 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
 
 .covPCApermut <- function(data, groups, rounds, mc.cores, V)
 {
+    win <- FALSE
     if(.Platform$OS.type == "windows")
-        mc.cores=1
+        win <- TRUE
+    else
+        registerDoParallel(cores=mc.cores)
     lev <- levels(groups)
     nlev <- length(levels(groups))
     p.matrix <- matrix(NA, nlev, nlev)
     dist.mat <- array(0, dim = c(nlev, nlev, rounds))
-    registerDoParallel(cores=mc.cores)
+    
     permufun <- function(i)
         {
             permugroup <- sample(groups)
             distout <- as.matrix(covPCA(data, permugroup, scores = FALSE, mc.cores=1)$dist)
             return(distout)
         }
-    if(.Platform$OS.type == "windows")
+    if (win)
         a.list <- foreach(i=1:rounds)%do%permufun(i)
     else
         a.list <- foreach(i=1:rounds)%dopar%permufun(i)
