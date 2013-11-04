@@ -38,7 +38,8 @@ permudist(data, groups, rounds = 1000, which = 1:2, mc.cores = detectCores())
 data(boneData)
 proc <- procSym(boneLM)
 groups <- name2factor(boneLM,which=3)
-perm <- permudist(proc$PCscores, groups=groups, mc.cores=2, rounds=100)
+perm <- permudist(proc$PCscores[,1:10], groups=groups, mc.cores=2, rounds=100)
+\dontrun{
 #visualize results
 hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")#random distances
@@ -53,7 +54,9 @@ perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, mc.cores=2, rounds=10
 hist(perm1$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")
 points(perm1$dist,50,col=2,pch=19)#actual distance
-text(perm1$dist,60,label=paste("actual distance\n(p=",perm1$p.value,")"))
+text(perm1$dist,60,label=paste("actual
+distance\n(p=",perm1$p.value,")"))
+}
 }
 
 \keyword{ ~kwd1 }

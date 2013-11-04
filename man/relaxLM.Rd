@@ -78,10 +78,12 @@ relax <- relaxLM(shortnose.lm[1:323, ],
          longnose.lm[1:323, ], mesh=shortnose.mesh, iterations=1,
          SMvector=fix, deselect=TRUE, surp=surp)
 
+\dontrun{
 # visualize differences red=before and green=after sliding
 deformGrid3d(shortnose.lm[1:323, ], relax, ngrid=0)
 # add surface
 wire3d(shortnose.mesh, col="white")
+}
 }
 
 \keyword{ ~kwd1 }

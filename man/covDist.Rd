@@ -80,6 +80,7 @@ covPCA(data, groups, scores=TRUE, rounds=0, mc.cores=detectCores())
 \examples{
 require(car)
 cpca <- covPCA(iris[,1:4],iris[,5])
+\dontrun{
 sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),
    smooth=FALSE,xlim=range(cpca$PCscores),ylim=range(cpca$PCscores))
 
@@ -99,7 +100,7 @@ cpca2 <- covPCA(proc$PCscores[,1:4], groups=pop, rounds = 100,
 mc.cores=2)
 ## view p-values:
 cpca2$p.matrix # significance is gone
-
+}
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

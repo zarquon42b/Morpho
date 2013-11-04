@@ -120,8 +120,9 @@ meshDist(warpnose.long, shortnose.mesh, method="m")
 
 #use signed distances and
 #color distances < 0.01 green:
+\dontrun{
 meshDist(warpnose.long, shortnose.mesh, sign=TRUE, tol=0.01, method="m")
-
+}
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

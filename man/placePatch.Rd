@@ -102,6 +102,7 @@ Stefan Schlager}
 }
 
 \examples{
+\dontrun{
 data(nose)
 require(rgl)
 ###create mesh for longnose
@@ -111,6 +112,7 @@ fix <- c(1:5,20:21)
 atlas <- createAtlas(shortnose.mesh, landmarks =
            shortnose.lm[fix,], patch=shortnose.lm[-c(1:5,20:21),])
 ## view atlas
+
 plotAtlas(atlas)
 
 ## create landmark array with only fix landmarks
@@ -120,19 +122,18 @@ dimnames(data)[[3]] <- c("shortnose", "longnose")
 ### write meshes to disk
 mesh2ply(shortnose.mesh, filename="shortnose")
 mesh2ply(longnose.mesh, filename="longnose")
-\dontrun{
+
 patched <- placePatch(atlas, data, path="./", inflate=5)
 ## now browse through placed patches
 checkLM(patched, path="./", atlas=atlas)
-}
+
 ## same example with only one target specimen
 data <- longnose.lm[fix, ]
-\dontrun{
+
 patched <- placePatch(atlas, data, path="longnose", inflate=5)
 wire3d(longnose.mesh,col=3)
 spheres3d(patched)
 }
-
 }
 \seealso{
  \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM}, \link{slider3d}, \link{warp.mesh}}

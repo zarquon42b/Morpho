@@ -70,8 +70,8 @@ alldat<-procSym(abind(gorf.dat,gorm.dat))
 # create factors
 groups<-as.factor(c(rep("female",30),rep("male",29)))
 # perform CVA and test Mahalanobis distance
-# between groups with permutation test by 1000 rounds)            
-cvall<-CVA(alldat$orpdata,groups,rounds=1000,mc.cores=2)     
+# between groups with permutation test by 100 rounds)            
+cvall<-CVA(alldat$orpdata,groups,rounds=100,mc.cores=2)     
 
 ### Morpho CVA
 data(iris)

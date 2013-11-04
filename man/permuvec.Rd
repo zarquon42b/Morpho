@@ -55,8 +55,9 @@ proc <- procSym(boneLM)
 pop <- name2factor(boneLM,which=3)
 sex <- name2factor(boneLM,which=4)
 ## use non scaled distances by setting \code{scale = FALSE}
-perm <- permuvec(proc$PCscores, groups=pop, subgroups=sex,
-                 scale=FALSE, rounds=1000, mc.cores=2)
+## and only use first 10 PCs
+perm <- permuvec(proc$PCscores[,1:10], groups=pop, subgroups=sex,
+                 scale=FALSE, rounds=100, mc.cores=2)
 
 
 ## visualize if the amount of sexual dimorphism differs between

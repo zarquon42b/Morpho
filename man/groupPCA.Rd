@@ -64,14 +64,14 @@ Stefan Schlager}
 
 
 \seealso{
- \code{\link{CVA}}, ~~~
+ \code{\link{CVA}}
 }
 \examples{
 require(car)
 data(iris)
 vari=iris[,1:4]
 facto=iris[,5]
-pca.1=groupPCA(vari,groups=facto,rounds=1000,mc.cores=1)
+pca.1=groupPCA(vari,groups=facto,rounds=100,mc.cores=1)
 
 ### plot scores
 scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,
@@ -82,6 +82,7 @@ data(boneData)
 proc <- procSym(boneLM)
 pop_sex <- name2factor(boneLM, which=3:4)
 gpca <- groupPCA(proc$orpdata, groups=pop_sex, rounds=100, mc.cores=2)
+\dontrun{
 ## visualize shape associated with first between group PC
 dims <- dim(proc$mshape)
 ## calculate matrix containing landmarks of grandmean
@@ -93,9 +94,11 @@ gpcavis2sd.neg<- showPC(-2*sd(gpca$Scores[,1]), gpca$groupPCs, grandmean)
 deformGrid3d(gpcavis2sd, gpcavis2sd.neg, ngrid = 0)
 require(rgl)
 ## visualize grandmean mesh
+
 grandm.mesh <- warp.mesh(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean)
 wire3d(grandm.mesh, col="white")
 spheres3d(grandmean, radius=0.005)
+}
 
 }
 \keyword{ ~kwd1 }

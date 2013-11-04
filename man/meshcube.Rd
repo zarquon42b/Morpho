@@ -19,8 +19,10 @@ meshcube(x)
 require(rgl)
 data(boneData)
 mc <- meshcube(skull_0144_ch_fe.mesh)
+\dontrun{
 spheres3d(mc)
 wire3d(skull_0144_ch_fe.mesh)
+}
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

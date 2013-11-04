@@ -147,14 +147,16 @@ slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 # we only use the first 50 right hand semi-landmarks
 surp <- surp[1:50]
 meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
+\dontrun{
 slide <- slider3d(data[1:57,,], SMvector=fix, deselect=TRUE, surp=surp,
                   sur.path=".",iterations=1, meshlist=meshlist,
-                  mc.cores=2,fixRepro=FALSE)
+                  mc.cores=1,fixRepro=FALSE)
 require(rgl)
 ## visualize sliding
 deformGrid3d(slide$dataslide[,,1],shortnose.lm,ngrid = 0)
 ## these are fix
 spheres3d(slide$dataslide[fix,,1],col=4,radius=0.7)
+}
 }
 
 \seealso{

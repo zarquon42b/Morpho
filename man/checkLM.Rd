@@ -83,8 +83,11 @@ checkLM(data, path="./",Rdata=TRUE, suffix="")
 
 ## now visualize by using an atlas:
 atlas <- createAtlas(shortnose.mesh, landmarks =
-           shortnose.lm[c(1:5,20:21),], patch=shortnose.lm[-c(1:5,20:21),])
+           shortnose.lm[c(1:5,20:21),],
+patch=shortnose.lm[-c(1:5,20:21),])
+\dontrun{
 checkLM(data, path="./",Rdata=TRUE, suffix="", atlas=atlas)
+}
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

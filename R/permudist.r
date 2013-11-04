@@ -42,7 +42,7 @@ permudist <- function(data, groups, rounds=1000, which=1:2, mc.cores = detectCor
         permu <- function(x)
             {
                 shake <- sample(groups)
-                disto <- permudist(N, shake, rounds = 0)$dist
+                disto <- permudist(N, shake, rounds = 0, mc.cores=1)$dist
                 return(disto)
             }
         i <- 0

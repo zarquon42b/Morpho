@@ -65,6 +65,7 @@ shade3d(warpnose.long,col=skin1)
 data(boneData)
 ## deform mesh belonging to the first specimen
 ## onto the landmark configuration of the 10th specimen
+\dontrun{
 warpskull <- warp.mesh(skull_0144_ch_fe.mesh,boneLM[,,1],
                      boneLM[,,10])
 ## render deformed mesh and landmarks
@@ -73,6 +74,7 @@ spheres3d(boneLM[,,1])
 ## render original mesh
 shade3d(skull_0144_ch_fe.mesh, col=3, specular=1)
 spheres3d(boneLM[,,10])
+}
 
 
 }

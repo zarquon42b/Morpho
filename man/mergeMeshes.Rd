@@ -27,8 +27,10 @@ require(rgl)
 data(boneData)
 data(nose)
 mergedMesh <- mergeMeshes(shortnose.mesh, skull_0144_ch_fe.mesh)
+\dontrun{
 require(rgl)
 shade3d(mergedMesh, col=3)
+}
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

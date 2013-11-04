@@ -46,13 +46,14 @@ data(boneData)
 ## onto the landmark configuration of the 10th specimen
 rotmesh <- rotmesh.onto(skull_0144_ch_fe.mesh,boneLM[,,1],
                         boneLM[,,10], scale=TRUE)
+\dontrun{
 ## render rotated mesh and landmarks
 shade3d(rotmesh$mesh, col=2, specular=1)
 spheres3d(boneLM[,,1])
 ## render original mesh
 shade3d(skull_0144_ch_fe.mesh, col=3, specular=1)
 spheres3d(boneLM[,,10])
-
+}
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }

@@ -139,10 +139,12 @@ data(boneData)
 
 ### do an analysis of symmetric landmarks
 ## visualize landmarks on surface
+\dontrun{
  spheres3d(boneLM[,,1])
 wire3d(skull_0144_ch_fe.mesh,col=3)
 ## get landmark numbers
 text3d(boneLM[,,1],text=paste(1:10),adj = 1, cex=3)
+}
 ## determine paired Landmarks left side:
 left <- c(4,6,8)
 ## determine corresponding Landmarks on the right side:
@@ -154,13 +156,14 @@ symproc <- procSym(boneLM, pairedLM=pairedLM)
 pcaplot3d(symproc, sym=TRUE)
 ## visualize first 3 PCs of asymmetric shape
 pcaplot3d(symproc, sym=FALSE)
-
+\dontrun{
 ## visualze distribution of symmetric PCscores population
 pop <- name2factor(boneLM, which=3)
 require(car)
 spm(~symproc$PCscore_sym[,1:5], groups=pop)
 ## visualze distribution of asymmetric PCscores population
 spm(~symproc$PCscore_asym[,1:5], groups=pop)
+}
 
 }
 

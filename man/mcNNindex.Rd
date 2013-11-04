@@ -35,12 +35,15 @@ processing}
 }
 \examples{
 require(rgl)
-data(boneData)
+data(nose)
 # find closest vertex on surface for each landmark
-clost <- mcNNindex(vert2points(skull_0144_ch_fe.mesh),boneLM[,,1], k=1, mc.cores=1)
-spheres3d(vert2points(skull_0144_ch_fe.mesh)[clost,],col=2,radius=0.3)
-spheres3d(boneLM[,,1],radius=0.3)
-wire3d(skull_0144_ch_fe.mesh)
+clost <- mcNNindex(vert2points(shortnose.mesh),shortnose.lm, k=1,
+mc.cores=1)
+\dontrun{
+spheres3d(vert2points(shortnose.mesh)[clost,],col=2,radius=0.3)
+spheres3d(shortnose.lm,radius=0.3)
+wire3d(shortnose.mesh)
+}
 }
 
 \keyword{ ~kwd1 }

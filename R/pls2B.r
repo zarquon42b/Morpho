@@ -9,11 +9,10 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=detectC
     else
       registerDoParallel(cores=mc.cores)### register parallel backend
     
-    if (length(dim(x)) == 3)
-      {
+    if (length(dim(x)) == 3) {
         landmarks <- TRUE
         x <- vecx(x)
-      }
+    }
     if (length(dim(y)) == 3)
       y <- vecx(y)
     else
@@ -41,57 +40,50 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=detectC
 ### calculate correlations between pls scores
     cors <- 0
     for(i in 1:length(covas))
-      {cors[i] <- cor(z1[,i],z2[,i])
-     }
+        cors[i] <- cor(z1[,i],z2[,i])
+     
 
 ### Permutation testing
     permupls <- function(i)
       {
         x.sample <- sample(1:xdim[1])
         y.sample <- sample(x.sample)
-        if (same.config && landmarks)
-          {
-           tmparr <- .bindArr2(xorig[,,x.sample],yorig[,,y.sample],along=1)
-           tmpproc <- ProcGPA(tmparr,silent=TRUE)
-           x1 <- vecx(tmpproc$rotated[1:dim(xorig)[1],,])
-           y1 <- vecx(tmpproc$rotated[1:dim(yorig)[1],,])
-         }
-        else
-          {
+        if (same.config && landmarks) {
+            tmparr <- .bindArr2(xorig[,,x.sample],yorig[,,y.sample],along=1)
+            tmpproc <- ProcGPA(tmparr,silent=TRUE)
+            x1 <- vecx(tmpproc$rotated[1:dim(xorig)[1],,])
+            y1 <- vecx(tmpproc$rotated[1:dim(yorig)[1],,])
+        } else {
             x1 <- x
             y1 <- y
-          }
+        }
         cova.tmp <- cov(cbind(x1[x.sample,],y1[y.sample,]))
         svd.cova.tmp <- svd(cova.tmp[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
         svs.tmp <- svd.cova.tmp$d
         return(svs.tmp[1:l.covas])
       }
     p.values <- rep(NA,l.covas)
-    if (rounds > 0)
-      {
+    if (rounds > 0) {
         if (win)
-          permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
+            permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
         else
-          permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
+            permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
         
         p.val <- function(x,rand.x)
-          {
+            {
             p.value <- length(which(rand.x >= x))
             
             if (p.value > 0)
-              {
                 p.value <- p.value/rounds
-              }
             else
-              {p.value <- 1/rounds}
+                p.value <- 1/rounds
             gc()
             return(p.value)
           }
         
         for (i in 1:l.covas)
-          {
             p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
-          }
+          
       }
 ### create covariance table
     Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
