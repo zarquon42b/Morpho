@@ -81,7 +81,7 @@ scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,
 data(boneData)
 proc <- procSym(boneLM)
 pop_sex <- name2factor(boneLM, which=3:4)
-gpca <- groupPCA(proc$orpdata, groups=pop_sex, rounds=100, mc.cores=2)
+gpca <- groupPCA(proc$orpdata, groups=pop_sex, rounds=0, mc.cores=2)
 \dontrun{
 ## visualize shape associated with first between group PC
 dims <- dim(proc$mshape)

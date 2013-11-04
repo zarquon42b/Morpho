@@ -61,7 +61,7 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
     permufun <- function(i)
         {
             permugroup <- sample(groups)
-            distout <- as.matrix(covPCA(data, permugroup, scores = FALSE)$dist)
+            distout <- as.matrix(covPCA(data, permugroup, scores = FALSE, mc.cores=1)$dist)
             return(distout)
         }
     if(.Platform$OS.type == "windows")
