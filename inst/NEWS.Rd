@@ -2,9 +2,10 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 1.0beta2 (aka 0.99.1) (2013-10-28)}{
+\section{Changes in Morpho version 1.0) (2013-11-04)}{
   \subsection{R-code}{
     \itemize{
+      \item added option "barycoords" in 'closemeshKD' and added normal weighting
       \item made reprojection ind 'slider3d' using multiple cores in case "meshlist" is specified
       \item added option "blockdiag" in 'CreateL' to supress returning blockdiagonal matrix containin Lsubk
       \item significant speedup in calcGamma (responsible for sliding)
@@ -66,6 +67,8 @@
   }
   \subsection{Misc}{
     \itemize{
+      \item changed doParallel from Dependency to Import - needs
+  'doParallel' >= 1.06
       \item removed obsolete Fortran code
       \item added minimum version for imported package 'Matrix'(>= 1.0-1)
       \item changed foreach, parallel and rgl (needs rgl version >=

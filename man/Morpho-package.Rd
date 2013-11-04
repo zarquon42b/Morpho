@@ -5,12 +5,13 @@
 \alias{Morpho}
 \docType{package}
 \title{
-loads of stuff relating to Geometric Morphometrics and shape analysis
+A toolbox providing methods for data-acquisitiopn, visualisation and
+statistical methods related to Geometric Morphometrics and shape analysis
 }
 \description{
 A toolbox for Morphometric calculations. Including sliding operations
-for Semilandmarks, importing, exporting and manipulating 3D-surface
-meshes. For gaining full functionality, the command line tools provided
+for Semilandmarks, importing, exporting and manipulating of 3D-surface
+meshes and semi-automated placement of surface landmarks. For gaining full functionality, the command line tools provided
 on
 \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}
 have to be installed.
