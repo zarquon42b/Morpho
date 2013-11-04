@@ -20,8 +20,8 @@ have to be installed.
   \tabular{ll}{
     Package: \tab Morpho\cr
     Type: \tab Package\cr
-    Version: \tab 0.99.1\cr
-    Date: \tab 2013-10-07\cr
+    Version: \tab 1.0\cr
+    Date: \tab 2013-11-04\cr
     License: \tab GPL\cr
     LazyLoad: \tab yes\cr }
 
