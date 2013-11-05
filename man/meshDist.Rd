@@ -106,8 +106,6 @@ closest point or along the normals}
 \author{
 Stefan Schlager}
 
-
-
 \seealso{
 \code{\link{render.meshDist}}, , \code{\link{export.meshDist}}, \code{\link{shade3d}}
 }
