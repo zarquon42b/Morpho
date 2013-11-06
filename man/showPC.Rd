@@ -1,33 +1,27 @@
 \name{showPC}
 \alias{showPC}
-\title{
-convert PCs to landmark configuration}
-\description{
-convert PC-scores to landmark coordinates}
+\title{convert PCs to landmark configuration}
 \usage{
-showPC(scores, PC, mshape)
+  showPC(scores, PC, mshape)
 }
 \arguments{
-  \item{scores}{vector of PC-scores
-}
-  \item{PC}{Principal components (eigenvectors of the covariance matrix)
-    associated with 'scores'.
-}
-  \item{mshape}{matrix containing the meanshape's landmarks (used to center the data by the PCA)
-}
-}
-\details{Rotates and translates PC-scores derived from shape data back
-  into configuration space.
-}
-\value{returns matrix containing landmarks
-}
+  \item{scores}{vector of PC-scores}
 
-\author{
-Stefan Schlager
-}
+  \item{PC}{Principal components (eigenvectors of the
+  covariance matrix) associated with 'scores'.}
 
-\seealso{
-\code{\link{prcomp}}, \code{\link{procSym}}
+  \item{mshape}{matrix containing the meanshape's landmarks
+  (used to center the data by the PCA)}
+}
+\value{
+  returns matrix containing landmarks
+}
+\description{
+  convert PC-scores to landmark coordinates
+}
+\details{
+  Rotates and translates PC-scores derived from shape data
+  back into configuration space.
 }
 \examples{
 library(shapes)
@@ -42,5 +36,12 @@ plot(lm,asp=1)
 lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 points(lm2,col=2)
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\author{
+  Stefan Schlager
+}
+\seealso{
+  \code{\link{prcomp}}, \code{\link{procSym}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

@@ -1,45 +1,47 @@
 \name{proc.weight}
 \alias{proc.weight}
-
-\title{
-calculate weights inverse to the distances from the specified observation.
-}
-\description{
-for calculation of a shape model by averaging the observations neighbouring the configuration in question, it is necessary to calculate weights
-by similarity.
-}
+\title{calculate weights inverse to the distances from the specified observation.}
 \usage{
-proc.weight(data, number, ref,report=TRUE, reg = 0, log = FALSE, mahalanobis = FALSE)
+  proc.weight(data, number, ref, report = TRUE, reg = 0,
+    log = FALSE, mahalanobis = FALSE)
 }
 \arguments{
-  \item{data}{array containing landmark configurations
+  \item{data}{array containing landmark configurations}
 
-}
-  \item{number}{integer: how many of the neighbours are to be involved.
-}
-  \item{ref}{integer: position in the array that is used as reference.
-}
- \item{report}{logical: require report about name of the reference.
-}
-\item{reg}{numeric: regularise mahalanobis distance by adding reg to the
-  diagonal of eigenvalues of the covariance matrix.
-}
-\item{log}{logical: use the logarithm of the distances.
-}
-\item{mahalanobis}{logical: use mahalanobis distance.
-}
-}
-\details{distances of zero will get a weight of 1e12 (this is scaled to
-  all weights summing to one), thus weights for observations further
-  away are converging to zero.
+  \item{number}{integer: how many of the neighbours are to
+  be involved.}
 
+  \item{ref}{integer: position in the array that is used as
+  reference.}
+
+  \item{report}{logical: require report about name of the
+  reference.}
+
+  \item{reg}{numeric: regularise mahalanobis distance by
+  adding reg to the diagonal of eigenvalues of the
+  covariance matrix.}
+
+  \item{log}{logical: use the logarithm of the distances.}
+
+  \item{mahalanobis}{logical: use mahalanobis distance.}
 }
 \value{
-\item{data }{dataframe containing id, procrustes/mahalanobis distance and weight according to the reference}
-\item{reference }{returns observations' names if available}
-\item{rho.all }{dataframe containing distances to references of all observations}
+  \item{data }{dataframe containing id,
+  procrustes/mahalanobis distance and weight according to
+  the reference} \item{reference }{returns observations'
+  names if available} \item{rho.all }{dataframe containing
+  distances to references of all observations}
 }
-
+\description{
+  for calculation of a shape model by averaging the
+  observations neighbouring the configuration in question,
+  it is necessary to calculate weights by similarity.
+}
+\details{
+  distances of zero will get a weight of 1e12 (this is
+  scaled to all weights summing to one), thus weights for
+  observations further away are converging to zero.
+}
 \examples{
 library(shapes)
 proc <- procSym(gorf.dat)

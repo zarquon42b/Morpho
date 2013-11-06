@@ -1,62 +1,66 @@
 \name{ProcGPA}
 \alias{ProcGPA}
-\title{
-  Workhorse function for procSym, responsible for Procrustes
-  registration
-}
-\description{
-  Workhorse function for procSym, responsible for Procrustes registration
-}
+\title{Workhorse function for procSym, responsible for Procrustes registration}
 \usage{
-ProcGPA(dat.array, tol = 1e-05, scale = TRUE, CSinit = FALSE, silent = FALSE,
-        weights = NULL, centerweight = FALSE, reflection = TRUE)
+  ProcGPA(dat.array, tol = 1e-05, scale = TRUE,
+    CSinit = FALSE, silent = FALSE, weights = NULL,
+    centerweight = FALSE, reflection = TRUE)
 }
 \arguments{
-  \item{dat.array}{Input k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size.
-  }
-  \item{tol}{numeric: Threshold for convergence during iterative superimpositioning.
-  }
-  \item{scale}{logical: indicating if scaling is requested
-  }
-  \item{CSinit}{logical: if TRUE, all configurations are initially scaled to Unit Centroid Size.
-  }
-  \item{silent}{logical: suppress output of elapsed time.
-  }
-  \item{weights}{numeric vector: assign per landmark weights.
-  }
-  \item{centerweight}{logical: if TRUE, the landmark configuration is
-    scaled according to weights during the rotation process, instead of
-    being scaled to the Centroid size.
-  }
-  \item{reflection}{logical: allow reflections.
-  }
-}
+  \item{dat.array}{Input k x m x n real array, where k is
+  the number of points, m is the number of dimensions, and
+  n is the sample size.}
 
-\value{returns a list with
-  \item{rotated }{k x m x n array of the rotated configurations}
-  \item{mshape }{sample meanshape}
-}
-\references{
-  Goodall C. 1991. Procrustes methods in the statistical analysis of
-  shape. Journal of the Royal Statistical Society. Series B. Statistical
-  Methodology 53:285-239.
+  \item{tol}{numeric: Threshold for convergence during
+  iterative superimpositioning.}
 
-  Dryden IL, Mardia KV.  1998. Statistical shape analysis. John Wiley and sons, Chichester.
-}
-\author{
-  Stefan Schlager
-}
+  \item{scale}{logical: indicating if scaling is requested}
 
-\seealso{
-  \code{\link{procSym}, \link{rotonto}}
-  }
-  \examples{
+  \item{CSinit}{logical: if TRUE, all configurations are
+  initially scaled to Unit Centroid Size.}
+
+  \item{silent}{logical: suppress output of elapsed time.}
+
+  \item{weights}{numeric vector: assign per landmark
+  weights.}
+
+  \item{centerweight}{logical: if TRUE, the landmark
+  configuration is scaled according to weights during the
+  rotation process, instead of being scaled to the Centroid
+  size.}
+
+  \item{reflection}{logical: allow reflections.}
+}
+\value{
+  returns a list with \item{rotated }{k x m x n array of
+  the rotated configurations} \item{mshape }{sample
+  meanshape}
+}
+\description{
+  Workhorse function for procSym, responsible for
+  Procrustes registration
+}
+\examples{
 data(boneData)
 proc <- ProcGPA(boneLM, CSinit=TRUE, silent=TRUE)
 #now we landmarks 5 - 9 double the weight as  the others
 weights <- c(rep(1,4),rep(2,5),1)
 proc.wt <- ProcGPA(boneLM, CSinit=TRUE, weights=weights, silent=TRUE)
 }
+\author{
+  Stefan Schlager
+}
+\references{
+  Goodall C. 1991. Procrustes methods in the statistical
+  analysis of shape. Journal of the Royal Statistical
+  Society. Series B. Statistical Methodology 53:285-239.
 
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+  Dryden IL, Mardia KV.  1998. Statistical shape analysis.
+  John Wiley and sons, Chichester.
+}
+\seealso{
+  \code{\link{procSym}, \link{rotonto}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

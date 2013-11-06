@@ -1,3 +1,32 @@
+#' Replace ID-strings of data and associated files.
+#' 
+#' Replace ID-strings with for digits - e.g. for blind observer error testing.
+#' 
+#' 
+#' @param data Named array, matrix or vector containing data.
+#' 
+#' @param remove integer: which entry (separated by \code{split}) of the name
+#' is to be removed
+#' @param path Path of associated files to be copied to renamed versions.
+#' @param dest.path where to put renamed files.
+#' @param ext file extension of files to be renamed.
+#' @param split character: by which to split specimen-ID
+#' @param levels logical: if a removed entry is to be treated as a factor. E.g.
+#' if one specimen has a double entry, the anonymized versions will be named
+#' accordingly.
+#' @param prefix character: prefix before the alias string.
+#' @param suffix character: suffix after the alias ID-string.
+#' @param sample logical: whether to randomize alias ID-string.
+#' @return
+#' \item{data }{data with names replaced}
+#' \item{anonymkey }{map of original name and replaced name}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' anonymize(iris,remove=1)
+#' 
+#' 
+#' @export anonymize
 anonymize <- function(data ,remove, path=NULL,dest.path=NULL,ext=".ply",split="_",levels=TRUE,prefix=NULL,suffix=NULL,sample=TRUE)
 {
     if (length(dim(data)) == 3)

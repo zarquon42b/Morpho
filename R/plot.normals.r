@@ -1,3 +1,24 @@
+#' plots the normals of a triangular surface mesh.
+#' 
+#' visualises the vertex normals of a triangular surface mesh of class mesh3d.
+#' If no normals are contained, they are computed.
+#' 
+#' 
+#' @param x object of class "mesh3d"
+#' @param long length of the normals (default is 1)
+#' @param lwd width of the normals
+#' @param col color of the normals
+#' @author Stefan Schlager
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' data(nose)
+#' shade3d(shortnose.mesh,col=3)
+#' plotNormals(shortnose.mesh,col=4,long=0.01)
+#' 
+#' 
+#' @export plotNormals
 plotNormals <- function(x,long=1,lwd=1,col=1)
   {
     if ( ! "mesh3d" %in% class(x))

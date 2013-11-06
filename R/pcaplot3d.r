@@ -1,4 +1,35 @@
+#' visualization of shape change
+#' 
+#' visualization of the shape changes explained by Principal components
+#' 
+#' @title visualization of shape variation
+#' @param x a object derived from the function procSym calculated on 3D
+#' coordinates.
+#' @param pcshow a vector containing the PCscores to be visualized.
+#' @param mag a vector or an integer containing which standard deviation of
+#' which PC has to be visualized.
+#' @param color color of the 3d points/spheres.
+#' @param lwd width of the lines representing the shape change.
+#' @param sym logical: if TRUE the symmetric component of shape is displayed.
+#' Otherwise the asymmetric one.
+#' @param \dots Additional parameters which will be passed to the methods.
+#' @seealso \code{\link{procSym}}
+#' @examples
+#' 
+#' 
+#' data(nose)
+#' #make a tiny sample
+#' nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
+#' proc <- procSym(nosearr)
+#' pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
+#' 
+#' @rdname pcaplot3d
+#' @export pcaplot3d
 pcaplot3d <- function (x,...) UseMethod("pcaplot3d")
+
+#' @rdname pcaplot3d
+#' @method pcaplot3d symproc
+#' @S3method pcaplot3d symproc
 pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...) 
 {   
   refshape <- x$mshape
@@ -37,6 +68,9 @@ pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...
   }
   spheres3d(refshape,  col = color,radius=sz)
 }
+#' @rdname pcaplot3d
+#' @method pcaplot3d nosymproc
+#' @S3method pcaplot3d nosymproc
 pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
 {   
     refshape <- x$mshape

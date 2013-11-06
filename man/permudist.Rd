@@ -1,38 +1,37 @@
 \name{permudist}
 \alias{permudist}
-\title{performs permutation testing for group differences.
-}
-\description{
-  This function compares the distance between two groupmeans to the
-  distances obtained by random assignment of observations to this groups.
-}
+\title{performs permutation testing for group differences.}
 \usage{
-permudist(data, groups, rounds = 1000, which = 1:2, mc.cores = detectCores())
+  permudist(data, groups, rounds = 1000, which = 1:2,
+    mc.cores = detectCores())
 }
 \arguments{
-  \item{data}{array or matrix containing data
-}
-  \item{groups}{factors determining grouping.
-}
-  \item{rounds}{number of permutations
-}
-  \item{which}{in case the factor levels are >2 this determins which
-    factorlevels to use
-}
-\item{mc.cores}{integer: determines how many cores to use for the computation. The default
-  is autodetect. But in case, it doesn't work as expected cores can be
-  set manually. Parallel processing is disabled on
-    Windows due to occasional errors.
-}
-}
+  \item{data}{array or matrix containing data}
 
+  \item{groups}{factors determining grouping.}
+
+  \item{rounds}{number of permutations}
+
+  \item{which}{in case the factor levels are >2 this
+  determins which factorlevels to use}
+
+  \item{mc.cores}{integer: determines how many cores to use
+  for the computation. The default is autodetect. But in
+  case, it doesn't work as expected cores can be set
+  manually. Parallel processing is disabled on Windows due
+  to occasional errors.}
+}
 \value{
-  \item{permudist }{vector containing distances between random group means.}
-  \item{dist }{distance between actual group means}
-  \item{p.value }{p-value obtained by comparing the actual distance to
-    randomly acquired distances.}
-
-  
+  \item{permudist }{vector containing distances between
+  random group means} \item{dist }{distance between actual
+  group means} \item{p.value }{p-value obtained by
+  comparing the actual distance to randomly acquired
+  distances}
+}
+\description{
+  This function compares the distance between two
+  groupmeans to the distances obtained by random assignment
+  of observations to this groups.
 }
 \examples{
 data(boneData)
@@ -44,7 +43,7 @@ perm <- permudist(proc$PCscores[,1:10], groups=groups, mc.cores=2, rounds=100)
 hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")#random distances
 points(perm$dist,50,col=2,pch=19)#actual distance
-text(perm$dist,70,label=paste("actual distance\n(p=",perm$p.value,")"))
+text(perm$dist,70,label=paste("actual distance\\n(p=",perm$p.value,")"))
 
 ## now we concentrate only on sex dimorphism between Europeans
 groups <- name2factor(boneLM,which=3:4)
@@ -55,9 +54,9 @@ hist(perm1$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")
 points(perm1$dist,10,col=2,pch=19)#actual distance
 text(perm1$dist,15,label=paste("actual
-distance\n(p=",perm1$p.value,")"))
+distance\\n(p=",perm1$p.value,")"))
 }
 }
+\keyword{~kwd1}
+\keyword{~kwd2}
 
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }

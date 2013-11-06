@@ -1,3 +1,53 @@
+#' Graphical interface to find outliers and/or to switch mislabeld landmarks
+#' 
+#' Graphical interface to find outliers and/or to switch mislabeld landmarks
+#' 
+#' This function performs a procrustes fit and sorts all specimen according to
+#' their distances (either Procrustes or Mahalanobis-distance) to the sample's
+#' consensus. It provides visual help for rearranging landmarks and/or
+#' excluding outliers.
+#' 
+#' @param A Input k x m x n real array, where k is the number of points, m is
+#' the number of dimensions, and n is the sample size.
+#' @param color color of Landmarks points to be plotted
+#' @param lwd linewidth visualizing distances of the individual landmarks from
+#' mean.
+#' @param lcol color of lines visualizing distances of the individual landmarks
+#' from mean.
+#' @param mahalanobis logical: use mahalanobis distance to find outliers.
+#' @param PCuse integer: Restrict mahalanobis distance to the first n Principal
+#' components.
+#' @param text logical: if \code{TRUE}, landmark labels (rownumbers) are
+#' displayed
+#' @return
+#' \item{data.cleaned }{array (in original coordinate system) containing
+#' the changes applied and outliers eliminated}
+#' \item{outlier }{vector with integers indicating the positions in the
+#' original array that have been marked as outliers}
+#' \item{dist.sort }{table showing the distance to mean for each
+#' observation - decreasing by distance}
+#' \item{type }{what kind of distance was used}
+#' @author Stefan Schlager
+#' @seealso \code{\link{typprob}},\code{\link{typprobClass}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' data(boneData)
+#' ## look for outliers using the mahalanobis distance based on the first
+#' # 10 PCscores
+#' \dontrun{
+#' outliers <- find.outliers(boneLM, mahalanobis= TRUE, PCuse=10)
+#' n # everything is fine
+#' n # proceed to next
+#' s # let's switch some landmarks (3 and 4)
+#' 3
+#' 4
+#' n # we are done
+#' y # yes, because now it is an outlier
+#' s #enough for now
+#' }
+#' 
+#' @export find.outliers
 find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, text=TRUE)
 {   	
     raw <- A

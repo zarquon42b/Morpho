@@ -1,3 +1,21 @@
+#' Read saved pick-points from meshlab
+#' 
+#' imports pick points selected with meshlab
+#' 
+#' 
+#' @param file file to import
+#' @param info logical: if TRUE, addtional infos are returned
+#' @return if \code{info=FALSE}:
+#' 
+#' a matrix containing picked-points coordinates
+#' 
+#' if \code{info=TRUE}: a list containing
+#' \item{data }{matrix containing coordinates}
+#' \item{info }{additional info contained in file}
+#' @author Stefan Schlager
+#' @seealso \code{\link{read.pts}}
+#' @keywords ~kwd1 ~kwd2
+#' @export read.mpp
 read.mpp <- function(file, info=FALSE)
   {
     raw <- readLines(file)

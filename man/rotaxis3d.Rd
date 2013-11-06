@@ -1,0 +1,60 @@
+\name{rotaxis3d}
+\alias{rotaxis3d}
+\alias{rotaxis3d.matrix}
+\alias{rotaxis3d.mesh3d}
+\title{Rotate an object (matrix or mesh) around an arbitrary axis in 3D}
+\usage{
+  rotaxis3d(x, pt1, pt2 = c(0, 0, 0), theta)
+
+  \method{rotaxis3d}{matrix} (x, pt1, pt2 = c(0, 0, 0),
+    theta)
+
+  \method{rotaxis3d}{mesh3d} (x, pt1, pt2 = c(0, 0, 0),
+    theta)
+}
+\arguments{
+  \item{x}{k x 3 matrix containing 3D-coordinates or a
+  triangular mesh of class "mesh3d".}
+
+  \item{pt1}{numeric vector of length 3, defining first
+  point on the rotation axis.}
+
+  \item{pt2}{numeric vector of length 3, defining second
+  point on the rotation axis.}
+
+  \item{theta}{angle to rotate in radians. With pt1 being
+  the viewpoint, the rotation is counterclockwise.}
+}
+\value{
+  returns rotated object (including updated normals for
+  mesh3d objects)
+}
+\description{
+  Rotate an object around an arbitrary axis in 3D
+}
+\details{
+  Rotate an object (matrix or triangular mesh) around an
+  3D-axis defined by two points.
+}
+\examples{
+require(rgl)
+data(nose)
+shade3d(shortnose.mesh,col=3,specular=1)
+shrot.rot <- rotaxis3d(shortnose.mesh,pt1=c(1,1,1),theta=pi)
+shade3d(shrot.rot,col=2)
+###print rotation axis
+
+lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
+}
+\author{
+  Stefan Schlager
+}
+\references{
+  http://en.wikipedia.org/wiki/Rotation_matrix
+}
+\seealso{
+  \code{\link{rotonto}}, \code{\link{rotmesh.onto}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

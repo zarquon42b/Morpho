@@ -1,3 +1,5 @@
+#' @rdname mesh2ply
+#' @export mesh2obj
 mesh2obj <- function(x,filename=dataname)
 {
     ismatrix <- FALSE

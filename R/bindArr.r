@@ -29,6 +29,34 @@
             }
         return(newarr)
     }
+
+
+#' concatenate multiple arrays/matrices
+#' 
+#' concatenate multiple 3-dimensional arrays and/or 2-dimensional matrices to
+#' one big array
+#' 
+#' 
+#' @param \dots matrices and/or arrays with appropriate dimensionality to
+#' combine to one array.
+#' @param along dimension along which to concatenate.
+#' @return returns array of combined matrices/arrays
+#' @seealso \code{\link{cbind}}, \code{\link{rbind}}, \code{\link{array}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' A <- matrix(rnorm(18),6,3)
+#' B <- matrix(rnorm(18),6,3)
+#' C <- matrix(rnorm(18),6,3)
+#' 
+#' #combine to 3D-array
+#' newArr <- bindArr(A,B,C,along=3)
+#' #combine along first dimension
+#' newArr2 <- bindArr(newArr,newArr,along=1)
+#' 
+#' 
+#' 
+#' @export bindArr
 bindArr <- function(...,along=1)
     {
         args <- list(...)

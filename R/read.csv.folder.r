@@ -1,3 +1,29 @@
+#' batch import data from files
+#' 
+#' imports all data files contained in a specified folder.
+#' 
+#' 
+#' @param folder character: path to folder
+#' @param x either a vector specifiing which rows are to be imported, or
+#' character vector containing variable names to be sought for.
+#' @param y a vector specifiing, which columns of the speradsheet ist to be
+#' imported.
+#' @param rownames integer: specifies columns, where variable names are stored.
+#' @param header logical : if spreadsheet contains header-row.
+#' @param dec character: defines decimal sepearator.
+#' @param sep character: defines column seperator.
+#' @param pattern character: specify file format (e.g. csv).
+#' @param addSpec character: add a custom specifier to the dimnames of the
+#' array.
+#' @param back logical: where to place the specifier.
+#' @return
+#' \item{arr }{array containing imported data}
+#' \item{NAs }{vector containing position of observations with NAs}
+#' \item{NA.list }{list: containing vectors containing information which
+#' LMs are missing in which observation}
+#' @author Stefan Schlager
+#' @seealso \code{\link{read.table}}
+#' @export read.csv.folder
 read.csv.folder <- function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep=";",pattern="csv",addSpec=NULL,back=TRUE)
 {	
 	if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")

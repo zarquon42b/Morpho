@@ -21,6 +21,49 @@ projBack <- function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.
   unlink(paste(dataname,".obj",sep="")) #clean up
 }
 
+
+
+#' Project points onto the closest point on a mesh
+#' 
+#' project points onto a given surface and return projected points and normals.
+#' 
+#' 
+#' @param lm m x 3 matrix containing 3D coordinates.
+#' @param mesh character: specify path to mesh file.
+#' @param readnormals logical: return normals of projected points.
+#' @param clean logical: remove dumpfiles.
+#' @param smooth logical: rerturn smoothed normals.
+#' @param ignore.stdout logical: supress console messages from system calls.
+#' @param sign logical: request signed distances.
+#' @param prodump character: name of the dumpfile storing the projected points'
+#' coordinates (useful when using parallel backend).
+#' @param lmdump character: name of the dumpfile storing data to be projected
+#' (useful when using parallel backend).
+#' @return if readnormals = FALSE, a m x 3 matrix containing projected points
+#' is returned, otherwise a list, where
+#' \item{vb }{3 x m matrix containing projected points}
+#' \item{normals }{3 x m matrix containing normals}
+#' @note The usage of this function requires the command line tools from
+#' trimesh-tools
+#' (https://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
+#' installed.
+#' @author Stefan Schlager
+#' @seealso \code{\link{closemeshKD}}
+#' @references Detection of inside/outside uses the algorithm proposed in:
+#' 
+#' Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed Distance
+#' Fields From Triangle Meshes. Informatics and Mathematical Modelling.
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' 
+#' data(nose)
+#' \dontrun{
+#' repro <- projRead(shortnose.lm,shortnose.mesh)
+#' }
+#' 
+#' 
+#' @export projRead
 projRead <- function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE,lmdump=NULL,prodump=NULL)
 {
 

@@ -1,3 +1,38 @@
+#' Estimate the shape by averaging the shape of the nearest neighbours.
+#' 
+#' Estimate the shape of one set of landmarks by averaging the shape of the
+#' nearest neighbours obtained by a second set of landmarks. Weights are
+#' calculated either form Mahalanobis or Procrustes distances. This can be
+#' useful for data with missing landmarks.
+#' 
+#' This function calculates weights from one set of shape data and then
+#' estimates the shape of another (or same) set of landmarks.  CAUTION:
+#' landmark data has to be registered beforehand.
+#' 
+#' @param x an array or matrix (one row per specim) with data used for
+#' estimating weights.
+#' @param y an array or matrix (one row per specim) with landmark data on which
+#' the weighted averaging is applied for prediction. If NULL, x will be used
+#' for both tasks.
+#' @param n amount of nearest neighbours to consider
+#' @param mahalanobis logical: use mahalanobis distance
+#' @param mc.cores integer: amount of cores used for parallel processing.
+#' @return matrix or array of estimates.
+#' @seealso \code{\link{proc.weight}}, \code{\link{fixLMtps}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' library(shapes)
+#' proc <- procSym(gorf.dat)
+#' #use the closest 3 specimen based on the first 4 landmarks
+#' #to estimate the shape
+#' estim <- NNshapeReg(proc$rotated[1:4,,],proc$rotated,n=3)
+#' #compare estimation and true config
+#' plot(proc$rotated[,,1],asp=1)
+#' points(estim[,,1],col=2)
+#' 
+#' 
+#' @export NNshapeReg
 NNshapeReg <- function(x,y=NULL, n=3, mahalanobis=FALSE,mc.cores = detectCores())
   {
       if (is.null(y))

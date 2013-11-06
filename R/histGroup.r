@@ -1,3 +1,38 @@
+#' plot histogram for multiple groups.
+#' 
+#' plot a histogram for multiple groups, each group colored individually
+#' 
+#' Just a wrapper for the function hist from the "graphics" package
+#' 
+#' @param data vector containing data.
+#' @param groups grouping factors
+#' @param main,xlab,ylab these arguments to title have useful defaults here.
+#' @param col vector containing color for each group. If NULL, the function
+#' "rainbow" is called.
+#' @param alpha numeric between 0 and 1. Sets the transparency of the colors
+#' @param breaks one of: \itemize{
+#' \item a vector giving the breakpoints between histogram cells,
+#' \item a single number giving the number of cells for the histogram,
+#' \item a character string naming an algorithm to compute the number of cells (see \sQuote{Details}),
+#' \item a function to compute the number of cells.  } In the last three cases the number is a suggestion only.
+#' @param legend logical: if TRUE, a legend is plotted
+#' @param legend.x x position of the legend from the upper left corner
+#' @param legend.y y position of the legend from the upper left corners
+#' @param legend.pch integer: define the symbol to visualise group colors
+#' (\code{\link{points}})
+#' @param freq logical: if TRUE, the histogram graphic is a representation of
+#' frequencies, the counts component of the result; if FALSE, probability
+#' densities are plotted for each group.
+#' @author Stefan Schlager
+#' @seealso \code{\link{hist}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' data(iris)
+#' histGroup(iris$Petal.Length,iris$Species)
+#' 
+#' 
+#' @export histGroup
 histGroup <- function(data,groups, main=paste("Histogram of" , dataname),xlab=dataname,ylab,col=NULL, alpha=0.5,breaks="Sturges",legend=TRUE,legend.x=80,legend.y=80,legend.pch=15,freq=TRUE)
   {
     out <- list()

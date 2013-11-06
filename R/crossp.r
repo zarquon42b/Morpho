@@ -1,3 +1,5 @@
+#' @rdname tanplan
+#' @export crossp
 crossp <- function(x,y)
 {	
 	out <- c(0,0,0)

@@ -1,35 +1,26 @@
 \name{qqmat}
 \alias{qqmat}
-\title{Q-Q plot to assess normality of data
-}
-\description{
-qqmat plots Mahalanobisdistances of a given sample against those expected
-from a Gaussian distribution}
+\title{Q-Q plot to assess normality of data}
 \usage{
-qqmat(x, output = FALSE, square = TRUE)
+  qqmat(x, output = FALSE, square = TRUE)
 }
 \arguments{
-  \item{x}{sample data: matrix or vector
-}
-  \item{output}{logical: if TRUE results are returned
-}
-  \item{square}{plot in a square window - outliers might be cut off.
-}
-}
+  \item{x}{sample data: matrix or vector}
 
-\value{if output=TRUE, the following values are returned
-  \item{x }{Distances from an expected Gaussian distribution}
-  \item{y }{Observed distances - sorted}
-   \item{d }{Observed distances - unsorted}
+  \item{output}{logical: if TRUE results are returned}
+
+  \item{square}{plot in a square window - outliers might be
+  cut off.}
 }
-
-\author{
-  Stefan Schlager
+\value{
+  if \code{output=TRUE}, the following values are returned
+  \item{x }{distances from an expected Gaussian
+  distribution} \item{y }{observed distances - sorted}
+  \item{d }{observed distances - unsorted}
 }
-
-
-\seealso{
- \code{\link{qqplot}}
+\description{
+  qqmat plots Mahalanobisdistances of a given sample
+  against those expected from a Gaussian distribution
 }
 \examples{
 require(MASS)
@@ -41,5 +32,12 @@ qqmat(data)
 data1 <- rchisq(100,df=3)
 qqmat(data1,square=FALSE)
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\author{
+  Stefan Schlager
+}
+\seealso{
+  \code{\link{qqplot}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

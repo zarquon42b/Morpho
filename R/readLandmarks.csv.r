@@ -1,3 +1,23 @@
+#' import landmark data from csv files
+#' 
+#' import landmark data from csv files
+#' 
+#' 
+#' @param file character: path to file containing landmark data.
+#' @param x either a vector specifiing which rows are to be imported, or
+#' character vector containing variable names to be sought for.
+#' @param y a vector specifiing, which columns of the speradsheet ist to be
+#' imported.
+#' @param rownames integer: specifies columns, where variable names are stored.
+#' @param header logical : if spreadsheet contains header-row.
+#' @param dec character: defines decimal sepearator.
+#' @param sep character: defines column seperator.
+#' @return
+#' \item{LM }{matrix containing imported data}
+#' \item{NAs }{vector containing rows containing NAs}
+#' @author Stefan Schlager
+#' @seealso \code{\link{read.table}}
+#' @export readLandmarks.csv
 readLandmarks.csv <- function(file, x, y=2:4, rownames=NULL, header=TRUE, dec=".", sep=";")
 {	
 	

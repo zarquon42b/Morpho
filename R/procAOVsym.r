@@ -1,3 +1,36 @@
+#' Procrustes ANOVA for structures with object symmetry
+#' 
+#' Procrustes ANOVA for structures with object symmetry, currently only
+#' supporting the factors 'specimen', 'side' and the interaction term.
+#' 
+#' performs a Procrustes ANOVA for configurations with object symmetry (as
+#' described in Klingenberg et al. 2002).
+#' 
+#' @param symproc object returned by \code{\link{procSym}}, where
+#' \code{pairedLM} is specified
+#' @param indnames vector containing specimen identifiers. Only necessary, if
+#' data does not contain dimnames containing identifiers
+#' @return returns a dataframe containing Sums of Squares for each factor.
+#' @note In future releases the implementation of support for bilateral
+#' symmetry and more factors is intended.
+#' @author Stefan Schlager
+#' @seealso \code{\link{procSym}}
+#' @references Klingenberg CP, Barluenga M, Meyer A. 2002. Shape analysis of
+#' symmetric structures: quantifying variation among individuals and asymmetry.
+#' Evolution 56:1909-20.
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' data(boneData)
+#' left <- c(4,6,8)
+#' ## determine corresponding Landmarks on the right side:
+#' # important: keep same order
+#' right <- c(3,5,7)
+#' pairedLM <- cbind(left,right)
+#' symproc <- procSym(boneLM, pairedLM=pairedLM)
+#' procAOVsym(symproc)
+#' 
+#' @export procAOVsym
 procAOVsym <- function(symproc,indnames=NULL)
   {
     

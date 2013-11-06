@@ -1,3 +1,5 @@
+#' @rdname mesh2mesh
+#' @export ray2mesh
 ray2mesh <- function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE)
 { 
 

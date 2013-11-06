@@ -1,3 +1,67 @@
+#' calculate relative Warp analysis
+#' 
+#' After Procrustes registration the data is scaled by the bending energy or
+#' its inverse to emphasize global/local differences when exploring a sample's
+#' shape.
+#' 
+#' 
+#' @param data Input k x m x n real array, where k is the number of points, m
+#' is the number of dimensions, and n is the sample size.
+#' @param scale Logical: indicating if scaling is requested
+#' @param CSinit Logical: if TRUE, all configurations are initially scaled to
+#' Unit Centroid Size.
+#' @param alpha integer: power of the bending energy matrix. If alpha = 0 then
+#' standard Procrustes PCA is carried out. If alpha = 1 then large scale
+#' differences are emphasized, if alpha = -1 then small scale variations are
+#' emphasised.
+#' @param tol tolerance for the eigenvalues of the bending energy matrix to be
+#' zero
+#' @param orp logical: request orthogonal projection into tangent space.
+#' @return
+#' \item{bescores }{relative warp scores}
+#' \item{uniscores }{uniform scores}
+#' \item{Var }{non-affine variation explained by each relative warp}
+#' \item{mshape }{sample's conensus shape}
+#' \item{rotated }{Procrustes superimposed data}
+#' \item{bePCs }{vector basis of nonaffine shape variation- relative warps}
+#' \item{uniPCs }{vector basis of affine shape variation - uniform
+#' component}
+#' @author Stefan Schlager
+#' @references Bookstein FL 1989. Principal Warps: Thin-plate splines and the
+#' decomposition of deformations. IEEE Transactions on pattern analysis and
+#' machine intelligence 11. Bookstein FL, 1991. Morphometric tools for landmark
+#' data. Geometry and biology. Cambridge Univ. Press, Cambridge.
+#' 
+#' Rohlf FJ, Bookstein FL 2003. Computing the Uniform Component of Shape
+#' Variation. Systematic Biology 52:66-69.
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(car)
+#' data(boneData)
+#' pop <- name2factor(boneLM,which=3)
+#' rW <- relWarps(boneLM, alpha = -1)
+#' # plot first 5 relative warps scores grouped by population
+#' spm(rW$bescores[,1:5],group=pop)
+#' # plot uniform component scores grouped by population
+#' spm(rW$uniscores[,1:5],group=pop)
+#' ##plot non-affine variance associated with each relative warp
+#' barplot(rW$Var[,2], xlab="relative Warps")
+#' 
+#' ## 2D example:
+#' require(shapes)
+#' data <- bindArr(gorf.dat, gorm.dat, along=3)
+#' sex <- factor(c(rep("fem", dim(gorf.dat)[3]), rep("male",dim(gorm.dat)[3])))
+#' rW <- relWarps(data, alpha = -1)
+#' # plot first 3 relative warps scores grouped by population
+#' spm(rW$bescores[,1:3],group=sex)
+#' # plot uniform component scores grouped by population
+#' spm(rW$uniscores[,1:2],group=sex)
+#' ##plot non-affine variance associated with each relative warp
+#' barplot(rW$Var[,2], xlab="relative Warps")
+#' 
+#' 
+#' @export relWarps
 relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
 {
     #n <- dim(data)[3]

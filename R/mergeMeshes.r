@@ -1,3 +1,27 @@
+#' merge multiple triangular meshes into a single one
+#' 
+#' merge multiple triangular meshes into a single one, preserving color and
+#' vertex normals.
+#' 
+#' 
+#' @param \dots triangular meshes of class \code{'mesh3d'} to merge or a list
+#' of triangular meshes.
+#' 
+#' @return returns the meshes merged into a single one.
+#' @seealso \code{\link{mesh2ply}, \link{file2mesh}, \link{ply2mesh}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' data(boneData)
+#' data(nose)
+#' mergedMesh <- mergeMeshes(shortnose.mesh, skull_0144_ch_fe.mesh)
+#' \dontrun{
+#' require(rgl)
+#' shade3d(mergedMesh, col=3)
+#' }
+#' 
+#' @export mergeMeshes
 mergeMeshes <- function(...)
 {
     args <- list(...)

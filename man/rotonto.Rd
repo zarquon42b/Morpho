@@ -1,68 +1,62 @@
 \name{rotonto}
 \alias{rotonto}
 \alias{rotreverse}
-
-
-\title{rotates, translates and scales one matrix onto an other using
-  Procrustes fitting
-}
-\description{
-rotate a matrix onto an other without loosing information about the
-location of the targetmatrix
-and reverse this transformations using rotreverse
-}
+\title{rotates, translates and scales one matrix onto an other using Procrustes
+fitting}
 \usage{
-rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE, weights
-= NULL, centerweight = FALSE)
-rotreverse(mat,rot)
+  rotonto(x, y, scale = FALSE, signref = TRUE,
+    reflection = TRUE, weights = NULL,
+    centerweight = FALSE)
+
+  rotreverse(mat, rot)
 }
 \arguments{
-  \item{x}{k x m matrix to be rotated onto (targetmatrix)
-}
-  \item{y}{k x m matrix which will be rotated (reference matrix)
-}
-  \item{scale}{logical: scale matrix to minimize sums of squares
-}
-  \item{signref}{logical: report if reflections were involved in the rotation
-} \item{mat}{matrix on which the reverse transformations have to be applied
-}
- \item{rot}{an object resulting from the former application of rotonto
-}
-\item{reflection}{allow reflections.
+  \item{x}{k x m matrix to be rotated onto (targetmatrix)}
 
-}
-\item{weights}{vector of length k, containing weights for each
-  landmark. 
-}
-\item{centerweight}{logical: if weights are defined and
-  centerweigths=TRUE, the matrix will be centered according to these
-  weights instead of the barycenter.
+  \item{y}{k x m matrix which will be rotated (reference
+  matrix)}
 
-}
+  \item{scale}{logical: scale matrix to minimize sums of
+  squares}
 
+  \item{signref}{logical: report if reflections were
+  involved in the rotation}
+
+  \item{mat}{matrix on which the reverse transformations
+  have to be applied}
+
+  \item{rot}{an object resulting from the former
+  application of rotonto}
+
+  \item{reflection}{allow reflections.}
+
+  \item{weights}{vector of length k, containing weights for
+  each landmark.}
+
+  \item{centerweight}{logical: if weights are defined and
+  centerweigths=TRUE, the matrix will be centered according
+  to these weights instead of the barycenter.}
 }
 \value{
-  	\item{yrot }{rotated and translated matrix}
- 	 \item{Y }{centred and rotated reference matrix }
-	\item{X }{centred target matrix }
-	\item{trans }{vector between original position of target and centered reference (during rotation process) }
-	\item{transy }{vector between original position of reference and centered reference (during rotation process) }	
-	\item{gamm }{rotation matrix }
-	\item{bet }{scaling factor applied }
-	\item{reflect }{if reflect = 1, reflections are involved in the
-	  superimposition. Else, reflect = 0 }	
+  \item{yrot }{rotated and translated matrix} \item{Y
+  }{centred and rotated reference matrix} \item{X }{centred
+  target matrix} \item{trans }{vector between original
+  position of target and centered reference (during
+  rotation process)} \item{transy }{vector between original
+  position of reference and centered reference (during
+  rotation process)} \item{gamm }{rotation matrix}
+  \item{bet }{scaling factor applied} \item{reflect }{if
+  \code{reflect = 1}, reflections are involved in the
+  superimposition. Else, reflect = 0}
 }
-\references{
-  Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C. (1976). A solution to the weighted Procrustes problem
-in which the transformation is in agreement with the loss function. Psychometrika, 41,547-550.
-
+\description{
+  rotates, translates and scales one matrix onto an other
+  using Procrustes fitting
 }
-\author{
-Stefan Schlager}
-
-
-\seealso{
- \code{\link{rotmesh.onto}}
+\details{
+  rotate a matrix onto an other without loosing information
+  about the location of the targetmatrix and reverse this
+  transformations using rotreverse
 }
 \examples{
 library(shapes)
@@ -72,7 +66,19 @@ plot(rot$yrot,pch=19,xlim=lims,ylim=lims) ## view result
 points(gorf.dat [,,2],pch=19,col=2) ## view original config
 rev1 <- rotreverse(rot$yrot,rot)
 points(rev1,cex=2) ### show inversion by larger circles around original configuration
-
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\author{
+  Stefan Schlager
+}
+\references{
+  Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C.
+  (1976). A solution to the weighted Procrustes problem in
+  which the transformation is in agreement with the loss
+  function. Psychometrika, 41,547-550.
+}
+\seealso{
+  \code{\link{rotmesh.onto}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

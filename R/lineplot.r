@@ -1,3 +1,34 @@
+#' plot lines between landmarks
+#' 
+#' add lines connecting landmarks to visualise a sort of wireframe
+#' 
+#' 
+#' @param x matrix containing 2D or 3D landmarks 
+#' @param point vector or list of vectors containing rowindices of x,
+#' determining which landmarks to connect.
+#' @param col color of lines
+#' @param lwd line width
+#' @param line_antialias logical: smooth lines
+#' @param add logical: add to existing plot
+#' @note works with 2D and 3D configurations
+#' @author Stefan Schlager
+#' @seealso \code{\link{pcaplot3d}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' library(shapes)
+#' ##2D example
+#' plot(gorf.dat[,,1],asp=1)
+#' lineplot(gorf.dat[,,1],point=c(1,5:2,8:6,1),col=2)
+#' 
+#' ##3D example
+#' data(nose)
+#' points3d(shortnose.lm[1:9,])
+#' lineplot(shortnose.lm[1:9,],point=list(c(1,3,2),c(3,4,5),c(8,6,5,7,9)),col=2)
+#' 
+#' 
+#' @export lineplot
 lineplot <- function(x,point,col=1,lwd=1,line_antialias = FALSE,add=TRUE)
 {
   

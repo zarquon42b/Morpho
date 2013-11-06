@@ -1,46 +1,34 @@
 \name{CreateL}
 \alias{CreateL}
-\title{Create Matrices necessary for Thin-Plate Spline
-}
-\description{Create (Bending Engergy) Matrices necessary for Thin-Plate
-  Spline, and sliding of Semilandmarks
-}
+\title{Create Matrices necessary for Thin-Plate Spline}
 \usage{
-CreateL(matrix, lambda = 0, blockdiag = TRUE)
+  CreateL(matrix, lambda = 0, blockdiag = TRUE)
 }
 \arguments{
-  \item{matrix}{ k x 3 or k x 2 matrix containing landmark coordinates.
-  }
-  \item{lambda}{numeric: regularization factor
-  }
-  \item{blockdiag}{logical: request blockdiagonal matrix Lsubk3 needed
-    for sliding of semilandmarks.
-  }
+  \item{matrix}{k x 3 or k x 2 matrix containing landmark
+  coordinates.}
+
+  \item{lambda}{numeric: regularization factor}
+
+  \item{blockdiag}{logical: request blockdiagonal matrix
+  Lsubk3 needed for sliding of semilandmarks.}
 }
 \value{
-
   \item{L }{Matrix L as specified in Bookstein (1989)}
-  \item{Linv }{Inverse of matrix L as specified in Bookstein (1989)}
-  \item{Lsubk }{uper left k x k submatrix of \code{Linv}}
-  \item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and
-  \code{\link{relaxLM}}. Only available if \code{blockdiag = TRUE}.
-  }
+  \item{Linv }{Inverse of matrix L as specified in
+  Bookstein (1989)} \item{Lsubk }{uper left k x k submatrix
+  of \code{Linv}} \item{Lsubk3 }{Matrix used for sliding in
+  \code{\link{slider3d}} and \code{\link{relaxLM}}. Only
+  available if \code{blockdiag = TRUE}}
 }
-\references{
-  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in
-  Three Dimensions, in Modern Morphometrics in Physical
-  Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer
-  Academic/Plenum Publishers. 
-
-  Bookstein FL. 1989. Principal Warps: Thin-plate splines and the decomposition of deformations. IEEE Transactions on pattern analysis and machine intelligence 11(6). 
+\description{
+  Create (Bending Engergy) Matrices necessary for
+  Thin-Plate Spline, and sliding of Semilandmarks
 }
-
-\note{This function is not intended to be called directly - except for
-  playing around to grasp the mechansims of the Thin-Plate Spline.
-}
-
-\seealso{
-  \code{\link{tps3d}, \link{warp.mesh}}
+\note{
+  This function is not intended to be called directly -
+  except for playing around to grasp the mechansims of the
+  Thin-Plate Spline.
 }
 \examples{
 require(rgl)
@@ -48,7 +36,7 @@ data(boneData)
 L <- CreateL(boneLM[,,1])
 ## calculate Bending energy between first and second specimen:
 be <- t(boneLM[,,2])\%*\%L$Lsubk\%*\%boneLM[,,2]
-## calculate Frobenius norm 
+## calculate Frobenius norm
 sqrt(sum(be^2))
 ## the amount is dependant on on the squared scaling factor
 # scale landmarks by factor 5 and compute bending energy matrix
@@ -59,6 +47,20 @@ L2 <- CreateL(boneLM[,,2])
 be3 <- t(boneLM[,,1])\%*\%L2$Lsubk\%*\%boneLM[,,1]
 sqrt(sum(be3^2))
 }
+\references{
+  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
+  Semilandmarks in Three Dimensions, in Modern
+  Morphometrics in Physical Anthropology. Edited by D. E.
+  Slice, pp. 73-98. New York: Kluwer Academic/Plenum
+  Publishers.
 
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+  Bookstein FL. 1989. Principal Warps: Thin-plate splines
+  and the decomposition of deformations. IEEE Transactions
+  on pattern analysis and machine intelligence 11(6).
+}
+\seealso{
+  \code{\link{tps3d}, \link{warp.mesh}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

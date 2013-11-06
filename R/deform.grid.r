@@ -1,3 +1,33 @@
+#' visualise differences between two superimposed sets of 3D landmarks
+#' 
+#' visualise differences between two superimposed sets of 3D landmarks by
+#' deforming a cubic grid based on a thin-plate spline interpolation
+#' 
+#' 
+#' @param matrix reference matrix containing 3D landmark coordinates.
+#' @param tarmatrix target matrix containing 3D landmark coordinates.
+#' @param ngrid number of grid lines to be plotted; ngrid=0 suppresses grid
+#' creation.
+#' @param lwd width of lines connecting landmarks.
+#' @param showaxis integer (vector): which dimensions of the grid to be
+#' plotted. Options are combinations of 1,2 and 3.
+#' @param both logical: if FALSE, only "matrix" will be plotted.
+#' @param lines logical: if TRUE, lines between landmarks will be plotted.
+#' @param lcol color of lines
+#' @param add logical: add to existing rgl window.
+#' @param col1 color of "matrix"
+#' @param col2 color of "tarmat"
+#' @param type "s" renders landmarks as spheres; "p" as points - much faster
+#' for very large pointclouds.
+#' @author Stefan Schlager
+#' @seealso \code{\link{tps3d}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' data(nose)
+#' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
+#' 
+#' @export deformGrid3d
 deformGrid3d <- function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=T,lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"))
 {
     type <- type[1]

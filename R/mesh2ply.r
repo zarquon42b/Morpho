@@ -1,3 +1,40 @@
+#' export mesh objects to disk.
+#' 
+#' export an object of class \code{mesh3d} or a set of coordinates to a common
+#' mesh file.
+#' 
+#' 
+#' @title export mesh objects to disk
+#' @param x object of class \code{mesh3d} - see rgl documentation for further
+#' details or a matrix containing vertices, this can either be a \code{k x 3}
+#' or a \code{3 x k} matrix, with rows or columns containing vertex
+#' coordinates.
+#' @param filename character: Path/name of the requested output - extension
+#' will be added atuomatically. If not specified, the file will be named as the
+#' exported object.
+#' @param col Writes color information to ply file. Can be either a single
+#' color value or a vector containing a color value for each vertex of the
+#' mesh.
+#' @param writeNormals logical: if TRUE, existing normals of a mesh are written
+#' to file - can slow things down for very large meshes.
+#' @author Stefan Schlager
+#' @seealso \code{\link{ply2mesh}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' vb <- c(-1.8,-1.8,-1.8,1.0,1.8,-1.8,-1.8,1.0,-1.8,1.8,-1.8,1.0,1.8,
+#' 1.8,-1.8,1.0,-1.8,-1.8,1.8,1.0,1.8,
+#' -1.8,1.8,1.0,-1.8,1.8,1.8,1.0,1.8,1.8,1.8,1.0)
+#' it <- c(2,1,3,3,4,2,3,1,5,5,7,3,5,1,2,2,6,5,6,8,7,7,5,6,7,8,4,4,3,7,4,8,6,6,2,4)
+#' vb <- matrix(vb,4,8) ##create vertex matrix
+#' it <- matrix(it,3,12) ## create face matrix
+#' cube<-list(vb=vb,it=it)
+#' class(cube) <- "mesh3d"
+#' shade3d(cube,col=3) ## view the green cube
+#' mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
+#' @rdname mesh2ply
+#' @export mesh2ply
 mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)
 {	
     dataname <- deparse(substitute(x))

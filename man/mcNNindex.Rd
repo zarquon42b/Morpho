@@ -1,37 +1,37 @@
 \name{mcNNindex}
 \alias{mcNNindex}
-\title{
-find nearest neighbours for point clouds
-}
-\description{find nearest neighbours for point clouds by using
-  algorithms from the ANN library. This is just a wrapper for the
-  function ann from the package yaImpute, enabling parallel processing.
-
-}
+\title{find nearest neighbours for point clouds}
 \usage{
-mcNNindex(target, query, cores = detectCores(), k = k, ...)
+  mcNNindex(target, query, cores = detectCores(), k = k,
+    ...)
 }
 \arguments{
-  \item{target}{\code{k x m} matrix containing data which to search.
-}
-  \item{query}{\code{l x m} matrix containing data for which to search.
-}
-  \item{cores}{integer: amount of CPU-cores to be used. Speed benefits
-    are only relevant for \code{k > 20}
-}
-  \item{k}{integer: how many closest points are sought.
-}
-  \item{\dots}{additional arguments - currently unused.
+  \item{target}{\code{k x m} matrix containing data which
+  to search.}
 
-  }
+  \item{query}{\code{l x m} matrix containing data for
+  which to search.}
+
+  \item{cores}{integer: amount of CPU-cores to be used.
+  Speed benefits are only relevant for \code{k > 20}}
+
+  \item{k}{integer: how many closest points are sought.}
+
+  \item{\dots}{additional arguments - currently unused.}
+}
+\value{
+  \code{l x k } matrix containing indices of closest
+  points.
+}
+\description{
+  find nearest neighbours for point clouds by using
+  algorithms from the ANN library. This is just a wrapper
+  for the function ann from the package yaImpute, enabling
+  parallel processing.
 }
 \details{
-wraps the function \code{ann} from package 'yaImpute' to allow multicore
-processing}
-\value{ \code{l x k } matrix containing indices of closest points.
-}
-
-\seealso{ \code{\link{closemeshKD}}
+  wraps the function \code{ann} from package 'yaImpute' to
+  allow multicore processing
 }
 \examples{
 require(rgl)
@@ -45,6 +45,9 @@ spheres3d(shortnose.lm,radius=0.3)
 wire3d(shortnose.mesh)
 }
 }
+\seealso{
+  \code{\link{closemeshKD}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
 
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }

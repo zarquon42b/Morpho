@@ -1,3 +1,69 @@
+#' perfom permutation testing on angles and distances between subgroups of two
+#' major groups.
+#' 
+#' 
+#' perform permutation test on length and angle of the vectors connecting the
+#' subgroup means of two groups: e.g. compare if length and angle between sex
+#' related differences in two populations differ significantly.
+#' 
+#' This function calculates means of all four subgroups and compares the
+#' residual vectors of the major grouping variables by angle and distance.
+#' 
+#' @param data array or matrix containing data.
+#' @param groups factors of firs two grouping variables.
+#' @param subgroups factors of the subgrouping.
+#' @param rounds number of requested permutation rounds
+#' @param scale if TRUE: data will be scaled by pooled within group covarivance
+#' matrix. Otherwise Euclidean distance will be used for calculating distances.
+#' @param tol threshold for inverting covariance matrix.
+#' @param mc.cores integer: determines how many cores to use for the
+#' computation. The default is autodetect. But in case, it doesn't work as
+#' expected cores can be set manually.Parallel processing is disabled on
+#' Windows due to occasional errors.
+#' @return
+#' \item{angle }{angle between the vectors of the subgroups means}
+#' \item{dist }{distances between subgroups}
+#' \item{meanvec }{matrix containing the means of all four subgroups}
+#' \item{permutangles }{vector containing angles (in radians) from random permutation}
+#' \item{permudists }{vector containing distances from random permutation}
+#' \item{p.angle }{p-value of angle between residual vectors}
+#' \item{p.dist }{p-value of length difference between residual vectors}
+#' \item{subdist }{length of residual vectors connecting the subgroups}
+#' means.
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' data(boneData)
+#' proc <- procSym(boneLM)
+#' pop <- name2factor(boneLM,which=3)
+#' sex <- name2factor(boneLM,which=4)
+#' ## use non scaled distances by setting \code{scale = FALSE}
+#' ## and only use first 10 PCs
+#' perm <- permuvec(proc$PCscores[,1:10], groups=pop, subgroups=sex,
+#'                  scale=FALSE, rounds=100, mc.cores=2)
+#' 
+#' 
+#' ## visualize if the amount of sexual dimorphism differs between
+#' # (lenghts of vectors connecting population specific sex's averages)
+#' # differs between European and Chines
+#' hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
+#'      xlab="distances")
+#' points(perm$dist,10,col=2,pch=19)#actual distance
+#' text(perm$dist,15,label=paste("actual distance\n
+#'      (p=",perm$p.dist,")"))
+#' ## not significant!!
+#' 
+#' ## visualize if the direction of sexual dimorphism
+#' # (angle between vectors connecting population specific sex's averages)
+#' # differs between European and Chines
+#' hist(perm$permutangles, main="measured vs. random angles",
+#'      xlab="angles")
+#' points(perm$angle,10,col=2,pch=19)#actual distance
+#' text(perm$angle,15,label=paste("actual distance\n
+#'     (p=",perm$p.angle,")"))
+#' ## also non-significant
+#' 
+#' @export permuvec
 permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
 {
   win <- FALSE

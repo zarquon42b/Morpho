@@ -1,3 +1,142 @@
+#' Procrustes registration
+#' 
+#' \code{procSym} performs Procrustes superimposition including sliding of
+#' semi-landmarks on curves/outlines in 2D and 3D.
+#' 
+#' This function performs Procrustes registration, allowing a variety of
+#' options, including scaling, orthogonal projection into tangentspace and
+#' relaxation of semi-landmarks on curves (without reprojection onto the
+#' surface/actual outline). It also allows the superimpositioning to be
+#' performed using only a subset of the available landmark.  For taking into
+#' account object symmetry, \code{pairedLM} needs to be set. This generates an
+#' object of class \code{"symproc"}. Otherwise an object of class
+#' \code{"nosymproc"}.
+#' 
+#' @param dataarray Input k x m x n real array, where k is the number of
+#' points, m is the number of dimensions, and n is the sample size.
+#' @param scale logical: indicating if scaling is requested
+#' @param reflect logical: allow reflections.
+#' @param CSinit logical: if TRUE, all configurations are initially scaled to
+#' Unit Centroid Size.
+#' @param orp logical: if TRUE, an orthogonal projection at the meanshape into
+#' tangent space is performed.
+#' @param tol numeric: Threshold for convergence in the sliding process
+#' @param pairedLM A X x 2 matrix containing the indices (rownumbers) of the
+#' paired LM. E.g. the left column contains the lefthand landmarks, while the
+#' right side contains the corresponding right hand landmarks.
+#' @param sizeshape Logical: if TRUE, a log transformed variable of Centroid
+#' Size will be added to the shapedata as first variable before performing the
+#' PCA.
+#' @param use.lm vector of integers to define a subset of landmarks to be used
+#' for Procrustes registration.
+#' @param center.part Logical: if TRUE, the data superimposed by the subset
+#' defined by use.lm will be centered according to the centroid of the complete
+#' configuration. Otherwise orp will be set to FALSE to avoid erroneous
+#' projection into tangent space.
+#' @param distfun character: "riemann" requests a Riemannian distance for
+#' calculating distances to mean, while "angle" uses an approximation by
+#' calculating the angle between rotated shapes on the unit sphere.
+#' @param SMvector A vector containing the landmarks on the curve(s) that are
+#' allowed to slide
+#' @param outlines A vector (or if threre are several curves) a list of vectors
+#' (containing the rowindices) of the (Semi-)landmarks forming the curve(s) in
+#' the successive position on the curve - including the beginning and end
+#' points, that are not allowed to slide.
+#' @param deselect Logical: if TRUE, the SMvector is interpreted as those
+#' landmarks, that are not allowed to slide.
+#' @param recursive Logical: if TRUE, during the iterations of the sliding
+#' process, the outcome of the previous iteration will be used.  Otherwise the
+#' original configuration will be used in all iterations.
+#' @param iterations integer: select manually how many iterations will be
+#' performed during the sliding process (usefull, when there is very slow
+#' convergence).  0 means iteration until convergence.
+#' @param initproc Logical: indicating if the first Relaxation step is
+#' performed against the mean of an initial Procrustes superimposition.
+#' Symmetric configurations will be relaxed against a perfectly symmetrical
+#' mean.
+#' @return
+#' \item{size }{a vector containing the Centroid Size of the configurations}
+#' \item{rotated }{k x m x n array of the rotated configurations}
+#' \item{Sym }{k x m x n array of the Symmetrical component - only
+#' available for the "Symmetry"-Option (when pairedLM is defined)}
+#' \item{Asym }{k x m x n array of the Asymmetrical component - only
+#' available for the "Symmetry"-Option (when pairedLM is defined)}
+#' \item{asymmean }{k x m matrix of mean asymmetric deviation from
+#' symmetric mean}
+#' \item{mshape }{sample meanshape}
+#' \item{symmean }{meanshape of symmetrized configurations}
+#' \item{tan }{if orp=TRUE: Residuals in tangentspace else, Procrustes
+#' residuals - only available without the "Symmetrie"-Option}
+#' \item{PCs }{Principal Components - if sizeshape=TRUE, the first variable
+#' of the PCs is size information (as log transformed Centroid Size)}
+#' \item{PCsym }{Principal Components of the Symmetrical Component}
+#' \item{PCasym }{Principal Components of the Asymmetrical Component}
+#' \item{PCscores }{PC scores}
+#' \item{PCscore_sym }{PC scores of the Symmetrical Component}
+#' \item{PCscore_asym }{PC scores of the Asymmetrical Component}
+#' \item{eigenvalues }{eigenvalues of the Covariance matrix}
+#' \item{eigensym }{eigenvalues of the "Symmetrical" Covariance matrix}
+#' \item{eigenasym }{eigenvalues of the "Asymmetrical" Covariance matrix}
+#' \item{Variance }{Table of the explained Variance by the PCs}
+#' \item{SymVar }{Table of the explained "Symmetrical" Variance by the PCs}
+#' \item{AsymVar }{Table of the explained "Asymmetrical" Variance by the PCs}
+#' \item{orpdata }{k x m x n array of the rotated configurations projected
+#' into tangent space}
+#' \item{rho }{vector of Riemannian distance from the mean}
+#' \item{dataslide }{array containing slidden Landmarks in the original
+#' space - not yet processed by a Procrustes analysis. Only available if a
+#' sliding process was requested}
+#' @note For processing of surface landmarks or including the reprojection of
+#' slid landmarks back onto 3D-surface representations, the usage of
+#' \code{\link{slider3d}} is recommended.
+#' @author Stefan Schlager
+#' @seealso \code{\link{slider3d}}
+#' @references Dryden IL, and Mardia KV. 1998. Statistical shape analysis.
+#' Chichester.
+#' 
+#' Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of symmetric
+#' structures: quantifying variation among individuals and asymmetry. Evolution
+#' 56(10):1909-1920.
+#' 
+#' Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005. Semilandmarks in Three
+#' Dimensions, in Modern Morphometrics in Physical Anthropology. Edited by D.
+#' E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' data(boneData)
+#' 
+#' ### do an analysis of symmetric landmarks
+#' ## visualize landmarks on surface
+#' \dontrun{
+#'  spheres3d(boneLM[,,1])
+#' wire3d(skull_0144_ch_fe.mesh,col=3)
+#' ## get landmark numbers
+#' text3d(boneLM[,,1],text=paste(1:10),adj = 1, cex=3)
+#' }
+#' ## determine paired Landmarks left side:
+#' left <- c(4,6,8)
+#' ## determine corresponding Landmarks on the right side:
+#' # important: keep same order
+#' right <- c(3,5,7)
+#' pairedLM <- cbind(left,right)
+#' symproc <- procSym(boneLM, pairedLM=pairedLM)
+#' ## visualize first 3 PCs of symmetric shape
+#' pcaplot3d(symproc, sym=TRUE)
+#' ## visualize first 3 PCs of asymmetric shape
+#' pcaplot3d(symproc, sym=FALSE)
+#' \dontrun{
+#' ## visualze distribution of symmetric PCscores population
+#' pop <- name2factor(boneLM, which=3)
+#' require(car)
+#' spm(~symproc$PCscore_sym[,1:5], groups=pop)
+#' ## visualze distribution of asymmetric PCscores population
+#' spm(~symproc$PCscore_asym[,1:5], groups=pop)
+#' }
+#' 
+#' 
+#' @export procSym
 procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE)
 {
     t0 <- Sys.time()     

@@ -1,3 +1,30 @@
+#' correlation between a reduced space and the original space
+#' 
+#' Calculates the correlation between distances in a reduced space and the
+#' original space
+#' 
+#' 
+#' @param PCs m x k matrix of Principal Components where m is the k is the
+#' number of PCs.
+#' @param PCscores n x m matrix of Principal Component scores where n is the
+#' number of observations.
+#' @param x integer: increment for every x-th PC the subspace to fullspace
+#' correlation will be calculated.
+#' @param plot.type "b"=barplot of correlation values, "s"=line between
+#' correlation values.
+#' @return a vector of R-squared values between subspace and fullspace
+#' distances and a barplot depicting the correlations belonging to the
+#' subspace.
+#' @author Stefan Schlager
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' library(shapes)
+#' a <- procSym(gorf.dat)
+#' PCdist(a$PCs, a$PCscores, x = 2)
+#' 
+#' 
+#' @export PCdist
 PCdist <- function(PCs,PCscores,x=5,plot.type="b")
 {
 

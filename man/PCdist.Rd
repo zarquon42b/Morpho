@@ -1,36 +1,39 @@
 \name{PCdist}
 \alias{PCdist}
-\title{
- correlation between a reduced space and the original space
-}
-\description{
-Calculates the correlation between distances in a reduced space and the original space
-}
+\title{correlation between a reduced space and the original space}
 \usage{
-PCdist(PCs, PCscores, x = 5, plot.type="b")
+  PCdist(PCs, PCscores, x = 5, plot.type = "b")
 }
 \arguments{
-  \item{PCs}{m x k matrix of Principal Components where m is the k is the number of PCs.
-}
-  \item{PCscores}{n x m matrix of Principal Component scores where n is the number of observations.
-}
-  \item{x}{integer: increment for every x-th PC the subspace to fullspace correlation will be calculated.
-}
- \item{plot.type }{"b"=barplot of correlation values, "s"=line between correlation values.
-}
-}
+  \item{PCs}{m x k matrix of Principal Components where m
+  is the k is the number of PCs.}
 
-\value{a vector of R-squared values between subspace and fullspace distances and a barplot depicting the correlations belonging to the subspace.
+  \item{PCscores}{n x m matrix of Principal Component
+  scores where n is the number of observations.}
+
+  \item{x}{integer: increment for every x-th PC the
+  subspace to fullspace correlation will be calculated.}
+
+  \item{plot.type}{"b"=barplot of correlation values,
+  "s"=line between correlation values.}
 }
-
-\author{
-Stefan Schlager}
-
+\value{
+  a vector of R-squared values between subspace and
+  fullspace distances and a barplot depicting the
+  correlations belonging to the subspace.
+}
+\description{
+  Calculates the correlation between distances in a reduced
+  space and the original space
+}
 \examples{
 library(shapes)
 a <- procSym(gorf.dat)
 PCdist(a$PCs, a$PCscores, x = 2)
-
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\author{
+  Stefan Schlager
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

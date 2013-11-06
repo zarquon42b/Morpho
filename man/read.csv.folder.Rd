@@ -1,51 +1,52 @@
 \name{read.csv.folder}
 \alias{read.csv.folder}
-\title{
-batch import data from files
-}
-\description{
-imports all data files contained in a specified folder.
-}
+\title{batch import data from files}
 \usage{
-read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE, dec
-= ".", sep = ";", pattern = "csv", addSpec=NULL, back = TRUE)
+  read.csv.folder(folder, x, y = 2:4, rownames = NULL,
+    header = TRUE, dec = ".", sep = ";", pattern = "csv",
+    addSpec = NULL, back = TRUE)
 }
 \arguments{
-  \item{folder}{character: path to folder
-}
-  \item{x}{either a vector specifiing which rows are to be imported, or
-    character vector containing variable names to be sought for.
-}
-  \item{y}{a vector specifiing, which columns of the speradsheet ist to be imported.
-}
-  \item{rownames}{integer: specifies columns, where variable names are stored.
-}
-  \item{header}{logical : if spreadsheet contains header-row.
-}
-  \item{dec}{character: defines decimal sepearator.
-}
-  \item{sep}{character: defines column seperator.
-}
-  \item{pattern}{character: specify file format (e.g. csv).
-}
-  \item{addSpec}{character: add a custom specifier to the dimnames of the array.
-}
-  \item{back}{logical: where to place the specifier.
-}
-}
+  \item{folder}{character: path to folder}
 
+  \item{x}{either a vector specifiing which rows are to be
+  imported, or character vector containing variable names
+  to be sought for.}
+
+  \item{y}{a vector specifiing, which columns of the
+  speradsheet ist to be imported.}
+
+  \item{rownames}{integer: specifies columns, where
+  variable names are stored.}
+
+  \item{header}{logical : if spreadsheet contains
+  header-row.}
+
+  \item{dec}{character: defines decimal sepearator.}
+
+  \item{sep}{character: defines column seperator.}
+
+  \item{pattern}{character: specify file format (e.g.
+  csv).}
+
+  \item{addSpec}{character: add a custom specifier to the
+  dimnames of the array.}
+
+  \item{back}{logical: where to place the specifier.}
+}
 \value{
- \item{arr }{array containing imported data}
- \item{NAs }{vector containing position of observations with NAs}
- \item{NA.list }{list: containing vectors containing information which LMs
-   are missing in  which observation}
+  \item{arr }{array containing imported data} \item{NAs
+  }{vector containing position of observations with NAs}
+  \item{NA.list }{list: containing vectors containing
+  information which LMs are missing in which observation}
 }
-
-\author{Stefan Schlager
+\description{
+  imports all data files contained in a specified folder.
 }
-
-
+\author{
+  Stefan Schlager
+}
 \seealso{
-\code{\link{read.table}}
+  \code{\link{read.table}}
 }
 

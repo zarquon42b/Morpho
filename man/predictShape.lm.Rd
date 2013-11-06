@@ -1,42 +1,45 @@
 \name{predictShape.lm}
 \alias{predictShape.lm}
-\title{
-Predict shapes based on linear models calculated from PCscores}
-\description{Predict shapes based on linear models calculated from
-  PCscores. 
-}
+\title{Predict shapes based on linear models calculated from PCscores}
 \usage{
-predictShape.lm(fit, datamod, PC, mshape)
+  predictShape.lm(fit, datamod, PC, mshape)
 }
 \arguments{
-  \item{fit}{model of class \code{lm} where the PCscores are fitted onto 
+  \item{fit}{model of class \code{lm} where the PCscores
+  are fitted onto}
+
+  \item{datamod}{a one-sided "model" formula, of the form
+  \code{~ x1 + x2 + ... + xk}, corresponding to the right
+  hand term in the model used in \code{fit}. If omitted,
+  the predicted shapes of all specimen are calculated based
+  on the fitted values.}
+
+  \item{PC}{Matrix/vector containing Principal components
+  (rotation matrix) corresponding to PC-scores used in
+  \code{fit}.}
+
+  \item{mshape}{matrix of the meanshape's landmarks by
+  which the data was centered before rotation in covariance
+  eigenspace.}
 }
-  \item{datamod}{a one-sided "model" formula, of the form \code{~ x1 +
-      x2 + ... + xk}, corresponding to the right hand term in the model
-    used in \code{fit}. If omitted, the predicted shapes of
-    all specimen are calculated based on the fitted values.
-}
-  \item{PC}{Matrix/vector containing Principal components (rotation
-    matrix) corresponding to PC-scores used in \code{fit}.
-}
-  \item{mshape}{matrix of the meanshape's landmarks by which the data was centered before rotation
-    in covariance eigenspace.
-}
-}
-\details{This function predicts the landmarks based on models calculated
-  from PCscores.
-  
-}
-\section{Warning}{Make sure that the levels of the variables used in
-  \code{datamod} correspond exactly to those used in
-  \code{fit}. Otherwise model matrix will be calculated erroneous.
-  }
 \value{
-  \item{predicted }{array or matrix containing predicted landmark coordinates}
-\item{predictedPC }{matrix containing predicted PC-scores}
+  \item{predicted }{array or matrix containing predicted
+  landmark coordinates} \item{predictedPC }{matrix
+  containing predicted PC-scores}
 }
-\seealso{
-\code{\link{model.matrix}, \link{lm}, \link{formula}}
+\description{
+  Predict shapes based on linear models calculated from
+  PCscores.
+}
+\details{
+  This function predicts the landmarks based on models
+  calculated from PCscores.
+}
+\section{Warning}{
+  Make sure that the levels of the variables used in
+  \code{datamod} correspond exactly to those used in
+  \code{fit}. Otherwise model matrix will be calculated
+  erroneous.
 }
 \examples{
 data(boneData)
@@ -76,8 +79,10 @@ probs <- quantile(somevalue, probs=c(0.05, 0.95))
 popmod <- rep(factor(levels(pop))[2],2)
 datamod <- ~(popmod+probs)
 pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
-
 }
+\seealso{
+  \code{\link{model.matrix}, \link{lm}, \link{formula}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
 
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }

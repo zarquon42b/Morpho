@@ -1,3 +1,36 @@
+#' find nearest neighbours for point clouds
+#' 
+#' find nearest neighbours for point clouds by using algorithms from the ANN
+#' library. This is just a wrapper for the function ann from the package
+#' yaImpute, enabling parallel processing.
+#' 
+#' wraps the function \code{ann} from package 'yaImpute' to allow multicore
+#' processing
+#' 
+#' @param target \code{k x m} matrix containing data which to search.
+#' @param query \code{l x m} matrix containing data for which to search.
+#' @param cores integer: amount of CPU-cores to be used. Speed benefits are
+#' only relevant for \code{k > 20}
+#' @param k integer: how many closest points are sought.
+#' @param \dots additional arguments - currently unused.
+#' 
+#' @return \code{l x k } matrix containing indices of closest points.
+#' @seealso \code{\link{closemeshKD}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' data(nose)
+#' # find closest vertex on surface for each landmark
+#' clost <- mcNNindex(vert2points(shortnose.mesh),shortnose.lm, k=1,
+#' mc.cores=1)
+#' \dontrun{
+#' spheres3d(vert2points(shortnose.mesh)[clost,],col=2,radius=0.3)
+#' spheres3d(shortnose.lm,radius=0.3)
+#' wire3d(shortnose.mesh)
+#' }
+#' 
+#' @export mcNNindex
 mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
     {
         if(.Platform$OS.type == "windows")

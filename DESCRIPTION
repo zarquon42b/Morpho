@@ -5,21 +5,133 @@ Version: 1.0-2
 Date: 2013-11-05
 Author: Stefan Schlager
 Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
-Description: A toolset for Geometric Morphometrics and mesh processing. This includes (among other stuff) mesh deformations based on reference points, permutation tests, detection of outliers, processing of sliding semi-landmarks and semi-automated surface landmark placement.
-SystemRequirements: trimesh_project, rayproject, ply2ascii (http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
-Suggests: car, lattice, ffmanova, pls, shapes
-Depends: 
-   R (>= 3.0.0) 
-Imports:  
-   rgl (>= 0.93.963),
-   colorRamps, 
-   foreach (>= 1.4.0), 
-   MASS, 
-   Matrix (>= 1.0-1), 
-   parallel,
-   yaImpute,
-   doParallel (>= 1.0.6)
+Description: A toolset for Geometric Morphometrics and mesh processing. This
+    includes (among other stuff) mesh deformations based on reference points,
+    permutation tests, detection of outliers, processing of sliding
+    semi-landmarks and semi-automated surface landmark placement.
+SystemRequirements: trimesh_project, rayproject, ply2ascii
+    (http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
+Suggests:
+    car,
+    lattice,
+    ffmanova,
+    pls,
+    shapes
+Depends:
+    R (>= 3.0.0)
+Imports:
+    rgl (>= 0.93.963),
+    colorRamps,
+    foreach (>= 1.4.0),
+    MASS,
+    Matrix (>= 1.0-1),
+    parallel,
+    yaImpute,
+    doParallel (>= 1.0.6)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
 LazyLoad: yes
 URL: http://sourceforge.net/projects/morpho-rpackage/
+Collate:
+    'addo.r'
+    'adnormals.r'
+    'angle.calc.r'
+    'ang.r'
+    'anonymize.r'
+    'barycenter.r'
+    'bindArr.r'
+    'calcGamma.r'
+    'calcTang_U.r'
+    'calcTang_U_s.r'
+    'cExtract.r'
+    'check.lm.r'
+    'closemeshKD.r'
+    'colors.r'
+    'conv2backf.r'
+    'covDist.r'
+    'CreateL.r'
+    'crossp.r'
+    'cSize.r'
+    'CVA.crova.r'
+    'CVAdists.r'
+    'CVA.r'
+    'deform.grid.r'
+    'difplot.lm2D.r'
+    'difplot.lm.r'
+    'eigenPCA.r'
+    'exVar.r'
+    'file2mesh.r'
+    'find.outliers.r'
+    'fixLMtps.r'
+    'fx.r'
+    'gdif.r'
+    'groupPCAcrova.r'
+    'groupPCA.r'
+    'histGroup.r'
+    'kendalldist.r'
+    'lineplot.r'
+    'mcNNindex.r'
+    'mergeMeshes.r'
+    'mesh2grey.r'
+    'mesh2mesh.r'
+    'mesh2obj.r'
+    'mesh2ply.r'
+    'meshcube.r'
+    'meshDist.r'
+    'meshres.r'
+    'Morpho-deprecated.r'
+    'Morpho-package.R'
+    'name2.r'
+    'NNshapeReg.r'
+    'obj2mesh.r'
+    'orp.r'
+    'pcaplot3d.r'
+    'PCdist.r'
+    'permudist.r'
+    'permuvec.r'
+    'place.patch.r'
+    'plot.normals.r'
+    'pls2B.r'
+    'ply2mesh.r'
+    'predictShape.lm.r'
+    'procAOVsym.r'
+    'ProcGPA.r'
+    'procSym.r'
+    'proc.weight.r'
+    'projRead.r'
+    'qqmat.r'
+    'r2morphoj.r'
+    'r2morphologika.r'
+    'ray2mesh.r'
+    'readallTPS.r'
+    'read.csv.folder.r'
+    'readLandmarks.csv.r'
+    'read.lmdta.r'
+    'read.mpp.r'
+    'read.obj.r'
+    'read.pts.r'
+    'regdist.raw.r'
+    'relax.lm.r'
+    'relwarps.r'
+    'rotaxis.r'
+    'rotmesh.onto.r'
+    'rotonmat.r'
+    'rotonto.r'
+    'rot.proc.r'
+    'scalemesh.r'
+    'scaleproc.r'
+    'Semislide.r'
+    'showPC.r'
+    'slider3d.r'
+    'tanplan.r'
+    'tps3d.r'
+    'typprob.r'
+    'vecx.r'
+    'vertex.r'
+    'warp.mesh.r'
+    'warpmovie.matrix.r'
+    'warpmovie.r'
+    'write.obj.r'
+    'write.pts.r'
+    'meshDistMatrix.r'
+    'meshDistZExport.r'

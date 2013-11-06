@@ -1,3 +1,35 @@
+#' correlation between shape space and tangent space
+#' 
+#' performs a partial Procrustes superimposition of landmark data and
+#' calculates the correlation between tangent and shape space.
+#' 
+#' 
+#' @param dataarray Input k x m x n real array, where k is the number of
+#' points, m is the number of dimensions, and n is the sample size.
+#' @param plot Logical: whether to plot the distances between observations.
+#' @param main character string: Title of the plot.
+#' @param rho chose how to calculate distances in shape space. Options:
+#' "riemdist"=Riemannian distance (function from the shapes package-takes along
+#' time to calculate), "angle"=calculates the angle between shape vectors,
+#' "sindist"=sinus of length of residual vector between shape vectors.
+#' @param dist.mat.out Logical: If TRUE, output will contain distance matrices.
+#' @return
+#' \item{cor }{correlation coefficient between distances in shape space and
+#' tangent space}
+#' \item{procSS }{Procrustes Sums of Squares (of full procrustes distance)}
+#' \item{tanSS }{Tangent Sums of Squares}
+#' \item{rhoSS }{Procrustes Sums of Squares (of angle)}
+#' \item{euc.dist }{distance matrix of euclidean distance in Tangent space}
+#' \item{proc.dist }{distance matrix of Procrustes distance in Shape space}
+#' @author Stefan Schlager
+#' @seealso \code{\link{regdist}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' library(shapes)
+#' regdist(gorf.dat)
+#' 
+#' @export regdist
 regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", dist.mat.out=FALSE)
 {     proc <- procSym(dataarray,scale=FALSE)
       x <- proc$rotated

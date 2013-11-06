@@ -1,38 +1,39 @@
-\name{mesh2ply}
-\alias{mesh2ply}
+\name{mesh2obj}
 \alias{mesh2obj}
-\title{
-export mesh objects to disk.
-}
-\description{
-export an object of class \code{mesh3d} or a set of coordinates to a common mesh file.
-}
+\alias{mesh2ply}
+\title{export mesh objects to disk}
 \usage{
-mesh2ply(x, filename = dataname, col = NULL, writeNormals=FALSE)
-mesh2obj(x, filename = dataname)
+  mesh2obj(x, filename = dataname)
+
+  mesh2ply(x, filename = dataname, col = NULL,
+    writeNormals = FALSE)
 }
 \arguments{
-  \item{x}{object of class \code{mesh3d} - see rgl documentation for further
-    details or a matrix containing vertices, this can either be a
-    \code{k x 3} or a \code{3 x k} matrix, with rows or columns
-    containing vertex coordinates.
-}
-  \item{filename}{character: Path/name of the requested output -
-    extension will be added atuomatically. If not specified, the file will be named as the exported object.
-}
- \item{col}{ Writes color information to ply file. Can be either a single color value or a vector containing a color value for each vertex of the mesh.
-}
- \item{writeNormals}{logical: if TRUE, existing normals of a mesh are
-   written to file - can slow things down for very large meshes.
-}
-}
+  \item{x}{object of class \code{mesh3d} - see rgl
+  documentation for further details or a matrix containing
+  vertices, this can either be a \code{k x 3} or a \code{3
+  x k} matrix, with rows or columns containing vertex
+  coordinates.}
 
-\author{Stefan Schlager
+  \item{filename}{character: Path/name of the requested
+  output - extension will be added atuomatically. If not
+  specified, the file will be named as the exported
+  object.}
+
+  \item{col}{Writes color information to ply file. Can be
+  either a single color value or a vector containing a
+  color value for each vertex of the mesh.}
+
+  \item{writeNormals}{logical: if TRUE, existing normals of
+  a mesh are written to file - can slow things down for
+  very large meshes.}
 }
-
-
-\seealso{
-\code{\link{ply2mesh}}
+\description{
+  export mesh objects to disk.
+}
+\details{
+  export an object of class \code{mesh3d} or a set of
+  coordinates to a common mesh file.
 }
 \examples{
 require(rgl)
@@ -47,6 +48,12 @@ class(cube) <- "mesh3d"
 shade3d(cube,col=3) ## view the green cube
 mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\author{
+  Stefan Schlager
+}
+\seealso{
+  \code{\link{ply2mesh}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
 

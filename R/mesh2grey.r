@@ -17,6 +17,19 @@ RGB2Grey <- function(x,coefs = c(0.3, 0.59, 0.11))
     return(greyval)
   }
     
+
+
+#' convert a colored mesh to greyscale.
+#' 
+#' convert the colors of a colored mesh to greyscale values
+#' 
+#' 
+#' @param mesh Object of class mesh3d
+#' @return returns a mesh with material$color replaced by greyscale rgb values.
+#' @author Stefan Schlager
+#' @seealso \code{\link{ply2mesh}},\code{\link{file2mesh}}
+#' @keywords ~kwd1 ~kwd2
+#' @export mesh2grey
 mesh2grey <- function(mesh)
   {
     if (is.null(mesh$material$color))

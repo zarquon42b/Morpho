@@ -1,3 +1,5 @@
+#' @rdname ply2mesh
+#' @export obj2mesh
 obj2mesh <- function(filename,adnormals=TRUE)
 {	
     obj <- read.obj(filename)

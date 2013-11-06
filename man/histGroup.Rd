@@ -1,66 +1,69 @@
 \name{histGroup}
 \alias{histGroup}
-\title{
-plot histogram for multiple groups.
-}
-\description{
-plot a histogram for multiple groups, each group colored individually
-}
+\title{plot histogram for multiple groups.}
 \usage{
-histGroup(data, groups, main = paste("Histogram of", dataname), xlab =
-          dataname, ylab, col = NULL, alpha = 0.5,breaks = "Sturges",
-          legend=TRUE,legend.x=80,legend.y=80,legend.pch=15,freq=TRUE)
+  histGroup(data, groups,
+    main = paste("Histogram of", dataname),
+    xlab = dataname, ylab, col = NULL, alpha = 0.5,
+    breaks = "Sturges", legend = TRUE, legend.x = 80,
+    legend.y = 80, legend.pch = 15, freq = TRUE)
 }
 \arguments{
-  \item{data}{vector containing data.
-}
-  \item{groups}{grouping factors
-}
-  \item{main,xlab,ylab}{these arguments to title have useful defaults here.
-}
-\item{col}{vector containing color for each group. If NULL, the function
-  "rainbow" is called.
-}  
- 
-\item{alpha}{numeric between 0 and 1. Sets the transparency of the colors
-}  
- \item{breaks}{one of:
-    \itemize{
-      \item a vector giving the breakpoints between histogram cells,
-      \item a single number giving the number of cells for the histogram,
-      \item a character string naming an algorithm to compute the
-      number of cells (see \sQuote{Details}),
-      \item a function to compute the number of cells.
-    }
-    In the last three cases the number is a suggestion only.
-  }
-  \item{legend}{logical: if TRUE, a legend is plotted
-}  
-\item{legend.x}{x position of the legend from the upper left corner
-}  
-\item{legend.y}{y position of the legend from the upper left corners
-}  
-\item{legend.pch}{integer: define the symbol to visualise group colors (\code{\link{points}})
-}  
-\item{freq}{logical: if TRUE, the histogram graphic is a representation
-  of frequencies, the counts component of the result; if FALSE,
-  probability densities are plotted for each group.
-}  
-}
-\details{Just a wrapper for the function hist from the "graphics" package
-}
+  \item{data}{vector containing data.}
 
-\author{
-Stefan Schlager}
+  \item{groups}{grouping factors}
 
+  \item{main,xlab,ylab}{these arguments to title have
+  useful defaults here.}
 
-\seealso{
- \code{\link{hist}}
+  \item{col}{vector containing color for each group. If
+  NULL, the function "rainbow" is called.}
+
+  \item{alpha}{numeric between 0 and 1. Sets the
+  transparency of the colors}
+
+  \item{breaks}{one of: \itemize{ \item a vector giving the
+  breakpoints between histogram cells, \item a single
+  number giving the number of cells for the histogram,
+  \item a character string naming an algorithm to compute
+  the number of cells (see \sQuote{Details}), \item a
+  function to compute the number of cells.  } In the last
+  three cases the number is a suggestion only.}
+
+  \item{legend}{logical: if TRUE, a legend is plotted}
+
+  \item{legend.x}{x position of the legend from the upper
+  left corner}
+
+  \item{legend.y}{y position of the legend from the upper
+  left corners}
+
+  \item{legend.pch}{integer: define the symbol to visualise
+  group colors (\code{\link{points}})}
+
+  \item{freq}{logical: if TRUE, the histogram graphic is a
+  representation of frequencies, the counts component of
+  the result; if FALSE, probability densities are plotted
+  for each group.}
+}
+\description{
+  plot a histogram for multiple groups, each group colored
+  individually
+}
+\details{
+  Just a wrapper for the function hist from the "graphics"
+  package
 }
 \examples{
 data(iris)
 histGroup(iris$Petal.Length,iris$Species)
-
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\author{
+  Stefan Schlager
+}
+\seealso{
+  \code{\link{hist}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

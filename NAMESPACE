@@ -1,62 +1,3 @@
-useDynLib(Morpho)
-import(doParallel)
-## selective imports
-importFrom(colorRamps, blue2green2red)
-importFrom(foreach, foreach, '%dopar%', '%do%')
-importFrom(MASS, ginv)
-importFrom(Matrix, sparseMatrix, diag, crossprod, solve)
-importFrom(parallel, mclapply, detectCores)
-importFrom(yaImpute, ann)
-importClassesFrom("Matrix"
-                  , dgCMatrix
-                  , dgeMatrix
-                  , dsCMatrix
-                  , dtCMatrix
-                  , sparseMatrix
-                  )
-importFrom(rgl
-           , lines3d
-           , open3d
-           , points3d
-           , rgl.bg
-	   , rgl.bringtotop
-           , rgl.clear
-           , rgl.close
-           , rgl.cur
-           , rgl.pop
-           , rgl.snapshot
-           , shade3d
-           , spheres3d
-           , text3d
-           , translate3d
-           , wire3d           
-           )
-##import(rgl)
-## export S3 methods
-S3method(meshDist, mesh3d)
-S3method(meshDist, matrix)
-S3method(export, meshDist)
-S3method(render, meshDist)
-S3method(render, matrixDist)
-S3method(pcaplot3d, symproc)
-S3method(pcaplot3d, nosymproc)
-S3method(exVar, mvr)
-S3method(exVar, lm)
-S3method(rotaxis3d, mesh3d)
-S3method(rotaxis3d, matrix)
-S3method(meshres, mesh3d)
-S3method(warpmovie3d, mesh3d)
-S3method(warpmovie3d, matrix)
-
-## export S3 generic functions
-export(meshDist)
-export(meshres)
-export(pcaplot3d)
-export(warpmovie3d)
-export(render)
-export(export)
-
-## export other functions
 export(adnormals)
 export(angle.calc)
 export(anonymize)
@@ -77,10 +18,10 @@ export(CreateL)
 export(crossp)
 export(cSize)
 export(CVA)
+export(deform.grid)
 export(deformGrid3d)
+export(export)
 export(exVar)
-export(exVar.lm)
-export(exVar.mvr)
 export(facenormals)
 export(file2mesh)
 export(find.outliers)
@@ -96,10 +37,13 @@ export(mesh2mesh)
 export(mesh2obj)
 export(mesh2ply)
 export(meshcube)
+export(meshDist)
+export(meshres)
 export(name2factor)
 export(name2num)
 export(NNshapeReg)
 export(obj2mesh)
+export(pcaplot3d)
 export(PCdist)
 export(permudist)
 export(permuvec)
@@ -125,8 +69,10 @@ export(read.lmdta)
 export(read.mpp)
 export(read.pts)
 export(regdist)
+export(regdist.raw)
 export(relaxLM)
 export(relWarps)
+export(render)
 export(rmUnrefVertex)
 export(rmVertex)
 export(rotaxis3d)
@@ -151,22 +97,52 @@ export(vecx)
 export(vert2points)
 export(warp.mesh)
 export(warpmovie2d)
+export(warpmovie3d)
 export(write.pts)
-
-## deprecated functions
-export(c.extract)
-export(c.size)
-export(deform.grid)
-export(mc.CVA)
-#export(mc.find.outliers) removed 7.10.2013
-#export(mc.permudist) removed 6.10.2013
-#export(mc.permuvec) removed 6.10.2013
-export(mc.procSym)
-export(mc.slider3d)
-export(regdist.raw)
-
-## private functions
-## addo ang calcGamma CreateL2D eigenPCA export.meshDist gdif meshDist.matrix meshDist.mesh3d meshres.mesh3d orp pcaplot3d.nosymproc pcaplot3d.symproc projBack read.obj render.matrixDist render.meshDist RGB2Grey rotaxis3d.matrix rotaxis3d.mesh3d rot.proc scaleproc Semislide warpmovie3d.matrix warpmovie3d.mesh3d write.obj place.patch
-
-## private functions in Morpho beginning with dot:
-## .bindArr2 .calcTang_U_s .calcTang_U .covPCApermut .CVAcrova .CVAdists .difplotLM2D .difplotLM .fx. groupPCAcrova 
+importClassesFrom(Matrix,dgCMatrix)
+importClassesFrom(Matrix,dgeMatrix)
+importClassesFrom(Matrix,dsCMatrix)
+importClassesFrom(Matrix,dtCMatrix)
+importClassesFrom(Matrix,sparseMatrix)
+import(doParallel)
+importFrom(colorRamps,blue2green2red)
+importFrom(foreach,'%do%')
+importFrom(foreach,'%dopar%')
+importFrom(foreach,foreach)
+importFrom(MASS,ginv)
+importFrom(Matrix,crossprod)
+importFrom(Matrix,diag)
+importFrom(Matrix,solve)
+importFrom(Matrix,sparseMatrix)
+importFrom(parallel,detectCores)
+importFrom(parallel,mclapply)
+importFrom(rgl,lines3d)
+importFrom(rgl,open3d)
+importFrom(rgl,points3d)
+importFrom(rgl,rgl.bg)
+importFrom(rgl,rgl.bringtotop)
+importFrom(rgl,rgl.clear)
+importFrom(rgl,rgl.close)
+importFrom(rgl,rgl.cur)
+importFrom(rgl,rgl.pop)
+importFrom(rgl,rgl.snapshot)
+importFrom(rgl,shade3d)
+importFrom(rgl,spheres3d)
+importFrom(rgl,text3d)
+importFrom(rgl,translate3d)
+importFrom(rgl,wire3d)
+importFrom(yaImpute,ann)
+S3method(export,meshDist)
+S3method(exVar,lm)
+S3method(exVar,mvr)
+S3method(meshDist,matrix)
+S3method(meshDist,mesh3d)
+S3method(pcaplot3d,nosymproc)
+S3method(pcaplot3d,symproc)
+S3method(render,matrixDist)
+S3method(render,meshDist)
+S3method(rotaxis3d,matrix)
+S3method(rotaxis3d,mesh3d)
+S3method(warpmovie3d,matrix)
+S3method(warpmovie3d,mesh3d)
+useDynLib(Morpho)

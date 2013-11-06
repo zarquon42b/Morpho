@@ -1,3 +1,21 @@
+#' Calculates the Riemannian distance between two superimposed landmark
+#' configs.
+#' 
+#' Calculates the Riemannian distance between two superimposed landmark
+#' configs.
+#' 
+#' 
+#' @param x Matrix containing landmark coordinates.
+#' @param y Matrix containing landmark coordinates.
+#' @return returns Riemannian distance
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' library(shapes)
+#' OPA <- rotonto(gorf.dat[,,1],gorf.dat[,,2])
+#' kendalldist(OPA$X,OPA$Y)
+#' 
+#' @export kendalldist
 kendalldist <- function(x,y)
     {
         m <- ncol(x)

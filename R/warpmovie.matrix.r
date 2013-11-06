@@ -1,4 +1,79 @@
+#' Creates a sequence of images showing predefined steps of warping two meshes
+#' or landmark configurations (2D and 3D) into each other
+#' 
+#' given two landmark configurations or two meshes with the same amount of
+#' vertices and faces (e.g a mesh and its warped counterpart), the starting
+#' configuration/mesh will be subsequently transformed into the final
+#' configuration/mesh by splitting the differences into a predefined set of
+#' steps.
+#' 
+#' A series of png files will be saved to disk. These can be joined to animated
+#' gifs by external programs such as imagemagick or used to create animations
+#' in PDFs in a latex environment (e.g. latex package: aninmate).
+#' @title Creates a sequence of images showing predefined steps of warping two meshes or landmark configurations (2D and 3D) into each other
+#' 
+#' @param x mesh to start with (object of class mesh3d)
+#' @param y resulting mesh (object of class mesh3d), having the same amount of
+#' vertices and faces than the starting mesh
+#' @param n integer: amount of intermediate steps.
+#' @param col color of the mesh
+#' @param palindrome logical: if TRUE, the procedure will go forth and back.
+#' @param folder character: output folder for created images (optional)
+#' @param movie character: name of the output files
+#' @param add logical: if TRUE, the movie will be added to the focussed
+#' rgl-windows.
+#' @param close logical: if TRUE, the rgl window will be closed when finished.
+#' width and 200 the height of the image.
+#' @param countbegin integer: number to start image sequence.
+#' 
+#' @param ask logical: if TRUE, the viewpoint can be selected manually.
+#' 
+#' @param radius numeric: define size of spheres (overides atuomatic size
+#' estimation).
+#' @param links vector or list of vectors containing wireframe information to
+#' connect landmarks (optional).
+#' @param lwd numeric: controls width of lines defined by "links".
+#' @param imagedim character of pattern "100x200" where 100 determines the
+#' width and 200 the height of the image.
+#' @param par list of graphial parameters: details can be found here:
+#' \code{\link{par}}.
+#' @param \dots additional arguments passed to \code{\link{shade3d}} (3D) or
+#' \code{\link{points}} (2D).
+#' @author Stefan Schlager
+#' @seealso
+#' \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' 
+#' ###3D example
+#' data(nose)##load data
+#' ##warp a mesh onto another landmark configuration:
+#' warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+#' \dontrun{
+#' warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
+#' }
+#' ### restrict to landmarks
+#' \dontrun{
+#' warpmovie3d(shortnose.lm,longnose.lm,n=15,movie="matrixmovie")## create 15 images.
+#' }
+#' ### the images are now stored in your current working directory and can
+#' ### be concatenated to a gif using an external program such as
+#' ### imagemagick.
+#' 
+#' ### 2D example
+#' library(shapes)
+#' bb <- procSym(gorf.dat)
+#' ### morph superimposed first specimen onto sample mean
+#' warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")
+#' 
+#' @rdname warpmovie3d
+#' @export warpmovie3d
 warpmovie3d <- function (x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",...) UseMethod("warpmovie3d")
+
+#' @rdname warpmovie3d
+#' @method warpmovie3d matrix
+#' @S3method warpmovie3d matrix
 warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,radius=NULL,links=NULL,lwd=1,...)
 {	#wdold <- getwd()
     if(!is.null(folder)) {
@@ -53,6 +128,8 @@ warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
     if (close)
         rgl.close()
 }
+#' @rdname warpmovie3d
+#' @export warpmovie2d
 warpmovie2d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",links=NULL,lwd=1,imagedim = "800x800",par=list(xaxt="n",yaxt="n",bty="n"),...)
 {
     wdold <- getwd()

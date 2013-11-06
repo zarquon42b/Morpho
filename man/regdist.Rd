@@ -1,0 +1,55 @@
+\name{regdist}
+\alias{regdist}
+\title{correlation between shape space and tangent space}
+\usage{
+  regdist(dataarray, plot = TRUE, main = "", rho = "angle",
+    dist.mat.out = FALSE)
+}
+\arguments{
+  \item{dataarray}{Input k x m x n real array, where k is
+  the number of points, m is the number of dimensions, and
+  n is the sample size.}
+
+  \item{plot}{Logical: whether to plot the distances
+  between observations.}
+
+  \item{main}{character string: Title of the plot.}
+
+  \item{rho}{chose how to calculate distances in shape
+  space. Options: "riemdist"=Riemannian distance (function
+  from the shapes package-takes along time to calculate),
+  "angle"=calculates the angle between shape vectors,
+  "sindist"=sinus of length of residual vector between
+  shape vectors.}
+
+  \item{dist.mat.out}{Logical: If TRUE, output will contain
+  distance matrices.}
+}
+\value{
+  \item{cor }{correlation coefficient between distances in
+  shape space and tangent space} \item{procSS }{Procrustes
+  Sums of Squares (of full procrustes distance)}
+  \item{tanSS }{Tangent Sums of Squares} \item{rhoSS
+  }{Procrustes Sums of Squares (of angle)} \item{euc.dist
+  }{distance matrix of euclidean distance in Tangent space}
+  \item{proc.dist }{distance matrix of Procrustes distance
+  in Shape space}
+}
+\description{
+  performs a partial Procrustes superimposition of landmark
+  data and calculates the correlation between tangent and
+  shape space.
+}
+\examples{
+library(shapes)
+regdist(gorf.dat)
+}
+\author{
+  Stefan Schlager
+}
+\seealso{
+  \code{\link{regdist}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

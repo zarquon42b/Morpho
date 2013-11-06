@@ -1,3 +1,19 @@
+#' read dta files
+#' 
+#' reads .dta files created by the software Landmark
+#' http://graphics.idav.ucdavis.edu/research/EvoMorph
+#' 
+#' 
+#' @param file a dta file
+#' @param na specifies a value that indicates missing values
+#' @return
+#' \item{arr }{array containing landmarks dimnames will be Information of
+#' ID and landmark names specified in Landmark}
+#' \item{info }{Information extracted from the header of the dta file}
+#' \item{idnames }{character vector containing the names of the individuals
+#' as specified in the dta file}
+#' @keywords ~kwd1 ~kwd2
+#' @export read.lmdta
 read.lmdta <- function(file="x", na=9999)
 {         x <- file
           A <- readLines(x)

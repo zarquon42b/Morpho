@@ -1,5 +1,89 @@
+#' calculates and visualises distances between surface meshes or 3D coordinates
+#' and a surface mesh.
+#' 
+#' calculates the distances from a mesh or a set of 3D coordinates to another
+#' at each vertex; either closest point or along the normals
+#' 
+#' this function needs the command line tools from the Auxiliaries section in
+#' \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries}
+#' installed.
+#' 
+#' @title  calculates and visualises distances between surface meshes or 3D coordinates and a surface mesh.
+#' @param x reference mesh; object of class "mesh3d" or a n x 3 matrix
+#' containing 3D coordinates.
+#' @param mesh2 target mesh: either object of class "mesh3d" or a character
+#' pointing to a surface mesh (ply, obj or stl file)
+#' @param distvec vector: optional, a vector containing distances for each
+#' vertex of mesh1, if distvec != NULL, x will be ignored.
+#' @param from numeric: minimum distance to be colorised; default is set to 0
+#' mm
+#' @param to numeric: maximum distance to be colorised; default is set to the
+#' maximum distance
+#' @param steps integer: determines break points for color ramp: n steps will
+#' produce n-1 colors.
+#' @param ceiling logical: if TRUE, the next larger integer of "to" is used
+#' @param file character: filename for mesh and image files produced. E.g.
+#' "mydist" will produce the files mydist.ply and mydist.png
+#' @param imagedim character of type 100x200 where 100 determines the width and
+#' 200 the height of the image.
+#' @param uprange numeric between 0 and 1: restricts "to" to a quantile of
+#' "to", if to is NULL.
+#' @param ray logical: if TRUE, the search is along vertex normals.
+#' @param raytol maximum distance to follow a normal.
+#' @param save logical: save a colored mesh.
+#' @param plot logical: visualise result as 3D-plot and distance charts
+#' @param sign logical: request signed distances. Only meaningful, if mesh2 is
+#' specified or distvec contains signed distances.
+#' @param tol numeric: threshold to color distances within this threshold
+#' green.
+#' @param displace logical: if TRUE, displacement vectors between original and
+#' closest points are drawn colored according to the distance.
+#' @param shade logical: if FALSE, the rendering of the colored surface will be
+#' supressed.
+#' @param method accepts: "vcglib" and "morpho" (and any abbreviation). vcglib
+#' uses a command line tool using vcglib headers, morpho uses fortran routines
+#' based on a kd-tree search for closest triangles.
+#' @param type character: "s" shows coordinates as spheres, while "p" shows 3D
+#' dots.
+#' @param radius determines size of spheres; if not specified, optimal radius
+#' size will be estimated by centroid size of the configuration.
+#' @param \dots additional arguments passed to \code{\link{shade3d}}. See
+#' \code{\link{rgl.material}} for details.
+#' @return Returns an object of class "meshDist" if the input is a surface mesh
+#' and one of class "matrixDist" if input is a matrix containing 3D
+#' coordinates.
+#' \item{colMesh }{object of mesh3d with colors added}
+#' \item{dists }{vector with distances}
+#' \item{cols }{vector with color values}
+#' \item{params }{list of parameters used}
+#' @author Stefan Schlager
+#' @seealso \code{\link{render.meshDist}}, , \code{\link{export.meshDist}},
+#' \code{\link{shade3d}}
+#' @references Detection of inside/outside uses the algorithm proposed in:
+#' 
+#' Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed Distance
+#' Fields From Triangle Meshes. Informatics and Mathematical Modelling, .
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' data(nose)##load data
+#' ##warp a mesh onto another landmark configuration:
+#' warpnose.long <- warp.mesh(shortnose.mesh, shortnose.lm, longnose.lm)
+#' meshDist(warpnose.long, shortnose.mesh, method="m")
+#' 
+#' #use signed distances and
+#' #color distances < 0.01 green:
+#' \dontrun{
+#' meshDist(warpnose.long, shortnose.mesh, sign=TRUE, tol=0.01, method="m")
+#' }
+#' @rdname meshDist
+#' @export meshDist
 meshDist <- function(x,...) UseMethod("meshDist")
 
+#' @rdname meshDist
+#' @method meshDist mesh3d
+#' @S3method meshDist mesh3d
 meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("morpho", "vcglib"), ...)
   {
     method=substring(method[1],1L,1L)
@@ -88,7 +172,55 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
         export(out,file=file,imagedim=imagedim)
     invisible(out)
 }
+
+
+
+#' plot or save the results of meshDist
+#' 
+#' Visualise or save the results of meshDist to disk.
+#' 
+#' render.meshDist renders the colored mesh and displays the color ramp and
+#' returns an object of class "meshDist".  export.meshDist exports the colored
+#' mesh as ply file and the color chart as png file.
+#' 
+#' @title plot or save the results of meshDist
+#' @param x object of class meshDist
+#' @param from numeric: minimum distance to color; default is set to 0 mm
+#' @param to numeric: maximum distance to color; default is set to the maximum
+#' distance
+#' @param steps integer: determines how many intermediate colors the color ramp
+#' has.
+#' @param ceiling logical: if TRUE, the next larger integer of "to" is used
+#' @param uprange numeric between 0 and 1: restricts "to" to a quantile of
+#' "to", if to is NULL.
+#' @param tol numeric: threshold to color distances within this threshold
+#' green.
+#' @param displace logical: if TRUE, displacement vectors between original and
+#' closest points are drawn colored according to the distance.
+#' @param shade logical: if FALSE, the rendering of the colored surface will be
+#' supressed.
+#' @param sign logical: request signed distances to be visualised.
+#' @param file character: filename for mesh and image files produced. E.g.
+#' "mydist" will produce the files mydist.ply and mydist.png
+#' @param imagedim character of pattern "100x200" where 100 determines the
+#' width and 200 the height of the image.
+#' @param type character: "s" shows coordinates as spheres, while "p" shows 3D
+#' dots.
+#' @param radius determines size of spheres; if not specified, optimal radius
+#' size will be estimated by centroid size of the configuration.
+#' @param \dots for render.meshDist: additional arguments passed to
+#' \code{\link{shade3d}}. See \code{\link{rgl.material}} for details.
+#' @author Stefan Schlager
+#' @seealso \code{\link{meshDist}}, \code{\link{shade3d}}
+#' @keywords ~kwd1 ~kwd2
+#' @rdname render
+#' @export render
+#'
 render <- function(x,...) UseMethod("render")
+
+#' @rdname render
+#' @method render meshDist
+#' @S3method render meshDist
 render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,sign=NULL,...)
   {
     clost <- x$clost
@@ -189,22 +321,4 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
                                         #out <- list(colMesh=colMesh,colramp=colramp)
     class(out) <- "meshDist"
     invisible(out)
-}
-
-export <- function(x,...)UseMethod("export")
-export.meshDist <- function(x,file="default",imagedim="100x800",...)
-{
-    tol <- x$params$tol
-    colramp <- x$colramp
-    widxheight <- as.integer(strsplit(imagedim,split="x")[[1]])
-    mesh2ply(x$colMesh,col=x$cols,filename=file)
-    png(filename=paste(file,".png",sep=""),width=widxheight[1],height=widxheight[2])
-    diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
-    image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
-    if (!is.null(tol)) {
-        if (sum(abs(tol)) != 0) {
-            image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col="green",useRaster=TRUE,add=TRUE)
-        }
-    }
-    dev.off()
 }

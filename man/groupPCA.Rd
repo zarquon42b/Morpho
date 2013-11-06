@@ -1,70 +1,56 @@
 \name{groupPCA}
 \alias{groupPCA}
-\title{
-Perform PCA based of the group means' covariance matrix}
-\description{
-Calculate covariance matrix of the groupmeans and project all
-observations into the eigenspace of this covariance matrix. This
-displays a low dimensional between group structure of a high dimensional problem.
-}
+\title{Perform PCA based of the group means' covariance matrix}
 \usage{
-groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv=TRUE,
-         mc.cores = detectCores(),weighting=TRUE)
+  groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10,
+    cv = TRUE, mc.cores = detectCores(), weighting = TRUE)
 }
 \arguments{
-  \item{dataarray}{Either a k x m x n real array, where k is the number of points, m is the number of dimensions, and n is the sample size. Or alternatively a n x m Matrix where n is the numeber of observations and m the number of variables (this can be PC scores for example)
-}
-  \item{groups}{a character/factor vector containgin grouping variable.
-}
-  \item{rounds}{integer: number of permutations if a permutation test of the euclidean distance between group means is requested.If rounds = 0, no test is performed.
-}
-  \item{tol}{threshold to ignore eigenvalues of the covariance matrix.}
-    
-    \item{cv}{logical: requests leaving-one-out crossvalidation
-    
-}
+  \item{dataarray}{Either a k x m x n real array, where k
+  is the number of points, m is the number of dimensions,
+  and n is the sample size. Or alternatively a n x m Matrix
+  where n is the numeber of observations and m the number
+  of variables (this can be PC scores for example)}
 
-  \item{mc.cores}{integer: how many cores of the Computer are allowed to be
-    used. Default is use autodetection by using detectCores()
-    from the parallel package. Parallel processing is disabled on
-    Windows due to occasional errors.
-}
- \item{weighting}{logical:weight between groups covariance matrix
-    according to group sizes.
-}
-}
+  \item{groups}{a character/factor vector containgin
+  grouping variable.}
 
+  \item{rounds}{integer: number of permutations if a
+  permutation test of the euclidean distance between group
+  means is requested.If rounds = 0, no test is performed.}
+
+  \item{tol}{threshold to ignore eigenvalues of the
+  covariance matrix.}
+
+  \item{cv}{logical: requests leaving-one-out
+  crossvalidation}
+
+  \item{mc.cores}{integer: how many cores of the Computer
+  are allowed to be used. Default is use autodetection by
+  using detectCores() from the parallel package. Parallel
+  processing is disabled on Windows due to occasional
+  errors.}
+
+  \item{weighting}{logical:weight between groups covariance
+  matrix according to group sizes.}
+}
 \value{
-  \item{eigenvalues }{Non-zero eigenvalues of the groupmean covariance matrix.}
-  \item{groupPCs }{PC-axes - i.e. eigenvectors of the groupmean covariance matrix. }
-  \item{Variance}{table displaying the variance explained by eache eigenvalue. }
-  \item{Scores}{Scores of all observation in the PC-space}
-  \item{probs}{p-values of pairwise groupdifferences - based on
-    permuation testing }
-  \item{groupdists}{Euclidean distances between groups' averages}
-  \item{groupmeans}{Groupmeans}
-  \item{Grandmean}{Grand mean}
-  \item{CV}{Cross-validated scores}
-
-
-
+  \item{eigenvalues }{Non-zero eigenvalues of the groupmean
+  covariance matrix} \item{groupPCs }{PC-axes - i.e.
+  eigenvectors of the groupmean covariance matrix}
+  \item{Variance }{table displaying the variance explained
+  by eache eigenvalue} \item{Scores }{Scores of all
+  observation in the PC-space} \item{probs }{p-values of
+  pairwise groupdifferences - based on permuation testing}
+  \item{groupdists }{Euclidean distances between groups'
+  averages} \item{groupmeans }{Groupmeans} \item{Grandmean
+  }{Grand mean} \item{CV }{Cross-validated scores}
 }
-\references{Mitteroecker P,  Bookstein F 2011. Linear Discrimination,
-  Ordination, and the Visualization of Selection Gradients in Modern
-  Morphometrics. Evolutionary Biology 38:100-114.
-
-  
-Boulesteix, A. L. 2005: A note on between-group PCA, International Journal of Pure and Applied Mathematics 19, 359-366.
-
-  
-}
-\author{
-Stefan Schlager}
-
-
-
-\seealso{
- \code{\link{CVA}}
+\description{
+  Calculate covariance matrix of the groupmeans and project
+  all observations into the eigenspace of this covariance
+  matrix. This displays a low dimensional between group
+  structure of a high dimensional problem.
 }
 \examples{
 require(car)
@@ -99,7 +85,22 @@ grandm.mesh <- warp.mesh(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean)
 wire3d(grandm.mesh, col="white")
 spheres3d(grandmean, radius=0.005)
 }
-
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+\author{
+  Stefan Schlager
+}
+\references{
+  Mitteroecker P, Bookstein F 2011. Linear Discrimination,
+  Ordination, and the Visualization of Selection Gradients
+  in Modern Morphometrics. Evolutionary Biology 38:100-114.
+
+  Boulesteix, A. L. 2005: A note on between-group PCA,
+  International Journal of Pure and Applied Mathematics 19,
+  359-366.
+}
+\seealso{
+  \code{\link{CVA}}
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

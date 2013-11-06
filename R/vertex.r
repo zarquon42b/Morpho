@@ -1,3 +1,49 @@
+#' some little helpers for vertex operations on triangular meshes
+#' 
+#' extract vertex coordinates from meshes, find and/or remove (unreferenced)
+#' vertices from triangular meshes
+#' 
+#' \code{unrefVertex} finds unreferenced vertices in triangular meshes of class
+#' \code{mesh3d}.
+#' 
+#' \code{rmVertex} removes specified vertices from triangular meshes.
+#' 
+#' \code{vert2points} extacts vertex coordinates from triangular meshes.
+#' 
+#' \code{rmUnrefVertex} removes unreferenced vertices from triangular meshes.
+#' @title  some little helpers for vertex operations on triangular meshes
+#' @param mesh triangular mesh of class \code{mesh3d}.
+#' @param index vector containing indices of vertices to be removed.
+#' @param keep logical: if \code{TRUE}, the vertices specified by \code{index}
+#' are kept and the rest is removed.
+#' @param silent logical: suppress output about info on removed vertices.
+#' @return \code{unrefVertex}: vector with indices of unreferenced vertices.
+#' 
+#' \code{rmVertex}: returns mesh with specified vertices removed and faces and
+#' normals updated.
+#' 
+#' \code{vert2points}: k x 3 matrix containing vertex coordinates.
+#' 
+#' \code{rmUnrefVertex}: mesh with unreferenced vertices removed.
+#' @author Stefan Schlager
+#' @seealso \code{\link{ply2mesh}}, \code{\link{file2mesh}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' data(nose)
+#' testmesh <- rmVertex(shortnose.mesh,1:50) ## remove first 50 vertices
+#' shade3d(testmesh,col=3) ### view result
+#' testmesh$vb <- cbind(testmesh$vb,shortnose.mesh$vb[,1:50]) ## add some unreferenced vertices
+#' points3d(vert2points(testmesh),col=2)## see the vertices in the holes?
+#' 
+#' cleanmesh <- rmUnrefVertex(testmesh)## remove those lonely vertices!
+#' rgl.pop()
+#' points3d(vert2points(cleanmesh),col=2) ### now the holes are empty!!
+#' 
+#' 
+#' @rdname vertex
+#' @export unrefVertex
 unrefVertex <- function(mesh)
     {
         it <- mesh$it
@@ -5,7 +51,8 @@ unrefVertex <- function(mesh)
         unref <- which(! vind %in% it)
         return(unref)
     }
-
+#' @rdname vertex
+#' @export rmVertex
 rmVertex <- function(mesh,index,keep=FALSE)
     {
         if (! keep) {
@@ -50,11 +97,15 @@ rmVertex <- function(mesh,index,keep=FALSE)
         return(mesh)
 
     }
+#' @rdname vertex
+#' @export vert2points
 vert2points <- function(mesh)
     {
         out <- t(mesh$vb[1:3,])
         return(out)
     }
+#' @rdname vertex
+#' @export rmUnrefVertex
 rmUnrefVertex <- function(mesh, silent=FALSE)
     {
         unref <- unrefVertex(mesh)

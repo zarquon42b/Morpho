@@ -1,3 +1,41 @@
+#' Compute face or vertex normals of a triangular mesh
+#' 
+#' Compute face or vertex normals of a triangular mesh of class "mesh3d"
+#' 
+#' 
+#' @param x triangular mesh of class "mesh3d"
+#' @param angle logical: if TRUE, angle weighted normals are used.
+#' @return adnormals returns mesh with updated vertex normals.
+#' 
+#' facenormals returns an object of class "mesh3d". With
+#' \item{vb }{faces' barycenters}
+#' \item{normals }{faces' normals}
+#' @note only supports triangular meshes
+#' @author Stefan Schlager
+#' @seealso \code{\link{ply2mesh}}
+#' @references Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed
+#' Distance Fields From Triangle Meshes. Informatics and Mathematical
+#' Modelling, .
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(rgl)
+#' data(nose)
+#' ### calculate vertex normals
+#' shortnose.mesh$normals <- NULL ##remove normals
+#' shade3d(shortnose.mesh,col=3)##render
+#' shortnose.mesh <- adnormals(shortnose.mesh)
+#' rgl.clear()
+#' shade3d(shortnose.mesh,col=3)##smoothly rendered now
+#' 
+#' ## calculate facenormals
+#' facemesh <- facenormals(shortnose.mesh)
+#' plotNormals(facemesh,long=0.01)
+#' points3d(vert2points(facemesh),col=2)
+#' wire3d(shortnose.mesh)
+#' 
+#' @rdname adnormals
+#' @export adnormals
 adnormals <- function(x,angle=TRUE) 
 {
     v <- x$vb
@@ -18,6 +56,8 @@ adnormals <- function(x,angle=TRUE)
     x$normals <- normals
     return(x)
 }
+#' @export facenormals
+#' @rdname adnormals
 facenormals <- function(x) 
 {
     barymesh <- list()

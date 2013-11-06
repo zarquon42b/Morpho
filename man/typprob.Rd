@@ -1,73 +1,64 @@
 \name{typprob}
 \alias{typprob}
 \alias{typprobClass}
-
-\title{
-calculate typicality probabilities}
-\description{
-get the probability for an observation belonging to a given multivariate
-nromal distribution}
+\title{calculate typicality probabilities}
 \usage{
-typprob(x,data,small=FALSE,method=c("chisquare","wilson"), center = NULL, cova = NULL) 
-typprobClass(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01,
-sep = FALSE) 
+  typprob(x, data, small = FALSE,
+    method = c("chisquare", "wilson"), center = NULL,
+    cova = NULL)
 
+  typprobClass(x, data, groups, small = FALSE,
+    method = c("chisquare", "wilson"), outlier = 0.01,
+    sep = FALSE)
 }
 \arguments{
-  \item{x}{vector or matrix of data the probability is to be calculated.
-  }
-  \item{data}{Reference data set.
-    
-  }
-  \item{groups}{vector containing grouping information.
-  }
-  \item{small}{adjustion of Mahalanobis D^2 for small sample sizes as
-    suggested by Wilson (1981), only takes effect when method="wilson".
-  }
-   \item{method}{select method for probability estimation. Available
-     options are "chisquare" (or any abbreviation) or
-     "wilson". "chisquare" exploits simply the chisquare distribution of the
-     mahalanobisdistance, while "wilson" uses the methods suggested by
-     Wilson(1981). Results will be similar in general.
-   }
-   \item{outlier}{probability threshold below which a specimen will not
-     be assigned to any group-
-   }
-   \item{sep}{logical: if TRUE, probability will be calculated from the
-    pooled within group covariance matrix.
-  }
-   \item{center}{vector: specify custom vector to calculate distance
-     to. If not defined, group mean will be used.
-  }\item{cova}{covariance matrix to calculate mahalanobis-distance:
-    specify custom covariance matrix to calculate distance.
-  }
-}
+  \item{x}{vector or matrix of data the probability is to
+  be calculated.}
 
+  \item{data}{Reference data set.}
+
+  \item{groups}{vector containing grouping information.}
+
+  \item{small}{adjustion of Mahalanobis D^2 for small
+  sample sizes as suggested by Wilson (1981), only takes
+  effect when method="wilson".}
+
+  \item{method}{select method for probability estimation.
+  Available options are "chisquare" (or any abbreviation)
+  or "wilson". "chisquare" exploits simply the chisquare
+  distribution of the mahalanobisdistance, while "wilson"
+  uses the methods suggested by Wilson(1981). Results will
+  be similar in general.}
+
+  \item{outlier}{probability threshold below which a
+  specimen will not be assigned to any group-}
+
+  \item{sep}{logical: if TRUE, probability will be
+  calculated from the pooled within group covariance
+  matrix.}
+
+  \item{center}{vector: specify custom vector to calculate
+  distance to. If not defined, group mean will be used.}
+
+  \item{cova}{covariance matrix to calculate
+  mahalanobis-distance: specify custom covariance matrix to
+  calculate distance.}
+}
 \value{
   typprob: returns a vector of probabilities.
 
-  typprobClass:
-  
-  \item{probs}{matrix of probabilities for each group
-  }
-   \item{groupaffin}{vector of groups each specimen has been assigned
-  to. Outliers are classified "none".
-  }
-
+  typprobClass: \item{probs }{matrix of probabilities for
+  each group} \item{groupaffin }{vector of groups each
+  specimen has been assigned to. Outliers are classified
+  "none"}
 }
-\references{
-Albrecht G. 1992. Assessing the affinities of fossils using canonical
-variates and generalized distances Human Evolution 7:49-69.
-
-  Wilson S. 1981. On comparing fossil specimens with
-  population samples Journal of Human Evolution 10:207 - 214.
-
-  
-
+\description{
+  calculate typicality probabilities
 }
-\author{
-Stefan Schlager}
-
+\details{
+  get the probability for an observation belonging to a
+  given multivariate nromal distribution
+}
 \examples{
 library(shapes)
 data <- procSym(gorf.dat)$PCscores[,1:3]
@@ -93,10 +84,20 @@ prop.table(ct, 1)
 ct1 <- table(fac,typClass2$groupaffin)
 ct1 #view classification table ### one specimen has been tagged an outlier.
 ### get percentage of correct callification
-prop.table(ct1, 1) 
-
-
+prop.table(ct1, 1)
 }
+\author{
+  Stefan Schlager
+}
+\references{
+  Albrecht G. 1992. Assessing the affinities of fossils
+  using canonical variates and generalized distances Human
+  Evolution 7:49-69.
 
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }
+  Wilson S. 1981. On comparing fossil specimens with
+  population samples Journal of Human Evolution 10:207 -
+  214.
+}
+\keyword{~kwd1}
+\keyword{~kwd2}
+

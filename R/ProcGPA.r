@@ -1,3 +1,42 @@
+#' Workhorse function for procSym, responsible for Procrustes registration
+#' 
+#' Workhorse function for procSym, responsible for Procrustes registration
+#' 
+#' 
+#' @param dat.array Input k x m x n real array, where k is the number of
+#' points, m is the number of dimensions, and n is the sample size.
+#' @param tol numeric: Threshold for convergence during iterative
+#' superimpositioning.
+#' @param scale logical: indicating if scaling is requested
+#' @param CSinit logical: if TRUE, all configurations are initially scaled to
+#' Unit Centroid Size.
+#' @param silent logical: suppress output of elapsed time.
+#' @param weights numeric vector: assign per landmark weights.
+#' @param centerweight logical: if TRUE, the landmark configuration is scaled
+#' according to weights during the rotation process, instead of being scaled to
+#' the Centroid size.
+#' @param reflection logical: allow reflections.
+#' @return returns a list with
+#' \item{rotated }{k x m x n array of the rotated configurations}
+#' \item{mshape }{sample meanshape}
+#' @author Stefan Schlager
+#' @seealso \code{\link{procSym}, \link{rotonto}}
+#' @references Goodall C. 1991. Procrustes methods in the statistical analysis
+#' of shape. Journal of the Royal Statistical Society. Series B. Statistical
+#' Methodology 53:285-239.
+#' 
+#' Dryden IL, Mardia KV.  1998. Statistical shape analysis. John Wiley and
+#' sons, Chichester.
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' data(boneData)
+#' proc <- ProcGPA(boneLM, CSinit=TRUE, silent=TRUE)
+#' #now we landmarks 5 - 9 double the weight as  the others
+#' weights <- c(rep(1,4),rep(2,5),1)
+#' proc.wt <- ProcGPA(boneLM, CSinit=TRUE, weights=weights, silent=TRUE)
+#' 
+#' @export ProcGPA
 ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE, reflection=TRUE)
 {
     if (!is.null(weights))

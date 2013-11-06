@@ -1,3 +1,24 @@
+#' exports a matrix containing landmarks into .pts format
+#' 
+#' exports a matrix containing landmarks into .pts format that can be read by
+#' IDAV Landmark.
+#' 
+#' you can import the information into the program landmarks available at
+#' http://graphics.idav.ucdavis.edu/research/EvoMorph
+#' 
+#' @param x k x m matrix containing landmark configuration
+#' @param filename character: Path/name of the requested output - extension
+#' will be added atuomatically. If not specified, the file will be named as the
+#' exported object.
+#' @author Stefan Schlager
+#' @seealso \code{\link{read.pts}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' data(nose)
+#' write.pts(shortnose.lm, filename="shortnose")
+#' 
+#' @export write.pts
 write.pts <- function(x, filename=dataname)
 {
     dataname <- deparse(substitute(x))

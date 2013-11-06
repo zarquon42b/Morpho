@@ -1,3 +1,31 @@
+#' Q-Q plot to assess normality of data
+#' 
+#' qqmat plots Mahalanobisdistances of a given sample against those expected
+#' from a Gaussian distribution
+#' 
+#' 
+#' @param x sample data: matrix or vector
+#' @param output logical: if TRUE results are returned
+#' @param square plot in a square window - outliers might be cut off.
+#' @return if \code{output=TRUE}, the following values are returned
+#' \item{x }{distances from an expected Gaussian distribution}
+#' \item{y }{observed distances - sorted}
+#' \item{d }{observed distances - unsorted}
+#' @author Stefan Schlager
+#' @seealso \code{\link{qqplot}}
+#' @keywords ~kwd1 ~kwd2
+#' @examples
+#' 
+#' require(MASS)
+#' ### create normally distributed data
+#' data <- mvrnorm(100,mu=rep(0,5),Sigma = diag(5:1))
+#' qqmat(data)
+#' 
+#' ###create non normally distributed data
+#' data1 <- rchisq(100,df=3)
+#' qqmat(data1,square=FALSE)
+#' 
+#' @export qqmat
 qqmat <- function(x,output=FALSE,square=TRUE)
   {
     x <- as.matrix(x)
