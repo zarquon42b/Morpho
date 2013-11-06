@@ -53,8 +53,8 @@ perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, mc.cores=2, rounds=10
 # plot histogram of random distances
 hist(perm1$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")
-points(perm1$dist,50,col=2,pch=19)#actual distance
-text(perm1$dist,60,label=paste("actual
+points(perm1$dist,10,col=2,pch=19)#actual distance
+text(perm1$dist,15,label=paste("actual
 distance\n(p=",perm1$p.value,")"))
 }
 }

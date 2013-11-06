@@ -65,8 +65,8 @@ perm <- permuvec(proc$PCscores[,1:10], groups=pop, subgroups=sex,
 # differs between European and Chines
 hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")
-points(perm$dist,50,col=2,pch=19)#actual distance
-text(perm$dist,70,label=paste("actual distance\n
+points(perm$dist,10,col=2,pch=19)#actual distance
+text(perm$dist,15,label=paste("actual distance\n
      (p=",perm$p.dist,")"))
 ## not significant!!
 
@@ -75,8 +75,8 @@ text(perm$dist,70,label=paste("actual distance\n
 # differs between European and Chines
 hist(perm$permutangles, main="measured vs. random angles",
      xlab="angles")
-points(perm$angle,50,col=2,pch=19)#actual distance
-text(perm$angle,70,label=paste("actual distance\n
+points(perm$angle,10,col=2,pch=19)#actual distance
+text(perm$angle,15,label=paste("actual distance\n
     (p=",perm$p.angle,")"))
 ## also non-significant
 }
