@@ -33,14 +33,18 @@
 #' require(rgl)
 #' data(nose)
 #' testmesh <- rmVertex(shortnose.mesh,1:50) ## remove first 50 vertices
-#' shade3d(testmesh,col=3) ### view result
+#' \dontrun{
+#' shade3d(testmesh,col=3)### view result
+#' }
 #' testmesh$vb <- cbind(testmesh$vb,shortnose.mesh$vb[,1:50]) ## add some unreferenced vertices
+#' \dontrun{
 #' points3d(vert2points(testmesh),col=2)## see the vertices in the holes?
-#' 
+#' }
 #' cleanmesh <- rmUnrefVertex(testmesh)## remove those lonely vertices!
+#' \dontrun{
 #' rgl.pop()
 #' points3d(vert2points(cleanmesh),col=2) ### now the holes are empty!!
-#' 
+#' }
 #' 
 #' @rdname vertex
 #' @export unrefVertex

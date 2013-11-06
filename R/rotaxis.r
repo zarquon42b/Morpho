@@ -50,13 +50,14 @@ rotaxisMat <- function(u,theta)
 #' 
 #' require(rgl)
 #' data(nose)
-#' shade3d(shortnose.mesh,col=3,specular=1)
 #' shrot.rot <- rotaxis3d(shortnose.mesh,pt1=c(1,1,1),theta=pi)
+#' \dontrun{
+#' shade3d(shortnose.mesh,col=3,specular=1)
 #' shade3d(shrot.rot,col=2)
+#' 
 #' ###print rotation axis
-#' 
-#' lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
-#' 
+#' #' lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
+#' }
 #' @export rotaxis3d
 rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis3d")
 

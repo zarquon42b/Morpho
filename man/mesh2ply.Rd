@@ -45,7 +45,9 @@ vb <- matrix(vb,4,8) ##create vertex matrix
 it <- matrix(it,3,12) ## create face matrix
 cube<-list(vb=vb,it=it)
 class(cube) <- "mesh3d"
+\dontrun{
 shade3d(cube,col=3) ## view the green cube
+}
 mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 }
 \author{

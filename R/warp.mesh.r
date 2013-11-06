@@ -28,8 +28,9 @@
 #' data(nose)##load data
 #' ##warp a mesh onto another landmark configuration:
 #' warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+#'\dontrun{
 #' shade3d(warpnose.long,col=skin1)
-#' 
+#' }
 #' 
 #' data(boneData)
 #' ## deform mesh belonging to the first specimen

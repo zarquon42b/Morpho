@@ -32,16 +32,21 @@ require(rgl)
 data(nose)
 ### calculate vertex normals
 shortnose.mesh$normals <- NULL ##remove normals
+\dontrun{
 shade3d(shortnose.mesh,col=3)##render
+}
 shortnose.mesh <- adnormals(shortnose.mesh)
+\dontrun{
 rgl.clear()
 shade3d(shortnose.mesh,col=3)##smoothly rendered now
-
+}
 ## calculate facenormals
 facemesh <- facenormals(shortnose.mesh)
 plotNormals(facemesh,long=0.01)
+\dontrun{
 points3d(vert2points(facemesh),col=2)
 wire3d(shortnose.mesh)
+}
 }
 \author{
   Stefan Schlager

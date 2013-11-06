@@ -47,16 +47,16 @@
 #' 
 #' 
 #' ###3D example
-#' data(nose)##load data
+#'  data(nose)##load data
+#' \dontrun{
 #' ##warp a mesh onto another landmark configuration:
 #' warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
-#' \dontrun{
+#' 
 #' warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
 #' }
 #' ### restrict to landmarks
-#' \dontrun{
 #' warpmovie3d(shortnose.lm,longnose.lm,n=15,movie="matrixmovie")## create 15 images.
-#' }
+#'
 #' ### the images are now stored in your current working directory and can
 #' ### be concatenated to a gif using an external program such as
 #' ### imagemagick.

@@ -12,12 +12,13 @@
 #' require(rgl)
 #' data(nose)
 #' bary <- barycenter(shortnose.mesh)
+#' \dontrun{
 #' ##visualize mesh
 #' wire3d(shortnose.mesh)
 #' # visualize barycenters
 #' points3d(bary, col=2)
 #' ## now each triangle is equipped with a point in its barycenter
-#' 
+#' }
 #' @export barycenter
 barycenter <- function(mesh)
   {

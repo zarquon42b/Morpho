@@ -12,7 +12,9 @@
 #' 
 #' require(rgl)
 #' data(nose)
+#' \dontrun{
 #' shade3d(shortnose.mesh,col=3)
+#' }
 #' noseinvert <- conv2backf(shortnose.mesh)
 #' ## show normals
 #' plotNormals(noseinvert,long=0.01)
