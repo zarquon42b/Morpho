@@ -48,12 +48,12 @@
 #' 
 #' require(car)
 #' data(iris)
-#' vari=iris[,1:4]
-#' facto=iris[,5]
-#' pca.1=groupPCA(vari,groups=facto,rounds=100,mc.cores=1)
+#' vari <- iris[,1:4]
+#' facto <- iris[,5]
+#' pca.1 <-groupPCA(vari,groups=facto,rounds=100,mc.cores=1)
 #' 
 #' ### plot scores
-#' scatterplotMatrix(~pca.1$Scores | facto, ellipse=TRUE,
+#' scatterplotMatrix(pca.1$Scores,groups=facto, ellipse=TRUE,
 #'         by.groups=TRUE,var.labels=c("PC1","PC2","PC3"))
 #' 
 #' ## example with shape data

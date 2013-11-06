@@ -283,7 +283,11 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 
             slide <- t(tmp.data$vb[1:3,])
             slidenormals <- t(tmp.data$normals[1:3,])
-            slide[fix,] <- dat.array[fix,,i] #replace projected points with original for fix landmarks
+            if (!usematrix)   #replace projected points with original for fix landmarks
+                slide[fix,] <- dat.array[fix,,i]
+            else
+                slide[fix,] <- dat.array[fix,]
+                                      
 ### use for mullitlayer meshes to avoid projection inside
             if (!is.null(inflate)) {
                 atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide, silent=silent)
