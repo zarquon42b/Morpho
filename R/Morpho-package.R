@@ -8,8 +8,13 @@
 #' \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}
 #' have to be installed.
 #' 
-#' \tabular{ll}{ Package: \tab Morpho\cr Type: \tab Package\cr Version: \tab
-#' 1.0-2\cr Date: \tab 2013-11-05\cr License: \tab GPL\cr LazyLoad: \tab yes\cr
+#' \tabular{ll}{
+#' Package: \tab Morpho\cr
+#' Type: \tab Package\cr
+#' Version: \tab 1.1\cr
+#' Date: \tab 2013-11-06\cr
+#' License: \tab GPL\cr
+#' LazyLoad: \tab yes\cr
 #' }
 #' 
 #' @name Morpho-package
