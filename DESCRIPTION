@@ -79,7 +79,6 @@ Collate:
     'meshcube.r'
     'meshDist.r'
     'meshres.r'
-    'Morpho-deprecated.r'
     'Morpho-package.R'
     'name2.r'
     'NNshapeReg.r'

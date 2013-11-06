@@ -1,4 +1,4 @@
-\name{deform.grid}
+\name{deprecated}
 \alias{deform.grid}
 \alias{deprecated}
 \alias{regdist.raw}

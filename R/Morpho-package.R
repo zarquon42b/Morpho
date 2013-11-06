@@ -107,13 +107,26 @@ NULL
 #' @keywords datasets
 NULL
 
-
-#' deprecated functions of Morpho
-#' 
-#' deprecated functions of Morpho
-#' 
+## document deprecated functions
+#'  @title deprecated functions of Morpho
 #' @name deprecated
 #' @rdname Morpho-deprecated
-#' @aliases deform.grid regdist.raw
 #' @keywords internal
 NULL
+
+
+#' @rdname Morpho-deprecated
+#' @export deform.grid
+deform.grid <- function (...)
+{
+  .Deprecated("deformGrid3d", package="Morpho")
+  deformGrid3d(...)
+}
+
+#' @rdname Morpho-deprecated
+#' @export regdist.raw
+regdist.raw <- function (...)
+{
+  .Deprecated("regdist", package="Morpho")
+  regdist(...)
+}
