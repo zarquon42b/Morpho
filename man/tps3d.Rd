@@ -38,8 +38,10 @@ tarlm[4,] <- longnose.lm[4,]
 ##  deform a set of semilandmarks by applying a TPS-deformation
 ##  based on 5 reference points
 deformed <- tps3d(shortnose.lm, reflm, tarlm)
+\dontrun{
 ##visualize results by applying a deformation grid
 deformGrid3d(shortnose.lm,deformed,ngrid = 5)
+}
 }
 \author{
   Stefan Schlager

@@ -42,10 +42,11 @@
   differences when exploring a sample's shape.
 }
 \examples{
-require(car)
 data(boneData)
 pop <- name2factor(boneLM,which=3)
 rW <- relWarps(boneLM, alpha = -1)
+\dontrun{
+require(car)
 # plot first 5 relative warps scores grouped by population
 spm(rW$bescores[,1:5],group=pop)
 # plot uniform component scores grouped by population
@@ -64,6 +65,7 @@ spm(rW$bescores[,1:3],group=sex)
 spm(rW$uniscores[,1:2],group=sex)
 ##plot non-affine variance associated with each relative warp
 barplot(rW$Var[,2], xlab="relative Warps")
+}
 }
 \author{
   Stefan Schlager

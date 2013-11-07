@@ -94,7 +94,7 @@
 #' \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg.  URL:
 #' \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 #' @examples
-#' 
+#' \dontrun{
 #' data(nose)
 #' ###create mesh for longnose
 #' longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
@@ -111,17 +111,17 @@
 #' # define surface patch by specifying row indices of matrices
 #' # all except those defined as fix
 #' surp <- c(1:nrow(shortnose.lm))[-fix]
-#' \dontrun{
+#' 
 #' slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 #'                   sur.path=".",iterations=1)
 #'                   # sur.path="." is the current working directory
-#' }
+#' 
 #' # now one example with meshes in workspace
 #' ## to reduce this example's computation time,
 #' # we only use the first 50 right hand semi-landmarks
 #' surp <- surp[1:50]
 #' meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
-#' \dontrun{
+#' 
 #' slide <- slider3d(data[1:57,,], SMvector=fix, deselect=TRUE, surp=surp,
 #'                   sur.path=".",iterations=1, meshlist=meshlist,
 #'                   mc.cores=1,fixRepro=FALSE)
