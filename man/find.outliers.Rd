@@ -51,16 +51,17 @@
 data(boneData)
 ## look for outliers using the mahalanobis distance based on the first
 # 10 PCscores
+# to perform the example below, you need,of course, uncomment the answers
 \dontrun{
 outliers <- find.outliers(boneLM, mahalanobis= TRUE, PCuse=10)
-n # everything is fine
-n # proceed to next
-s # let's switch some landmarks (3 and 4)
-3
-4
-n # we are done
-y # yes, because now it is an outlier
-s #enough for now
+# n # everything is fine
+# n # proceed to next
+# s # let's switch some landmarks (3 and 4)
+# 3
+# 4
+# n # we are done
+# y # yes, because now it is an outlier
+# s #enough for now
 }
 }
 \author{
