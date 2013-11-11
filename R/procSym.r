@@ -293,7 +293,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         PCscore_asym <- as.matrix(pcasym$x[,1:lva])
         rownames(PCscore_asym) <- dimnames(dataarray)[[3]]
         rownames(asymtan) <- rownames(PCscore_sym)
-       print(1)  
+       
 ###### create a neat variance table for Asym ######
         if (length(asvalues)==1) {
             AsymVar <- asvalues

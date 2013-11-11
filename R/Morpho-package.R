@@ -11,8 +11,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0-2.131108\cr
-#' Date: \tab 2013-11-08\cr
+#' Version: \tab 1.0-2.131111\cr
+#' Date: \tab 2013-11-11\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }

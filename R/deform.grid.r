@@ -110,7 +110,6 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=
         }
         if (3 %in% showaxis) {
             zinit0 <- zinit <- (c(2,1,1+ngrid^2,2+ngrid^2))
-            print(zinit)
             for( i in 1:(ngrid-2))
                 zinit <- cbind(zinit,(zinit0+i))
             
