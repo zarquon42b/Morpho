@@ -4,7 +4,8 @@
 \usage{
   plotAtlas(atlas, pt.size = NULL, alpha = 1,
     render = c("w", "s"), point = c("s", "p"),
-    meshcol = "white", add = TRUE, legend = TRUE)
+    meshcol = "white", add = TRUE, legend = TRUE,
+    cols = 2:5)
 }
 \arguments{
   \item{atlas}{object of class atlas created by
@@ -30,6 +31,10 @@
 
   \item{legend}{logical: request plot of legend specifying
   landmark coloring.}
+
+  \item{cols}{vector containing colors for each coordinate
+  type cols[1]=landmarks, cols[2]=patch,
+  cols[3]=corrCurves, cols[4]=patchCurves.}
 }
 \value{
   returns invisible vector containing \code{rgl.id} of
