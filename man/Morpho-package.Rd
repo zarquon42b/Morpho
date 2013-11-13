@@ -17,14 +17,18 @@ statistical methods related to Geometric Morphometrics and shape analysis}
 }
 \details{
   \tabular{ll}{ Package: \tab Morpho\cr Type: \tab
-  Package\cr Version: \tab 1.0-2.131111\cr Date: \tab
-  2013-11-11\cr License: \tab GPL\cr LazyLoad: \tab yes\cr
+  Package\cr Version: \tab 1.0-2.131113\cr Date: \tab
+  2013-11-13\cr License: \tab GPL\cr LazyLoad: \tab yes\cr
   }
 }
 \note{
   For full functionality please install trimesh-tools as
   described here:
   \url{http://sourceforge.net/p/morpho-rpackage/wiki/Installation_Morpho/#installation-of-the-command-line-tools-strongly-recommended}
+
+  The pdf-version of Morpho-help can be obtained from CRAN
+  on
+  \url{http://cran.r-project.org/web/packages/Morpho/Morpho.pdf}
 }
 \author{
   Stefan Schlager
