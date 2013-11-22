@@ -9,7 +9,8 @@
   ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL,
     clean = TRUE, outname = NULL, readback = TRUE,
     inbound = FALSE, strict = FALSE, ignore.stdout = FALSE,
-    mindist = FALSE)
+    mindist = FALSE, targetdump = "target",
+    refdump = "reference")
 }
 \arguments{
   \item{mesh1}{mesh to project. Can be an object of class
@@ -51,6 +52,10 @@
 
   \item{mindist}{search in both directions of the ray and
   use closest points.}
+
+  \item{targetdump}{specify name of dumped target mesh}
+
+  \item{refdump}{specify name of dumped reference mesh}
 }
 \value{
   returns projected mesh

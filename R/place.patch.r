@@ -175,6 +175,7 @@ plotAtlas <- function(atlas, pt.size=NULL, alpha=1, render=c("w","s"), point=c("
 #' \code{relax.patch=TRUE}, those points exceeding this value will be relaxed
 #' freely (i.e. not restricted to tangent plane).
 #' @param silent logical: suppress messages.
+#' @param mc.cores run in parallel (experimental stuff now even available on Windows)
 #' @return array containing the projected coordinates appended to the
 #' data.array specified in the input. In case dat.array is a matrix only a
 #' matrix is returned.
@@ -223,9 +224,9 @@ plotAtlas <- function(atlas, pt.size=NULL, alpha=1, render=c("w","s"), point=c("
 #' wire3d(longnose.mesh,col=3)
 #' spheres3d(patched)
 #' }
-#' 
+#' @importFrom parallel makeCluster stopCluster
 #' @export placePatch
-placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=TRUE, inflate=NULL,tol=inflate, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL, silent=FALSE)
+placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=TRUE, inflate=NULL,tol=inflate, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL, silent=FALSE,mc.cores=1)
     {
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
@@ -233,13 +234,21 @@ placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=
             keep.fix <- 1:dim(atlas$landmarks)[1]
         if (is.null(tol) && !is.null(inflate))
             tol <- inflate
-        
-        patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext, SMvector = keep.fix, silent=silent)
+        if (mc.cores > 1)
+            silent <- TRUE
+             
+        patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext, SMvector = keep.fix, silent=silent,mc.cores=mc.cores)
         return(patched)
     }
 
-place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,inflate=NULL,relax.patch=TRUE,rhotol=NULL,fileext=".ply", silent=FALSE)
+place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,inflate=NULL,relax.patch=TRUE,rhotol=NULL,fileext=".ply", silent=FALSE, mc.cores=1)
     {
+        if (.Platform$OS.type == "windows") {
+            cl <- makeCluster(mc.cores)            
+            registerDoParallel(cl=cl)
+        } else
+            registerDoParallel(cores = mc.cores)
+        
         k <- dim(dat.array)[1]
         deselect=TRUE
         fix <- which(c(1:k) %in% SMvector)
@@ -260,19 +269,20 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         L <- CreateL(atlas.lm)
         L1 <- CreateL(rbind(atlas.lm,patch))
         
-        for(i in 1:n) {
+        i <- 0
+        parfun <- function(i){
             tmp.name <- paste(path,prefix,name[i],fileext,sep="")
             if (!usematrix)
-                tmp.data <- projRead(dat.array[,,i],tmp.name,readnormals=TRUE, ignore.stdout=silent)
+                tmp.data <- projRead(dat.array[,,i],tmp.name,readnormals=TRUE, ignore.stdout=silent,prodump=paste0(i,"prodump1"),lmdump = paste0(i,"lmdump1"))
             else
-                tmp.data <- projRead(dat.array,tmp.name,readnormals=TRUE, ignore.stdout=silent)
+                tmp.data <- projRead(dat.array,tmp.name,readnormals=TRUE, ignore.stdout=silent,prodump=paste0(i,"prodump1"),lmdump = paste0(i,"lmdump1"))
             
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
                 sm <- SMvector
-                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
-                slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
-                tmp.data <- projRead(slide,tmp.name,readnormals=TRUE, ignore.stdout=silent)
+                U <- Morpho:::.calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
+                slide <- Morpho:::calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
+                tmp.data <- projRead(slide,tmp.name,readnormals=TRUE, ignore.stdout=silent, prodump=paste0(i,"prodump2"),lmdump = paste0(i,"lmdump2"))
                 tps.lm <- tps3d(patch,atlas.lm,slide)
             } else if (!is.null(SMvector) && is.null(outlines)) {
                 sm <- SMvector
@@ -292,18 +302,17 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 ### use for mullitlayer meshes to avoid projection inside
             if (!is.null(inflate)) {
                 atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide, silent=silent)
-                tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE, ignore.stdout = silent)
+                tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE, ignore.stdout = silent,prodump=paste0(i,"prodump3"),lmdump = paste0(i,"lmdump3"))
                 warp.norm <- tps.lm$normals[1:3,]### keep projected normals
                 
                 tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
-                tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol,angmax=rhotol, ignore.stdout=silent) ### deflate in opposite direction
+                tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol,angmax=rhotol, ignore.stdout=silent,refdump=paste0(i,"refdump4"), targetdump = paste0(i,"tardump4")) ### deflate in opposite direction
             } else {## just project warped patch on surface (suitable for singlelayer meshes)
-                tps.lm <- projRead(tps.lm,tmp.name,readnormals=TRUE, ignore.stdout=silent )
+                tps.lm <- projRead(tps.lm,tmp.name,readnormals=TRUE, ignore.stdout=silent,prodump=paste0(i,"prodump"),lmdump = paste0(i,"lmdump"))
             }
             
             relax <- rbind(slide,t(tps.lm$vb[1:3,]))
             normals <- rbind(slidenormals,t(tps.lm$normals[1:3,]))
-            
             surface <- c((k+1):(patch.dim+k))  ## define surface as appended to preset landmarks
             free <- NULL
 ### compare normals of projection and original points
@@ -332,18 +341,29 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 if (length(surface)==0)
                     surface <- NULL
                 
-                U1 <- .calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
-                tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
-                tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE, ignore.stdout = silent)
+                U1 <- Morpho:::.calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
+                tps.lm <- Morpho:::calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
+                tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE, ignore.stdout = silent,prodump=paste0(i,"prodump"),lmdump = paste0(i,"lmdump"))
             } else {# end relaxation ########################
                 tps.lm <- t(tps.lm$vb[1:3,])
             }
-            
+             
             if (!usematrix)
-                out[,,i] <- rbind(dat.array[,,i],tps.lm)
+                out <- rbind(dat.array[,,i],tps.lm)
             else
                 out <- rbind(dat.array,tps.lm)
+            return(out)
         }
+        if (!usematrix)
+            cfun <- function(...) bindArr(...,along=3)
+        else
+            cfun="c"
+        out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.packages=c("Morpho")) %dopar% parfun(i)
+        if (!usematrix)
+            dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
+
+        if (.Platform$OS.type == "windows")
+            stopCluster(cl)
         return(out)
     }
 
