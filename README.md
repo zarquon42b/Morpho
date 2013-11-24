@@ -1,6 +1,8 @@
 Morpho
 ======
 Morpho provides a rich toolset for Geometric Morphometrics and mesh processing in R. This includes (among other stuff) mesh deformations based on reference points, permutation tests, detection of outliers, processing of sliding semi-landmarks, im- and export of a variety of triangular surface mesh files.
+
+
 #### Installation of the R-package Morpho from CRAN: ####
 
 Within R:
@@ -74,7 +76,7 @@ Run the following command in R:
   1. Install QT-SDK (http://qt-project.org/downloads)
   2. make sure to have C++ compilers installed
   3. Get the latest sources
-       * Download the [tarball](https://github.com/zarquon42b/trimesh-cxx/archive/0.2.5.tar.gz)
+       * Download the [tarball](https://github.com/zarquon42b/trimesh-cxx/archive/0.2.6.tar.gz)
        * or use git to obtain the latest snapshot
                     
             git clone git://git.code.sf.net/p/morpho-rpackage/trimesh-cxx trimesh-cxx
