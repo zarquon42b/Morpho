@@ -12,13 +12,13 @@
     imagedim = "100x800", uprange = 1, ray = FALSE,
     raytol = 50, save = FALSE, plot = TRUE, sign = TRUE,
     tol = NULL, displace = FALSE, shade = TRUE,
-    method = c("morpho", "vcglib"), ...)
+    method = c("morpho", "vcglib"), add = FALSE, ...)
 
   \method{meshDist}{matrix} (x, mesh2 = NULL,
     distvec = NULL, from = NULL, to = NULL, steps = 20,
     ceiling = FALSE, uprange = 1, plot = TRUE, sign = TRUE,
     tol = NULL, type = c("s", "p"), radius = NULL,
-    displace = FALSE, ...)
+    displace = FALSE, add = FALSE, ...)
 }
 \arguments{
   \item{x}{reference mesh; object of class "mesh3d" or a n
@@ -89,6 +89,9 @@
   \item{radius}{determines size of spheres; if not
   specified, optimal radius size will be estimated by
   centroid size of the configuration.}
+
+  \item{add}{logical: if TRUE, visualization will be added
+  to the rgl window currently in focus}
 
   \item{\dots}{additional arguments passed to
   \code{\link{shade3d}}. See \code{\link{rgl.material}} for

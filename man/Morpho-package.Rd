@@ -17,8 +17,8 @@ statistical methods related to Geometric Morphometrics and shape analysis}
 }
 \details{
   \tabular{ll}{ Package: \tab Morpho\cr Type: \tab
-  Package\cr Version: \tab 1.0-2.131122\cr Date: \tab
-  2013-11-22\cr License: \tab GPL\cr LazyLoad: \tab yes\cr
+  Package\cr Version: \tab 1.0-2.131125\cr Date: \tab
+  2013-11-25\cr License: \tab GPL\cr LazyLoad: \tab yes\cr
   }
 }
 \note{

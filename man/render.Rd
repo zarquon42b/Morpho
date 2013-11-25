@@ -11,12 +11,12 @@
   \method{render}{meshDist} (x, from = NULL, to = NULL,
     steps = NULL, ceiling = NULL, uprange = NULL,
     tol = NULL, displace = FALSE, shade = TRUE,
-    sign = NULL, ...)
+    sign = NULL, add = FALSE, ...)
 
   \method{render}{matrixDist} (x, from = NULL, to = NULL,
     steps = NULL, ceiling = NULL, uprange = NULL,
     tol = NULL, type = c("s", "p"), radius = NULL,
-    displace = FALSE, sign = NULL, ...)
+    displace = FALSE, sign = NULL, add = FALSE, ...)
 
   export(x, ...)
 
@@ -67,6 +67,9 @@
   \item{radius}{determines size of spheres; if not
   specified, optimal radius size will be estimated by
   centroid size of the configuration.}
+
+  \item{add}{logical: if TRUE, visualization will be added
+  to the rgl window currently in focus}
 
   \item{\dots}{for render.meshDist: additional arguments
   passed to \code{\link{shade3d}}. See

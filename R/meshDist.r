@@ -47,6 +47,7 @@
 #' dots.
 #' @param radius determines size of spheres; if not specified, optimal radius
 #' size will be estimated by centroid size of the configuration.
+#' @param add logical: if TRUE, visualization will be added to the rgl window currently in focus
 #' @param \dots additional arguments passed to \code{\link{shade3d}}. See
 #' \code{\link{rgl.material}} for details.
 #' @return Returns an object of class "meshDist" if the input is a surface mesh
@@ -84,7 +85,7 @@ meshDist <- function(x,...) UseMethod("meshDist")
 #' @rdname meshDist
 #' @method meshDist mesh3d
 #' @S3method meshDist mesh3d
-meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("morpho", "vcglib"), ...)
+meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("morpho", "vcglib"), add=FALSE, ...)
   {
     method=substring(method[1],1L,1L)
     neg=FALSE
@@ -167,7 +168,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     class(out) <- "meshDist"
 
     if (plot)
-        render(out,output=FALSE,displace=displace,shade=shade,...)
+        render(out,output=FALSE,displace=displace,shade=shade,add=add, ...)
     if (save)
         export(out,file=file,imagedim=imagedim)
     invisible(out)
@@ -208,6 +209,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' dots.
 #' @param radius determines size of spheres; if not specified, optimal radius
 #' size will be estimated by centroid size of the configuration.
+#' @param add logical: if TRUE, visualization will be added to the rgl window currently in focus
 #' @param \dots for render.meshDist: additional arguments passed to
 #' \code{\link{shade3d}}. See \code{\link{rgl.material}} for details.
 #' @author Stefan Schlager
@@ -221,7 +223,7 @@ render <- function(x,...) UseMethod("render")
 #' @rdname render
 #' @method render meshDist
 #' @S3method render meshDist
-render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,sign=NULL,...)
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,...)
   {
     clost <- x$clost
     dists <- x$dists
@@ -230,9 +232,10 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
     colramp <- x$colramp
     params <- x$params
     distqual <- x$distqual
-    if (rgl.cur() !=0)
-        rgl.clear()
-    
+    if (!add) {
+        if (rgl.cur() !=0)
+            rgl.clear()
+    }
     if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign)) {
         neg=FALSE
         colMesh <- x$colMesh
