@@ -156,7 +156,6 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
             proc.disto[j2, j1] <- sqrt(sum((Gmeans[j1, ]- Gmeans[j2,])^2))
     
     proc.distout <- as.dist(proc.disto)
-
 ### Permutation Test for Distances	
     if (rounds > 0) {
         pmatrix.proc <- matrix(NA, ng, ng) ### generate distance matrix Euclidean
@@ -179,16 +178,15 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
                 return(dist.mat)
             }
         
-        #dist.mat.proc <- array(0, dim = c(ng, ng, rounds))
-        cfun <- function(...) bindArr(...,along=3)
+        dist.mat.proc <- array(0, dim = c(ng, ng, rounds))
+        
         if(win)
-            dist.mat.proc <- foreach(i=1:rounds,.combine=cfun)%do%rounproc(i)
+            a.list <- foreach(i=1:rounds) %do% rounproc(i)
         else
-            dist.mat.proc <- foreach(i=1:rounds,.combine=cfun)%dopar%rounproc(i)
+            a.list <- foreach(i=1:rounds) %dopar% rounproc(i)
         
-        #for (i in 1:rounds)
-        #    dist.mat.proc[,,i] <- a.list[[i]]
-        
+        for (i in 1:rounds)
+            dist.mat.proc[,,i] <- a.list[[i]]
         for (j1 in 1:(ng - 1)) {
             for (j2 in (j1 + 1):ng) {
                 sorti <- sort(dist.mat.proc[j2, j1,])

@@ -228,13 +228,17 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             return(out)
         }
         if (!usematrix)
-            cfun <- function(...) bindArr(...,along=3)
+            cfun <- list
         else
             cfun="c"
         out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.packages=c("Morpho")) %dopar% parfun(i)
-        if (!usematrix)
+        if (!usematrix) {
+            tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
+            for (i in 1:n)
+                tmpout[,,i] <- out[[i]]
+            out <- tmpout
             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
-
+        }
         if (.Platform$OS.type == "windows")
             stopCluster(cl)
         return(out)

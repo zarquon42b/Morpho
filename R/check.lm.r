@@ -110,7 +110,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
         } else {
             rend <- shade3d
         }
-        if (!add)
+        if (!add || rgl.cur()==0)
             open3d()
         if (!is.null(atlas)) {
             k <- dim(atlas$landmarks)[1]
@@ -158,7 +158,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
                         atlas.tmp$mesh <- get(input)
                     }
                 }
-                outid <- plotAtlas(atlas.tmp, add=FALSE, alpha=alpha, pt.size=radius, render=render, point=point, meshcol=col, legend=FALSE)
+                outid <- plotAtlas(atlas.tmp, add=TRUE, alpha=alpha, pt.size=radius, render=render, point=point, meshcol=col, legend=FALSE)
                 
             }
                 
