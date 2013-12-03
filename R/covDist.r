@@ -98,7 +98,7 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
     }
     V <- V+t(V)
     dimnames(V) <- list(lev,lev)
-    out$dist <- as.dist(V)
+    out$dist <- sqrt(as.dist(V))
     if (rounds > 0)
         out$p.matrix <- .covPCApermut(data, groups, rounds, mc.cores, V)
     
@@ -111,7 +111,6 @@ covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
         eigenD$vectors <- eigenD$vectors[,1:(nlev-1)]
         PCscores <- as.matrix(t(t(eigenD$vectors)*sqrt(eigenD$values)))
         rownames(PCscores) <- lev
-        
         out$PCscores <- PCscores
         out$Var <- eigenD$values/sum(eigenD$values)
         out$eigen <- eigenD
