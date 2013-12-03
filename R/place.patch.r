@@ -153,8 +153,8 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
                 sm <- SMvector
-                U <- Morpho:::.calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
-                slide <- Morpho:::calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
+                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
+                slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
                 tmp.data <- projRead(slide,tmp.name,readnormals=TRUE, ignore.stdout=silent, prodump=paste0(i,"prodump2"),lmdump = paste0(i,"lmdump2"))
                 tps.lm <- tps3d(patch,atlas.lm,slide)
             } else if (!is.null(SMvector) && is.null(outlines)) {
@@ -214,8 +214,8 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 if (length(surface)==0)
                     surface <- NULL
                 
-                U1 <- Morpho:::.calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
-                tps.lm <- Morpho:::calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
+                U1 <- .calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
+                tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
                 tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE, ignore.stdout = silent,prodump=paste0(i,"prodump"),lmdump = paste0(i,"lmdump"))
             } else {# end relaxation ########################
                 tps.lm <- t(tps.lm$vb[1:3,])
@@ -231,7 +231,8 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             cfun <- list
         else
             cfun="c"
-        out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.packages=c("Morpho")) %dopar% parfun(i)
+
+        out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho")) %dopar% parfun(i)
         if (!usematrix) {
             tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
             for (i in 1:n)
