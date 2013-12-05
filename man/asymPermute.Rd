@@ -1,8 +1,8 @@
-\name{asymPerm}
-\alias{asymPerm}
+\name{asymPermute}
+\alias{asymPermute}
 \title{Assess differences in amount and direction of asymmetric variation}
 \usage{
-  asymPerm(x, groups, rounds = 1000, which = 1:2,
+  asymPermute(x, groups, rounds = 1000, which = 1:2,
     mc.cores = detectCores())
 }
 \arguments{

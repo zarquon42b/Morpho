@@ -1,7 +1,7 @@
 export(adnormals)
 export(angle.calc)
 export(anonymize)
-export(asymPerm)
+export(asymPermute)
 export(barycenter)
 export(bindArr)
 export(bone1)

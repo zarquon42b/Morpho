@@ -21,9 +21,9 @@
 #'  \item{permuangle }{vector containing angles between random group means' vectors}
 #'
 #' @importFrom foreach registerDoSEQ
-#' @export asymPerm
+#' @export asymPermute
 #' 
-asymPerm <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
+asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
 
     if (!inherits(x,"symproc"))
         stop("please provide object of class 'symproc'")
@@ -61,6 +61,7 @@ asymPerm <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
         out <- asymPerm(asym,shake,rounds=0,which=which,mc.cores=1)
         return(out)
     }
+    
     if (rounds > 0) {
         i=0
         resampled <- foreach(i = 1:rounds,.inorder = FALSE,.packages=c("Morpho")) %dopar% permuta()
