@@ -1,9 +1,12 @@
 \name{asymPermute}
 \alias{asymPermute}
+\alias{asymPermuteArma}
 \title{Assess differences in amount and direction of asymmetric variation}
 \usage{
   asymPermute(x, groups, rounds = 1000, which = 1:2,
     mc.cores = detectCores())
+
+  asymPermuteArma(x, groups, rounds = 1000, which = 1:2)
 }
 \arguments{
   \item{x}{object of class symproc result from calling
@@ -37,5 +40,9 @@
 \description{
   Assess differences in amount and direction of asymmetric
   variation
+}
+\details{
+  asymPermuteArma is a version asymPermute making use of
+  the RcppArmadillo package to speed up permutation.
 }
 
