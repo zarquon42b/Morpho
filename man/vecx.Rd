@@ -29,6 +29,9 @@ into a matrix, one row per specimen or reverse this.
 \examples{
 library(shapes)
 data <- vecx(gorf.dat)
+#revert the procedure
+gdat.restored <- vecx(data,revert=T,lmdim=2)
+range(gdat.restored-gorf.dat)
 }
 \author{
 Stefan Schlager

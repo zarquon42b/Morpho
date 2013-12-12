@@ -18,8 +18,10 @@
 #' @examples
 #' 
 #' library(shapes)
-#' data <- vecx(gorf.dat)
-#' 
+#' data <- vecx(gorf.dat) 
+#' #revert the procedure
+#' gdat.restored <- vecx(data,revert=T,lmdim=2)
+#' range(gdat.restored-gorf.dat)
 #' @export vecx
 vecx <- function(x, byrow=FALSE, revert=FALSE, lmdim) {
     dims <- dim(x)
