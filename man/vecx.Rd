@@ -1,26 +1,37 @@
 \name{vecx}
 \alias{vecx}
-\title{convert an 3D array into a matrix}
+\title{convert an 3D array into a matrix and back}
 \usage{
-vecx(x, byrow = FALSE)
+vecx(x, byrow = FALSE, revert = FALSE, lmdim)
 }
 \arguments{
-  \item{x}{array}
+  \item{x}{array or matrix}
 
   \item{byrow}{logical: if TRUE, the resulting vector for
-  each specimen will be x1,y1,z1,x2,y2,z2,..., and
-  x1,x2,...,y1,y2,...,z1,z2,... otherwise (default)}
+  each specimen will be \code{x1,y1,z1,x2,y2,z2,...,} and
+  \code{x1,x2,...,y1,y2,...,z1,z2,...} otherwise (default).
+  The same is for reverting the process: if the matrix
+  contains the coordinates as rows like:
+  \code{x1,y1,z1,x2,y2,z2,...} set \code{byrow=TRUE}}
+
+  \item{revert}{revert the process and convert a matrix
+  with vectorized landmarks back into an array.}
+
+  \item{lmdim}{number of columns for reverting}
 }
 \value{
 returns a matrix with one row per specimen
 }
 \description{
 converts a 3D-array (e.g. containing landmark coordinates)
-into a matrix, one row per specimen.
+into a matrix, one row per specimen or reverse this.
 }
 \examples{
 library(shapes)
 data <- vecx(gorf.dat)
+#revert the procedure
+gdat.restored <- vecx(data,revert=T,lmdim=2)
+range(gdat.restored-gorf.dat)
 }
 \author{
 Stefan Schlager
