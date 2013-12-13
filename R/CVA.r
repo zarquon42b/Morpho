@@ -109,7 +109,7 @@
 #'    barplot(cva.1$Var[,2])
 #'  
 #'  
-#' @export CVA
+#' @export
 CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE, mc.cores=detectCores()) 
 {
     if(.Platform$OS.type == "windows")

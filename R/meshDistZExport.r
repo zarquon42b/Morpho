@@ -1,10 +1,10 @@
 #' @rdname render
-#' @export export
+#' @export
 export <- function(x,...)UseMethod("export")
 
 #' @rdname render
 #' @method export meshDist
-#' @S3method export meshDist
+#' @export
 export.meshDist <- function(x,file="default",imagedim="100x800",...)
 {
     tol <- x$params$tol

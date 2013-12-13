@@ -54,7 +54,7 @@
 #' }
 #'
 #' @rdname covDist
-#' @export covDist
+#' @export
 covDist <- function(s1,s2)
 {
     dims1 <- dim(s1);dims2 <- dim(s2)
@@ -76,7 +76,7 @@ covDist <- function(s1,s2)
 #' \item{p.matrix }{p-values for pairwise distances from permutation testing}
 #' 
 #' @rdname covDist
-#' @export covPCA
+#' @export
 covPCA <- function(data,groups,scores=TRUE,rounds=0, mc.cores=detectCores())
 {
     out <- list()

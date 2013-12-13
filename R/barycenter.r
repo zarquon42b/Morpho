@@ -19,7 +19,7 @@
 #' points3d(bary, col=2)
 #' ## now each triangle is equipped with a point in its barycenter
 #' }
-#' @export barycenter
+#' @export
 barycenter <- function(mesh)
   {
     vb <- mesh$vb[1:3,]

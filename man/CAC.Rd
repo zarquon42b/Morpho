@@ -45,6 +45,6 @@ deformGrid3d(small,large,ngrid=0)
 Mitteroecker P, Gunz P, Bernhard M, Schaefer K, Bookstein
 FL. 2004. Comparison of cranial ontogenetic trajectories
 among great apes and humans. Journal of Human Evolution
-46(6):679–97.
+46(6):679-97.
 }
 

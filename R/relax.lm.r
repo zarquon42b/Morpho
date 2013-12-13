@@ -67,7 +67,7 @@
 #' wire3d(shortnose.mesh, col="white")
 #' }
 #' 
-#' @export relaxLM
+#' @export
 relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE)
 {
     k <- dim(lm)[1]

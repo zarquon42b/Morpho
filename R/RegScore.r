@@ -11,7 +11,7 @@
 #' model <- lm(as.matrix(iris[,1:2]) ~ iris[,3])
 #' rs <- RegScore(model)
 #' plot(rs,iris[,4])
-#' @export RegScore
+#' @export
 
 RegScore <- function(model,x=NULL) {
     if (is.null(x))

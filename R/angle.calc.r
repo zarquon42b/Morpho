@@ -16,7 +16,7 @@
 #' opa <- rotonto(boneLM[,,1],boneLM[,,2])
 #' angle.calc(opa$X, opa$Y)
 #' 
-#' @export angle.calc
+#' @export
  angle.calc <- function(x,y)
  {  x <- as.vector(x)/sqrt(sum(x^2))
     y <- as.vector(y)/sqrt(sum(y^2))

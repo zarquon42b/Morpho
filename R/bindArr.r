@@ -56,7 +56,7 @@
 #' 
 #' 
 #' 
-#' @export bindArr
+#' @export
 bindArr <- function(...,along=1)
     {
         args <- list(...)

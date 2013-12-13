@@ -15,7 +15,7 @@
 #' OPA <- rotonto(gorf.dat[,,1],gorf.dat[,,2])
 #' kendalldist(OPA$X,OPA$Y)
 #' 
-#' @export kendalldist
+#' @export
 kendalldist <- function(x,y)
     {
         m <- ncol(x)

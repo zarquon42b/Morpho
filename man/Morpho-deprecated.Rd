@@ -10,7 +10,7 @@ regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle",
   dist.mat.out = FALSE)
 }
 \description{
-
+document deprecated functions
 }
 \keyword{internal}
 

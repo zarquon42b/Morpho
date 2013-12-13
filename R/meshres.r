@@ -14,7 +14,7 @@
 #' mres <- meshres(skull_0144_ch_fe.mesh)
 #' 
 #' 
-#' @export meshres
+#' @export
 meshres <- function(mesh)
   {
       if (!inherits(mesh,"mesh3d"))

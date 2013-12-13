@@ -18,7 +18,7 @@
 #' \item{CS}{the centroid sizes (log transformed if \code{log = TRUE})}
 #'
 #' @references
-#' Mitteroecker P, Gunz P, Bernhard M, Schaefer K, Bookstein FL. 2004. Comparison of cranial ontogenetic trajectories among great apes and humans. Journal of Human Evolution 46(6):679–97.
+#' Mitteroecker P, Gunz P, Bernhard M, Schaefer K, Bookstein FL. 2004. Comparison of cranial ontogenetic trajectories among great apes and humans. Journal of Human Evolution 46(6):679-97.
 #' @examples
 #' data(boneData)
 #' proc <- procSym(boneLM)
@@ -32,7 +32,7 @@
 #' small <- showPC(min(cac$CACscores),cac$CAC,proc$mshape)
 #' deformGrid3d(small,large,ngrid=0)
 #' }
-#' @export CAC
+#' @export
 
 CAC <- function(x, size, groups=NULL, log=FALSE) {
     if (length(dim(x)) == 3)

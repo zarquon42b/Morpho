@@ -30,7 +30,7 @@
 #' wire3d(shortnose.mesh)
 #' }
 #' 
-#' @export mcNNindex
+#' @export
 mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
     {
         if(.Platform$OS.type == "windows")

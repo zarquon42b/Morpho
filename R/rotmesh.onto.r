@@ -38,7 +38,7 @@
 #' spheres3d(boneLM[,,10])
 #' }
 #' 
-#' @export rotmesh.onto
+#' @export
 rotmesh.onto <- function(mesh, refmat, tarmat, adnormals=FALSE, scale=FALSE, reflection=FALSE)
 {
   rot <- rotonto(tarmat,refmat,scale=scale,reflection=reflection)

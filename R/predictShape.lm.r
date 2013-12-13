@@ -64,7 +64,7 @@
 #' pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
 #' 
 #' 
-#' @export predictShape.lm
+#' @export
 predictShape.lm <- function(fit, datamod, PC, mshape)
 {
   if (!inherits(fit, "lm"))

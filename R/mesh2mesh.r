@@ -35,7 +35,7 @@
 #' Distance Fields From Triangle Meshes. Informatics and Mathematical
 #' Modelling.
 #' @rdname mesh2mesh
-#' @export mesh2mesh
+#' @export
 mesh2mesh <- function(mesh1,tarmesh,clean=TRUE,cloud=FALSE,sign=FALSE)
 {
   options <- NULL

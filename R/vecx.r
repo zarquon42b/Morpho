@@ -20,9 +20,9 @@
 #' library(shapes)
 #' data <- vecx(gorf.dat) 
 #' #revert the procedure
-#' gdat.restored <- vecx(data,revert=T,lmdim=2)
+#' gdat.restored <- vecx(data,revert=TRUE,lmdim=2)
 #' range(gdat.restored-gorf.dat)
-#' @export vecx
+#' @export
 vecx <- function(x, byrow=FALSE, revert=FALSE, lmdim) {
     dims <- dim(x)
     if (!revert) {

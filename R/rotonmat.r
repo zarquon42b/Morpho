@@ -29,7 +29,7 @@
 #' ##view result
 #' deformGrid3d(shortnose.rot,shortnose.lm,ngrid=0)
 #' 
-#' @export rotonmat
+#' @export
 rotonmat <- function(X,refmat,tarmat,scale=TRUE,reflection=FALSE, weights=NULL, centerweight=FALSE)
 {	
 	ro <- rotonto(tarmat,refmat,scale=scale,signref=F,reflection=reflection, weights=weights, centerweight=centerweight)

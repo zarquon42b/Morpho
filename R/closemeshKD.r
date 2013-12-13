@@ -45,7 +45,7 @@
 #' ###longnose.lm is scaled to unit centroid size.
 #' hist(out$quality)
 #' 
-#' @export closemeshKD
+#' @export
 closemeshKD <- function(x, mesh, k=50, sign=FALSE, barycoords=FALSE, cores=1, method=0,...)
     {
         if(.Platform$OS.type == "windows")

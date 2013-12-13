@@ -66,7 +66,7 @@
 #' 
 #' 
 #' @rdname typprob
-#' @export typprob
+#' @export
 typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=NULL, cova=NULL)
 {
     method <- substr(method[1],1L,1L)
@@ -101,7 +101,7 @@ typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=N
 }
 
 #' @rdname typprob
-#' @export typprobClass
+#' @export
 typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01,sep=FALSE)
 {
     if (!is.factor(groups))
@@ -147,7 +147,7 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
 #' @examples
 #' data(iris)
 #' poolCov <- covW(iris[,1:4],iris[,5])
-#' @export covW
+#' @export
 covW <- function(data, groups)
     {
         if (!is.factor(groups)) {

@@ -17,7 +17,7 @@
 #' write.pts(shortnose.lm, filename="shortnose")
 #' data <- read.pts("shortnose.pts")
 #' 
-#' @export read.pts
+#' @export
 read.pts <- function(file="x", na=9999)
 {	
 	pts <- read.table(file,skip=2)

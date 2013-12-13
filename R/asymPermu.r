@@ -21,7 +21,7 @@
 #'  \item{permuangle }{vector containing angles between random group means' vectors}
 #'
 #' @importFrom foreach registerDoSEQ
-#' @export asymPermute
+#' @export
 #' 
 asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
 
@@ -122,7 +122,7 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
 #' system.time(meanMat(A))
 #' system.time(apply(A,2,mean))
 #' }
-#' @export meanMat
+#' @export
 meanMat <-function(A,usedim=2)
     {
         if (usedim==1)

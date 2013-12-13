@@ -48,7 +48,7 @@
 #' # s #enough for now
 #' }
 #' 
-#' @export find.outliers
+#' @export
 find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, text=TRUE)
 {   	
     raw <- A

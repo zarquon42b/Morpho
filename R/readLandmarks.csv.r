@@ -17,7 +17,7 @@
 #' \item{NAs }{vector containing rows containing NAs}
 #' @author Stefan Schlager
 #' @seealso \code{\link{read.table}}
-#' @export readLandmarks.csv
+#' @export
 readLandmarks.csv <- function(file, x, y=2:4, rownames=NULL, header=TRUE, dec=".", sep=";")
 {	
 	

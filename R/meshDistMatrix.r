@@ -1,6 +1,6 @@
 #' @rdname meshDist
 #' @method meshDist matrix
-#' @S3method meshDist matrix
+#' @export
 meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,...)
     {
         x <- list(vb=t(x),it=matrix(1:dim(x)[1]),1,dim(x)[1])
@@ -12,7 +12,7 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
     }
 #' @rdname render
 #' @method render matrixDist
-#' @S3method render matrixDist
+#' @export
 render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,sign=NULL,add=FALSE,...) {
     if (!add) {
         if (rgl.cur() !=0)

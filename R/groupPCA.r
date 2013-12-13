@@ -80,7 +80,7 @@
 #' }
 #' 
 #' 
-#' @export groupPCA
+#' @export
 groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=detectCores(), weighting=TRUE)
 {
     win <- FALSE

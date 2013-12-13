@@ -29,7 +29,7 @@ RGB2Grey <- function(x,coefs = c(0.3, 0.59, 0.11))
 #' @author Stefan Schlager
 #' @seealso \code{\link{ply2mesh}},\code{\link{file2mesh}}
 #' @keywords ~kwd1 ~kwd2
-#' @export mesh2grey
+#' @export
 mesh2grey <- function(mesh)
   {
     if (is.null(mesh$material$color))

@@ -20,7 +20,7 @@
 #' shade3d(shortnose.mesh,col=3)
 #' }
 #' 
-#' @export plotNormals
+#' @export
 plotNormals <- function(x,long=1,lwd=1,col=1)
   {
     if ( ! "mesh3d" %in% class(x))

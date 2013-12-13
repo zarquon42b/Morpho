@@ -63,7 +63,7 @@ projBack <- function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.
 #' }
 #' 
 #' 
-#' @export projRead
+#' @export
 projRead <- function(lm,mesh,readnormals=TRUE,clean=TRUE,smooth=TRUE,ignore.stdout=FALSE,sign=FALSE,lmdump=NULL,prodump=NULL)
 {
 

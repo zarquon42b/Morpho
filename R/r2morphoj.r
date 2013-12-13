@@ -24,7 +24,7 @@
 #' r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
 #' 
 #' @rdname r2morphoj
-#' @export r2morphoj
+#' @export
 r2morphoj <- function(x,file,id.string=NULL)
   {
     x <- vecx(x,byrow=TRUE)

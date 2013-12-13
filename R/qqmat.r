@@ -25,7 +25,7 @@
 #' data1 <- rchisq(100,df=3)
 #' qqmat(data1,square=FALSE)
 #' 
-#' @export qqmat
+#' @export
 qqmat <- function(x,output=FALSE,square=TRUE)
   {
     x <- as.matrix(x)

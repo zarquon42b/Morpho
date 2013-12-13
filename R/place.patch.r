@@ -98,7 +98,7 @@
 #' spheres3d(patched)
 #' }
 #' @importFrom parallel makeCluster stopCluster
-#' @export placePatch
+#' @export
 placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=TRUE, inflate=NULL,tol=inflate, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL, silent=FALSE,mc.cores=1)
     {
         if (!inherits(atlas, "atlas"))

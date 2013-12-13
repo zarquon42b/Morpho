@@ -47,7 +47,7 @@
 #' points(rev1,cex=2) ### show inversion by larger circles around original configuration
 #' 
 #' 
-#' @export rotonto
+#' @export
 rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE)
 { 	reflect=0
   	m <- dim(x)[2]
@@ -134,7 +134,7 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
   	return(list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect))
 }
 #' @rdname rotonto
-#' @export rotreverse
+#' @export
 rotreverse <- function(mat,rot)
   {
     transfun <- function(x,trans)

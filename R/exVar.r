@@ -27,12 +27,12 @@
 #' lm1 <- lm(as.matrix(iris[,1:4]) ~ iris[,5])
 #' exVar(lm1)
 #' @rdname exVar
-#' @export exVar
+#' @export
 exVar <- function(model,...)UseMethod("exVar")
 
 #' @rdname exVar
 #' @method exVar lm
-#' @S3method exVar lm
+#' @export
 exVar.lm <- function(model,...)
   {
     exVar <- sum(eigen(cov(predict(model)))$values)/sum(eigen(cov(predict(model)+model$residuals))$values)
@@ -41,7 +41,7 @@ exVar.lm <- function(model,...)
 
 #' @rdname exVar
 #' @method exVar mvr
-#' @S3method exVar mvr
+#' @export
 exVar.mvr <- function(model,ncomp,val=FALSE,...)
   {
     if (!val || is.null(model$validation))

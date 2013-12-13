@@ -24,12 +24,12 @@
 #' pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
 #' 
 #' @rdname pcaplot3d
-#' @export pcaplot3d
+#' @export
 pcaplot3d <- function (x,...) UseMethod("pcaplot3d")
 
 #' @rdname pcaplot3d
-#' @method pcaplot3d symproc
-#' @S3method pcaplot3d symproc
+#'
+#' @export
 pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...) 
 {   
   refshape <- x$mshape
@@ -69,8 +69,8 @@ pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...
   spheres3d(refshape,  col = color,radius=sz)
 }
 #' @rdname pcaplot3d
-#' @method pcaplot3d nosymproc
-#' @S3method pcaplot3d nosymproc
+#'
+#' @export
 pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
 {   
     refshape <- x$mshape

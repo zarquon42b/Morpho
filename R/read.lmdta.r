@@ -13,7 +13,7 @@
 #' \item{idnames }{character vector containing the names of the individuals
 #' as specified in the dta file}
 #' @keywords ~kwd1 ~kwd2
-#' @export read.lmdta
+#' @export
 read.lmdta <- function(file="x", na=9999)
 {         x <- file
           A <- readLines(x)

@@ -21,7 +21,7 @@
 #' shade3d(mergedMesh, col=3)
 #' }
 #' 
-#' @export mergeMeshes
+#' @export
 mergeMeshes <- function(...)
 {
     args <- list(...)

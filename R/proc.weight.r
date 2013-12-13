@@ -37,7 +37,7 @@
 #' plot(estim,asp=1)## show estimation
 #' points(proc$rotated[,,1],col=3)##show original
 #' 
-#' @export proc.weight
+#' @export
 proc.weight <- function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FALSE)
 {
   lmdat <- FALSE

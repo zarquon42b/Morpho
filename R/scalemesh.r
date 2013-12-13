@@ -21,7 +21,7 @@
 #' #inflate mesh by factor 4
 #' largenose <- scalemesh(shortnose.mesh,4)
 #' 
-#' @export scalemesh
+#' @export
 scalemesh <- function(mesh,size,center=c("bbox","mean", "none"))
 {	
     getmean <- TRUE

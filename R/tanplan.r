@@ -34,7 +34,7 @@
 #' # show z
 #' lines3d(rbind(0, z), col=3, lwd=2)
 #' @rdname tanplan
-#' @export tanplan
+#' @export
 tanplan <- function(x)
 {		if (sum(x^2)==0)
 		{stop(cat("zero vector has no orthogonal subspace"))}
