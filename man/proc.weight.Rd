@@ -2,8 +2,8 @@
 \alias{proc.weight}
 \title{calculate weights inverse to the distances from the specified observation.}
 \usage{
-  proc.weight(data, number, ref, report = TRUE, reg = 0,
-    log = FALSE, mahalanobis = FALSE)
+proc.weight(data, number, ref, report = TRUE, reg = 0, log = FALSE,
+  mahalanobis = FALSE)
 }
 \arguments{
   \item{data}{array containing landmark configurations}
@@ -26,21 +26,21 @@
   \item{mahalanobis}{logical: use mahalanobis distance.}
 }
 \value{
-  \item{data }{dataframe containing id,
-  procrustes/mahalanobis distance and weight according to
-  the reference} \item{reference }{returns observations'
-  names if available} \item{rho.all }{dataframe containing
-  distances to references of all observations}
+\item{data }{dataframe containing id,
+procrustes/mahalanobis distance and weight according to the
+reference} \item{reference }{returns observations' names if
+available} \item{rho.all }{dataframe containing distances
+to references of all observations}
 }
 \description{
-  for calculation of a shape model by averaging the
-  observations neighbouring the configuration in question,
-  it is necessary to calculate weights by similarity.
+for calculation of a shape model by averaging the
+observations neighbouring the configuration in question, it
+is necessary to calculate weights by similarity.
 }
 \details{
-  distances of zero will get a weight of 1e12 (this is
-  scaled to all weights summing to one), thus weights for
-  observations further away are converging to zero.
+distances of zero will get a weight of 1e12 (this is scaled
+to all weights summing to one), thus weights for
+observations further away are converging to zero.
 }
 \examples{
 library(shapes)

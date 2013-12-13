@@ -1,24 +1,22 @@
-\name{meshDist}
+\name{meshDist.matrix}
 \alias{meshDist}
 \alias{meshDist.matrix}
 \alias{meshDist.mesh3d}
 \title{calculates and visualises distances between surface meshes or 3D coordinates and a surface mesh.}
 \usage{
-  meshDist(x, ...)
+\method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL, from = NULL,
+  to = NULL, steps = 20, ceiling = FALSE, uprange = 1, plot = TRUE,
+  sign = TRUE, tol = NULL, type = c("s", "p"), radius = NULL,
+  displace = FALSE, add = FALSE, ...)
 
-  \method{meshDist}{mesh3d} (x, mesh2 = NULL,
-    distvec = NULL, from = NULL, to = NULL, steps = 20,
-    ceiling = FALSE, file = "default",
-    imagedim = "100x800", uprange = 1, ray = FALSE,
-    raytol = 50, save = FALSE, plot = TRUE, sign = TRUE,
-    tol = NULL, displace = FALSE, shade = TRUE,
-    method = c("morpho", "vcglib"), add = FALSE, ...)
+meshDist(x, ...)
 
-  \method{meshDist}{matrix} (x, mesh2 = NULL,
-    distvec = NULL, from = NULL, to = NULL, steps = 20,
-    ceiling = FALSE, uprange = 1, plot = TRUE, sign = TRUE,
-    tol = NULL, type = c("s", "p"), radius = NULL,
-    displace = FALSE, add = FALSE, ...)
+\method{meshDist}{mesh3d}(x, mesh2 = NULL, distvec = NULL, from = NULL,
+  to = NULL, steps = 20, ceiling = FALSE, file = "default",
+  imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50,
+  save = FALSE, plot = TRUE, sign = TRUE, tol = NULL,
+  displace = FALSE, shade = TRUE, method = c("morpho", "vcglib"),
+  add = FALSE, ...)
 }
 \arguments{
   \item{x}{reference mesh; object of class "mesh3d" or a n
@@ -98,26 +96,26 @@
   details.}
 }
 \value{
-  Returns an object of class "meshDist" if the input is a
-  surface mesh and one of class "matrixDist" if input is a
-  matrix containing 3D coordinates. \item{colMesh }{object
-  of mesh3d with colors added} \item{dists }{vector with
-  distances} \item{cols }{vector with color values}
-  \item{params }{list of parameters used}
+Returns an object of class "meshDist" if the input is a
+surface mesh and one of class "matrixDist" if input is a
+matrix containing 3D coordinates. \item{colMesh }{object of
+mesh3d with colors added} \item{dists }{vector with
+distances} \item{cols }{vector with color values}
+\item{params }{list of parameters used}
 }
 \description{
-  calculates and visualises distances between surface
-  meshes or 3D coordinates and a surface mesh.
+calculates and visualises distances between surface meshes
+or 3D coordinates and a surface mesh.
 }
 \details{
-  calculates the distances from a mesh or a set of 3D
-  coordinates to another at each vertex; either closest
-  point or along the normals
+calculates the distances from a mesh or a set of 3D
+coordinates to another at each vertex; either closest point
+or along the normals
 
-  this function needs the command line tools from the
-  Auxiliaries section in
-  \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries}
-  installed.
+this function needs the command line tools from the
+Auxiliaries section in
+\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries}
+installed.
 }
 \examples{
 require(rgl)
@@ -133,19 +131,18 @@ meshDist(warpnose.long, shortnose.mesh, sign=TRUE, tol=0.01, method="m")
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Detection of inside/outside uses the algorithm proposed
-  in:
+Detection of inside/outside uses the algorithm proposed in:
 
-  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
-  Signed Distance Fields From Triangle Meshes. Informatics
-  and Mathematical Modelling, .
+Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
+Signed Distance Fields From Triangle Meshes. Informatics
+and Mathematical Modelling, .
 }
 \seealso{
-  \code{\link{render.meshDist}}, ,
-  \code{\link{export.meshDist}}, \code{\link{shade3d}}
+\code{\link{render.meshDist}}, ,
+\code{\link{export.meshDist}}, \code{\link{shade3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

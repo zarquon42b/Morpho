@@ -2,8 +2,8 @@
 \alias{groupPCA}
 \title{Perform PCA based of the group means' covariance matrix}
 \usage{
-  groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10,
-    cv = TRUE, mc.cores = detectCores(), weighting = TRUE)
+groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv = TRUE,
+  mc.cores = detectCores(), weighting = TRUE)
 }
 \arguments{
   \item{dataarray}{Either a k x m x n real array, where k
@@ -35,22 +35,22 @@
   matrix according to group sizes.}
 }
 \value{
-  \item{eigenvalues }{Non-zero eigenvalues of the groupmean
-  covariance matrix} \item{groupPCs }{PC-axes - i.e.
-  eigenvectors of the groupmean covariance matrix}
-  \item{Variance }{table displaying the variance explained
-  by eache eigenvalue} \item{Scores }{Scores of all
-  observation in the PC-space} \item{probs }{p-values of
-  pairwise groupdifferences - based on permuation testing}
-  \item{groupdists }{Euclidean distances between groups'
-  averages} \item{groupmeans }{Groupmeans} \item{Grandmean
-  }{Grand mean} \item{CV }{Cross-validated scores}
+\item{eigenvalues }{Non-zero eigenvalues of the groupmean
+covariance matrix} \item{groupPCs }{PC-axes - i.e.
+eigenvectors of the groupmean covariance matrix}
+\item{Variance }{table displaying the variance explained by
+eache eigenvalue} \item{Scores }{Scores of all observation
+in the PC-space} \item{probs }{p-values of pairwise
+groupdifferences - based on permuation testing}
+\item{groupdists }{Euclidean distances between groups'
+averages} \item{groupmeans }{Groupmeans} \item{Grandmean
+}{Grand mean} \item{CV }{Cross-validated scores}
 }
 \description{
-  Calculate covariance matrix of the groupmeans and project
-  all observations into the eigenspace of this covariance
-  matrix. This displays a low dimensional between group
-  structure of a high dimensional problem.
+Calculate covariance matrix of the groupmeans and project
+all observations into the eigenspace of this covariance
+matrix. This displays a low dimensional between group
+structure of a high dimensional problem.
 }
 \examples{
 require(car)
@@ -87,19 +87,19 @@ spheres3d(grandmean, radius=0.005)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Mitteroecker P, Bookstein F 2011. Linear Discrimination,
-  Ordination, and the Visualization of Selection Gradients
-  in Modern Morphometrics. Evolutionary Biology 38:100-114.
+Mitteroecker P, Bookstein F 2011. Linear Discrimination,
+Ordination, and the Visualization of Selection Gradients in
+Modern Morphometrics. Evolutionary Biology 38:100-114.
 
-  Boulesteix, A. L. 2005: A note on between-group PCA,
-  International Journal of Pure and Applied Mathematics 19,
-  359-366.
+Boulesteix, A. L. 2005: A note on between-group PCA,
+International Journal of Pure and Applied Mathematics 19,
+359-366.
 }
 \seealso{
-  \code{\link{CVA}}
+\code{\link{CVA}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -2,7 +2,7 @@
 \alias{tps3d}
 \title{thin plate spline mapping}
 \usage{
-  tps3d(M, refmat, tarmat, lambda = 0)
+tps3d(M, refmat, tarmat, lambda = 0)
 }
 \arguments{
   \item{M}{datamatrix - e.g. the matrix information of
@@ -18,12 +18,11 @@
   TPS.}
 }
 \value{
-  returns the warped datamatrix
+returns the warped datamatrix
 }
 \description{
-  maps a datamatrix via thin plate spline between
-  calculated by a reference on a target configuration in 2D
-  and 3D
+maps a datamatrix via thin plate spline between calculated
+by a reference on a target configuration in 2D and 3D
 }
 \examples{
 require(Morpho)
@@ -44,14 +43,14 @@ deformGrid3d(shortnose.lm,deformed,ngrid = 5)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Bookstein FL. 1989. Principal Warps: Thin-plate splines
-  and the decomposition of deformations. IEEE Transactions
-  on pattern analysis and machine intelligence 11(6).
+Bookstein FL. 1989. Principal Warps: Thin-plate splines and
+the decomposition of deformations. IEEE Transactions on
+pattern analysis and machine intelligence 11(6).
 }
 \seealso{
-  \code{\link{warp.mesh}}
+\code{\link{warp.mesh}}
 }
 

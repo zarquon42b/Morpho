@@ -2,18 +2,18 @@
 \alias{mergeMeshes}
 \title{merge multiple triangular meshes into a single one}
 \usage{
-  mergeMeshes(...)
+mergeMeshes(...)
 }
 \arguments{
   \item{\dots}{triangular meshes of class \code{'mesh3d'}
   to merge or a list of triangular meshes.}
 }
 \value{
-  returns the meshes merged into a single one.
+returns the meshes merged into a single one.
 }
 \description{
-  merge multiple triangular meshes into a single one,
-  preserving color and vertex normals.
+merge multiple triangular meshes into a single one,
+preserving color and vertex normals.
 }
 \examples{
 require(rgl)
@@ -26,7 +26,7 @@ shade3d(mergedMesh, col=3)
 }
 }
 \seealso{
-  \code{\link{mesh2ply}, \link{file2mesh}, \link{ply2mesh}}
+\code{\link{mesh2ply}, \link{file2mesh}, \link{ply2mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

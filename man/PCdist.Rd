@@ -2,7 +2,7 @@
 \alias{PCdist}
 \title{correlation between a reduced space and the original space}
 \usage{
-  PCdist(PCs, PCscores, x = 5, plot.type = "b")
+PCdist(PCs, PCscores, x = 5, plot.type = "b")
 }
 \arguments{
   \item{PCs}{m x k matrix of Principal Components where m
@@ -18,13 +18,13 @@
   "s"=line between correlation values.}
 }
 \value{
-  a vector of R-squared values between subspace and
-  fullspace distances and a barplot depicting the
-  correlations belonging to the subspace.
+a vector of R-squared values between subspace and fullspace
+distances and a barplot depicting the correlations
+belonging to the subspace.
 }
 \description{
-  Calculates the correlation between distances in a reduced
-  space and the original space
+Calculates the correlation between distances in a reduced
+space and the original space
 }
 \examples{
 library(shapes)
@@ -32,7 +32,7 @@ a <- procSym(gorf.dat)
 PCdist(a$PCs, a$PCscores, x = 2)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

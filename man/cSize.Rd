@@ -2,17 +2,17 @@
 \alias{cSize}
 \title{calculate Centroid Size for a landmark configuration}
 \usage{
-  cSize(x)
+cSize(x)
 }
 \arguments{
   \item{x}{matrix where each row contains coordinates for
   landmarks}
 }
 \value{
-  returns Centroid size
+returns Centroid size
 }
 \description{
-  calculate Centroid Size for a landmark configuration
+calculate Centroid Size for a landmark configuration
 }
 \examples{
 data(boneData)

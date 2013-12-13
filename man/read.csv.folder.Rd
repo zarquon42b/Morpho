@@ -2,9 +2,8 @@
 \alias{read.csv.folder}
 \title{batch import data from files}
 \usage{
-  read.csv.folder(folder, x, y = 2:4, rownames = NULL,
-    header = TRUE, dec = ".", sep = ";", pattern = "csv",
-    addSpec = NULL, back = TRUE)
+read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE,
+  dec = ".", sep = ";", pattern = "csv", addSpec = NULL, back = TRUE)
 }
 \arguments{
   \item{folder}{character: path to folder}
@@ -35,18 +34,18 @@
   \item{back}{logical: where to place the specifier.}
 }
 \value{
-  \item{arr }{array containing imported data} \item{NAs
-  }{vector containing position of observations with NAs}
-  \item{NA.list }{list: containing vectors containing
-  information which LMs are missing in which observation}
+\item{arr }{array containing imported data} \item{NAs
+}{vector containing position of observations with NAs}
+\item{NA.list }{list: containing vectors containing
+information which LMs are missing in which observation}
 }
 \description{
-  imports all data files contained in a specified folder.
+imports all data files contained in a specified folder.
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{read.table}}
+\code{\link{read.table}}
 }
 

@@ -3,10 +3,9 @@
 \alias{r2morphologika}
 \title{Export data to MorphoJ and Morphologika}
 \usage{
-  r2morphoj(x, file, id.string = NULL)
+r2morphoj(x, file, id.string = NULL)
 
-  r2morphologika(x, file = file, labels = NULL,
-    labelname = NULL, ...)
+r2morphologika(x, file = file, labels = NULL, labelname = NULL, ...)
 }
 \arguments{
   \item{x}{3-dimensionla array containing landmark data.
@@ -25,10 +24,10 @@
   \item{\dots}{unused at the moment}
 }
 \description{
-  Export data to MorphoJ and Morphologika
+Export data to MorphoJ and Morphologika
 }
 \details{
-  Export data to MorphoJ and Morphologika
+Export data to MorphoJ and Morphologika
 }
 \examples{
 library(shapes)

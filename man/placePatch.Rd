@@ -3,10 +3,9 @@
 \alias{placePatch}
 \title{Project semi-landmarks from a predefined atlas onto all specimen in a sample}
 \usage{
-  placePatch(atlas, dat.array, path, prefix = NULL,
-    fileext = ".ply", ray = TRUE, inflate = NULL,
-    tol = inflate, relax.patch = TRUE, keep.fix = NULL,
-    rhotol = NULL, silent = FALSE, mc.cores = 1)
+placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
+  ray = TRUE, inflate = NULL, tol = inflate, relax.patch = TRUE,
+  keep.fix = NULL, rhotol = NULL, silent = FALSE, mc.cores = 1)
 }
 \arguments{
   \item{atlas}{object of class "atlas" created by
@@ -63,38 +62,37 @@
   even available on Windows)}
 }
 \value{
-  array containing the projected coordinates appended to
-  the data.array specified in the input. In case dat.array
-  is a matrix only a matrix is returned.
+array containing the projected coordinates appended to the
+data.array specified in the input. In case dat.array is a
+matrix only a matrix is returned.
 }
 \description{
-  Project semi-landmarks from a predefined atlas onto all
-  specimen in a sample. Various mechanisms are implemented
-  to avoid errorneous placement on the wrong surface layer
-  (e.g. inside the bone).
+Project semi-landmarks from a predefined atlas onto all
+specimen in a sample. Various mechanisms are implemented to
+avoid errorneous placement on the wrong surface layer (e.g.
+inside the bone).
 }
 \details{
-  This function allows the (relatively) easy projection of
-  surface points defined on an atlas onto all surface of a
-  given sample by Thin-Plate Spline deformation and
-  additional mechanisms to avoid distortions. The algorithm
-  can be outlined as followed.  \enumerate{ \item deform
-  atlas onto targets by TPS based on predefined landmarks
-  (and curves). \item project coordinates on deformed atlas
-  onto target mesh \item 'inflate' or 'deflate'
-  configuration along their normals to make sure all
-  coordinates are on the outside/inside \item Project
-  inflated points back onto surface along these normals.
-  \item Check if normals are roughly pointing into the same
-  direction as those on the (deformed) atlas. \item Relax
-  all points against atlas.
+This function allows the (relatively) easy projection of
+surface points defined on an atlas onto all surface of a
+given sample by Thin-Plate Spline deformation and
+additional mechanisms to avoid distortions. The algorithm
+can be outlined as followed.  \enumerate{ \item deform
+atlas onto targets by TPS based on predefined landmarks
+(and curves). \item project coordinates on deformed atlas
+onto target mesh \item 'inflate' or 'deflate' configuration
+along their normals to make sure all coordinates are on the
+outside/inside \item Project inflated points back onto
+surface along these normals. \item Check if normals are
+roughly pointing into the same direction as those on the
+(deformed) atlas. \item Relax all points against atlas.
 
-  }
+}
 }
 \note{
-  needs additional command line tools "trimesh-tools"
-  installed
-  (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}).
+needs additional command line tools "trimesh-tools"
+installed
+(\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}).
 }
 \examples{
 \dontrun{
@@ -131,19 +129,19 @@ spheres3d(patched)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Schlager S. 2013. Soft-tissue reconstruction of the human
-  nose: population differences and sexual dimorphism. PhD
-  thesis,
-  \enc{Universitätsbibliothek}{Universitaetsbibliothek}
-  Freiburg.  URL:
-  \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
+Schlager S. 2013. Soft-tissue reconstruction of the human
+nose: population differences and sexual dimorphism. PhD
+thesis,
+\enc{Universitätsbibliothek}{Universitaetsbibliothek}
+Freiburg.  URL:
+\url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 }
 \seealso{
-  \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM},
-  \link{slider3d}, \link{warp.mesh}}
+\code{\link{createAtlas}, \link{relaxLM}, \link{checkLM},
+\link{slider3d}, \link{warp.mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

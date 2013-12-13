@@ -2,10 +2,9 @@
 \alias{plotAtlas}
 \title{visualize an atlas defined by createAtlas}
 \usage{
-  plotAtlas(atlas, pt.size = NULL, alpha = 1,
-    render = c("w", "s"), point = c("s", "p"),
-    meshcol = "white", add = TRUE, legend = TRUE,
-    cols = 2:5)
+plotAtlas(atlas, pt.size = NULL, alpha = 1, render = c("w", "s"),
+  point = c("s", "p"), meshcol = "white", add = TRUE, legend = TRUE,
+  cols = 2:5)
 }
 \arguments{
   \item{atlas}{object of class atlas created by
@@ -37,15 +36,15 @@
   cols[3]=corrCurves, cols[4]=patchCurves.}
 }
 \value{
-  returns invisible vector containing \code{rgl.id} of
-  rendered objects.
+returns invisible vector containing \code{rgl.id} of
+rendered objects.
 }
 \description{
-  visualize an atlas defined by createAtlas
+visualize an atlas defined by createAtlas
 }
 \details{
-  If \code{legend=TRUE}, a plot with a legend will open
-  where coloring of the 3D-spheres is specified.
+If \code{legend=TRUE}, a plot with a legend will open where
+coloring of the 3D-spheres is specified.
 }
 \examples{
 data(nose)
@@ -54,7 +53,7 @@ atlas <- createAtlas(shortnose.mesh, landmarks =
 plotAtlas(atlas)
 }
 \seealso{
-  \code{\link{placePatch}, \link{createAtlas}}
+\code{\link{placePatch}, \link{createAtlas}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

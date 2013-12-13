@@ -3,14 +3,12 @@
 \alias{ray2mesh}
 \title{projects the vertices of a mesh onto the surface of another one.}
 \usage{
-  mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE,
-    sign = FALSE)
+mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE, sign = FALSE)
 
-  ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL,
-    clean = TRUE, outname = NULL, readback = TRUE,
-    inbound = FALSE, strict = FALSE, ignore.stdout = FALSE,
-    mindist = FALSE, targetdump = "target",
-    refdump = "reference")
+ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE,
+  outname = NULL, readback = TRUE, inbound = FALSE, strict = FALSE,
+  ignore.stdout = FALSE, mindist = FALSE, targetdump = "target",
+  refdump = "reference")
 }
 \arguments{
   \item{mesh1}{mesh to project. Can be an object of class
@@ -58,31 +56,30 @@
   \item{refdump}{specify name of dumped reference mesh}
 }
 \value{
-  returns projected mesh
+returns projected mesh
 }
 \description{
-  projects the vertices of a mesh onto the surface of
-  another one.
+projects the vertices of a mesh onto the surface of another
+one.
 }
 \details{
-  projects the vertices of a mesh onto the surface of
-  another one by searching for the closest point (Euclidean
-  distance or along vertex normals) on the target by for
-  each vertex.
+projects the vertices of a mesh onto the surface of another
+one by searching for the closest point (Euclidean distance
+or along vertex normals) on the target by for each vertex.
 
-  needs trimesh_project and rayproject from trimesh-tools
-  to be installed (
-  \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
+needs trimesh_project and rayproject from trimesh-tools to
+be installed (
+\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
-  Signed Distance Fields From Triangle Meshes. Informatics
-  and Mathematical Modelling.
+Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
+Signed Distance Fields From Triangle Meshes. Informatics
+and Mathematical Modelling.
 }
 \seealso{
-  \code{\link{ply2mesh}}, \code{\link{closemeshKD}}
+\code{\link{ply2mesh}}, \code{\link{closemeshKD}}
 }
 

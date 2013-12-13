@@ -2,8 +2,8 @@
 \alias{readLandmarks.csv}
 \title{import landmark data from csv files}
 \usage{
-  readLandmarks.csv(file, x, y = 2:4, rownames = NULL,
-    header = TRUE, dec = ".", sep = ";")
+readLandmarks.csv(file, x, y = 2:4, rownames = NULL, header = TRUE,
+  dec = ".", sep = ";")
 }
 \arguments{
   \item{file}{character: path to file containing landmark
@@ -27,16 +27,16 @@
   \item{sep}{character: defines column seperator.}
 }
 \value{
-  \item{LM }{matrix containing imported data} \item{NAs
-  }{vector containing rows containing NAs}
+\item{LM }{matrix containing imported data} \item{NAs
+}{vector containing rows containing NAs}
 }
 \description{
-  import landmark data from csv files
+import landmark data from csv files
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{read.table}}
+\code{\link{read.table}}
 }
 

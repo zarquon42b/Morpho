@@ -2,8 +2,8 @@
 \alias{NNshapeReg}
 \title{Estimate the shape by averaging the shape of the nearest neighbours.}
 \usage{
-  NNshapeReg(x, y = NULL, n = 3, mahalanobis = FALSE,
-    mc.cores = detectCores())
+NNshapeReg(x, y = NULL, n = 3, mahalanobis = FALSE,
+  mc.cores = detectCores())
 }
 \arguments{
   \item{x}{an array or matrix (one row per specim) with
@@ -21,20 +21,20 @@
   parallel processing.}
 }
 \value{
-  matrix or array of estimates.
+matrix or array of estimates.
 }
 \description{
-  Estimate the shape of one set of landmarks by averaging
-  the shape of the nearest neighbours obtained by a second
-  set of landmarks. Weights are calculated either form
-  Mahalanobis or Procrustes distances. This can be useful
-  for data with missing landmarks.
+Estimate the shape of one set of landmarks by averaging the
+shape of the nearest neighbours obtained by a second set of
+landmarks. Weights are calculated either form Mahalanobis
+or Procrustes distances. This can be useful for data with
+missing landmarks.
 }
 \details{
-  This function calculates weights from one set of shape
-  data and then estimates the shape of another (or same)
-  set of landmarks.  CAUTION: landmark data has to be
-  registered beforehand.
+This function calculates weights from one set of shape data
+and then estimates the shape of another (or same) set of
+landmarks.  CAUTION: landmark data has to be registered
+beforehand.
 }
 \examples{
 library(shapes)
@@ -47,7 +47,7 @@ plot(proc$rotated[,,1],asp=1)
 points(estim[,,1],col=2)
 }
 \seealso{
-  \code{\link{proc.weight}}, \code{\link{fixLMtps}}
+\code{\link{proc.weight}}, \code{\link{fixLMtps}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

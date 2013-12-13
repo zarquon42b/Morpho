@@ -2,7 +2,7 @@
 \alias{vecx}
 \title{convert an 3D array into a matrix}
 \usage{
-  vecx(x, byrow = FALSE)
+vecx(x, byrow = FALSE)
 }
 \arguments{
   \item{x}{array}
@@ -12,18 +12,18 @@
   x1,x2,...,y1,y2,...,z1,z2,... otherwise (default)}
 }
 \value{
-  returns a matrix with one row per specimen
+returns a matrix with one row per specimen
 }
 \description{
-  converts a 3D-array (e.g. containing landmark
-  coordinates) into a matrix, one row per specimen.
+converts a 3D-array (e.g. containing landmark coordinates)
+into a matrix, one row per specimen.
 }
 \examples{
 library(shapes)
 data <- vecx(gorf.dat)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

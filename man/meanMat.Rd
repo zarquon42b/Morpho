@@ -2,7 +2,7 @@
 \alias{meanMat}
 \title{fast calculation of a Matrix' per row/ per column mean - useful for very large matrices}
 \usage{
-  meanMat(A, usedim = 2)
+meanMat(A, usedim = 2)
 }
 \arguments{
   \item{A}{numeric matrix}
@@ -11,12 +11,12 @@
   average}
 }
 \value{
-  vector containing row/column mean
+vector containing row/column mean
 }
 \description{
-  fast calculation of a Matrix' per row/ per column mean -
-  equivalent to apply(X,2,mean) or apply(X,1,mean)- useful
-  for very large matrices
+fast calculation of a Matrix' per row/ per column mean -
+equivalent to apply(X,2,mean) or apply(X,1,mean)- useful
+for very large matrices
 }
 \examples{
 A <- matrix(rnorm(1e6),1000,1000)

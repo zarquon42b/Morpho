@@ -10,8 +10,8 @@ placed on the human osseous nose.
 \code{skull_0144_ch_fe.mesh}: The mesh representing the area of the first
 individual of \code{boneLM}}
 \description{
-  Landmarks on the osseous human nose and a triangular mesh
-  representing this structure.
+Landmarks on the osseous human nose and a triangular mesh
+representing this structure.
 }
 \keyword{datasets}
 

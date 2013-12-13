@@ -3,9 +3,9 @@
 \alias{name2num}
 \title{extract data from array names}
 \usage{
-  name2factor(x, sep = "_", which, collapse = sep)
+name2factor(x, sep = "_", which, collapse = sep)
 
-  name2num(x, sep = "_", which, collapse = sep, dif = TRUE)
+name2num(x, sep = "_", which, collapse = sep, dif = TRUE)
 }
 \arguments{
   \item{x}{data, can be a three-dimensional array, a
@@ -25,18 +25,17 @@
   containing numbers are selected.}
 }
 \value{
-  returns a vector containing factors or numbers
+returns a vector containing factors or numbers
 }
 \description{
-  extract data from array names
+extract data from array names
 }
 \details{
-  extract data from array names and convert to factors or
-  numbers
+extract data from array names and convert to factors or
+numbers
 
-  If an array is used as input, the data info is expected
-  to be in the 3rd dimension, for a matrix, rownames are
-  used.
+If an array is used as input, the data info is expected to
+be in the 3rd dimension, for a matrix, rownames are used.
 }
 \examples{
 data <- matrix(rnorm(200),100,2)
@@ -50,7 +49,7 @@ infos$age <- name2num(data,which=4)
 infos$pop.sex <- name2factor(data,which=2:3)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \keyword{~kwd1}
 \keyword{~kwd2}
