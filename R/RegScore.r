@@ -5,7 +5,7 @@
 #' @param model linear model
 #' @param x optional: matrix containing new data to be projected onto the regression lines.
 #' @return returns a n x m matrix containing the regression scores for each specimen.
-#' @details the data is orthogonally projected onto the regression lines associated with each factor.
+#' @details the data are orthogonally projected onto the regression lines associated with each factor.
 #' @references Drake, AG. & Klingenberg, CP. The pace of morphological change: historical transformation of skull shape in St Bernard dogs. Proceedings of the Royal Society B: Biological Sciences, The Royal Society, 2008, 275, 71-76.
 #' @examples
 #' model <- lm(as.matrix(iris[,1:2]) ~ iris[,3])
