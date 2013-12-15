@@ -22,10 +22,25 @@ Drake & Klingenberg(2008)
 the data are orthogonally projected onto the regression
 lines associated with each factor.
 }
+\section{Warning}{
+  when \code{model} contains factors with more than 2
+  levels, R calculates one regression line per 2 factors.
+  Check the \code{colnames} of the returned matrix to
+  select the appropriate one. See examples for details.
+}
 \examples{
 model <- lm(as.matrix(iris[,1:2]) ~ iris[,3])
 rs <- RegScore(model)
 plot(rs,iris[,4])
+\dontrun{
+data(boneData)
+proc <- procSym(boneLM)
+pop.sex <- name2factor(boneLM,which=3:4) # generate a factor with 4 levels
+lm.ps.size <- lm(proc$PCscores ~ pop.sex+proc$size)
+rs <- RegScore(lm.ps.size)
+colnames(rs) # in this case, the last column contains the regression
+# scores associated with proc$size
+}
 }
 \references{
 Drake, AG. & Klingenberg, CP. The pace of morphological
