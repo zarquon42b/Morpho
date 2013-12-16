@@ -23,7 +23,7 @@
 #' LMs are missing in which observation}
 #' @author Stefan Schlager
 #' @seealso \code{\link{read.table}}
-#' @export read.csv.folder
+#' @export
 read.csv.folder <- function(folder,x,y=2:4,rownames=NULL,header=TRUE,dec=".",sep=";",pattern="csv",addSpec=NULL,back=TRUE)
 {	
 	if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")

@@ -30,7 +30,7 @@
 #' symproc <- procSym(boneLM, pairedLM=pairedLM)
 #' procAOVsym(symproc)
 #' 
-#' @export procAOVsym
+#' @export
 procAOVsym <- function(symproc,indnames=NULL)
   {
     

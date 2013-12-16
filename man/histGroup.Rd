@@ -2,11 +2,10 @@
 \alias{histGroup}
 \title{plot histogram for multiple groups.}
 \usage{
-  histGroup(data, groups,
-    main = paste("Histogram of", dataname),
-    xlab = dataname, ylab, col = NULL, alpha = 0.5,
-    breaks = "Sturges", legend = TRUE, legend.x = 80,
-    legend.y = 80, legend.pch = 15, freq = TRUE)
+histGroup(data, groups, main = paste("Histogram of", dataname),
+  xlab = dataname, ylab, col = NULL, alpha = 0.5, breaks = "Sturges",
+  legend = TRUE, legend.x = 80, legend.y = 80, legend.pch = 15,
+  freq = TRUE)
 }
 \arguments{
   \item{data}{vector containing data.}
@@ -47,22 +46,22 @@
   for each group.}
 }
 \description{
-  plot a histogram for multiple groups, each group colored
-  individually
+plot a histogram for multiple groups, each group colored
+individually
 }
 \details{
-  Just a wrapper for the function hist from the "graphics"
-  package
+Just a wrapper for the function hist from the "graphics"
+package
 }
 \examples{
 data(iris)
 histGroup(iris$Petal.Length,iris$Species)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{hist}}
+\code{\link{hist}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

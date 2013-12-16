@@ -63,7 +63,7 @@
 #'     (p=",perm$p.angle,")"))
 #' ## also non-significant
 #' 
-#' @export permuvec
+#' @export
 permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
 {
   win <- FALSE

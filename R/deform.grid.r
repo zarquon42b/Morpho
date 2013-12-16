@@ -27,7 +27,7 @@
 #' data(nose)
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #' 
-#' @export deformGrid3d
+#' @export
 deformGrid3d <- function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=T,lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"))
 {
     type <- type[1]

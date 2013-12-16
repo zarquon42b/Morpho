@@ -2,17 +2,17 @@
 \alias{conv2backf}
 \title{invert faces' orientation of triangular mesh}
 \usage{
-  conv2backf(mesh)
+conv2backf(mesh)
 }
 \arguments{
   \item{mesh}{triangular mesh of class \code{mesh3d}}
 }
 \value{
-  returns resulting mesh
+returns resulting mesh
 }
 \description{
-  inverts faces' orientation of triangular mesh and
-  recomputes vertex normals
+inverts faces' orientation of triangular mesh and
+recomputes vertex normals
 }
 \examples{
 require(rgl)
@@ -25,10 +25,10 @@ noseinvert <- conv2backf(shortnose.mesh)
 plotNormals(noseinvert,long=0.01)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{adnormals}}
+\code{\link{adnormals}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

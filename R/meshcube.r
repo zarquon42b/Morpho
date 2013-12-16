@@ -17,7 +17,7 @@
 #' wire3d(skull_0144_ch_fe.mesh)
 #' }
 #' 
-#' @export meshcube
+#' @export
 meshcube <- function(x)
   {
     bbox <- apply(vert2points(x), 2, range)

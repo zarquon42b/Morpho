@@ -4,13 +4,13 @@
 \alias{regdist.raw}
 \title{deprecated functions of Morpho}
 \usage{
-  deform.grid(...)
+deform.grid(...)
 
-  regdist.raw(dataarray, plot = TRUE, main = "",
-    rho = "angle", dist.mat.out = FALSE)
+regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle",
+  dist.mat.out = FALSE)
 }
 \description{
-  deprecated functions of Morpho
+document deprecated functions
 }
 \keyword{internal}
 

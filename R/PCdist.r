@@ -24,7 +24,7 @@
 #' PCdist(a$PCs, a$PCscores, x = 2)
 #' 
 #' 
-#' @export PCdist
+#' @export
 PCdist <- function(PCs,PCscores,x=5,plot.type="b")
 {
 

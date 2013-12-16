@@ -29,7 +29,7 @@
 #' mesh2obj(shortnose.mesh)
 #' mesh2 <- obj2mesh("shortnose.mesh.obj")
 #' @rdname ply2mesh
-#' @export ply2mesh
+#' @export
 ply2mesh <- function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE, silent=FALSE)
 {
     x <- filename

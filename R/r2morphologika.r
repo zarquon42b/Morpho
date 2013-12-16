@@ -1,5 +1,5 @@
 #' @rdname r2morphoj
-#' @export r2morphologika
+#' @export
 r2morphologika <- function(x,file=file,labels=NULL,labelname=NULL,...)
   {
     n <- dim(x)[3]

@@ -36,7 +36,7 @@
 #' deformGrid3d(shortnose.lm,deformed,ngrid = 5)
 #' }
 #' 
-#' @export tps3d
+#' @export
 tps3d <- function(M,refmat,tarmat,lambda=0)
 {   
     q <- dim(M)[1]

@@ -2,7 +2,7 @@
 \alias{qqmat}
 \title{Q-Q plot to assess normality of data}
 \usage{
-  qqmat(x, output = FALSE, square = TRUE)
+qqmat(x, output = FALSE, square = TRUE)
 }
 \arguments{
   \item{x}{sample data: matrix or vector}
@@ -13,14 +13,14 @@
   cut off.}
 }
 \value{
-  if \code{output=TRUE}, the following values are returned
-  \item{x }{distances from an expected Gaussian
-  distribution} \item{y }{observed distances - sorted}
-  \item{d }{observed distances - unsorted}
+if \code{output=TRUE}, the following values are returned
+\item{x }{distances from an expected Gaussian distribution}
+\item{y }{observed distances - sorted} \item{d }{observed
+distances - unsorted}
 }
 \description{
-  qqmat plots Mahalanobisdistances of a given sample
-  against those expected from a Gaussian distribution
+qqmat plots Mahalanobisdistances of a given sample against
+those expected from a Gaussian distribution
 }
 \examples{
 require(MASS)
@@ -33,10 +33,10 @@ data1 <- rchisq(100,df=3)
 qqmat(data1,square=FALSE)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{qqplot}}
+\code{\link{qqplot}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

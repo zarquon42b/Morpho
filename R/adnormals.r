@@ -39,7 +39,7 @@
 #' wire3d(shortnose.mesh)
 #' }
 #' @rdname adnormals
-#' @export adnormals
+#' @export
 adnormals <- function(x,angle=TRUE) 
 {
     v <- x$vb
@@ -60,7 +60,7 @@ adnormals <- function(x,angle=TRUE)
     x$normals <- normals
     return(x)
 }
-#' @export facenormals
+#' @export
 #' @rdname adnormals
 facenormals <- function(x) 
 {

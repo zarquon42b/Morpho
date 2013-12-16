@@ -68,12 +68,12 @@
 #' warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")
 #' 
 #' @rdname warpmovie3d
-#' @export warpmovie3d
+#' @export
 warpmovie3d <- function (x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",...) UseMethod("warpmovie3d")
 
 #' @rdname warpmovie3d
 #' @method warpmovie3d matrix
-#' @S3method warpmovie3d matrix
+#' @export
 warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,radius=NULL,links=NULL,lwd=1,...)
 {	#wdold <- getwd()
     if(!is.null(folder)) {
@@ -129,7 +129,7 @@ warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
         rgl.close()
 }
 #' @rdname warpmovie3d
-#' @export warpmovie2d
+#' @export
 warpmovie2d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",links=NULL,lwd=1,imagedim = "800x800",par=list(xaxt="n",yaxt="n",bty="n"),...)
 {
     wdold <- getwd()

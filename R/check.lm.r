@@ -64,7 +64,7 @@
 #' checkLM(data, path="./",Rdata=TRUE, suffix="", atlas=atlas)
 #' }
 #' 
-#' @export checkLM
+#' @export
 checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white", pt.size=NULL, alpha=0.7, begin=1, render=c("w","s"), point=c("s","p"), add=FALSE, Rdata=FALSE, atlas=NULL, text.lm=FALSE)
     {
         k <- NULL

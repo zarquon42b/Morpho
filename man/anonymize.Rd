@@ -2,9 +2,9 @@
 \alias{anonymize}
 \title{Replace ID-strings of data and associated files.}
 \usage{
-  anonymize(data, remove, path = NULL, dest.path = NULL,
-    ext = ".ply", split = "_", levels = TRUE,
-    prefix = NULL, suffix = NULL, sample = TRUE)
+anonymize(data, remove, path = NULL, dest.path = NULL, ext = ".ply",
+  split = "_", levels = TRUE, prefix = NULL, suffix = NULL,
+  sample = TRUE)
 }
 \arguments{
   \item{data}{Named array, matrix or vector containing
@@ -36,12 +36,12 @@
   ID-string.}
 }
 \value{
-  \item{data }{data with names replaced} \item{anonymkey
-  }{map of original name and replaced name}
+\item{data }{data with names replaced} \item{anonymkey
+}{map of original name and replaced name}
 }
 \description{
-  Replace ID-strings with for digits - e.g. for blind
-  observer error testing.
+Replace ID-strings with for digits - e.g. for blind
+observer error testing.
 }
 \examples{
 anonymize(iris,remove=1)

@@ -36,7 +36,7 @@
 #' weights <- c(rep(1,4),rep(2,5),1)
 #' proc.wt <- ProcGPA(boneLM, CSinit=TRUE, weights=weights, silent=TRUE)
 #' 
-#' @export ProcGPA
+#' @export
 ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE, reflection=TRUE)
 {
     if (!is.null(weights))

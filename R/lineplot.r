@@ -28,7 +28,7 @@
 #' lineplot(shortnose.lm[1:9,],point=list(c(1,3,2),c(3,4,5),c(8,6,5,7,9)),col=2)
 #' 
 #' 
-#' @export lineplot
+#' @export
 lineplot <- function(x,point,col=1,lwd=1,line_antialias = FALSE,add=TRUE)
 {
   

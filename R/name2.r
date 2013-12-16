@@ -33,7 +33,7 @@
 #' infos$pop.sex <- name2factor(data,which=2:3)
 #' 
 #' 
-#' @export name2factor
+#' @export
 name2factor <- function(x,sep="_",which,collapse=sep)
   {
     if (length(dim(x))==3)
@@ -62,7 +62,7 @@ name2factor <- function(x,sep="_",which,collapse=sep)
     return(fac)
   }
 #' @rdname name2factor
-#' @export name2num
+#' @export
 name2num <- function(x,sep="_",which,collapse=sep,dif=TRUE)
   {
     if (length(dim(x))==3)

@@ -11,8 +11,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0-2.131205\cr
-#' Date: \tab 2013-12-05\cr
+#' Version: \tab 1.0-2.131213\cr
+#' Date: \tab 2013-12-13\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -114,8 +114,9 @@ NULL
 #' @keywords datasets
 NULL
 
-## document deprecated functions
-#'  @title deprecated functions of Morpho
+#' document deprecated functions
+#'
+#' @title deprecated functions of Morpho
 #' @name deprecated
 #' @rdname Morpho-deprecated
 #' @keywords internal

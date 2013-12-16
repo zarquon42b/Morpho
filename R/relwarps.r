@@ -62,7 +62,7 @@
 #' barplot(rW$Var[,2], xlab="relative Warps")
 #' }
 #' 
-#' @export relWarps
+#' @export
 relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
 {
     #n <- dim(data)[3]

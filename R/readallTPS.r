@@ -14,7 +14,7 @@
 #' @seealso \code{\link{read.lmdta}}, \code{\link{read.pts}}
 #' @references http://life.bio.sunysb.edu/ee/rohlf/software.html
 #' @keywords ~kwd1 ~kwd2
-#' @export readallTPS
+#' @export
 readallTPS <- function(file)
   {
     out=list()

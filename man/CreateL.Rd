@@ -2,7 +2,7 @@
 \alias{CreateL}
 \title{Create Matrices necessary for Thin-Plate Spline}
 \usage{
-  CreateL(matrix, lambda = 0, blockdiag = TRUE)
+CreateL(matrix, lambda = 0, blockdiag = TRUE)
 }
 \arguments{
   \item{matrix}{k x 3 or k x 2 matrix containing landmark
@@ -14,21 +14,21 @@
   Lsubk3 needed for sliding of semilandmarks.}
 }
 \value{
-  \item{L }{Matrix L as specified in Bookstein (1989)}
-  \item{Linv }{Inverse of matrix L as specified in
-  Bookstein (1989)} \item{Lsubk }{uper left k x k submatrix
-  of \code{Linv}} \item{Lsubk3 }{Matrix used for sliding in
-  \code{\link{slider3d}} and \code{\link{relaxLM}}. Only
-  available if \code{blockdiag = TRUE}}
+\item{L }{Matrix L as specified in Bookstein (1989)}
+\item{Linv }{Inverse of matrix L as specified in Bookstein
+(1989)} \item{Lsubk }{uper left k x k submatrix of
+\code{Linv}} \item{Lsubk3 }{Matrix used for sliding in
+\code{\link{slider3d}} and \code{\link{relaxLM}}. Only
+available if \code{blockdiag = TRUE}}
 }
 \description{
-  Create (Bending Engergy) Matrices necessary for
-  Thin-Plate Spline, and sliding of Semilandmarks
+Create (Bending Engergy) Matrices necessary for Thin-Plate
+Spline, and sliding of Semilandmarks
 }
 \note{
-  This function is not intended to be called directly -
-  except for playing around to grasp the mechansims of the
-  Thin-Plate Spline.
+This function is not intended to be called directly -
+except for playing around to grasp the mechansims of the
+Thin-Plate Spline.
 }
 \examples{
 require(rgl)
@@ -48,18 +48,17 @@ be3 <- t(boneLM[,,1])\%*\%L2$Lsubk\%*\%boneLM[,,1]
 sqrt(sum(be3^2))
 }
 \references{
-  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
-  Semilandmarks in Three Dimensions, in Modern
-  Morphometrics in Physical Anthropology. Edited by D. E.
-  Slice, pp. 73-98. New York: Kluwer Academic/Plenum
-  Publishers.
+Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
+Semilandmarks in Three Dimensions, in Modern Morphometrics
+in Physical Anthropology. Edited by D. E. Slice, pp. 73-98.
+New York: Kluwer Academic/Plenum Publishers.
 
-  Bookstein FL. 1989. Principal Warps: Thin-plate splines
-  and the decomposition of deformations. IEEE Transactions
-  on pattern analysis and machine intelligence 11(6).
+Bookstein FL. 1989. Principal Warps: Thin-plate splines and
+the decomposition of deformations. IEEE Transactions on
+pattern analysis and machine intelligence 11(6).
 }
 \seealso{
-  \code{\link{tps3d}, \link{warp.mesh}}
+\code{\link{tps3d}, \link{warp.mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

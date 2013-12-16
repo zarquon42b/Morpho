@@ -43,7 +43,7 @@
 #' be3 <- t(boneLM[,,1])%*%L2$Lsubk%*%boneLM[,,1]
 #' sqrt(sum(be3^2))
 #' 
-#' @export CreateL
+#' @export
 CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
 {
     if (dim(matrix)[2] == 3) {

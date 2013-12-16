@@ -2,17 +2,17 @@
 \alias{meshcube}
 \title{calculate the corners of a mesh's bouning box}
 \usage{
-  meshcube(x)
+meshcube(x)
 }
 \arguments{
   \item{x}{object of class 'mesh3d'}
 }
 \value{
-  returns a 8 x 3 matrix with the coordinates of the
-  corners of the bounding box.
+returns a 8 x 3 matrix with the coordinates of the corners
+of the bounding box.
 }
 \description{
-  calculate the corners of a mesh's bouning box
+calculate the corners of a mesh's bouning box
 }
 \examples{
 require(rgl)

@@ -2,7 +2,7 @@
 \alias{read.pts}
 \title{reads pts files}
 \usage{
-  read.pts(file = "x", na = 9999)
+read.pts(file = "x", na = 9999)
 }
 \arguments{
   \item{file}{pts file}
@@ -11,13 +11,13 @@
   values}
 }
 \value{
-  \item{matrix }{matrix containing landmark information
-  rownames will be the names given to the landmarks in
-  Landmark}
+\item{matrix }{matrix containing landmark information
+rownames will be the names given to the landmarks in
+Landmark}
 }
 \description{
-  reads Landmark data exported from the software Landmark
-  from http://graphics.idav.ucdavis.edu/research/EvoMorph
+reads Landmark data exported from the software Landmark
+from http://graphics.idav.ucdavis.edu/research/EvoMorph
 }
 \examples{
 data(nose)
@@ -25,7 +25,7 @@ write.pts(shortnose.lm, filename="shortnose")
 data <- read.pts("shortnose.pts")
 }
 \seealso{
-  \code{\link{read.pts}}
+\code{\link{read.pts}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -2,9 +2,9 @@
 \alias{deformGrid3d}
 \title{visualise differences between two superimposed sets of 3D landmarks}
 \usage{
-  deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1,
-    showaxis = c(1, 2), both = T, lines = TRUE, lcol = 1,
-    add = FALSE, col1 = 2, col2 = 3, type = c("s", "p"))
+deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1, showaxis = c(1, 2),
+  both = T, lines = TRUE, lcol = 1, add = FALSE, col1 = 2, col2 = 3,
+  type = c("s", "p"))
 }
 \arguments{
   \item{matrix}{reference matrix containing 3D landmark
@@ -40,19 +40,19 @@
   points - much faster for very large pointclouds.}
 }
 \description{
-  visualise differences between two superimposed sets of 3D
-  landmarks by deforming a cubic grid based on a thin-plate
-  spline interpolation
+visualise differences between two superimposed sets of 3D
+landmarks by deforming a cubic grid based on a thin-plate
+spline interpolation
 }
 \examples{
 data(nose)
 deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{tps3d}}
+\code{\link{tps3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

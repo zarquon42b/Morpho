@@ -21,7 +21,7 @@
 #'  \item{permuangle }{vector containing angles between random group means' vectors}
 #'
 #' @importFrom foreach registerDoSEQ
-#' @export asymPermute
+#' @export
 #' 
 asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
 
@@ -41,6 +41,7 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
         asym <- vecx(x$Asym)
     else
         asym <- x
+    groups <- factor(groups)
     class(asym) <- "symproc"
     lev <- levels(groups)
     if (length(lev) > 2) {
@@ -51,6 +52,7 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
     }
     mean1 <- meanMat(asym[groups == lev[1],])
     mean2 <- meanMat(asym[groups == lev[2],])
+    
     l.diff <- abs(sqrt(sum(mean1^2))-sqrt(sum(mean2^2)))
     a.diff <- angle.calc(mean1,mean2)
     out <- list()
@@ -58,7 +60,7 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
     out$angle <- a.diff
     permuta <- function() {
         shake <- sample(groups)
-        out <- asymPerm(asym,shake,rounds=0,which=which,mc.cores=1)
+        out <- asymPermute(asym,shake,rounds=0,which=which,mc.cores=1)
         return(out)
     }
     
@@ -120,7 +122,7 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
 #' system.time(meanMat(A))
 #' system.time(apply(A,2,mean))
 #' }
-#' @export meanMat
+#' @export
 meanMat <-function(A,usedim=2)
     {
         if (usedim==1)

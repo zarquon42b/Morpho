@@ -43,7 +43,7 @@
 #' distance\n(p=",perm1$p.value,")"))
 #' }
 #' 
-#' @export permudist
+#' @export
 permudist <- function(data, groups, rounds=1000, which=1:2, mc.cores = detectCores())
 {
     win <- FALSE

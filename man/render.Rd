@@ -1,4 +1,4 @@
-\name{render}
+\name{render.matrixDist}
 \alias{export}
 \alias{export.meshDist}
 \alias{render}
@@ -6,22 +6,19 @@
 \alias{render.meshDist}
 \title{plot or save the results of meshDist}
 \usage{
-  render(x, ...)
+\method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
+  ceiling = NULL, uprange = NULL, tol = NULL, type = c("s", "p"),
+  radius = NULL, displace = FALSE, sign = NULL, add = FALSE, ...)
 
-  \method{render}{meshDist} (x, from = NULL, to = NULL,
-    steps = NULL, ceiling = NULL, uprange = NULL,
-    tol = NULL, displace = FALSE, shade = TRUE,
-    sign = NULL, add = FALSE, ...)
+render(x, ...)
 
-  \method{render}{matrixDist} (x, from = NULL, to = NULL,
-    steps = NULL, ceiling = NULL, uprange = NULL,
-    tol = NULL, type = c("s", "p"), radius = NULL,
-    displace = FALSE, sign = NULL, add = FALSE, ...)
+\method{render}{meshDist}(x, from = NULL, to = NULL, steps = NULL,
+  ceiling = NULL, uprange = NULL, tol = NULL, displace = FALSE,
+  shade = TRUE, sign = NULL, add = FALSE, ...)
 
-  export(x, ...)
+export(x, ...)
 
-  \method{export}{meshDist} (x, file = "default",
-    imagedim = "100x800", ...)
+\method{export}{meshDist}(x, file = "default", imagedim = "100x800", ...)
 }
 \arguments{
   \item{x}{object of class meshDist}
@@ -76,21 +73,21 @@
   \code{\link{rgl.material}} for details.}
 }
 \description{
-  plot or save the results of meshDist
+plot or save the results of meshDist
 }
 \details{
-  Visualise or save the results of meshDist to disk.
+Visualise or save the results of meshDist to disk.
 
-  render.meshDist renders the colored mesh and displays the
-  color ramp and returns an object of class "meshDist".
-  export.meshDist exports the colored mesh as ply file and
-  the color chart as png file.
+render.meshDist renders the colored mesh and displays the
+color ramp and returns an object of class "meshDist".
+export.meshDist exports the colored mesh as ply file and
+the color chart as png file.
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{meshDist}}, \code{\link{shade3d}}
+\code{\link{meshDist}}, \code{\link{shade3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -10,24 +10,24 @@
 \alias{skin4}
 \title{predefined colors for bone and skin}
 \description{
-  predefined colors for bone and skin
+predefined colors for bone and skin
 }
 \details{
-  available colors are:
+available colors are:
 
-  bone1
+bone1
 
-  bone2
+bone2
 
-  bone3
+bone3
 
-  skin1
+skin1
 
-  skin2
+skin2
 
-  skin3
+skin3
 
-  skin4
+skin4
 }
 \keyword{datasets}
 

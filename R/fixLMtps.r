@@ -50,7 +50,7 @@
 #' ##  view difference between estimated and actual landmark
 #' deformGrid3d(repair$out[,,1], boneLM[,,1],ngrid=0)
 #' 
-#' @export fixLMtps
+#' @export
 fixLMtps <- function(data,comp=3,weight=TRUE)
 {
   n <- dim(data)[3]

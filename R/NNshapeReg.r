@@ -32,7 +32,7 @@
 #' points(estim[,,1],col=2)
 #' 
 #' 
-#' @export NNshapeReg
+#' @export
 NNshapeReg <- function(x,y=NULL, n=3, mahalanobis=FALSE,mc.cores = detectCores())
   {
       if (is.null(y))

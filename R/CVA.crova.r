@@ -42,7 +42,7 @@
 #' data(iris)
 #' poolCov <- covW(iris[,1:4],iris[,5])
 #' 
-#' @export covW
+#' @export
     covW <- covW(N, groups)
     eigW <- eigen(covW*(n - ng))
     eigcoW <- eigen(covW)

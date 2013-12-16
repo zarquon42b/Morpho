@@ -1,5 +1,5 @@
 #' @rdname ply2mesh
-#' @export file2mesh
+#' @export
 file2mesh <- function(filename,clean=TRUE,readcol=FALSE)
  
 {

@@ -26,7 +26,7 @@
 #' anonymize(iris,remove=1)
 #' 
 #' 
-#' @export anonymize
+#' @export
 anonymize <- function(data ,remove, path=NULL,dest.path=NULL,ext=".ply",split="_",levels=TRUE,prefix=NULL,suffix=NULL,sample=TRUE)
 {
     if (length(dim(data)) == 3)

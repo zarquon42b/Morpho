@@ -79,12 +79,12 @@
 #' meshDist(warpnose.long, shortnose.mesh, sign=TRUE, tol=0.01, method="m")
 #' }
 #' @rdname meshDist
-#' @export meshDist
+#' @export
 meshDist <- function(x,...) UseMethod("meshDist")
 
 #' @rdname meshDist
 #' @method meshDist mesh3d
-#' @S3method meshDist mesh3d
+#' @export
 meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("morpho", "vcglib"), add=FALSE, ...)
   {
     method=substring(method[1],1L,1L)
@@ -216,13 +216,13 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' @seealso \code{\link{meshDist}}, \code{\link{shade3d}}
 #' @keywords ~kwd1 ~kwd2
 #' @rdname render
-#' @export render
+#' @export
 #'
 render <- function(x,...) UseMethod("render")
 
 #' @rdname render
 #' @method render meshDist
-#' @S3method render meshDist
+#' @export
 render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,...)
   {
     clost <- x$clost

@@ -3,7 +3,7 @@
 \title{Calculates the Riemannian distance between two superimposed landmark
 configs.}
 \usage{
-  kendalldist(x, y)
+kendalldist(x, y)
 }
 \arguments{
   \item{x}{Matrix containing landmark coordinates.}
@@ -11,11 +11,11 @@ configs.}
   \item{y}{Matrix containing landmark coordinates.}
 }
 \value{
-  returns Riemannian distance
+returns Riemannian distance
 }
 \description{
-  Calculates the Riemannian distance between two
-  superimposed landmark configs.
+Calculates the Riemannian distance between two superimposed
+landmark configs.
 }
 \examples{
 library(shapes)

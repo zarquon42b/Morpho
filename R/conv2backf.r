@@ -19,7 +19,7 @@
 #' ## show normals
 #' plotNormals(noseinvert,long=0.01)
 #' 
-#' @export conv2backf
+#' @export
 conv2backf <- function(mesh)
 { 	
 	mesh$it <- mesh$it[c(3,2,1),]

@@ -18,7 +18,7 @@
 #' data(nose)
 #' write.pts(shortnose.lm, filename="shortnose")
 #' 
-#' @export write.pts
+#' @export
 write.pts <- function(x, filename=dataname)
 {
     dataname <- deparse(substitute(x))

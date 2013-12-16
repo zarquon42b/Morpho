@@ -1,7 +1,7 @@
 #' @rdname mesh2mesh
 #' @param targetdump specify name of dumped target mesh
 #' @param refdump specify name of dumped reference mesh
-#' @export ray2mesh
+#' @export
 ray2mesh <- function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE,targetdump="target",refdump="reference")
 { 
 

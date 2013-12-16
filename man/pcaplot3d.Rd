@@ -4,13 +4,13 @@
 \alias{pcaplot3d.symproc}
 \title{visualization of shape variation}
 \usage{
-  pcaplot3d(x, ...)
+pcaplot3d(x, ...)
 
-  \method{pcaplot3d}{symproc} (x, pcshow = c(1, 2, 3),
-    mag = 3, color = 4, lwd = 1, sym = TRUE, ...)
+\method{pcaplot3d}{symproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
+  lwd = 1, sym = TRUE, ...)
 
-  \method{pcaplot3d}{nosymproc} (x, pcshow = c(1, 2, 3),
-    mag = 3, color = 4, lwd = 1, ...)
+\method{pcaplot3d}{nosymproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
+  lwd = 1, ...)
 }
 \arguments{
   \item{x}{a object derived from the function procSym
@@ -34,11 +34,11 @@
   to the methods.}
 }
 \description{
-  visualization of shape change
+visualization of shape change
 }
 \details{
-  visualization of the shape changes explained by Principal
-  components
+visualization of the shape changes explained by Principal
+components
 }
 \examples{
 data(nose)
@@ -48,6 +48,6 @@ proc <- procSym(nosearr)
 pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
 }
 \seealso{
-  \code{\link{procSym}}
+\code{\link{procSym}}
 }
 

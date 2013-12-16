@@ -1,6 +1,6 @@
 #' @rdname warpmovie3d
 #' @method warpmovie3d mesh3d
-#' @S3method warpmovie3d mesh3d
+#' @export
 warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,...)
 {	#wdold <- getwd()
   if(!is.null(folder))

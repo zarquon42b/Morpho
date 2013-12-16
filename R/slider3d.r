@@ -132,7 +132,7 @@
 #' spheres3d(slide$dataslide[fix,,1],col=4,radius=0.7)
 #' }
 #' 
-#' @export slider3d
+#' @export
 slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE, ignore.stdout=FALSE)
 {
     if(.Platform$OS.type == "windows")

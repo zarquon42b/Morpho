@@ -13,7 +13,7 @@
 #' landmarks and a matrix containing landmark coordinates.
 #' @author Stefan Schlager
 #' @seealso \code{\link{read.lmdta}} ,\code{\link{read.pts}}
-#' @export cExtract
+#' @export
 cExtract <- function(pts.file)
 {
     if (is.character(pts.file))

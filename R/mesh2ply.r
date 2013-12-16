@@ -36,7 +36,7 @@
 #' }
 #' mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 #' @rdname mesh2ply
-#' @export mesh2ply
+#' @export
 mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)
 {	
     dataname <- deparse(substitute(x))

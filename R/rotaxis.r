@@ -9,7 +9,7 @@
 #' @seealso \code{\link{rotaxis3d}}
 #' @references http://en.wikipedia.org/wiki/Rotation_matrix
 #' @keywords ~kwd1 ~kwd2
-#' @export rotaxisMat
+#' @export
 rotaxisMat <- function(u,theta)
   {
     crossmat <- function(x)
@@ -58,12 +58,12 @@ rotaxisMat <- function(u,theta)
 #' ###print rotation axis
 #' #' lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
 #' }
-#' @export rotaxis3d
+#' @export
 rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis3d")
 
 #' @rdname rotaxis3d
 #' @method rotaxis3d matrix
-#' @S3method rotaxis3d matrix
+#' @export
 rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
   {
     u <- pt2-pt1
@@ -75,7 +75,7 @@ rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta)
   }
 #' @rdname rotaxis3d
 #' @method rotaxis3d mesh3d
-#' @S3method rotaxis3d mesh3d
+#' @export
 rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta)
   {
     mat <- vert2points(x)

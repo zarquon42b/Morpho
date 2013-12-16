@@ -2,8 +2,8 @@
 \alias{permudist}
 \title{performs permutation testing for group differences.}
 \usage{
-  permudist(data, groups, rounds = 1000, which = 1:2,
-    mc.cores = detectCores())
+permudist(data, groups, rounds = 1000, which = 1:2,
+  mc.cores = detectCores())
 }
 \arguments{
   \item{data}{array or matrix containing data}
@@ -22,16 +22,15 @@
   to occasional errors.}
 }
 \value{
-  \item{permudist }{vector containing distances between
-  random group means} \item{dist }{distance between actual
-  group means} \item{p.value }{p-value obtained by
-  comparing the actual distance to randomly acquired
-  distances}
+\item{permudist }{vector containing distances between
+random group means} \item{dist }{distance between actual
+group means} \item{p.value }{p-value obtained by comparing
+the actual distance to randomly acquired distances}
 }
 \description{
-  This function compares the distance between two
-  groupmeans to the distances obtained by random assignment
-  of observations to this groups.
+This function compares the distance between two groupmeans
+to the distances obtained by random assignment of
+observations to this groups.
 }
 \examples{
 data(boneData)

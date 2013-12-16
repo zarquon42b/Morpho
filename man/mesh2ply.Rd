@@ -3,10 +3,9 @@
 \alias{mesh2ply}
 \title{export mesh objects to disk}
 \usage{
-  mesh2obj(x, filename = dataname)
+mesh2obj(x, filename = dataname)
 
-  mesh2ply(x, filename = dataname, col = NULL,
-    writeNormals = FALSE)
+mesh2ply(x, filename = dataname, col = NULL, writeNormals = FALSE)
 }
 \arguments{
   \item{x}{object of class \code{mesh3d} - see rgl
@@ -29,11 +28,11 @@
   very large meshes.}
 }
 \description{
-  export mesh objects to disk.
+export mesh objects to disk.
 }
 \details{
-  export an object of class \code{mesh3d} or a set of
-  coordinates to a common mesh file.
+export an object of class \code{mesh3d} or a set of
+coordinates to a common mesh file.
 }
 \examples{
 require(rgl)
@@ -51,10 +50,10 @@ shade3d(cube,col=3) ## view the green cube
 mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{ply2mesh}}
+\code{\link{ply2mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

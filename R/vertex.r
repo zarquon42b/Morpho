@@ -47,7 +47,7 @@
 #' }
 #' 
 #' @rdname vertex
-#' @export unrefVertex
+#' @export
 unrefVertex <- function(mesh)
     {
         it <- mesh$it
@@ -56,7 +56,7 @@ unrefVertex <- function(mesh)
         return(unref)
     }
 #' @rdname vertex
-#' @export rmVertex
+#' @export
 rmVertex <- function(mesh,index,keep=FALSE)
     {
         if (! keep) {
@@ -102,14 +102,14 @@ rmVertex <- function(mesh,index,keep=FALSE)
 
     }
 #' @rdname vertex
-#' @export vert2points
+#' @export
 vert2points <- function(mesh)
     {
         out <- t(mesh$vb[1:3,])
         return(out)
     }
 #' @rdname vertex
-#' @export rmUnrefVertex
+#' @export
 rmUnrefVertex <- function(mesh, silent=FALSE)
     {
         unref <- unrefVertex(mesh)
