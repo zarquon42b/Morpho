@@ -28,7 +28,7 @@ plotNormals(noseinvert,long=0.01)
 Stefan Schlager
 }
 \seealso{
-\code{\link{adnormals}}
+\code{\link{updateNormals}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

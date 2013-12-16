@@ -6,7 +6,7 @@
 #' @param mesh triangular mesh of class \code{mesh3d}
 #' @return returns resulting mesh
 #' @author Stefan Schlager
-#' @seealso \code{\link{adnormals}}
+#' @seealso \code{\link{updateNormals}}
 #' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
