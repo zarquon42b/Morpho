@@ -1,10 +1,10 @@
-#include "angcalc.h"
+#include "updateNormals.h"
 
 using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-RcppExport SEXP updateNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
+SEXP updateNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
   bool angweight = Rcpp::as<bool>(angweight_);
   NumericMatrix vb(vb_);
   IntegerMatrix it(it_);
@@ -50,7 +50,7 @@ RcppExport SEXP updateNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
   return Rcpp::wrap(normals);
 }
       
-RcppExport SEXP updateFaceNormals(SEXP vb_, SEXP it_) {
+SEXP updateFaceNormals(SEXP vb_, SEXP it_) {
   NumericMatrix vb(vb_);
   IntegerMatrix it(it_);
   mat vbA(vb.begin(),vb.nrow(),vb.ncol());
