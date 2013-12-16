@@ -29,12 +29,14 @@
 #' @export 
 permudist <- function(data, groups, rounds=1000, which=NULL)
 {
+    if (rounds == 0)
+        rounds <- 1
     out <- list()
 ### configure grouping ####
     N <- data
     if (is.vector(N)) {
         N <- as.matrix(N)
-    } else if (dim(N)[2] == 3)
+    } else if (length(dim(N)) == 3)
         N <- vecx(N)
     
     if (!is.factor(groups))
