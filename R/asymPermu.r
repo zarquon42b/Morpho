@@ -41,7 +41,6 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
         asym <- vecx(x$Asym)
     else
         asym <- x
-    groups <- factor(groups)
     class(asym) <- "symproc"
     lev <- levels(groups)
     if (length(lev) > 2) {
@@ -52,7 +51,6 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
     }
     mean1 <- meanMat(asym[groups == lev[1],])
     mean2 <- meanMat(asym[groups == lev[2],])
-    
     l.diff <- abs(sqrt(sum(mean1^2))-sqrt(sum(mean2^2)))
     a.diff <- angle.calc(mean1,mean2)
     out <- list()
@@ -60,7 +58,7 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
     out$angle <- a.diff
     permuta <- function() {
         shake <- sample(groups)
-        out <- asymPermute(asym,shake,rounds=0,which=which,mc.cores=1)
+        out <- asymPerm(asym,shake,rounds=0,which=which,mc.cores=1)
         return(out)
     }
     
