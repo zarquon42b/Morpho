@@ -1,8 +1,11 @@
 \name{updateNormals}
+\alias{facenormals}
 \alias{updateNormals}
 \title{Compute face or vertex normals of a triangular mesh}
 \usage{
 updateNormals(x, angle = TRUE)
+
+facenormals(x)
 }
 \arguments{
   \item{x}{triangular mesh of class "mesh3d"}

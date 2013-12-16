@@ -56,7 +56,8 @@ updateNormals <- function(x,angle=TRUE)
     x$normals <- normals
     return(x)
 }
-
+#' @rdname updateNormals
+#' @export
 facenormals <- function(x) 
 {
     barymesh <- list()
