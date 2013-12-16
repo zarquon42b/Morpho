@@ -14,12 +14,6 @@ asymPermute(x, groups, rounds = 1000, which = 1:2)
 
   \item{which}{in case the factor levels are >2 this
   determins which factorlevels to use}
-
-  \item{mc.cores}{integer: determines how many cores to use
-  for the computation. The default is autodetect. But in
-  case, it doesn't work as expected cores can be set
-  manually. Parallel processing is disabled on Windows due
-  to occasional errors.}
 }
 \value{
 \item{dist }{difference between vector lengths of group

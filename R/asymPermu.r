@@ -7,10 +7,6 @@
 #' @param rounds number of permutations
 #' @param which in case the factor levels are >2 this determins which
 #' factorlevels to use
-#' @param mc.cores integer: determines how many cores to use for the
-#' computation. The default is autodetect. But in case, it doesn't work as
-#' expected cores can be set manually. Parallel processing is disabled on
-#' Windows due to occasional errors.
 #' @return
 #' \item{dist }{difference between vector lengths of group means}
 #' \item{angle }{angle between vectors of group specific asymmetric deviation}
