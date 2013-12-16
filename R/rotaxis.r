@@ -81,6 +81,6 @@ rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta)
     mat <- vert2points(x)
     vb <- rotaxis3d(mat,pt1,pt2,theta)
     x$vb[1:3,] <- t(vb)
-    x <- adnormals(x)
+    x <- updateNormals(x)
     invisible(x)
   }

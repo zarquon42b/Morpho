@@ -51,7 +51,7 @@ closemeshKD <- function(x, mesh, k=50, sign=FALSE, barycoords=FALSE, cores=1, me
         if(.Platform$OS.type == "windows")
             cores <- 1
         if (is.null(mesh$normals))
-            mesh <- adnormals(mesh)
+            mesh <- updateNormals(mesh)
         if (is.matrix(x)) {
             matr <- x
             x <- list()

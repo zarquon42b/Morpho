@@ -2,8 +2,7 @@
 \alias{asymPermute}
 \title{Assess differences in amount and direction of asymmetric variation}
 \usage{
-asymPermute(x, groups, rounds = 1000, which = 1:2,
-  mc.cores = detectCores())
+asymPermute(x, groups, rounds = 1000, which = 1:2)
 }
 \arguments{
   \item{x}{object of class symproc result from calling

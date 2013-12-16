@@ -7,50 +7,28 @@
 #' @param data array or matrix containing data
 #' @param groups factors determining grouping.
 #' @param rounds number of permutations
-#' @param which in case the factor levels are >2 this determins which
+#' @param which integer (optional): in case the factor levels are > 2 this determins which
 #' factorlevels to use
-#' @param mc.cores integer: determines how many cores to use for the
-#' computation. The default is autodetect. But in case, it doesn't work as
-#' expected cores can be set manually. Parallel processing is disabled on
-#' Windows due to occasional errors.
 #' @return
-#' \item{permudist }{vector containing distances between random group means}
-#' \item{dist }{distance between actual group means}
-#' \item{p.value }{p-value obtained by comparing the actual distance to randomly acquired distances}
+#' \item{dist }{distance matrix with distances between actual group means}
+#' \item{p.value }{distance matrix containing pairwise p-values obtained by comparing the actual distance to randomly acquired distances}
 #' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
 #' data(boneData)
 #' proc <- procSym(boneLM)
 #' groups <- name2factor(boneLM,which=3)
-#' perm <- permudist(proc$PCscores[,1:10], groups=groups, mc.cores=2, rounds=100)
-#' \dontrun{
-#' #visualize results
-#' hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
-#'      xlab="distances")#random distances
-#' points(perm$dist,50,col=2,pch=19)#actual distance
-#' text(perm$dist,70,label=paste("actual distance\n(p=",perm$p.value,")"))
+#' perm <- permudist(proc$PCscores[,1:10], groups=groups, rounds=10000)
 #' 
 #' ## now we concentrate only on sex dimorphism between Europeans
 #' groups <- name2factor(boneLM,which=3:4)
 #' levels(groups)
-#' perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, mc.cores=2, rounds=100)
-#' # plot histogram of random distances
-#' hist(perm1$permudist, xlim=c(0,0.1),main="measured vs. random distances",
-#'      xlab="distances")
-#' points(perm1$dist,10,col=2,pch=19)#actual distance
-#' text(perm1$dist,15,label=paste("actual
-#' distance\n(p=",perm1$p.value,")"))
-#' }
+#' perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, rounds=10000)
 #' 
-#' @export
-permudist <- function(data, groups, rounds=1000, which=1:2, mc.cores = detectCores())
+#' 
+#' @export 
+permudist <- function(data, groups, rounds=1000, which=NULL)
 {
-    win <- FALSE
-    if(.Platform$OS.type == "windows" || mc.cores == 1)
-        win <- TRUE
-    else
-        registerDoParallel(cores=mc.cores)### register parallel backend
     out <- list()
 ### configure grouping ####
     N <- data
@@ -65,51 +43,43 @@ permudist <- function(data, groups, rounds=1000, which=1:2, mc.cores = detectCor
     if (is.factor(groups)) {
         groups <- factor(groups)
         lev <- levels(groups)
-        #levn <- length(lev)
+                                        #levn <- length(lev)
     }
     old_groups <- groups
-    groups <- factor(groups[groups %in% lev[which]])
-    lev <- levels(groups)
-    N <- N[which(old_groups %in% lev),]
-
+    if (!is.null(which)) {
+        groups <- factor(groups[groups %in% lev[which]])
+        lev <- levels(groups)
+        N <- N[which(old_groups %in% lev),]
+    }
+    ng <- length(lev)
+    N <- as.matrix(N)
+    if (ng < 2)
+        stop("provide at least two groups")
 ### end configure grouping ####
-    #n <- dim(N)[1]
-   
-    if (dim(N)[2] == 1) {
-        mean1 <- mean(N[groups == lev[1]])
-        mean2 <- mean(N[groups == lev[2]])
-    } else {
-        mean1 <- apply(N[groups == lev[1],], 2, mean)
-        mean2 <- apply(N[groups == lev[2],], 2, mean)
-    }
-    dist <- sqrt(sum((mean1-mean2)^2))
-    
     if (rounds > 0) {
-        permu <- function(x)
-            {
-                shake <- sample(groups)
-                disto <- permudist(N, shake, rounds = 0, mc.cores=1)$dist
-                return(disto)
+        shaker <- .Call("permudistArma",N,as.integer(groups),as.integer(rounds),as.integer(ng))
+        dist <- matrix(0,ng,ng); dimnames(dist) <- list(lev,lev)
+        probs <- dist
+        count <- 1
+        for (j1 in 1:(ng - 1)) {
+            for (j2 in (j1 + 1):ng) {
+                dist0 <- dist[j1,j2] <- shaker[[count]][1]
+                dists <- shaker[[count]][-1]
+                p.value <- length(which(dists >= dist0))
+                if (p.value > 0) {
+                    p.value <- p.value/rounds
+                } else {
+                    p.value <- 1/rounds
+                }
+                probs[j1,j2] <- p.value
+                count <- count+1
             }
-        i <- 0
-        if (win)
-            dists <- foreach(i = 1:rounds,.combine=c) %do% permu(i)
-        else
-            dists <- foreach(i = 1:rounds,.combine=c) %dopar% permu(i)
-        
-        p.value <- length(which(dists >= dist))
-        if (p.value > 0) {
-            p.value <- p.value/rounds
-            names(p.value) <- "p-value"
-        } else {
-            p.value <- 1/rounds
-            names(p.value) <- "p-value <"
         }
-        out$p.value <- p.value
-        out$permudist <- dists
+        probs <- as.dist(probs+t(probs))
+        dist <- as.dist(dist+t(dist))
+        out$p.value <-probs
     }
-    
     out$dist <- dist
 
-return(out)
+    return(out)
 }

@@ -20,23 +20,13 @@
 #'  \item{permudist }{vector containing differences between random group means' vector lenghts}
 #'  \item{permuangle }{vector containing angles between random group means' vectors}
 #'
-#' @importFrom foreach registerDoSEQ
-#' @export
-#' 
-asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
+#'
+#' @export 
+asymPermute <- function(x,groups,rounds=1000,which=1:2) {
 
     if (!inherits(x,"symproc"))
         stop("please provide object of class 'symproc'")
-    if (mc.cores > 1 && rounds > 0) {
-        if (.Platform$OS.type != "windows" ) {
-            registerDoParallel(cores=mc.cores)
-        } else {
-            cl <- makeCluster(mc.cores)
-            registerDoParallel(cl=cl)
-        }
-    } else if (mc.cores == 1 && rounds > 0)
-        registerDoSEQ()
-    
+        
     if (is.list(x))
         asym <- vecx(x$Asym)
     else
@@ -52,28 +42,16 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
     }
     mean1 <- meanMat(asym[groups == lev[1],])
     mean2 <- meanMat(asym[groups == lev[2],])
-    
-    l.diff <- abs(sqrt(sum(mean1^2))-sqrt(sum(mean2^2)))
-    a.diff <- angle.calc(mean1,mean2)
+
+    shaker <- .Call("asymPerm",asym,as.integer(groups),as.integer(rounds))
+    l.diff <- shaker$diff[1]
+    a.diff <- shaker$angle[1]
     out <- list()
     out$dist <- l.diff
     out$angle <- a.diff
-    permuta <- function() {
-        shake <- sample(groups)
-        out <- asymPermute(asym,shake,rounds=0,which=which,mc.cores=1)
-        return(out)
-    }
-    
     if (rounds > 0) {
-        i=0
-        resampled <- foreach(i = 1:rounds,.inorder = FALSE,.packages=c("Morpho")) %dopar% permuta()
-        out$means <- rbind(mean1,mean2)
-        rownames(out$means) <- lev
-        even <- 1:(rounds)*2
-        odd <- even-1
-        resampled <- unlist(resampled)
-        sample.dists <- resampled[odd]
-        sample.angle <- resampled[even]
+        sample.dists <- shaker$diff[-1]
+        sample.angle <- shaker$angle[-1]
         ## calculate p-values
         p.angle <- length(which(sample.angle >= a.diff))
         if (!!p.angle) {
@@ -95,40 +73,7 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2,mc.cores=detectCores()) {
         out$p.angle <- p.angle
         out$permudist <- sample.dists
         out$permuangle <- sample.angle
-        if (.Platform$OS.type == "windows" && mc.cores > 1)
-            stopCluster(cl)
     }
         
     return(out)
 }
-    
-#' fast calculation of a Matrix' per row/ per column mean - useful for very large matrices
-#'
-#' fast calculation of a Matrix' per row/ per column mean - equivalent to apply(X,2,mean) or apply(X,1,mean)- useful for very large matrices
-#'
-#' @param A numeric matrix
-#' @param usedim integer: select over which dimension to average
-#'
-#' @return
-#' vector containing row/column mean
-#' @examples
-#' A <- matrix(rnorm(1e6),1000,1000)
-#' b <- meanMat(A)
-#' # same as apply(A,2,mean)
-#' b1 <- meanMat(A,1)
-#' # same as apply(A,1,mean)
-#' \dontrun{
-#' #compare timing
-#' system.time(meanMat(A))
-#' system.time(apply(A,2,mean))
-#' }
-#' @export
-meanMat <-function(A,usedim=2)
-    {
-        if (usedim==1)
-            A <- t(A)
-        out <- A[1,]*0
-        resul <- .Fortran("meanMat",A,nrow(A),ncol(A),out=out)
-        out <- resul$out
-        return(out)
-    }

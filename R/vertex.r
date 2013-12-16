@@ -76,10 +76,8 @@ rmVertex <- function(mesh,index,keep=FALSE)
                 }
             if (!is.null(it)) {
                 it <- matrix(facefun(it),itdim)
-                checkface <- rep(0,itdim[2])
-                storage.mode(it) <- "integer"
-                storage.mode(checkface) <- "integer"
-                checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]
+                checkface <- .Call("face_zero",it)
+                #checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]
                 invalface <- which(checkface == 0) 
                 if (length(invalface) > 0) {
                     mesh$it <- it[,-invalface]
@@ -94,7 +92,7 @@ rmVertex <- function(mesh,index,keep=FALSE)
             }
             
             mesh$vb <- mesh$vb[,-index]
-            mesh <- adnormals(mesh)
+            mesh <- updateNormals(mesh)
         } else {
             mesh <- rmVertex(mesh,c(1:ncol(mesh$vb))[-sort(index)])
         }

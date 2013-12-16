@@ -48,13 +48,9 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
 {
     if (dim(matrix)[2] == 3) {
         k <- dim(matrix)[1]
-        K <- matrix(0,k,k)
         Q <- cbind(1,matrix)
-        O <- matrix(c(rep(0,16)),4,4)
-        
-        storage.mode(K) <- "double"
-        storage.mode(matrix) <- "double"
-        K <- .Fortran("createL",K,nrow(K),matrix,ncol(matrix))[[1]]
+        O <- matrix(0,4,4)
+        K <- .Call("createL",matrix)
         
         diag(K) <- lambda
         L <- rbind(cbind(K,Q),cbind(t(Q),O))
@@ -71,11 +67,8 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
             Lsubk3[(k+1):(2*k),(k+1):(2*k)] <- Lsubk
             Lsubk3[(2*k+1):(3*k),(2*k+1):(3*k)] <- Lsubk
         }
-        
         return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
-    }
-    else if (dim(matrix)[2] == 2) {
-        
+    } else if (dim(matrix)[2] == 2) {
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
         return(out)
     } else

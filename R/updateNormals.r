@@ -20,13 +20,14 @@
 #' @examples
 #' 
 #' require(rgl)
+#' require(Morpho)
 #' data(nose)
 #' ### calculate vertex normals
 #' shortnose.mesh$normals <- NULL ##remove normals
 #' \dontrun{
 #' shade3d(shortnose.mesh,col=3)##render
 #' }
-#' shortnose.mesh <- adnormals(shortnose.mesh)
+#' shortnose.mesh <- updateNormals(shortnose.mesh)
 #' \dontrun{
 #' rgl.clear()
 #' shade3d(shortnose.mesh,col=3)##smoothly rendered now
@@ -38,35 +39,28 @@
 #' points3d(vert2points(facemesh),col=2)
 #' wire3d(shortnose.mesh)
 #' }
-#' @rdname adnormals
+#' @rdname updateNormals
 #' @export
-adnormals <- function(x,angle=TRUE) 
+updateNormals <- function(x,angle=TRUE) 
 {
-    v <- x$vb
+    vb <- x$vb
     ## Make sure v is homogeneous with unit w
-    if (nrow(v) == 3)
-        v <- rbind(v, 1)
+    if (nrow(vb) == 3)
+        vb <- rbind(vb,1)
     else
-        v <- t( t(v)/v[4,] )
-    normals <- v*0
-    v <- v[1:3,]
-    it <- x$it
-    storage.mode(v) <- "double"
-    storage.mode(normals) <- "double"
-    storage.mode(it) <- "integer"
-    out <- .Fortran("adnormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals,angle)$normals
-    normals <- out
-    normals[4,] <- 1
+        vb <- t(t(vb)/vb[4,])
+    vb <- vb[1:3,]
+    it <- x$it-1
+    out <- .Call("updateNormals",vb,it,angle)
+    normals <- rbind(out,1)
     x$normals <- normals
     return(x)
 }
-#' @export
-#' @rdname adnormals
+
 facenormals <- function(x) 
 {
     barymesh <- list()
-    barymesh$vb <- rbind(t(barycenter(x)),1)
-    
+    barymesh$vb <- rbind(t(barycenter(x)),1)    
     v <- x$vb
     ## Make sure v is homogeneous with unit w
     if (nrow(v) == 3)
@@ -74,12 +68,8 @@ facenormals <- function(x)
     else
         v <- t( t(v)/v[4,] )
     v <- v[1:3,]
-    it <- x$it
-    normals <- it*0
-    storage.mode(v) <- "double"
-    storage.mode(normals) <- "double"
-    storage.mode(it) <- "integer"
-    out <- .Fortran("facenormals",v,ncol(v),it,ncol(it),nrow(it),normals=normals)$normals
+    it <- x$it-1
+    out <- .Call("updateFaceNormals",v,it)
     normals <- out
     class(barymesh) <- "mesh3d"
     barymesh$normals <- normals

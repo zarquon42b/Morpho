@@ -29,7 +29,7 @@ plotNormals <- function(x,long=1,lwd=1,col=1)
 
     if (is.null(x$normals))
       {
-        x <- adnormals(x)
+        x <- updateNormals(x)
       }
 
     n.mesh <- list()

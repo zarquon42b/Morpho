@@ -64,7 +64,7 @@ warp.mesh <- function(mesh,matr,matt,lambda=0,updateNormals=TRUE, silent=FALSE)
     if(updateNormals) {
         if (!silent)
             cat("updating normals...\n")
-        mesh <- adnormals(mesh)
+        mesh <- updateNormals(mesh)
     }
     return(mesh)
 }

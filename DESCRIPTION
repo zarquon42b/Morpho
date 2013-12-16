@@ -28,6 +28,7 @@ Imports:
     parallel,
     yaImpute,
     doParallel (>= 1.0.6)
+LinkingTo: Rcpp, RcppArmadillo
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
 LazyLoad: yes

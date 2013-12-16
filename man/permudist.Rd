@@ -2,8 +2,7 @@
 \alias{permudist}
 \title{performs permutation testing for group differences.}
 \usage{
-permudist(data, groups, rounds = 1000, which = 1:2,
-  mc.cores = detectCores())
+permudist(data, groups, rounds = 1000, which = NULL)
 }
 \arguments{
   \item{data}{array or matrix containing data}
@@ -12,20 +11,14 @@ permudist(data, groups, rounds = 1000, which = 1:2,
 
   \item{rounds}{number of permutations}
 
-  \item{which}{in case the factor levels are >2 this
-  determins which factorlevels to use}
-
-  \item{mc.cores}{integer: determines how many cores to use
-  for the computation. The default is autodetect. But in
-  case, it doesn't work as expected cores can be set
-  manually. Parallel processing is disabled on Windows due
-  to occasional errors.}
+  \item{which}{integer (optional): in case the factor
+  levels are > 2 this determins which factorlevels to use}
 }
 \value{
-\item{permudist }{vector containing distances between
-random group means} \item{dist }{distance between actual
-group means} \item{p.value }{p-value obtained by comparing
-the actual distance to randomly acquired distances}
+\item{dist }{distance matrix with distances between actual
+group means} \item{p.value }{distance matrix containing
+pairwise p-values obtained by comparing the actual distance
+to randomly acquired distances}
 }
 \description{
 This function compares the distance between two groupmeans
@@ -36,25 +29,12 @@ observations to this groups.
 data(boneData)
 proc <- procSym(boneLM)
 groups <- name2factor(boneLM,which=3)
-perm <- permudist(proc$PCscores[,1:10], groups=groups, mc.cores=2, rounds=100)
-\dontrun{
-#visualize results
-hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
-     xlab="distances")#random distances
-points(perm$dist,50,col=2,pch=19)#actual distance
-text(perm$dist,70,label=paste("actual distance\\n(p=",perm$p.value,")"))
+perm <- permudist(proc$PCscores[,1:10], groups=groups, rounds=10000)
 
 ## now we concentrate only on sex dimorphism between Europeans
 groups <- name2factor(boneLM,which=3:4)
 levels(groups)
-perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, mc.cores=2, rounds=100)
-# plot histogram of random distances
-hist(perm1$permudist, xlim=c(0,0.1),main="measured vs. random distances",
-     xlab="distances")
-points(perm1$dist,10,col=2,pch=19)#actual distance
-text(perm1$dist,15,label=paste("actual
-distance\\n(p=",perm1$p.value,")"))
-}
+perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, rounds=10000)
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

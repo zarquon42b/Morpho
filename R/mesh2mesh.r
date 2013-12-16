@@ -71,7 +71,7 @@ mesh2mesh <- function(mesh1,tarmesh,clean=TRUE,cloud=FALSE,sign=FALSE)
   outmesh$it <- it
   if (!is.null(it))
     {
-      outmesh <- adnormals(outmesh)
+      outmesh <- updateNormals(outmesh)
     }
   if (clean &&!is.character(tarmesh) )
     {
