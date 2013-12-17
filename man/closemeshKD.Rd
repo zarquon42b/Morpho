@@ -27,7 +27,8 @@ closemeshKD(x, mesh, k = 50, sign = FALSE, barycoords = FALSE,
 
   \item{method}{integer: either 0 or 1, if 0 ordinary
   Euclidean distance is used, if 1, the distance suggested
-  by Moshfeghi(1994) is calculated.}
+  by Moshfeghi(1994) is calculated. Temporarily not
+  integrated into Armadillo branch.}
 
   \item{\dots}{additional arguments. currently
   unavailable.}
