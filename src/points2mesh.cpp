@@ -1,7 +1,8 @@
 #include <RcppArmadillo.h>
+#include "angcalc.h"
+
 
 using namespace Rcpp;
-using namespace std;
 using namespace arma;
 
 // update search structures only taking into acount probable face candidates
@@ -198,20 +199,52 @@ double pt_triangle(vec point, vec vbtmp, vec& clost, int& region) {
   return sqdist;
 }
 
-vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region) {
+// alternate method including face orientation as by Moshfeghi
+double pt_triplane(vec point, vec vbtmp, vec& clost) {
+  double sqdist;
+  uvec ptr = linspace<uvec>(0,2,3);
+  vec B = vbtmp(ptr);
+  vec dv = B - point;
+  vec e0 = vbtmp(ptr+3);
+  vec e1 = vbtmp(ptr+6);
+  vec normal(3); normal.zeros();
+  crosspArma(e0,e1,normal);
+  double normlen = norm(normal,2);
+  if (normlen > 0)
+    normal /=normlen;
+  vec diffvec = point-B;
+  double difflen = norm(diffvec,2);
+  if (difflen > 0)
+    diffvec /= difflen;
+  double alpha = dot(diffvec,normal);
+  double p0p0dist = sqrt(dot(B - point,B-point))*alpha;
+  vec p0p0 = -p0p0dist*normal;
+  clost = point + p0p0;
+  sqdist = p0p0dist*p0p0dist;
+  return sqdist;
+
+}
+
+
+vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region, int method) {
   int ndat = DAT.n_cols;
   vec closttmp(3); closttmp.fill(9999);
   vec clost(3);
+  vec checkclost(3);
   vec vbtmp(13);
   double dist_old = 1e10;
   int regiontmp, faceptrtmp;
-  double disttmp;
+  double sqdist;
   for (int i=0; i < ndat; ++i) {
     vbtmp = DAT.col(i);
-    disttmp = pt_triangle(point, vbtmp, closttmp, regiontmp);
-    if (disttmp < dist_old) {
-      dist_old = disttmp;
-      dist = sqrt(abs(disttmp));
+    sqdist = pt_triangle(point, vbtmp, closttmp, regiontmp);
+    if (method == 1 && regiontmp != 0 ) {
+      sqdist = pt_triplane(point,vbtmp,checkclost);
+      sqdist = sqrt(sqdist) + sqrt(dot(checkclost-closttmp,checkclost-closttmp));
+    }
+    if (sqdist < dist_old) {
+      dist_old = sqdist;
+      dist = sqrt(abs(sqdist));
       clost = closttmp;
       region = regiontmp;
       faceptr = i;
@@ -237,7 +270,7 @@ vec getBaryCent(vec point, int fptr, mat vb, umat it) {
   return barycoord;
 }
 // main function to handle in and output
-RcppExport SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SEXP sign_, SEXP bary_) {
+RcppExport SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SEXP sign_, SEXP bary_, SEXP method_) {
   NumericMatrix Rref(ref_);//reference 
   NumericMatrix Rvb(vb_);//target vertices
   NumericMatrix Rnormals(normals_);//target normals
@@ -248,6 +281,7 @@ RcppExport SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP cl
   int nit = Rit.ncol();
   bool sign = as<bool>(sign_);
   bool bary = as<bool>(bary_);
+  int method = as<int>(method_);
   mat ref(Rref.begin(), Rref.nrow(), Rref.ncol());
   mat vb(Rvb.begin(),Rvb.nrow(),Rvb.ncol());
   mat normals(Rnormals.begin(),Rnormals.nrow(),Rnormals.ncol());
@@ -271,7 +305,7 @@ RcppExport SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP cl
     vec tmpvec(3), weight(3); 
     tmpvec.zeros();
     int faceptrtmp;
-    closeMat.col(i) = pt2mesh(ref.col(i), tmpdat, dists(i), faceptrtmp,region(i));
+    closeMat.col(i) = pt2mesh(ref.col(i), tmpdat, dists(i), faceptrtmp,region(i),method);
     faceptr(i)=clostInd(faceptrtmp,i);
     //get normal weights
     for (int j =0; j < 2; ++j) {

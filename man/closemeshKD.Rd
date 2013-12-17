@@ -27,8 +27,7 @@ closemeshKD(x, mesh, k = 50, sign = FALSE, barycoords = FALSE,
 
   \item{method}{integer: either 0 or 1, if 0 ordinary
   Euclidean distance is used, if 1, the distance suggested
-  by Moshfeghi(1994) is calculated. Temporarily not
-  integrated into Armadillo branch.}
+  by Moshfeghi(1994) is calculated.}
 
   \item{\dots}{additional arguments. currently
   unavailable.}
@@ -38,8 +37,13 @@ returns an object of class \code{mesh3d}.  with: \item{vb
 }{4xn matrix containing n vertices as homolougous
 coordinates} \item{normals }{4xn matrix containing vertex
 normals} \item{quality }{vector: containing distances to
-target} \item{it }{4xm matrix containing vertex indices
-forming triangular faces.Only available, when x is a mesh}
+target. In case of \code{method=1}, this is not the
+Euclidean distance but the distance of the reference point
+to the faceplane (orthogonally projected) plus the distance
+to the closest point on one of the face's edges (the target
+point). See the literature cited below for details.}
+\item{it }{4xm matrix containing vertex indices forming
+triangular faces.Only available, when x is a mesh}
 }
 \description{
 For a set of 3D-coordinates the closest matches on a target

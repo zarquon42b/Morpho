@@ -19,12 +19,12 @@
 #' hit points are returned.
 #' @param cores integer: how many cores to use for the search algorithm.
 #' @param method integer: either 0 or 1, if 0 ordinary Euclidean distance is
-#' used, if 1, the distance suggested by Moshfeghi(1994) is calculated. Temporarily not integrated into Armadillo branch.
+#' used, if 1, the distance suggested by Moshfeghi(1994) is calculated.
 #' @param \dots additional arguments. currently unavailable.
 #' @return returns an object of class \code{mesh3d}.  with:
 #' \item{vb }{4xn matrix containing n vertices as homolougous coordinates}
 #' \item{normals }{4xn matrix containing vertex normals}
-#' \item{quality }{vector: containing distances to target}
+#' \item{quality }{vector: containing distances to target. In case of \code{method=1}, this is not the Euclidean distance but the distance of the reference point to the faceplane (orthogonally projected) plus the distance to the closest point on one of the face's edges (the target point). See the literature cited below for details.}
 #' \item{it }{4xm matrix containing vertex indices forming triangular faces.Only available, when x is a mesh}
 #' @author Stefan Schlager
 #' @seealso \code{\link{ply2mesh}}
@@ -64,7 +64,7 @@ closemeshKD <- function(x, mesh, k=50, sign=FALSE, barycoords=FALSE, cores=1, me
         bary <- barycenter(mesh)
         clostInd <- mcNNindex(bary,matr,k=k,cores=cores,...)-1
         normals <- mesh$normals[1:3,]
-        out <- .Call("points2mesh", t(matr), vb, it, normals, t(clostInd), sign, barycoords)
+        out <- .Call("points2mesh", t(matr), vb, it, normals, t(clostInd), sign, barycoords, method)
         gc()
         x$vb[1:3,] <- out$clost
         x$quality <- out$dists
