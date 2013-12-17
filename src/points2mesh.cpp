@@ -241,6 +241,7 @@ vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region, int met
     if (method == 1 && regiontmp != 0 ) {
       sqdist = pt_triplane(point,vbtmp,checkclost);
       sqdist = sqrt(sqdist) + sqrt(dot(checkclost-closttmp,checkclost-closttmp));
+      sqdist = sqdist*sqdist;
     }
     if (sqdist < dist_old) {
       dist_old = sqdist;
