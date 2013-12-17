@@ -11,8 +11,10 @@ using namespace arma;
 double angcalcArma(colvec a, colvec b) {
   double alen = norm(a,2);
   double blen = norm(b,2);
-  a = a/alen;
-  b = b/blen;
+  if (alen > 0)
+    a = a/alen;
+  if (blen > 0)
+    b = b/blen;
   colvec diffvec = a-b;
   double angle = acos((dot(diffvec,diffvec)-2)/-2);
   return angle;
@@ -23,8 +25,10 @@ double angcalcRcpp(NumericVector a_, NumericVector b_) {
   colvec b(b_.begin(),b_.size(),false);
   double alen = sqrt(dot(a,a));
   double blen = sqrt(dot(b,b));
-  a = a/alen;
-  b = b/blen;
+  if (alen > 0)
+    a = a/alen;
+  if (blen > 0)
+    b = b/blen;
   colvec diffvec = a-b;
   double angle = acos((dot(diffvec,diffvec)-2)/-2);
   return angle;
