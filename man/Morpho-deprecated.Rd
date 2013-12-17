@@ -1,10 +1,13 @@
 \name{deprecated}
+\alias{adnormals}
 \alias{deform.grid}
 \alias{deprecated}
 \alias{regdist.raw}
 \title{deprecated functions of Morpho}
 \usage{
 deform.grid(...)
+
+adnormals(...)
 
 regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle",
   dist.mat.out = FALSE)

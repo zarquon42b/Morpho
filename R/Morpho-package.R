@@ -11,8 +11,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0-2.131216\cr
-#' Date: \tab 2013-12-16\cr
+#' Version: \tab 1.0-2.131217\cr
+#' Date: \tab 2013-12-17\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -129,6 +129,13 @@ deform.grid <- function (...)
 {
   .Deprecated("deformGrid3d", package="Morpho")
   deformGrid3d(...)
+}
+#' @rdname Morpho-deprecated
+#' @export 
+adnormals <- function (...)
+{
+  .Deprecated("updateNormals", package="Morpho")
+  updateNormals(...)
 }
 
 #' @rdname Morpho-deprecated
