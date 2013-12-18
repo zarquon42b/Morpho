@@ -6,6 +6,7 @@
 \section{Changes in Morpho version 1.99 (2013-12-18)}{
   \subsection{R-code}{
     \itemize{
+      \item renamed 'adnormals' to 'updateNormals'
       \item 'permudist' is now massively faster by using C++ code for
       permutation. It can handle more than 2 groups now.
       \item as the new 'permudist' is now implemented in 'groupPCA', it
