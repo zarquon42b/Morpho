@@ -2,7 +2,45 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 1.0) (2013-11-04)}{
+
+\section{Changes in Morpho version 1.99 (2013-12-18)}{
+  \subsection{R-code}{
+    \itemize{
+      \item added function 'RegScore' to calculate Regression scores as described in Drake & Klingenberg(2008)
+      \item added 'CAC' (common allometric component)
+      \item added functions 'asymPermute' (assessing directional asymmetry) and 'meanMat' (fast Matrix averaging)
+      \item covPCA now returns the distances instead of squared
+      distances
+      \item added option to revert vecx to translate a matrix back into
+      an array containing landmarks
+      \item adapted 'ray2mesh' to work in parallel calls and added
+      option "mc.cores" in 'placePatch' - even in Windows
+      \item added optipn "add" in "meshDist" and "render" to add to
+      existing rgl window.
+      \item fixed error in in 'placePatch' in case "data" is a matrix 
+
+    }
+  }
+  \subsection{Package documentation}{
+    \itemize{
+      \item switched to roxygen2
+      \item fixed some docu and added examples in 'pcaplot3d' and 'rotonmat'
+      \item added link to PDF-manual in Morpho's help page
+      \item commented out the answers in find.outliers to be able to run run_examples(...,run=FALSE) without errors
+      \item marked more examples as dontrun, as the usage of roxygen2 allows the detailed check of ALL examples by using run_examples(devtools package). This uses less checking time and keeps CRAN from complaining
+    }
+  }
+  \subsection{Misc}{
+    \itemize{
+      \item translated all FORTRAN routines into C++ using Rcpp/RcppArmadillo 
+    }
+  }
+}
+
+
+
+
+\section{Changes in Morpho version 1.0 (2013-11-04)}{
   \subsection{R-code}{
     \itemize{
       \item added option "barycoords" in 'closemeshKD' and added normal weighting

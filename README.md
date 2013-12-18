@@ -37,6 +37,8 @@ Within R:
 
         install.packages("devtools")
 
+    * **Make sure to have the latest versions of Rcpp and RcppArmadillo installed!!**
+
 2. Install build environment
     * **Windows:** Install latest version of *[Rtools](http://cran.r-project.org/bin/windows/Rtools)*
 During installation of *Rtools* make sure to install the *toolchain*, and to select *"Edit the system path"* (and confirming the installers suggestions).
