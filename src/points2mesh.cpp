@@ -1,6 +1,5 @@
 #include "points2mesh.h"
 
-
 // update search structures only taking into acount probable face candidates
 mat updateSearchStruct(mat vb, umat it, uvec clostInd) {
   int nit = it.n_cols;
@@ -247,9 +246,9 @@ vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region, int met
       region = regiontmp;
       faceptr = i;
       if (meth) // get correct distance
-	dist = norm(point - clost,2);
+      	dist = norm(point-clost,2);
       else 
-	dist = sqrt(abs(sqdist));
+	dist = sqrt(std::abs(sqdist));
     }
   }
   return clost;
