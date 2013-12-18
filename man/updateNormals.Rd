@@ -14,9 +14,10 @@ facenormals(x)
   used.}
 }
 \value{
-adnormals returns mesh with updated vertex normals.
+\code{updateNormals} returns mesh with updated vertex
+normals.
 
-facenormals returns an object of class "mesh3d". With
+\code{facenormals} returns an object of class "mesh3d" with
 \item{vb }{faces' barycenters} \item{normals }{faces'
 normals}
 }

@@ -1,10 +1,6 @@
 #include "updateNormals.h"
 
-using namespace Rcpp;
-using namespace std;
-using namespace arma;
-
-SEXP updateNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
+SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
   bool angweight = Rcpp::as<bool>(angweight_);
   NumericMatrix vb(vb_);
   IntegerMatrix it(it_);

@@ -5,9 +5,9 @@
 #' 
 #' @param x triangular mesh of class "mesh3d"
 #' @param angle logical: if TRUE, angle weighted normals are used.
-#' @return adnormals returns mesh with updated vertex normals.
+#' @return \code{updateNormals} returns mesh with updated vertex normals.
 #' 
-#' facenormals returns an object of class "mesh3d". With
+#' \code{facenormals} returns an object of class "mesh3d" with
 #' \item{vb }{faces' barycenters}
 #' \item{normals }{faces' normals}
 #' @note only supports triangular meshes
@@ -51,7 +51,7 @@ updateNormals <- function(x,angle=TRUE)
         vb <- t(t(vb)/vb[4,])
     vb <- vb[1:3,]
     it <- x$it-1
-    out <- .Call("updateNormals",vb,it,angle)
+    out <- .Call("updateVertexNormals",vb,it,angle)
     normals <- rbind(out,1)
     x$normals <- normals
     return(x)

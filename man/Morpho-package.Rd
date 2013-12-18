@@ -16,8 +16,8 @@ have to be installed.
 }
 \details{
 \tabular{ll}{ Package: \tab Morpho\cr Type: \tab Package\cr
-Version: \tab 1.0-2.131217\cr Date: \tab 2013-12-17\cr
-License: \tab GPL\cr LazyLoad: \tab yes\cr }
+Version: \tab 1.99\cr Date: \tab 2013-12-18\cr License:
+\tab GPL\cr LazyLoad: \tab yes\cr }
 }
 \note{
 For full functionality please install trimesh-tools as

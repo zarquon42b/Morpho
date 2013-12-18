@@ -1,4 +1,4 @@
-#include "angcalc.h"
+#include "doozers.h"
 using namespace Rcpp;
 
 RcppExport SEXP ang_calcC(SEXP x_, SEXP y_, SEXP circle_) {

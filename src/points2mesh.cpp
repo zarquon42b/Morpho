@@ -1,9 +1,5 @@
-#include <RcppArmadillo.h>
-#include "angcalc.h"
+#include "points2mesh.h"
 
-
-using namespace Rcpp;
-using namespace arma;
 
 // update search structures only taking into acount probable face candidates
 mat updateSearchStruct(mat vb, umat it, uvec clostInd) {
@@ -235,20 +231,25 @@ vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region, int met
   double dist_old = 1e10;
   int regiontmp, faceptrtmp;
   double sqdist;
+  bool meth = false;
   for (int i=0; i < ndat; ++i) {
     vbtmp = DAT.col(i);
     sqdist = pt_triangle(point, vbtmp, closttmp, regiontmp);
     if (method == 1 && regiontmp != 0 ) {
+      meth = true;
       sqdist = pt_triplane(point,vbtmp,checkclost);
       sqdist = sqrt(sqdist) + sqrt(dot(checkclost-closttmp,checkclost-closttmp));
       sqdist = sqdist*sqdist;
     }
     if (sqdist < dist_old) {
       dist_old = sqdist;
-      dist = sqrt(abs(sqdist));
       clost = closttmp;
       region = regiontmp;
       faceptr = i;
+      if (meth) // get correct distance
+	dist = norm(point - clost,2);
+      else 
+	dist = sqrt(abs(sqdist));
     }
   }
   return clost;
@@ -271,7 +272,7 @@ vec getBaryCent(vec point, int fptr, mat vb, umat it) {
   return barycoord;
 }
 // main function to handle in and output
-RcppExport SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SEXP sign_, SEXP bary_, SEXP method_) {
+SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SEXP sign_, SEXP bary_, SEXP method_) {
   NumericMatrix Rref(ref_);//reference 
   NumericMatrix Rvb(vb_);//target vertices
   NumericMatrix Rnormals(normals_);//target normals

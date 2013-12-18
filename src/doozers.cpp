@@ -2,7 +2,7 @@
 #define angcal_H_
 
 #include <RcppArmadillo.h>
-#include "angcalc.h"
+#include "doozers.h"
 
 using namespace Rcpp;
 using namespace std;
