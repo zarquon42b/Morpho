@@ -14,7 +14,7 @@ Within R:
 1. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
      
             
-        install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute"))
+        install.packages(c("rgl", "MASS","doParallel","colorRamps","yaImpute","RcppArmadillo"))
 
 
   Also required are the packages 'Matrix' and 'parallel' which usually are already installed as R's recommended packages.

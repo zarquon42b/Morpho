@@ -6,6 +6,10 @@
 \section{Changes in Morpho version 1.99 (2013-12-18)}{
   \subsection{R-code}{
     \itemize{
+      \item 'permudist' is now massively faster by using C++ code for
+      permutation. It can handle more than 2 groups now.
+      \item as the new 'permudist' is now implemented in 'groupPCA', it
+  gets a boost, too.
       \item added function 'RegScore' to calculate Regression scores as described in Drake & Klingenberg(2008)
       \item added 'CAC' (common allometric component)
       \item added functions 'asymPermute' (assessing directional asymmetry) and 'meanMat' (fast Matrix averaging)
