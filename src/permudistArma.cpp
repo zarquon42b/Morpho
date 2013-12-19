@@ -1,24 +1,19 @@
-#include <RcppArmadillo.h>
+#include "permudistArma.h"
 
-using namespace Rcpp;
-using namespace std;
-using namespace arma;
-
-RcppExport SEXP permudistArma(SEXP datar, SEXP groupsr, SEXP roundr, SEXP maxlevr, SEXP alldistr) {
-  Rcpp::NumericMatrix data(datar);
-  Rcpp::IntegerVector groups(groupsr);
-  int rounds = Rcpp::as<int>(roundr);
-  int maxlev = Rcpp::as<int>(maxlevr);
-  int alldist=0;
-  for (int i=1; i < maxlev; ++i)
-    alldist +=i;
+SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_) {
+  Rcpp::NumericMatrix data(data_);
+  Rcpp::IntegerVector groups(groups_);
+  int rounds = Rcpp::as<int>(rounds_);
   int n = data.nrow();
   int m = data.ncol();
   mat armaData(data.begin(), n,m);
   ivec armaGroups(groups.begin(),groups.size(),false);
   ivec permuvec = armaGroups;
-  List out(alldist);
-  
+  int maxlev = armaGroups.max();
+  int alldist=0;
+  for (int i=1; i < maxlev; ++i)
+    alldist +=i;
+  List out(alldist);  
   for (int i=0; i < alldist; ++i) {
     NumericVector dist0(rounds+1);
     out[i] =dist0;
@@ -34,7 +29,7 @@ RcppExport SEXP permudistArma(SEXP datar, SEXP groupsr, SEXP roundr, SEXP maxlev
 	mat tmp2 = armaData.rows(arma::find(permuvec == j1 ));
 	mat mean2 = mean(tmp2,0);
 	mat diff = mean1-mean2;
-	double tmpdist = sqrt(dot(diff,diff));
+	double tmpdist = norm(diff,2);
       	NumericVector dists = out[count];
 	dists[i] = tmpdist;
         out[count]=dists;

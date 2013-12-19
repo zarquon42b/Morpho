@@ -59,7 +59,7 @@ permudist <- function(data, groups, rounds=1000, which=NULL)
         stop("provide at least two groups")
 ### end configure grouping ####
     if (rounds > 0) {
-        shaker <- .Call("permudistArma",N,as.integer(groups),as.integer(rounds),as.integer(ng))
+        shaker <- .Call("permudistArma",N,as.integer(groups),as.integer(rounds))
         dist <- matrix(0,ng,ng); dimnames(dist) <- list(lev,lev)
         probs <- dist
         count <- 1
