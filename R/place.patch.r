@@ -48,7 +48,6 @@
 #' \code{relax.patch=TRUE}, those points exceeding this value will be relaxed
 #' freely (i.e. not restricted to tangent plane).
 #' @param silent logical: suppress messages.
-#' @param mc.cores run in parallel (experimental stuff now even available on Windows)
 #' @return array containing the projected coordinates appended to the
 #' data.array specified in the input. In case dat.array is a matrix only a
 #' matrix is returned.
@@ -99,7 +98,7 @@
 #' }
 #' @importFrom parallel makeCluster stopCluster
 #' @export
-placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=TRUE, inflate=NULL,tol=inflate, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL, silent=FALSE,mc.cores=1)
+placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=TRUE, inflate=NULL,tol=inflate, relax.patch=TRUE, keep.fix=NULL, rhotol=NULL, silent=FALSE)
     {
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
@@ -107,21 +106,21 @@ placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=
             keep.fix <- 1:dim(atlas$landmarks)[1]
         if (is.null(tol) && !is.null(inflate))
             tol <- inflate
-        if (mc.cores > 1)
-            silent <- TRUE
+        ##if (mc.cores > 1)
+        ##    silent <- TRUE
              
-        patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext, SMvector = keep.fix, silent=silent,mc.cores=mc.cores)
+        patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext, SMvector = keep.fix, silent=silent)
         return(patched)
     }
 
 place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,inflate=NULL,relax.patch=TRUE,rhotol=NULL,fileext=".ply", silent=FALSE, mc.cores=1)
     {
-        if (.Platform$OS.type == "windows") {
-            cl <- makeCluster(mc.cores)            
-            registerDoParallel(cl=cl)
-        } else
-            registerDoParallel(cores = mc.cores)
-        
+
+        ##if (.Platform$OS.type == "windows") {
+        ##     cl <- makeCluster(mc.cores)            
+        ##     registerDoParallel(cl=cl)
+        ## } else
+        ##     registerDoParallel(cores = mc.cores)k <- dim(dat.array)[1]
         k <- dim(dat.array)[1]
         deselect=TRUE
         fix <- which(c(1:k) %in% SMvector)
@@ -138,7 +137,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             out <- matrix(NA,(patch.dim+k),3)
             name <- NULL
         }
-        
+       
         L <- CreateL(atlas.lm)
         L1 <- CreateL(rbind(atlas.lm,patch))
         
@@ -227,12 +226,12 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 out <- rbind(dat.array,tps.lm)
             return(out)
         }
-        if (!usematrix)
-            cfun <- list
-        else
-            cfun="c"
+         if (!usematrix)
+             cfun <- list
+         else
+             cfun="c"
 
-        out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho")) %dopar% parfun(i)
+        out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho")) %do% parfun(i)
         if (!usematrix) {
             tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
             for (i in 1:n)
@@ -240,8 +239,9 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             out <- tmpout
             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
         }
-        if (.Platform$OS.type == "windows")
-            stopCluster(cl)
+        ##  if (.Platform$OS.type == "windows")
+        ##       stopCluster(cl)
+        
         return(out)
     }
 
