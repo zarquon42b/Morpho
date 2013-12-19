@@ -66,8 +66,9 @@ createAtlas <- function(mesh, landmarks, patch, corrCuves=NULL, patchCurves=NULL
 #' data(nose)
 #' atlas <- createAtlas(shortnose.mesh, landmarks =
 #'            shortnose.lm[c(1:5,20:21),], patch=shortnose.lm[-c(1:5,20:21),])
+#' \dontrun{
 #' plotAtlas(atlas)
-#' 
+#' }
 #' @export
 plotAtlas <- function(atlas, pt.size=NULL, alpha=1, render=c("w","s"), point=c("s", "p"), meshcol="white", add=TRUE, legend=TRUE,cols=2:5)
     {

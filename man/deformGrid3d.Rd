@@ -45,8 +45,10 @@ landmarks by deforming a cubic grid based on a thin-plate
 spline interpolation
 }
 \examples{
+\dontrun{
 data(nose)
 deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
+}
 }
 \author{
 Stefan Schlager

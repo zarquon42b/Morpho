@@ -63,7 +63,9 @@ data <- boneLM
 data[c(1,5),,1] <- NA
 repair <- fixLMtps(data,comp=10)
 ##  view difference between estimated and actual landmark
+\dontrun{
 deformGrid3d(repair$out[,,1], boneLM[,,1],ngrid=0)
+}
 }
 \author{
 Stefan Schlager

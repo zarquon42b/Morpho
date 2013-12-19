@@ -11,12 +11,11 @@
 #' @author Stefan Schlager
 #' @keywords ~kwd1 ~kwd2
 #' @examples
-#' 
+#'
+#' \dontrun{
 #' require(rgl)
 #' data(nose)
-#' 
 #' plotNormals(shortnose.mesh,col=4,long=0.01)
-#' \dontrun{
 #' shade3d(shortnose.mesh,col=3)
 #' }
 #' 

@@ -17,8 +17,9 @@
 #' }
 #' noseinvert <- conv2backf(shortnose.mesh)
 #' ## show normals
+#' \dontrun{
 #' plotNormals(noseinvert,long=0.01)
-#' 
+#' }
 #' @export
 conv2backf <- function(mesh)
 { 	

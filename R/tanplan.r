@@ -23,16 +23,19 @@
 #' #example tanplan
 #' z <- tanplan(x)
 #' #visualize result
+#' \dontrun{
 #' lines3d(rbind(0, x), col=2, lwd=2)
 #' ## show complement
 #' lines3d(rbind(z$y, 0, z$z), col=3, lwd=2)
-#' 
+#' }
 #' # example crossp
 #' z <- crossp(x, y)
 #' # show x and y
+#' \dontrun{
 #' lines3d(rbind(x, 0, y), col=2, lwd=2)
 #' # show z
 #' lines3d(rbind(0, z), col=3, lwd=2)
+#' }
 #' @rdname tanplan
 #' @export
 tanplan <- function(x)

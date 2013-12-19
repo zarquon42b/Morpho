@@ -46,7 +46,9 @@ shortnose.rot <-
 rotonmat(shortnose.lm,shortnose.lm[1:9,],longnose.lm[1:9,])
 
 ##view result
+\dontrun{
 deformGrid3d(shortnose.rot,shortnose.lm,ngrid=0)
+}
 }
 \author{
 Stefan Schlager

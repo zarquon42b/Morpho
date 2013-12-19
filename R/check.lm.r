@@ -53,8 +53,9 @@
 #' ## create landmark array
 #' data <- bindArr(shortnose.lm, longnose.lm, along=3)
 #' dimnames(data)[[3]] <- c("shortnose", "longnose")
+#' \dontrun{
 #' checkLM(data, path="./",Rdata=TRUE, suffix="")
-#' 
+#' }
 #' 
 #' ## now visualize by using an atlas:
 #' atlas <- createAtlas(shortnose.mesh, landmarks =

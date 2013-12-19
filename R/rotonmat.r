@@ -27,8 +27,9 @@
 #' rotonmat(shortnose.lm,shortnose.lm[1:9,],longnose.lm[1:9,])
 #' 
 #' ##view result
+#' \dontrun{
 #' deformGrid3d(shortnose.rot,shortnose.lm,ngrid=0)
-#' 
+#' }
 #' @export
 rotonmat <- function(X,refmat,tarmat,scale=TRUE,reflection=FALSE, weights=NULL, centerweight=FALSE)
 {	

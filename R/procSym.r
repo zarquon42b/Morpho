@@ -122,11 +122,12 @@
 #' right <- c(3,5,7)
 #' pairedLM <- cbind(left,right)
 #' symproc <- procSym(boneLM, pairedLM=pairedLM)
+#' \dontrun{
 #' ## visualize first 3 PCs of symmetric shape
 #' pcaplot3d(symproc, sym=TRUE)
 #' ## visualize first 3 PCs of asymmetric shape
 #' pcaplot3d(symproc, sym=FALSE)
-#' \dontrun{
+#' 
 #' ## visualze distribution of symmetric PCscores population
 #' pop <- name2factor(boneLM, which=3)
 #' require(car)

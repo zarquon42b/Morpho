@@ -22,7 +22,9 @@ shade3d(shortnose.mesh,col=3)
 }
 noseinvert <- conv2backf(shortnose.mesh)
 ## show normals
+\dontrun{
 plotNormals(noseinvert,long=0.01)
+}
 }
 \author{
 Stefan Schlager

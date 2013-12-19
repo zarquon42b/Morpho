@@ -41,11 +41,13 @@ visualization of the shape changes explained by Principal
 components
 }
 \examples{
+\dontrun{
 data(nose)
 #make a tiny sample
 nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
 proc <- procSym(nosearr)
 pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
+}
 }
 \seealso{
 \code{\link{procSym}}

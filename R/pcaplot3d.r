@@ -16,13 +16,13 @@
 #' @seealso \code{\link{procSym}}
 #' @examples
 #' 
-#' 
+#' \dontrun{
 #' data(nose)
 #' #make a tiny sample
 #' nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
 #' proc <- procSym(nosearr)
 #' pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
-#' 
+#' }
 #' @rdname pcaplot3d
 #' @export
 pcaplot3d <- function (x,...) UseMethod("pcaplot3d")

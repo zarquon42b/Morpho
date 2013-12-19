@@ -50,7 +50,9 @@ coloring of the 3D-spheres is specified.
 data(nose)
 atlas <- createAtlas(shortnose.mesh, landmarks =
            shortnose.lm[c(1:5,20:21),], patch=shortnose.lm[-c(1:5,20:21),])
+\dontrun{
 plotAtlas(atlas)
+}
 }
 \seealso{
 \code{\link{placePatch}, \link{createAtlas}}

@@ -37,8 +37,9 @@
 #' ## get shape for Europeans and Chinese
 #' datamod <- ~as.factor(levels(pop))
 #' pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
+#' \dontrun{
 #' deformGrid3d(pred$predicted[,,1], pred$predicted[,,2], ngrid = 0)
-#' 
+#' }
 #' 
 #' ## more complicated model
 #' 

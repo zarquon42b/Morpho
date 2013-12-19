@@ -44,8 +44,8 @@ shade3d(shortnose.mesh,col=3)##smoothly rendered now
 }
 ## calculate facenormals
 facemesh <- facenormals(shortnose.mesh)
-plotNormals(facemesh,long=0.01)
 \dontrun{
+plotNormals(facemesh,long=0.01)
 points3d(vert2points(facemesh),col=2)
 wire3d(shortnose.mesh)
 }
