@@ -16,12 +16,10 @@
 #' @param plot Logical: determins whether in the two-sample case a histogramm
 #' ist to be plotted.
 #' @param rounds integer: number of permutations if a permutation test of the
-#' mahalanobis and Procrustes distance between group means is requested.If
+#' Mahalanobis distances (from the pooled within-group covariance matrix) and Euclidean distance between group means is requested.If
 #' rounds = 0, no test is performed.
 #' @param cv logical: requests a Jackknife Crossvalidation.
-#' @param mc.cores integer: how many cores of the Computer are allowed to be
-#' used. Default is use autodetection by using detectCores() from the parallel
-#' package.
+#' 
 #' @return
 #' \item{CV }{A matrix containing the Canonical Variates}
 #' \item{CVscores }{A matrix containing the individual Canonical Variate scores}
@@ -33,10 +31,6 @@
 #' tested by permutation test if the input is an array it is assumed to be
 #' superimposed Landmark Data and Procrustes Distance will be calculated}
 #' \item{CVcv }{A matrix containing crossvalidated CV scores}
-#' \item{mc.cores }{integer: determines how many cores to use for the
-#' computation. The default is to autodetect. But in case, it doesn't work as
-#' expected cores can be set manually.Parallel processing is disabled on
-#' Windows due to occasional errors}
 #' @author Stefan Schlager
 #' @seealso \code{\link{groupPCA}}
 #' @references Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of Canonical
@@ -56,14 +50,14 @@
 #' groups<-as.factor(c(rep("female",30),rep("male",29)))
 #' # perform CVA and test Mahalanobis distance
 #' # between groups with permutation test by 100 rounds)            
-#' cvall<-CVA(alldat$orpdata,groups,rounds=100,mc.cores=2)     
+#' cvall<-CVA(alldat$orpdata,groups,rounds=10000)     
 #' 
 #' ### Morpho CVA
 #' data(iris)
 #' vari <- iris[,1:4]
 #' facto <- iris[,5]
 #' 
-#' cva.1=CVA(vari, groups=facto,mc.cores=2) 
+#' cva.1=CVA(vari, groups=facto) 
 #' # plot the CVA
 #' plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
 #'    xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"%")),
@@ -110,11 +104,8 @@
 #'  
 #'  
 #' @export
-CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE, mc.cores=detectCores()) 
+CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE) 
 {
-    if(.Platform$OS.type == "windows")
-        mc.cores <- 1
-
     groups <- factor(groups)
     lev <- levels(groups)
     ng <- length(lev)
@@ -218,29 +209,10 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     #pmatrix <- NULL
     #pmatrix.proc <- NULL
 
-### calculate Mahalanobis Distance between Means
-    for (i in 1:(ng - 1)) {
-        for (j in (i + 1):ng) 
-            disto[j, i] <- sqrt((Gmeans[i, ] - Gmeans[j,]) %*% winv %*% (Gmeans[i, ] - Gmeans[j, ]))
-    }
-
-### calculate Procrustes Distance between Means or Euclidean for 
-    proc.disto <- matrix(0, ng, ng)
-
-    if (!is.null(lev))
-        colnames(proc.disto) <- rownames(proc.disto) <- lev
-
-    for (i in 1:(ng - 1)) {
-        for (j in (i + 1):ng) {
-            if (n3) 
-                proc.disto[j, i] <- angle.calc(Gmeans[i, ], Gmeans[j,])
-            else
-                proc.disto[j, i] <- sqrt(sum((Gmeans[i, ]- Gmeans[j,])^2))
-        }
-    }
 
 ### Permutation Test for Distances	
-    Dist <- .CVAdists(N, Tmatrix, groups, rounds, proc.dist=proc.disto, maha.dist=disto, mc.cores,n3, winv )
+    Dist <- .CVAdists(N, groups, rounds,  winv )
+
     if (n3) {
         Grandm <- matrix(Grandm, k,m)
         groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m,ng))
@@ -258,12 +230,12 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
                 out <- (Tmatrix[i, ]-tmp$Grandmean) %*% tmp$CV
                 return(out)
             }
-        a.list <- mclapply(a.list, crovafun, mc.cores=mc.cores)
+        a.list <- lapply(a.list, crovafun)
         for (i in 1:n)
             CVcv[i,] <- a.list[[i]]
     }
     return(list(CV = CV, CVscores = CVscores, Grandm = Grandm,
                 groupmeans = groupmeans, Var = Var, CVvis = CVvis,
-                Dist = Dist,CVcv = CVcv
+                Dist = Dist, CVcv = CVcv
                 ))
 }

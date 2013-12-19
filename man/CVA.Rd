@@ -3,7 +3,7 @@
 \title{Canonical Variate Analysis}
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
-  rounds = 0, cv = FALSE, mc.cores = detectCores())
+  rounds = 0, cv = FALSE)
 }
 \arguments{
   \item{dataarray}{Either a k x m x n real array, where k
@@ -28,15 +28,12 @@ CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
   case a histogramm ist to be plotted.}
 
   \item{rounds}{integer: number of permutations if a
-  permutation test of the mahalanobis and Procrustes
+  permutation test of the Mahalanobis distances (from the
+  pooled within-group covariance matrix) and Euclidean
   distance between group means is requested.If rounds = 0,
   no test is performed.}
 
   \item{cv}{logical: requests a Jackknife Crossvalidation.}
-
-  \item{mc.cores}{integer: how many cores of the Computer
-  are allowed to be used. Default is use autodetection by
-  using detectCores() from the parallel package.}
 }
 \value{
 \item{CV }{A matrix containing the Canonical Variates}
@@ -53,11 +50,7 @@ visualization purposes, for details see example below}
 requested tested by permutation test if the input is an
 array it is assumed to be superimposed Landmark Data and
 Procrustes Distance will be calculated} \item{CVcv }{A
-matrix containing crossvalidated CV scores} \item{mc.cores
-}{integer: determines how many cores to use for the
-computation. The default is to autodetect. But in case, it
-doesn't work as expected cores can be set manually.Parallel
-processing is disabled on Windows due to occasional errors}
+matrix containing crossvalidated CV scores}
 }
 \description{
 performs a Canonical Variate Analysis.
@@ -72,14 +65,14 @@ alldat<-procSym(abind(gorf.dat,gorm.dat))
 groups<-as.factor(c(rep("female",30),rep("male",29)))
 # perform CVA and test Mahalanobis distance
 # between groups with permutation test by 100 rounds)
-cvall<-CVA(alldat$orpdata,groups,rounds=100,mc.cores=2)
+cvall<-CVA(alldat$orpdata,groups,rounds=10000)
 
 ### Morpho CVA
 data(iris)
 vari <- iris[,1:4]
 facto <- iris[,5]
 
-cva.1=CVA(vari, groups=facto,mc.cores=2)
+cva.1=CVA(vari, groups=facto)
 # plot the CVA
 plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
    xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"\%")),
