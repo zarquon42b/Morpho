@@ -14,8 +14,6 @@ SystemRequirements: trimesh_project, rayproject, ply2ascii
 Suggests:
     car,
     lattice,
-    ffmanova,
-    pls,
     shapes
 Depends:
     R (>= 3.0.0)
