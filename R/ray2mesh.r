@@ -11,13 +11,14 @@
 #' @param tol numeric: maximum distance to search along ray, closest Euclidean
 #' distance will be used, if tol is exceeded.
 #' @param inbound inverse search direction along rays.
-#' @param sign logical: if TRUE, signed distances are returned.
+#' @param mindist search both ways (ray and -ray) and select closest point.
+#' @param \dots additional arguments not used at the moment.
 #' @return returns projected mesh with additional list entries:
 #' \item{quality }{integer vector containing a value for each vertex of \code{x}: 1 indicates that a ray has intersected 'tarmesh' within the given threshold, while 0 means not}
 #' \item{distance }{numeric vector: distances to intersection}
 #' @author Stefan Schlager
 #' @seealso \code{\link{ply2mesh}}, \code{\link{closemeshKD}}
-#' @importFrom Rvcg vcgRaySearch
+#' @importFrom Rvcg vcgRaySearch vcgImport
 #' @export
 ray2mesh <- function(mesh1, tarmesh, tol=1e12, inbound=FALSE, mindist=FALSE,...)
 { 
