@@ -5,10 +5,8 @@
 \usage{
 mesh2mesh(mesh1, tarmesh, clean = TRUE, cloud = FALSE, sign = FALSE)
 
-ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE,
-  outname = NULL, readback = TRUE, inbound = FALSE, strict = FALSE,
-  ignore.stdout = FALSE, mindist = FALSE, targetdump = "target",
-  refdump = "reference")
+ray2mesh(mesh1, tarmesh, tol = 1e+12, inbound = FALSE, mindist = FALSE,
+  ...)
 }
 \arguments{
   \item{mesh1}{mesh to project. Can be an object of class
@@ -32,9 +30,6 @@ ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE,
   closest Euclidean distance will be used, if tol is
   exceeded.}
 
-  \item{angmax}{numeric: maximum angle (in radians) of
-  normals of original and hit point are allowed to differ.}
-
   \item{outname}{character: set name of dumpfile used in
   the process.}
 
@@ -43,13 +38,13 @@ ray2mesh(mesh1, tarmesh, tol = 1, angmax = NULL, clean = TRUE,
 
   \item{inbound}{inverse search direction along rays.}
 
-  \item{strict}{logical: writes the value 1e12 into vertex
-  quality if no face is hit by the ray.}
-
   \item{ignore.stdout}{suppress command line output.}
 
   \item{mindist}{search in both directions of the ray and
   use closest points.}
+
+  \item{strict}{logical: writes the value 1e12 into vertex
+  quality if no face is hit by the ray.}
 
   \item{targetdump}{specify name of dumped target mesh}
 

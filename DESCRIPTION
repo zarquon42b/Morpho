@@ -25,6 +25,7 @@ Imports:
     Matrix (>= 1.0-1),
     parallel,
     yaImpute,
+    Rvcg,
     doParallel (>= 1.0.6)
 LinkingTo: Rcpp, RcppArmadillo
 Copyright: see COPYRIGHTS file for details

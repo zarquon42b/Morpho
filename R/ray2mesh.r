@@ -1,61 +1,30 @@
-#' @rdname mesh2mesh
-#' @param targetdump specify name of dumped target mesh
-#' @param refdump specify name of dumped reference mesh
+#' projects the vertices of a mesh along its normals onto the surface of another one.
+#' 
+#' projects the vertices of a mesh onto the surface of another one by searching
+#' for the closest point along vertex normals on the
+#' target by for each vertex.
+#'
+#' @param mesh1 mesh to project. Can be an object of class "mesh3d" or path to
+#' an external mesh file (ply, obj, stl).
+#' @param tarmesh mesh to project onto. Can be an object of class "mesh3d" or
+#' path to an external mesh file (ply, obj, stl).
+#' @param tol numeric: maximum distance to search along ray, closest Euclidean
+#' distance will be used, if tol is exceeded.
+#' @param inbound inverse search direction along rays.
+#' @param sign logical: if TRUE, signed distances are returned.
+#' @return returns projected mesh with additional list entries:
+#' \item{quality }{integer vector containing a value for each vertex of \code{x}: 1 indicates that a ray has intersected 'tarmesh' within the given threshold, while 0 means not}
+#' \item{distance }{numeric vector: distances to intersection}
+#' @author Stefan Schlager
+#' @seealso \code{\link{ply2mesh}}, \code{\link{closemeshKD}}
+#' @importFrom Rvcg vcgRaySearch
 #' @export
-ray2mesh <- function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,readback=TRUE,inbound=FALSE,strict=FALSE,ignore.stdout=FALSE,mindist=FALSE,targetdump="target",refdump="reference")
+ray2mesh <- function(mesh1, tarmesh, tol=1e12, inbound=FALSE, mindist=FALSE,...)
 { 
-
-  options <- NULL
-  opt <- FALSE
-  target <- paste0(targetdump,".ply")
-  reference <- paste0(refdump,".ply")
-  if (inbound == TRUE) {
-      opt <- TRUE
-      options <- "--inbound" # set option to search along negative normals first
-  }
-  if (strict == TRUE) {
-      opt <- TRUE
-      options <- paste(options,"--strict") #mark vertices that are not hit along rays
-  }
-  if (mindist == TRUE) {
-      opt <- TRUE
-      options <- paste(options,"--minray") #use closest point in and outward
-  }
-  if (!is.null(angmax)) {
-      opt <- TRUE
-      options <- paste(options,"--angmax",angmax) #check for normals
-  }
-  if (opt) 
-      options <- paste(" ",options,sep="")
-  if (is.null(outname)) 
-      outname <- "project.mesh.ply"
-  
-  if (is.character(tarmesh)) {
-      target <- tarmesh
-  } else {
-      mesh2ply(tarmesh,target)
-  }
-  if (is.character(mesh1))
-      reference <- mesh1
-  else
-      mesh2ply(mesh1,refdump)
-  
-  mesh2ply(mesh1,refdump)
-  
-  if (is.null(mesh1$it)) {
-      #cmd <- paste("rayproject ",reference," ",target," -cloud",options," -t ",tol," -o ",outname,sep="")
-      system(paste("rayproject ",reference," ",target," -cloud",options," -t ",tol," -o ",outname,sep=""),ignore.stdout=ignore.stdout)
-  } else {
-      #cmd <- paste("rayproject reference.ply ",target,options," -t ",tol," -o ",outname,sep="")
-      system(paste("rayproject ", reference," ",target," ",options," -t ",tol," -o ",outname,sep=""),ignore.stdout=ignore.stdout)
-  }
-  
-  outmesh <- ply2mesh(outname,readnormals=TRUE, silent=ignore.stdout)
-  if (clean) {
-      unlink(c(reference,outname))
-      if (inherits(tarmesh,"mesh3d"))
-          unlink(target)
-  }
-  if (readback)
-      return(outmesh)
+    if (is.character(tarmesh))
+        tarmesh <- vcgImport(tarmesh)
+    if (inbound)
+        mesh1$normals <- -mesh1$normals
+    outmesh <- vcgRaySearch(mesh1,tarmesh,mindist=mindist)
+    return(outmesh)
 }
