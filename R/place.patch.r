@@ -48,7 +48,7 @@
 #' \code{relax.patch=TRUE}, those points exceeding this value will be relaxed
 #' freely (i.e. not restricted to tangent plane).
 #' @param silent logical: suppress messages.
-#' @param mc.cores run in parallel (experimental stuff now even available on Windows)
+#' @param mc.cores run in parallel (experimental stuff now even available on Windows). On windows this will only lead to a significant speed boost for many configurations, as all required packages (Morpho and Rvcg) need to be loaded by each newly spawned process.
 #' @return array containing the projected coordinates appended to the
 #' data.array specified in the input. In case dat.array is a matrix only a
 #' matrix is returned.
@@ -145,17 +145,18 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         i <- 0
         parfun <- function(i){
             tmp.name <- paste(path,prefix,name[i],fileext,sep="")
+            tmp.mesh <- vcgImport(tmp.name)
             if (!usematrix)
-                tmp.data <- projRead(dat.array[,,i],tmp.name,readnormals=TRUE, ignore.stdout=silent,prodump=paste0(i,"prodump1"),lmdump = paste0(i,"lmdump1"))
+                tmp.data <- projRead(dat.array[,,i],tmp.mesh,readnormals=TRUE)
             else
-                tmp.data <- projRead(dat.array,tmp.name,readnormals=TRUE, ignore.stdout=silent,prodump=paste0(i,"prodump1"),lmdump = paste0(i,"lmdump1"))
+                tmp.data <- projRead(dat.array,tmp.mesh,readnormals=TRUE)
             
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
                 sm <- SMvector
                 U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
                 slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
-                tmp.data <- projRead(slide,tmp.name,readnormals=TRUE, ignore.stdout=silent, prodump=paste0(i,"prodump2"),lmdump = paste0(i,"lmdump2"))
+                tmp.data <- projRead(slide,tmp.mesh,readnormals=TRUE)
                 tps.lm <- tps3d(patch,atlas.lm,slide)
             } else if (!is.null(SMvector) && is.null(outlines)) {
                 sm <- SMvector
@@ -175,13 +176,13 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 ### use for mullitlayer meshes to avoid projection inside
             if (!is.null(inflate)) {
                 atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide, silent=silent)
-                tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE, ignore.stdout = silent,prodump=paste0(i,"prodump3"),lmdump = paste0(i,"lmdump3"))
+                tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE)
                 warp.norm <- tps.lm$normals[1:3,]### keep projected normals
                 
                 tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
-                tps.lm <- ray2mesh(tps.lm,tmp.name,inbound=TRUE,tol=tol,angmax=rhotol, ignore.stdout=silent,refdump=paste0(i,"refdump4"), targetdump = paste0(i,"tardump4")) ### deflate in opposite direction
+                tps.lm <- ray2mesh(tps.lm,tmp.mesh,inbound=TRUE,tol=tol) ### deflate in opposite direction
             } else {## just project warped patch on surface (suitable for singlelayer meshes)
-                tps.lm <- projRead(tps.lm,tmp.name,readnormals=TRUE, ignore.stdout=silent,prodump=paste0(i,"prodump"),lmdump = paste0(i,"lmdump"))
+                tps.lm <- projRead(tps.lm,tmp.mesh,readnormals=TRUE)
             }
             
             relax <- rbind(slide,t(tps.lm$vb[1:3,]))
@@ -216,7 +217,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 
                 U1 <- .calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
                 tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
-                tps.lm <- projRead(tps.lm,tmp.name,readnormals=FALSE, ignore.stdout = silent,prodump=paste0(i,"prodump"),lmdump = paste0(i,"lmdump"))
+                tps.lm <- projRead(tps.lm,tmp.mesh,readnormals=FALSE)
             } else {# end relaxation ########################
                 tps.lm <- t(tps.lm$vb[1:3,])
             }
@@ -232,7 +233,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         else
             cfun="c"
 
-        out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho")) %dopar% parfun(i)
+        out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho","Rvcg")) %dopar% parfun(i)
         if (!usematrix) {
             tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
             for (i in 1:n)

@@ -59,7 +59,10 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
   \item{silent}{logical: suppress messages.}
 
   \item{mc.cores}{run in parallel (experimental stuff now
-  even available on Windows)}
+  even available on Windows). On windows this will only
+  lead to a significant speed boost for many
+  configurations, as all required packages (Morpho and
+  Rvcg) need to be loaded by each newly spawned process.}
 }
 \value{
 array containing the projected coordinates appended to the
