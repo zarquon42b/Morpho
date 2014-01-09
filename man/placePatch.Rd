@@ -5,7 +5,7 @@
 \usage{
 placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
   ray = TRUE, inflate = NULL, tol = inflate, relax.patch = TRUE,
-  keep.fix = NULL, rhotol = NULL, silent = FALSE)
+  keep.fix = NULL, rhotol = NULL, silent = FALSE, mc.cores = 1)
 }
 \arguments{
   \item{atlas}{object of class "atlas" created by
@@ -57,6 +57,9 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
   not restricted to tangent plane).}
 
   \item{silent}{logical: suppress messages.}
+
+  \item{mc.cores}{run in parallel (experimental stuff now
+  even available on Windows)}
 }
 \value{
 array containing the projected coordinates appended to the
