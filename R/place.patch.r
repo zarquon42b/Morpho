@@ -126,11 +126,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         fix <- which(c(1:k) %in% SMvector)
         patch.dim <- dim(patch)[1]
         usematrix <- FALSE
-        if (length(dim(dat.array)) == 3) {
-            if (dim(dat.array)[3] == 1)
-                dat.array <- as.matrix(dat.array[,,1])
-        }
-        if (!is.matrix(dat.array)) {
+        if (! is.matrix(dat.array)) {
             n <- dim(dat.array)[3]
             out <- array(NA,dim=c((patch.dim+k),3,n))
             dimnames(out)[[3]] <- dimnames(dat.array)[[3]]
