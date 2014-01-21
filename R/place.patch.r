@@ -127,11 +127,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         fix <- which(c(1:k) %in% SMvector)
         patch.dim <- dim(patch)[1]
         usematrix <- FALSE
-        if (length(dim(dat.array)) == 3) {
-            if (dim(dat.array)[3] == 1)
-                dat.array <- as.matrix(dat.array[,,1])
-        }
-        if (!is.matrix(dat.array)) {
+        if (! is.matrix(dat.array)) {
             n <- dim(dat.array)[3]
             out <- array(NA,dim=c((patch.dim+k),3,n))
             dimnames(out)[[3]] <- dimnames(dat.array)[[3]]
@@ -238,10 +234,15 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             cfun="c"
 
         out <- foreach(i=1:n,.combine = cfun, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho","Rvcg")) %dopar% parfun(i)
+
         if (!usematrix) {
-            tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
             for (i in 1:n)
-                tmpout[,,i] <- out[[i]]
+                if (n != 1) {
+                    tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
+                    tmpout[,,i] <- out[[i]]
+                } else {
+                    tmpout <- out
+                }
             out <- tmpout
             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
         }
