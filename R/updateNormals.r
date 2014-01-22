@@ -50,7 +50,10 @@ updateNormals <- function(x,angle=TRUE)
     else
         vb <- t(t(vb)/vb[4,])
     vb <- vb[1:3,]
-    it <- x$it-1
+    if (!is.null(x$it))
+        it <- x$it-1
+    else
+        stop("mesh has no triangular faces")
     out <- .Call("updateVertexNormals",vb,it,angle)
     normals <- rbind(out,1)
     x$normals <- normals
@@ -69,7 +72,11 @@ facenormals <- function(x)
     else
         v <- t( t(v)/v[4,] )
     v <- v[1:3,]
-    it <- x$it-1
+    if (!is.null(x$it))
+        it <- x$it-1
+    else
+        stop("mesh has no triangular faces")
+
     out <- .Call("updateFaceNormals",v,it)
     normals <- out
     class(barymesh) <- "mesh3d"

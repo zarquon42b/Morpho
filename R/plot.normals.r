@@ -26,10 +26,12 @@ plotNormals <- function(x,long=1,lwd=1,col=1)
       {stop("please provide object of class mesh3d")
      }
 
-    if (is.null(x$normals))
-      {
-        x <- updateNormals(x)
-      }
+    if (is.null(x$normals)) {
+        if (!is.null(x$it))
+            x <- updateNormals(x)
+        else
+            stop("mesh has neither normals nor faces")
+    }
 
     n.mesh <- list()
     lvb <- dim(x$vb)[2]
