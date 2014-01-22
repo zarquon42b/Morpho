@@ -60,7 +60,11 @@ closemeshKD <- function(x, mesh, k=50, sign=FALSE, barycoords=FALSE, cores=1, me
             matr <- t(x$vb[1:3,])
         }
         vb <- (mesh$vb[1:3,])
-        it <- mesh$it-1
+        if (!is.null(mesh$it))
+            it <- mesh$it-1
+        else
+            stop("mesh has no triangular faces")
+        
         bary <- barycenter(mesh)
         clostInd <- mcNNindex(bary,matr,k=k,cores=cores,...)-1
         normals <- mesh$normals[1:3,]

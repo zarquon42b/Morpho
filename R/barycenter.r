@@ -24,7 +24,10 @@ barycenter <- function(mesh)
   {
     vb <- mesh$vb[1:3,]
     nvb <- dim(vb)[2]
-    it <- mesh$it-1
+    if (!is.null(mesh$it))
+        it <- mesh$it-1
+    else
+        stop("mesh has no triangular faces")
     nit <- dim(it)[2]
     out <- .Call("barycenter",vb,it)
     return(out)

@@ -19,8 +19,11 @@ meshres <- function(mesh)
   {
       if (!inherits(mesh,"mesh3d"))
           stop("please provide object of class mesh3d")
+      if (!is.null(mesh$it))
+          it <- mesh$it-1
+      else
+          stop("mesh has no triangular faces")
       vb <- mesh$vb[1:3,]
-      it <- mesh$it-1
       res <- .Call("meshres",vb,it)
       return(res)
   }
