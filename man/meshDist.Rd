@@ -1,14 +1,9 @@
-\name{meshDist.matrix}
+\name{meshDist}
 \alias{meshDist}
 \alias{meshDist.matrix}
 \alias{meshDist.mesh3d}
 \title{calculates and visualises distances between surface meshes or 3D coordinates and a surface mesh.}
 \usage{
-\method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL, from = NULL,
-  to = NULL, steps = 20, ceiling = FALSE, uprange = 1, plot = TRUE,
-  sign = TRUE, tol = NULL, type = c("s", "p"), radius = NULL,
-  displace = FALSE, add = FALSE, ...)
-
 meshDist(x, ...)
 
 \method{meshDist}{mesh3d}(x, mesh2 = NULL, distvec = NULL, from = NULL,
@@ -17,6 +12,11 @@ meshDist(x, ...)
   save = FALSE, plot = TRUE, sign = TRUE, tol = NULL,
   displace = FALSE, shade = TRUE, method = c("morpho", "vcglib"),
   add = FALSE, ...)
+
+\method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL, from = NULL,
+  to = NULL, steps = 20, ceiling = FALSE, uprange = 1, plot = TRUE,
+  sign = TRUE, tol = NULL, type = c("s", "p"), radius = NULL,
+  displace = FALSE, add = FALSE, ...)
 }
 \arguments{
   \item{x}{reference mesh; object of class "mesh3d" or a n

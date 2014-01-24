@@ -1,4 +1,4 @@
-\name{render.matrixDist}
+\name{render}
 \alias{export}
 \alias{export.meshDist}
 \alias{render}
@@ -6,15 +6,15 @@
 \alias{render.meshDist}
 \title{plot or save the results of meshDist}
 \usage{
-\method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
-  ceiling = NULL, uprange = NULL, tol = NULL, type = c("s", "p"),
-  radius = NULL, displace = FALSE, sign = NULL, add = FALSE, ...)
-
 render(x, ...)
 
 \method{render}{meshDist}(x, from = NULL, to = NULL, steps = NULL,
   ceiling = NULL, uprange = NULL, tol = NULL, displace = FALSE,
   shade = TRUE, sign = NULL, add = FALSE, ...)
+
+\method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
+  ceiling = NULL, uprange = NULL, tol = NULL, type = c("s", "p"),
+  radius = NULL, displace = FALSE, sign = NULL, add = FALSE, ...)
 
 export(x, ...)
 
