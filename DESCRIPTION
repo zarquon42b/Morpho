@@ -14,6 +14,7 @@ SystemRequirements: trimesh_project, rayproject, ply2ascii
 Suggests:
     car,
     lattice,
+    MASS,
     shapes
 Depends:
     R (>= 3.0.0)
@@ -21,7 +22,6 @@ Imports:
     rgl (>= 0.93.963),
     colorRamps,
     foreach (>= 1.4.0),
-    MASS,
     Matrix (>= 1.0-1),
     parallel,
     yaImpute,

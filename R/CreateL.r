@@ -57,7 +57,7 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
         L1 <- try(solve(L),silent=TRUE)
         if (class(L1)=="try-error") {
             cat("CreateL: singular matrix: general inverse will be used.\n")
-            L1 <- ginv(L)		
+            L1 <- armaGinv(L)		
         }
         Lsubk <- L1[1:k,1:k]
         Lsubk3 <- NULL
@@ -94,7 +94,7 @@ CreateL2D <- function(matrix, lambda=0, blockdiag=TRUE)
 	L1 <- try(solve(L),silent=TRUE)
     	if (class(L1)=="try-error") {
             cat("singular matrix: general inverse will be used.\n")
-            L1 <- ginv(L)		
+            L1 <- armaGinv(L)		
         }
     Lsubk <- L1[1:k,1:k]
     Lsubk3 <- NULL
