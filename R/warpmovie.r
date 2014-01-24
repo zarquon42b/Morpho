@@ -34,7 +34,7 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
       a <- shade3d(mesh,col=col,...)
       if (useland) {
           land <- (i/n)*yland+(1-(i/n))*xland
-          a <- append(a, spheres3d(land, radius=radius))
+          a <- append(a, spheres3d(land, radius=radius, col = lmcol))
       }
       if (i ==0 && ask==TRUE)
         {readline("please select view and press return\n")
@@ -54,7 +54,7 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
          a <- shade3d(mesh,col=col,...)
          if (useland) {
           land <- (i/n)*xland+(1-(i/n))*yland
-          a <- append(a, spheres3d(land, radius=radius))
+          a <- append(a, spheres3d(land, radius=radius, col=lmcol))
       }
          filename <- sprintf("%s%04d.png", movie, countbegin+i+n)
          rgl.snapshot(filename,fmt="png")
