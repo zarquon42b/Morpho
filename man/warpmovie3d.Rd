@@ -19,7 +19,8 @@ warpmovie2d(x, y, n, col = "green", palindrome = FALSE, folder = NULL,
 
 \method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE,
   folder = NULL, movie = "warpmovie", add = FALSE, close = TRUE,
-  countbegin = 0, ask = TRUE, ...)
+  countbegin = 0, ask = TRUE, radius = NULL, xland = NULL,
+  yland = NULL, lmcol = "black", ...)
 }
 \arguments{
   \item{x}{mesh to start with (object of class mesh3d)}
@@ -55,6 +56,13 @@ warpmovie2d(x, y, n, col = "green", palindrome = FALSE, folder = NULL,
 
   \item{radius}{numeric: define size of spheres (overides
   atuomatic size estimation).}
+
+  \item{xland}{optional argument: add landmarks on mesh x}
+
+  \item{yland}{optional argument: add landmarks on mesh y}
+
+  \item{lmcol}{optional argument: color of landmarks xland
+  and yland}
 
   \item{links}{vector or list of vectors containing
   wireframe information to connect landmarks (optional).}
@@ -97,7 +105,11 @@ environment (e.g. latex package: aninmate).
 warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
 
 warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
+\dontrun{
+### ad some landmarks
+warpmovie3d(shortnose.mesh,warpnose.long,n=15,xland=shortnose.lm, yland=longnose.lm)## create 15 images.
 
+}
 ### restrict to landmarks
 warpmovie3d(shortnose.lm,longnose.lm,n=15,movie="matrixmovie")## create 15 images.
 }

@@ -27,9 +27,11 @@
 #' @param countbegin integer: number to start image sequence.
 #' 
 #' @param ask logical: if TRUE, the viewpoint can be selected manually.
-#' 
 #' @param radius numeric: define size of spheres (overides atuomatic size
 #' estimation).
+#' @param xland optional argument: add landmarks on mesh x
+#' @param yland optional argument: add landmarks on mesh y
+#' @param lmcol optional argument: color of landmarks xland and yland
 #' @param links vector or list of vectors containing wireframe information to
 #' connect landmarks (optional).
 #' @param lwd numeric: controls width of lines defined by "links".
@@ -53,7 +55,11 @@
 #' warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
 #' 
 #' warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
-#' 
+#' \dontrun{
+#' ### ad some landmarks
+#' warpmovie3d(shortnose.mesh,warpnose.long,n=15,xland=shortnose.lm, yland=longnose.lm)## create 15 images.
+#'
+#' }
 #' ### restrict to landmarks
 #' warpmovie3d(shortnose.lm,longnose.lm,n=15,movie="matrixmovie")## create 15 images.
 #' }
