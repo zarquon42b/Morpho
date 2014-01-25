@@ -1,6 +1,6 @@
 calcGamma <- function(Gamma0,Lsubk3,U,dims,weights=NULL)
   {
-      U <- as( U,"sparseMatrix")
+      U <- as(U,"sparseMatrix")
       ULU <- crossprod(U,(Lsubk3%*%U))
       ULU2 <-  crossprod(U,(Lsubk3%*%Gamma0))
       diag(ULU) <- diag(ULU)+1e-8
