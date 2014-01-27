@@ -50,6 +50,8 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
         k <- dim(matrix)[1]
         Q <- cbind(1,matrix)
         O <- matrix(0,4,4)
+        if (!is.matrix(matrix) || !is.numeric(matrix))
+        stop("matrix must be a numeric matrix")
         K <- .Call("createL",matrix)
         
         diag(K) <- lambda

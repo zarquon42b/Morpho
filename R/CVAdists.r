@@ -7,7 +7,7 @@
     gsizes <- as.vector(tapply(groups, groups, length))
     
     groups <- as.integer(groups)
-    shaker <- .Call("CVAdists",N,groups,rounds,winv)
+    shaker <- .Call("CVAdists", N, groups, as.integer(rounds), winv)
     mahadist <- mahaprobs <- procdist <- procprobs <- matrix(0,ng,ng)
     if (!is.null(lev)) 
         dimnames(mahadist) <- dimnames(mahaprobs) <- dimnames(procdist) <- dimnames(procprobs) <- list(lev,lev)
