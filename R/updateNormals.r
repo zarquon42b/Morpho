@@ -69,7 +69,7 @@ facenormals <- function(x)
     barymesh$vb <- rbind(t(barycenter(x)),1)    
     vb <- x$vb
     ## Make sure v is homogeneous with unit w
-    if (nrow(v) == 3)
+    if (nrow(vb) == 3)
         vb <- rbind(vb, 1)
     else
         vb <- t( t(vb)/vb[4,] )
@@ -81,7 +81,7 @@ facenormals <- function(x)
     else
         stop("mesh has no triangular faces")
 
-    out <- .Call("updateFaceNormals",v,it)
+    out <- .Call("updateFaceNormals",vb,it)
     normals <- out
     class(barymesh) <- "mesh3d"
     barymesh$normals <- normals
