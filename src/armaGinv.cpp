@@ -13,13 +13,17 @@ RcppExport SEXP armaGinv(SEXP matIn_, SEXP tol_) {
   NumericMatrix matIn(matIn_);
   mat matA(matIn.begin(), matIn.nrow(), matIn.ncol());
   mat invA;
+  bool check;
   if (Rf_isNumeric(tol_)) {
     double tol = as<double>(tol_);
-    invA = pinv(matA,tol);
+    check =pinv(invA, matA, tol);
   } else {
-    invA = pinv(matA);
+    check = pinv(invA, matA);
   }
-  return wrap(invA);
+  if (check)
+    return wrap(invA);
+  else 
+    return wrap(1);
   }
 
 }
