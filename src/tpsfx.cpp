@@ -18,8 +18,8 @@ RcppExport SEXP tpsfx(SEXP A_,SEXP B_,SEXP Bh_, SEXP coefs_) {
   mat result = BA; result.zeros();
   colvec x(m);
   
-  for (int i=0; i < BA.n_rows; ++i) { 
-    for (int j=0; j < m; ++j) {
+  for (uint i=0; i < BA.n_rows; ++i) { 
+    for (uint j=0; j < m; ++j) {
       mat tmp = AA.row(j) - BA.row(i);
       x(j) = -sqrt(dot(tmp,tmp));
     }
