@@ -107,7 +107,8 @@ warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
 warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
 
 ### ad some landmarks
-warpmovie3d(shortnose.mesh,warpnose.long,n=15,xland=shortnose.lm, yland=longnose.lm)## create 15 images.
+warpmovie3d(shortnose.mesh,warpnose.long,n=15,xland=shortnose.lm,
+            yland=longnose.lm)## create 15 images.
 
 
 ### restrict to landmarks
