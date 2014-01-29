@@ -16,9 +16,9 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
     tmp1 = vbA.col(itA(2,i))-vbA.col(itA(0,i));
     if (angweight) {
       tmp2 = vbA.col(itA(1,i))-vbA.col(itA(2,i));
-      angtmp(0) = angcalcArma(tmp0,tmp1, true);
-      angtmp(1) = angcalcArma(tmp0, tmp2, true);
-      angtmp(2) = angcalcArma(-tmp1, tmp2, true);
+      angtmp(0) = angcalcArma(tmp0,tmp1);
+      angtmp(1) = angcalcArma(tmp0, tmp2);
+      angtmp(2) = angcalcArma(-tmp1, tmp2);
     }
     crosspArma(tmp0,tmp1,ntmp);
     for (int j=0; j < 3; ++j) {
