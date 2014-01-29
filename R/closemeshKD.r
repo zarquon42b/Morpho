@@ -73,7 +73,7 @@ closemeshKD <- function(x, mesh, k=50, sign=FALSE, barycoords=FALSE, cores=1, me
         x$vb[1:3,] <- out$clost
         x$quality <- out$dists
         x$normals <- rbind(out$normals,1)
-        x$faceptr <- out$faceptr
+        x$faceptr <- out$faceptr+1
         if (barycoords)
             x$barycoords <- out$barycoords
         class(x) <- "mesh3d"
