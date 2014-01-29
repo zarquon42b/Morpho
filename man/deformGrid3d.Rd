@@ -40,9 +40,9 @@ deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1, showaxis = c(1, 2),
   points - much faster for very large pointclouds.}
 }
 \description{
-visualise differences between two superimposed sets of 3D
-landmarks by deforming a cubic grid based on a thin-plate
-spline interpolation
+  visualise differences between two superimposed sets of 3D
+  landmarks by deforming a cubic grid based on a thin-plate
+  spline interpolation
 }
 \examples{
 \dontrun{
@@ -51,10 +51,10 @@ deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \seealso{
-\code{\link{tps3d}}
+  \code{\link{tps3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

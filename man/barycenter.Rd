@@ -8,12 +8,12 @@ barycenter(mesh)
   \item{mesh}{triangular mesh of class 'mesh3d'}
 }
 \value{
-k x 3 matrix of barycenters for all \code{k} faces of input
-mesh.
+  k x 3 matrix of barycenters for all \code{k} faces of
+  input mesh.
 }
 \description{
-calculates the barycenters for all faces of a triangular
-mesh
+  calculates the barycenters for all faces of a triangular
+  mesh
 }
 \examples{
 require(rgl)
@@ -28,7 +28,7 @@ points3d(bary, col=2)
 }
 }
 \seealso{
-\code{\link{closemeshKD}}
+  \code{\link{closemeshKD}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

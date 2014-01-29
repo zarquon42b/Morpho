@@ -56,15 +56,15 @@ relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL,
   \code{fixRepro=FALSE}}
 }
 \value{
-returns kx3 matrix of slidden landmarks
+  returns kx3 matrix of slidden landmarks
 }
 \description{
-relax one specific 3D landmark configuration against a
-reference (e.g. a sample mean)
+  relax one specific 3D landmark configuration against a
+  reference (e.g. a sample mean)
 }
 \details{
-needs trimesh_project to be installed
-(\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
+  needs trimesh_project to be installed
+  (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 }
 \examples{
 require(rgl)
@@ -93,16 +93,17 @@ wire3d(shortnose.mesh, col="white")
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
-Semilandmarks in Three Dimensions, in Modern Morphometrics
-in Physical Anthropology. Edited by D. E. Slice, pp. 73-98.
-New York: Kluwer Academic/Plenum Publishers.
+  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
+  Semilandmarks in Three Dimensions, in Modern
+  Morphometrics in Physical Anthropology. Edited by D. E.
+  Slice, pp. 73-98. New York: Kluwer Academic/Plenum
+  Publishers.
 }
 \seealso{
-\code{\link{slider3d}}
+  \code{\link{slider3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

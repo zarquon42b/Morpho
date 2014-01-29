@@ -24,15 +24,15 @@ rotaxis3d(x, pt1, pt2 = c(0, 0, 0), theta)
   the viewpoint, the rotation is counterclockwise.}
 }
 \value{
-returns rotated object (including updated normals for
-mesh3d objects)
+  returns rotated object (including updated normals for
+  mesh3d objects)
 }
 \description{
-Rotate an object around an arbitrary axis in 3D
+  Rotate an object around an arbitrary axis in 3D
 }
 \details{
-Rotate an object (matrix or triangular mesh) around an
-3D-axis defined by two points.
+  Rotate an object (matrix or triangular mesh) around an
+  3D-axis defined by two points.
 }
 \examples{
 require(rgl)
@@ -47,13 +47,13 @@ shade3d(shrot.rot,col=2)
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-http://en.wikipedia.org/wiki/Rotation_matrix
+  http://en.wikipedia.org/wiki/Rotation_matrix
 }
 \seealso{
-\code{\link{rotonto}}, \code{\link{rotmesh.onto}}
+  \code{\link{rotonto}}, \code{\link{rotmesh.onto}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

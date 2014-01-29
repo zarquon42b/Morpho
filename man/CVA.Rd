@@ -36,24 +36,25 @@ CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
   \item{cv}{logical: requests a Jackknife Crossvalidation.}
 }
 \value{
-\item{CV }{A matrix containing the Canonical Variates}
-\item{CVscores }{A matrix containing the individual
-Canonical Variate scores} \item{Grandm }{a vector or a
-matrix containing the Grand Mean (depending if the input is
-an array or a matrix)} \item{groupmeans }{a matrix or an
-array containing the group means (depending if the input is
-an array or a matrix)} \item{Var }{Variance explained by
-the Canonical Variates} \item{CVvis }{Canonical Variates
-projected back into the original space - to be used for
-visualization purposes, for details see example below}
-\item{Dist }{Mahalanobis Distances between group means - if
-requested tested by permutation test if the input is an
-array it is assumed to be superimposed Landmark Data and
-Procrustes Distance will be calculated} \item{CVcv }{A
-matrix containing crossvalidated CV scores}
+  \item{CV }{A matrix containing the Canonical Variates}
+  \item{CVscores }{A matrix containing the individual
+  Canonical Variate scores} \item{Grandm }{a vector or a
+  matrix containing the Grand Mean (depending if the input
+  is an array or a matrix)} \item{groupmeans }{a matrix or
+  an array containing the group means (depending if the
+  input is an array or a matrix)} \item{Var }{Variance
+  explained by the Canonical Variates} \item{CVvis
+  }{Canonical Variates projected back into the original
+  space - to be used for visualization purposes, for
+  details see example below} \item{Dist }{Mahalanobis
+  Distances between group means - if requested tested by
+  permutation test if the input is an array it is assumed
+  to be superimposed Landmark Data and Procrustes Distance
+  will be calculated} \item{CVcv }{A matrix containing
+  crossvalidated CV scores}
 }
 \description{
-performs a Canonical Variate Analysis.
+  performs a Canonical Variate Analysis.
 }
 \examples{
 ## all examples are kindly provided by Marta Rufino
@@ -118,18 +119,18 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
    barplot(cva.1$Var[,2])
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of
-Canonical Variate Analysis: Syst. Zool., 30(3), 268-280.
+  Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of
+  Canonical Variate Analysis: Syst. Zool., 30(3), 268-280.
 
-Klingenberg, C. P. & Monteiro, L. R. 2005 Distances and
-directions in multidimensional shape spaces: implications
-for morphometric applications. Systematic Biology 54,
-678-688.
+  Klingenberg, C. P. & Monteiro, L. R. 2005 Distances and
+  directions in multidimensional shape spaces: implications
+  for morphometric applications. Systematic Biology 54,
+  678-688.
 }
 \seealso{
-\code{\link{groupPCA}}
+  \code{\link{groupPCA}}
 }
 

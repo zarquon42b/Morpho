@@ -73,21 +73,21 @@ export(x, ...)
   \code{\link{rgl.material}} for details.}
 }
 \description{
-plot or save the results of meshDist
+  plot or save the results of meshDist
 }
 \details{
-Visualise or save the results of meshDist to disk.
+  Visualise or save the results of meshDist to disk.
 
-render.meshDist renders the colored mesh and displays the
-color ramp and returns an object of class "meshDist".
-export.meshDist exports the colored mesh as ply file and
-the color chart as png file.
+  render.meshDist renders the colored mesh and displays the
+  color ramp and returns an object of class "meshDist".
+  export.meshDist exports the colored mesh as ply file and
+  the color chart as png file.
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \seealso{
-\code{\link{meshDist}}, \code{\link{shade3d}}
+  \code{\link{meshDist}}, \code{\link{shade3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

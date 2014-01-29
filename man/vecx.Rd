@@ -20,11 +20,12 @@ vecx(x, byrow = FALSE, revert = FALSE, lmdim)
   \item{lmdim}{number of columns for reverting}
 }
 \value{
-returns a matrix with one row per specimen
+  returns a matrix with one row per specimen
 }
 \description{
-converts a 3D-array (e.g. containing landmark coordinates)
-into a matrix, one row per specimen or reverse this.
+  converts a 3D-array (e.g. containing landmark
+  coordinates) into a matrix, one row per specimen or
+  reverse this.
 }
 \examples{
 library(shapes)
@@ -34,7 +35,7 @@ gdat.restored <- vecx(data,revert=TRUE,lmdim=2)
 range(gdat.restored-gorf.dat)
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

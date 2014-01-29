@@ -31,20 +31,20 @@ projRead(lm, mesh, readnormals = TRUE, clean = TRUE, smooth = TRUE,
   backend).}
 }
 \value{
-if readnormals = FALSE, a m x 3 matrix containing projected
-points is returned, otherwise a list, where \item{vb }{3 x
-m matrix containing projected points} \item{normals }{3 x m
-matrix containing normals}
+  if readnormals = FALSE, a m x 3 matrix containing
+  projected points is returned, otherwise a list, where
+  \item{vb }{3 x m matrix containing projected points}
+  \item{normals }{3 x m matrix containing normals}
 }
 \description{
-project points onto a given surface and return projected
-points and normals.
+  project points onto a given surface and return projected
+  points and normals.
 }
 \note{
-The usage of this function requires the command line tools
-from trimesh-tools
-(https://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
-installed.
+  The usage of this function requires the command line
+  tools from trimesh-tools
+  (https://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
+  installed.
 }
 \examples{
 data(nose)
@@ -53,17 +53,18 @@ repro <- projRead(shortnose.lm,shortnose.mesh)
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Detection of inside/outside uses the algorithm proposed in:
+  Detection of inside/outside uses the algorithm proposed
+  in:
 
-Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
-Signed Distance Fields From Triangle Meshes. Informatics
-and Mathematical Modelling.
+  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
+  Signed Distance Fields From Triangle Meshes. Informatics
+  and Mathematical Modelling.
 }
 \seealso{
-\code{\link{closemeshKD}}
+  \code{\link{closemeshKD}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

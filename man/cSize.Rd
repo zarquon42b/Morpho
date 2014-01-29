@@ -9,10 +9,10 @@ cSize(x)
   landmarks}
 }
 \value{
-returns Centroid size
+  returns Centroid size
 }
 \description{
-calculate Centroid Size for a landmark configuration
+  calculate Centroid Size for a landmark configuration
 }
 \examples{
 data(boneData)
