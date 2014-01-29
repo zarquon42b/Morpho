@@ -2,6 +2,7 @@
 
 SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
   bool angweight = Rcpp::as<bool>(angweight_);
+  double pi = 3.141592653589793239;
   NumericMatrix vb(vb_);
   IntegerMatrix it(it_);
   mat vbA(vb.begin(),vb.nrow(),vb.ncol());
@@ -14,14 +15,15 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
     tmp0 = vbA.col(itA(1,i))-vbA.col(itA(0,i));
     tmp1 = vbA.col(itA(2,i))-vbA.col(itA(0,i));
     if (angweight) {
-      tmp2 = vbA.col(itA(0,i))-vbA.col(itA(2,i));
-      angtmp(0) = angcalcArma(tmp0,tmp1);
-      angtmp(1) = angcalcArma(-tmp1, tmp2);
-      angtmp(2) = 3.141592653589793239-angtmp(1)-angtmp(2);
+      tmp2 = vbA.col(itA(1,i))-vbA.col(itA(2,i));
+      angtmp(0) = angcalcArma(tmp0,tmp1, true);
+      angtmp(1) = angcalcArma(tmp0, tmp2, true);
+      angtmp(2) = angcalcArma(-tmp1, tmp2, true);
     }
     crosspArma(tmp0,tmp1,ntmp);
     for (int j=0; j < 3; ++j) {
       double co = dot(normals.col(itA(j,i)),ntmp);
+      
       if (co < 0)  {
 	if (!angweight) {
 	  normals.col(itA(j,i)) -= ntmp;

@@ -18,7 +18,7 @@ mat updateSearchStruct(mat vb, umat it, uvec clostInd) {
     DAT(9,pos) = dot(DAT(ptr+3,ui),DAT(ptr+3,ui));//a
     DAT(10,pos) = dot(DAT(ptr+3,ui),DAT(ptr+6,ui));//b
     DAT(11,pos) = dot(DAT(ptr+6,ui),DAT(ptr+6,ui));//c
-    DAT(12,pos) = abs(DAT(9,pos)*DAT(11,pos) - pow(DAT(10,pos),2));
+    DAT(12,pos) = std::abs(DAT(9,pos)*DAT(11,pos) - pow(DAT(10,pos),2));
   }
   return(DAT);
 }

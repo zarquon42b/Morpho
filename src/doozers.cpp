@@ -8,7 +8,7 @@ using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-double angcalcArma(colvec a, colvec b) {
+double angcalcArma(colvec a, colvec b, bool circle) {
   double alen = norm(a,2);
   double blen = norm(b,2);
   if (alen > 0)
@@ -17,10 +17,14 @@ double angcalcArma(colvec a, colvec b) {
     b = b/blen;
   colvec diffvec = a-b;
   double angle = acos((dot(diffvec,diffvec)-2)/-2);
+  if (!circle) {
+    double pi = 3.141592653589793239;
+    angle = pi-angle;
+  }
   return angle;
 }
 		
-double angcalcRcpp(NumericVector a_, NumericVector b_) {
+double angcalcRcpp(NumericVector a_, NumericVector b_, bool circle) {
   colvec a(a_.begin(),a_.size(),false);
   colvec b(b_.begin(),b_.size(),false);
   double alen = sqrt(dot(a,a));
@@ -31,6 +35,10 @@ double angcalcRcpp(NumericVector a_, NumericVector b_) {
     b = b/blen;
   colvec diffvec = a-b;
   double angle = acos((dot(diffvec,diffvec)-2)/-2);
+  if (!circle) {
+    double pi = 3.141592653589793239;
+    angle = pi-angle;
+  }
   return angle;
 }
 void crosspArma(colvec x, colvec y, colvec& z) {
