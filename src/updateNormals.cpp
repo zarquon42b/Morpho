@@ -1,8 +1,8 @@
 #include "updateNormals.h"
 
 SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
+  typedef unsigned int uint;
   bool angweight = Rcpp::as<bool>(angweight_);
-  double pi = 3.141592653589793239;
   NumericMatrix vb(vb_);
   IntegerMatrix it(it_);
   mat vbA(vb.begin(),vb.nrow(),vb.ncol());
@@ -39,7 +39,7 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
       }
     }
   }
-  for (int i=0; i < normals.n_cols; ++i) {
+  for (uint i=0; i < normals.n_cols; ++i) {
     double nlen = norm(normals.col(i),2);
     if (nlen > 0)
       normals.col(i) /= nlen;
