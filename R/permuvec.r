@@ -194,7 +194,7 @@ permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-1
       covW <- diag(rep(1,dim(B)[2]))
   mahadist <- NULL
 ### invert covariance matrix
-  coinv <- ginv(covW,tol=tol)
+  coinv <- armaGinv(covW,tol=tol)
                                         # print(dim(coinv))
   for (i in 1:ng) ## calc Mahalanobisdistance ### 
     mahadist[i] <- sqrt(meanvec[i,]%*%coinv%*%meanvec[i,])

@@ -13,18 +13,18 @@ tanplan(x)
   \item{y}{vector of length 3.}
 }
 \value{
-tanplan:
+  tanplan:
 
-crossp: returns a vector of length 3. \item{y }{vector
-orthogonal to x} \item{z }{vector orthogonal to x and y}
+  crossp: returns a vector of length 3. \item{y }{vector
+  orthogonal to x} \item{z }{vector orthogonal to x and y}
 }
 \description{
-calculate the orthogonal complement of a 3D-vector
+  calculate the orthogonal complement of a 3D-vector
 }
 \details{
-calculate the orthogonal complement of a 3D-vector or the
-3D-crossproduct, finding an orthogonal vector to a plane in
-3D.
+  calculate the orthogonal complement of a 3D-vector or the
+  3D-crossproduct, finding an orthogonal vector to a plane
+  in 3D.
 }
 \examples{
 require(rgl)
@@ -50,6 +50,6 @@ lines3d(rbind(0, z), col=3, lwd=2)
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 

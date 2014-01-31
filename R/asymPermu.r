@@ -36,6 +36,8 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2) {
         lev <- levels(groups)
         asym <- asym[use,]
     }
+    if (length(groups) != nrow(asym))
+        stop("number of groups and number of observations differ")
     mean1 <- meanMat(asym[groups == lev[1],])
     mean2 <- meanMat(asym[groups == lev[2],])
 
@@ -96,9 +98,11 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2) {
 #' @export
 meanMat <-function(A,usedim=2)
 {
-if (usedim==1)
-A <- t(A)
-out <- A[1,]*0
-resul <- .Call("meanMat",A)
-return(resul)
+    if (!is.matrix(A) || !is.numeric(A))
+        stop("A must be a numeric matrix")
+    if (usedim==1)
+        A <- t(A)
+    out <- A[1,]*0
+    resul <- .Call("meanMat",A)
+    return(resul)
 } 

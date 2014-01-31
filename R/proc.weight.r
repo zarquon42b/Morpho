@@ -74,7 +74,7 @@ proc.weight <- function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=
           checksing <- try(covtmp <- solve(covtmp),silent = TRUE)
           if (class(checksing)=="try-error")
             {
-              covtmp <- ginv(covtmp)
+              covtmp <- armaGinv(covtmp)
               cat("singular covariance matrix: using general inverse\n")
             }
         }

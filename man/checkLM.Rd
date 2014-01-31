@@ -59,18 +59,19 @@ checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply",
   when \code{atlas=NULL}.}
 }
 \value{
-returns an invisible vector of indices of marked specimen.
+  returns an invisible vector of indices of marked
+  specimen.
 }
 \description{
-Browse through a sample rendering its landmarks and
-corresponding surfaces. This is handy e.g. to check if the
-landmark projection using placePatch was successful, and to
-mark specific specimen.
+  Browse through a sample rendering its landmarks and
+  corresponding surfaces. This is handy e.g. to check if
+  the landmark projection using placePatch was successful,
+  and to mark specific specimen.
 }
 \note{
-if \code{Rdata=FALSE}, the additional command line tools
-need to be installed
-(\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
+  if \code{Rdata=FALSE}, the additional command line tools
+  need to be installed
+  (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 }
 \examples{
 data(nose)
@@ -96,8 +97,8 @@ checkLM(data, path="./",Rdata=TRUE, suffix="", atlas=atlas)
 }
 }
 \seealso{
-\code{\link{placePatch}, \link{createAtlas},
-\link{plotAtlas}, \link{file2mesh}}
+  \code{\link{placePatch}, \link{createAtlas},
+  \link{plotAtlas}, \link{file2mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

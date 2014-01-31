@@ -32,12 +32,13 @@ ProcGPA(dat.array, tol = 1e-05, scale = TRUE, CSinit = FALSE,
   \item{reflection}{logical: allow reflections.}
 }
 \value{
-returns a list with \item{rotated }{k x m x n array of the
-rotated configurations} \item{mshape }{sample meanshape}
+  returns a list with \item{rotated }{k x m x n array of
+  the rotated configurations} \item{mshape }{sample
+  meanshape}
 }
 \description{
-Workhorse function for procSym, responsible for Procrustes
-registration
+  Workhorse function for procSym, responsible for
+  Procrustes registration
 }
 \examples{
 data(boneData)
@@ -47,18 +48,18 @@ weights <- c(rep(1,4),rep(2,5),1)
 proc.wt <- ProcGPA(boneLM, CSinit=TRUE, weights=weights, silent=TRUE)
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Goodall C. 1991. Procrustes methods in the statistical
-analysis of shape. Journal of the Royal Statistical
-Society. Series B. Statistical Methodology 53:285-239.
+  Goodall C. 1991. Procrustes methods in the statistical
+  analysis of shape. Journal of the Royal Statistical
+  Society. Series B. Statistical Methodology 53:285-239.
 
-Dryden IL, Mardia KV.  1998. Statistical shape analysis.
-John Wiley and sons, Chichester.
+  Dryden IL, Mardia KV.  1998. Statistical shape analysis.
+  John Wiley and sons, Chichester.
 }
 \seealso{
-\code{\link{procSym}, \link{rotonto}}
+  \code{\link{procSym}, \link{rotonto}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

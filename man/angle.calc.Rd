@@ -12,10 +12,10 @@ angle.calc(x, y)
   vector) of same length as \code{x}}
 }
 \value{
-angle between x and y in radians.
+  angle between x and y in radians.
 }
 \description{
-calculates unsigned angle between two vectors
+  calculates unsigned angle between two vectors
 }
 \examples{
 #calculate angle between two centered and

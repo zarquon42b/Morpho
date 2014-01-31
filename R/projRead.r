@@ -65,7 +65,7 @@ projRead <- function(lm, mesh,readnormals=TRUE, smooth=TRUE, sign=TRUE,...)
     if (is.character(mesh))
         mesh <- vcgImport(mesh)
     
-    data <- vcgClost(lm, mesh, smoothNormals=smooth,sign=sign)
+    data <- vcgClost(lm, mesh, smoothNormals=smooth,sign=sign,borderchk=FALSE)
     if (!readnormals)
         data <- vert2points(data)
     return(data)

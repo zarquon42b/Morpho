@@ -6,7 +6,7 @@ using namespace arma;
 
 RcppExport SEXP createL(SEXP Matrix_) {
    NumericMatrix Matrix(Matrix_);
-   int m = Matrix.ncol();
+   //int m = Matrix.ncol();
    int k = Matrix.nrow();
    mat MatrixA(Matrix.begin(), Matrix.nrow(), Matrix.ncol());
    mat K(k,k);

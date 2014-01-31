@@ -18,7 +18,7 @@ mat updateSearchStruct(mat vb, umat it, uvec clostInd) {
     DAT(9,pos) = dot(DAT(ptr+3,ui),DAT(ptr+3,ui));//a
     DAT(10,pos) = dot(DAT(ptr+3,ui),DAT(ptr+6,ui));//b
     DAT(11,pos) = dot(DAT(ptr+6,ui),DAT(ptr+6,ui));//c
-    DAT(12,pos) = abs(DAT(9,pos)*DAT(11,pos) - pow(DAT(10,pos),2));
+    DAT(12,pos) = std::abs(DAT(9,pos)*DAT(11,pos) - pow(DAT(10,pos),2));
   }
   return(DAT);
 }
@@ -228,7 +228,7 @@ vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region, int met
   vec checkclost(3);
   vec vbtmp(13);
   double dist_old = 1e10;
-  int regiontmp, faceptrtmp;
+  int regiontmp;
   double sqdist;
   bool meth = false;
   for (int i=0; i < ndat; ++i) {
@@ -278,8 +278,6 @@ SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SE
   IntegerMatrix Rit(it_);//target faces
   IntegerMatrix RclostInd(clostInd_);//face indices to search on
   int nref = Rref.ncol();
-  int nvb = Rvb.ncol();
-  int nit = Rit.ncol();
   bool sign = as<bool>(sign_);
   bool bary = as<bool>(bary_);
   int method = as<int>(method_);

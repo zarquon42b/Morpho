@@ -28,18 +28,18 @@ relWarps(data, scale = TRUE, CSinit = TRUE, alpha = 1, tol = 1e-10,
   tangent space.}
 }
 \value{
-\item{bescores }{relative warp scores} \item{uniscores
-}{uniform scores} \item{Var }{non-affine variation
-explained by each relative warp} \item{mshape }{sample's
-conensus shape} \item{rotated }{Procrustes superimposed
-data} \item{bePCs }{vector basis of nonaffine shape
-variation- relative warps} \item{uniPCs }{vector basis of
-affine shape variation - uniform component}
+  \item{bescores }{relative warp scores} \item{uniscores
+  }{uniform scores} \item{Var }{non-affine variation
+  explained by each relative warp} \item{mshape }{sample's
+  conensus shape} \item{rotated }{Procrustes superimposed
+  data} \item{bePCs }{vector basis of nonaffine shape
+  variation- relative warps} \item{uniPCs }{vector basis of
+  affine shape variation - uniform component}
 }
 \description{
-After Procrustes registration the data is scaled by the
-bending energy or its inverse to emphasize global/local
-differences when exploring a sample's shape.
+  After Procrustes registration the data is scaled by the
+  bending energy or its inverse to emphasize global/local
+  differences when exploring a sample's shape.
 }
 \examples{
 data(boneData)
@@ -68,17 +68,18 @@ barplot(rW$Var[,2], xlab="relative Warps")
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Bookstein FL 1989. Principal Warps: Thin-plate splines and
-the decomposition of deformations. IEEE Transactions on
-pattern analysis and machine intelligence 11. Bookstein FL,
-1991. Morphometric tools for landmark data. Geometry and
-biology. Cambridge Univ. Press, Cambridge.
+  Bookstein FL 1989. Principal Warps: Thin-plate splines
+  and the decomposition of deformations. IEEE Transactions
+  on pattern analysis and machine intelligence 11.
+  Bookstein FL, 1991. Morphometric tools for landmark data.
+  Geometry and biology. Cambridge Univ. Press, Cambridge.
 
-Rohlf FJ, Bookstein FL 2003. Computing the Uniform
-Component of Shape Variation. Systematic Biology 52:66-69.
+  Rohlf FJ, Bookstein FL 2003. Computing the Uniform
+  Component of Shape Variation. Systematic Biology
+  52:66-69.
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -31,23 +31,23 @@ covPCA(data, groups, scores = TRUE, rounds = 0, mc.cores = detectCores())
   in permutation testing (not available on Windows)}
 }
 \value{
-\code{covDist} returns the distance between s1 and s2
+  \code{covDist} returns the distance between s1 and s2
 
-\code{covPCA} returns a list containing:
+  \code{covPCA} returns a list containing:
 
-if \code{scores = TRUE} \item{PCscores }{PCscores}
-\item{eigen}{eigen decomposition of the centered inner
-product} if \code{rounds > 0} \item{dist }{distance matrix}
-\item{p.matrix }{p-values for pairwise distances from
-permutation testing}
+  if \code{scores = TRUE} \item{PCscores }{PCscores}
+  \item{eigen}{eigen decomposition of the centered inner
+  product} if \code{rounds > 0} \item{dist }{distance
+  matrix} \item{p.matrix }{p-values for pairwise distances
+  from permutation testing}
 }
 \description{
-calculate distances and PC-coordinates of covariance
-matrices
+  calculate distances and PC-coordinates of covariance
+  matrices
 }
 \details{
-calculate PC-coordinates of covariance matrices by using
-the Riemannian metric in their respective space.
+  calculate PC-coordinates of covariance matrices by using
+  the Riemannian metric in their respective space.
 }
 \examples{
 require(car)
@@ -75,19 +75,19 @@ cpca2$p.matrix # significance is gone
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Mitteroecker P, Bookstein F. 2009. The ontogenetic
-trajectory of the phenotypic covariance matrix, with
-examples from craniofacial shape in rats and humans.
-Evolution 63:727-737.
+  Mitteroecker P, Bookstein F. 2009. The ontogenetic
+  trajectory of the phenotypic covariance matrix, with
+  examples from craniofacial shape in rats and humans.
+  Evolution 63:727-737.
 
-Hastie T, Tibshirani R, Friedman JJH.  2013. The elements
-of statistical learning. Springer New York.
+  Hastie T, Tibshirani R, Friedman JJH.  2013. The elements
+  of statistical learning. Springer New York.
 }
 \seealso{
-\code{\link{prcomp}}
+  \code{\link{prcomp}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

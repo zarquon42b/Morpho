@@ -48,6 +48,9 @@ tps3d <- function(M,refmat,tarmat,lambda=0)
     coeff <- matrix(NA,p+m+1,m)
     transM <- matrix(NA,q,m)
     coeff <- Linv%*%m2
+    checks <- unlist(lapply(list(refmat,M,coeff), function(x){ out <- is.matrix(x) && is.numeric(x);return(out)}))
+    if (!prod(checks))
+        stop("M, refmat and tarmat must be numeric matrices")
     transM <- .fx(refmat,M,coeff)
  
     return(transM)

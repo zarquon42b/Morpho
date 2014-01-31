@@ -11,8 +11,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.99.140108\cr
-#' Date: \tab 2014-01-08\cr
+#' Version: \tab 1.99.140129\cr
+#' Date: \tab 2014-01-29\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -37,11 +37,11 @@
 #' @import doParallel
 #' @importFrom colorRamps blue2green2red
 #' @importFrom foreach foreach '%dopar%' '%do%'
-#' @importFrom MASS ginv
-#' @importFrom Matrix sparseMatrix diag crossprod solve
+#' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t
 #' @importFrom parallel mclapply detectCores
 #' @importFrom rgl lines3d open3d points3d rgl.bg rgl.bringtotop rgl.clear rgl.close  rgl.cur rgl.pop rgl.snapshot shade3d spheres3d text3d translate3d wire3d
 #' @importFrom yaImpute ann
+#' @importFrom Rcpp evalCpp
 #' @importClassesFrom Matrix dgCMatrix dgeMatrix dsCMatrix dtCMatrix sparseMatrix
 NULL
 

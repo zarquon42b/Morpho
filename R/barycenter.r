@@ -24,6 +24,8 @@ barycenter <- function(mesh)
   {
     vb <- mesh$vb[1:3,]
     nvb <- dim(vb)[2]
+    if (!is.matrix(vb) || !is.numeric(vb))
+        stop("vertices must be a numeric matrix")
     if (!is.null(mesh$it))
         it <- mesh$it-1
     else

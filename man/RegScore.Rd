@@ -11,16 +11,16 @@ RegScore(model, x = NULL)
   projected onto the regression lines.}
 }
 \value{
-returns a n x m matrix containing the regression scores for
-each specimen.
+  returns a n x m matrix containing the regression scores
+  for each specimen.
 }
 \description{
-calulate regression scores for linear model as specified in
-Drake & Klingenberg(2008)
+  calulate regression scores for linear model as specified
+  in Drake & Klingenberg(2008)
 }
 \details{
-the data are orthogonally projected onto the regression
-lines associated with each factor.
+  the data are orthogonally projected onto the regression
+  lines associated with each factor.
 }
 \section{Warning}{
   when \code{model} contains factors with more than 2
@@ -43,9 +43,9 @@ colnames(rs) # in this case, the last column contains the regression
 }
 }
 \references{
-Drake, AG. & Klingenberg, CP. The pace of morphological
-change: historical transformation of skull shape in St
-Bernard dogs. Proceedings of the Royal Society B:
-Biological Sciences, The Royal Society, 2008, 275, 71-76.
+  Drake, AG. & Klingenberg, CP. The pace of morphological
+  change: historical transformation of skull shape in St
+  Bernard dogs. Proceedings of the Royal Society B:
+  Biological Sciences, The Royal Society, 2008, 275, 71-76.
 }
 

@@ -24,6 +24,8 @@ meshres <- function(mesh)
       else
           stop("mesh has no triangular faces")
       vb <- mesh$vb[1:3,]
+       if (!is.matrix(vb) || !is.numeric(vb))
+          stop("vertices must be a numeric matrix")
       res <- .Call("meshres",vb,it)
       return(res)
   }

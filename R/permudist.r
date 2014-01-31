@@ -57,6 +57,8 @@ permudist <- function(data, groups, rounds=1000, which=NULL)
     N <- as.matrix(N)
     if (ng < 2)
         stop("provide at least two groups")
+    if (length(groups) != nrow(N))
+        warning("group affinity and sample size not corresponding!")
 ### end configure grouping ####
     if (rounds > 0) {
         shaker <- .Call("permudistArma",N,as.integer(groups),as.integer(rounds))

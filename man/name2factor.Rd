@@ -25,17 +25,18 @@ name2num(x, sep = "_", which, collapse = sep, dif = TRUE)
   containing numbers are selected.}
 }
 \value{
-returns a vector containing factors or numbers
+  returns a vector containing factors or numbers
 }
 \description{
-extract data from array names
+  extract data from array names
 }
 \details{
-extract data from array names and convert to factors or
-numbers
+  extract data from array names and convert to factors or
+  numbers
 
-If an array is used as input, the data info is expected to
-be in the 3rd dimension, for a matrix, rownames are used.
+  If an array is used as input, the data info is expected
+  to be in the 3rd dimension, for a matrix, rownames are
+  used.
 }
 \examples{
 data <- matrix(rnorm(200),100,2)
@@ -49,7 +50,7 @@ infos$age <- name2num(data,which=4)
 infos$pop.sex <- name2factor(data,which=2:3)
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -79,63 +79,64 @@ procSym(dataarray, scale = TRUE, reflect = TRUE, CSinit = TRUE,
   symmetrical mean.}
 }
 \value{
-\item{size }{a vector containing the Centroid Size of the
-configurations} \item{rotated }{k x m x n array of the
-rotated configurations} \item{Sym }{k x m x n array of the
-Symmetrical component - only available for the
-"Symmetry"-Option (when pairedLM is defined)} \item{Asym
-}{k x m x n array of the Asymmetrical component - only
-available for the "Symmetry"-Option (when pairedLM is
-defined)} \item{asymmean }{k x m matrix of mean asymmetric
-deviation from symmetric mean} \item{mshape }{sample
-meanshape} \item{symmean }{meanshape of symmetrized
-configurations} \item{tan }{if orp=TRUE: Residuals in
-tangentspace else, Procrustes residuals - only available
-without the "Symmetrie"-Option} \item{PCs }{Principal
-Components - if sizeshape=TRUE, the first variable of the
-PCs is size information (as log transformed Centroid Size)}
-\item{PCsym }{Principal Components of the Symmetrical
-Component} \item{PCasym }{Principal Components of the
-Asymmetrical Component} \item{PCscores }{PC scores}
-\item{PCscore_sym }{PC scores of the Symmetrical Component}
-\item{PCscore_asym }{PC scores of the Asymmetrical
-Component} \item{eigenvalues }{eigenvalues of the
-Covariance matrix} \item{eigensym }{eigenvalues of the
-"Symmetrical" Covariance matrix} \item{eigenasym
-}{eigenvalues of the "Asymmetrical" Covariance matrix}
-\item{Variance }{Table of the explained Variance by the
-PCs} \item{SymVar }{Table of the explained "Symmetrical"
-Variance by the PCs} \item{AsymVar }{Table of the explained
-"Asymmetrical" Variance by the PCs} \item{orpdata }{k x m x
-n array of the rotated configurations projected into
-tangent space} \item{rho }{vector of Riemannian distance
-from the mean} \item{dataslide }{array containing slidden
-Landmarks in the original space - not yet processed by a
-Procrustes analysis. Only available if a sliding process
-was requested}
+  \item{size }{a vector containing the Centroid Size of the
+  configurations} \item{rotated }{k x m x n array of the
+  rotated configurations} \item{Sym }{k x m x n array of
+  the Symmetrical component - only available for the
+  "Symmetry"-Option (when pairedLM is defined)} \item{Asym
+  }{k x m x n array of the Asymmetrical component - only
+  available for the "Symmetry"-Option (when pairedLM is
+  defined)} \item{asymmean }{k x m matrix of mean
+  asymmetric deviation from symmetric mean} \item{mshape
+  }{sample meanshape} \item{symmean }{meanshape of
+  symmetrized configurations} \item{tan }{if orp=TRUE:
+  Residuals in tangentspace else, Procrustes residuals -
+  only available without the "Symmetrie"-Option} \item{PCs
+  }{Principal Components - if sizeshape=TRUE, the first
+  variable of the PCs is size information (as log
+  transformed Centroid Size)} \item{PCsym }{Principal
+  Components of the Symmetrical Component} \item{PCasym
+  }{Principal Components of the Asymmetrical Component}
+  \item{PCscores }{PC scores} \item{PCscore_sym }{PC scores
+  of the Symmetrical Component} \item{PCscore_asym }{PC
+  scores of the Asymmetrical Component} \item{eigenvalues
+  }{eigenvalues of the Covariance matrix} \item{eigensym
+  }{eigenvalues of the "Symmetrical" Covariance matrix}
+  \item{eigenasym }{eigenvalues of the "Asymmetrical"
+  Covariance matrix} \item{Variance }{Table of the
+  explained Variance by the PCs} \item{SymVar }{Table of
+  the explained "Symmetrical" Variance by the PCs}
+  \item{AsymVar }{Table of the explained "Asymmetrical"
+  Variance by the PCs} \item{orpdata }{k x m x n array of
+  the rotated configurations projected into tangent space}
+  \item{rho }{vector of Riemannian distance from the mean}
+  \item{dataslide }{array containing slidden Landmarks in
+  the original space - not yet processed by a Procrustes
+  analysis. Only available if a sliding process was
+  requested}
 }
 \description{
-\code{procSym} performs Procrustes superimposition
-including sliding of semi-landmarks on curves/outlines in
-2D and 3D.
+  \code{procSym} performs Procrustes superimposition
+  including sliding of semi-landmarks on curves/outlines in
+  2D and 3D.
 }
 \details{
-This function performs Procrustes registration, allowing a
-variety of options, including scaling, orthogonal
-projection into tangentspace and relaxation of
-semi-landmarks on curves (without reprojection onto the
-surface/actual outline). It also allows the
-superimpositioning to be performed using only a subset of
-the available landmark.  For taking into account object
-symmetry, \code{pairedLM} needs to be set. This generates
-an object of class \code{"symproc"}. Otherwise an object of
-class \code{"nosymproc"}.
+  This function performs Procrustes registration, allowing
+  a variety of options, including scaling, orthogonal
+  projection into tangentspace and relaxation of
+  semi-landmarks on curves (without reprojection onto the
+  surface/actual outline). It also allows the
+  superimpositioning to be performed using only a subset of
+  the available landmark.  For taking into account object
+  symmetry, \code{pairedLM} needs to be set. This generates
+  an object of class \code{"symproc"}. Otherwise an object
+  of class \code{"nosymproc"}.
 }
 \note{
-For processing of surface landmarks or including the
-reprojection of slid landmarks back onto 3D-surface
-representations, the usage of \code{\link{slider3d}} is
-recommended.
+  For processing of surface landmarks or including the
+  reprojection of slid landmarks back onto 3D-surface
+  representations, the usage of \code{\link{slider3d}} is
+  recommended.
 }
 \examples{
 require(rgl)
@@ -171,24 +172,25 @@ spm(~symproc$PCscore_asym[,1:5], groups=pop)
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Dryden IL, and Mardia KV. 1998. Statistical shape analysis.
-Chichester.
+  Dryden IL, and Mardia KV. 1998. Statistical shape
+  analysis. Chichester.
 
-Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape
-analysis of symmetric structures: quantifying variation
-among individuals and asymmetry. Evolution
-56(10):1909-1920.
+  Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape
+  analysis of symmetric structures: quantifying variation
+  among individuals and asymmetry. Evolution
+  56(10):1909-1920.
 
-Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
-Semilandmarks in Three Dimensions, in Modern Morphometrics
-in Physical Anthropology. Edited by D. E. Slice, pp. 73-98.
-New York: Kluwer Academic/Plenum Publishers.
+  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
+  Semilandmarks in Three Dimensions, in Modern
+  Morphometrics in Physical Anthropology. Edited by D. E.
+  Slice, pp. 73-98. New York: Kluwer Academic/Plenum
+  Publishers.
 }
 \seealso{
-\code{\link{slider3d}}
+  \code{\link{slider3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

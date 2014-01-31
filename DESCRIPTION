@@ -1,8 +1,8 @@
 Package: Morpho
 Type: Package
 Title: Calculations and visualisations related to Geometric Morphometrics
-Version: 1.99.140108
-Date: 2014-01-08
+Version: 1.99.140129
+Date: 2014-01-29
 Author: Stefan Schlager
 Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 Description: A toolset for Geometric Morphometrics and mesh processing. This
@@ -14,6 +14,7 @@ SystemRequirements: trimesh_project, rayproject, ply2ascii
 Suggests:
     car,
     lattice,
+    MASS,
     shapes
 Depends:
     R (>= 3.0.0)
@@ -21,13 +22,12 @@ Imports:
     rgl (>= 0.93.963),
     colorRamps,
     foreach (>= 1.4.0),
-    MASS,
     Matrix (>= 1.0-1),
     parallel,
     yaImpute,
-    Rvcg,
-    doParallel (>= 1.0.6)
-LinkingTo: Rcpp, RcppArmadillo
+    doParallel (>= 1.0.6),
+    Rcpp
+LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
 LazyLoad: yes

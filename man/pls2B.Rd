@@ -30,27 +30,27 @@ pls2B(x, y, tol = 1e-12, same.config = FALSE, rounds = 0,
   to occasional errors.}
 }
 \value{
-\item{svd }{singular value decomposition (see
-\code{\link{svd}}) of the 'common' covariance block}
-\item{Xscores }{PLS-scores of x} \item{Yscores }{PLS-scores
-of y} \item{CoVar }{Dataframe containing singular values,
-explained covariation, correlation coeffictient between
-PLS-scores and p-values}
+  \item{svd }{singular value decomposition (see
+  \code{\link{svd}}) of the 'common' covariance block}
+  \item{Xscores }{PLS-scores of x} \item{Yscores
+  }{PLS-scores of y} \item{CoVar }{Dataframe containing
+  singular values, explained covariation, correlation
+  coeffictient between PLS-scores and p-values}
 }
 \description{
-Performs a Two-Block PLS on two sets of data and assesses
-the significance of each score by permutation testing
+  Performs a Two-Block PLS on two sets of data and assesses
+  the significance of each score by permutation testing
 }
 \details{
-The Two-Block PLS tries to find those linear combinations
-in each block maximising the covariance between blocks. The
-significance of each linear combination is assessed by
-comparing the singular value to those obtained from
-permuted blocks. If both blocks contain landmarks
-superimposed TOGETHER, the option \code{same.config=TRUE}
-requests superimposition of the permuted configurations
-(i.e. where the the landmarks of block \code{x} are
-replaced by corresponding landmarks of other specimen.
+  The Two-Block PLS tries to find those linear combinations
+  in each block maximising the covariance between blocks.
+  The significance of each linear combination is assessed
+  by comparing the singular value to those obtained from
+  permuted blocks. If both blocks contain landmarks
+  superimposed TOGETHER, the option \code{same.config=TRUE}
+  requests superimposition of the permuted configurations
+  (i.e. where the the landmarks of block \code{x} are
+  replaced by corresponding landmarks of other specimen.
 }
 \examples{
 library(shapes)
@@ -70,15 +70,15 @@ for(i in 1:4)
  plot(pls1$Xscores[,i]~pls1$Yscores[,i])
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Rohlf FJ, Corti M. 2000. Use of two-block partial
-least-squares to study covariation in shape. Systematic
-Biology 49:740-753.
+  Rohlf FJ, Corti M. 2000. Use of two-block partial
+  least-squares to study covariation in shape. Systematic
+  Biology 49:740-753.
 }
 \seealso{
-\code{\link{svd}}
+  \code{\link{svd}}
 }
 \keyword{dynamic}
 

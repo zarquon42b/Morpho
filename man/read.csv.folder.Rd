@@ -34,18 +34,18 @@ read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE,
   \item{back}{logical: where to place the specifier.}
 }
 \value{
-\item{arr }{array containing imported data} \item{NAs
-}{vector containing position of observations with NAs}
-\item{NA.list }{list: containing vectors containing
-information which LMs are missing in which observation}
+  \item{arr }{array containing imported data} \item{NAs
+  }{vector containing position of observations with NAs}
+  \item{NA.list }{list: containing vectors containing
+  information which LMs are missing in which observation}
 }
 \description{
-imports all data files contained in a specified folder.
+  imports all data files contained in a specified folder.
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \seealso{
-\code{\link{read.table}}
+  \code{\link{read.table}}
 }
 

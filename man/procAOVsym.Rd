@@ -13,21 +13,22 @@ procAOVsym(symproc, indnames = NULL)
   containing identifiers}
 }
 \value{
-returns a dataframe containing Sums of Squares for each
-factor.
+  returns a dataframe containing Sums of Squares for each
+  factor.
 }
 \description{
-Procrustes ANOVA for structures with object symmetry,
-currently only supporting the factors 'specimen', 'side'
-and the interaction term.
+  Procrustes ANOVA for structures with object symmetry,
+  currently only supporting the factors 'specimen', 'side'
+  and the interaction term.
 }
 \details{
-performs a Procrustes ANOVA for configurations with object
-symmetry (as described in Klingenberg et al. 2002).
+  performs a Procrustes ANOVA for configurations with
+  object symmetry (as described in Klingenberg et al.
+  2002).
 }
 \note{
-In future releases the implementation of support for
-bilateral symmetry and more factors is intended.
+  In future releases the implementation of support for
+  bilateral symmetry and more factors is intended.
 }
 \examples{
 data(boneData)
@@ -40,15 +41,15 @@ symproc <- procSym(boneLM, pairedLM=pairedLM)
 procAOVsym(symproc)
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Klingenberg CP, Barluenga M, Meyer A. 2002. Shape analysis
-of symmetric structures: quantifying variation among
-individuals and asymmetry. Evolution 56:1909-20.
+  Klingenberg CP, Barluenga M, Meyer A. 2002. Shape
+  analysis of symmetric structures: quantifying variation
+  among individuals and asymmetry. Evolution 56:1909-20.
 }
 \seealso{
-\code{\link{procSym}}
+  \code{\link{procSym}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}
