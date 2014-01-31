@@ -14,19 +14,19 @@ facenormals(x)
   used.}
 }
 \value{
-\code{updateNormals} returns mesh with updated vertex
-normals.
+  \code{updateNormals} returns mesh with updated vertex
+  normals.
 
-\code{facenormals} returns an object of class "mesh3d" with
-\item{vb }{faces' barycenters} \item{normals }{faces'
-normals}
+  \code{facenormals} returns an object of class "mesh3d"
+  with \item{vb }{faces' barycenters} \item{normals
+  }{faces' normals}
 }
 \description{
-Compute face or vertex normals of a triangular mesh of
-class "mesh3d"
+  Compute face or vertex normals of a triangular mesh of
+  class "mesh3d"
 }
 \note{
-only supports triangular meshes
+  only supports triangular meshes
 }
 \examples{
 require(rgl)
@@ -51,15 +51,15 @@ wire3d(shortnose.mesh)
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \references{
-Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
-Signed Distance Fields From Triangle Meshes. Informatics
-and Mathematical Modelling, .
+  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
+  Signed Distance Fields From Triangle Meshes. Informatics
+  and Mathematical Modelling, .
 }
 \seealso{
-\code{\link{ply2mesh}}
+  \code{\link{ply2mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

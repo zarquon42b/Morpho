@@ -28,27 +28,27 @@ permuvec(data, groups, subgroups = NULL, rounds = 10000, scale = TRUE,
   to occasional errors.}
 }
 \value{
-\item{angle }{angle between the vectors of the subgroups
-means} \item{dist }{distances between subgroups}
-\item{meanvec }{matrix containing the means of all four
-subgroups} \item{permutangles }{vector containing angles
-(in radians) from random permutation} \item{permudists
-}{vector containing distances from random permutation}
-\item{p.angle }{p-value of angle between residual vectors}
-\item{p.dist }{p-value of length difference between
-residual vectors} \item{subdist }{length of residual
-vectors connecting the subgroups} means.
+  \item{angle }{angle between the vectors of the subgroups
+  means} \item{dist }{distances between subgroups}
+  \item{meanvec }{matrix containing the means of all four
+  subgroups} \item{permutangles }{vector containing angles
+  (in radians) from random permutation} \item{permudists
+  }{vector containing distances from random permutation}
+  \item{p.angle }{p-value of angle between residual
+  vectors} \item{p.dist }{p-value of length difference
+  between residual vectors} \item{subdist }{length of
+  residual vectors connecting the subgroups} means.
 }
 \description{
-perform permutation test on length and angle of the vectors
-connecting the subgroup means of two groups: e.g. compare
-if length and angle between sex related differences in two
-populations differ significantly.
+  perform permutation test on length and angle of the
+  vectors connecting the subgroup means of two groups: e.g.
+  compare if length and angle between sex related
+  differences in two populations differ significantly.
 }
 \details{
-This function calculates means of all four subgroups and
-compares the residual vectors of the major grouping
-variables by angle and distance.
+  This function calculates means of all four subgroups and
+  compares the residual vectors of the major grouping
+  variables by angle and distance.
 }
 \examples{
 data(boneData)

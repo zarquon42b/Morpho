@@ -10,21 +10,21 @@ cExtract(pts.file)
   pts.file or the name of an object imported via read.pts.}
 }
 \value{
-returns a list containing the vectors with the indices of
-matrix rows belonging to the in "landmark" defined curves,
-patches and fix landmarks and a matrix containing landmark
-coordinates.
+  returns a list containing the vectors with the indices of
+  matrix rows belonging to the in "landmark" defined
+  curves, patches and fix landmarks and a matrix containing
+  landmark coordinates.
 }
 \description{
-After exporting the pts file of the atlas from "landmark"
-and importing it into R via "read.pts" cExtract gets
-information which rows of the landmark datasets belong to
-curves or patches.
+  After exporting the pts file of the atlas from "landmark"
+  and importing it into R via "read.pts" cExtract gets
+  information which rows of the landmark datasets belong to
+  curves or patches.
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \seealso{
-\code{\link{read.lmdta}} ,\code{\link{read.pts}}
+  \code{\link{read.lmdta}} ,\code{\link{read.pts}}
 }
 

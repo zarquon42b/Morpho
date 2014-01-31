@@ -14,9 +14,9 @@ plotNormals(x, long = 1, lwd = 1, col = 1)
   \item{col}{color of the normals}
 }
 \description{
-visualises the vertex normals of a triangular surface mesh
-of class mesh3d. If no normals are contained, they are
-computed.
+  visualises the vertex normals of a triangular surface
+  mesh of class mesh3d. If no normals are contained, they
+  are computed.
 }
 \examples{
 \dontrun{
@@ -27,7 +27,7 @@ shade3d(shortnose.mesh,col=3)
 }
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

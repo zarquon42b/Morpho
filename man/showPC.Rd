@@ -14,14 +14,14 @@ showPC(scores, PC, mshape)
   (used to center the data by the PCA)}
 }
 \value{
-returns matrix containing landmarks
+  returns matrix containing landmarks
 }
 \description{
-convert PC-scores to landmark coordinates
+  convert PC-scores to landmark coordinates
 }
 \details{
-Rotates and translates PC-scores derived from shape data
-back into configuration space.
+  Rotates and translates PC-scores derived from shape data
+  back into configuration space.
 }
 \examples{
 library(shapes)
@@ -37,10 +37,10 @@ lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 points(lm2,col=2)
 }
 \author{
-Stefan Schlager
+  Stefan Schlager
 }
 \seealso{
-\code{\link{prcomp}}, \code{\link{procSym}}
+  \code{\link{prcomp}}, \code{\link{procSym}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}
