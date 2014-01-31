@@ -7,7 +7,7 @@ ray2mesh <- function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,rea
 
   options <- NULL
   opt <- FALSE
-  target <- paste0(targetdump,".ply")
+  target <- paste0(targetdump, ".ply")
   reference <- paste0(refdump,".ply")
   if (inbound == TRUE) {
       opt <- TRUE
@@ -33,7 +33,7 @@ ray2mesh <- function(mesh1,tarmesh,tol=1,angmax=NULL,clean=TRUE,outname=NULL,rea
   if (is.character(tarmesh)) {
       target <- tarmesh
   } else {
-      mesh2ply(tarmesh,target)
+      mesh2ply(tarmesh,targetdump)
   }
   if (is.character(mesh1))
       reference <- mesh1
