@@ -8,11 +8,11 @@ conv2backf(mesh)
   \item{mesh}{triangular mesh of class \code{mesh3d}}
 }
 \value{
-  returns resulting mesh
+returns resulting mesh
 }
 \description{
-  inverts faces' orientation of triangular mesh and
-  recomputes vertex normals
+inverts faces' orientation of triangular mesh and
+recomputes vertex normals
 }
 \examples{
 require(rgl)
@@ -27,10 +27,10 @@ plotNormals(noseinvert,long=0.01)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{updateNormals}}
+\code{\link{updateNormals}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

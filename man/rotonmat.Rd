@@ -28,17 +28,17 @@ rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE,
   to these weights instead of the barycenter.}
 }
 \value{
-  returns rotated X.
+returns rotated X.
 }
 \description{
-  rotate matrix of landmarks by using a rotation determined
-  by two matrices.
+rotate matrix of landmarks by using a rotation determined
+by two matrices.
 }
 \details{
-  A matrix is rotated by rotation parameters determined by
-  two different matrices. This is usefull, if the rotation
-  parameters are to be estimated by a subset of landmark
-  coordinates.
+A matrix is rotated by rotation parameters determined by
+two different matrices. This is usefull, if the rotation
+parameters are to be estimated by a subset of landmark
+coordinates.
 }
 \examples{
 data(nose)
@@ -51,10 +51,10 @@ deformGrid3d(shortnose.rot,shortnose.lm,ngrid=0)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{rotonto}},\code{\link{rotmesh.onto}}
+\code{\link{rotonto}},\code{\link{rotmesh.onto}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

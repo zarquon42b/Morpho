@@ -36,12 +36,12 @@ anonymize(data, remove, path = NULL, dest.path = NULL, ext = ".ply",
   ID-string.}
 }
 \value{
-  \item{data }{data with names replaced} \item{anonymkey
-  }{map of original name and replaced name}
+\item{data }{data with names replaced} \item{anonymkey
+}{map of original name and replaced name}
 }
 \description{
-  Replace ID-strings with for digits - e.g. for blind
-  observer error testing.
+Replace ID-strings with for digits - e.g. for blind
+observer error testing.
 }
 \examples{
 anonymize(iris,remove=1)

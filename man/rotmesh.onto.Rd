@@ -23,11 +23,11 @@ rotmesh.onto(mesh, refmat, tarmat, adnormals = FALSE, scale = FALSE,
   \item{reflection}{logical: allow reflection.}
 }
 \value{
-  \item{mesh }{rotated mesh} \item{yrot }{rotated refmat}
+\item{mesh }{rotated mesh} \item{yrot }{rotated refmat}
 }
 \description{
-  rotates and reflects a mesh onto by calculating the
-  transformation from two sets of referenced landmarks.
+rotates and reflects a mesh onto by calculating the
+transformation from two sets of referenced landmarks.
 }
 \examples{
 require(rgl)
@@ -46,11 +46,11 @@ spheres3d(boneLM[,,10])
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{file2mesh}},\code{\link{warp.mesh}}
-  ,\code{\link{rotonto}},\code{\link{mesh2ply}}
+\code{\link{file2mesh}},\code{\link{warp.mesh}}
+,\code{\link{rotonto}},\code{\link{mesh2ply}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

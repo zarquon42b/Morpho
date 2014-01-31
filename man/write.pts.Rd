@@ -13,23 +13,23 @@ write.pts(x, filename = dataname)
   object.}
 }
 \description{
-  exports a matrix containing landmarks into .pts format
-  that can be read by IDAV Landmark.
+exports a matrix containing landmarks into .pts format that
+can be read by IDAV Landmark.
 }
 \details{
-  you can import the information into the program landmarks
-  available at
-  http://graphics.idav.ucdavis.edu/research/EvoMorph
+you can import the information into the program landmarks
+available at
+http://graphics.idav.ucdavis.edu/research/EvoMorph
 }
 \examples{
 data(nose)
 write.pts(shortnose.lm, filename="shortnose")
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{read.pts}}
+\code{\link{read.pts}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

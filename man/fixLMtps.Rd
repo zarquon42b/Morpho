@@ -16,34 +16,34 @@ fixLMtps(data, comp = 3, weight = TRUE)
   sample's consensus is used as reference.}
 }
 \value{
-  \item{out }{array containing all data, including fixed
-  configurations - same order as input} \item{mshape
-  }{meanshape - calculated from complete datasets}
-  \item{checklist }{list containing information about
-  missing landmarks} \item{check }{vector containing
-  position of observations in data where at least one
-  missing coordinate was found}
+\item{out }{array containing all data, including fixed
+configurations - same order as input} \item{mshape
+}{meanshape - calculated from complete datasets}
+\item{checklist }{list containing information about missing
+landmarks} \item{check }{vector containing position of
+observations in data where at least one missing coordinate
+was found}
 }
 \description{
-  Missing landmarks are estimated by deforming a sample
-  average or a weighted estimate of the configurations most
-  similar onto the deficient configuration. The deformation
-  is performed by a Thin-plate-spline interpolation
-  calculated by the available landmarks.
+Missing landmarks are estimated by deforming a sample
+average or a weighted estimate of the configurations most
+similar onto the deficient configuration. The deformation
+is performed by a Thin-plate-spline interpolation
+calculated by the available landmarks.
 }
 \details{
-  This function tries to estimate missing landmark data by
-  mapping weighted averages from complete datasets onto the
-  missing specimen. The weights are the inverted Procrustes
-  (see \code{\link{proc.weight}}) distances between the
-  'comp' closest specimen (using the available landmark
-  configuration).
+This function tries to estimate missing landmark data by
+mapping weighted averages from complete datasets onto the
+missing specimen. The weights are the inverted Procrustes
+(see \code{\link{proc.weight}}) distances between the
+'comp' closest specimen (using the available landmark
+configuration).
 }
 \note{
-  Be aware that these estimates might be grossly wrong when
-  the missing landmark is quite far off the rest of the
-  landmarks (due to the radial basis function used in the
-  Thin-plate spline interpolation.
+Be aware that these estimates might be grossly wrong when
+the missing landmark is quite far off the rest of the
+landmarks (due to the radial basis function used in the
+Thin-plate spline interpolation.
 }
 \examples{
 require(rgl)
@@ -68,15 +68,15 @@ deformGrid3d(repair$out[,,1], boneLM[,,1],ngrid=0)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Bookstein FL. 1989. Principal Warps: Thin-plate splines
-  and the decomposition of deformations IEEE Transactions
-  on pattern analysis and machine intelligence 11.
+Bookstein FL. 1989. Principal Warps: Thin-plate splines and
+the decomposition of deformations IEEE Transactions on
+pattern analysis and machine intelligence 11.
 }
 \seealso{
-  \code{\link{proc.weight}}, \code{\link{tps3d}}
+\code{\link{proc.weight}}, \code{\link{tps3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

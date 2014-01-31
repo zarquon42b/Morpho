@@ -26,29 +26,28 @@ regdist(dataarray, plot = TRUE, main = "", rho = "angle",
   distance matrices.}
 }
 \value{
-  \item{cor }{correlation coefficient between distances in
-  shape space and tangent space} \item{procSS }{Procrustes
-  Sums of Squares (of full procrustes distance)}
-  \item{tanSS }{Tangent Sums of Squares} \item{rhoSS
-  }{Procrustes Sums of Squares (of angle)} \item{euc.dist
-  }{distance matrix of euclidean distance in Tangent space}
-  \item{proc.dist }{distance matrix of Procrustes distance
-  in Shape space}
+\item{cor }{correlation coefficient between distances in
+shape space and tangent space} \item{procSS }{Procrustes
+Sums of Squares (of full procrustes distance)} \item{tanSS
+}{Tangent Sums of Squares} \item{rhoSS }{Procrustes Sums of
+Squares (of angle)} \item{euc.dist }{distance matrix of
+euclidean distance in Tangent space} \item{proc.dist
+}{distance matrix of Procrustes distance in Shape space}
 }
 \description{
-  performs a partial Procrustes superimposition of landmark
-  data and calculates the correlation between tangent and
-  shape space.
+performs a partial Procrustes superimposition of landmark
+data and calculates the correlation between tangent and
+shape space.
 }
 \examples{
 library(shapes)
 regdist(gorf.dat)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{regdist}}
+\code{\link{regdist}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

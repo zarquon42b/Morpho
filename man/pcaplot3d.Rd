@@ -34,11 +34,11 @@ pcaplot3d(x, ...)
   to the methods.}
 }
 \description{
-  visualization of shape change
+visualization of shape change
 }
 \details{
-  visualization of the shape changes explained by Principal
-  components
+visualization of the shape changes explained by Principal
+components
 }
 \examples{
 \dontrun{
@@ -50,6 +50,6 @@ pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
 }
 }
 \seealso{
-  \code{\link{procSym}}
+\code{\link{procSym}}
 }
 

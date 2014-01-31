@@ -37,25 +37,25 @@ rotreverse(mat, rot)
   to these weights instead of the barycenter.}
 }
 \value{
-  \item{yrot }{rotated and translated matrix} \item{Y
-  }{centred and rotated reference matrix} \item{X }{centred
-  target matrix} \item{trans }{vector between original
-  position of target and centered reference (during
-  rotation process)} \item{transy }{vector between original
-  position of reference and centered reference (during
-  rotation process)} \item{gamm }{rotation matrix}
-  \item{bet }{scaling factor applied} \item{reflect }{if
-  \code{reflect = 1}, reflections are involved in the
-  superimposition. Else, reflect = 0}
+\item{yrot }{rotated and translated matrix} \item{Y
+}{centred and rotated reference matrix} \item{X }{centred
+target matrix} \item{trans }{vector between original
+position of target and centered reference (during rotation
+process)} \item{transy }{vector between original position
+of reference and centered reference (during rotation
+process)} \item{gamm }{rotation matrix} \item{bet }{scaling
+factor applied} \item{reflect }{if \code{reflect = 1},
+reflections are involved in the superimposition. Else,
+reflect = 0}
 }
 \description{
-  rotates, translates and scales one matrix onto an other
-  using Procrustes fitting
+rotates, translates and scales one matrix onto an other
+using Procrustes fitting
 }
 \details{
-  rotate a matrix onto an other without loosing information
-  about the location of the targetmatrix and reverse this
-  transformations using rotreverse
+rotate a matrix onto an other without loosing information
+about the location of the targetmatrix and reverse this
+transformations using rotreverse
 }
 \examples{
 library(shapes)
@@ -67,16 +67,16 @@ rev1 <- rotreverse(rot$yrot,rot)
 points(rev1,cex=2) ### show inversion by larger circles around original configuration
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C.
-  (1976). A solution to the weighted Procrustes problem in
-  which the transformation is in agreement with the loss
-  function. Psychometrika, 41,547-550.
+Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C. (1976).
+A solution to the weighted Procrustes problem in which the
+transformation is in agreement with the loss function.
+Psychometrika, 41,547-550.
 }
 \seealso{
-  \code{\link{rotmesh.onto}}
+\code{\link{rotmesh.onto}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

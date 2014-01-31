@@ -108,19 +108,19 @@ slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
   from system calls.}
 }
 \value{
-  \item{dataslide }{array containing slidden Landmarks in
-  the original space - not yet processed by a Procrustes
-  analysis} \item{vn.array }{array containing landmark
-  normals}
+\item{dataslide }{array containing slidden Landmarks in the
+original space - not yet processed by a Procrustes
+analysis} \item{vn.array }{array containing landmark
+normals}
 }
 \description{
-  slides Semilandmarks along curves and surfaces in 3D. The
-  positions on the surface are sought which minimise
-  bending energy (of a thin-plate spline deformation)
+slides Semilandmarks along curves and surfaces in 3D. The
+positions on the surface are sought which minimise bending
+energy (of a thin-plate spline deformation)
 }
 \details{
-  needs trimesh_project to be installed
-  (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
+needs trimesh_project to be installed
+(\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 }
 \section{Warning}{
   Depending on the size of the suface meshes and especially
@@ -173,33 +173,32 @@ spheres3d(slide$dataslide[fix,,1],col=4,radius=0.7)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape
-  analysis of symmetric structures: quantifying variation
-  among individuals and asymmetry. Evolution
-  56(10):1909-1920.
+Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape
+analysis of symmetric structures: quantifying variation
+among individuals and asymmetry. Evolution
+56(10):1909-1920.
 
-  Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
-  Semilandmarks in Three Dimensions, in Modern
-  Morphometrics in Physical Anthropology. Edited by D. E.
-  Slice, pp. 73-98. New York: Kluwer Academic/Plenum
-  Publishers.
+Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
+Semilandmarks in Three Dimensions, in Modern Morphometrics
+in Physical Anthropology. Edited by D. E. Slice, pp. 73-98.
+New York: Kluwer Academic/Plenum Publishers.
 
-  Schlager S. 2012. Sliding semi-landmarks on symmetric
-  structures in three dimensions. American Journal of
-  Physical Anthropology, 147(S52):261. URL:
-  http://dx.doi.org/10.1002/ajpa.21502.
+Schlager S. 2012. Sliding semi-landmarks on symmetric
+structures in three dimensions. American Journal of
+Physical Anthropology, 147(S52):261. URL:
+http://dx.doi.org/10.1002/ajpa.21502.
 
-  Schlager S. 2013. Soft-tissue reconstruction of the human
-  nose: population differences and sexual dimorphism. PhD
-  thesis,
-  \enc{Universitätsbibliothek}{Universitaetsbibliothek}
-  Freiburg.  URL:
-  \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
+Schlager S. 2013. Soft-tissue reconstruction of the human
+nose: population differences and sexual dimorphism. PhD
+thesis,
+\enc{Universitätsbibliothek}{Universitaetsbibliothek}
+Freiburg.  URL:
+\url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 }
 \seealso{
-  \code{\link{relaxLM}}
+\code{\link{relaxLM}}
 }
 

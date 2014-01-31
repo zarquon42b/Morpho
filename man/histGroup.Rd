@@ -46,22 +46,22 @@ histGroup(data, groups, main = paste("Histogram of", dataname),
   for each group.}
 }
 \description{
-  plot a histogram for multiple groups, each group colored
-  individually
+plot a histogram for multiple groups, each group colored
+individually
 }
 \details{
-  Just a wrapper for the function hist from the "graphics"
-  package
+Just a wrapper for the function hist from the "graphics"
+package
 }
 \examples{
 data(iris)
 histGroup(iris$Petal.Length,iris$Species)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{hist}}
+\code{\link{hist}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

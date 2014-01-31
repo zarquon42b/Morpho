@@ -13,8 +13,8 @@
 \code{longnose.lm}: matrix containing example landmark data representing a
 caricaturesquely deformed human nose.}
 \description{
-  triangular mesh representing a human nose and two
-  matrices containing landmark data
+triangular mesh representing a human nose and two matrices
+containing landmark data
 }
 \keyword{datasets}
 

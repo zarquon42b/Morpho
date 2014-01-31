@@ -25,14 +25,14 @@ createAtlas(mesh, landmarks, patch, corrCuves = NULL, patchCurves = NULL)
   the atlas.}
 }
 \value{
-  Returns a list of class "atlas".  Its content is
-  corresponding to argument names.
+Returns a list of class "atlas".  Its content is
+corresponding to argument names.
 }
 \description{
-  Create an atlas needed in placePatch
+Create an atlas needed in placePatch
 }
 \note{
-  This is a helper function of \code{\link{placePatch}}.
+This is a helper function of \code{\link{placePatch}}.
 }
 \examples{
 data(nose)
@@ -40,7 +40,7 @@ atlas <- createAtlas(shortnose.mesh, landmarks =
             shortnose.lm[c(1:5,20:21),], patch=shortnose.lm[-c(1:5,20:21),])
 }
 \seealso{
-  \code{\link{placePatch}, \link{plotAtlas}}
+\code{\link{placePatch}, \link{plotAtlas}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

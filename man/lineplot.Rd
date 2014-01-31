@@ -19,11 +19,11 @@ lineplot(x, point, col = 1, lwd = 1, line_antialias = FALSE, add = TRUE)
   \item{add}{logical: add to existing plot}
 }
 \description{
-  add lines connecting landmarks to visualise a sort of
-  wireframe
+add lines connecting landmarks to visualise a sort of
+wireframe
 }
 \note{
-  works with 2D and 3D configurations
+works with 2D and 3D configurations
 }
 \examples{
 require(rgl)
@@ -40,10 +40,10 @@ lineplot(shortnose.lm[1:9,],point=list(c(1,3,2),c(3,4,5),c(8,6,5,7,9)),col=2)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{pcaplot3d}}
+\code{\link{pcaplot3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -14,17 +14,17 @@ scalemesh(mesh, size, center = c("bbox", "mean", "none"))
   Details for more info.}
 }
 \value{
-  returns a scaled mesh
+returns a scaled mesh
 }
 \description{
-  scales (the vertices of a mesh by a scalar
+scales (the vertices of a mesh by a scalar
 }
 \details{
-  The mesh's center is determined either as mean of the
-  bounding box (center="bbox") or mean of vertex
-  coordinates (center="mean") and then scaled according to
-  the scaling factor. If center="none", vertex coordinates
-  will simply be multiplied by "size".
+The mesh's center is determined either as mean of the
+bounding box (center="bbox") or mean of vertex coordinates
+(center="mean") and then scaled according to the scaling
+factor. If center="none", vertex coordinates will simply be
+multiplied by "size".
 }
 \examples{
 data(nose)
@@ -32,10 +32,10 @@ data(nose)
 largenose <- scalemesh(shortnose.mesh,4)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{rotmesh.onto}}
+\code{\link{rotmesh.onto}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}
