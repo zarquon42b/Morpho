@@ -1,0 +1,48 @@
+\name{ray2mesh}
+\alias{ray2mesh}
+\title{projects the vertices of a mesh along its normals onto the surface of another one.}
+\usage{
+ray2mesh(mesh1, tarmesh, tol = 1e+12, inbound = FALSE, mindist = FALSE,
+  ...)
+}
+\arguments{
+  \item{mesh1}{mesh to project. Can be an object of class
+  "mesh3d" or path to an external mesh file (ply, obj,
+  stl).}
+
+  \item{tarmesh}{mesh to project onto. Can be an object of
+  class "mesh3d" or path to an external mesh file (ply,
+  obj, stl).}
+
+  \item{tol}{numeric: maximum distance to search along ray,
+  closest Euclidean distance will be used, if tol is
+  exceeded.}
+
+  \item{inbound}{inverse search direction along rays.}
+
+  \item{mindist}{search both ways (ray and -ray) and select
+  closest point.}
+
+  \item{\dots}{additional arguments not used at the
+  moment.}
+}
+\value{
+  returns projected mesh with additional list entries:
+  \item{quality }{integer vector containing a value for
+  each vertex of \code{x}: 1 indicates that a ray has
+  intersected 'tarmesh' within the given threshold, while 0
+  means not} \item{distance }{numeric vector: distances to
+  intersection}
+}
+\description{
+  projects the vertices of a mesh onto the surface of
+  another one by searching for the closest point along
+  vertex normals on the target by for each vertex.
+}
+\author{
+  Stefan Schlager
+}
+\seealso{
+  \code{\link{ply2mesh}}, \code{\link{closemeshKD}}
+}
+
