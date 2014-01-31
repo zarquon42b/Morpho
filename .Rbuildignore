@@ -1,2 +1,2 @@
-src/covDist.cpp
+src/covPCA.cpp
 R/covWrap.r

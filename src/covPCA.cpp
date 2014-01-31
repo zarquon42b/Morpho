@@ -18,6 +18,62 @@ double covDist(mat s1, mat s2) {
   cdist = real(tmp(0));
   return(cdist);
 }
+
+mat covPCA(mat data, ivec groups, int rounds, bool scramble) {
+  typedef unsigned int uint;
+  uint maxlev = groups.max();
+  mat dists(maxlev,maxlev);
+  double check;
+  List covaList(maxlev);
+ 
+    for (uint i = 0; i < maxlev; ++i) {
+      if (!scramble) {
+      covaList[i] = cov(data.rows(arma::find(groups == (i+1))));
+      } else {
+
+	mat tmpdat = data.rows(arma::find(groups == (i+1)));
+	uint nrow = tmpdat.n_rows;
+	uvec shaker = randi<uvec>(nrow, distr_param(0,nrow));
+	covaList[i] = cov(tmpdat.rows(shaker));
+      }
+    }
+  dists.zeros();
+  for (uint i = 0; i < (maxlev-1); ++i) {
+    for (uint j = i+1; j < (maxlev); ++j){
+      mat tmp0 = covaList[i];
+      mat tmp1 = covaList[j];
+      check = covDist(tmp0,tmp1);
+      dists(j,i) = check;
+    }
+  }
+  return dists;
+  
+}
+cube covPCAboot(mat data, ivec groups, int rounds) {
+  
+  typedef unsigned int uint;
+  uint maxlev = groups.max();  
+  cube alldist(maxlev, maxlev, rounds);
+  for (int i = 0; i < rounds; ++i){
+    alldist.slice(i) = covPCA(data, groups, 0, true);
+  }
+  return alldist;
+
+}
+
+
+    
+RcppExport SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_) {
+  //bool scramble = Rcpp::as<bool>(scramble_);
+ int scramble = Rcpp::as<int>(scramble_);
+  Rcpp::NumericMatrix data(data_);
+  Rcpp::IntegerVector groups(groups_);
+  mat armaData(data.begin(), data.nrow(),data.ncol());
+  ivec armaGroups(groups.begin(),groups.size(),false);
+  cube out = covPCAboot(armaData,armaGroups,scramble);
+  return wrap(out);
+
+}
   
 RcppExport SEXP covWrap(SEXP s1_, SEXP s2_) {
   NumericMatrix s1(s1_);
