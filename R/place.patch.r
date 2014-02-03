@@ -52,8 +52,6 @@
 #' @return array containing the projected coordinates appended to the
 #' data.array specified in the input. In case dat.array is a matrix only a
 #' matrix is returned.
-#' @note needs additional command line tools "trimesh-tools" installed
-#' (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}).
 #' @author Stefan Schlager
 #' @seealso \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM},
 #' \link{slider3d}, \link{warp.mesh}}

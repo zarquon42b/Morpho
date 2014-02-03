@@ -92,11 +92,6 @@ roughly pointing into the same direction as those on the
 
 }
 }
-\note{
-needs additional command line tools "trimesh-tools"
-installed
-(\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}).
-}
 \examples{
 \dontrun{
 data(nose)

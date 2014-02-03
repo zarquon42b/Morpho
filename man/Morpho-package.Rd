@@ -9,26 +9,18 @@ statistical methods related to Geometric Morphometrics and shape analysis}
 A toolbox for Morphometric calculations. Including sliding
 operations for Semilandmarks, importing, exporting and
 manipulating of 3D-surface meshes and semi-automated
-placement of surface landmarks. For gaining full
-functionality, the command line tools provided on
-\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}
-have to be installed.
+placement of surface landmarks.
 }
 \details{
 \tabular{ll}{ Package: \tab Morpho\cr Type: \tab Package\cr
 Version: \tab 1.99.140129\cr Date: \tab 2014-01-29\cr
 License: \tab GPL\cr LazyLoad: \tab yes\cr }
 }
-\note{
-For full functionality please install trimesh-tools as
-described here:
-\url{http://sourceforge.net/p/morpho-rpackage/wiki/Installation_Morpho/#installation-of-the-command-line-tools-strongly-recommended}
+\author{
+Stefan Schlager
 
 The pdf-version of Morpho-help can be obtained from CRAN on
 \url{http://cran.r-project.org/web/packages/Morpho/Morpho.pdf}
-}
-\author{
-Stefan Schlager
 
 Maintainer: Stefan Schlager
 <stefan.schlager@uniklinik-freiburg.de>

@@ -3,10 +3,7 @@
 #' 
 #' A toolbox for Morphometric calculations. Including sliding operations for
 #' Semilandmarks, importing, exporting and manipulating of 3D-surface meshes
-#' and semi-automated placement of surface landmarks. For gaining full
-#' functionality, the command line tools provided on
-#' \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}
-#' have to be installed.
+#' and semi-automated placement of surface landmarks.
 #' 
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
@@ -20,11 +17,10 @@
 #' @name Morpho-package
 #' @aliases Morpho-package Morpho
 #' @docType package
-#' @note For full functionality please install trimesh-tools as described here:
-#' \url{http://sourceforge.net/p/morpho-rpackage/wiki/Installation_Morpho/#installation-of-the-command-line-tools-strongly-recommended}
+#' @author Stefan Schlager
 #'
 #' The pdf-version of Morpho-help can be obtained from CRAN on \url{http://cran.r-project.org/web/packages/Morpho/Morpho.pdf}
-#' @author Stefan Schlager
+#'
 #' 
 #' Maintainer: Stefan Schlager <stefan.schlager@@uniklinik-freiburg.de>
 #' @references Schlager S. 2013. Soft-tissue reconstruction of the human nose:
