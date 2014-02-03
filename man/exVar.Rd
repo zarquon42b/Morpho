@@ -23,40 +23,40 @@ exVar(model, ...)
   \item{\dots}{currently unused additional arguments.}
 }
 \value{
-  returns the quotient.
+returns the quotient.
 }
 \description{
-  calculate variance of a distribution stemming from
-  prediction models
+calculate variance of a distribution stemming from
+prediction models
 }
 \details{
-  calculates a quotient of the overall varriance within a
-  predicted distribution to that from the original one.
-  This function calculates a naive extension of the
-  univariate R^2-value by dividing the variance in the
-  predicted dat by the variance of the original data. No
-  additional adjustments are made!!
+calculates a quotient of the overall varriance within a
+predicted distribution to that from the original one. This
+function calculates a naive extension of the univariate
+R^2-value by dividing the variance in the predicted dat by
+the variance of the original data. No additional
+adjustments are made!!
 }
 \note{
-  The result is only!! a rough estimate of the variance
-  explained by a multivariate model. And the result can be
-  misleading - especially when there are many predictor
-  variables involved. If one is interested in the value
-  each factor/covariate explains, we recommend a 50-50
-  MANOVA perfomed by the R-package "ffmanova", which
-  reports this value factor-wise.
+The result is only!! a rough estimate of the variance
+explained by a multivariate model. And the result can be
+misleading - especially when there are many predictor
+variables involved. If one is interested in the value each
+factor/covariate explains, we recommend a 50-50 MANOVA
+perfomed by the R-package "ffmanova", which reports this
+value factor-wise.
 }
 \examples{
 lm1 <- lm(as.matrix(iris[,1:4]) ~ iris[,5])
 exVar(lm1)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Langsrud O, Juergensen K, Ofstad R, Naes T. 2007.
-  Analyzing Designed Experiments with Multiple Responses
-  Journal of Applied Statistics 34:1275-1296.
+Langsrud O, Juergensen K, Ofstad R, Naes T. 2007. Analyzing
+Designed Experiments with Multiple Responses Journal of
+Applied Statistics 34:1275-1296.
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -24,10 +24,10 @@ r2morphologika(x, file = file, labels = NULL, labelname = NULL, ...)
   \item{\dots}{unused at the moment}
 }
 \description{
-  Export data to MorphoJ and Morphologika
+Export data to MorphoJ and Morphologika
 }
 \details{
-  Export data to MorphoJ and Morphologika
+Export data to MorphoJ and Morphologika
 }
 \examples{
 library(shapes)

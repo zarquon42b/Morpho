@@ -43,19 +43,19 @@ typprobClass(x, data, groups, small = FALSE, method = c("chisquare",
   calculate distance.}
 }
 \value{
-  typprob: returns a vector of probabilities.
+typprob: returns a vector of probabilities.
 
-  typprobClass: \item{probs }{matrix of probabilities for
-  each group} \item{groupaffin }{vector of groups each
-  specimen has been assigned to. Outliers are classified
-  "none"}
+typprobClass: \item{probs }{matrix of probabilities for
+each group} \item{groupaffin }{vector of groups each
+specimen has been assigned to. Outliers are classified
+"none"}
 }
 \description{
-  calculate typicality probabilities
+calculate typicality probabilities
 }
 \details{
-  get the probability for an observation belonging to a
-  given multivariate nromal distribution
+get the probability for an observation belonging to a given
+multivariate nromal distribution
 }
 \examples{
 library(shapes)
@@ -85,16 +85,15 @@ ct1 #view classification table ### one specimen has been tagged an outlier.
 prop.table(ct1, 1)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Albrecht G. 1992. Assessing the affinities of fossils
-  using canonical variates and generalized distances Human
-  Evolution 7:49-69.
+Albrecht G. 1992. Assessing the affinities of fossils using
+canonical variates and generalized distances Human
+Evolution 7:49-69.
 
-  Wilson S. 1981. On comparing fossil specimens with
-  population samples Journal of Human Evolution 10:207 -
-  214.
+Wilson S. 1981. On comparing fossil specimens with
+population samples Journal of Human Evolution 10:207 - 214.
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

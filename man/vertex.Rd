@@ -27,37 +27,37 @@ rmUnrefVertex(mesh, silent = FALSE)
   removed vertices.}
 }
 \value{
-  \code{unrefVertex}: vector with indices of unreferenced
-  vertices.
+\code{unrefVertex}: vector with indices of unreferenced
+vertices.
 
-  \code{rmVertex}: returns mesh with specified vertices
-  removed and faces and normals updated.
+\code{rmVertex}: returns mesh with specified vertices
+removed and faces and normals updated.
 
-  \code{vert2points}: k x 3 matrix containing vertex
-  coordinates.
+\code{vert2points}: k x 3 matrix containing vertex
+coordinates.
 
-  \code{rmUnrefVertex}: mesh with unreferenced vertices
-  removed.
+\code{rmUnrefVertex}: mesh with unreferenced vertices
+removed.
 }
 \description{
-  some little helpers for vertex operations on triangular
-  meshes
+some little helpers for vertex operations on triangular
+meshes
 }
 \details{
-  extract vertex coordinates from meshes, find and/or
-  remove (unreferenced) vertices from triangular meshes
+extract vertex coordinates from meshes, find and/or remove
+(unreferenced) vertices from triangular meshes
 
-  \code{unrefVertex} finds unreferenced vertices in
-  triangular meshes of class \code{mesh3d}.
+\code{unrefVertex} finds unreferenced vertices in
+triangular meshes of class \code{mesh3d}.
 
-  \code{rmVertex} removes specified vertices from
-  triangular meshes.
+\code{rmVertex} removes specified vertices from triangular
+meshes.
 
-  \code{vert2points} extacts vertex coordinates from
-  triangular meshes.
+\code{vert2points} extacts vertex coordinates from
+triangular meshes.
 
-  \code{rmUnrefVertex} removes unreferenced vertices from
-  triangular meshes.
+\code{rmUnrefVertex} removes unreferenced vertices from
+triangular meshes.
 }
 \examples{
 require(rgl)
@@ -77,10 +77,10 @@ points3d(vert2points(cleanmesh),col=2) ### now the holes are empty!!
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{ply2mesh}}, \code{\link{file2mesh}}
+\code{\link{ply2mesh}}, \code{\link{file2mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

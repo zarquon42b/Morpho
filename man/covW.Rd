@@ -10,19 +10,19 @@ covW(data, groups)
   \item{groups}{grouping variables}
 }
 \value{
-  Returns the pooled within group covariance matrix
+Returns the pooled within group covariance matrix
 }
 \description{
-  calculate the pooled within groups covariance matrix
+calculate the pooled within groups covariance matrix
 }
 \examples{
 data(iris)
 poolCov <- covW(iris[,1:4],iris[,5])
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{cov}}, \code{\link{typprobClass}}
+\code{\link{cov}}, \code{\link{typprobClass}}
 }
 

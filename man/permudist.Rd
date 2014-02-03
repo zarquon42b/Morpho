@@ -15,15 +15,15 @@ permudist(data, groups, rounds = 1000, which = NULL)
   levels are > 2 this determins which factorlevels to use}
 }
 \value{
-  \item{dist }{distance matrix with distances between
-  actual group means} \item{p.value }{distance matrix
-  containing pairwise p-values obtained by comparing the
-  actual distance to randomly acquired distances}
+\item{dist }{distance matrix with distances between actual
+group means} \item{p.value }{distance matrix containing
+pairwise p-values obtained by comparing the actual distance
+to randomly acquired distances}
 }
 \description{
-  This function compares the distance between two
-  groupmeans to the distances obtained by random assignment
-  of observations to this groups.
+This function compares the distance between two groupmeans
+to the distances obtained by random assignment of
+observations to this groups.
 }
 \examples{
 data(boneData)

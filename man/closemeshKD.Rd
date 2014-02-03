@@ -33,30 +33,29 @@ closemeshKD(x, mesh, k = 50, sign = FALSE, barycoords = FALSE,
   unavailable.}
 }
 \value{
-  returns an object of class \code{mesh3d}.  with: \item{vb
-  }{4xn matrix containing n vertices as homolougous
-  coordinates} \item{normals }{4xn matrix containing vertex
-  normals} \item{quality }{vector: containing distances to
-  target. In case of \code{method=1}, this is not the
-  Euclidean distance but the distance of the reference
-  point to the faceplane (orthogonally projected) plus the
-  distance to the closest point on one of the face's edges
-  (the target point). See the literature cited below for
-  details.} \item{it }{4xm matrix containing vertex indices
-  forming triangular faces.Only available, when x is a
-  mesh}
+returns an object of class \code{mesh3d}.  with: \item{vb
+}{4xn matrix containing n vertices as homolougous
+coordinates} \item{normals }{4xn matrix containing vertex
+normals} \item{quality }{vector: containing distances to
+target. In case of \code{method=1}, this is not the
+Euclidean distance but the distance of the reference point
+to the faceplane (orthogonally projected) plus the distance
+to the closest point on one of the face's edges (the target
+point). See the literature cited below for details.}
+\item{it }{4xm matrix containing vertex indices forming
+triangular faces.Only available, when x is a mesh}
 }
 \description{
-  For a set of 3D-coordinates the closest matches on a
-  target surface are determined and normals at as well as
-  distances to that point are calculated.
+For a set of 3D-coordinates the closest matches on a target
+surface are determined and normals at as well as distances
+to that point are calculated.
 }
 \details{
-  The search for the clostest point is designed as follows:
-  Calculate the barycenter of each target face. For each
-  coordinate of x, determine the k closest barycenters and
-  calculate the distances to the closest point on these
-  faces.
+The search for the clostest point is designed as follows:
+Calculate the barycenter of each target face. For each
+coordinate of x, determine the k closest barycenters and
+calculate the distances to the closest point on these
+faces.
 }
 \examples{
 require(rgl)
@@ -67,20 +66,20 @@ out <- closemeshKD(longnose.lm,shortnose.mesh,sign=TRUE)
 hist(out$quality)
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
-  Signed Distance Fields From Triangle Meshes. Informatics
-  and Mathematical Modelling.
+Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
+Signed Distance Fields From Triangle Meshes. Informatics
+and Mathematical Modelling.
 
-  Moshfeghi M, Ranganath S, Nawyn K. 1994.
-  Three-dimensional elastic matching of volumes IEEE
-  Transactions on Image Processing: A Publication of the
-  IEEE Signal Processing Society 3:128-138.
+Moshfeghi M, Ranganath S, Nawyn K. 1994. Three-dimensional
+elastic matching of volumes IEEE Transactions on Image
+Processing: A Publication of the IEEE Signal Processing
+Society 3:128-138.
 }
 \seealso{
-  \code{\link{ply2mesh}}
+\code{\link{ply2mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

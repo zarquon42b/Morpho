@@ -28,24 +28,24 @@ find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis = FALSE,
   (rownumbers) are displayed}
 }
 \value{
-  \item{data.cleaned }{array (in original coordinate
-  system) containing the changes applied and outliers
-  eliminated} \item{outlier }{vector with integers
-  indicating the positions in the original array that have
-  been marked as outliers} \item{dist.sort }{table showing
-  the distance to mean for each observation - decreasing by
-  distance} \item{type }{what kind of distance was used}
+\item{data.cleaned }{array (in original coordinate system)
+containing the changes applied and outliers eliminated}
+\item{outlier }{vector with integers indicating the
+positions in the original array that have been marked as
+outliers} \item{dist.sort }{table showing the distance to
+mean for each observation - decreasing by distance}
+\item{type }{what kind of distance was used}
 }
 \description{
-  Graphical interface to find outliers and/or to switch
-  mislabeld landmarks
+Graphical interface to find outliers and/or to switch
+mislabeld landmarks
 }
 \details{
-  This function performs a procrustes fit and sorts all
-  specimen according to their distances (either Procrustes
-  or Mahalanobis-distance) to the sample's consensus. It
-  provides visual help for rearranging landmarks and/or
-  excluding outliers.
+This function performs a procrustes fit and sorts all
+specimen according to their distances (either Procrustes or
+Mahalanobis-distance) to the sample's consensus. It
+provides visual help for rearranging landmarks and/or
+excluding outliers.
 }
 \examples{
 data(boneData)
@@ -65,10 +65,10 @@ outliers <- find.outliers(boneLM, mahalanobis= TRUE, PCuse=10)
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{typprob}},\code{\link{typprobClass}}
+\code{\link{typprob}},\code{\link{typprobClass}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

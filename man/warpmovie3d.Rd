@@ -80,22 +80,22 @@ warpmovie2d(x, y, n, col = "green", palindrome = FALSE, folder = NULL,
   \code{\link{shade3d}} (3D) or \code{\link{points}} (2D).}
 }
 \description{
-  Creates a sequence of images showing predefined steps of
-  warping two meshes or landmark configurations (2D and 3D)
-  into each other
+Creates a sequence of images showing predefined steps of
+warping two meshes or landmark configurations (2D and 3D)
+into each other
 }
 \details{
-  given two landmark configurations or two meshes with the
-  same amount of vertices and faces (e.g a mesh and its
-  warped counterpart), the starting configuration/mesh will
-  be subsequently transformed into the final
-  configuration/mesh by splitting the differences into a
-  predefined set of steps.
+given two landmark configurations or two meshes with the
+same amount of vertices and faces (e.g a mesh and its
+warped counterpart), the starting configuration/mesh will
+be subsequently transformed into the final
+configuration/mesh by splitting the differences into a
+predefined set of steps.
 
-  A series of png files will be saved to disk. These can be
-  joined to animated gifs by external programs such as
-  imagemagick or used to create animations in PDFs in a
-  latex environment (e.g. latex package: aninmate).
+A series of png files will be saved to disk. These can be
+joined to animated gifs by external programs such as
+imagemagick or used to create animations in PDFs in a latex
+environment (e.g. latex package: aninmate).
 }
 \examples{
 ###3D example
@@ -125,10 +125,10 @@ bb <- procSym(gorf.dat)
 warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
+\code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

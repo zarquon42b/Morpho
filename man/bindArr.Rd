@@ -11,11 +11,11 @@ bindArr(..., along = 1)
   \item{along}{dimension along which to concatenate.}
 }
 \value{
-  returns array of combined matrices/arrays
+returns array of combined matrices/arrays
 }
 \description{
-  concatenate multiple 3-dimensional arrays and/or
-  2-dimensional matrices to one big array
+concatenate multiple 3-dimensional arrays and/or
+2-dimensional matrices to one big array
 }
 \examples{
 A <- matrix(rnorm(18),6,3)
@@ -28,8 +28,8 @@ newArr <- bindArr(A,B,C,along=3)
 newArr2 <- bindArr(newArr,newArr,along=1)
 }
 \seealso{
-  \code{\link{cbind}}, \code{\link{rbind}},
-  \code{\link{array}}
+\code{\link{cbind}}, \code{\link{rbind}},
+\code{\link{array}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -11,22 +11,22 @@ read.mpp(file, info = FALSE)
   returned}
 }
 \value{
-  if \code{info=FALSE}:
+if \code{info=FALSE}:
 
-  a matrix containing picked-points coordinates
+a matrix containing picked-points coordinates
 
-  if \code{info=TRUE}: a list containing \item{data
-  }{matrix containing coordinates} \item{info }{additional
-  info contained in file}
+if \code{info=TRUE}: a list containing \item{data }{matrix
+containing coordinates} \item{info }{additional info
+contained in file}
 }
 \description{
-  imports pick points selected with meshlab
+imports pick points selected with meshlab
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{read.pts}}
+\code{\link{read.pts}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

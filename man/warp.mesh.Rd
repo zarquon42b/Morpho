@@ -22,16 +22,16 @@ warp.mesh(mesh, matr, matt, lambda = 0, updateNormals = TRUE,
   \item{silent}{logical: suppress messages.}
 }
 \value{
-  object of class "mesh3d"
+object of class "mesh3d"
 }
 \description{
-  warps an the surface of a mesh3d object onto another
-  configuration via reference and target landmark
-  configuration by using a thin-plate spline interpolation.
+warps an the surface of a mesh3d object onto another
+configuration via reference and target landmark
+configuration by using a thin-plate spline interpolation.
 }
 \details{
-  the surface is mapped via the tps3d function onto the
-  target shape.
+the surface is mapped via the tps3d function onto the
+target shape.
 }
 \examples{
 require(rgl)
@@ -57,10 +57,10 @@ spheres3d(boneLM[,,10])
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \seealso{
-  \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warpmovie3d},
-  \link{rotmesh.onto}}
+\code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warpmovie3d},
+\link{rotmesh.onto}}
 }
 

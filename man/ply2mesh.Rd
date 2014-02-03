@@ -29,22 +29,16 @@ ply2mesh(filename, adnormals = TRUE, readnormals = FALSE, readcol = FALSE,
   \item{silent}{logical: suppress messages.}
 }
 \value{
-  \item{mesh }{list of class mesh3d - see rgl manual for
-  further details, or a matrix containing vertex
-  information or a list containing vertex and normal
-  information}
+\item{mesh }{list of class mesh3d - see rgl manual for
+further details, or a matrix containing vertex information
+or a list containing vertex and normal information}
 }
 \description{
-  Import 3D surface mesh files
+Import 3D surface mesh files
 }
 \details{
-  imports 3D mesh files and store them as an R .object of
-  class mesh3d
-
-  file2mesh needs the command line tool ply2ascii from the
-  Auxiliaries section in
-  \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}
-  installed.
+imports 3D mesh files and store them as an R .object of
+class mesh3d
 }
 \examples{
 data(nose)

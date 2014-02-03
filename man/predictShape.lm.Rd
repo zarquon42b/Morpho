@@ -23,17 +23,17 @@ predictShape.lm(fit, datamod, PC, mshape)
   eigenspace.}
 }
 \value{
-  \item{predicted }{array or matrix containing predicted
-  landmark coordinates} \item{predictedPC }{matrix
-  containing predicted PC-scores}
+\item{predicted }{array or matrix containing predicted
+landmark coordinates} \item{predictedPC }{matrix containing
+predicted PC-scores}
 }
 \description{
-  Predict shapes based on linear models calculated from
-  PCscores.
+Predict shapes based on linear models calculated from
+PCscores.
 }
 \details{
-  This function predicts the landmarks based on models
-  calculated from PCscores.
+This function predicts the landmarks based on models
+calculated from PCscores.
 }
 \section{Warning}{
   Make sure that the levels of the variables used in
@@ -82,7 +82,7 @@ datamod <- ~(popmod+probs)
 pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
 }
 \seealso{
-  \code{\link{model.matrix}, \link{lm}, \link{formula}}
+\code{\link{model.matrix}, \link{lm}, \link{formula}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}

@@ -96,26 +96,26 @@ meshDist(x, ...)
   details.}
 }
 \value{
-  Returns an object of class "meshDist" if the input is a
-  surface mesh and one of class "matrixDist" if input is a
-  matrix containing 3D coordinates. \item{colMesh }{object
-  of mesh3d with colors added} \item{dists }{vector with
-  distances} \item{cols }{vector with color values}
-  \item{params }{list of parameters used}
+Returns an object of class "meshDist" if the input is a
+surface mesh and one of class "matrixDist" if input is a
+matrix containing 3D coordinates. \item{colMesh }{object of
+mesh3d with colors added} \item{dists }{vector with
+distances} \item{cols }{vector with color values}
+\item{params }{list of parameters used}
 }
 \description{
-  calculates and visualises distances between surface
-  meshes or 3D coordinates and a surface mesh.
+calculates and visualises distances between surface meshes
+or 3D coordinates and a surface mesh.
 }
 \details{
-  calculates the distances from a mesh or a set of 3D
-  coordinates to another at each vertex; either closest
-  point or along the normals
+calculates the distances from a mesh or a set of 3D
+coordinates to another at each vertex; either closest point
+or along the normals
 
-  this function needs the command line tools from the
-  Auxiliaries section in
-  \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries}
-  installed.
+this function needs the command line tools from the
+Auxiliaries section in
+\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries}
+installed.
 }
 \examples{
 require(rgl)
@@ -132,19 +132,18 @@ meshDist(warpnose.long, shortnose.mesh, sign=TRUE, tol=0.01, method="m")
 }
 }
 \author{
-  Stefan Schlager
+Stefan Schlager
 }
 \references{
-  Detection of inside/outside uses the algorithm proposed
-  in:
+Detection of inside/outside uses the algorithm proposed in:
 
-  Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
-  Signed Distance Fields From Triangle Meshes. Informatics
-  and Mathematical Modelling, .
+Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating
+Signed Distance Fields From Triangle Meshes. Informatics
+and Mathematical Modelling, .
 }
 \seealso{
-  \code{\link{render.meshDist}}, ,
-  \code{\link{export.meshDist}}, \code{\link{shade3d}}
+\code{\link{render.meshDist}}, ,
+\code{\link{export.meshDist}}, \code{\link{shade3d}}
 }
 \keyword{~kwd1}
 \keyword{~kwd2}
