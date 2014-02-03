@@ -3,8 +3,6 @@
 #' relax one specific 3D landmark configuration against a reference (e.g. a
 #' sample mean)
 #' 
-#' needs trimesh_project to be installed
-#' (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 #' 
 #' @param lm k x 3 matrix containing landmark data to be slidden.
 #' @param reference k x 3 matrix containing landmark of the reference

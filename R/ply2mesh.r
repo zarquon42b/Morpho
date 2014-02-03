@@ -2,10 +2,7 @@
 #' 
 #' imports 3D mesh files and store them as an R .object of class mesh3d
 #' 
-#' file2mesh needs the command line tool ply2ascii from the Auxiliaries section
-#' in \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/}
-#' installed.
-#' 
+#'  
 #' @title Import 3D surface mesh files
 #' @param filename character: path to file
 #' @param adnormals Logical: If the file does not contain normal information,

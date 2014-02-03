@@ -39,10 +39,6 @@ projBack <- function(data,surface,dataname=NULL,outname=NULL,smooth=TRUE,ignore.
 #' \item{vb }{3 x m matrix containing projected points}
 #' \item{normals }{3 x m matrix containing normals}
 #' \item{quality }{vector containing distances }
-#' @note The usage of this function requires the command line tools from
-#' trimesh-tools
-#' (https://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/)
-#' installed.
 #' @author Stefan Schlager
 #' @seealso \code{\link{closemeshKD}}
 #' @references Detection of inside/outside uses the algorithm proposed in:

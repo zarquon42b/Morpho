@@ -5,8 +5,6 @@
 #' surface are sought which minimise bending energy (of a thin-plate spline
 #' deformation)
 #' 
-#' needs trimesh_project to be installed
-#' (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 #' 
 #' @param dat.array Input k x m x n real array, where k is the number of
 #' points, m is the number of dimensions, and n is the sample size. Ideally the
