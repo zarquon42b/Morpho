@@ -16,8 +16,7 @@ projRead(lm, mesh, readnormals = TRUE, smooth = TRUE, sign = TRUE, ...)
 
   \item{sign}{logical: request signed distances.}
 
-  \item{\dots}{additional arguments not used at the
-  moment.}
+  \item{\dots}{additional arguments currently not used.}
 }
 \value{
 if readnormals = FALSE, a m x 3 matrix containing projected
