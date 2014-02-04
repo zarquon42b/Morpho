@@ -49,48 +49,6 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
 Run the following command in R:
         
         require(devtools)
-        install_url("https://github.com/zarquon42b/Morpho/archive/master.zip")
+        install_github("zarquon42b/Morpho", local=FALSE")
 
 
-
-#### Installation of the command line tools (strongly recommended):###
-   To  gain full functionality of the Morpho R-package (using sliding landmarks, importing meshfiles other than ascii ply files, etc), it is required to download and install the latest version of the command line programms.
-
-1. Download the binaries appropriate for your OS from [https://github.com/zarquon42b/trimesh-cxx/releases](https://github.com/zarquon42b/trimesh-cxx/releases)
-
-2. Install files:
-    * **Windows:** simply double click trimesh-tools.msi and follow installer instructions.
-    * **OSX:**
-        1. extract the .tgz archive and copy these files e.g. to /usr/bin/ 
-        2. you also need the QT libraries QtGui and QtCore installed. If you don't know how to do that, you can download the complete QT libraries from http://qt.nokia.com/downloads and install them on your machine.
-    * **Linux:** 
-        * Debian/Ubuntu: Please use my [PPA](https://launchpad.net/~zarquon42/+archive/ppa). The package is called *trimesh-tools*.
-        * All other systems: Compile the binaries yourself ([see below](\#compilation-of-command-line-tools)).
-
-3. Test if the system finds the files (necessary for Morpho).
-    1. open a command line terminal
-    2. type *ply2ascii*
-    3. if everything is alright, you see a help message.
-	
-   
-#### Compilation of command line tools:   
-
-  1. Install QT-SDK (http://qt-project.org/downloads)
-  2. make sure to have C++ compilers installed
-  3. Get the latest sources
-       * Download the [tarball](https://github.com/zarquon42b/trimesh-cxx/archive/0.2.6.tar.gz)
-       * or use git to obtain the latest snapshot
-                    
-            git clone git://git.code.sf.net/p/morpho-rpackage/trimesh-cxx trimesh-cxx
-                
-	
-
-######Compilation
-
-        cd trimesh-cxx
-        qmake 
-        make
-
-The compiled binaries are found in the folder trimesh-cxx/bin which is created during the compilation process.
-
-Copy these binaries to any convenient directory and make sure that the directory is added to the system's PATH variable.
