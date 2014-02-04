@@ -60,7 +60,6 @@
 #' @param fixRepro logical: if \code{TRUE}, fix landmarks will also be
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
-#' @param ignore.stdout logical: supress console messages from system calls.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
@@ -131,7 +130,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE, ignore.stdout=FALSE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = detectCores(), fixRepro=TRUE)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -234,7 +233,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     if (is.null(meshlist)) {
         for (j in 1:n) {
             
-            repro <- projRead(dat.array[,,j], sur.name[j], ignore.stdout=ignore.stdout)
+            repro <- projRead(dat.array[,,j], sur.name[j])
             dat.array[,,j] <- t(repro$vb[1:3,])
             vn.array[,,j] <- t(repro$normals[1:3,])
         }
@@ -292,7 +291,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
 ###projection onto surface
         if (is.null(meshlist)) {
             for (j in 1:n) {
-                repro <- projRead(a.list[[j]],sur.name[j], ignore.stdout=ignore.stdout)
+                repro <- projRead(a.list[[j]],sur.name[j])
                 dataslide[,,j] <- t(repro$vb[1:3,])
                 vn.array[,,j] <- t(repro$normals[1:3,])
             }

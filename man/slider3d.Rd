@@ -9,7 +9,7 @@ slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
   sur.type = "ply", tol = 1e-05, deselect = FALSE, inc.check = TRUE,
   recursive = TRUE, iterations = 0, initproc = TRUE, speed = TRUE,
   pairedLM = 0, weights = NULL, mc.cores = detectCores(),
-  fixRepro = TRUE, ignore.stdout = FALSE)
+  fixRepro = TRUE)
 }
 \arguments{
   \item{dat.array}{Input k x m x n real array, where k is
@@ -103,9 +103,6 @@ slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
   will also be projected onto the surface. If you have
   landmarks not on the surface, select
   \code{fixRepro=FALSE}}
-
-  \item{ignore.stdout}{logical: supress console messages
-  from system calls.}
 }
 \value{
 \item{dataslide }{array containing slidden Landmarks in the

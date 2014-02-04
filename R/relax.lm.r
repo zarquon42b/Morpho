@@ -85,11 +85,9 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
     
     cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
     if (is.null(mesh)) {
-        projBack(lm,sur.name)
-        a <- read.table("out_cloud.ply",skip=14,sep=" ")
-        vs <- as.matrix(a[,1:3])
-        vn <- as.matrix(a[,4:6])
-        unlink("out_cloud.ply") #clean up
+        a <- projRead(lm, sur.name)
+        vs <- t(a$vb[1:3,])
+        vn <- t(a$normals[1:3,])
     } else {
         tmp <- closemeshKD(lm,mesh)
         vs <- vert2points(tmp)
@@ -104,11 +102,10 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
         dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
         if (is.null(mesh)) {
-            projBack(dataslido,sur.name)
-            a <- read.table("out_cloud.ply",skip=14,sep=" ")
-            vs <- as.matrix(a[,1:3])
-            vn <- as.matrix(a[,4:6])
-            unlink("out_cloud.ply") #clean up
+            a <- projRead(dataslido, sur.name)
+            vs <- t(a$vb[1:3,])
+            vn <- t(a$normals[1:3,])
+            
         } else {
             tmp <- closemeshKD(dataslido,mesh)
             vs <- vert2points(tmp)
