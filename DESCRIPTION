@@ -30,4 +30,4 @@ LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
 LazyLoad: yes
-URL: http://sourceforge.net/projects/morpho-rpackage/
+URL: http://sourceforge.net/projects/morpho-rpackage/, https://github.com/zarquon42b/Morpho
