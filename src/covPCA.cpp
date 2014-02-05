@@ -5,7 +5,7 @@ using namespace std;
 using namespace arma;
 
 
-double covDist(mat s1, mat s2) {
+double covDist(mat &s1, mat &s2) {
   double cdist;
   mat X, EigVec;
   cx_vec eigval, tmp(1);
@@ -16,9 +16,10 @@ double covDist(mat s1, mat s2) {
   eigval = log(eigval);
   tmp = (dot(eigval,eigval));
   cdist = real(tmp(0));
-  return(cdist);
+  return(cdist);//squared distance
 }
 
+// get pairwise squared distances for multiple groups
 mat covDistMulti(mat data, ivec groups, bool scramble) {
   typedef unsigned int uint;
   uint maxlev = groups.max();
@@ -52,8 +53,10 @@ mat covDistMulti(mat data, ivec groups, bool scramble) {
   if (any(checkvec == 2.0e30)) {
    mat errout(0,0);
    return errout;
-   } else
-   return dists;
+  } else {
+    dists = dists+dists.t();    
+    return dists;
+  }
   
 }
 cube covPCAboot(mat data, ivec groups, int rounds) {
@@ -72,6 +75,8 @@ cube covPCAboot(mat data, ivec groups, int rounds) {
     return alldist;
 
 }
+
+// permutation tests by shuffling group affinities
 cube covPCApermute(mat data, ivec groups, int rounds) {
   
   typedef unsigned int uint;
@@ -80,6 +85,7 @@ cube covPCApermute(mat data, ivec groups, int rounds) {
   for (int i = 0; i < rounds;){
     groups = shuffle(groups);
     mat result = covDistMulti(data, groups, false);
+    result = sqrt(result);
     if (result.n_cols > 0) {
       alldist.slice(i) = result;
       i++;//only increment if covPCA did not fail
@@ -89,8 +95,8 @@ cube covPCApermute(mat data, ivec groups, int rounds) {
 
 }
 
-List covMDS(mat dists) {
-  mat V = dists+dists.t();
+List covMDS(mat &dists) {
+  mat V = dists;
   unsigned int nlev = dists.n_cols;
   double hf = nlev;
   hf = -1/hf;
@@ -98,10 +104,10 @@ List covMDS(mat dists) {
   mat H(nlev,nlev);
   H.fill(hf);
   H.diag() += 1;
-  mat D = -0.5*(H*V*H);
+  mat D = -0.5*(H*dists*H);
   mat eigvec;
   vec eigval;
-  bool check = eig_sym(eigval, eigvec,D);
+  eig_sym(eigval, eigvec, D);
   uvec useandsort(nlev-1);//sort eigenvectors and values by increasing value
   for (unsigned int i = 0; i < (nlev-1); i++)
     useandsort(i) = nlev-1-i;
@@ -136,9 +142,8 @@ RcppExport SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds
     permutest = covPCApermute(armaData,armaGroups,rounds);
   return List::create(Named("dist")=sqrt(dist),
 		      Named("Scores")=out,
-		      Named("permute")=permutest)
-    ;
-
+		      Named("permute")=permutest
+		      );
 }
   
 RcppExport SEXP covWrap(SEXP s1_, SEXP s2_) {

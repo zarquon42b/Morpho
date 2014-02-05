@@ -9,7 +9,7 @@ distances to those obtained from random resampling.}
 \usage{
 covDist(s1, s2)
 
-covPCA(data, groups, scores = TRUE, rounds = 0, mc.cores = detectCores())
+covPCA(data, groups, rounds = 1000)
 }
 \arguments{
   \item{s1}{m x m covariance matrix}
@@ -21,14 +21,8 @@ covPCA(data, groups, scores = TRUE, rounds = 0, mc.cores = detectCores())
 
   \item{groups}{factor: group assignment for each specimen}
 
-  \item{scores}{logical: PCscores are calculated from
-  distance matrix}
-
   \item{rounds}{integer: rounds to run permutation of
   distances by randomly assigning group membership}
-
-  \item{mc.cores}{integer: how many CPU-cores shall be used
-  in permutation testing (not available on Windows)}
 }
 \value{
 \code{covDist} returns the distance between s1 and s2
@@ -50,9 +44,10 @@ calculate PC-coordinates of covariance matrices by using
 the Riemannian metric in their respective space.
 }
 \examples{
-require(car)
 cpca <- covPCA(iris[,1:4],iris[,5])
+cpca$p.matrix #show pairwise p-values for equal covariance matrices
 \dontrun{
+require(car)
 sp(cpca$PCscores[,1],cpca$PCscores[,2],groups=levels(iris[,5]),
    smooth=FALSE,xlim=range(cpca$PCscores),ylim=range(cpca$PCscores))
 
