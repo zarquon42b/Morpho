@@ -139,10 +139,10 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         
         L <- CreateL(atlas.lm)
         L1 <- CreateL(rbind(atlas.lm,patch))
-        
+        meshpath <- paste(path,"/",prefix,name,fileext,sep="")
         i <- 0
         parfun <- function(i){
-            tmp.name <- paste(path,prefix,name[i],fileext,sep="")
+            tmp.name <- meshpath[i]
             tmp.mesh <- vcgImport(tmp.name)
             if (!usematrix)
                 tmp.data <- projRead(dat.array[,,i],tmp.mesh,readnormals=TRUE)

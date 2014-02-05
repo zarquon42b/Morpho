@@ -117,9 +117,10 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
             k <- dim(atlas$landmarks)[1]
             #k1 <- dim(atlas$patch)[1]
         }
+        meshnames <-  paste(path,prefix,name,suffix,sep="")
         while (i <= n) {
             rgl.bringtotop()
-            tmp.name <- paste(path,prefix,name[i],suffix,sep="")
+            tmp.name <- meshnames[i]
             if (arr)
                 landmarks <- dat.array[,,i]
             else
