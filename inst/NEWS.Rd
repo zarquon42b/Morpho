@@ -3,6 +3,17 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 
+\section{Changes in Morpho version 1.99.14 (2014-02-05)}{
+ 
+    \itemize{
+      \item wrote C++ implementation of covPCA (much faster) and removed obsolete options "mc.cores" and "scores"
+      \item all functions calling trimesh-tools are now wrappers for much faster implementations from Rvcg
+      \item placePatch now runs in parallel
+    }
+  }
+
+
+
 \section{Changes in Morpho version 1.99 (2013-12-18)}{
   \subsection{R-code}{
     \itemize{

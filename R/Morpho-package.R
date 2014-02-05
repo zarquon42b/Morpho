@@ -17,12 +17,17 @@
 #' @name Morpho-package
 #' @aliases Morpho-package Morpho
 #' @docType package
-#' @author Stefan Schlager
-#'
+#' @author Stefan Schlager \email{stefan.schlager@@uniklinik-freiburg.de}
+#' 
+#' Maintainer: Stefan Schlager \email{stefan.schlager@@uniklinik-freiburg.de}
+#' @note
 #' The pdf-version of Morpho-help can be obtained from CRAN on \url{http://cran.r-project.org/web/packages/Morpho/Morpho.pdf}
 #'
+#' For more advanced operations on triangular surface meshes, check out my package Rvcg: \url{http://cran.r-project.org/web/packages/Rvcg/} or the code repository on github \url{https://github.com/zarquon42b/Rvcg}
+#'
+#'
 #' 
-#' Maintainer: Stefan Schlager <stefan.schlager@@uniklinik-freiburg.de>
+#' 
 #' @references Schlager S. 2013. Soft-tissue reconstruction of the human nose:
 #' population differences and sexual dimorphism. PhD thesis,
 #' \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg. URL:

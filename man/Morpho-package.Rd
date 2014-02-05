@@ -16,14 +16,22 @@ placement of surface landmarks.
 Version: \tab 1.99.140205\cr Date: \tab 2014-02-05\cr
 License: \tab GPL\cr LazyLoad: \tab yes\cr }
 }
-\author{
-Stefan Schlager
-
+\note{
 The pdf-version of Morpho-help can be obtained from CRAN on
 \url{http://cran.r-project.org/web/packages/Morpho/Morpho.pdf}
 
+For more advanced operations on triangular surface meshes,
+check out my package Rvcg:
+\url{http://cran.r-project.org/web/packages/Rvcg/} or the
+code repository on github
+\url{https://github.com/zarquon42b/Rvcg}
+}
+\author{
+Stefan Schlager
+\email{stefan.schlager@uniklinik-freiburg.de}
+
 Maintainer: Stefan Schlager
-<stefan.schlager@uniklinik-freiburg.de>
+\email{stefan.schlager@uniklinik-freiburg.de}
 }
 \references{
 Schlager S. 2013. Soft-tissue reconstruction of the human
