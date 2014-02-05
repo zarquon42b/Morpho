@@ -1,9 +1,4 @@
-#include <RcppArmadillo.h>
-
-using namespace Rcpp;
-using namespace std;
-using namespace arma;
-
+#include "covPCA.h"
 
 double covDist(mat &s1, mat &s2) {
   double cdist;
@@ -26,18 +21,18 @@ mat covDistMulti(mat data, ivec groups, bool scramble) {
   mat dists(maxlev,maxlev);
   double check;
   List covaList(maxlev);
- 
-    for (uint i = 0; i < maxlev; ++i) {
-      if (!scramble) {
+  // compute covariance matrix for each group
+  for (uint i = 0; i < maxlev; ++i) {
+    if (!scramble) {
       covaList[i] = cov(data.rows(arma::find(groups == (i+1))));
-      } else {
-
-	mat tmpdat = data.rows(arma::find(groups == (i+1)));
-	uint nrow = tmpdat.n_rows;
-	uvec shaker = randi<uvec>(nrow, distr_param(0,nrow));
-	covaList[i] = cov(tmpdat.rows(shaker));
-      }
+    } else {//bootstrapping within groups with replacement
+      mat tmpdat = data.rows(arma::find(groups == (i+1)));
+      uint nrow = tmpdat.n_rows;
+      uvec shaker = randi<uvec>(nrow, distr_param(0,nrow));
+      covaList[i] = cov(tmpdat.rows(shaker));
     }
+  }
+  // compute pairwise distances between covariance matrices
   dists.zeros();
   for (uint i = 0; i < (maxlev-1); ++i) {
     for (uint j = i+1; j < (maxlev); ++j){
@@ -50,9 +45,9 @@ mat covDistMulti(mat data, ivec groups, bool scramble) {
   mat checkerr = dists;
   checkerr.reshape(maxlev*maxlev,1);
   colvec checkvec = checkerr.col(0);  
-  if (any(checkvec == 2.0e30)) {
-   mat errout(0,0);
-   return errout;
+  if (any(checkvec == 2.0e30)) {//check if covDist failed solving
+    mat errout(0,0);
+    return errout;
   } else {
     dists = dists+dists.t();    
     return dists;
@@ -60,7 +55,6 @@ mat covDistMulti(mat data, ivec groups, bool scramble) {
   
 }
 cube covPCAboot(mat data, ivec groups, int rounds) {
-  
   typedef unsigned int uint;
   uint maxlev = groups.max();  
   cube alldist(maxlev, maxlev, rounds);
@@ -71,14 +65,11 @@ cube covPCAboot(mat data, ivec groups, int rounds) {
       i++;//only increment if covPCA did not fail
     }
   }
-
-    return alldist;
-
+  return alldist;
 }
 
 // permutation tests by shuffling group affinities
 cube covPCApermute(mat data, ivec groups, int rounds) {
-  
   typedef unsigned int uint;
   uint maxlev = groups.max();  
   cube alldist(maxlev, maxlev, rounds);
@@ -94,13 +85,11 @@ cube covPCApermute(mat data, ivec groups, int rounds) {
   return alldist;
 
 }
-
+// compute PCscores using MDS approach
 List covMDS(mat &dists) {
-  mat V = dists;
   unsigned int nlev = dists.n_cols;
   double hf = nlev;
   hf = -1/hf;
-
   mat H(nlev,nlev);
   H.fill(hf);
   H.diag() += 1;
@@ -113,7 +102,7 @@ List covMDS(mat &dists) {
     useandsort(i) = nlev-1-i;
   eigval = eigval.elem(useandsort);
   eigvec = eigvec.cols(useandsort);
-    
+  
   mat PCscores = eigvec;
   for (unsigned int i = 0; i < (nlev-1); i++)
     PCscores.col(i) *= sqrt(eigval(i));
@@ -125,8 +114,9 @@ List covMDS(mat &dists) {
   return out;
 }
 
-RcppExport SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
-  //bool scramble = Rcpp::as<bool>(scramble_);
+//this is the function exposed to R in covPCA
+SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
+  //process input
   int scramble = Rcpp::as<int>(scramble_);
   int rounds = as<int>(rounds_);
   Rcpp::NumericMatrix data(data_);
@@ -134,19 +124,24 @@ RcppExport SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds
   mat armaData(data.begin(), data.nrow(),data.ncol());
   ivec armaGroups(groups.begin(),groups.size(),false);
   
+  // get distance matrix
   mat dist = covDistMulti(armaData,armaGroups,false);
   //cube out = covPCAboot(armaData,armaGroups,scramble);
   List out = covMDS(dist);
+
+  // run permutations and store resulting distances in a 3D-cube
   cube permutest;
   if (rounds > 0)
     permutest = covPCApermute(armaData,armaGroups,rounds);
+  //setup List to return to R
   return List::create(Named("dist")=sqrt(dist),
 		      Named("Scores")=out,
 		      Named("permute")=permutest
 		      );
 }
-  
-RcppExport SEXP covWrap(SEXP s1_, SEXP s2_) {
+//this is a function exposed to R calculating distance only 
+//currently not used  
+SEXP covWrap(SEXP s1_, SEXP s2_) {
   NumericMatrix s1(s1_);
   NumericMatrix s2(s2_);
   mat S1(s1.begin(), s1.nrow(), s1.ncol());
