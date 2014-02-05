@@ -11,7 +11,7 @@ double covDist(mat s1, mat s2) {
   cx_vec eigval, tmp(1);
   bool check = solve(X, s1, s2);
   if (!check)
-    return 1;
+    return 2.0e30;
   eig_gen(eigval,X);
   eigval = log(eigval);
   tmp = sqrt(dot(eigval,eigval));
@@ -45,8 +45,14 @@ mat covPCA(mat data, ivec groups, int rounds, bool scramble) {
       check = covDist(tmp0,tmp1);
       dists(j,i) = check;
     }
+   
   }
-  return dists;
+ vec checkerr = conv_to<vec>::from(dists);
+ if (any(checkerr == 2.0e30)) {
+   mat errout(0,0);
+   return errout;
+ } else
+   return dists;
   
 }
 cube covPCAboot(mat data, ivec groups, int rounds) {
@@ -54,10 +60,15 @@ cube covPCAboot(mat data, ivec groups, int rounds) {
   typedef unsigned int uint;
   uint maxlev = groups.max();  
   cube alldist(maxlev, maxlev, rounds);
-  for (int i = 0; i < rounds; ++i){
-    alldist.slice(i) = covPCA(data, groups, 0, true);
+  for (int i = 0; i < rounds;){
+    mat result = covPCA(data, groups, 0, true);
+    if (result.n_cols > 0) {
+      alldist.slice(i) = result;
+      i++;//only increment if covPCA did not fail
+    }
   }
-  return alldist;
+
+    return alldist;
 
 }
 
