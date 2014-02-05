@@ -2,8 +2,7 @@ covWrap <- function(s1, s2) {
     out <- .Call("covWrap", s1, s2)
     return(out)
 }
-require(Rcpp)
-covPCAwrap <- function(data,groups,scramble=10) {
+covPCAwrap <- function(data,groups,rounds=1000,scramble=10) {
     out <- list()
     if (! is.factor(groups))
         groups <- as.factor(groups)
@@ -15,6 +14,6 @@ covPCAwrap <- function(data,groups,scramble=10) {
         data[groups==lev[i],] <- sweep(data[groups==lev[i],],2, apply(data[groups==lev[i],],2,mean))
     data <- as.matrix(data)
     groups <- as.integer(groups)
-    out <- .Call("covPCAwrap", data, groups,scramble)
+    out <- .Call("covPCAwrap", data, groups,scramble,rounds)
     return(out)
 }
