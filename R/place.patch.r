@@ -141,22 +141,23 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             name <- NULL
         }
         
+
         L <- CreateL(atlas.lm)
         L1 <- CreateL(rbind(atlas.lm,patch))
         meshpath <- paste(path,"/",prefix,name,fileext,sep="")
         i <- 0
         parfun <- function(i){
+           
             tmp.name <- meshpath[i]
             tmp.mesh <- vcgImport(tmp.name)
             if (!usematrix)
                 tmp.data <- projRead(dat.array[,,i],tmp.mesh,readnormals=TRUE)
             else
                 tmp.data <- projRead(dat.array,tmp.mesh,readnormals=TRUE)
-            
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
                 sm <- SMvector
-                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselect)
+                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=FALSE)
                 slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
                 tmp.data <- projRead(slide,tmp.mesh,readnormals=TRUE)
                 tps.lm <- tps3d(patch,atlas.lm,slide)
@@ -167,7 +168,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 sm <- 1:k
                 tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]))
             }
-
+            
             slide <- t(tmp.data$vb[1:3,])
             slidenormals <- t(tmp.data$normals[1:3,])
             if (!usematrix)   #replace projected points with original for fix landmarks
