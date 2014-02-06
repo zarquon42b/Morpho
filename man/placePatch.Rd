@@ -16,15 +16,14 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
   target specimen.}
 
   \item{path}{character: specify the directory where the
-  surface meshes of the sample are stored. In case
-  \code{dat.array} is a matrix, \code{path} is needed to
-  specifiy not only the directory, but the specific surface
-  mesh file (without fileextension if specified by
-  \code{fileext}). See examples below.}
+  surface meshes of the sample are stored.}
 
-  \item{prefix}{character: append a prefix to the specimens
-  names (stored in \code{dimnames(dat.array)[[3]]}) to
-  match the corresponding file names.}
+  \item{prefix}{character: prefix to the specimens names
+  (stored in \code{dimnames(dat.array)[[3]]}) to match the
+  corresponding file names. If \code{dat.array} has no
+  dimnames (e.g. because it is a matrix - see example
+  below), this can also be a character vector containing
+  the filenames to which \code{fileext} will be appended.}
 
   \item{fileext}{character: file extension of the surface
   meshes.}
@@ -121,7 +120,7 @@ checkLM(patched, path="./", atlas=atlas)
 ## same example with only one target specimen
 data <- longnose.lm[fix, ]
 
-patched <- placePatch(atlas, data, path="longnose", inflate=5)
+patched <- placePatch(atlas, data, prefix="longnose", path="./", inflate=5)
 wire3d(longnose.mesh,col=3)
 spheres3d(patched)
 }

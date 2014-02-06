@@ -23,12 +23,12 @@
 #' @param dat.array k x 3 x n array containing reference landmarks of the
 #' sample or a matrix in case of only one target specimen.
 #' @param path character: specify the directory where the surface meshes of the
-#' sample are stored. In case \code{dat.array} is a matrix, \code{path} is
-#' needed to specifiy not only the directory, but the specific surface mesh
-#' file (without fileextension if specified by \code{fileext}). See examples
-#' below.
-#' @param prefix character: append a prefix to the specimens names (stored in
+#' sample are stored.
+#' @param prefix character: prefix to the specimens names (stored in
 #' \code{dimnames(dat.array)[[3]]}) to match the corresponding file names.
+#' If \code{dat.array} has no dimnames (e.g. because it is a matrix - see example below),
+#' this can also be a character vector
+#' containing the filenames to which \code{fileext} will be appended.
 #' @param fileext character: file extension of the surface meshes.
 #' @param ray logical: projection will be along surface normals instead of
 #' simple closest point search.
@@ -48,7 +48,9 @@
 #' \code{relax.patch=TRUE}, those points exceeding this value will be relaxed
 #' freely (i.e. not restricted to tangent plane).
 #' @param silent logical: suppress messages.
-#' @param mc.cores run in parallel (experimental stuff now even available on Windows). On windows this will only lead to a significant speed boost for many configurations, as all required packages (Morpho and Rvcg) need to be loaded by each newly spawned process.
+#' @param mc.cores run in parallel (experimental stuff now even available on Windows).
+#' On windows this will only lead to a significant speed boost for many configurations,
+#' as all required packages (Morpho and Rvcg) need to be loaded by each newly spawned process.
 #' @return array containing the projected coordinates appended to the
 #' data.array specified in the input. In case dat.array is a matrix only a
 #' matrix is returned.
@@ -91,7 +93,7 @@
 #' ## same example with only one target specimen
 #' data <- longnose.lm[fix, ]
 #' 
-#' patched <- placePatch(atlas, data, path="longnose", inflate=5)
+#' patched <- placePatch(atlas, data, prefix="longnose", path="./", inflate=5)
 #' wire3d(longnose.mesh,col=3)
 #' spheres3d(patched)
 #' }
@@ -107,18 +109,20 @@ placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=
             tol <- inflate
         if (mc.cores > 1)
             silent <- TRUE
-             
+        
         patched <- place.patch(dat.array, path, atlas.mesh =atlas$mesh, atlas.lm = atlas$landmarks, patch =atlas$patch, curves=atlas$patchCurves, prefix=prefix, tol=tol, ray=ray, outlines=atlas$corrCurves, inflate=inflate, relax.patch=relax.patch, rhotol=rhotol, fileext=fileext, SMvector = keep.fix, silent=silent,mc.cores=mc.cores)
         return(patched)
     }
-
+#' @importFrom foreach registerDoSEQ
 place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,prefix=NULL,tol=5,ray=T,outlines=NULL,SMvector=NULL,inflate=NULL,relax.patch=TRUE,rhotol=NULL,fileext=".ply", silent=FALSE, mc.cores=1)
     {
-        if (.Platform$OS.type == "windows") {
+        if (.Platform$OS.type == "windows" && mc.cores > 1) {
             cl <- makeCluster(mc.cores)            
             registerDoParallel(cl=cl)
-        } else
+        } else if (mc.cores > 1) {
             registerDoParallel(cores = mc.cores)
+        } else
+            registerDoSEQ()
         
         k <- dim(dat.array)[1]
         deselect=TRUE
@@ -170,7 +174,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 slide[fix,] <- dat.array[fix,,i]
             else
                 slide[fix,] <- dat.array[fix,]
-                                      
+            
 ### use for mullitlayer meshes to avoid projection inside
             if (!is.null(inflate)) {
                 atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide, silent=silent)
@@ -189,6 +193,11 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             free <- NULL
 ### compare normals of projection and original points
             if (!is.null(rhotol)) {
+                if (!relax.patch) {
+                    relax.patch <- TRUE
+                    cat("relaxing enabled because rhotol is set")
+                }
+                
                 rho <- NULL
                 rho <- sapply(1:patch.dim, function(j) {
                     out <- angle.calc(tps.lm$normals[1:3,j],warp.norm[1:3,j])
@@ -219,7 +228,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             } else {# end relaxation ########################
                 tps.lm <- t(tps.lm$vb[1:3,])
             }
-             
+            
             if (!usematrix)
                 out <- rbind(dat.array[,,i],tps.lm)
             else
@@ -230,15 +239,15 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         out <- foreach(i=1:n, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho","Rvcg")) %dopar% parfun(i)
 
         if (!usematrix && n > 1) {
-             tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
-             for (i in 1:n)               
-                 tmpout[,,i] <- out[[i]]
-             out <- tmpout
-             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
-         } else {
-             out <- out[[1]]
-         }
-        if (.Platform$OS.type == "windows")
+            tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
+            for (i in 1:n)               
+                tmpout[,,i] <- out[[i]]
+            out <- tmpout
+            dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
+        } else {
+            out <- out[[1]]
+        }
+        if (.Platform$OS.type == "windows" && mc.cores > 1)
             stopCluster(cl)
         return(out)
     }
