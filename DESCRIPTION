@@ -1,8 +1,8 @@
 Package: Morpho
 Type: Package
 Title: Calculations and visualisations related to Geometric Morphometrics
-Version: 1.99.140205
-Date: 2014-02-05
+Version: 1.99.140206
+Date: 2014-02-06
 Author: Stefan Schlager
 Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
 Description: A toolset for Geometric Morphometrics and mesh processing. This
@@ -30,4 +30,5 @@ LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
 LazyLoad: yes
-URL: http://sourceforge.net/projects/morpho-rpackage/, https://github.com/zarquon42b/Morpho
+URL: http://sourceforge.net/projects/morpho-rpackage/,
+    https://github.com/zarquon42b/Morpho
