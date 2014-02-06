@@ -9,7 +9,8 @@ distances to those obtained from random resampling.}
 \usage{
 covDist(s1, s2)
 
-covPCA(data, groups, rounds = 1000)
+covPCA(data, groups, rounds = 1000, bootrounds = 0, lower.bound = 0.05,
+  upper.bound = 0.95)
 }
 \arguments{
   \item{s1}{m x m covariance matrix}
@@ -23,6 +24,16 @@ covPCA(data, groups, rounds = 1000)
 
   \item{rounds}{integer: rounds to run permutation of
   distances by randomly assigning group membership}
+
+  \item{bootrounds}{integer: perform bootstrapping to
+  generate confidence intervals (lower boundary, median and
+  upper boundary) for PC-scores.}
+
+  \item{lower.bound}{numeric: set probability (quantile)
+  for lower boundary estimate from bootstrapping.}
+
+  \item{upper.bound}{numeric: set probability (quantile)
+  for upper boundary estimate from bootstrapping.}
 }
 \value{
 \code{covDist} returns the distance between s1 and s2
@@ -33,7 +44,11 @@ if \code{scores = TRUE} \item{PCscores }{PCscores}
 \item{eigen}{eigen decomposition of the centered inner
 product} if \code{rounds > 0} \item{dist }{distance matrix}
 \item{p.matrix }{p-values for pairwise distances from
-permutation testing}
+permutation testing} if \code{bootrounds > 0}
+\item{bootstrap}{list containing the lower and upper bound
+of the confidence intervals of PC-scores as well as the
+median of bootstrapped values.} \item{boot.data}{array
+containing all results generated from bootstrapping.}
 }
 \description{
 calculate distances and PC-coordinates of covariance
@@ -66,6 +81,17 @@ spm(proc$PCscores[,1:5], groups=pop, smooth=FALSE,ellipse=TRUE, by.groups=TRUE)
 cpca2 <- covPCA(proc$PCscores[,1:4], groups=pop, rounds = 1000)
 ## view p-values:
 cpca2$p.matrix # significance is gone
+}
+#do some bootstrapping 1000 rounds
+cpca <- covPCA(iris[,1:4],iris[,5],rounds=0, bootrounds=1000)
+#plot bootstrapped data of PC1 and PC2 for first group
+plot(t(cpca$boot.data[1,1:2,]),xlim=range(cpca$boot.data[,1,]),
+                               ylim=range(cpca$boot.data[,2,]))
+points(t(cpca$PCscores[1,]),col="white",pch=8,cex=1.5)##plot actual values
+
+for (i in 2:3) {
+  points(t(cpca$boot.data[i,1:2,]),col=i)##plot other groups
+  points(t(cpca$PCscores[i,]),col=1,pch=8,cex=1.5)##plot actual values
 }
 }
 \author{

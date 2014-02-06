@@ -1,5 +1,5 @@
 #include "covPCA.h"
-
+#include "doozers.h"
 double covDist(mat &s1, mat &s2) {
   double cdist;
   mat X, EigVec;
@@ -15,7 +15,7 @@ double covDist(mat &s1, mat &s2) {
 }
 
 // get pairwise squared distances for multiple groups
-mat covDistMulti(mat data, ivec groups, bool scramble) {
+mat covDistMulti(mat &data, ivec groups, bool scramble) {
   typedef unsigned int uint;
   uint maxlev = groups.max();
   mat dists(maxlev,maxlev);
@@ -28,7 +28,7 @@ mat covDistMulti(mat data, ivec groups, bool scramble) {
     } else {//bootstrapping within groups with replacement
       mat tmpdat = data.rows(arma::find(groups == (i+1)));
       uint nrow = tmpdat.n_rows;
-      uvec shaker = randi<uvec>(nrow, distr_param(0,nrow));
+      uvec shaker = randi<uvec>(nrow, distr_param(0,nrow-1));
       covaList[i] = cov(tmpdat.rows(shaker));
     }
   }
@@ -54,14 +54,23 @@ mat covDistMulti(mat data, ivec groups, bool scramble) {
   }
   
 }
-cube covPCAboot(mat data, ivec groups, int rounds) {
+cube covPCAboot(mat &data, ivec groups, int rounds) {
   typedef unsigned int uint;
-  uint maxlev = groups.max();  
-  cube alldist(maxlev, maxlev, rounds);
+  uint maxlev = groups.max();
+  mat reference = covDistMulti(data, groups, false);
+  List refList = covMDS(reference);
+  mat refscores = refList["PCscores"];
+  cube alldist(maxlev, maxlev-1, rounds);
   for (int i = 0; i < rounds;){
     mat result = covDistMulti(data, groups, true);
     if (result.n_cols > 0) {
-      alldist.slice(i) = result;
+      List tmplist = covMDS(result);
+      mat tmpscores = tmplist["PCscores"];
+      for (uint j =0; j < tmpscores.n_cols; j++) {
+	if (angcalcArma(tmpscores.col(j),refscores.col(j)) > 1.570796f )
+	  tmpscores.col(j) *= -1;
+	  }
+      alldist.slice(i) = tmpscores;
       i++;//only increment if covPCA did not fail
     }
   }
@@ -69,7 +78,7 @@ cube covPCAboot(mat data, ivec groups, int rounds) {
 }
 
 // permutation tests by shuffling group affinities
-cube covPCApermute(mat data, ivec groups, int rounds) {
+cube covPCApermute(mat &data, ivec groups, int rounds) {
   typedef unsigned int uint;
   uint maxlev = groups.max();  
   cube alldist(maxlev, maxlev, rounds);
@@ -126,7 +135,11 @@ SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
   
   // get distance matrix
   mat dist = covDistMulti(armaData,armaGroups,false);
-  //cube out = covPCAboot(armaData,armaGroups,scramble);
+  cube bootstrap;
+  // run bootstrapping of PCscores.
+  if (scramble > 0)
+    bootstrap = covPCAboot(armaData,armaGroups,scramble);
+  
   List out = covMDS(dist);
 
   // run permutations and store resulting distances in a 3D-cube
@@ -136,7 +149,8 @@ SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
   //setup List to return to R
   return List::create(Named("dist")=sqrt(dist),
 		      Named("Scores")=out,
-		      Named("permute")=permutest
+		      Named("permute")=permutest,
+		       Named("bootstrap")=bootstrap
 		      );
 }
 //this is a function exposed to R calculating distance only 

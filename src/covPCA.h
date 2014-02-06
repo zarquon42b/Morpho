@@ -8,11 +8,11 @@ using namespace arma;
 
 double covDist(mat &s1, mat &s2);
 
-mat covDistMulti(mat data, ivec groups, bool scramble);
+mat covDistMulti(mat &data, ivec groups, bool scramble);
 
-cube covPCAboot(mat data, ivec groups, int rounds);
+cube covPCAboot(mat &data, ivec groups, int rounds);
 
-cube covPCApermute(mat data, ivec groups, int rounds);
+cube covPCApermute(mat &data, ivec groups, int rounds);
 
 List covMDS(mat &dists);
 
