@@ -13,8 +13,8 @@ placement of surface landmarks.
 }
 \details{
 \tabular{ll}{ Package: \tab Morpho\cr Type: \tab Package\cr
-Version: \tab 1.99.140206\cr Date: \tab 2014-02-06\cr
-License: \tab GPL\cr LazyLoad: \tab yes\cr }
+Version: \tab 2.0\cr Date: \tab 2014-02-06\cr License: \tab
+GPL\cr LazyLoad: \tab yes\cr }
 }
 \note{
 The pdf-version of Morpho-help can be obtained from CRAN on
