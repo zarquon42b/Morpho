@@ -157,7 +157,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
                 sm <- SMvector
-                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=FALSE)
+                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=1:k,outlines=outlines,surface=NULL,deselect=FALSE)
                 slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
                 tmp.data <- projRead(slide,tmp.mesh,readnormals=TRUE)
                 tps.lm <- tps3d(patch,atlas.lm,slide)
