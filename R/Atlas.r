@@ -28,14 +28,14 @@
 #'             shortnose.lm[c(1:5,20:21),], patch=shortnose.lm[-c(1:5,20:21),])
 #' 
 #' @export
-createAtlas <- function(mesh, landmarks, patch, corrCuves=NULL, patchCurves=NULL,keep.fix=NULL)
+createAtlas <- function(mesh, landmarks, patch, corrCurves=NULL, patchCurves=NULL,keep.fix=NULL)
     {
         atlas <- list()
         class(atlas) <- "atlas"
         atlas$mesh <- mesh
         atlas$landmarks <- landmarks
         atlas$patch <- patch
-        atlas$corrCurves <- corrCuves
+        atlas$corrCurves <- corrCurves
         atlas$patchCurves<- patchCurves
         atlas$keep.fix <- keep.fix
         return(atlas)
