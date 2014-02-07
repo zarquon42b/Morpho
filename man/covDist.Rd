@@ -1,11 +1,7 @@
 \name{covDist}
 \alias{covDist}
 \alias{covPCA}
-\title{calculate distances and PC-coordinates of covariance matrices
-\code{covDist} calculates the Distance between covariance matrices while \code{covPCA} uses a MDS (multidimensional scaling) approach to obtain PC-coordinates
-from a  distance matrix derived from multiple groups. P-values for pairwise
-distances can be computed by permuting group membership and comparing actual
-distances to those obtained from random resampling.}
+\title{calculates distances and PC-coordinates of covariance matrices}
 \usage{
 covDist(s1, s2)
 
@@ -51,12 +47,18 @@ median of bootstrapped values.} \item{boot.data}{array
 containing all results generated from bootstrapping.}
 }
 \description{
-calculate distances and PC-coordinates of covariance
-matrices
+calculates PC-coordinates of covariance matrices by using
+the Riemannian metric in their respective space.
 }
 \details{
-calculate PC-coordinates of covariance matrices by using
-the Riemannian metric in their respective space.
+\code{covDist} calculates the Distance between covariance
+matrices while \code{covPCA} uses a MDS (multidimensional
+scaling) approach to obtain PC-coordinates from a distance
+matrix derived from multiple groups. P-values for pairwise
+distances can be computed by permuting group membership and
+comparing actual distances to those obtained from random
+resampling. To calculate confidence intervals for
+PC-scores, within-group bootstrapping can be performed.
 }
 \examples{
 cpca <- covPCA(iris[,1:4],iris[,5])
