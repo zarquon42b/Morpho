@@ -47,7 +47,10 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
   \item{keep.fix}{integer: rowindices of those landmarks
   that are not allowed to be relaxed in case
   \code{relax.patch=TRUE}. If not specified, all landmarks
-  will be kept fix.}
+  will be kept fix - in case you specified corrCurves on
+  the atlas, you should define explicitly which landmarks
+  (also on the curves) are supposed to fix to prevent them
+  from sliding.}
 
   \item{rhotol}{numeric: maximum amount of deviation a hit
   point's normal is allowed to deviate from the normal
@@ -79,15 +82,18 @@ This function allows the (relatively) easy projection of
 surface points defined on an atlas onto all surface of a
 given sample by Thin-Plate Spline deformation and
 additional mechanisms to avoid distortions. The algorithm
-can be outlined as followed.  \enumerate{ \item deform
-atlas onto targets by TPS based on predefined landmarks
-(and curves). \item project coordinates on deformed atlas
-onto target mesh \item 'inflate' or 'deflate' configuration
+can be outlined as followed.  \enumerate{ \item relax
+curves (if specified) against atlas. \item deform atlas
+onto targets by TPS based on predefined landmarks (and
+curves). \item project coordinates on deformed atlas onto
+target mesh \item 'inflate' or 'deflate' configuration
 along their normals to make sure all coordinates are on the
 outside/inside \item Project inflated points back onto
 surface along these normals. \item Check if normals are
 roughly pointing into the same direction as those on the
 (deformed) atlas. \item Relax all points against atlas.
+\item the predefined coordinates will note change
+afterwards!
 
 }
 }

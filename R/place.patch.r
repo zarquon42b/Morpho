@@ -8,6 +8,7 @@
 #' defined on an atlas onto all surface of a given sample by Thin-Plate Spline
 #' deformation and additional mechanisms to avoid distortions. The algorithm
 #' can be outlined as followed.  \enumerate{
+#' \item relax curves (if specified) against atlas.
 #' \item deform atlas onto targets by TPS based on predefined landmarks (and curves).
 #' \item project coordinates on deformed atlas onto target mesh
 #' \item 'inflate' or 'deflate' configuration along their normals to make sure
@@ -16,6 +17,7 @@
 #' \item Check if normals are roughly pointing into the same direction as those
 #' on the (deformed) atlas.
 #' \item Relax all points against atlas.
+#' \item the predefined coordinates will note change afterwards!
 #' 
 #' }
 #' 
@@ -42,7 +44,7 @@
 #' toward the atlas.
 #' @param keep.fix integer: rowindices of those landmarks that are not allowed
 #' to be relaxed in case \code{relax.patch=TRUE}. If not specified, all
-#' landmarks will be kept fix.
+#' landmarks will be kept fix - in case you specified corrCurves on the atlas, you should define explicitly which landmarks (also on the curves) are supposed to fix to prevent them from sliding.
 #' @param rhotol numeric: maximum amount of deviation a hit point's normal is
 #' allowed to deviate from the normal defined on the atlas. If
 #' \code{relax.patch=TRUE}, those points exceeding this value will be relaxed
@@ -157,7 +159,16 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
                 sm <- SMvector
-                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=1:k,outlines=outlines,surface=NULL,deselect=FALSE)
+                deselcurve <- TRUE
+                if (prod(length(unique(SMvector)) == k)) {
+                    message("There are corresponding curves but no fix landmarks specified")
+                    SMvector <- c(1:k)[which(! (1:k %in% unlist(outlines)))]
+                    if (!length(SMvector)) {
+                        SMvector <- 1:k
+                        deselcurve <- FALSE
+                    }
+                }
+                U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselcurve)
                 slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
                 tmp.data <- projRead(slide,tmp.mesh,readnormals=TRUE)
                 tps.lm <- tps3d(patch,atlas.lm,slide)
