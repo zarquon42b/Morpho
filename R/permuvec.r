@@ -64,7 +64,7 @@
 #' ## also non-significant
 #' 
 #' @export
-permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=detectCores())
+permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=parallel::detectCores())
 {
   win <- FALSE
   if(.Platform$OS.type == "windows")

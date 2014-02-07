@@ -33,7 +33,7 @@
 #' 
 #' 
 #' @export
-NNshapeReg <- function(x,y=NULL, n=3, mahalanobis=FALSE,mc.cores = detectCores())
+NNshapeReg <- function(x,y=NULL, n=3, mahalanobis=FALSE,mc.cores = parallel::detectCores())
   {
       if (is.null(y))
           y <- x

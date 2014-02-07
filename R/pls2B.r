@@ -58,7 +58,7 @@
 #' 
 #' 
 #' @export
-pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=detectCores())
+pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=parallel::detectCores())
   {
     landmarks <- FALSE
     xorig <- x

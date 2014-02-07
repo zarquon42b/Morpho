@@ -81,7 +81,7 @@
 #' 
 #' 
 #' @export
-groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=detectCores(), weighting=TRUE)
+groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.cores=parallel::detectCores(), weighting=TRUE)
 {
     pmatrix.proc <- NULL
     proc.distout <- NULL

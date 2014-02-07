@@ -31,7 +31,7 @@
 #' }
 #' 
 #' @export
-mcNNindex <- function(target,query,cores=detectCores(),k=k,...)
+mcNNindex <- function(target,query,cores=parallel::detectCores(),k=k,...)
     {
         if(.Platform$OS.type == "windows")
             cores <- 1
