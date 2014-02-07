@@ -8,10 +8,14 @@
 #' as on each specimen in the corresponding sample.
 #' @param patch matrix containing semi-landmarks to be projected onto each
 #' specimen in the corresponding sample.
-#' @param corrCuves integer vector specifiyng the rowindices of
-#' \code{landmarks} to be curves defined on the atlas AND each specimen.
-#' @param patchCurves integer vector specifiyng the rowindices of \code{patch}
-#' to be curves only defined on the atlas.
+#' @param corrCuves a vector or a list containing vectors specifiyng the rowindices of
+#' \code{landmarks} to be curves that are defined on the atlas AND each specimen.
+#' e.g. if landmarks 2:4 and 5:10 are two distinct curves, one would specifiy \code{corrCurves = list(c(2:4), c(5:10))}.
+#' @param patchCurves a vector or a list containing vectors specifiyng the
+#' rowindices of \code{landmarks} to be curves that are defined ONLY on the
+#' atlas. E.g. if coordinates 5:10 and 20:40 on the \code{patch} are two
+#' distinct curves, one would specifiy \code{patchCurves = list(c(5:10),c(20:40))}.
+#' @param keep.fix in case corrCurves are set, specify explicitly which landmarks are not allowed to slide during projection (with \code{placePatch})
 #' @return Returns a list of class "atlas".  Its content is corresponding to
 #' argument names.
 #' @note This is a helper function of \code{\link{placePatch}}.
@@ -24,7 +28,7 @@
 #'             shortnose.lm[c(1:5,20:21),], patch=shortnose.lm[-c(1:5,20:21),])
 #' 
 #' @export
-createAtlas <- function(mesh, landmarks, patch, corrCuves=NULL, patchCurves=NULL)
+createAtlas <- function(mesh, landmarks, patch, corrCuves=NULL, patchCurves=NULL,keep.fix=NULL)
     {
         atlas <- list()
         class(atlas) <- "atlas"
@@ -33,6 +37,7 @@ createAtlas <- function(mesh, landmarks, patch, corrCuves=NULL, patchCurves=NULL
         atlas$patch <- patch
         atlas$corrCurves <- corrCuves
         atlas$patchCurves<- patchCurves
+        atlas$keep.fix <- keep.fix
         return(atlas)
     }
 
@@ -104,8 +109,15 @@ plotAtlas <- function(atlas, pt.size=NULL, alpha=1, render=c("w","s"), point=c("
             outid <- rend(atlas$mesh, col=meshcol, alpha=alpha)
         ## plot reference landmarks and patch
         landm <- atlas$landmarks
-        if (!is.null(atlas$corrCurves))
-            landm <- landm[-unlist(atlas$corrCurves),]
+        if (!is.null(atlas$corrCurves)) {
+            tmpcurves <- unique(sort(unlist(atlas$corrCurves)))
+            if (!is.null(atlas$keep.fix)) {
+                check <- tmpcurves[-which(atlas$keep.fix %in% tmpcurves)]
+                if (length(check))
+                    tmpcurves <- tmpcurves[-which(atlas$keep.fix %in% tmpcurves)]
+            }
+            landm <- landm[-tmpcurves,]
+        } 
         patch <- atlas$patch
          if (!is.null(atlas$patchCurves))
             patch <- patch[-unlist(atlas$patchCurves),]

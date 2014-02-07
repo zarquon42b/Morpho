@@ -2,7 +2,8 @@
 \alias{createAtlas}
 \title{Create an atlas needed in placePatch}
 \usage{
-createAtlas(mesh, landmarks, patch, corrCuves = NULL, patchCurves = NULL)
+createAtlas(mesh, landmarks, patch, corrCuves = NULL, patchCurves = NULL,
+  keep.fix = NULL)
 }
 \arguments{
   \item{mesh}{triangular mesh representing the atlas'
@@ -16,13 +17,23 @@ createAtlas(mesh, landmarks, patch, corrCuves = NULL, patchCurves = NULL)
   projected onto each specimen in the corresponding
   sample.}
 
-  \item{corrCuves}{integer vector specifiyng the rowindices
-  of \code{landmarks} to be curves defined on the atlas AND
-  each specimen.}
+  \item{corrCuves}{a vector or a list containing vectors
+  specifiyng the rowindices of \code{landmarks} to be
+  curves that are defined on the atlas AND each specimen.
+  e.g. if landmarks 2:4 and 5:10 are two distinct curves,
+  one would specifiy \code{corrCurves = list(c(2:4),
+  c(5:10))}.}
 
-  \item{patchCurves}{integer vector specifiyng the
-  rowindices of \code{patch} to be curves only defined on
-  the atlas.}
+  \item{patchCurves}{a vector or a list containing vectors
+  specifiyng the rowindices of \code{landmarks} to be
+  curves that are defined ONLY on the atlas. E.g. if
+  coordinates 5:10 and 20:40 on the \code{patch} are two
+  distinct curves, one would specifiy \code{patchCurves =
+  list(c(5:10),c(20:40))}.}
+
+  \item{keep.fix}{in case corrCurves are set, specify
+  explicitly which landmarks are not allowed to slide
+  during projection (with \code{placePatch})}
 }
 \value{
 Returns a list of class "atlas".  Its content is

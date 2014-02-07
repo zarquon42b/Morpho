@@ -44,7 +44,9 @@
 #' toward the atlas.
 #' @param keep.fix integer: rowindices of those landmarks that are not allowed
 #' to be relaxed in case \code{relax.patch=TRUE}. If not specified, all
-#' landmarks will be kept fix - in case you specified corrCurves on the atlas, you should define explicitly which landmarks (also on the curves) are supposed to fix to prevent them from sliding.
+#' landmarks will be kept fix. This is preferably set during atlas creation with \code{createAtlas}:
+#' In case you specified corrCurves on the atlas, you should define explicitly which landmarks
+#' (also on the curves) are supposed to fix to prevent them from sliding.
 #' @param rhotol numeric: maximum amount of deviation a hit point's normal is
 #' allowed to deviate from the normal defined on the atlas. If
 #' \code{relax.patch=TRUE}, those points exceeding this value will be relaxed
@@ -105,8 +107,13 @@ placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=
     {
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
-        if (is.null(keep.fix))
-            keep.fix <- 1:dim(atlas$landmarks)[1]
+        
+        if (is.null(keep.fix)) {
+            if (is.null(atlas$keep.fix))
+                keep.fix <- 1:dim(atlas$landmarks)[1]
+            else
+                keep.fix <- atlas$keep.fix
+        }
         if (is.null(tol) && !is.null(inflate))
             tol <- inflate
         if (mc.cores > 1)
@@ -202,6 +209,11 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             relax <- rbind(slide,t(tps.lm$vb[1:3,]))
             normals <- rbind(slidenormals,t(tps.lm$normals[1:3,]))
             surface <- c((k+1):(patch.dim+k))  ## define surface as appended to preset landmarks
+            if (!is.null(curves)) {
+                if (!is.list(curves))
+                    curves <- list(curves)
+                curves <- lapply(curves,function(x) x+k)
+            }
             free <- NULL
 ### compare normals of projection and original points
             if (!is.null(rhotol)) {
@@ -226,12 +238,14 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             
 ### relax patch against reference ###
             if (relax.patch){ ### relax against reference
+                if (!is.list(outlines) && !is.null(outlines))
+                    outlines <- list(outlines)
                 outltmp <- append(outlines,curves) ## add curves from patch to predefined curves
-                remout <- which(surface %in% curves)
-                
-                if (length(remout) > 0)
+                remout <- which(surface %in% unlist(curves))
+               
+                if (length(remout))
                     surface <- surface[-remout] ### remove patch curves from surface 
-                if (length(surface)==0)
+                if (!length(surface))
                     surface <- NULL
                 
                 U1 <- .calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)

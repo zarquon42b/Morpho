@@ -47,10 +47,11 @@ placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
   \item{keep.fix}{integer: rowindices of those landmarks
   that are not allowed to be relaxed in case
   \code{relax.patch=TRUE}. If not specified, all landmarks
-  will be kept fix - in case you specified corrCurves on
-  the atlas, you should define explicitly which landmarks
-  (also on the curves) are supposed to fix to prevent them
-  from sliding.}
+  will be kept fix. This is preferably set during atlas
+  creation with \code{createAtlas}: In case you specified
+  corrCurves on the atlas, you should define explicitly
+  which landmarks (also on the curves) are supposed to fix
+  to prevent them from sliding.}
 
   \item{rhotol}{numeric: maximum amount of deviation a hit
   point's normal is allowed to deviate from the normal
