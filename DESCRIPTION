@@ -15,7 +15,7 @@ Suggests:
     MASS,
     shapes
 Depends:
-    R (>= 3.0.0)
+    R (>= 3.0.2)
 Imports:
     Rvcg,
     rgl (>= 0.93.963),
