@@ -3,7 +3,7 @@
 \title{Estimate the shape by averaging the shape of the nearest neighbours.}
 \usage{
 NNshapeReg(x, y = NULL, n = 3, mahalanobis = FALSE,
-  mc.cores = detectCores())
+  mc.cores = parallel::detectCores())
 }
 \arguments{
   \item{x}{an array or matrix (one row per specim) with

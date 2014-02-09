@@ -2,7 +2,7 @@
 \alias{mcNNindex}
 \title{find nearest neighbours for point clouds}
 \usage{
-mcNNindex(target, query, cores = detectCores(), k = k, ...)
+mcNNindex(target, query, cores = parallel::detectCores(), k = k, ...)
 }
 \arguments{
   \item{target}{\code{k x m} matrix containing data which

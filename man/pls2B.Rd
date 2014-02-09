@@ -3,7 +3,7 @@
 \title{Two-Block partial least square regression.}
 \usage{
 pls2B(x, y, tol = 1e-12, same.config = FALSE, rounds = 0,
-  mc.cores = detectCores())
+  mc.cores = parallel::detectCores())
 }
 \arguments{
   \item{y}{array containing superimposed landmark data of
