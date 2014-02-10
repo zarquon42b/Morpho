@@ -110,6 +110,8 @@ covPCA <- function(data,groups,rounds=1000,bootrounds=0,lower.bound=0.05, upper.
         data[groups==lev[i],] <- sweep(data[groups==lev[i],],2, apply(data[groups==lev[i],],2,mean))
     data <- as.matrix(data)
     groups <- as.integer(groups)
+    rounds <- as.integer(rounds)[1]
+    bootrounds <- as.integer(bootrounds)[1]
     result <- .Call("covPCAwrap", data, groups,bootrounds,rounds)
     
     dist <- result$dist
