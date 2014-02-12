@@ -9,13 +9,14 @@ mirrMissingArray <- function(x,pairedLM) {
         
 mirrMissing <- function(x,pairedLM) {
     data <- x
-    checkvec <- rep(0,n)
+    
+    checkvec <-NULL
     count <- 0
     k <- nrow(x)
     checklist <- NA
     unilatNA <- NULL
     for (j in 1:k) {
-        if (NA%in%data[j,]) {
+        if (TRUE %in% is.na(data[j,])) {
             count <- count+1
             checklist[count] <- j
             checkvec <- 1
@@ -43,10 +44,9 @@ mirrMissing <- function(x,pairedLM) {
    
     if (!prod(checklist %in% pairedLM)){
         warning("missing landmarks are not bilateral")
-        unilatNA <- append(unilatNA,which(! checklist %in% pairedLM))
+        unilatNA <- append(unilatNA,checklist[which(! checklist %in% pairedLM)])
     }
-    
-    
+     
     
     xmir <- x %*% diag(c(-1,1,1))#mirror landmarks
     xmir[c(pairedLM),] <- xmir[c(pairedLM[,2:1]),]##relabel landmarks
