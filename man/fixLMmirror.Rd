@@ -1,0 +1,55 @@
+\name{fixLMmirror}
+\alias{fixLMmirror}
+\alias{fixLMmirror.array}
+\alias{fixLMmirror.matrix}
+\title{estimate missing landmarks from their bilateral counterparts}
+\usage{
+fixLMmirror(x, pairedLM)
+
+\method{fixLMmirror}{array}(x, pairedLM)
+
+\method{fixLMmirror}{matrix}(x, pairedLM)
+}
+\arguments{
+  \item{x}{a matrix or an array containing landmarks (3D or
+  2D)}
+
+  \item{pairedLM}{a k x 2 matrix containing the indices
+  (rownumbers) of the paired LM. E.g. the left column
+  contains the lefthand landmarks, while the right side
+  contains the corresponding right hand landmarks.}
+}
+\value{
+a matrix or array with fixed missing bilateral landmarks.
+}
+\description{
+estimate missing landmarks from their bilateral
+counterparts
+}
+\details{
+the configurations are mirrored and the relabled version is
+matched onto the original using a thin-plate spline
+deformation. The missing landmark is now estimated using
+its bilateral counterpart.
+}
+\note{
+in case both landmarks of a bilateral pair are missing a
+message will be issued. As well if there are missing
+landmarks on the midsaggital plane are detected.
+}
+\examples{
+#' data(boneData)
+left <- c(4,6,8)
+## determine corresponding Landmarks on the right side:
+# important: keep same order
+right <- c(3,5,7)
+pairedLM <- cbind(left, right)
+exampmat <- boneLM[,,1]
+exampmat[4,] <- NA #set 4th landmark to be NA
+fixed <- fixLMmirror(exampmat, pairedLM=pairedLM)
+\dontrun{
+deformGrid3d(fixed, boneLM[,,1],ngrid=0)
+## result is a bit off due to actual asymmetry
+}
+}
+

@@ -5,7 +5,6 @@
 #' dividing the variance in the predicted dat by the variance of the original
 #' data. No additional adjustments are made!!
 #'
-#' @title calculate variance of a distribution stemming from prediction models
 #' @param model a model of classes "lm" or "mvr" (from the package "pls")
 #' @param ncomp How many latent variables to use (only for mvr models)
 #' @param val use cross-vaildated predictions (only for mvr models)
