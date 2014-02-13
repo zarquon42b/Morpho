@@ -10,7 +10,7 @@
 #' @details the configurations are mirrored and the relabled version is matched onto the original using a thin-plate spline deformation. The missing landmark is now estimated using its bilateral counterpart.
 #' @return a matrix or array with fixed missing bilateral landmarks.
 #' @examples
-#' #' data(boneData)
+#' data(boneData)
 #' left <- c(4,6,8)
 #' ## determine corresponding Landmarks on the right side:
 #' # important: keep same order

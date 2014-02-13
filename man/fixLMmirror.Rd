@@ -38,7 +38,7 @@ message will be issued. As well if there are missing
 landmarks on the midsaggital plane are detected.
 }
 \examples{
-#' data(boneData)
+data(boneData)
 left <- c(4,6,8)
 ## determine corresponding Landmarks on the right side:
 # important: keep same order
