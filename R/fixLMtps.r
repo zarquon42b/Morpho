@@ -65,7 +65,7 @@ fixLMtps <- function(data,comp=3,weight=TRUE)
       count <- 0
       checklist[[i]] <- NA
       for (j in 1:k) {
-          if (NA%in%data[j,,i]) {
+          if (sum(is.na(data[j,,i]))) {
               count <- count+1
               checklist[[i]][count] <- j
               checkvec[i] <- 1
@@ -73,7 +73,13 @@ fixLMtps <- function(data,comp=3,weight=TRUE)
       }
   }
   ## calc mean of complete configs ###
+  
   check <- which(checkvec==1)
+  if (!length(check)) {
+    message("nothing to fix")
+    return(data)
+  }
+    
   data.c <- data[,,-check]
   ## check if there are enough configs to use weighting option
   if (length(dim(data.c)) < 3) {
@@ -82,13 +88,13 @@ fixLMtps <- function(data,comp=3,weight=TRUE)
           ngood <- 1
       } else
           stop("there is no complete configuration to use")
-  } else
+  } else {
       ngood <- dim(data.c)[3]
-
+  }
   if (ngood < comp) {
-      if (ngood == 0)
+      if (ngood == 0) {
           stop("no complete configuration found")
-      else {
+      } else {
           comp <- ngood
           if (weight)
               warning(paste("only",ngood,"configuration(s) found. comp is set to",ngood,"\n"))
@@ -110,6 +116,8 @@ fixLMtps <- function(data,comp=3,weight=TRUE)
           ## calculate weights according to procrustes distance ###			
           wcalc <- proc.weight(allrot,comp,1,report=FALSE)
           lms <- proc.c$rotated[,,wcalc$data$nr-1]
+          if (is.matrix(lms))
+              lms <- array(lms,dim=c(dim(lms),1))
           lm.est <- matrix(0,dim(data)[1],m)
           
           for (j in 1:comp) {
