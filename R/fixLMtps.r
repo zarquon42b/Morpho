@@ -91,7 +91,7 @@ fixLMtps <- function(data,comp=3,weight=TRUE)
       else {
           comp <- ngood
           if (weight)
-              warning(paste("only",ngood,"configurations found. comp is set to",ngood,"\n"))
+              warning(paste("only",ngood,"configuration(s) found. comp is set to",ngood,"\n"))
       }
   }
   
