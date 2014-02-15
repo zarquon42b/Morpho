@@ -6,6 +6,38 @@
             y <- array(y,dim=c(dim(y),1))              
         xdim <- dim(x)
         ydim <- dim(y)
+        outnames <- list()
+        xnames <- dimnames(x)
+        ynames <- dimnames(y)
+        for (i in (1:3)) {
+            check <- is.null(xnames[[i]])
+            check[2] <- is.null(ynames[[i]])
+            if (!prod(check)) {
+                if (i != along) {
+                    tmpsep <- "_"
+                    if (sum(check)) {
+                        tmpsep=""
+                    } else {
+                        if (prod(xnames[[i]] == ynames[[i]])) {
+                            xnames[[i]] <- ""
+                            tmpsep=""
+                        }
+                    }
+                    outnames[[i]] <- paste(xnames[[i]],ynames[[i]],sep=tmpsep)
+                } else {
+                    if (!prod(check)) {
+                        if (check[1])
+                            outnames[[along]] <- c(paste0("X",1:xdim[along]),ynames[[along]])
+                        else if (check[2])
+                            outnames[[along]] <- c(xnames[[along]],paste0("X",1:ydim[along]))
+                        else
+                            outnames[[along]] <- append(xnames[[along]],ynames[[along]])
+                    }
+                }
+            } else {
+                outnames[[i]] <- NULL
+            }
+        }            
         newalong <- xdim[along]+ydim[along]
         if (along %in% 1:2)
             {
@@ -27,6 +59,8 @@
                 newarr[,,1:xdim[3]] <- x
                 newarr[,,(xdim[3]+1):newalong] <- y
             }
+        
+        dimnames(newarr) <- outnames
         return(newarr)
     }
 
@@ -40,6 +74,7 @@
 #' @param \dots matrices and/or arrays with appropriate dimensionality to
 #' combine to one array.
 #' @param along dimension along which to concatenate.
+#' @details dimnames, if present and if differing between entries, will be concatenated, separated by a "_".
 #' @return returns array of combined matrices/arrays
 #' @seealso \code{\link{cbind}}, \code{\link{rbind}}, \code{\link{array}}
 #' @keywords ~kwd1 ~kwd2
