@@ -17,7 +17,7 @@ createAtlas(mesh, landmarks, patch, corrCurves = NULL, patchCurves = NULL,
   projected onto each specimen in the corresponding
   sample.}
 
-  \item{corrCuves}{a vector or a list containing vectors
+  \item{corrCurves}{a vector or a list containing vectors
   specifiyng the rowindices of \code{landmarks} to be
   curves that are defined on the atlas AND each specimen.
   e.g. if landmarks 2:4 and 5:10 are two distinct curves,

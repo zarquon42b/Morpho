@@ -8,7 +8,7 @@
 #' as on each specimen in the corresponding sample.
 #' @param patch matrix containing semi-landmarks to be projected onto each
 #' specimen in the corresponding sample.
-#' @param corrCuves a vector or a list containing vectors specifiyng the rowindices of
+#' @param corrCurves a vector or a list containing vectors specifiyng the rowindices of
 #' \code{landmarks} to be curves that are defined on the atlas AND each specimen.
 #' e.g. if landmarks 2:4 and 5:10 are two distinct curves, one would specifiy \code{corrCurves = list(c(2:4), c(5:10))}.
 #' @param patchCurves a vector or a list containing vectors specifiyng the
