@@ -8,7 +8,7 @@
 #' @return returns 3x3 rotation matrix
 #' @seealso \code{\link{rotaxis3d}}
 #' @references http://en.wikipedia.org/wiki/Rotation_matrix
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @export
 rotaxisMat <- function(u,theta)
   {
@@ -45,7 +45,7 @@ rotaxisMat <- function(u,theta)
 #' @author Stefan Schlager
 #' @seealso \code{\link{rotonto}}, \code{\link{rotmesh.onto}}
 #' @references http://en.wikipedia.org/wiki/Rotation_matrix
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

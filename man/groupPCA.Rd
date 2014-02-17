@@ -101,6 +101,4 @@ International Journal of Pure and Applied Mathematics 19,
 \seealso{
 \code{\link{CVA}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

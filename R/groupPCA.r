@@ -43,7 +43,7 @@
 #' 
 #' Boulesteix, A. L. 2005: A note on between-group PCA, International Journal
 #' of Pure and Applied Mathematics 19, 359-366.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(car)

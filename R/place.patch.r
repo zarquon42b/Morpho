@@ -66,7 +66,7 @@
 #' population differences and sexual dimorphism. PhD thesis,
 #' \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg.  URL:
 #' \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' \dontrun{

@@ -111,6 +111,4 @@ of statistical learning. Springer New York.
 \seealso{
 \code{\link{prcomp}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

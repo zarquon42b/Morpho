@@ -12,7 +12,7 @@
 #' @return
 #' \item{dist }{distance matrix with distances between actual group means}
 #' \item{p.value }{distance matrix containing pairwise p-values obtained by comparing the actual distance to randomly acquired distances}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

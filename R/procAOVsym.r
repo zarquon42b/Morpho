@@ -18,7 +18,7 @@
 #' @references Klingenberg CP, Barluenga M, Meyer A. 2002. Shape analysis of
 #' symmetric structures: quantifying variation among individuals and asymmetry.
 #' Evolution 56:1909-20.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

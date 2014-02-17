@@ -37,6 +37,4 @@ Stefan Schlager
 \seealso{
 \code{\link{rotmesh.onto}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

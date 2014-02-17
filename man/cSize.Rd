@@ -18,6 +18,4 @@ calculate Centroid Size for a landmark configuration
 data(boneData)
 cSize(boneLM[,,1])
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

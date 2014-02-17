@@ -34,6 +34,4 @@ PCdist(a$PCs, a$PCscores, x = 2)
 \author{
 Stefan Schlager
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

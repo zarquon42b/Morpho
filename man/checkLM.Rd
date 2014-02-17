@@ -99,6 +99,4 @@ checkLM(data, path="./",Rdata=TRUE, suffix="", atlas=atlas)
 \code{\link{placePatch}, \link{createAtlas},
 \link{plotAtlas}, \link{file2mesh}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

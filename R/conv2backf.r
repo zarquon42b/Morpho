@@ -7,7 +7,7 @@
 #' @return returns resulting mesh
 #' @author Stefan Schlager
 #' @seealso \code{\link{updateNormals}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

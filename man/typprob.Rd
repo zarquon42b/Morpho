@@ -95,6 +95,4 @@ Evolution 7:49-69.
 Wilson S. 1981. On comparing fossil specimens with
 population samples Journal of Human Evolution 10:207 - 214.
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

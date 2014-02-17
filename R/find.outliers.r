@@ -29,7 +29,7 @@
 #' \item{type }{what kind of distance was used}
 #' @author Stefan Schlager
 #' @seealso \code{\link{typprob}},\code{\link{typprobClass}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

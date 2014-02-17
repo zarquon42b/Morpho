@@ -14,7 +14,7 @@
 #' @return returns a scaled mesh
 #' @author Stefan Schlager
 #' @seealso \code{\link{rotmesh.onto}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(nose)

@@ -9,7 +9,7 @@
 #' @param lwd width of the normals
 #' @param col color of the normals
 #' @author Stefan Schlager
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #'
 #' \dontrun{

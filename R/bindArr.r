@@ -77,7 +77,7 @@
 #' @details dimnames, if present and if differing between entries, will be concatenated, separated by a "_".
 #' @return returns array of combined matrices/arrays
 #' @seealso \code{\link{cbind}}, \code{\link{rbind}}, \code{\link{array}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' A <- matrix(rnorm(18),6,3)

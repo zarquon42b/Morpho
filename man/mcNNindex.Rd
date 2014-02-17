@@ -46,6 +46,4 @@ wire3d(shortnose.mesh)
 \seealso{
 \code{\link{closemeshKD}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

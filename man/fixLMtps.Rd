@@ -78,6 +78,4 @@ pattern analysis and machine intelligence 11.
 \seealso{
 \code{\link{proc.weight}}, \code{\link{tps3d}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

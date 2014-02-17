@@ -39,6 +39,4 @@ rep("male",dim(gorm.dat)[3]))
 labelname <- "sex"
 r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

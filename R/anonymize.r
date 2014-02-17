@@ -20,7 +20,7 @@
 #' @return
 #' \item{data }{data with names replaced}
 #' \item{anonymkey }{map of original name and replaced name}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' anonymize(iris,remove=1)

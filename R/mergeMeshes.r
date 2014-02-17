@@ -9,7 +9,7 @@
 #' 
 #' @return returns the meshes merged into a single one.
 #' @seealso \code{\link{mesh2ply}, \link{file2mesh}, \link{ply2mesh}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

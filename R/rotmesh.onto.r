@@ -20,7 +20,7 @@
 #' @author Stefan Schlager
 #' @seealso \code{\link{file2mesh}},\code{\link{warp.mesh}}
 #' ,\code{\link{rotonto}},\code{\link{mesh2ply}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

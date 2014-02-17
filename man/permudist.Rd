@@ -36,6 +36,4 @@ groups <- name2factor(boneLM,which=3:4)
 levels(groups)
 perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, rounds=10000)
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

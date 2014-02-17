@@ -49,6 +49,4 @@ points(estim[,,1],col=2)
 \seealso{
 \code{\link{proc.weight}}, \code{\link{fixLMtps}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

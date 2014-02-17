@@ -10,7 +10,7 @@
 #' \item{matrix }{matrix containing landmark information rownames will be
 #' the names given to the landmarks in Landmark}
 #' @seealso \code{\link{read.pts}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(nose)

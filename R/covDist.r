@@ -20,7 +20,7 @@
 #'
 #' Hastie T, Tibshirani R, Friedman JJH.  2013. The elements of statistical
 #' learning. Springer New York.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #'
 #' @examples
 #' 

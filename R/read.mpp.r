@@ -14,7 +14,7 @@
 #' \item{info }{additional info contained in file}
 #' @author Stefan Schlager
 #' @seealso \code{\link{read.pts}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @export
 read.mpp <- function(file, info=FALSE)
   {

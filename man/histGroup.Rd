@@ -63,6 +63,4 @@ Stefan Schlager
 \seealso{
 \code{\link{hist}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

@@ -84,6 +84,4 @@ pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
 \seealso{
 \code{\link{model.matrix}, \link{lm}, \link{formula}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

@@ -34,7 +34,7 @@
 #' 
 #' Rohlf FJ, Bookstein FL 2003. Computing the Uniform Component of Shape
 #' Variation. Systematic Biology 52:66-69.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

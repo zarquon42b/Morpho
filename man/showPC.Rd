@@ -42,6 +42,4 @@ Stefan Schlager
 \seealso{
 \code{\link{prcomp}}, \code{\link{procSym}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

@@ -35,7 +35,7 @@
 #' Moshfeghi M, Ranganath S, Nawyn K. 1994. Three-dimensional elastic matching
 #' of volumes IEEE Transactions on Image Processing: A Publication of the IEEE
 #' Signal Processing Society 3:128-138.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

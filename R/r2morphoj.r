@@ -11,7 +11,7 @@
 #' @param labels character vector specify labels to create for Morphologika
 #' @param labelname character: name the labels for Morphologika.
 #' @param \dots unused at the moment
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

@@ -38,6 +38,4 @@ Stefan Schlager
 \seealso{
 \code{\link{qqplot}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

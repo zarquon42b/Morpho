@@ -130,6 +130,4 @@ Stefan Schlager
 \seealso{
 \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

@@ -35,6 +35,4 @@ newArr2 <- bindArr(newArr,newArr,along=1)
 \code{\link{cbind}}, \code{\link{rbind}},
 \code{\link{array}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

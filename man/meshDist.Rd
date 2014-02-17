@@ -145,6 +145,4 @@ and Mathematical Modelling, .
 \code{\link{render.meshDist}}, ,
 \code{\link{export.meshDist}}, \code{\link{shade3d}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

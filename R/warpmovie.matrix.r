@@ -44,7 +44,7 @@
 #' @author Stefan Schlager
 #' @seealso
 #' \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' 

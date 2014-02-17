@@ -30,6 +30,4 @@ points3d(bary, col=2)
 \seealso{
 \code{\link{closemeshKD}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

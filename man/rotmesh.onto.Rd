@@ -52,6 +52,4 @@ Stefan Schlager
 \code{\link{file2mesh}},\code{\link{warp.mesh}}
 ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

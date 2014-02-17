@@ -60,6 +60,4 @@ John Wiley and sons, Chichester.
 \seealso{
 \code{\link{procSym}, \link{rotonto}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

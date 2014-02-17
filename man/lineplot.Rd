@@ -45,6 +45,4 @@ Stefan Schlager
 \seealso{
 \code{\link{pcaplot3d}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

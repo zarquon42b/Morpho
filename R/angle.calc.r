@@ -7,7 +7,7 @@
 #' @param y numeric vector (or matrix to be interpreted as vector) of same
 #' length as \code{x}
 #' @return angle between x and y in radians.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' #calculate angle between two centered and

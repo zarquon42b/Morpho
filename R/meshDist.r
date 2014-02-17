@@ -64,7 +64,7 @@
 #' 
 #' Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed Distance
 #' Fields From Triangle Meshes. Informatics and Mathematical Modelling, .
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)
@@ -215,7 +215,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' \code{\link{shade3d}}. See \code{\link{rgl.material}} for details.
 #' @author Stefan Schlager
 #' @seealso \code{\link{meshDist}}, \code{\link{shade3d}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @rdname render
 #' @export
 #'

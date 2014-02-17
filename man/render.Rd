@@ -89,6 +89,4 @@ Stefan Schlager
 \seealso{
 \code{\link{meshDist}}, \code{\link{shade3d}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

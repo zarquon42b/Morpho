@@ -49,6 +49,4 @@ Stefan Schlager
 \seealso{
 \code{\link{regdist}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

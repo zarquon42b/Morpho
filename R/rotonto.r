@@ -35,7 +35,7 @@
 #' @references Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C. (1976). A
 #' solution to the weighted Procrustes problem in which the transformation is
 #' in agreement with the loss function. Psychometrika, 41,547-550.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

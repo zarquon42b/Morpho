@@ -5,7 +5,7 @@
 #' 
 #' @param x matrix where each row contains coordinates for landmarks
 #' @return returns Centroid size
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

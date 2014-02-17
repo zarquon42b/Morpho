@@ -23,6 +23,4 @@ spheres3d(mc)
 wire3d(skull_0144_ch_fe.mesh)
 }
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

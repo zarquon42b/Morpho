@@ -29,6 +29,4 @@ shade3d(shortnose.mesh,col=3)
 \author{
 Stefan Schlager
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

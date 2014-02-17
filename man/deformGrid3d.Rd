@@ -56,6 +56,4 @@ Stefan Schlager
 \seealso{
 \code{\link{tps3d}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

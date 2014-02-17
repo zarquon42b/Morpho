@@ -21,6 +21,4 @@ names of the individuals as specified in the dta file}
 reads .dta files created by the software Landmark
 http://graphics.idav.ucdavis.edu/research/EvoMorph
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

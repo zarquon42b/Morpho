@@ -80,6 +80,4 @@ biology. Cambridge Univ. Press, Cambridge.
 Rohlf FJ, Bookstein FL 2003. Computing the Uniform
 Component of Shape Variation. Systematic Biology 52:66-69.
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

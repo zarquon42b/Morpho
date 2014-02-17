@@ -13,7 +13,7 @@
 #' @return returns matrix containing landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{prcomp}}, \code{\link{procSym}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

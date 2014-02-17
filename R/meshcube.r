@@ -6,7 +6,7 @@
 #' @param x object of class 'mesh3d'
 #' @return returns a 8 x 3 matrix with the coordinates of the corners of the
 #' bounding box.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

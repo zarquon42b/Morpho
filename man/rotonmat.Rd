@@ -56,6 +56,4 @@ Stefan Schlager
 \seealso{
 \code{\link{rotonto}},\code{\link{rotmesh.onto}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

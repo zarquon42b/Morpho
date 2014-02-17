@@ -20,7 +20,7 @@
 #' argument names.
 #' @note This is a helper function of \code{\link{placePatch}}.
 #' @seealso \code{\link{placePatch}, \link{plotAtlas}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(nose)
@@ -65,7 +65,7 @@ createAtlas <- function(mesh, landmarks, patch, corrCurves=NULL, patchCurves=NUL
 #' @return returns invisible vector containing \code{rgl.id} of rendered
 #' objects.
 #' @seealso \code{\link{placePatch}, \link{createAtlas}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(nose)

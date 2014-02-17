@@ -19,7 +19,7 @@
 #' to file - can slow things down for very large meshes.
 #' @author Stefan Schlager
 #' @seealso \code{\link{ply2mesh}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

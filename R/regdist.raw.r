@@ -23,7 +23,7 @@
 #' \item{proc.dist }{distance matrix of Procrustes distance in Shape space}
 #' @author Stefan Schlager
 #' @seealso \code{\link{regdist}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

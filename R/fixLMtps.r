@@ -28,7 +28,7 @@
 #' @references Bookstein FL. 1989. Principal Warps: Thin-plate splines and the
 #' decomposition of deformations IEEE Transactions on pattern analysis and
 #' machine intelligence 11.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

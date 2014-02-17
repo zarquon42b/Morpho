@@ -28,7 +28,7 @@ RGB2Grey <- function(x,coefs = c(0.3, 0.59, 0.11))
 #' @return returns a mesh with material$color replaced by greyscale rgb values.
 #' @author Stefan Schlager
 #' @seealso \code{\link{ply2mesh}},\code{\link{file2mesh}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @export
 mesh2grey <- function(mesh)
   {

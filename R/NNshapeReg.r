@@ -19,7 +19,7 @@
 #' @param mc.cores integer: amount of cores used for parallel processing.
 #' @return matrix or array of estimates.
 #' @seealso \code{\link{proc.weight}}, \code{\link{fixLMtps}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

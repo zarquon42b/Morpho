@@ -48,6 +48,4 @@ and Mathematical Modelling.
 \seealso{
 \code{\link{closemeshKD}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

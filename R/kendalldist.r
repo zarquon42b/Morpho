@@ -8,7 +8,7 @@
 #' @param x Matrix containing landmark coordinates.
 #' @param y Matrix containing landmark coordinates.
 #' @return returns Riemannian distance
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

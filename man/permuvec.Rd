@@ -81,6 +81,4 @@ text(perm$angle,15,label=paste("actual distance\\n
     (p=",perm$p.angle,")"))
 ## also non-significant
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

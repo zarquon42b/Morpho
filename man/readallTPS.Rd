@@ -30,6 +30,4 @@ http://life.bio.sunysb.edu/ee/rohlf/software.html
 \seealso{
 \code{\link{read.lmdta}}, \code{\link{read.pts}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

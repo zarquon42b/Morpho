@@ -70,6 +70,4 @@ Stefan Schlager
 \seealso{
 \code{\link{typprob}},\code{\link{typprobClass}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

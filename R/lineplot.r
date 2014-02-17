@@ -13,7 +13,7 @@
 #' @note works with 2D and 3D configurations
 #' @author Stefan Schlager
 #' @seealso \code{\link{pcaplot3d}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

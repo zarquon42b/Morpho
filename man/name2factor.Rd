@@ -51,6 +51,4 @@ infos$pop.sex <- name2factor(data,which=2:3)
 \author{
 Stefan Schlager
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

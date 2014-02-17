@@ -16,7 +16,7 @@
 #' \item{mesh }{list of class mesh3d - see rgl manual for further details,
 #' or a matrix containing vertex information or a list containing vertex and
 #' normal information}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(nose)

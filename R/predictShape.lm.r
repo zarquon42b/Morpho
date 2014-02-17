@@ -22,7 +22,7 @@
 #' \code{datamod} correspond exactly to those used in \code{fit}. Otherwise
 #' model matrix will be calculated erroneous.
 #' @seealso \code{\link{model.matrix}, \link{lm}, \link{formula}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

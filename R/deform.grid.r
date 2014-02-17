@@ -21,7 +21,7 @@
 #' for very large pointclouds.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' \dontrun{
 #' data(nose)

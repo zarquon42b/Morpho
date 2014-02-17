@@ -30,7 +30,7 @@
 #' \item{p.dist }{p-value of length difference between residual vectors}
 #' \item{subdist }{length of residual vectors connecting the subgroups}
 #' means.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

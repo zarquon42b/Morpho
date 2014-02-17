@@ -25,7 +25,7 @@
 #' densities are plotted for each group.
 #' @author Stefan Schlager
 #' @seealso \code{\link{hist}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(iris)

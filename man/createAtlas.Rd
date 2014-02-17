@@ -53,6 +53,4 @@ atlas <- createAtlas(shortnose.mesh, landmarks =
 \seealso{
 \code{\link{placePatch}, \link{plotAtlas}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

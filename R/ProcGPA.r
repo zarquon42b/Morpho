@@ -27,7 +27,7 @@
 #' 
 #' Dryden IL, Mardia KV.  1998. Statistical shape analysis. John Wiley and
 #' sons, Chichester.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

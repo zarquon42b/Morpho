@@ -13,7 +13,7 @@
 #' \item{d }{observed distances - unsorted}
 #' @author Stefan Schlager
 #' @seealso \code{\link{qqplot}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(MASS)

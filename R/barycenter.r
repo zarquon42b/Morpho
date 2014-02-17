@@ -6,7 +6,7 @@
 #' @param mesh triangular mesh of class 'mesh3d'
 #' @return k x 3 matrix of barycenters for all \code{k} faces of input mesh.
 #' @seealso \code{\link{closemeshKD}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

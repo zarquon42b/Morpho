@@ -24,6 +24,4 @@ data(boneData)
 opa <- rotonto(boneLM[,,1],boneLM[,,2])
 angle.calc(opa$X, opa$Y)
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

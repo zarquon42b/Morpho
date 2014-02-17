@@ -40,7 +40,7 @@
 #' (\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
 #' @seealso \code{\link{placePatch}, \link{createAtlas}, \link{plotAtlas},
 #' \link{file2mesh}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(nose)

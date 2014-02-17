@@ -22,6 +22,4 @@ http://en.wikipedia.org/wiki/Rotation_matrix
 \seealso{
 \code{\link{rotaxis3d}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

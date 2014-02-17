@@ -27,6 +27,4 @@ data <- read.pts("shortnose.pts")
 \seealso{
 \code{\link{read.pts}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

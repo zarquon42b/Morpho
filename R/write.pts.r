@@ -12,7 +12,7 @@
 #' exported object.
 #' @author Stefan Schlager
 #' @seealso \code{\link{read.pts}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(nose)

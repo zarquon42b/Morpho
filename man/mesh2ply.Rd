@@ -55,6 +55,4 @@ Stefan Schlager
 \seealso{
 \code{\link{ply2mesh}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

@@ -27,7 +27,7 @@
 #' \code{rmUnrefVertex}: mesh with unreferenced vertices removed.
 #' @author Stefan Schlager
 #' @seealso \code{\link{ply2mesh}}, \code{\link{file2mesh}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

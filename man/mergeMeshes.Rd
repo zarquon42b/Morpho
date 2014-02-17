@@ -28,6 +28,4 @@ shade3d(mergedMesh, col=3)
 \seealso{
 \code{\link{mesh2ply}, \link{file2mesh}, \link{ply2mesh}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

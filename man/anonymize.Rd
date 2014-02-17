@@ -46,6 +46,4 @@ observer error testing.
 \examples{
 anonymize(iris,remove=1)
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

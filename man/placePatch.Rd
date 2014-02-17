@@ -147,6 +147,4 @@ Freiburg.  URL:
 \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM},
 \link{slider3d}, \link{warp.mesh}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

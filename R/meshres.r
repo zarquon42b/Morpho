@@ -7,7 +7,7 @@
 #' @param mesh triangular mesh stored as object of class "mesh3d"
 #' @return returns average edge length (a.k.a. mesh resolution)
 #' @author Stefan Schlager
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' data(boneData)

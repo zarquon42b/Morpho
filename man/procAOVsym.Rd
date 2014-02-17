@@ -50,6 +50,4 @@ individuals and asymmetry. Evolution 56:1909-20.
 \seealso{
 \code{\link{procSym}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

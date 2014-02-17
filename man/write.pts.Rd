@@ -31,6 +31,4 @@ Stefan Schlager
 \seealso{
 \code{\link{read.pts}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

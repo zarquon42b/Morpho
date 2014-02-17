@@ -190,6 +190,4 @@ New York: Kluwer Academic/Plenum Publishers.
 \seealso{
 \code{\link{slider3d}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

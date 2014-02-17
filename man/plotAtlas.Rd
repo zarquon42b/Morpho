@@ -57,6 +57,4 @@ plotAtlas(atlas)
 \seealso{
 \code{\link{placePatch}, \link{createAtlas}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

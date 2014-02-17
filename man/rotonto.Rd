@@ -78,6 +78,4 @@ Psychometrika, 41,547-550.
 \seealso{
 \code{\link{rotmesh.onto}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

@@ -14,7 +14,7 @@
 #' 
 #' @return returns a matrix with one row per specimen
 #' @author Stefan Schlager
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

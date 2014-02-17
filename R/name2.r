@@ -18,7 +18,7 @@
 #' are selected.
 #' @return returns a vector containing factors or numbers
 #' @author Stefan Schlager
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' 

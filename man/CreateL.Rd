@@ -60,6 +60,4 @@ pattern analysis and machine intelligence 11(6).
 \seealso{
 \code{\link{tps3d}, \link{warp.mesh}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

@@ -35,7 +35,7 @@
 #' 
 #' Wilson S. 1981. On comparing fossil specimens with population samples
 #' Journal of Human Evolution 10:207 - 214.
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' library(shapes)

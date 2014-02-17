@@ -32,6 +32,4 @@ Stefan Schlager
 \seealso{
 \code{\link{updateNormals}}
 }
-\keyword{~kwd1}
-\keyword{~kwd2}
 

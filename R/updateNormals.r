@@ -16,7 +16,7 @@
 #' @references Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed
 #' Distance Fields From Triangle Meshes. Informatics and Mathematical
 #' Modelling, .
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

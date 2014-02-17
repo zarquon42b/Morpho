@@ -16,7 +16,7 @@
 #' 
 #' @return \code{l x k } matrix containing indices of closest points.
 #' @seealso \code{\link{closemeshKD}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' require(rgl)

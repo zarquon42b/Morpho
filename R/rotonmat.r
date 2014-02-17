@@ -18,7 +18,7 @@
 #' @return returns rotated X.
 #' @author Stefan Schlager
 #' @seealso \code{\link{rotonto}},\code{\link{rotmesh.onto}}
-#' @keywords ~kwd1 ~kwd2
+#' 
 #' @examples
 #' 
 #' 
