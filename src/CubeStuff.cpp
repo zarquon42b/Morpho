@@ -17,7 +17,7 @@ RcppExport SEXP addo(SEXP array_) {
 
 RcppExport SEXP scaleproc(SEXP array_) {
   typedef unsigned int uint;
-  vec h; mat U; mat V;
+  vec h;
   NumericVector vecArray(array_);
   IntegerVector arrayDims = vecArray.attr("dim");
   cube myCube(vecArray.begin(), arrayDims[0],arrayDims[1], arrayDims[2], false);
@@ -46,7 +46,7 @@ RcppExport SEXP scaleproc(SEXP array_) {
     df = kk;
     Lmat = omat.t() * (omat/df);
     vec lambda;
-    
+    mat U;
     eig_sym(lambda, U, Lmat);
     uint nlam = lambda.n_elem;
     uvec usort(nlam);
@@ -55,8 +55,8 @@ RcppExport SEXP scaleproc(SEXP array_) {
       
     U = U.cols(usort);
     lambda = lambda(usort);
-    V = omat * U;
-    vec vv(kk);
+    mat V = omat * U;
+    vec vv(V.n_cols);
     for (uint i=0; i < kk;i++) {
       vv(i) = sqrt(dot(V.col(i), V.col(i)));
       V.col(i) = V.col(i)/vv(i);

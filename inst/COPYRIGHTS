@@ -3,9 +3,7 @@ Copyright: Stefan Schlager
 License: GPL-2
 
 Some R-code was copied from subroutines of the 'shapes'-package
-Files: R/scaleproc.r
-       R/gdif.r
-       R/addo.r
+Files: R/gdif.r
        parts of R/kendalldist.r [distance function for 2D configs]
        parts of R/rot.proc.r and R/rotonto.r [make transformation matrix rotation only (positive determinant)] 
 Copyright: Ian Dryden
