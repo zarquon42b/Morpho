@@ -66,7 +66,6 @@ RcppExport SEXP scaleproc(SEXP array_) {
     //delta = delta(od);   
     //V = V.cols(od);
     h = abs(sqrt(aasum/aa) % V.col(od(0)));
-    Rprintf("%f\n",aa(0));
   } else {
     mat zz = cor(omatorig.t());
     vec eigval;
