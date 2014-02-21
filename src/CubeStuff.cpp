@@ -14,6 +14,17 @@ RcppExport SEXP addo(SEXP array_) {
   return wrap(out);
 
 }
+RcppExport SEXP arrMean3(SEXP array_) {
+  
+  NumericVector vecArray(array_);
+  IntegerVector arrayDims = vecArray.attr("dim");
+  cube myCube(vecArray.begin(), arrayDims[0],arrayDims[1], arrayDims[2], false);
+  mat out = Morpho::IOCube<double>::addCube(myCube);
+  double denom = arrayDims[2];
+  out = out/denom;
+  return wrap(out);
+
+}
 
 RcppExport SEXP scaleproc(SEXP array_) {
   typedef unsigned int uint;

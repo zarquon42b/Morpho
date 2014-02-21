@@ -198,7 +198,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
                 orp <- FALSE
         }
         proc$rotated <- tmp
-        proc$mshape <- apply(tmp,1:2,mean) ##calc new meanshape
+        proc$mshape <- arrMean3(tmp) ##calc new meanshape
     } else
         proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect)
     
@@ -281,7 +281,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     asvalues <- 0
     PCs_Asym <- 0
     if (!is.null(pairedLM)) {
-        asymmean <- apply(Asymm,c(1,2),mean)
+        asymmean <- arrMean3(Asymm)
         asymtan <- vecx(sweep(Asymm, 1:2, asymmean))[1:n,]
         pcasym <- try(prcomp(asymtan),silent=TRUE)
         if (class(pcasym) == "try-error")
