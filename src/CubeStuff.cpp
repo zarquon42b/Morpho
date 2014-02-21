@@ -65,7 +65,7 @@ RcppExport SEXP scaleproc(SEXP array_) {
     uvec od = sort_index(delta, "descend");
     //delta = delta(od);   
     //V = V.cols(od);
-    h = abs(sqrt(aasum/aa) % V.col(0));
+    h = abs(sqrt(aasum/aa) % V.col(od(0)));
     Rprintf("%f\n",aa(0));
   } else {
     mat zz = cor(omatorig.t());
