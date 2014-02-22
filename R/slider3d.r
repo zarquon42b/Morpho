@@ -110,7 +110,7 @@
 #' surp <- c(1:nrow(shortnose.lm))[-fix]
 #' 
 #' slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
-#'                   sur.path=".",iterations=1)
+#'                   sur.path=".",iterations=1,mc.cores=1)
 #'                   # sur.path="." is the current working directory
 #' 
 #' # now one example with meshes in workspace

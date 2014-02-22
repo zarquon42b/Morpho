@@ -63,7 +63,7 @@ pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],
               same.config=TRUE,rounds=50,mc.cores=2)
 }
 pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],
-              same.config=FALSE,rounds=50,mc.cores=2)
+              same.config=FALSE,rounds=50,mc.cores=1)
 pls1$CoVar
 layout(matrix(1:4,2,2,byrow=TRUE))
 for(i in 1:4)
