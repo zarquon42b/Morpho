@@ -63,7 +63,7 @@ RcppExport SEXP scaleproc(SEXP array_) {
     uvec usort(nlam);
     for (uint i = 0; i < nlam;i++)
       usort(i) = nlam - 1 - i;
-      
+    
     U = U.cols(usort);
     lambda = lambda(usort);
     mat V = omat * U;
@@ -81,10 +81,9 @@ RcppExport SEXP scaleproc(SEXP array_) {
     mat zz = cor(omatorig.t());
     vec eigval;
     mat eigvec;
-    unsigned int maxval = eigval.n_cols;
-    eig_sym( eigval, eigvec, zz);
-    h = abs(sqrt(aasum/aa) % eigvec.col(maxval));
-    
+    eig_sym(eigval, eigvec, zz);
+    unsigned int maxval = eigvec.n_cols;
+    h = abs(sqrt(aasum/aa) % eigvec.col(maxval-1));
   }
   return wrap(h);
 }
