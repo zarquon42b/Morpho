@@ -2,6 +2,18 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.0.2 (2014-02-24)}{
+  \itemize{
+    \item added function 'fixLMmirror' to estimate missing bilateral
+    landmarks
+    \item wrote C++ versions of some subroutines to speed up Procrustes
+    registration.
+    \item added function arrMean3 to calculate fast average of 3D-array
+    \item reprojection onto surface in 'slider3d' now can run in
+    parallel (only OS X and Linux)
+  }
+}
+
 \section{Changes in Morpho version 2.0.1 (2014-02-07)}{
   \itemize{
     \item 'createAtlas' has new option "keep.fix" to specifiy landmarks
