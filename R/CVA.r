@@ -51,6 +51,13 @@
 #' # perform CVA and test Mahalanobis distance
 #' # between groups with permutation test by 100 rounds)            
 #' cvall<-CVA(alldat$orpdata,groups,rounds=10000)     
+#' ## visualize a shape change from score -5 to 5:
+#' cvvis5 <- 5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+#' cvvisNeg5 <- -5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+#' plot(cvvis5,asp=1)
+#' points(cvvisNeg5,col=2)
+#' for (i in 1:nrow(cvvisNeg5))
+#'   lines(rbind(cvvis5[i,],cvvisNeg5[i,]))
 #' 
 #' ### Morpho CVA
 #' data(iris)
@@ -101,8 +108,31 @@
 #'    cva.1$Var
 #'    # or plot it:
 #'    barplot(cva.1$Var[,2])
-#'  
-#'  
+#' 
+#' # another landmark based example in 3D: 
+#' data(boneData)
+#' groups <- name2factor(boneLM,which=3:4)
+#' proc <- procSym(boneLM)
+#' cvall<-CVA(proc$orpdata,groups)    
+#' #' ## visualize a shape change from score -5 to 5:
+#' cvvis5 <- 5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+#' cvvisNeg5 <- -5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+#' \dontrun{
+#' #visualize it
+#' deformGrid3d(cvvis5LM,cvvisNeg5LM,ngrid = 0)
+#' }
+#' 
+#' #for using (e.g. the first 5) PCscores, one will do:
+#' cvall <- CVA(proc$PCscores[,1:5],groups)    
+#' #' ## visualize a shape change from score -5 to 5:
+#' cvvis5 <- 5*cvall$CVvis[,1]+cvall$Grandm
+#' cvvisNeg5 <- -5*cvall$CVvis[,1]+cvall$Grandm
+#' cvvis5 <- showPC(cvvis5,proc$PCs[,1:5],proc$mshape)
+#' cvvisNeg5 <- showPC(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
+#' \dontrun{
+#' #visualize it
+#' deformGrid3d(cvvis5LM,cvvisNeg5LM,ngrid = 0)
+#' }
 #' @export
 CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE) 
 {
@@ -115,14 +145,6 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         warning("group with one entry found - crossvalidation will be disabled.")
     }
     N <- dataarray
-    if (length(dim(N)) == 3) 
-        N <- vecx(N)
-    N <- as.matrix(N)
-    n <- dim(N)[1]
-    l <- dim(N)[2]
-    if (length(groups) != n)
-        warning("group affinity and sample size not corresponding!")
-    
     n3 <- FALSE
     if (length(dim(N)) == 3) {
         k <- dim(N)[1]
@@ -130,6 +152,13 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         N <- vecx(N)
         n3 <- TRUE
     }
+    N <- as.matrix(N)
+    n <- dim(N)[1]
+    l <- dim(N)[2]
+    if (length(groups) != n)
+        warning("group affinity and sample size not corresponding!")
+    
+   
     if (is.vector(N) || dim(N)[2] == 1)
         stop("data should contain at least 2 variable dimensions")
     

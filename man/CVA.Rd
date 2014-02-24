@@ -66,6 +66,13 @@ groups<-as.factor(c(rep("female",30),rep("male",29)))
 # perform CVA and test Mahalanobis distance
 # between groups with permutation test by 100 rounds)
 cvall<-CVA(alldat$orpdata,groups,rounds=10000)
+## visualize a shape change from score -5 to 5:
+cvvis5 <- 5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+cvvisNeg5 <- -5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+plot(cvvis5,asp=1)
+points(cvvisNeg5,col=2)
+for (i in 1:nrow(cvvisNeg5))
+  lines(rbind(cvvis5[i,],cvvisNeg5[i,]))
 
 ### Morpho CVA
 data(iris)
@@ -116,6 +123,31 @@ plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
    cva.1$Var
    # or plot it:
    barplot(cva.1$Var[,2])
+
+# another landmark based example in 3D:
+data(boneData)
+groups <- name2factor(boneLM,which=3:4)
+proc <- procSym(boneLM)
+cvall<-CVA(proc$orpdata,groups)
+#' ## visualize a shape change from score -5 to 5:
+cvvis5 <- 5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+cvvisNeg5 <- -5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
+\dontrun{
+#visualize it
+deformGrid3d(cvvis5LM,cvvisNeg5LM,ngrid = 0)
+}
+
+#for using (e.g. the first 5) PCscores, one will do:
+cvall <- CVA(proc$PCscores[,1:5],groups)
+#' ## visualize a shape change from score -5 to 5:
+cvvis5 <- 5*cvall$CVvis[,1]+cvall$Grandm
+cvvisNeg5 <- -5*cvall$CVvis[,1]+cvall$Grandm
+cvvis5 <- showPC(cvvis5,proc$PCs[,1:5],proc$mshape)
+cvvisNeg5 <- showPC(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
+\dontrun{
+#visualize it
+deformGrid3d(cvvis5LM,cvvisNeg5LM,ngrid = 0)
+}
 }
 \author{
 Stefan Schlager
