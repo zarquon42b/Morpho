@@ -1,11 +1,13 @@
 #include <RcppArmadillo.h>
 #include "doozers.h"
 #include "addCube.h"
+#include "CubeStuff.h"
+
 using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-RcppExport SEXP addo(SEXP array_) {
+SEXP addo(SEXP array_) {
   
   NumericVector vecArray(array_);
   IntegerVector arrayDims = vecArray.attr("dim");
@@ -14,7 +16,7 @@ RcppExport SEXP addo(SEXP array_) {
   return wrap(out);
 
 }
-RcppExport SEXP arrMean3(SEXP array_) {
+SEXP arrMean3(SEXP array_) {
   
   NumericVector vecArray(array_);
   IntegerVector arrayDims = vecArray.attr("dim");
@@ -26,7 +28,7 @@ RcppExport SEXP arrMean3(SEXP array_) {
 
 }
 
-RcppExport SEXP scaleproc(SEXP array_) {
+SEXP scaleproc(SEXP array_) {
   typedef unsigned int uint;
   vec h;
   NumericVector vecArray(array_);

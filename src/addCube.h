@@ -1,3 +1,5 @@
+#ifndef ADDCUBE_H_
+#define ADDCUBE_H_
 #include <RcppArmadillo.h>
 #include "doozers.h"
 
@@ -23,3 +25,4 @@ namespace Morpho
       }
     };
 }
+#endif /*ADDCUBE_H_*/
