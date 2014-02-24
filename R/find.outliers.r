@@ -66,7 +66,7 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
                 rho <- angle.calc(A$rotated[,,i],A$mshape)
                 return(rho)          	
             }
-        rho <- unlist(mclapply(a.list,rhofun))
+        rho <- unlist(lapply(a.list,rhofun))
         A$rho <- rho
     } else {
         cat("mahalanobis distance is used\n")
