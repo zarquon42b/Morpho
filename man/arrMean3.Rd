@@ -1,0 +1,26 @@
+\name{arrMean3}
+\alias{arrMean3}
+\title{calculate mean of an array}
+\usage{
+arrMean3(arr)
+}
+\arguments{
+  \item{arr}{\code{k x m x n} dimensional numeric array}
+}
+\value{
+matrix of dimensions \code{k x m}.
+}
+\description{
+calculate mean of a 3D-array (e.g. containing landmarks)
+(fast) using the Armadillo C++ Backend
+}
+\note{
+this is the same as \code{apply(arr, 1:2, mean)}, only
+faster for large configurations.
+}
+\examples{
+data(boneData)
+proc <- ProcGPA(boneLM, silent = TRUE)
+mshape <- arrMean3(proc$rotated)
+}
+
