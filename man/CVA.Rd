@@ -134,7 +134,7 @@ cvvis5 <- 5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$
 cvvisNeg5 <- -5*matrix(cvall$CVvis[,1],nrow(cvall$Grandm),ncol(cvall$Grandm))+cvall$Grandm
 \dontrun{
 #visualize it
-deformGrid3d(cvvis5LM,cvvisNeg5LM,ngrid = 0)
+deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
 }
 
 #for using (e.g. the first 5) PCscores, one will do:
@@ -146,7 +146,7 @@ cvvis5 <- showPC(cvvis5,proc$PCs[,1:5],proc$mshape)
 cvvisNeg5 <- showPC(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
 \dontrun{
 #visualize it
-deformGrid3d(cvvis5LM,cvvisNeg5LM,ngrid = 0)
+deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
 }
 }
 \author{
