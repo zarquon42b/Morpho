@@ -294,7 +294,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         PCscore_asym <- as.matrix(pcasym$x[,1:lva])
         rownames(PCscore_asym) <- dimnames(dataarray)[[3]]
         rownames(asymtan) <- rownames(PCscore_sym)
-       
+        
 ###### create a neat variance table for Asym ######
         if (length(asvalues)==1) {
             AsymVar <- asvalues
@@ -312,7 +312,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
             colnames(AsymVar) <- c("eigenvalues","% Variance","Cumulative %")
         }
     }
-   
+    
 ###### output ######
     t1 <- Sys.time()
     cat(paste("Operation completed in",t1-t0,"secs\n"))
@@ -331,7 +331,6 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
             pairedLM=pairedLM
             ))
         class(out) <- "symproc"
-        return(out)
     } else {
         out <- (list(
             size=CS,rotated=proc$rotated,mshape=meanshape,tan=tan,PCs=PCs,
@@ -339,7 +338,10 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
             orpdata=orpdata[,,1:n] ,rmsrho=proc$rmsrho,rho=rho,
             dataslide= dataslide
             ))
+        
         class(out) <- "nosymproc"
-        return(out)
     }
+    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect))
+    return(out)
+    
 }
