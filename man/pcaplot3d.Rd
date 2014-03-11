@@ -33,6 +33,10 @@ pcaplot3d(x, ...)
   \item{\dots}{Additional parameters which will be passed
   to the methods.}
 }
+\value{
+returns an invisible array containing the shapes associated
+with the Principal components selected.
+}
 \description{
 visualization of shape change
 }

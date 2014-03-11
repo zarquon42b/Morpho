@@ -13,6 +13,7 @@
 #' @param sym logical: if TRUE the symmetric component of shape is displayed.
 #' Otherwise the asymmetric one.
 #' @param \dots Additional parameters which will be passed to the methods.
+#' @return returns an invisible array containing the shapes associated with the Principal components selected.
 #' @seealso \code{\link{procSym}}
 #' @examples
 #' 
@@ -40,33 +41,8 @@ pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...
       PCs <- x$PCasym
       Scores <- x$PCscore_asym
   }
-  A <- refshape
-  k <- dim(A)[1]
-  m <- dim(A)[2]
-  if (is.vector(PCs))
-      PCs <- matrix(PCs,length(PCs),1)
   
-  npc <- dim(PCs)[2]
-  lpc <- length(pcshow)
-  rainb <- rainbow(lpc)
-  sds <- 0
-  if (length(mag)==1) 
-      mag <- c(rep(mag,lpc))
-    
-  for (i in 1:npc)
-      sds[i] <- sd(Scores[,i])
-  
-  sz <- cSize(refshape)/sqrt(k)*(1/80)
-  
-  for (i in 1:length(pcshow)) {
-      pc <- refshape+matrix(PCs[,pcshow[i]]*mag[i]*sds[pcshow[i]],k,3)
-      linemesh <- list()
-      linemesh$vb <- t(cbind(rbind(refshape,pc),1))
-      linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
-      class(linemesh) <- "mesh3d"
-      wire3d(linemesh,lwd=lwd,lit=F,col=rainb[i])
-  }
-  spheres3d(refshape,  col = color,radius=sz)
+  .pcaplot3d(refshape, PCs, Scores, pcshow=pcshow, mag=mag,color=color, lwd=lwd)
 }
 #' @rdname pcaplot3d
 #'
@@ -76,6 +52,10 @@ pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
     refshape <- x$mshape
     PCs <- x$PCs
     Scores <- x$PCscores
+    .pcaplot3d(refshape, PCs, Scores, pcshow=pcshow, mag=mag,color=color, lwd=lwd)
+}
+
+.pcaplot3d <- function(refshape,PCs, Scores, pcshow=c(1,2,3), mag=3,color=4,lwd=1,...) {
     A <- refshape
     k <- dim(A)[1]
     m <- dim(A)[2]
@@ -92,9 +72,10 @@ pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
     for (i in 1:npc)
         sds[i] <- sd(Scores[,i])
     sz <- cSize(refshape)/sqrt(k)*(1/80)
-    
+    outarr <- array(NA, dim=c(dim(refshape),length(pcshow)))
     for (i in 1:length(pcshow)) {
         pc <- refshape+matrix(PCs[,pcshow[i]]*mag[i]*sds[pcshow[i]],k,3)
+        outarr[,,i] <- pc
         linemesh <- list()
         linemesh$vb <- t(cbind(rbind(refshape,pc),1))
         linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
@@ -102,4 +83,5 @@ pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
         wire3d(linemesh,lwd=lwd,lit=F,col=rainb[i])
     }
     spheres3d(refshape,  col = color,radius=sz)
+    invisible(outarr)
 }
