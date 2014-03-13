@@ -2,6 +2,7 @@
 #'
 #' converts a mesh containing quadrangular faces into one only consisting of triangles
 #' @param mesh object of class "mesh3d"
+#' @param updateNormals logical: request recalculation of (angle weighted) vertex normals.
 #' @return triangular mesh with updated normals
 #' @examples
 #' 
@@ -13,7 +14,7 @@
 #'
 #' @export
 
-quad2trimesh <- function(mesh) {
+quad2trimesh <- function(mesh, updateNormals=TRUE) {
     if (!inherits(mesh,"mesh3d"))
         stop("please provide mesh of class mesh3d")
     if (is.null(mesh$ib)) {
@@ -22,7 +23,9 @@ quad2trimesh <- function(mesh) {
         ib2it <- rbind(mesh$ib[1:3,],mesh$ib[c(3:4,1),])
         mesh$it <- ib2it
         mesh$ib <- NULL
-        mesh <- updateNormals(mesh)
+        if (updateNormals) {
+            mesh <- updateNormals(mesh)
+        }
     }
     return(mesh)
 }

@@ -2,10 +2,13 @@
 \alias{quad2trimesh}
 \title{converts a mesh containing quadrangular faces into one only consisting of triangles}
 \usage{
-quad2trimesh(mesh)
+quad2trimesh(mesh, updateNormals = TRUE)
 }
 \arguments{
   \item{mesh}{object of class "mesh3d"}
+
+  \item{updateNormals}{logical: request recalculation of
+  (angle weighted) vertex normals.}
 }
 \value{
 triangular mesh with updated normals
