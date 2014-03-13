@@ -18,7 +18,8 @@
 #' @param writeNormals logical: if TRUE, existing normals of a mesh are written
 #' to file - can slow things down for very large meshes.
 #' @author Stefan Schlager
-#' @seealso \code{\link{ply2mesh}}
+#' @note meshes containing quadrangular faces will be converted to triangular meshes by splitting the faces.
+#' @seealso \code{\link{ply2mesh}, \link{quad2trimesh} }
 #' 
 #' @examples
 #' 
@@ -46,6 +47,8 @@ mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)
             x <- t(x)
         x <- list(vb=x)
     }
+    if (!is.null(x$ib))
+        x <- quad2trimesh(x)
     
     filename <- paste(filename,".ply",sep="")
     vert <- x$vb[1:3,]

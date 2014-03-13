@@ -34,6 +34,10 @@ export mesh objects to disk.
 export an object of class \code{mesh3d} or a set of
 coordinates to a common mesh file.
 }
+\note{
+meshes containing quadrangular faces will be converted to
+triangular meshes by splitting the faces.
+}
 \examples{
 require(rgl)
 vb <- c(-1.8,-1.8,-1.8,1.0,1.8,-1.8,-1.8,1.0,-1.8,1.8,-1.8,1.0,1.8,
@@ -53,6 +57,6 @@ mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 Stefan Schlager
 }
 \seealso{
-\code{\link{ply2mesh}}
+\code{\link{ply2mesh}, \link{quad2trimesh} }
 }
 
