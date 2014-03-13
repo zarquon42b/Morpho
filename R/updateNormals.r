@@ -43,6 +43,10 @@
 #' @export
 updateNormals <- function(x,angle=TRUE) 
 {
+    if (!is.null(x$ib)) {
+        x <- quad2trimesh(x,FALSE)
+        message("mesh was converted to triangular mesh")
+    }
     vb <- x$vb
     ## Make sure v is homogeneous with unit w
     if (nrow(vb) == 3)
@@ -52,13 +56,17 @@ updateNormals <- function(x,angle=TRUE)
     vb <- vb[1:3,]
     if (!is.matrix(vb) || !is.numeric(vb))
         stop("vertices must be a numeric matrix")
-    if (!is.null(x$it))
+    if (!is.null(x$it)) {
+        if (!is.matrix(x$it) || !is.numeric(x$it))
+            stop("faces indices must be stored as numeric matrix")
+
         it <- x$it-1
-    else
-        stop("mesh has no triangular faces")
-    out <- .Call("updateVertexNormals",vb,it,angle)
-    normals <- rbind(out,1)
-    x$normals <- normals
+        out <- .Call("updateVertexNormals",vb,it,angle)
+        normals <- rbind(out,1)
+        x$normals <- normals
+    } else {
+        message("mesh has no triangular faces, nothing to be done")
+    }
     return(x)
 }
 #' @rdname updateNormals
