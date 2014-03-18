@@ -1,5 +1,5 @@
 #include "asymPerm.h"
-
+#include "doozers.h"
 using namespace Rcpp;
 using namespace std;
 using namespace arma;
@@ -34,3 +34,56 @@ Rcpp::NumericMatrix asym(asymr);
 		      Named("angle")=angle
 		      );
 }
+
+RcppExport SEXP asymPermute(SEXP data_, SEXP groups_, SEXP rounds_) {
+  Rcpp::NumericMatrix data(data_);
+  Rcpp::IntegerVector groups(groups_);
+  int rounds = Rcpp::as<int>(rounds_);
+  int n = data.nrow();
+  int m = data.ncol();
+  mat armaData(data.begin(), n,m);
+  ivec armaGroups(groups.begin(),groups.size(),false);
+  ivec permuvec = armaGroups;
+  int maxlev = armaGroups.max();
+  int alldist=0;
+  for (int i=1; i < maxlev; ++i)
+    alldist +=i;
+  List outdiff(alldist);  
+  List angdiff(alldist);
+  for (int i=0; i < alldist; ++i) {
+    NumericVector dist0(rounds+1);
+    NumericVector dist1(rounds+1);
+    outdiff[i] = dist0;
+    angdiff[i] = dist1;
+  }
+  for (int i=0; i <= rounds; ++i) {
+    int count = 0;
+    if (i > 0)
+      permuvec = shuffle(permuvec);
+    for (int j0 = 1; j0 < maxlev; ++j0) {
+      mat tmp1 = armaData.rows(arma::find(permuvec == j0 ));
+      mat mean1mat = mean(tmp1,0);
+      vec mean1 = vectorise(mean1mat);
+      double mean1len = sqrt(dot(mean1,mean1));
+      for(int j1 =j0+1; j1 <= maxlev; ++j1) {
+	mat tmp2 = armaData.rows(arma::find(permuvec == j1 ));
+	mat mean2mat = mean(tmp2,0);
+	vec mean2 = vectorise(mean2mat);
+	double mean2len = sqrt(dot(mean2,mean2));
+	double ang = angcalcArma(mean1,mean2);
+	double tmpdist = abs(mean1len-mean2len);
+      	NumericVector dists = outdiff[count];
+	NumericVector angs = angdiff[count];
+	dists[i] = tmpdist;
+	angs[i] = ang;
+        outdiff[count]=dists;
+	angdiff[count] = angs;
+	count +=1;
+      }
+    }
+  }
+  return List::create(Named("angles") = angdiff,
+		      Named("dists") = outdiff
+		      );
+}
+

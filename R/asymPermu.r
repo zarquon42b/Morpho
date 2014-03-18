@@ -5,8 +5,7 @@
 #' @param x object of class symproc result from calling \code{\link{procSym}} with \code{pairedLM} specified
 #' @param groups factors determining grouping.
 #' @param rounds number of permutations
-#' @param which in case the factor levels are >2 this determins which
-#' factorlevels to use
+#' @param which select which factorlevels to use, if NULL, all pairwise differences will be assessed after shuffling pooled data.
 #' @return
 #' \item{dist }{difference between vector lengths of group means}
 #' \item{angle }{angle between vectors of group specific asymmetric deviation}
@@ -16,10 +15,11 @@
 #'  \item{permudist }{vector containing differences between random group means' vector lenghts}
 #'  \item{permuangle }{vector containing angles between random group means' vectors}
 #' \item{groupmeans}{ array with asymmetric displacement per group}
+#' \item{levels}{ character vector containing the factors used}
 #'
 #'
 #' @export 
-asymPermute <- function(x,groups,rounds=1000,which=1:2) {
+asymPermute <- function(x,groups,rounds=1000,which=NULL) {
 
     if (!inherits(x,"symproc"))
         stop("please provide object of class 'symproc'")
@@ -31,52 +31,62 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2) {
     groups <- factor(groups)
     class(asym) <- "symproc"
     lev <- levels(groups)
-    if (length(lev) > 2) {
+   
+    if (!is.null(which)) {
         use <- which(groups %in% lev[which])
         groups <- factor(groups[use])
         lev <- levels(groups)
         asym <- asym[use,]
     }
+    ng <- length(lev)
     if (length(groups) != nrow(asym))
         stop("number of groups and number of observations differ")
-    mean1 <- meanMat(asym[groups == lev[1],])
-    mean2 <- meanMat(asym[groups == lev[2],])
-    mean1Mat <- matrix(mean1,nrow(x$mshape), ncol(x$mshape))
-    mean2Mat <- matrix(mean2,nrow(x$mshape), ncol(x$mshape))
-    
-    shaker <- .Call("asymPerm",asym,as.integer(groups),as.integer(rounds))
-    l.diff <- shaker$diff[1]
-    a.diff <- shaker$angle[1]
-    out <- list()
-    out$groupmeans <- bindArr(mean1Mat,mean2Mat,along=3)
-    out$dist <- l.diff
-    out$angle <- a.diff
-    if (rounds > 0) {
-        sample.dists <- shaker$diff[-1]
-        sample.angle <- shaker$angle[-1]
-        ## calculate p-values
-        p.angle <- length(which(sample.angle >= a.diff))
-        if (!!p.angle) {
-            p.angle <- p.angle/rounds
-            names(p.angle) <- "p-value"
-        } else {
-            p.angle <- 1/rounds
-            names(p.angle) <- "p-value <"
-        }
-        p.dist <- length(which(sample.dists >= l.diff))
-        if (!!p.dist) {
-            p.dist <- p.dist/rounds
-            names(p.dist) <- "p-value"
-        } else {
-            p.dist <- 1/rounds
-            names(p.dist) <- "p-value <"
-        }
-        out$p.dist <- p.dist
-        out$p.angle <- p.angle
-        out$permudist <- sample.dists
-        out$permuangle <- sample.angle
+    gmeans <- matrix(NA, ng,ncol(asym))
+    groupmeans <- array(NA, dim=c(dim(x$mshape),ng))
+    for ( i in 1:ng) {
+        gmeans[i,] <- meanMat(asym[groups == lev[i],])
+        groupmeans[,,i] <- matrix(gmeans[i,],nrow(x$mshape), ncol(x$mshape))
     }
-        
+    
+    shaker <- .Call("asymPermute",asym,as.integer(groups),as.integer(rounds))
+    out <- list(groupmeans=groupmeans)
+    out$levels <- lev
+    if (rounds > 0) {
+        angdiff <- dist <- matrix(0,ng,ng); dimnames(dist) <- list(lev,lev)
+        dist.probs <- ang.probs <- dist
+        count <- 1
+        for (j1 in 1:(ng - 1)) {
+            for (j2 in (j1 + 1):ng) {
+                dist0 <- dist[j1,j2] <- shaker$dists[[count]][1]
+                dists <- shaker$dists[[count]][-1]
+                ang0 <- angdiff[j1,j2] <- shaker$angle[[count]][1]
+                angs <- shaker$angles[[count]][-1]
+                pdist.value <- length(which(dists >= dist0))
+                pang.value <- length(which(angs >= ang0))
+                if (pdist.value > 0) {
+                    pdist.value <- pdist.value/rounds
+                } else {
+                    pdist.value <- 1/rounds
+                }                
+                dist.probs[j1,j2] <- pdist.value
+                 if (pang.value > 0) {
+                    pang.value <- pang.value/rounds
+                } else {
+                    pang.value <- 1/rounds
+                }                
+                dist.probs[j1,j2] <- pdist.value
+                ang.probs[j1,j2] <- pang.value
+                count <- count+1
+            }
+        }
+        out$dist <- as.dist(t(dist)+dist)
+        out$angle <- as.dist(angdiff+t(angdiff))
+        out$p.dist <- as.dist(dist.probs+t(dist.probs))
+        out$p.angle <- as.dist(ang.probs+t(ang.probs))
+                                        #out$permudist <- sample.dists
+                                        #out$permuangle <- sample.angle
+    }
+    
     return(out)
 }
 #' fast calculation of a Matrix' per row/ per column mean - useful for very large matrices
