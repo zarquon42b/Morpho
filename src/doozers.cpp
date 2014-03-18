@@ -8,14 +8,14 @@ using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-double angcalcArma(colvec a, colvec b) {
+double angcalcArma(vec a, vec b) {
   double alen = norm(a,2);
   double blen = norm(b,2);
   if (alen > 0)
     a = a/alen;
   if (blen > 0)
     b = b/blen;
-  colvec diffvec = a-b;
+  vec diffvec = a-b;
   double angle = acos((dot(diffvec,diffvec)-2)/-2);
   return angle;
 }
