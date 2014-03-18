@@ -6,6 +6,8 @@
 #' @param groups factors determining grouping.
 #' @param rounds number of permutations
 #' @param which select which factorlevels to use, if NULL, all pairwise differences will be assessed after shuffling pooled data.
+#' @note
+#' This test is only sensible if between-group differences concerning directional asymmetry have been established (e.g. by applying a MANOVA on the "asymmetric" PCscores (see also \code{\link{procSym}}) and one wants to test whether these can be attributed to differences in amount and/or direction of asymmetric displacement. If there is no or only very little directional asymmetry present, the angles will only be significan when larger than 90° (pi/2). So careful interpretation is advised.
 #' @return
 #' \item{dist }{difference between vector lengths of group means}
 #' \item{angle }{angle between vectors of group specific asymmetric deviation}
@@ -17,7 +19,7 @@
 #' \item{groupmeans}{ array with asymmetric displacement per group}
 #' \item{levels}{ character vector containing the factors used}
 #'
-#'
+#' @seealso \code{\link{procSym}}
 #' @export 
 asymPermute <- function(x,groups,rounds=1000,which=NULL) {
 

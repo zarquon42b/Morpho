@@ -35,4 +35,18 @@ used}
 Assess differences in amount and direction of asymmetric
 variation
 }
+\note{
+This test is only sensible if between-group differences
+concerning directional asymmetry have been established
+(e.g. by applying a MANOVA on the "asymmetric" PCscores
+(see also \code{\link{procSym}}) and one wants to test
+whether these can be attributed to differences in amount
+and/or direction of asymmetric displacement. If there is no
+or only very little directional asymmetry present, the
+angles will only be significan when larger than 90° (pi/2).
+So careful interpretation is advised.
+}
+\seealso{
+\code{\link{procSym}}
+}
 
