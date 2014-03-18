@@ -15,6 +15,7 @@
 #' \item{p.angle }{p-value obtained by comparing the actual angle to randomly acquired angles}
 #'  \item{permudist }{vector containing differences between random group means' vector lenghts}
 #'  \item{permuangle }{vector containing angles between random group means' vectors}
+#' \item{groupmeans}{ array with asymmetric displacement per group}
 #'
 #'
 #' @export 
@@ -40,11 +41,14 @@ asymPermute <- function(x,groups,rounds=1000,which=1:2) {
         stop("number of groups and number of observations differ")
     mean1 <- meanMat(asym[groups == lev[1],])
     mean2 <- meanMat(asym[groups == lev[2],])
-
+    mean1Mat <- matrix(mean1,nrow(x$mshape), ncol(x$mshape))
+    mean2Mat <- matrix(mean2,nrow(x$mshape), ncol(x$mshape))
+    
     shaker <- .Call("asymPerm",asym,as.integer(groups),as.integer(rounds))
     l.diff <- shaker$diff[1]
     a.diff <- shaker$angle[1]
     out <- list()
+    out$groupmeans <- bindArr(mean1Mat,mean2Mat,along=3)
     out$dist <- l.diff
     out$angle <- a.diff
     if (rounds > 0) {

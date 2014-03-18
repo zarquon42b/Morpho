@@ -25,7 +25,8 @@ actual distance to randomly acquired distances}
 angle to randomly acquired angles} \item{permudist }{vector
 containing differences between random group means' vector
 lenghts} \item{permuangle }{vector containing angles
-between random group means' vectors}
+between random group means' vectors} \item{groupmeans}{
+array with asymmetric displacement per group}
 }
 \description{
 Assess differences in amount and direction of asymmetric
