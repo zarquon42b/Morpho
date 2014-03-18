@@ -49,6 +49,6 @@ During installation of *Rtools* make sure to install the *toolchain*, and to sel
 Run the following command in R:
         
         require(devtools)
-        install_github("zarquon42b/Morpho", local=FALSE")
+        install_github("zarquon42b/Morpho", local=FALSE)
 
 
