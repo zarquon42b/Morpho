@@ -10,7 +10,7 @@
 #' This test is only sensible if between-group differences concerning directional asymmetry have been established (e.g. by applying a MANOVA on the "asymmetric" PCscores (see also \code{\link{procSym}}) and one wants to test whether these can be attributed to differences in amount and/or direction of asymmetric displacement. If there is no or only very little directional asymmetry present, the angles will only be significan when larger than 90° (pi/2). So careful interpretation is advised.
 #' @return
 #' \item{dist }{difference between vector lengths of group means}
-#' \item{angle }{angle between vectors of group specific asymmetric deviation}
+#' \item{angle }{angle (in radians) between vectors of group specific asymmetric deviation}
 #' \item{means }{actual group averages}
 #' \item{p.dist }{p-value obtained by comparing the actual distance to randomly acquired distances}
 #' \item{p.angle }{p-value obtained by comparing the actual angle to randomly acquired angles}
@@ -54,8 +54,8 @@ asymPermute <- function(x,groups,rounds=1000,which=NULL) {
     out <- list(groupmeans=groupmeans)
     out$levels <- lev
     if (rounds > 0) {
-        angdiff <- dist <- matrix(0,ng,ng); dimnames(dist) <- list(lev,lev)
-        dist.probs <- ang.probs <- dist
+        dist <- matrix(0,ng,ng); dimnames(dist) <- list(lev,lev)
+        angdiff <- dist.probs <- ang.probs <- dist
         count <- 1
         for (j1 in 1:(ng - 1)) {
             for (j2 in (j1 + 1):ng) {
