@@ -32,11 +32,22 @@ createAtlas <- function(mesh, landmarks, patch, corrCurves=NULL, patchCurves=NUL
     {
         atlas <- list()
         class(atlas) <- "atlas"
+        if (!inherits(mesh,"mesh3d") || is.null(mesh$it))
+            stop("mesh must be triangular mesh of class mesh3d")
         atlas$mesh <- mesh
+        if (!is.matrix(landmarks) || !is.matrix(patch))
+            stop("landmarks and patch must be numeric matrices")
+
         atlas$landmarks <- landmarks
         atlas$patch <- patch
+        if(!is.null(corrCurves) && !is.integer(unlist(corrCurves)))
+            stop("corrCurves must be an integer vector or a list of integer vectors")
         atlas$corrCurves <- corrCurves
+        if(!is.null(patchCurves) && !is.integer(unlist(patchCurves)))
+            stop("patchCurves must be an integer vector or a list of integer vectors")
         atlas$patchCurves<- patchCurves
+        if(!is.null(keep.fix) && !is.integer(keep.fix))
+            stop("keep.fix must be an integer")
         atlas$keep.fix <- keep.fix
         return(atlas)
     }
