@@ -107,7 +107,8 @@ placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=
     {
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
-        
+        if (!inherits(dat.array, "array"))
+            stop("dat.array must be a numeric array or a matrix")
         if (is.null(keep.fix)) {
             if (is.null(atlas$keep.fix))
                 keep.fix <- 1:dim(atlas$landmarks)[1]
