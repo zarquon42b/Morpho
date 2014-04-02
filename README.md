@@ -7,7 +7,7 @@ __Morpho__ provides a rich toolset for Geometric Morphometrics and mesh processi
 
 Within R:
        
-       install.packages("Morpho")
+	install.packages("Morpho")
 
 
 #### Installation of the R-package Morpho from sourceforge/github (latest release): ####
@@ -31,24 +31,25 @@ Within R:
         load package: library(Morpho)
 
 #### Installation of the R-package Morpho (development snapshot) using *devtools*: ####
-##### install prerequisites #####
+##### Install prerequisites #####
 
-1. install *devtools* from within R (Ubuntu/Debian users will have to install *libcurl4-gnutls-dev* beforehand):
+1. Install *devtools* from within R (Ubuntu/Debian users will have to install *libcurl4-gnutls-dev* beforehand):
 
-        install.packages("devtools")
+		install.packages("devtools")
 
-    * **Make sure to have the latest versions of Rcpp and RcppArmadillo installed!!**
+	**Make sure to have the latest versions of Rcpp and RcppArmadillo installed!!**
+    
 
 2. Install build environment
     * **Windows:** Install latest version of *[Rtools](http://cran.r-project.org/bin/windows/Rtools)*
 During installation of *Rtools* make sure to install the *toolchain*, and to select *"Edit the system path"* (and confirming the installers suggestions).
     * **OSX:** Install *[XCODE](https://developer.apple.com/xcode/)*
 
-##### install Morpho #####
+##### Install Morpho #####
 
 Run the following command in R:
         
-        require(devtools)
-        install_github("zarquon42b/Morpho", local=FALSE)
+	require(devtools)
+	install_github("zarquon42b/Morpho", local=FALSE)
 
 
