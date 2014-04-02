@@ -43,8 +43,8 @@ concerning directional asymmetry have been established
 whether these can be attributed to differences in amount
 and/or direction of asymmetric displacement. If there is no
 or only very little directional asymmetry present, the
-angles will only be significan when larger than 90° (pi/2).
-So careful interpretation is advised.
+angles will only be significan when larger than 90 degrees
+(pi/2). So careful interpretation is advised.
 }
 \seealso{
 \code{\link{procSym}}

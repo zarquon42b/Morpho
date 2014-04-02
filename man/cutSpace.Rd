@@ -40,7 +40,7 @@ depends on the ordering of v1, v2 and v3.
 data(nose)
 v1 <- shortnose.lm[1,]
 v2 <- shortnose.lm[2,]
-v2 <- shortnose.lm[3,]
+v3 <- shortnose.lm[3,]
 pointcloud <- vert2points(shortnose.mesh)
 upper <- cutSpace(pointcloud, v1, v2, v3)
 \dontrun{
