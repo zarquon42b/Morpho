@@ -8,7 +8,7 @@
 #' @param upper logical specify whether the points above or below the plane are to be reported as TRUE.
 #' @return logical vector of length n. Reporting for each point if it is above or below the hyperplane
 #' @details
-#' As above and below are specified by the normal calculated from \eqn{(v2-v1) \times (v3-v1)}, where \eqn{\times} is the vector crossproduct. This means the normal points "upward" when viewed from the positon where v1, v2 and v3 are arranged counter-clockwise. Thus, which side is "up" depends on the ordering of v1, v2 and v3.
+#' As above and below are specified by the normal calculated from \eqn{(v2-v1) \times (v3-v1)}{(v2-v1) x (v3-v1)}, where \eqn{\times}{x} denotes the vector crossproduct. This means the normal points "upward" when viewed from the positon where v1, v2 and v3 are arranged counter-clockwise. Thus, which side is "up" depends on the ordering of v1, v2 and v3.
 #' @examples
 #' data(nose)
 #' v1 <- shortnose.lm[1,]

@@ -30,11 +30,12 @@ separate a 3D-pointcloud by a hyperplane separate a
 }
 \details{
 As above and below are specified by the normal calculated
-from \eqn{(v2-v1) \times (v3-v1)}, where \eqn{\times} is
-the vector crossproduct. This means the normal points
-"upward" when viewed from the positon where v1, v2 and v3
-are arranged counter-clockwise. Thus, which side is "up"
-depends on the ordering of v1, v2 and v3.
+from \eqn{(v2-v1) \times (v3-v1)}{(v2-v1) x (v3-v1)}, where
+\eqn{\times}{x} denotes the vector crossproduct. This means
+the normal points "upward" when viewed from the positon
+where v1, v2 and v3 are arranged counter-clockwise. Thus,
+which side is "up" depends on the ordering of v1, v2 and
+v3.
 }
 \examples{
 data(nose)
