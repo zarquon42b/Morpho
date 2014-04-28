@@ -1,4 +1,5 @@
 #' separate a 3D-pointcloud by a hyperplane
+#' 
 #' separate a 3D-pointcloud by a hyperplane
 #'
 #' @param pointcloud numeric n x 3 matrix

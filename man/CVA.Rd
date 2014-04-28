@@ -16,8 +16,8 @@ CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
   grouping variable.}
 
   \item{weighting}{Logical: Determines whether the between
-  group covariance matrix is to be weighted according to
-  group size.}
+  group covariance matrix and Grandmean is to be weighted
+  according to group size.}
 
   \item{tolinv}{Threshold for the eigenvalues of the pooled
   within-group-covariance matrix to be taken as zero - for

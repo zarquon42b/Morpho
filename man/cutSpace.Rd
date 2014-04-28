@@ -1,7 +1,6 @@
 \name{cutSpace}
 \alias{cutSpace}
-\title{separate a 3D-pointcloud by a hyperplane
-separate a 3D-pointcloud by a hyperplane}
+\title{separate a 3D-pointcloud by a hyperplane}
 \usage{
 cutSpace(pointcloud, v1, v2, v3, upper = TRUE)
 }
@@ -25,8 +24,7 @@ logical vector of length n. Reporting for each point if it
 is above or below the hyperplane
 }
 \description{
-separate a 3D-pointcloud by a hyperplane separate a
-3D-pointcloud by a hyperplane
+separate a 3D-pointcloud by a hyperplane
 }
 \details{
 As above and below are specified by the normal calculated

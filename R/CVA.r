@@ -8,8 +8,8 @@
 #' alternatively a n x m Matrix where n is the numeber of observations and m
 #' the number of variables (this can be PC scores for example)
 #' @param groups a character/factor vector containgin grouping variable.
-#' @param weighting Logical: Determines whether the between group covariance
-#' matrix is to be weighted according to group size.
+#' @param weighting Logical: Determines whether the between group covariance 
+#' matrix and Grandmean is to be weighted according to group size.
 #' @param tolinv Threshold for the eigenvalues of the pooled
 #' within-group-covariance matrix to be taken as zero - for calculating the
 #' general inverse of the pooled withing groups covariance matrix.
@@ -169,8 +169,12 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         else
             Gmeans[i, ] <- N[groups==lev[i], ]
     }
-    Grandm <- as.vector(apply(Gmeans, 2, mean))
-    Tmatrix <- N
+    if (weighting) {
+        Grandm <- apply(Gmeans*gsizes,2,sum)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
+    } else {
+        Grandm <- as.vector(apply(Gmeans, 2, mean))
+    }
+        Tmatrix <- N
     N <- sweep(N, 2, Grandm) #center data according to Grandmean
     resGmeans <- sweep(Gmeans, 2, Grandm)
     
