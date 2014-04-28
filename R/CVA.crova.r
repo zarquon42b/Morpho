@@ -15,7 +15,11 @@
         else
             Gmeans[i, ] <- N[groups==lev[i], ]
     }
-    Grandm <- apply(Gmeans, 2, mean)
+    if (weighting) {
+        Grandm <- apply(Gmeans*gsizes,2,sum)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
+    } else {
+        Grandm <- as.vector(apply(Gmeans, 2, mean))
+    }
     N <- sweep(N, 2, Grandm)
     resGmeans <- sweep(Gmeans, 2, Grandm)
     if (weighting) {
