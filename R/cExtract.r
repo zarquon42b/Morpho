@@ -25,12 +25,18 @@ cExtract <- function(pts.file)
     cs <- grep("C",allnames)
     ps <- grep("P",allnames)
     S <- grep("S",allnames)
-    if (length(ps) > 0)
+    
+    if (length(ps))
         cs <- c(cs,ps)
-    cnames <- row.names(x)[cs]	
-    olevels <- levels(as.factor(substr(cnames,1,4)))
+    if (length(cs)) {
+        cnames <- row.names(x)[cs]	
+        olevels <- levels(as.factor(substr(cnames,1,4)))
+    } else {
+        warning("no curves or patches found")
+        olevels <- NULL
+    }
     S <- grep("S",allnames)
-    if (length(S) == 0 ) {
+    if (!length(S)) {
         S <- NULL
     } else {
         S <- "S"
