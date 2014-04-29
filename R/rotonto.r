@@ -67,9 +67,9 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
             X1 <- Dn%*%X
             Y1 <- Dn%*%Y
             XY <- crossprod(X1,Y1)
-        } else
+        } else {
             XY <- crossprod(X,Y)
-        
+        }
         sv1 <- svd(XY)
         gamm <- tcrossprod(sv1$v,sv1$u)
         
@@ -109,7 +109,7 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
             yrot <- Y%*%gamm
         }
 	Y <- yrot  	
-	yrot <- t(apply(yrot,1,function(x){x+trans}))
+	yrot <- t(t(yrot)+trans)
         
   	return(list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect))
 }
@@ -121,7 +121,7 @@ rotreverse <- function(mat,rot)
         x <- x+trans
     }
     
-    out <- t(apply(mat,1,transfun,-rot$trans))
-    out <- t(apply((out%*%t(rot$gamm))*1/rot$bet,1,transfun,rot$transy))
+    out <- t(t(mat)-rot$trans)
+    out <- t(t(out%*%t(rot$gamm)*1/rot$bet)+rot$transy)
     return(out)
   }
