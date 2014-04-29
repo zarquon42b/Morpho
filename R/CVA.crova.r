@@ -15,7 +15,11 @@
         else
             Gmeans[i, ] <- N[groups==lev[i], ]
     }
-    Grandm <- apply(Gmeans, 2, mean)
+    if (weighting) {
+        Grandm <- apply(Gmeans*gsizes,2,sum)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
+    } else {
+        Grandm <- as.vector(apply(Gmeans, 2, mean))
+    }
     N <- sweep(N, 2, Grandm)
     resGmeans <- sweep(Gmeans, 2, Grandm)
     if (weighting) {
@@ -25,24 +29,6 @@
     } else {
         X <- sqrt(n/ng) * resGmeans
     }
-
-
-#' calculate the pooled within groups covariance matrix
-#' 
-#' calculate the pooled within groups covariance matrix
-#' 
-#' 
-#' @param data a matrix containing data
-#' @param groups grouping variables.
-#' @return Returns the pooled within group covariance matrix.
-#' @author Stefan Schlager
-#' @seealso \code{\link{cov}}, \code{\link{typprobClass}}
-#' @examples
-#' 
-#' data(iris)
-#' poolCov <- covW(iris[,1:4],iris[,5])
-#' 
-#' @export
     covW <- covW(N, groups)
     eigW <- eigen(covW*(n - ng))
     eigcoW <- eigen(covW)
