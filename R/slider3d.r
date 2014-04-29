@@ -315,7 +315,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
             Amir <- mshape%*%Mir
             Amir[c(pairedLM),] <- Amir[c(pairedLM[,2:1]),]
             symproc <- rotonto(A,Amir)
-            mshape <- (A+Amir)/2
+            mshape <- (symproc$X+symproc$Y)/2
         }     
         p1_old <- p1
         testproc <- rotonto(mshape_old,mshape)			   	
