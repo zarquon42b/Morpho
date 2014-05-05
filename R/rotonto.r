@@ -113,9 +113,14 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
         
   	return(list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect))
 }
+
 #' @rdname rotonto
 #' @export
-rotreverse <- function(mat,rot)
+rotreverse <- function(mat,rot)UseMethod("rotreverse")
+
+#' @rdname rotonto
+#' @export
+rotreverse.matrix <- function(mat,rot)
   {
     transfun <- function(x,trans) {
         x <- x+trans
@@ -124,4 +129,15 @@ rotreverse <- function(mat,rot)
     out <- t(t(mat)-rot$trans)
     out <- t(t(out%*%t(rot$gamm)*1/rot$bet)+rot$transy)
     return(out)
+  }
+
+#' @rdname rotonto
+#' @export
+rotreverse.mesh3d <- function(mat,rot)
+  {
+    x <- rotreverse(vert2points(mat),rot)
+    mat$vb[1:3,] <- t(x)
+    mat <- updateNormals(mat)
+    
+    return(mat)
   }

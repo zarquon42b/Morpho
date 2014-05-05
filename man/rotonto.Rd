@@ -1,6 +1,8 @@
 \name{rotonto}
 \alias{rotonto}
 \alias{rotreverse}
+\alias{rotreverse.matrix}
+\alias{rotreverse.mesh3d}
 \title{rotates, translates and scales one matrix onto an other using Procrustes
 fitting}
 \usage{
@@ -8,6 +10,10 @@ rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE,
   weights = NULL, centerweight = FALSE)
 
 rotreverse(mat, rot)
+
+\method{rotreverse}{matrix}(mat, rot)
+
+\method{rotreverse}{mesh3d}(mat, rot)
 }
 \arguments{
   \item{x}{k x m matrix to be rotated onto (targetmatrix)}
