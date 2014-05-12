@@ -72,7 +72,7 @@
 #' 
 #' 
 #' @param \dots matrices and/or arrays with appropriate dimensionality to
-#' combine to one array.
+#' combine to one array, or a single list containing suitable matrices, or arrays).
 #' @param along dimension along which to concatenate.
 #' @details dimnames, if present and if differing between entries, will be concatenated, separated by a "_".
 #' @return returns array of combined matrices/arrays
@@ -95,6 +95,9 @@
 bindArr <- function(...,along=1)
     {
         args <- list(...)
+        if (length(args) == 1 && is.list(args[[1]]))
+             args <- (...)
+       
         argc <- length(args)
         if (argc < 2)
             stop("at least two arguments needed")
