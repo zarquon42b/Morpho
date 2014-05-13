@@ -2,6 +2,28 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.0.3 (2014-05-13)}{
+  \itemize{
+   \item added support for objects stored in a list in bindArr
+   \item made rotreverse an S3 function for matrices and mesh3d
+   \item fixed bug in slider3d if pairedLM != 0
+   \item fixed pooled within covariance matrix (covW) for single group entries
+   \item speed up rotonto, rotonmat by vectorizing
+   \item removed junk comments
+   \item added fix for weighted Grandmean in CVA (thanks to Anne-Beatrice Defour)
+   \item added check for empty patches and curves in cExtract (thanks to M. Friess for pointing that out)
+   \item added 'cutMeshPlane' and 'cutSpace' to cut a pointcloud into upper and lower part
+   \item added function 'solutionSpace' to calculate the basis of the solution space for Ax=b, with det(A)=0
+   \item minor changes in asymPermute (docu and table naming)
+   \item enabled multigroup support in asymPermute
+   \item added groupmean output in asymPermute
+   \item updateNormals: if no faces are present, mesh will be returned unchanged now. quadric faces are converted to triangular ones
+   \item add new function 'quad2trimesh' for converting quadric meshes into triangular meshes.
+   \item made code in pcaplot3d easier to maintain by creating .pcaplot3d
+   \item assigned additional attributes to output of procSym
+ }
+}
+
 \section{Changes in Morpho version 2.0.2 (2014-02-24)}{
   \itemize{
     \item added function 'fixLMmirror' to estimate missing bilateral
