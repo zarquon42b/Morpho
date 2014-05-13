@@ -228,8 +228,8 @@ vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region, int met
   vec checkclost(3);
   vec vbtmp(13);
   double dist_old = 1e10;
-  int regiontmp;
-  double sqdist;
+  int regiontmp = 0;
+  double sqdist = 0;
   bool meth = false;
   for (int i=0; i < ndat; ++i) {
     vbtmp = DAT.col(i);
@@ -255,7 +255,7 @@ vec pt2mesh(vec point, mat DAT, double& dist, int& faceptr, int& region, int met
 }
 // calculate barycentric coordinates of a point, given a face pointer and a mesh.
 vec getBaryCent(vec point, int fptr, mat vb, umat it) {
-  vec barycoord(3);
+  vec barycoord(3); barycoord.zeros();
   vec v0 = vb.col(it(1,fptr))-vb.col(it(0,fptr));
   vec v1 = vb.col(it(2,fptr))-vb.col(it(0,fptr));
   vec v2 = point - vb.col(it(0,fptr));
@@ -294,16 +294,15 @@ SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SE
   mat DAT = updateSearchStruct(vb,itU,uniclost);
   mat closeMat = ref;
   mat outnormals = ref;
-  mat barycoords;
-  if (bary) 
-    barycoords = ref;
-  ivec region(nref), faceptr(nref); region.zeros();
+  mat barycoords = ref;
+  
+  ivec region(nref), faceptr(nref); region.zeros();faceptr.zeros();
   vec dists(nref); dists.zeros();
   for (int i=0; i < nref; ++i) {
     mat tmpdat = DAT.cols(clostIndU.col(i));//select appropriate subset of DAT
     vec tmpvec(3), weight(3); 
-    tmpvec.zeros();
-    int faceptrtmp;
+    tmpvec.zeros();weight.zeros();
+    int faceptrtmp=0;
     closeMat.col(i) = pt2mesh(ref.col(i), tmpdat, dists(i), faceptrtmp,region(i),method);
     faceptr(i)=clostInd(faceptrtmp,i);
     //get normal weights
@@ -318,7 +317,8 @@ SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SE
     }
     //get weighted normals
     vec tmpnormal(3); tmpnormal.zeros();
-    for (int j = 0; j < 3; ++j) {
+
+    for (int j = 0; j < 3; j++) {
       tmpnormal += weight(j)*normals.col(it(j,faceptr(i)));
     }
     double normlen = norm(tmpnormal,2);
