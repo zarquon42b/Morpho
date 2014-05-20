@@ -36,9 +36,10 @@ plotNormals <- function(x,long=1,lwd=1,col=1)
     n.mesh <- list()
     lvb <- dim(x$vb)[2]
     vb <- x$vb
-    vb.norm <- vb+long*rbind(x$normals[1:3,],0)
-    vb.norm[4,] <- 1
-    vb <- cbind(vb,vb.norm)
+    vb.norm <- vb[1:3,,drop=FALSE]+long*x$normals[1:3,,drop=FALSE]
+    vb <- cbind(vb[1:3,,drop=FALSE],vb.norm)
+    vb <- rbind(vb,1)
+    
     it <- rbind(1:lvb,1:lvb,(1:lvb)+lvb)
     n.mesh$vb <- vb
     n.mesh$it <- it
