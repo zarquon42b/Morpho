@@ -85,6 +85,7 @@ meshDist <- function(x,...) UseMethod("meshDist")
 
 #' @rdname meshDist
 #' @method meshDist mesh3d
+#' @importFrom Rvcg vcgClostKD
 #' @export
 meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("morpho", "vcglib"), add=FALSE, ...)
   {
@@ -94,7 +95,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     if (is.null(distvec)) {
         if(!ray) {
             if (method == "v") {
-                promesh <- projRead(t(x$vb[1:3,]),mesh2,readnormals=T,sign=T)
+                promesh <- vcgClostKD(x,mesh2,sign=T)
             } else {
                 promesh <- closemeshKD(x,mesh2,sign=T)
             }
