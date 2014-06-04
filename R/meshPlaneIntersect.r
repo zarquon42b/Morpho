@@ -1,11 +1,24 @@
-#' get only those faces intersecting a plane
+#' get intersections between mesh and a plane
 #'
-#' get only those faces intersecting a plane
+#' get intersections between mesh and a plane
 #' 
 #' @param v1 numeric vector of length=3 specifying a point on the separating plane
 #' @param v2 numeric vector of length=3 specifying a point on the separating plane
 #' @param v3 numeric vector of length=3 specifying a point on the separating plane
-#' @return returns a mesh with only those faces intersecting a plane
+#' @return returns the intersections of edges and the plane
+#' @examples
+#' data(nose)
+#' v1 <- shortnose.lm[1,]
+#' v2 <- shortnose.lm[2,]
+#' v3 <- shortnose.lm[3,]
+#' intersect <- meshPlaneIntersect(shortnose.mesh,v1,v2,v3)
+#' \dontrun{
+#' require(rgl)
+#' wire3d(shortnose.mesh)
+#' spheres3d(shortnose.lm[1:3,],col=2)#the plane
+#' spheres3d(intersect,col=3,radius = 0.2)#intersections
+#' }
+#' @importFrom Rvcg vcgGetEdge
 #' @export
 meshPlaneIntersect <- function(mesh, v1, v2, v3) {
     
@@ -17,8 +30,11 @@ meshPlaneIntersect <- function(mesh, v1, v2, v3) {
     nit <- 1:ncol(mesh$it)
     facesInter <- which(as.logical((nit %in% upface) * nit %in% downface))
     mesh$it <- mesh$it[,facesInter]
-    mesh <- rmUnrefVertex(mesh)
-    return(mesh)
+    mesh <- rmUnrefVertex(mesh,silent=TRUE)
+    edges <- as.matrix(vcgGetEdge(mesh)[,1:2])
+    pointcloud <- vert2points(mesh)
+    out <- edgePlaneIntersect(pointcloud,edges,v1,v2,v3)
+    return(out)
 }
 
 #' find indices of faces that contain specified vertices
@@ -54,4 +70,22 @@ getFaces <- function(mesh,index) {
         stop("mesh contains no triangular faces")
     }
         
+}
+
+edgePlaneIntersect <- function(pointcloud,edges,v1,v2,v3) {
+    e1 <- v2-v1
+    e2 <- v3-v1
+    e1 <- e1/sqrt(sum(e1^2))
+    e2 <- e2/sqrt(sum(e2^2))
+    normal <- crossp(e1,e2)
+    normal <- normal/sqrt(sum(normal^2))
+    e2a <- crossp(e1,normal)
+    e2a <- e2a/sqrt(sum(e2a^2))
+    Ep <- cbind(e1,e2a)
+    edges <- edges-1
+    pointcloud0 <- sweep(pointcloud,2,v1)
+    orthopro <- t(Ep%*%t(Ep)%*%t(pointcloud0))    
+    diff <- orthopro-pointcloud0
+    out <- .Call("edgePlane",pointcloud,diff,edges)
+    return(out)
 }
