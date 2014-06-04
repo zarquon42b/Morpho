@@ -89,3 +89,21 @@ edgePlaneIntersect <- function(pointcloud,edges,v1,v2,v3) {
     out <- .Call("edgePlane",pointcloud,diff,edges)
     return(out)
 }
+
+binfun <- function(coords,bs=1,margin=10){
+    pca <- prcomp(coords)
+    S0 <- pca$x[,1:2]
+    i <- floor((S0[,2])/bs)
+    j <- floor(S0[,1]/bs)
+    irange <- range(i)
+    jrange <- range(j)
+    i <- i-irange[1]+1+margin
+    j <- j-jrange[1]+1+margin
+    irange <- range(i)
+    jrange <- range(j)
+    image <- matrix(0,irange[2]+margin,jrange[2]+margin)
+    ij <- unique(cbind(i,j))
+    for (i in 1:nrow(ij))
+        image[ij[i,1],ij[i,2]] <- 1
+    return(image)
+}
