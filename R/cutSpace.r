@@ -57,7 +57,16 @@ cutSpace <- function(pointcloud,v1, v2, v3,upper=TRUE) {
 cutMeshPlane <- function(mesh, v1, v2, v3, keep.upper=TRUE) {
     pointcloud <- vert2points(mesh)
     upper <- cutSpace(pointcloud, v1, v2, v3,upper=keep.upper)
-    outmesh <- rmVertex(mesh,which(upper),keep = TRUE)
+    outmesh <- list()
+    lremain <- length(which(upper))
+    if (lremain) {
+        if (lremain < ncol(mesh$vb))
+            outmesh <- rmVertex(mesh,which(upper),keep = TRUE)
+        else
+            outmesh <- mesh
+    } else {
+        warning("nothing left")
+    }
     return(outmesh)
 }
                         

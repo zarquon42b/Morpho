@@ -67,7 +67,7 @@ getFaces <- function(mesh,index) {
         invalface <- which(checkface == 0)
         return(invalface)
     } else {
-        stop("mesh contains no triangular faces")
+        return(numeric(0))
     }
         
 }
