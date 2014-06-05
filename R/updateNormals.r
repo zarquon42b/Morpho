@@ -59,7 +59,7 @@ updateNormals <- function(x,angle=TRUE)
     if (!is.null(x$it)) {
         if (!is.matrix(x$it) || !is.numeric(x$it))
             stop("faces indices must be stored as numeric matrix")
-        rangeit <- range(it)
+        rangeit <- range(x$it)
         if (rangeit[1] < 1 || rangeit[2] > ncol(vb))
             stop("faces point beyond range of vertices")
         it <- x$it-1
