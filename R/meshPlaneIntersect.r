@@ -46,6 +46,7 @@ meshPlaneIntersect <- function(mesh, v1, v2, v3) {
 #' @return vector of face indices
 #' @export
 getFaces <- function(mesh,index) {
+    index <- unique(index)
     it <- mesh$it
     itdim <- dim(it)
     lRm <- length(index)
