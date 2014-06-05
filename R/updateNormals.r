@@ -59,7 +59,9 @@ updateNormals <- function(x,angle=TRUE)
     if (!is.null(x$it)) {
         if (!is.matrix(x$it) || !is.numeric(x$it))
             stop("faces indices must be stored as numeric matrix")
-
+        rangeit <- range(it)
+        if (rangeit[1] < 1 || rangeit[2] > ncol(vb))
+            stop("faces point beyond range of vertices")
         it <- x$it-1
         out <- .Call("updateVertexNormals",vb,it,angle)
         normals <- rbind(out,1)
@@ -84,8 +86,10 @@ facenormals <- function(x)
     vb <- vb[1:3,]
     if (!is.matrix(vb) || !is.numeric(vb))
         stop("vertices must be a numeric matrix")
-    if (!is.null(x$it))
+    if (!is.null(x$it)) {
         it <- x$it-1
+        
+    }
     else
         stop("mesh has no triangular faces")
 

@@ -26,9 +26,12 @@ barycenter <- function(mesh)
     nvb <- dim(vb)[2]
     if (!is.matrix(vb) || !is.numeric(vb))
         stop("vertices must be a numeric matrix")
-    if (!is.null(mesh$it))
+    if (!is.null(mesh$it)) {
+        rangeit <- range(mesh$it)
+        if (rangeit[1] < 1 || rangeit[2] > ncol(vb))
+            stop("faces point beyond range of vertices")
         it <- mesh$it-1
-    else
+    } else
         stop("mesh has no triangular faces")
     nit <- dim(it)[2]
     out <- .Call("barycenter",vb,it)
