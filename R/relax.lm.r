@@ -1,11 +1,11 @@
-#' relax one specific 3D landmark configuration against a reference
+#' relax one specific landmark configuration against a reference
 #' 
-#' relax one specific 3D landmark configuration against a reference (e.g. a
+#' relax one specific landmark configuration against a reference (e.g. a
 #' sample mean)
 #' 
 #' 
-#' @param lm k x 3 matrix containing landmark data to be slidden.
-#' @param reference k x 3 matrix containing landmark of the reference
+#' @param lm k x 3 or k x 2 matrix containing landmark data to be slidden.
+#' @param reference k x 3 or k x 2 matrix containing landmark of the reference
 #' @param SMvector A vector containing the landmarks on the curve(s) that are
 #' allowed to slide
 #' @param outlines A vector (or if threre are several curves) a list of vectors
@@ -68,51 +68,64 @@
 #' @export
 relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE)
 {
+    
     k <- dim(lm)[1]
     m <- dim(lm)[2]
+    
     p1 <- 10^12
     lm.orig <- lm
     L <- CreateL(reference)
     if (deselect)
         fixLM <- SMvector
     else if (length(SMvector) < k)
-        fixLM <- 1:k[-SMvector]
+        fixLM <- c(1:k)[-SMvector]
     else
         fixRepro <- TRUE
 
     if (iterations == 0)
         iterations <- 1e10
-    
+    if (m == 3) {
     cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
-    if (is.null(mesh)) {
-        a <- projRead(lm, sur.name)
-        vs <- t(a$vb[1:3,])
-        vn <- t(a$normals[1:3,])
-    } else {
-        tmp <- closemeshKD(lm,mesh)
-        vs <- vert2points(tmp)
-        vn <- t(tmp$normals[1:3,])
-    }
-    if (!fixRepro)# use original positions for fix landmarks
-        vs[fixLM,] <- lm.orig[fixLM,]
-    count <- 1
-    while (p1>tol && count <= iterations) {
-        lm_old <- vs
-        cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
-        U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
-        dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+    
         if (is.null(mesh)) {
-            a <- projRead(dataslido, sur.name)
+            a <- projRead(lm, sur.name)
             vs <- t(a$vb[1:3,])
             vn <- t(a$normals[1:3,])
-            
         } else {
-            tmp <- closemeshKD(dataslido,mesh)
+            tmp <- closemeshKD(lm,mesh)
             vs <- vert2points(tmp)
             vn <- t(tmp$normals[1:3,])
         }
         if (!fixRepro)# use original positions for fix landmarks
-        vs[fixLM,] <- lm.orig[fixLM,]
+            vs[fixLM,] <- lm.orig[fixLM,]
+    } else {
+        vs <- lm
+    }
+    count <- 1
+    while (p1 > tol && count <= iterations) {
+        lm_old <- vs
+        cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
+        if (m == 3)
+            U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
+        else
+            U <- .calcTang_U(vs,SMvector=SMvector,outlines=outlines,deselect=deselect)
+        dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+        if (m == 3) {
+            if (is.null(mesh)) {
+                a <- projRead(dataslido, sur.name)
+                vs <- t(a$vb[1:3,])
+                vn <- t(a$normals[1:3,])
+                
+            } else {
+                tmp <- closemeshKD(dataslido,mesh)
+                vs <- vert2points(tmp)
+                vn <- t(tmp$normals[1:3,])
+            }
+            if (!fixRepro)# use original positions for fix landmarks
+                vs[fixLM,] <- lm.orig[fixLM,]
+        } else {
+            vs <- dataslido
+        }
         
         p1_old <- p1
         testproc <- rotonto(lm_old,vs)			   	
