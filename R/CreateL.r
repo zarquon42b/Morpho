@@ -64,13 +64,13 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
         Lsubk <- L1[1:k,1:k]
         Lsubk3 <- NULL
         if (blockdiag) {
-            Lsubk3 <- matrix(0,3*k,3*k)
+            Lsubk3 <- Matrix::Matrix(0,3*k,3*k)
             Lsubk3[1:k,1:k] <- Lsubk
             Lsubk3[(k+1):(2*k),(k+1):(2*k)] <- Lsubk
             Lsubk3[(2*k+1):(3*k),(2*k+1):(3*k)] <- Lsubk
         }
         return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
-    } else if (dim(matrix)[2] == 2) {
+    } else if (dim(matrix)[x] == 2) {
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
         return(out)
     } else

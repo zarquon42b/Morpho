@@ -9,13 +9,14 @@ RcppExport SEXP createL(SEXP Matrix_) {
    //int m = Matrix.ncol();
    int k = Matrix.nrow();
    mat MatrixA(Matrix.begin(), Matrix.nrow(), Matrix.ncol());
-   mat K(k,k);
+   mat K(k,k); K.zeros();
    for (int i=0; i < k; ++i) {
-     for(int j=0; j < k; ++j) {
+     for(int j=i; j < k; ++j) {
        mat diff = MatrixA.row(i)-MatrixA.row(j);
        K(i,j) = -sqrt(dot(diff,diff));
      }
    }
+   K = K+K.t();
    return wrap(K);
 }
   
