@@ -40,13 +40,14 @@ vecx <- function(x, byrow=FALSE, revert=FALSE, lmdim) {
         names <- rownames(x)
     if (!revert) {
         vecs <- matrix(0,n,k*m)
-       for(i in 1:n) {
+       #for(i in 1:n) {
            if (byrow) {
-               vecs[i,] <- as.vector(t(x[,,i]))
+               vecs <- matrix(aperm(x,c(3,2,1)),n,k*m)
            } else {
-               vecs[i,] <- as.vector(x[,,i])
+               vecs <- matrix(aperm(x,c(3,1,2)),n,k*m)
            }
-       }
+           
+       
    } else {
        x <- t(x)
        vecs <- array(x, dim=c(k,m,n))
