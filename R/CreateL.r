@@ -46,7 +46,7 @@
 #' @export
 CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
 {
-    if (dim(matrix)[2] == 3) {
+    if (ncol(matrix) == 3) {
         k <- dim(matrix)[1]
         Q <- cbind(1,matrix)
         O <- matrix(0,4,4)
@@ -70,7 +70,7 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
             Lsubk3[(2*k+1):(3*k),(2*k+1):(3*k)] <- Lsubk
         }
         return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
-    } else if (dim(matrix)[x] == 2) {
+    } else if (ncol(matrix) == 2) {
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
         return(out)
     } else
