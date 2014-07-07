@@ -57,48 +57,53 @@ unrefVertex <- function(mesh)
     }
 #' @rdname vertex
 #' @export
-rmVertex <- function(mesh,index,keep=FALSE)
-    {
-        if (! keep) {
-            it <- mesh$it
-            itdim <- dim(it)
-            lRm <- length(index)
-            vbn <- dim(mesh$vb)[2]
-            indOrig <- 1:vbn
-            indOut <- indOrig*0
-            indNew <- 1:(vbn-lRm)     
-            indOut[-index] <- indNew
-            
-            facefun <- function(x)
-                {
-                    x <- indOut[x]
-                    return(x)
-                }
-            if (!is.null(it)) {
-                it <- matrix(facefun(it),itdim)
-                checkface <- .Call("face_zero",it)
-                #checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]
-                invalface <- which(checkface == 0) 
-                if (length(invalface) > 0) {
-                    mesh$it <- it[,-invalface]
-                    if(!is.null(mesh$material$color))
-                        mesh$material$color <- mesh$material$color[,-invalface]
-                } else {
-                    mesh$it <- it
-                }
-                
-                if (0 %in% dim(it))
+rmVertex <- function(mesh,index,keep=FALSE) {
+    if (! keep) {
+        it <- mesh$it
+        itdim <- dim(it)
+        lRm <- length(index)
+        vbn <- dim(mesh$vb)[2]
+        indOrig <- 1:vbn
+        indOut <- indOrig*0
+        indNew <- 1:(vbn-lRm)     
+        indOut[-index] <- indNew
+        
+        facefun <- function(x) {
+            x <- indOut[x]
+            return(x)
+        }
+        if (!is.null(it)) {
+            it <- matrix(facefun(it),itdim)
+            checkface <- .Call("face_zero",it)
+                                        #checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]
+            invalface <- which(checkface == 0) 
+            if (length(invalface) > 0) {
+                if (length(invalface) == ncol(it)) {
+                    mesh$material <- NULL
                     mesh$it <- NULL
+                } else
+                    mesh$it <- it[,-invalface]
+                if(!is.null(mesh$material$color))
+                    mesh$material$color <- mesh$material$color[,-invalface]
+            } else {
+                mesh$it <- it
             }
             
-            mesh$vb <- mesh$vb[,-index]
-            mesh <- updateNormals(mesh)
-        } else {
-            mesh <- rmVertex(mesh,c(1:ncol(mesh$vb))[-sort(index)])
+            if (0 %in% dim(it))
+                mesh$it <- NULL
         }
-        return(mesh)
-
+       
+        mesh$vb <- mesh$vb[,-index]
+        if (!is.null(mesh$it))
+            mesh <- updateNormals(mesh)
+        else
+            mesh$normals <- NULL
+    } else {
+        mesh <- rmVertex(mesh,c(1:ncol(mesh$vb))[-unique(index)],keep = F)
     }
+    return(mesh)
+
+}
 #' @rdname vertex
 #' @export
 vert2points <- function(mesh)
@@ -122,4 +127,4 @@ rmUnrefVertex <- function(mesh, silent=FALSE)
         }
         return(mesh)
     }
-        
+
