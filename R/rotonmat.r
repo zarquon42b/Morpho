@@ -15,7 +15,11 @@
 #' @param centerweight logical: if weights are defined and centerweigths=TRUE,
 #' the matrix will be centered according to these weights instead of the
 #' barycenter.
-#' @return returns rotated X.
+#' @param getTrafo logical: if TRUE, a 4x4 transformation matrix will also be returned.
+#' @return if \code{getTrafo=FALSE} the transformed X will be returned,
+#' else alist containing:
+#' \item{Xrot}{the transformed matrix X}
+#' \item{Trafo}{a 4x4 transformation matrix}
 #' @author Stefan Schlager
 #' @seealso \code{\link{rotonto}},\code{\link{rotmesh.onto}}
 #' 
@@ -31,10 +35,12 @@
 #' deformGrid3d(shortnose.rot,shortnose.lm,ngrid=0)
 #' }
 #' @export
-rotonmat <- function(X,refmat,tarmat,scale=TRUE,reflection=FALSE, weights=NULL, centerweight=FALSE) {	
+rotonmat <- function(X,refmat,tarmat,scale=TRUE,reflection=FALSE, weights=NULL, centerweight=FALSE,getTrafo=FALSE) {	
     ro <- rotonto(tarmat,refmat,scale=scale,signref=F,reflection=reflection, weights=weights, centerweight=centerweight)
     hmat <- getTrafo4x4(ro)
     Xrot <- homg2mat(hmat%*%mat2homg(X))
-    
-    return(Xrot)
+    if (!getTrafo)
+        return(Xrot)
+    else
+        return(list(Xrot=Xrot,Trafo=hmat))
 }

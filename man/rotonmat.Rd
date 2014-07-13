@@ -4,7 +4,7 @@
 \title{rotate matrix of landmarks}
 \usage{
 rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE,
-  weights = NULL, centerweight = FALSE)
+  weights = NULL, centerweight = FALSE, getTrafo = FALSE)
 }
 \arguments{
 \item{X}{Matrix to be rotated}
@@ -22,9 +22,14 @@ rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE,
 \item{centerweight}{logical: if weights are defined and centerweigths=TRUE,
 the matrix will be centered according to these weights instead of the
 barycenter.}
+
+\item{getTrafo}{logical: if TRUE, a 4x4 transformation matrix will also be returned.}
 }
 \value{
-returns rotated X.
+if \code{getTrafo=FALSE} the transformed X will be returned,
+else alist containing:
+\item{Xrot}{the transformed matrix X}
+\item{Trafo}{a 4x4 transformation matrix}
 }
 \description{
 rotate matrix of landmarks by using a rotation determined by two matrices.
