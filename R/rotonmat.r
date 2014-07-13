@@ -33,13 +33,8 @@
 #' @export
 rotonmat <- function(X,refmat,tarmat,scale=TRUE,reflection=FALSE, weights=NULL, centerweight=FALSE) {	
     ro <- rotonto(tarmat,refmat,scale=scale,signref=F,reflection=reflection, weights=weights, centerweight=centerweight)
+    hmat <- getTrafo4x4(ro)
+    Xrot <- homg2mat(hmat%*%mat2homg(X))
     
-    Xrot <- t(t(X) -ro$transy)%*%ro$gamm
-    
-    if (scale) {
-        sf <- cSize(refmat)/cSize(ro$yrot)
-        Xrot <- Xrot/sf
-    }
-    Xrot <- t(t(Xrot)+ro$trans)
     return(Xrot)
 }
