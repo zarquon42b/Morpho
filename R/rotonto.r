@@ -110,7 +110,7 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
         }
 	Y <- yrot  	
 	yrot <- t(t(yrot)+trans)
-        
+       
   	return(list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect))
 }
 
@@ -122,13 +122,10 @@ rotreverse <- function(mat,rot)UseMethod("rotreverse")
 #' @export
 rotreverse.matrix <- function(mat,rot)
   {
-    transfun <- function(x,trans) {
-        x <- x+trans
-    }
-    
-    out <- t(t(mat)-rot$trans)
-    out <- t(t(out%*%t(rot$gamm)*1/rot$bet)+rot$transy)
-    return(out)
+      hmat <- solve(getTrafo4x4(rot))
+      out <-homg2mat(hmat%*%mat2homg(mat))
+      #out <- t(t(out%*%t(rot$gamm)*1/rot$bet)+rot$transy)
+      return(out)
   }
 
 #' @rdname rotonto
@@ -141,3 +138,23 @@ rotreverse.mesh3d <- function(mat,rot)
     
     return(mat)
   }
+
+getTrafo4x4 <- function(x) {
+    m <- ncol(x$gamm)
+    hgamm <- rbind(cbind(x$gamm,0),0);hgamm[m+1,m+1] <- 1
+     htrans <- diag(m+1);htrans[1:m,m+1] <- c(-x$transy)
+     htrans2 <- diag(m+1);htrans2[1:m,m+1] <- c(x$trans)
+     scale <- diag(m+1);diag(scale)[1:m] <- x$bet
+    hall <- htrans2%*%scale%*%t(hgamm)%*%htrans
+     return(hall)
+}
+
+mat2homg <- function(x) {
+    x <- rbind(t(x),1)
+    return(x)
+}
+    
+homg2mat <- function(x) {
+    x <- t(x[1:3,])
+    return(x)
+}
