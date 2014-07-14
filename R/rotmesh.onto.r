@@ -17,6 +17,7 @@
 #' @return
 #' \item{mesh }{rotated mesh}
 #' \item{yrot }{rotated refmat}
+#' \item{trafo }{4x4 transformation matrix}
 #' @author Stefan Schlager
 #' @seealso \code{\link{file2mesh}},\code{\link{warp.mesh}}
 #' ,\code{\link{rotonto}},\code{\link{mesh2ply}}
@@ -42,12 +43,8 @@
 rotmesh.onto <- function(mesh, refmat, tarmat, adnormals=FALSE, scale=FALSE, reflection=FALSE)
 {
   rot <- rotonto(tarmat,refmat,scale=scale,reflection=reflection)
-  mesh$vb[1:3,] <- mesh$vb[1:3,]-rot$transy
-  mesh$vb[1:3,] <- t(t(mesh$vb[1:3,])%*%rot$gamm)
-  if (scale)
-      mesh$vb[1:3,] <- mesh$vb[1:3,]*rot$bet
-    
-  mesh$vb[1:3,] <- mesh$vb[1:3,]+rot$trans
+  hmat <- getTrafo4x4(rot)
+  mesh$vb <- hmat%*%mesh$vb
   if (sign(det(rot$gamm) < 0 && reflection))
       mesh <- conv2backf(mesh)
   if (adnormals) 
@@ -55,5 +52,5 @@ rotmesh.onto <- function(mesh, refmat, tarmat, adnormals=FALSE, scale=FALSE, ref
   if (!is.null(mesh$normals) && !adnormals)
       mesh$normals[1:3,] <- t(t(mesh$normals[1:3,]) %*% rot$gamm)
    
-  return(list(mesh=mesh,yrot=rot$yrot))
+  return(list(mesh=mesh,yrot=rot$yrot,trafo=hmat))
 }

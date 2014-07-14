@@ -29,7 +29,7 @@ barycenter.}
 if \code{getTrafo=FALSE} the transformed X will be returned,
 else alist containing:
 \item{Xrot}{the transformed matrix X}
-\item{Trafo}{a 4x4 transformation matrix}
+\item{trafo}{a 4x4 transformation matrix}
 }
 \description{
 rotate matrix of landmarks by using a rotation determined by two matrices.

@@ -19,7 +19,7 @@
 #' @return if \code{getTrafo=FALSE} the transformed X will be returned,
 #' else alist containing:
 #' \item{Xrot}{the transformed matrix X}
-#' \item{Trafo}{a 4x4 transformation matrix}
+#' \item{trafo}{a 4x4 transformation matrix}
 #' @author Stefan Schlager
 #' @seealso \code{\link{rotonto}},\code{\link{rotmesh.onto}}
 #' 
@@ -42,5 +42,5 @@ rotonmat <- function(X,refmat,tarmat,scale=TRUE,reflection=FALSE, weights=NULL, 
     if (!getTrafo)
         return(Xrot)
     else
-        return(list(Xrot=Xrot,Trafo=hmat))
+        return(list(Xrot=Xrot,trafo=hmat))
 }

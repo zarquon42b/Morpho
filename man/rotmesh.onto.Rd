@@ -25,6 +25,7 @@ of the target.}
 \value{
 \item{mesh }{rotated mesh}
 \item{yrot }{rotated refmat}
+\item{trafo }{4x4 transformation matrix}
 }
 \description{
 rotates and reflects a mesh onto by calculating the transformation from two
