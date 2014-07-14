@@ -4,12 +4,14 @@
 \title{calculate a rotation matrix around an arbitrary axis through the origin in
 3D}
 \usage{
-rotaxisMat(u, theta)
+rotaxisMat(u, theta, homogeneous = FALSE)
 }
 \arguments{
 \item{u}{a vector around which to rotate}
 
 \item{theta}{angle in radians to rotate}
+
+\item{homogeneous}{logical: if TRUE a 4x4 rotation matrix is returned}
 }
 \value{
 returns 3x3 rotation matrix

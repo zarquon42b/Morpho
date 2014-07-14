@@ -14,7 +14,7 @@ applyTransformation(x, trafo, inverse)
 \arguments{
 \item{x}{matrix or mesh3d}
 
-\item{trafo}{4x4 transformation matrix}
+\item{trafo}{4x4 transformation matrix (for mesh3d the matrix will be transformed to a 4x4 matrix)}
 
 \item{inverse}{logical: if TRUE, the inverse of the transformation is applied}
 }

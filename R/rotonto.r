@@ -178,7 +178,7 @@ homg2mat <- function(x) {
 #'
 #' apply affine transformation to data
 #' @param x matrix or mesh3d
-#' @param trafo 4x4 transformation matrix
+#' @param trafo 4x4 transformation matrix (for mesh3d the matrix will be transformed to a 4x4 matrix)
 #' @param inverse logical: if TRUE, the inverse of the transformation is applied
 #' @return the transformed object
 #' @examples
@@ -202,6 +202,8 @@ applyTransformation.matrix <- function(x,trafo,inverse=FALSE) {
 #' @rdname applyTransformation
 #' @export
 applyTransformation.mesh3d <- function(x,trafo,inverse=FALSE) {
+    if (ncol(trafo) == 3)
+        trafo <- mat3x3tomat4x4(trafo)
      if (inverse)
          trafo <- solve(trafo)
      x$vb <- trafo%*%x$vb
@@ -209,3 +211,9 @@ applyTransformation.mesh3d <- function(x,trafo,inverse=FALSE) {
          x <- updateNormals(x)
      return(x)
  }
+
+
+mat3x3tomat4x4 <- function(x) {
+    x <- rbind(cbind(x,0),0);x[4,4] <-1
+    return(x)
+}
