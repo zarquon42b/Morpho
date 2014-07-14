@@ -5,12 +5,13 @@
 #' 
 #' @param u a vector around which to rotate
 #' @param theta angle in radians to rotate
+#' @param homogeneous logical: if TRUE a 4x4 rotation matrix is returned
 #' @return returns 3x3 rotation matrix
 #' @seealso \code{\link{rotaxis3d}}
 #' @references http://en.wikipedia.org/wiki/Rotation_matrix
 #' 
 #' @export
-rotaxisMat <- function(u,theta)
+rotaxisMat <- function(u,theta,homogeneous=FALSE)
   {
     crossmat <- function(x)
       {
@@ -21,6 +22,8 @@ rotaxisMat <- function(u,theta)
     u <- u/sqrt(sum(crossprod(u)))
     I <- diag(rep(1,3))
     R <- I*cos(theta)+sin(theta)*crossmat(u)+(1-(cos(theta)))*tcrossprod(u)
+    if (homogeneous)
+        R <- rbind(cbind(R,0),0);R[4,4] <- 1
     return(R)
   }
 
