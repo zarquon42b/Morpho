@@ -5,11 +5,13 @@
 \alias{rotaxis3d.mesh3d}
 \title{Rotate an object (matrix or mesh) around an arbitrary axis in 3D}
 \usage{
-rotaxis3d(x, pt1, pt2 = c(0, 0, 0), theta)
+rotaxis3d(x, pt1, pt2 = c(0, 0, 0), theta, getTrafo = FALSE)
 
-\method{rotaxis3d}{matrix}(x, pt1, pt2 = c(0, 0, 0), theta)
+\method{rotaxis3d}{matrix}(x, pt1, pt2 = c(0, 0, 0), theta,
+  getTrafo = FALSE)
 
-\method{rotaxis3d}{mesh3d}(x, pt1, pt2 = c(0, 0, 0), theta)
+\method{rotaxis3d}{mesh3d}(x, pt1, pt2 = c(0, 0, 0), theta,
+  getTrafo = FALSE)
 }
 \arguments{
 \item{x}{k x 3 matrix containing 3D-coordinates or a triangular mesh of
