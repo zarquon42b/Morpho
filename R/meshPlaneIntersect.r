@@ -1,7 +1,7 @@
 #' get intersections between mesh and a plane
 #'
 #' get intersections between mesh and a plane
-#' 
+#' @param mesh triangular mesh of class "mesh3d"
 #' @param v1 numeric vector of length=3 specifying a point on the separating plane
 #' @param v2 numeric vector of length=3 specifying a point on the separating plane
 #' @param v3 numeric vector of length=3 specifying a point on the separating plane

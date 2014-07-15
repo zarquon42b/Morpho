@@ -62,12 +62,12 @@ rotaxisMat <- function(u,theta,homogeneous=FALSE)
 #' #' lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
 #' }
 #' @export
-rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta,getTrafo=FALSE) UseMethod("rotaxis3d")
+rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis3d")
 
 #' @rdname rotaxis3d
 #' @method rotaxis3d matrix
 #' @export
-rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta,getTrafo=FALSE) {
+rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta) {
     trafo <- GetTrafoRotaxis(pt1,pt2,theta)
     out <- applyTransformation(x,trafo)
     return(out)
@@ -75,7 +75,7 @@ rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta,getTrafo=FALSE) {
 #' @rdname rotaxis3d
 #' @method rotaxis3d mesh3d
 #' @export
-rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta,getTrafo=FALSE) {
+rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta) {
     trafo <- GetTrafoRotaxis(pt1,pt2,theta)
     x <- applyTransformation(x,trafo)
     invisible(x)

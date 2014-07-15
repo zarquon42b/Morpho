@@ -9,7 +9,7 @@ getTrafo4x4(x)
 \method{getTrafo4x4}{rotonto}(x)
 }
 \arguments{
-\item{object}{of class "rotonto"}
+\item{x}{object of class "rotonto"}
 }
 \value{
 returns a 4x4 transformation matrix

@@ -6,6 +6,8 @@
 meshPlaneIntersect(mesh, v1, v2, v3)
 }
 \arguments{
+\item{mesh}{triangular mesh of class "mesh3d"}
+
 \item{v1}{numeric vector of length=3 specifying a point on the separating plane}
 
 \item{v2}{numeric vector of length=3 specifying a point on the separating plane}

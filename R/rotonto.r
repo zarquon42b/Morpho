@@ -142,7 +142,7 @@ rotreverse.mesh3d <- function(mat,rot)
 #' get 4x4 Transformation matrix
 #'
 #' get 4x4 Transformation matrix
-#' @param object of class "rotonto"
+#' @param x object of class "rotonto"
 #'
 #' @return returns a 4x4 transformation matrix
 #' @examples
