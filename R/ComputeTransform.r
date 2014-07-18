@@ -8,10 +8,10 @@
 #' 
 #' @examples
 #' data(boneData)
-#' trafo <- GetAffineTransform(boneLM[,,1],boneLM[,,2])
+#' trafo <- ComputeTransform(boneLM[,,1],boneLM[,,2])
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @export
-GetAffineTransform <- function(x,y,type=c("affine","rigid","similarity")) {
+ComputeTransform <- function(x,y,type=c("affine","rigid","similarity")) {
     type <- substr(type[1],1L,1L)
     if (type %in% c("r","s")) {
         scale <- TRUE
