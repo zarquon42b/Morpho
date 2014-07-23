@@ -26,6 +26,6 @@ ray2mesh <- function(mesh1, tarmesh, tol=1e12, inbound=FALSE, mindist=FALSE,...)
         tarmesh <- vcgImport(tarmesh,clean=FALSE,updateNormals=FALSE)
     if (inbound)
         mesh1$normals <- -mesh1$normals
-    outmesh <- vcgRaySearch(mesh1,tarmesh,mindist=mindist)
+    outmesh <- vcgRaySearch(mesh1,tarmesh,mindist=mindist,maxtol=tol)
     return(outmesh)
 }
