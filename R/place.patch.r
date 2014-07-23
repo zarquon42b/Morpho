@@ -194,12 +194,15 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 slide[fix,] <- dat.array[fix,,i]
             else
                 slide[fix,] <- dat.array[fix,]
-            
-### use for mullitlayer meshes to avoid projection inside
-            if (!is.null(inflate)) {
+
+            if (!is.null(inflate) || !is.null(rhotol)) {
                 atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide, silent=silent)
                 tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE)
                 warp.norm <- tps.lm$normals[1:3,]### keep projected normals
+            }
+### use for mullitlayer meshes to avoid projection inside
+            if (!is.null(inflate)) {
+                
                 
                 tps.lm$vb[1:3,] <- tps.lm$vb[1:3,]+inflate*tps.lm$normals[1:3,] ###inflate outward along normals
                 tps.lm <- ray2mesh(tps.lm,tmp.mesh,inbound=TRUE,tol=tol) ### deflate in opposite direction
