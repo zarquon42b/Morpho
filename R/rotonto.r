@@ -53,9 +53,14 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     m <- dim(x)[2]
     if (!is.null(weights))
         weights <- weights/sum(weights)
-    
-    X <- apply(x,2,scale,scale=F)
-    Y <- apply(y,2,scale,scale=F)
+
+    if (nrow(x) > 1) {
+        X <- apply(x,2,scale,scale=F)
+        Y <- apply(y,2,scale,scale=F)
+    } else {
+        X <- x
+        Y <- y
+    }
     if (centerweight && !is.null(weights)) {
         xcent <- apply(X*weights,2,sum)
         ycent <- apply(Y*weights,2,sum)
