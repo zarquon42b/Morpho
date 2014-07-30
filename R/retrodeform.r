@@ -1,4 +1,5 @@
-#' @importFrom Rvcg vcgKDtree
+# this function calculates local stretching and rotation matrices used in retroDeform3d
+# for locally affine bending/stretching
 getLocalStretchNoArticulate <- function(mat,pairedLM,hmult=5) {
     npair <- nrow(pairedLM)
     P <- mat[pairedLM[,1],]
@@ -53,6 +54,22 @@ getLocalStretchNoArticulate <- function(mat,pairedLM,hmult=5) {
     return(lapply(1:npair,getSi))
 }
 
+# calculate weights for local neighbourhoods
+#' @importFrom Rvcg vcgKDtree
+GetPhi <- function(P,Q,hmult) {
+    nnpd <- vcgKDtree(P,P,2)$distance[,-1]
+    nnqd <- vcgKDtree(Q,Q,2)$distance[,-1]
+    h <- hmult*mean(c(nnpd,nnqd))
+    h2 <- h^2
+    dp <- exp(-as.matrix(dist(mat[pairedLM[,1]])^2)/h2)
+    dq <- exp(-as.matrix(dist(mat[pairedLM[,2]]))^2/h2)
+    
+    arr <- bindArr(dp,dq,along=3)
+    PhiIJ <- apply(arr,1:2,min)
+    diag(PhiIJ) <- 1
+    return(PhiIJ)
+}
+
 #' symmetrize a bilateral landmark configuration
 #'
 #' symmetrize a bilateral landmark configuration by removing bending and stretching
@@ -88,7 +105,7 @@ retroDeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
     ## create normal equation system for x coordinates
     ## create Amat for case ri = -si (x-dimension)
     ## first 2 terms
-    alpha <- alpha*1
+    alpha <- alpha
     Amatx <- -8*PhiIJ
     diag(Amatx) <- 8*colSums(PhiIJ)
     ## alpha terms
@@ -163,19 +180,6 @@ retroDeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
     return(list(deformed=deformed,orig=orig))
 }
 
-GetPhi <- function(P,Q,hmult) {
-    nnpd <- vcgKDtree(P,P,2)$distance[,-1]
-    nnqd <- vcgKDtree(Q,Q,2)$distance[,-1]
-    h <- hmult*mean(c(nnpd,nnqd))
-    h2 <- h^2
-    dp <- exp(-as.matrix(dist(mat[pairedLM[,1]])^2)/h2)
-    dq <- exp(-as.matrix(dist(mat[pairedLM[,2]]))^2/h2)
-    
-    arr <- bindArr(dp,dq,along=3)
-    PhiIJ <- apply(arr,1:2,min)
-    diag(PhiIJ) <- 1
-    return(PhiIJ)
-}
 #' symmetrize a triangular mesh
 #'
 #' symmetrize a triangular mesh
