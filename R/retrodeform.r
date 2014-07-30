@@ -50,10 +50,24 @@ getLocalStretchNoArticulate <- function(mat,pairedLM,hmult=5) {
         return (list(Si=Si,ni=ni,Qi=Qi,PhiI=PhiIJ[,i]))
     }
     
-    return(append(lapply(1:npair,getSi),list(allphi = PhiIJ)))
+    return(lapply(1:npair,getSi))
 }
+
+#' symmetrize a bilateral landmark configuration
+#'
+#' symmetrize a bilateral landmark configuration by removing bending and stretching
+#'
+#' @param mat matrix with bilateral landmarks
+#' @param pairedLM 2-column integer matrix with the 1st columns containing row indices of left side landmarks and 2nd column the right hand landmarks
+#' @param hmult damping factor for defining local weights
+#' @param alpha factor controlling spacing along x-axis
+#' @return
+#' \item{deformed}{matrix containing deformed landmarks}
+#' \item{orig}{matrix containing original landmarks in the same order as the deformed ones}
+#' @references Ghosh, D.; Amenta, N. & Kazhdan, M. Closed-form Blending of Local Symmetries. Computer Graphics Forum, Wiley-Blackwell, 2010, 29, 1681-1688
+
 #' @export
-retrodeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
+retroDeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
     hmultlocal <- hmult
     npair <- nrow(pairedLM)
     P <- mat[pairedLM[,1],]
@@ -81,7 +95,7 @@ retrodeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
     xPhiIJ <- GetPhi(P,Q,hmult)
     Amatx1 <- xPhiIJ*8*alpha
     newphi <- matrix(8,nrow(xPhiIJ),ncol(xPhiIJ))*alpha*xPhiIJ
-    diag(newphi) <- 16*alpha*diag(precode$allphi)
+    diag(newphi) <- 16*alpha*diag(xPhiIJ)
     diag(Amatx1) <- colSums(newphi)
     Amatx <- Amatx+Amatx1
 
@@ -136,18 +150,17 @@ retrodeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
     
     for (i in 1:npair) {
         bx[i] <- -sum(constPx[,i])+sum(constPx[i,])+sum(constQx[,i])-sum(constQx[i,])+1*(sum(constPix[,i])+sum(constPix[i,])+sum(constQix[,i])+sum(constQix[i,]))
-       
         
         by[i] <- -sum(constPy[,i])+sum(constPy[i,])-sum(constQy[,i])+sum(constQy[i,])-sum(constPiy[,i])+sum(constPiy[i,])-sum(constQiy[,i])+sum(constQiy[i,])
-
         
         bz[i] <- -sum(constPz[,i])+sum(constPz[i,])-sum(constQz[,i])+sum(constQz[i,])-sum(constPiz[,i])+sum(constPiz[i,])-sum(constQiz[,i])+sum(constQiz[i,])
     }
-    a <- cbind(Morpho:::armaGinv(Amatx)%*%bx,Morpho:::armaGinv(Amat)%*%-by,Morpho:::armaGinv(Amat)%*%-bz)
-    a1 <- a
-    a1[,1] <- -a[,1]
-    a <- rbind(a1,a)
-    return(a)
+    out <- cbind(Morpho:::armaGinv(Amatx)%*%-bx,Morpho:::armaGinv(Amat)%*%-by,Morpho:::armaGinv(Amat)%*%-bz)
+    out1 <- out
+    out1[,1] <- -out[,1]
+    deformed <- rbind(out,out1)
+    orig <- rbind(P,Q)
+    return(list(deformed=deformed,orig=orig))
 }
 
 GetPhi <- function(P,Q,hmult) {
