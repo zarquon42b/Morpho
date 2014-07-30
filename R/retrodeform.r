@@ -59,7 +59,7 @@ getLocalStretchNoArticulate <- function(mat,pairedLM,hmult=5) {
 #'
 #' @param mat matrix with bilateral landmarks
 #' @param pairedLM 2-column integer matrix with the 1st columns containing row indices of left side landmarks and 2nd column the right hand landmarks
-#' @param hmult damping factor for defining local weights
+#' @param hmult damping factor for calculating local weights
 #' @param alpha factor controlling spacing along x-axis
 #' @return
 #' \item{deformed}{matrix containing deformed landmarks}
@@ -175,4 +175,30 @@ GetPhi <- function(P,Q,hmult) {
     PhiIJ <- apply(arr,1:2,min)
     diag(PhiIJ) <- 1
     return(PhiIJ)
+}
+#' symmetrize a triangular mesh
+#'
+#' symmetrize a triangular mesh
+#' 
+#' @param mesh triangular mesh of class mesh3d
+#' @param mat matrix with bilateral landmarks
+#' @param pairedLM 2-column integer matrix with the 1st columns containing row indices of left side landmarks and 2nd column the right hand landmarks
+#' @param hmult damping factor for calculating local weights
+#' @param alpha factor controlling spacing along x-axis
+#' @param rot logical: if TRUE the deformed landmarks are rotated back onto the original ones
+#' @param lambda control parameter passed to \code{\link{tps3d}}
+#' 
+#' @details this function performs \code{\link{retroDeform3d}} and deforms the mesh accordingly using the function \code{\link{warp.mesh}}.
+#' 
+#' @return symmetrized mesh
+#' @export
+retroDeformMesh <- function(mesh,mat,pairedLM,hmult=5,alpha=0.01,rot=TRUE,lambda=0) {
+    deform <- retroDeform3d(mat,pairedLM,hmult=hmult,alpha=alpha)
+    if (rot) 
+        defrot <- rotonto(deform$orig,deform$deformed,reflection = FALSE)$yrot
+    else
+        defrot <- deform$deformed
+    
+    wmesh <- warp.mesh(mesh,deform$orig,defrot,lambda = lambda,silent = TRUE)
+    return(wmesh)
 }
