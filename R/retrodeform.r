@@ -194,15 +194,18 @@ retroDeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
 #' 
 #' @details this function performs \code{\link{retroDeform3d}} and deforms the mesh accordingly using the function \code{\link{warp.mesh}}.
 #' 
-#' @return symmetrized mesh
+#' @return
+#' \item{mesh}{symmetrized mesh}
+#' \item{landmarks}{a list containing the deformed and original bilateral landmarks}
+#' 
 #' @export
 retroDeformMesh <- function(mesh,mat,pairedLM,hmult=5,alpha=0.01,rot=TRUE,lambda=0) {
     deform <- retroDeform3d(mat,pairedLM,hmult=hmult,alpha=alpha)
     if (rot) 
-        defrot <- rotonto(deform$orig,deform$deformed,reflection = FALSE)$yrot
-    else
-        defrot <- deform$deformed
+        deform$deformed <- rotonto(deform$orig,deform$deformed,reflection = FALSE)$yrot
     
-    wmesh <- warp.mesh(mesh,deform$orig,defrot,lambda = lambda,silent = TRUE)
-    return(wmesh)
+    
+    wmesh <- warp.mesh(mesh,deform$orig,deform$deformed,lambda = lambda,silent = TRUE)
+    
+    return(list(mesh=wmesh,landmarks=deform))
 }

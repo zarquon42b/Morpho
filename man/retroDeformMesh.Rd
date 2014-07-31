@@ -22,7 +22,8 @@ retroDeformMesh(mesh, mat, pairedLM, hmult = 5, alpha = 0.01, rot = TRUE,
 \item{lambda}{control parameter passed to \code{\link{tps3d}}}
 }
 \value{
-symmetrized mesh
+\item{mesh}{symmetrized mesh}
+\item{landmarks}{a list containing the deformed and original bilateral landmarks}
 }
 \description{
 symmetrize a triangular mesh
