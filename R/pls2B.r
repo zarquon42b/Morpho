@@ -35,7 +35,6 @@
 #' @seealso \code{\link{svd}}
 #' @references Rohlf FJ, Corti M. 2000. Use of two-block partial least-squares
 #' to study covariation in shape. Systematic Biology 49:740-753.
-#' @keywords dynamic
 #' @examples
 #' 
 #' library(shapes)

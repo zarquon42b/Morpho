@@ -74,5 +74,4 @@ to study covariation in shape. Systematic Biology 49:740-753.
 \seealso{
 \code{\link{svd}}
 }
-\keyword{dynamic}
 
