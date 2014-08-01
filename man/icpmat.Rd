@@ -27,5 +27,20 @@ match two landmark configurations using iteratively closest point search
 \examples{
 data(nose)
 icp <- icpmat(shortnose.lm,longnose.lm,iterations=10,subsample = 20)
+
+##2D example  using icpmat to determine point correspondences
+require(shapes)
+## we scramble rows to show that this is independent of point order
+moving <- gorf.dat[sample(1:8),,1]
+plot(moving,asp=1) ## starting config
+icpgorf <- icpmat(moving,gorf.dat[,,2],iterations = 20)
+points(icpgorf,asp = 1,col=2)
+points(gorf.dat[,,2],col=3)## target
+
+## get correspondences using nearest neighbour search
+index <- mcNNindex(icpgorf,gorf.dat[,,2],k=1,cores=1)
+icpsort <- icpgorf[index,]
+for (i in 1:8)
+lines(rbind(icpsort[i,],gorf.dat[i,,2]))
 }
 

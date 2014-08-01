@@ -30,6 +30,11 @@ reflect a mesh configuration at the plane spanned by its first 2 principal axis,
 \examples{
 data(boneData)
 boneMir <- mirror(boneLM[,,1],icpiter=50)
+## 2D Example:
+require(shapes)
+gorfMir <- mirror(gorf.dat[,,1])
+plot(gorfMir,asp = 1)
+points(gorf.dat[,,1],col=3)
 \dontrun{
 ## now mirror a complete mesh
 require(rgl)

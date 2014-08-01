@@ -11,6 +11,11 @@
 #' @examples
 #' data(boneData)
 #' boneMir <- mirror(boneLM[,,1],icpiter=50)
+#' ## 2D Example:
+#' require(shapes)
+#' gorfMir <- mirror(gorf.dat[,,1])
+#' plot(gorfMir,asp = 1)
+#' points(gorf.dat[,,1],col=3)
 #' \dontrun{
 #' ## now mirror a complete mesh
 #' require(rgl)
@@ -26,7 +31,11 @@ mirror <- function(x,icpiter=50,subsample=NULL) UseMethod("mirror")
 #' @rdname mirror
 #' @export
 mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
-        
+
+    m <- ncol(x)
+    if (m == 2)
+        x <- cbind(x,0)
+    
     xc <- apply(x,2,scale,scale=FALSE)
     trans <- x[1,]-xc[1,]
     pca <- prcomp(xc,scale. = F)
@@ -51,6 +60,8 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
         out <- icpmat(out,pca$x,icpiter,subsample = subsample)
     out <- out%*%t(pca$rotation)
     out <- t(t(out)+trans)
+    if (m == 2)
+        out <- out[,1:2]
     return(out)
     
 }
@@ -81,12 +92,30 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL) {
 #' data(nose)
 #' icp <- icpmat(shortnose.lm,longnose.lm,iterations=10,subsample = 20)
 #' 
+#' ##2D example  using icpmat to determine point correspondences
+#' require(shapes)
+#' ## we scramble rows to show that this is independent of point order
+#' moving <- gorf.dat[sample(1:8),,1]
+#' plot(moving,asp=1) ## starting config
+#' icpgorf <- icpmat(moving,gorf.dat[,,2],iterations = 20)
+#' points(icpgorf,asp = 1,col=2)
+#' points(gorf.dat[,,2],col=3)## target
+#'
+#' ## get correspondences using nearest neighbour search
+#' index <- mcNNindex(icpgorf,gorf.dat[,,2],k=1,cores=1)
+#' icpsort <- icpgorf[index,]
+#' for (i in 1:8)
+#' lines(rbind(icpsort[i,],gorf.dat[i,,2]))
 #' @importFrom Rvcg vcgKDtree
 #' @export
 icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,scale=FALSE) {
+    m <- ncol(x)
+    if (m == 2) {
+        x <- cbind(x,0)
+        y <- cbind(y,0)
+    }
     if (!is.null(subsample)) {
         subsample <- min(nrow(x)-1,subsample)
-        print(subsample)
         subs <- duplicated(kmeans(x,centers=subsample,iter.max =100)$cluster)
         xtmp <- x[!subs,]
     } else {
@@ -99,6 +128,8 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,scale=FALSE) {
     }
     if (!is.null(subsample))
         xtmp <- rotonmat(x,x[!subs,],xtmp,scale=scale,reflection=FALSE)
+    if (m == 2)
+        xtmp <- xtmp[,1:2]
     return(xtmp)
         
 }
