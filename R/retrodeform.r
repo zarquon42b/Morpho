@@ -61,8 +61,8 @@ GetPhi <- function(P,Q,hmult) {
     nnqd <- vcgKDtree(Q,Q,2)$distance[,-1]
     h <- hmult*mean(c(nnpd,nnqd))
     h2 <- h^2
-    dp <- exp(-as.matrix(dist(mat[pairedLM[,1]])^2)/h2)
-    dq <- exp(-as.matrix(dist(mat[pairedLM[,2]]))^2/h2)
+    dp <- exp(-as.matrix(dist(P)^2)/h2)
+    dq <- exp(-as.matrix(dist(Q)^2)/h2)
     
     arr <- bindArr(dp,dq,along=3)
     PhiIJ <- apply(arr,1:2,min)
@@ -172,7 +172,7 @@ retroDeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
         
         bz[i] <- -sum(constPz[,i])+sum(constPz[i,])-sum(constQz[,i])+sum(constQz[i,])-sum(constPiz[,i])+sum(constPiz[i,])-sum(constQiz[,i])+sum(constQiz[i,])
     }
-    out <- cbind(Morpho:::armaGinv(Amatx)%*%-bx,Morpho:::armaGinv(Amat)%*%-by,Morpho:::armaGinv(Amat)%*%-bz)
+    out <- cbind(armaGinv(Amatx)%*%-bx,armaGinv(Amat)%*%-by,armaGinv(Amat)%*%-bz)
     out1 <- out
     out1[,1] <- -out[,1]
     deformed <- rbind(out,out1)

@@ -87,7 +87,7 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,scale=FALSE) {
     if (!is.null(subsample)) {
         subsample <- min(nrow(x)-1,subsample)
         print(subsample)
-        subs <- duplicated(kmeans(x,center=subsample,iter.max =100)$cluster)
+        subs <- duplicated(kmeans(x,centers=subsample,iter.max =100)$cluster)
         xtmp <- x[!subs,]
     } else {
         xtmp <- x

@@ -8,10 +8,10 @@
 #' 
 #' @examples
 #' data(boneData)
-#' trafo <- ComputeTransform(boneLM[,,1],boneLM[,,2])
+#' trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @export
-ComputeTransform <- function(x,y,type=c("affine","rigid","similarity")) {
+computeTransform <- function(x,y,type=c("affine","rigid","similarity")) {
     type <- substr(type[1],1L,1L)
     if (type %in% c("r","s")) {
         scale <- TRUE
@@ -28,7 +28,7 @@ ComputeTransform <- function(x,y,type=c("affine","rigid","similarity")) {
         M[(1:k)*m-(m-2),(m+2):(2*(m+1))] <- yh
         if (m == 3)    
             M[(1:k)*3,(m+6):(m+9)] <- yh
-        projS <- Morpho:::armaGinv(M) %*%xp
+        projS <- armaGinv(M) %*%xp
         trafo <- matrix(projS,m,m+1,byrow = T)
         trafo <- rbind(trafo,0)
         trafo[m+1,m+1] <- 1

@@ -69,7 +69,7 @@ rotaxis3d <- function(x,pt1,pt2=c(0,0,0),theta) UseMethod("rotaxis3d")
 #' @export
 rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta) {
     trafo <- getTrafoRotaxis(pt1,pt2,theta)
-    out <- applyTransformation(x,trafo)
+    out <- applyTransform(x,trafo)
     return(out)
   }
 #' @rdname rotaxis3d
@@ -77,7 +77,7 @@ rotaxis3d.matrix <- function(x,pt1,pt2=c(0,0,0),theta) {
 #' @export
 rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta) {
     trafo <- getTrafoRotaxis(pt1,pt2,theta)
-    x <- applyTransformation(x,trafo)
+    x <- applyTransform(x,trafo)
     invisible(x)
   }
 
@@ -91,7 +91,7 @@ rotaxis3d.mesh3d <- function(x,pt1,pt2=c(0,0,0),theta) {
 #' axis.
 #' @param theta angle to rotate in radians. With pt1 being the viewpoint, the
 #' rotation is counterclockwise.
-#' @note the resulting matrix can be used in \code{\link{applyTransformation}}
+#' @note the resulting matrix can be used in \code{\link{applyTransform}}
 #' @export
 getTrafoRotaxis <- function(pt1,pt2,theta) {
     u <- pt2-pt1

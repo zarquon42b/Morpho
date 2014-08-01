@@ -9,7 +9,7 @@
 #' data(boneData)
 #' rot <- rotonto(boneLM[,,1],boneLM[,,2])
 #' trafo <- getTrafo4x4(rot)
-#' boneLM2trafo <- applyTransformation(boneLM[,,2],trafo)
+#' boneLM2trafo <- applyTransform(boneLM[,,2],trafo)
 #' @rdname applyTransform
 #' @export
 applyTransform <- function(x,trafo,inverse)UseMethod("applyTransform")
