@@ -176,7 +176,7 @@ mat2homg <- function(x) {
 }
 
 homg2mat <- function(x) {
-    m <- ncol(x)
+    m <- nrow(x)
     x <- t(x[1:(m-1),])
     return(x)
 }
