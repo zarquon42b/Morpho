@@ -19,6 +19,7 @@
 #' @param col2 color of "tarmat"
 #' @param type "s" renders landmarks as spheres; "p" as points - much faster
 #' for very large pointclouds.
+#' @param size control size/radius of points/spheres
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
 #' 
@@ -28,10 +29,10 @@
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #' }
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=T,lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"))
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), both=T,lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"),size=NULL)
 {
     type <- type[1]
-    if (dim(matrix)[1] > 1000 && type =="s") {
+    if (dim(matrix)[1] > 1000 && type =="s" && size > 0) {
         answer <- readline("You have a lot of landmarks\n Render them as points (faster)? (yes/NO)\n")
         if (! substr(answer,1L,1L) %in% c("n","N"))
             type <- "p"
@@ -43,13 +44,19 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=10,lwd=1,showaxis=c(1, 2), both=
         open3d()
     
     k <- dim(matrix)[1]
-    if (type != "p")
-        sz <- (cSize(matrix)/sqrt(k))*(1/80)
-    else
-        sz <- 10
-    out3d(matrix,col=col1,radius=sz, size=sz)
+    if (is.null(size)) {
+        if (type != "p")
+            sz <- (cSize(matrix)/sqrt(k))*(1/80)
+        else
+            sz <- 10
+    } else {
+        sz <- size
+    }
+    if (size > 0)
+        out3d(matrix,col=col1,radius=sz, size=sz)
     if(both) {
-        out3d(tarmatrix,col=col2,radius=sz, size=sz)
+        if (size > 0)
+            out3d(tarmatrix,col=col2,radius=sz, size=sz)
         if (lines) {
             linemesh <- list()
             linemesh$vb <- t(cbind(rbind(matrix,tarmatrix),1))
