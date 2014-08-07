@@ -3,14 +3,14 @@
 \alias{deformGrid3d}
 \title{visualise differences between two superimposed sets of 3D landmarks}
 \usage{
-deformGrid3d(matrix, tarmatrix, ngrid = 10, lwd = 1, showaxis = c(1, 2),
+deformGrid3d(matrix, tarmatrix, ngrid = 0, lwd = 1, showaxis = c(1, 2),
   both = T, lines = TRUE, lcol = 1, add = FALSE, col1 = 2, col2 = 3,
-  type = c("s", "p"))
+  type = c("s", "p"), size = NULL)
 }
 \arguments{
-\item{matrix}{reference matrix containing 3D landmark coordinates.}
+\item{matrix}{reference matrix containing 3D landmark coordinates or mesh of class "mesh3d"}
 
-\item{tarmatrix}{target matrix containing 3D landmark coordinates.}
+\item{tarmatrix}{target matrix containing 3D landmark coordinates or mesh of class "mesh3d"}
 
 \item{ngrid}{number of grid lines to be plotted; ngrid=0 suppresses grid
 creation.}
@@ -34,6 +34,8 @@ plotted. Options are combinations of 1,2 and 3.}
 
 \item{type}{"s" renders landmarks as spheres; "p" as points - much faster
 for very large pointclouds.}
+
+\item{size}{control size/radius of points/spheres}
 }
 \description{
 visualise differences between two superimposed sets of 3D landmarks by

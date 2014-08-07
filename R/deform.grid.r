@@ -4,8 +4,8 @@
 #' deforming a cubic grid based on a thin-plate spline interpolation
 #' 
 #' 
-#' @param matrix reference matrix containing 3D landmark coordinates.
-#' @param tarmatrix target matrix containing 3D landmark coordinates.
+#' @param matrix reference matrix containing 3D landmark coordinates or mesh of class "mesh3d"
+#' @param tarmatrix target matrix containing 3D landmark coordinates or mesh of class "mesh3d"
 #' @param ngrid number of grid lines to be plotted; ngrid=0 suppresses grid
 #' creation.
 #' @param lwd width of lines connecting landmarks.
@@ -31,6 +31,10 @@
 #' @export
 deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), both=T,lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"),size=NULL)
 {
+    if (inherits(matrix,"mesh3d"))
+        matrix <- vert2points(matrix)
+    if (inherits(tarmatrix,"mesh3d"))
+        tarmatrix <- vert2points(tarmatrix)
     type <- type[1]
     if (dim(matrix)[1] > 1000 && type =="s" && size > 0) {
         answer <- readline("You have a lot of landmarks\n Render them as points (faster)? (yes/NO)\n")
