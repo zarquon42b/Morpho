@@ -60,7 +60,7 @@ classify.CVA <- function(x) {
 #' @export       
 print.classify <- function(x,...) {
     cat(" classification result in frequencies\n")
-    tab <- table(x$class,x$groups)
+    tab <- table(x$groups,x$class)
     probtab <- prop.table(tab,1)
     print(tab)
     cat("\n\n classification result in %\n")
