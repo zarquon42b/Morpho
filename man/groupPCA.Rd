@@ -44,6 +44,7 @@ permuation testing}
 \item{groupmeans }{Groupmeans}
 \item{Grandmean }{Grand mean}
 \item{CV }{Cross-validated scores}
+\item{groups }{grouping Variable}
 }
 \description{
 Calculate covariance matrix of the groupmeans and project all observations

@@ -174,7 +174,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     } else {
         Grandm <- as.vector(apply(Gmeans, 2, mean))
     }
-        Tmatrix <- N
+    Tmatrix <- N
     N <- sweep(N, 2, Grandm) #center data according to Grandmean
     resGmeans <- sweep(Gmeans, 2, Grandm)
     
@@ -249,8 +249,11 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     if (n3) {
         Grandm <- matrix(Grandm, k,m)
         groupmeans <- array(as.vector(t(Gmeans)), dim = c(k,m,ng))
-    } else 
+        dimnames(groupmeans)[[3]] <- lev
+    } else {
         groupmeans <- Gmeans
+        rownames(groupmeans) <- lev
+    }
 
     CVcv <- NULL
     if (cv == TRUE) {
@@ -267,8 +270,10 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         for (i in 1:n)
             CVcv[i,] <- a.list[[i]]
     }
-    return(list(CV = CV, CVscores = CVscores, Grandm = Grandm,
+    out <- list(CV = CV, CVscores = CVscores, Grandm = Grandm,
                 groupmeans = groupmeans, Var = Var, CVvis = CVvis,
-                Dist = Dist, CVcv = CVcv
-                ))
+                Dist = Dist, CVcv = CVcv,groups=groups
+                )
+    class(out) <- "CVA"
+    return(out)
 }

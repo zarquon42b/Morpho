@@ -1,13 +1,21 @@
 .CVAcrova <- function(dataarray,groups,test ,weighting=TRUE,tolinv=1e-10)
 {   
     groups <- factor(groups)
-    N <- dataarray
-    n <- dim(N)[1]
-    l <- dim(N)[2]
     lev <- levels(groups)
     ng <- length(lev)
-    gsizes <- as.vector(tapply(groups, groups, length))                                 
+    gsizes <- as.vector(tapply(groups, groups, length))
    
+    N <- dataarray
+    n3 <- FALSE
+    N <- as.matrix(N)
+    n <- dim(N)[1]
+    l <- dim(N)[2]
+    if (length(groups) != n)
+        warning("group affinity and sample size not corresponding!")
+    
+    if (is.vector(N) || dim(N)[2] == 1)
+        stop("data should contain at least 2 variable dimensions")
+    
     Gmeans <- matrix(0, ng, l)
     for (i in 1:ng) {
         if (gsizes[i] > 1)
@@ -20,15 +28,17 @@
     } else {
         Grandm <- as.vector(apply(Gmeans, 2, mean))
     }
-    N <- sweep(N, 2, Grandm)
+    Tmatrix <- N
+    N <- sweep(N, 2, Grandm) #center data according to Grandmean
     resGmeans <- sweep(Gmeans, 2, Grandm)
+    
     if (weighting) {
         for (i in 1:ng) 
             resGmeans[i, ] <- sqrt(gsizes[i]) * resGmeans[i, ]
         X <- resGmeans
-    } else {
+    } else 
         X <- sqrt(n/ng) * resGmeans
-    }
+    
     covW <- covW(N, groups)
     eigW <- eigen(covW*(n - ng))
     eigcoW <- eigen(covW)
@@ -36,7 +46,7 @@
     E <- eigW$values
     Ec <- eigcoW$values
     Ec2 <- Ec
-
+    
     if (min(E) < tolinv)
         cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
     for (i in 1:length(eigW$values)) {
@@ -51,9 +61,9 @@
     invcW <- diag(Ec)
     irE <- diag(E)
     ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
-    eigZ <- svd(ZtZ)
-    useEig <- min((ng-1), l)     
-    A <- Re(eigZ$v[, 1:useEig])
+    eigZ <- eigen(ZtZ,symmetric=TRUE)
+    useEig <- min((ng-1), l)
+    A <- Re(eigZ$vectors[, 1:useEig])
     CV <- U %*% invcW %*% A
     di <- dim(CV)[2]
     

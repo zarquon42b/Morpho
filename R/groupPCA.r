@@ -35,6 +35,7 @@
 #' \item{groupmeans }{Groupmeans}
 #' \item{Grandmean }{Grand mean}
 #' \item{CV }{Cross-validated scores}
+#' \item{groups }{grouping Variable}
 #' @author Stefan Schlager
 #' @seealso \code{\link{CVA}}
 #' @references Mitteroecker P, Bookstein F 2011. Linear Discrimination,
@@ -105,6 +106,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         warning("group affinity and sample size not corresponding!")
     
     Gmeans <- matrix(0, ng, l)
+    rownames(Gmeans) <- lev
     for (i in 1:ng) {
         if(gsizes[i] > 1)
             Gmeans[i, ] <- apply(N[groups==lev[i], ], 2, mean)
@@ -177,5 +179,8 @@ CV=NULL
                 CV[i] <- crossval[[i]]
         }
     }
-    return(list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV))
+    out <- list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups)
+    class(out) <- "bgPCA"
+    return(out)
 }
+
