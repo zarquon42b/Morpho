@@ -31,6 +31,8 @@
 #' tested by permutation test if the input is an array it is assumed to be
 #' superimposed Landmark Data and Procrustes Distance will be calculated}
 #' \item{CVcv }{A matrix containing crossvalidated CV scores}
+#' \item{groups }{factor containing the grouping variable}
+#' \item{class }{classification results based on distances between scores and groupmeans projected in to latent space is computed. If cv=TRUE, this will be done by a leaving-one-out procedure}
 #' @author Stefan Schlager
 #' @seealso \code{\link{groupPCA}}
 #' @references Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of Canonical
@@ -254,7 +256,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         groupmeans <- Gmeans
         rownames(groupmeans) <- lev
     }
-
+    classprobs <- NULL
+    classVec <- NULL
     CVcv <- NULL
     if (cv == TRUE) {
         CVcv <- CVscores
@@ -264,16 +267,29 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
             {
                 tmp <- .CVAcrova(Tmatrix[-i, ],groups=groups[-i],test=CV, tolinv = tolinv, weighting=weighting)
                 out <- (Tmatrix[i, ]-tmp$Grandmean) %*% tmp$CV
-                return(out)
+                #tmpScores <- sweep(Tmatrix[-i,],2,tmp$Grandmean) %*% tmp$CV
+                tmpdist <- rowSums(sweep(tmp$meanscores,2,as.vector(out))^2)
+                myclass <- names(tmpdist)[which(tmpdist == min(tmpdist))]
+                #post <- pchisq(tmpdist,df=length(out),lower.tail = F)
+                return(list(scores=out,class=myclass))
             }
         a.list <- lapply(a.list, crovafun)
-        for (i in 1:n)
-            CVcv[i,] <- a.list[[i]]
-    }
+        
+        for (i in 1:n) {
+            CVcv[i,] <- a.list[[i]]$scores
+            classVec[i] <- a.list[[i]]$class
+            #classprobs <- rbind(classprobs,a.list[[i]]$post)
+        }
+        classVec <- factor(classVec)
+    } 
+       
     out <- list(CV = CV, CVscores = CVscores, Grandm = Grandm,
                 groupmeans = groupmeans, Var = Var, CVvis = CVvis,
-                Dist = Dist, CVcv = CVcv,groups=groups
+                Dist = Dist, CVcv = CVcv,groups=groups,class=classVec
                 )
     class(out) <- "CVA"
+    if (!cv) 
+        out$class <- classify(out)$class
+
     return(out)
 }

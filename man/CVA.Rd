@@ -41,6 +41,8 @@ rounds = 0, no test is performed.}
 tested by permutation test if the input is an array it is assumed to be
 superimposed Landmark Data and Procrustes Distance will be calculated}
 \item{CVcv }{A matrix containing crossvalidated CV scores}
+\item{groups }{factor containing the grouping variable}
+\item{class }{classification results based on distances between scores and groupmeans projected in to latent space is computed. If cv=TRUE, this will be done by a leaving-one-out procedure}
 }
 \description{
 performs a Canonical Variate Analysis.

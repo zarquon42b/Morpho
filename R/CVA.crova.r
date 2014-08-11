@@ -17,6 +17,7 @@
         stop("data should contain at least 2 variable dimensions")
     
     Gmeans <- matrix(0, ng, l)
+    rownames(Gmeans) <- lev
     for (i in 1:ng) {
         if (gsizes[i] > 1)
             Gmeans[i, ] <- apply(N[groups==lev[i], ], 2, mean)
@@ -72,7 +73,9 @@
         if (rho > pi/2)
             CV[,i] <- -CV[,i]		
     }
-    return(list(CV=CV,Grandmean=Grandm))
+    meanscores <-  sweep(Gmeans, 2, Grandm) %*%CV
+    rownames(meanscores) <- lev
+    return(list(CV=CV,Grandmean=Grandm,meanscores=meanscores))
 }
 
 
