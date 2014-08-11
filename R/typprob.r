@@ -114,7 +114,7 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
     glev <- levels(groups)
     nlev <- length(glev)
     cova <- NULL
-    if (sep)
+    if (!sep)
         cova <- covW(data,groups)
     for( i in 1:nlev)
         {
