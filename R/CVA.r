@@ -32,7 +32,9 @@
 #' superimposed Landmark Data and Procrustes Distance will be calculated}
 #' \item{CVcv }{A matrix containing crossvalidated CV scores}
 #' \item{groups }{factor containing the grouping variable}
-#' \item{class }{classification results based on distances between scores and groupmeans projected in to latent space is computed. If cv=TRUE, this will be done by a leaving-one-out procedure}
+#' \item{class }{classification results based on posteriror probabilities. If cv=TRUE, this will be done by a leaving-one-out procedure}
+#'  \item{posterior }{posterior probabilities}
+#'  \item{prior }{prior probabilities}
 #' @author Stefan Schlager
 #' @seealso \code{\link{groupPCA}}
 #' @references Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of Canonical
@@ -142,10 +144,12 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     lev <- levels(groups)
     ng <- length(lev)
     gsizes <- as.vector(tapply(groups, groups, length))
+    
     if (1 %in% gsizes) {
         cv <- FALSE
         warning("group with one entry found - crossvalidation will be disabled.")
     }
+    prior <- gsizes/sum(gsizes)
     N <- dataarray
     n3 <- FALSE
     if (length(dim(N)) == 3) {
@@ -256,8 +260,9 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         groupmeans <- Gmeans
         rownames(groupmeans) <- lev
     }
-    classprobs <- NULL
     classVec <- NULL
+    classprobs <- NULL
+    classdist <- NULL
     CVcv <- NULL
     if (cv == TRUE) {
         CVcv <- CVscores
@@ -267,29 +272,45 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
             {
                 tmp <- .CVAcrova(Tmatrix[-i, ],groups=groups[-i],test=CV, tolinv = tolinv, weighting=weighting)
                 out <- (Tmatrix[i, ]-tmp$Grandmean) %*% tmp$CV
-                #tmpScores <- sweep(Tmatrix[-i,],2,tmp$Grandmean) %*% tmp$CV
                 tmpdist <- rowSums(sweep(tmp$meanscores,2,as.vector(out))^2)
-                myclass <- names(tmpdist)[which(tmpdist == min(tmpdist))]
-                #post <- pchisq(tmpdist,df=length(out),lower.tail = F)
-                return(list(scores=out,class=myclass))
+                post <- probpost(tmpdist,prior)
+                myclass <- names(tmpdist)[which(post == max(post))]
+                return(list(scores=out,class=myclass,dist=tmpdist,post=post))
             }
         a.list <- lapply(a.list, crovafun)
         
         for (i in 1:n) {
             CVcv[i,] <- a.list[[i]]$scores
             classVec[i] <- a.list[[i]]$class
-            #classprobs <- rbind(classprobs,a.list[[i]]$post)
+            classprobs <- rbind(classprobs,a.list[[i]]$post)
         }
+        rownames(classprobs) <- rownames(N)
+        colnames(classprobs) <- lev
+        names(classVec) <- rownames(N)
         classVec <- factor(classVec)
     } 
        
     out <- list(CV = CV, CVscores = CVscores, Grandm = Grandm,
                 groupmeans = groupmeans, Var = Var, CVvis = CVvis,
-                Dist = Dist, CVcv = CVcv,groups=groups,class=classVec
+                Dist = Dist, CVcv = CVcv,groups=groups,class=classVec,posterior=classprobs,prior=prior
                 )
     class(out) <- "CVA"
-    if (!cv) 
-        out$class <- classify(out)$class
+    if (!cv) {
+        cl <- classify(out)
+        out$class <- cl$class
+        out$posterior <- cl$posterior
+    }
 
     return(out)
 }
+
+
+probpost <- function(dist,prior) {
+    posts <- NULL
+    const <- sqrt(2*pi)
+    for(i in 1:length(dist))        
+        posts[i] <- const*exp(-0.5*dist[i])*prior[i]
+    posts <- posts/sum(posts)
+    return(posts)
+}
+    

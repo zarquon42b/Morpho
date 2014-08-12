@@ -3,18 +3,21 @@
 #' classify specimen based on between-group PCA or CVA
 #'
 #' @param x result of groupPCA or CVA
+#' @param cv logical: use cross-validated scores if available
 #' @return
 #' \item{class}{classification result}
 #' \item{groups}{original grouping variable}
+#'
+#' for object of CVA, also the posterior probabilities are returned.
 #' @rdname classify
 #' @export
-classify <- function(x) UseMethod("classify")
+classify <- function(x,cv=TRUE) UseMethod("classify")
 
 #' @rdname classify
 #' @export
-classify.bgPCA <- function(x) {
+classify.bgPCA <- function(x,cv=TRUE) {
 
-    if (!is.null(x$CV))
+    if (!is.null(x$CV) && cv)
         CV <- x$CV
     else
         CV <- x$Scores
@@ -33,27 +36,35 @@ classify.bgPCA <- function(x) {
 
 #' @rdname classify
 #' @export
-classify.CVA <- function(x) {
+classify.CVA <- function(x,cv=T) {
 
-    if (length(dim(x$Grandm)) == 2) {
-        x$Grandm <- as.vector(x$Grandm)
-        x$groupmeans <- vecx(x$groupmeans)
-    }
-    if (!is.null(x$CVcv))
-        CV <- x$CVcv
-    else
+    if (!is.null(x$class) && cv) {
+        out <- list(class=x$class,groups=x$groups,posterior=x$posterior)
+        class(out) <- "classify"
+        return(out)
+    } else {
+        if (length(dim(x$Grandm)) == 2) {
+            x$Grandm <- as.vector(x$Grandm)
+            x$groupmeans <- vecx(x$groupmeans)
+        }
         CV <- x$CVscores
-    classVec <- NULL
-    GmeanCenter <- sweep(x$groupmeans,2,x$Grandm)
-    GmeanScores <- GmeanCenter%*%x$CV
-    for (i in 1:nrow(CV)) {
-        tmpdist <- (sqrt(rowSums(sweep(GmeanScores,2,CV[i,])^2)))
-        classVec[i] <- names(tmpdist)[which(tmpdist == min(tmpdist))]
+        classVec <- NULL
+        GmeanCenter <- sweep(x$groupmeans,2,x$Grandm)
+        GmeanScores <- GmeanCenter%*%x$CV
+        classprobs <- NULL
+        for (i in 1:nrow(CV)) {
+            tmpdist <- (rowSums(sweep(GmeanScores,2,CV[i,])^2))
+            post <- probpost(tmpdist,x$prior)
+            classVec[i] <- names(tmpdist)[which(post == max(post))]
+            classprobs <- rbind(classprobs,post)
+        }
+        names(classVec) <- rownames(classprobs) <- rownames(x$CVscores)
+        colnames(classprobs) <- rownames(x$groupmeans)
+        classVec <- factor(classVec)
+        out <- list(class=classVec,groups=x$groups,posterior=classprobs)
+        class(out) <- "classify"
+        return(out)
     }
-    classVec <- factor(classVec)
-    out <- list(class=classVec,groups=x$groups)
-    class(out) <- "classify"
-    return(out)
 }
     
     
