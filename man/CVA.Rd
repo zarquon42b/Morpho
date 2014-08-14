@@ -42,7 +42,9 @@ tested by permutation test if the input is an array it is assumed to be
 superimposed Landmark Data and Procrustes Distance will be calculated}
 \item{CVcv }{A matrix containing crossvalidated CV scores}
 \item{groups }{factor containing the grouping variable}
-\item{class }{classification results based on distances between scores and groupmeans projected in to latent space is computed. If cv=TRUE, this will be done by a leaving-one-out procedure}
+\item{class }{classification results based on posteriror probabilities. If cv=TRUE, this will be done by a leaving-one-out procedure}
+ \item{posterior }{posterior probabilities}
+ \item{prior }{prior probabilities}
 }
 \description{
 performs a Canonical Variate Analysis.

@@ -5,18 +5,22 @@
 \alias{classify.bgPCA}
 \title{classify specimen based on between-group PCA or CVA}
 \usage{
-classify(x)
+classify(x, cv = TRUE)
 
-\method{classify}{bgPCA}(x)
+\method{classify}{bgPCA}(x, cv = TRUE)
 
-\method{classify}{CVA}(x)
+\method{classify}{CVA}(x, cv = T)
 }
 \arguments{
 \item{x}{result of groupPCA or CVA}
+
+\item{cv}{logical: use cross-validated scores if available}
 }
 \value{
 \item{class}{classification result}
 \item{groups}{original grouping variable}
+
+for object of CVA, also the posterior probabilities are returned.
 }
 \description{
 classify specimen based on between-group PCA or CVA
