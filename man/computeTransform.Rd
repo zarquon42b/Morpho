@@ -3,7 +3,8 @@
 \alias{computeTransform}
 \title{calculate an affine transformation matrix}
 \usage{
-computeTransform(x, y, type = c("affine", "rigid", "similarity"))
+computeTransform(x, y, type = c("affine", "rigid", "similarity"),
+  reflection = FALSE)
 }
 \arguments{
 \item{x}{fix landmarks}
@@ -11,6 +12,8 @@ computeTransform(x, y, type = c("affine", "rigid", "similarity"))
 \item{y}{moving landmarks}
 
 \item{type}{set type of affine transformation: options are "affine", "rigid" and "similarity" (rigid + scale)}
+
+\item{reflection}{logical: if TRUE "rigid" and "similarity" allow reflections.}
 }
 \value{
 returns a 4x4 (3x3 in 2D case)  transformation matrix
