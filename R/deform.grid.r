@@ -56,10 +56,10 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), both=T
     } else {
         sz <- size
     }
-    if (size > 0)
+    if (is.numeric(size) && size > 0)
         out3d(matrix,col=col1,radius=sz, size=sz)
     if(both) {
-        if (size > 0)
+        if (is.numeric(size) && size > 0)
             out3d(tarmatrix,col=col2,radius=sz, size=sz)
         if (lines) {
             linemesh <- list()
