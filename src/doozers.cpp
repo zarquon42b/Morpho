@@ -9,29 +9,41 @@ using namespace std;
 using namespace arma;
 
 double angcalcArma(vec a, vec b) {
-  double alen = norm(a,2);
-  double blen = norm(b,2);
-  if (alen > 0)
-    a = a/alen;
-  if (blen > 0)
-    b = b/blen;
-  vec diffvec = a-b;
-  double angle = acos((dot(diffvec,diffvec)-2)/-2);
-  return angle;
+  try {
+    double alen = norm(a,2);
+    double blen = norm(b,2);
+    if (alen > 0)
+      a = a/alen;
+    if (blen > 0)
+      b = b/blen;
+    vec diffvec = a-b;
+    double angle = acos((dot(diffvec,diffvec)-2)/-2);
+    return angle;
+  } catch (std::exception& e) {
+    ::Rf_error( e.what());
+  } catch (...) {
+    ::Rf_error("unknown exception");
+  }
 }
 		
 double angcalcRcpp(NumericVector a_, NumericVector b_) {
-  colvec a(a_.begin(),a_.size(),false);
-  colvec b(b_.begin(),b_.size(),false);
-  double alen = sqrt(dot(a,a));
-  double blen = sqrt(dot(b,b));
-  if (alen > 0)
-    a = a/alen;
-  if (blen > 0)
-    b = b/blen;
-  colvec diffvec = a-b;
-  double angle = acos((dot(diffvec,diffvec)-2)/-2);
-  return angle;
+  try {
+    colvec a(a_.begin(),a_.size(),false);
+    colvec b(b_.begin(),b_.size(),false);
+    double alen = sqrt(dot(a,a));
+    double blen = sqrt(dot(b,b));
+    if (alen > 0)
+      a = a/alen;
+    if (blen > 0)
+      b = b/blen;
+    colvec diffvec = a-b;
+    double angle = acos((dot(diffvec,diffvec)-2)/-2);
+    return angle;
+  } catch (std::exception& e) {
+    ::Rf_error( e.what());
+  } catch (...) {
+    ::Rf_error("unknown exception");
+  }
 }
 void crosspArma(colvec x, colvec y, colvec& z) {
   z(0) = x(1)*y(2)-x(2)*y(1);
