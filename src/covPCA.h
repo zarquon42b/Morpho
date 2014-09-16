@@ -1,6 +1,9 @@
 #ifndef _covPCA_H
 #define _covPCA_H
+#ifndef ARMA_DONT_PRINT_ERRORS 
+#define ARMA_DONT_PRINT_ERRORS 
 #include <RcppArmadillo.h>
+#endif
 
 using namespace Rcpp;
 using namespace std;

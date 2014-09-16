@@ -1,5 +1,7 @@
 #include "covPCA.h"
 #include "doozers.h"
+
+
 double covDist(mat &s1, mat &s2) {
   double cdist;
   mat X, EigVec;
@@ -125,6 +127,7 @@ List covMDS(mat &dists) {
 
 //this is the function exposed to R in covPCA
 SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
+  try {
   //process input
   int scramble = Rcpp::as<int>(scramble_);
   int rounds = as<int>(rounds_);
@@ -152,6 +155,11 @@ SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
 		      Named("permute")=permutest,
 		       Named("bootstrap")=bootstrap
 		      );
+  } catch (std::exception& e) {
+    ::Rf_error( e.what());
+  } catch (...) {
+    ::Rf_error("unknown exception");
+  }
 }
 //this is a function exposed to R calculating distance only 
 //currently not used  
