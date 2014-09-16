@@ -36,7 +36,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), both=T
     if (inherits(tarmatrix,"mesh3d"))
         tarmatrix <- vert2points(tarmatrix)
     type <- type[1]
-    if (dim(matrix)[1] > 1000 && type =="s" && size > 0) {
+    if (dim(matrix)[1] > 1000 && type =="s" && (is.null(size) || size > 0)) {
         answer <- readline("You have a lot of landmarks\n Render them as points (faster)? (yes/NO)\n")
         if (! substr(answer,1L,1L) %in% c("n","N"))
             type <- "p"
