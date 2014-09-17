@@ -31,7 +31,7 @@
 #' 
 #' @importFrom Rvcg vcgClost vcgImport
 #' @export
-projRead <- function(lm, mesh,readnormals=TRUE, smooth=TRUE, sign=TRUE,...)
+projRead <- function(lm, mesh,readnormals=TRUE, smooth=FALSE, sign=TRUE,...)
 {
     if (is.character(mesh))
         mesh <- vcgImport(mesh,updateNormals=FALSE,clean=FALSE)
