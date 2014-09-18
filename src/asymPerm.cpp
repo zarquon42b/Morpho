@@ -1,5 +1,7 @@
 #include "asymPerm.h"
 #include "doozers.h"
+#include "sampling.h"
+
 using namespace Rcpp;
 using namespace std;
 using namespace arma;
@@ -17,7 +19,7 @@ SEXP asymPerm(SEXP asymr, SEXP groupsr, SEXP roundr) {
     std::vector<double> diff,angle;
     for (int i=0; i <= rounds; ++i) {
       if (i > 0)
-	permuvec = shuffle(permuvec);
+	permuvec = randomShuffle(permuvec);
       mat tmp1 = armaAsym.rows(arma::find(permuvec == 1 ));
       mat mean1 = mean(tmp1,0);
       double mean1len = sqrt(dot(mean1,mean1));
@@ -66,7 +68,7 @@ RcppExport SEXP asymPermute(SEXP data_, SEXP groups_, SEXP rounds_) {
     for (int i=0; i <= rounds; ++i) {
       int count = 0;
       if (i > 0)
-	permuvec = shuffle(permuvec);
+	permuvec = randomShuffle(permuvec);
       for (int j0 = 1; j0 < maxlev; ++j0) {
 	mat tmp1 = armaData.rows(arma::find(permuvec == j0 ));
 	mat mean1mat = mean(tmp1,0);
