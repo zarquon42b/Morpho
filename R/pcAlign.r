@@ -69,6 +69,6 @@ pcAlign.mesh3d <- function(x,y,optim=TRUE,subsample=NULL) {
     x <- vert2points(x)
     tmpverts <- pcAlign(x,y)
     xorig$vb[1:3,] <- t(tmpverts)
-    xorig <- updateNormals(xorig)
+    xorig <- vcgUpdateNormals(xorig)
     return(xorig)
 }

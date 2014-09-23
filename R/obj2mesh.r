@@ -25,7 +25,7 @@ obj2mesh <- function(filename,adnormals=TRUE)
     }
     
     if (adnormals && is.null(mesh$normals))
-        mesh <- updateNormals(mesh)
+        mesh <- vcgUpdateNormals(mesh)
     
     return(mesh)
 }

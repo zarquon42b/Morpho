@@ -95,7 +95,7 @@ rmVertex <- function(mesh,index,keep=FALSE) {
        
         mesh$vb <- mesh$vb[,-index]
         if (!is.null(mesh$it))
-            mesh <- updateNormals(mesh)
+            mesh <- vcgUpdateNormals(mesh)
         else
             mesh$normals <- NULL
     } else {

@@ -43,6 +43,7 @@
 #' @importFrom rgl lines3d open3d points3d rgl.bg rgl.bringtotop rgl.clear rgl.close  rgl.cur rgl.pop rgl.snapshot shade3d spheres3d text3d translate3d wire3d
 #' @importFrom yaImpute ann
 #' @importFrom Rcpp evalCpp
+#' @importFrom Rvcg vcgUpdateNormals
 #' @importClassesFrom Matrix dgCMatrix dgeMatrix dsCMatrix dtCMatrix sparseMatrix
 NULL
 
@@ -136,7 +137,7 @@ deform.grid <- function (...)
 adnormals <- function (...)
 {
   .Deprecated("updateNormals", package="Morpho")
-  updateNormals(...)
+  vcgUpdateNormals(...)
 }
 
 #' @rdname Morpho-deprecated

@@ -48,7 +48,7 @@ rotmesh.onto <- function(mesh, refmat, tarmat, adnormals=FALSE, scale=FALSE, ref
   if (sign(det(rot$gamm) < 0 && reflection))
       mesh <- conv2backf(mesh)
   if (adnormals) 
-      mesh <- updateNormals(mesh)
+      mesh <- vcgUpdateNormals(mesh)
   if (!is.null(mesh$normals) && !adnormals)
       mesh$normals[1:3,] <- t(t(mesh$normals[1:3,]) %*% rot$gamm)
    

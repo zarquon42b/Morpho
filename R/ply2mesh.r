@@ -123,7 +123,7 @@ ply2mesh <- function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE
             if (is.null(mesh$normals)) {
                 if (!silent)
                     cat("calculating normals...\n")
-                mesh <- updateNormals(mesh)
+                mesh <- vcgUpdateNormals(mesh)
             }
         }
     }

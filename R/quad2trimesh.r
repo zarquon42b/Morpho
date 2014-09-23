@@ -24,7 +24,7 @@ quad2trimesh <- function(mesh, updateNormals=TRUE) {
         mesh$it <- ib2it
         mesh$ib <- NULL
         if (updateNormals) {
-            mesh <- updateNormals(mesh)
+            mesh <- vcgUpdateNormals(mesh)
         }
     }
     return(mesh)
