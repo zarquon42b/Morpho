@@ -1,6 +1,6 @@
 #include "covPCA.h"
 #include "doozers.h"
-#include "sampling.h"
+
 
 double covDist(mat &s1, mat &s2) {
   double cdist;
@@ -30,8 +30,8 @@ mat covDistMulti(mat &data, ivec groups, bool scramble) {
     } else {//bootstrapping within groups with replacement
       mat tmpdat = data.rows(arma::find(groups == (i+1)));
       uint nrow = tmpdat.n_rows;
-      //uvec shaker = randi<uvec>(nrow, distr_param(0,nrow-1));
-      uvec shaker = myrandu(nrow, 0, nrow-1);
+      uvec shaker = unique(randi<uvec>(nrow, distr_param(0,nrow-1)));
+      //uvec shaker = unique(randi(nrow, 0, nrow-1));
       covaList[i] = cov(tmpdat.rows(shaker));
     }
   }
@@ -89,7 +89,7 @@ cube covPCApermute(mat &data, ivec groups, int rounds) {
   uint maxlev = groups.max();  
   cube alldist(maxlev, maxlev, rounds);
   for (int i = 0; i < rounds;){
-    groups = randomShuffle(groups);
+    groups = shuffle(groups);
     mat result = covDistMulti(data, groups, false);
     result = sqrt(result);
     if (result.n_cols > 0) {

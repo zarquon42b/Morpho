@@ -1,5 +1,5 @@
 #include "CVAdists.h"
-#include "sampling.h"
+
 
 SEXP CVAdists(SEXP data_, SEXP  groups_, SEXP rounds_, SEXP winv_) {
   try {
@@ -31,7 +31,7 @@ SEXP CVAdists(SEXP data_, SEXP  groups_, SEXP rounds_, SEXP winv_) {
     for (int i=0; i <= rounds; ++i) {
       int count = 0;
       if (i > 0)
-	permuvec = randomShuffle(permuvec);
+	permuvec = shuffle(permuvec);
       for (int j0 = 1; j0 < maxlev; ++j0) {
 	mat tmp1 = armaData.rows(arma::find(permuvec == j0 ));
 	mat mean1 = mean(tmp1,0);
