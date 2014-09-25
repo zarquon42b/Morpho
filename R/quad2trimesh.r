@@ -20,7 +20,7 @@ quad2trimesh <- function(mesh, updateNormals=TRUE) {
     if (is.null(mesh$ib)) {
         warning("this is no quadmesh, nothing to be done")
     } else {
-        ib2it <- rbind(mesh$ib[1:3,],mesh$ib[c(3:4,1),])
+        ib2it <- cbind(mesh$ib[1:3,,drop=FALSE],mesh$ib[c(3:4,1),,drop=FALSE])
         mesh$it <- ib2it
         mesh$ib <- NULL
         if (updateNormals) {
