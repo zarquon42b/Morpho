@@ -2,9 +2,11 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 2.1 (2014-09-11)}{
+\section{Changes in Morpho version 2.1 (2014-09-25)}{
   \subsection{New features}{
     \itemize{
+      \item added new function mirror to mirror a landmark configuration
+  or a mesh and registering onto the original one.
       \item added new functions retrodeform3d and  retroDeformMesh for removing affine
       deformation from a 3D-meshes and pointclouds
       \item deformGrid3d now also accepts meshes
@@ -31,7 +33,10 @@
       \item changed relaxLM to accept 2D configs
       \item replaced workhorse function in projRead by the faster
       vcgClostKD
-      \item made plotNormals to work with homogenous and non-homogeneous coordinates
+      \item made plotNormals to work with homogenous and non-homogeneous
+      coordinates
+      \item fixed issue in output of CVAdists (wrong attribution of p-value tables)
+
 
     }
   }
