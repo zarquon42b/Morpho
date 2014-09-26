@@ -11,6 +11,7 @@
 #'
 #' @rdname pcAlign
 #' @importFrom Rvcg vcgKDtree
+#' @export
 pcAlign <- function(x,y,optim=TRUE,subsample=NULL)UseMethod("pcAlign")
 
 #' @rdname pcAlign
