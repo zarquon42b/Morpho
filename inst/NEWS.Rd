@@ -6,8 +6,8 @@
   \subsection{New features}{
     \itemize{
       \item added new function mirror to mirror a landmark configuration
-  or a mesh and registering onto the original one.
-      \item added new functions retrodeform3d and  retroDeformMesh for removing affine
+      or a mesh and registering onto the original one.
+      \item added new functions retroDeform3d and  retroDeformMesh for removing affine
       deformation from a 3D-meshes and pointclouds
       \item deformGrid3d now also accepts meshes
       \item added function classify for CVA and groupPCA for creating
