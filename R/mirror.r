@@ -124,10 +124,10 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,scale=FALSE) {
     for (i in 1:iterations) {
         clost <- vcgKDtree(y,xtmp,1)
         good <- which(clost$distance < mindist)
-        xtmp <- rotonmat(xtmp,xtmp[good,],y[clost$index[good],],scale = scale,reflection=FALSE)
+        xtmp[,1:m] <- rotonmat(xtmp[,1:m],xtmp[good,1:m],y[clost$index[good],1:m],scale = scale,reflection=FALSE)
     }
     if (!is.null(subsample))
-        xtmp <- rotonmat(x,x[!subs,],xtmp,scale=scale,reflection=FALSE)
+        xtmp <- rotonmat(x[,1:m],x[!subs,1:m],xtmp[,1:m],scale=scale,reflection=FALSE)
     if (m == 2)
         xtmp <- xtmp[,1:2]
     return(xtmp)
