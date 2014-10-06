@@ -51,17 +51,17 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), show=c
     k <- dim(matrix)[1]
     if (is.null(size)) {
         if (type != "p")
-            sz <- (cSize(matrix)/sqrt(k))
+            sz <- (cSize(matrix)/sqrt(k)*(1/80))
         else
             sz <- 10
     } else {
         sz <- size
     }
-    if (is.numeric(size) && size > 0)
+    if (is.numeric(sz) && sz > 0)
         if (1 %in% show)
             out3d(matrix,col=col1,radius=sz, size=sz)
     if(2 %in% show) 
-        if (is.numeric(size) && size > 0)
+        if (is.numeric(sz) && sz > 0)
             out3d(tarmatrix,col=col2,radius=sz, size=sz)
     if (lines) {
         linemesh <- list()
