@@ -4,8 +4,8 @@
 \title{visualise differences between two superimposed sets of 3D landmarks}
 \usage{
 deformGrid3d(matrix, tarmatrix, ngrid = 0, lwd = 1, showaxis = c(1, 2),
-  both = T, lines = TRUE, lcol = 1, add = FALSE, col1 = 2, col2 = 3,
-  type = c("s", "p"), size = NULL)
+  show = c(1, 2), lines = TRUE, lcol = 1, add = FALSE, col1 = 2,
+  col2 = 3, type = c("s", "p"), size = NULL, pcaxis = FALSE)
 }
 \arguments{
 \item{matrix}{reference matrix containing 3D landmark coordinates or mesh of class "mesh3d"}
@@ -20,7 +20,7 @@ creation.}
 \item{showaxis}{integer (vector): which dimensions of the grid to be
 plotted. Options are combinations of 1,2 and 3.}
 
-\item{both}{logical: if FALSE, only "matrix" will be plotted.}
+\item{show}{integer (vector): if c(1:2) both configs will be plotted, show = 1 only plots the reference and show = 2 the target}
 
 \item{lines}{logical: if TRUE, lines between landmarks will be plotted.}
 
@@ -36,6 +36,8 @@ plotted. Options are combinations of 1,2 and 3.}
 for very large pointclouds.}
 
 \item{size}{control size/radius of points/spheres}
+
+\item{pcaxis}{logical: align grid by shape's principal axes.}
 }
 \description{
 visualise differences between two superimposed sets of 3D landmarks by

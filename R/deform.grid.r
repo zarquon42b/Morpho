@@ -11,7 +11,7 @@
 #' @param lwd width of lines connecting landmarks.
 #' @param showaxis integer (vector): which dimensions of the grid to be
 #' plotted. Options are combinations of 1,2 and 3.
-#' @param both logical: if FALSE, only "matrix" will be plotted.
+#' @param show integer (vector): if c(1:2) both configs will be plotted, show = 1 only plots the reference and show = 2 the target
 #' @param lines logical: if TRUE, lines between landmarks will be plotted.
 #' @param lcol color of lines
 #' @param add logical: add to existing rgl window.
@@ -20,6 +20,7 @@
 #' @param type "s" renders landmarks as spheres; "p" as points - much faster
 #' for very large pointclouds.
 #' @param size control size/radius of points/spheres
+#' @param pcaxis logical: align grid by shape's principal axes.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
 #' 
@@ -29,7 +30,7 @@
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #' }
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), both=T,lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"),size=NULL)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
@@ -50,24 +51,24 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), both=T
     k <- dim(matrix)[1]
     if (is.null(size)) {
         if (type != "p")
-            sz <- (cSize(matrix)/sqrt(k))*(1/80)
+            sz <- (cSize(matrix)/sqrt(k))
         else
             sz <- 10
     } else {
         sz <- size
     }
     if (is.numeric(size) && size > 0)
-        out3d(matrix,col=col1,radius=sz, size=sz)
-    if(both) {
+        if (1 %in% show)
+            out3d(matrix,col=col1,radius=sz, size=sz)
+    if(2 %in% show) 
         if (is.numeric(size) && size > 0)
             out3d(tarmatrix,col=col2,radius=sz, size=sz)
-        if (lines) {
-            linemesh <- list()
-            linemesh$vb <- t(cbind(rbind(matrix,tarmatrix),1))
-            linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
-            class(linemesh) <- "mesh3d"
-            wire3d(linemesh,lwd=1.5,col=lcol,lit=FALSE)
-        }
+    if (lines) {
+        linemesh <- list()
+        linemesh$vb <- t(cbind(rbind(matrix,tarmatrix),1))
+        linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
+        class(linemesh) <- "mesh3d"
+        wire3d(linemesh,lwd=1.5,col=lcol,lit=FALSE)
     }
     x2 <- x1 <- x3 <- c(0:(ngrid-1))/ngrid;
     x0 <- as.matrix(expand.grid(x1,x2,x3))
@@ -83,10 +84,13 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), both=T
         yrange1 <- diff(range(tarmatrix[,2]))
         zrange1 <- diff(range(tarmatrix[,3]))
         maxi <- max(c(xrange,yrange,zrange,xrange1,yrange1,zrange1))
-        maxi <- maxi+0.02*maxi
+        maxi <- 1.2*maxi
         x0 <- maxi*x0
         x0 <- apply(x0,2,scale,scale=FALSE)
-        space <- eigen(crossprod(cent.mat))$vectors
+        if (pcaxis)
+            space <- eigen(crossprod(cent.mat))$vectors
+        else
+            space <- diag(3)
         x0 <- t(t(x0%*%space)+mean.mat)
         x0 <- tps3d(x0,matrix,tarmatrix)
         
