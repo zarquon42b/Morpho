@@ -135,10 +135,14 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
                 vs <- lm_old
                 cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
                 p1 <- 0
+                count <- count+1   
             } else {
                 cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
-                count <- count+1         
+                count <- count+1
             }
+        } else {
+            cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
+            count <- count+1
         }
     }
     return(vs)
