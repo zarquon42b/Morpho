@@ -23,7 +23,7 @@ retroDeformMesh(mesh, mat, pairedLM, hmult = 5, alpha = 0.01, rot = TRUE,
 }
 \value{
 \item{mesh}{symmetrized mesh}
-\item{landmarks}{a list containing the deformed and original bilateral landmarks}
+\item{landmarks}{a list containing the deformed and original landmarks}
 }
 \description{
 symmetrize a triangular mesh

@@ -16,7 +16,7 @@ retroDeform3d(mat, pairedLM, hmult = 5, alpha = 0.01)
 }
 \value{
 \item{deformed}{matrix containing deformed landmarks}
-\item{orig}{matrix containing original landmarks in the same order as the deformed ones}
+\item{orig}{matrix containing original landmarks}
 }
 \description{
 symmetrize a bilateral landmark configuration by removing bending and stretching
