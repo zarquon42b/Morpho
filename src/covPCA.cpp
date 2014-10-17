@@ -1,5 +1,7 @@
 #include "covPCA.h"
 #include "doozers.h"
+
+
 double covDist(mat &s1, mat &s2) {
   double cdist;
   mat X, EigVec;
@@ -28,7 +30,8 @@ mat covDistMulti(mat &data, ivec groups, bool scramble) {
     } else {//bootstrapping within groups with replacement
       mat tmpdat = data.rows(arma::find(groups == (i+1)));
       uint nrow = tmpdat.n_rows;
-      uvec shaker = randi<uvec>(nrow, distr_param(0,nrow-1));
+      uvec shaker = unique(randi<uvec>(nrow, distr_param(0,nrow-1)));
+      //uvec shaker = unique(randi(nrow, 0, nrow-1));
       covaList[i] = cov(tmpdat.rows(shaker));
     }
   }
@@ -65,13 +68,16 @@ cube covPCAboot(mat &data, ivec groups, int rounds) {
     mat result = covDistMulti(data, groups, true);
     if (result.n_cols > 0) {
       List tmplist = covMDS(result);
-      mat tmpscores = tmplist["PCscores"];
-      for (uint j =0; j < tmpscores.n_cols; j++) {
-	if (angcalcArma(tmpscores.col(j),refscores.col(j)) > 1.570796f )
-	  tmpscores.col(j) *= -1;
-	  }
-      alldist.slice(i) = tmpscores;
-      i++;//only increment if covPCA did not fail
+      bool check = tmplist["check"];
+      if (check) {
+	mat tmpscores = tmplist["PCscores"];
+	for (uint j =0; j < tmpscores.n_cols; j++) {
+	  if (angcalcArma(tmpscores.col(j),refscores.col(j)) > 1.570796f )
+	    tmpscores.col(j) *= -1;
+	}
+	alldist.slice(i) = tmpscores;
+	i++;//only increment if covPCA did not fail
+      }
     }
   }
   return alldist;
@@ -105,26 +111,34 @@ List covMDS(mat &dists) {
   mat D = -0.5*(H*dists*H);
   mat eigvec;
   vec eigval;
-  eig_sym(eigval, eigvec, D);
-  uvec useandsort(nlev-1);//sort eigenvectors and values by increasing value
-  for (unsigned int i = 0; i < (nlev-1); i++)
-    useandsort(i) = nlev-1-i;
-  eigval = eigval.elem(useandsort);
-  eigvec = eigvec.cols(useandsort);
-  
-  mat PCscores = eigvec;
-  for (unsigned int i = 0; i < (nlev-1); i++)
-    PCscores.col(i) *= sqrt(eigval(i));
-  
+  mat PCscores;
+  bool check = eig_sym(eigval, eigvec, D);
+  if (check) {
+    uvec useandsort(nlev-1);//sort eigenvectors and values by increasing value
+    for (unsigned int i = 0; i < (nlev-1); i++)
+      useandsort(i) = nlev-1-i;
+    eigval = eigval.elem(useandsort);
+    eigvec = eigvec.cols(useandsort);
+    
+    PCscores = eigvec;
+    for (unsigned int i = 0; i < (nlev-1); i++) {
+      if (eigval(i) > 0)
+	PCscores.col(i) *= sqrt(eigval(i));
+      else 
+	check = false;
+    }
+    }
   List out = List::create(Named("eigenvec")=eigvec,
 			  Named("eigenval")=eigval,
-			  Named("PCscores")=PCscores
+			  Named("PCscores")=PCscores,
+			  Named("check")=check
 			  );
   return out;
 }
 
 //this is the function exposed to R in covPCA
 SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
+  try {
   //process input
   int scramble = Rcpp::as<int>(scramble_);
   int rounds = as<int>(rounds_);
@@ -152,6 +166,11 @@ SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
 		      Named("permute")=permutest,
 		       Named("bootstrap")=bootstrap
 		      );
+  } catch (std::exception& e) {
+    ::Rf_error( e.what());
+  } catch (...) {
+    ::Rf_error("unknown exception");
+  }
 }
 //this is a function exposed to R calculating distance only 
 //currently not used  

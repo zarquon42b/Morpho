@@ -1,5 +1,7 @@
 #include "asymPerm.h"
 #include "doozers.h"
+
+
 using namespace Rcpp;
 using namespace std;
 using namespace arma;

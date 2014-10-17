@@ -1,5 +1,6 @@
 #include "CVAdists.h"
 
+
 SEXP CVAdists(SEXP data_, SEXP  groups_, SEXP rounds_, SEXP winv_) {
   try {
     NumericMatrix data(data_);

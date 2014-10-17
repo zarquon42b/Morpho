@@ -30,7 +30,7 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
     {
       mesh <- x
       mesh$vb[1:3,] <- (i/n)*y$vb[1:3,]+(1-(i/n))*x$vb[1:3,]
-      mesh <- updateNormals(mesh)
+      mesh <- vcgUpdateNormals(mesh)
       a <- shade3d(mesh,col=col,...)
       if (useland) {
           land <- (i/n)*yland+(1-(i/n))*xland
@@ -50,7 +50,7 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
       for (i in 1:(n-1))
         {mesh <- x
          mesh$vb[1:3,] <- (i/n)*x$vb[1:3,]+(1-(i/n))*y$vb[1:3,]
-         mesh <- updateNormals(mesh)
+         mesh <- vcgUpdateNormals(mesh)
          a <- shade3d(mesh,col=col,...)
          if (useland) {
           land <- (i/n)*xland+(1-(i/n))*yland

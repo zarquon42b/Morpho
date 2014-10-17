@@ -42,8 +42,8 @@
     out$GroupdistMaha <- as.dist(t(mahadist))
     out$GroupdistEuclid <- as.dist(t(procdist))
     if (rounds > 1) {
-        out$probsMaha <- as.dist(t(procprobs))
-        out$probsEuclid <- as.dist(t(mahaprobs))
+        out$probsMaha <- as.dist(t(mahaprobs))
+        out$probsEuclid <- as.dist(t(procprobs))
     }
     return(out)
 }

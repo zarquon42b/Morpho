@@ -2,6 +2,46 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.1 (2014-09-25)}{
+  \subsection{New features}{
+    \itemize{
+      \item added new function mirror to mirror a landmark configuration
+      or a mesh and registering onto the original one.
+      \item added new functions retroDeform3d and  retroDeformMesh for removing affine
+      deformation from a 3D-meshes and pointclouds
+      \item deformGrid3d now also accepts meshes
+      \item added function classify for CVA and groupPCA for creating
+      classification tables
+      \item added new function getTrafo4x4, getTrafoRotaxis,
+      computeTransform and applyTransform, for computing and applying
+      affine transformations.
+      \item new function pcAlign to align meshes and pointclouds by
+      their principal axes
+      \item added function meshPlaneIntersect to find intersection
+      points between a mesh and a plane
+      \item added function getFaces to get indices of faces that contain specified vertices 
+    }
+  }
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item fixed issue with argument sep in typprobClass
+      \item added option size in deformGrid3d
+      \item fixed argument tol in ray2mesh
+      \item fixed rhotol in placePatch if inflate=NULL
+      \item fixed NA in colors from meshDist
+      \item fixed rmVertex in case no faces remain
+      \item changed relaxLM to accept 2D configs
+      \item replaced workhorse function in projRead by the faster
+      vcgClostKD
+      \item made plotNormals to work with homogenous and non-homogeneous
+      coordinates
+      \item fixed issue in output of CVAdists (wrong attribution of p-value tables)
+
+
+    }
+  }
+}
+
 \section{Changes in Morpho version 2.0.3 (2014-05-13)}{
   \itemize{
    \item added support for objects stored in a list in bindArr

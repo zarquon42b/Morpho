@@ -72,11 +72,13 @@ classify.CVA <- function(x,cv=T) {
 print.classify <- function(x,...) {
     cat(" classification result in frequencies\n")
     tab <- table(x$groups,x$class)
+    acc <- 100*sum(diag(tab))/sum(tab)
+    
     probtab <- prop.table(tab,1)
     print(tab)
     cat("\n\n classification result in %\n")
     print(probtab)
-
-    cat(paste0("\n\n overall classification accuracy: ",100*round(mean(diag(probtab)),digits=5)," %\n"))
+    
+    cat(paste0("\n\n overall classification accuracy: ",round(acc,digits=5)," %\n"))
 }
     

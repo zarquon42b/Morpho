@@ -266,12 +266,15 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             return(out)
         }
 
-        out <- foreach(i=1:n, .inorder=TRUE,.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho","Rvcg")) %dopar% parfun(i)
+        out <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho","Rvcg")) %dopar% parfun(i)
 
+        
         if (!usematrix && n > 1) {
             tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
-            for (i in 1:n)               
-                tmpout[,,i] <- out[[i]]
+            for (i in 1:n) {
+                if (is.matrix(out[[i]]))
+                    tmpout[,,i] <- out[[i]]
+            }
             out <- tmpout
             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
         } else {

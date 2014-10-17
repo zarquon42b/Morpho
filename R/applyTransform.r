@@ -32,7 +32,7 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
          trafo <- solve(trafo)
      x$vb <- trafo%*%x$vb
      if (!is.null(x$normals))
-         x <- updateNormals(x)
+         x <- vcgUpdateNormals(x)
      return(x)
  }
 

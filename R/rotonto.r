@@ -139,7 +139,7 @@ rotreverse.mesh3d <- function(mat,rot)
         x <- rotreverse(vert2points(mat),rot)
         mat$vb[1:3,] <- t(x)
          if (!is.null(mat$normals))
-        mat <- updateNormals(mat)
+        mat <- vcgUpdateNormals(mat)
 
         return(mat)
     }

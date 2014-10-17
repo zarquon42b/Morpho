@@ -1,6 +1,8 @@
 #ifndef DOOZERS_H_
 #define DOOZERS_H_
-
+#ifndef ARMA_DONT_PRINT_ERRORS 
+#define ARMA_DONT_PRINT_ERRORS 
+#endif
 
 #include <RcppArmadillo.h>
 using namespace Rcpp;

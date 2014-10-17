@@ -28,7 +28,7 @@ plotNormals <- function(x,long=1,lwd=1,col=1)
 
     if (is.null(x$normals)) {
         if (!is.null(x$it))
-            x <- updateNormals(x)
+            x <- vcgUpdateNormals(x)
         else
             stop("mesh has neither normals nor faces")
     }
