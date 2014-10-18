@@ -29,6 +29,8 @@ read.lmdta <- function(file="x", na=9999) {
     nlms <- as.numeric(info[3])/ndim
     eot <- endid
     B <- as.matrix(read.table(x,skip=eot),na.strings=as.numeric(info[5]))
+    if (nrow(B) != nlms*nspeci)
+        stop("number of landmarks in dataset not matching file header information")
     tt <- array(t(B),dim=c(ndim,nlms,nspeci))
     arr <- array(NA,dim=c(nlms,ndim,nspeci))
     for (i in 1:nspeci)
