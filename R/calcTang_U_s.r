@@ -11,7 +11,7 @@
     
     if (deselect==TRUE)
         SMvector <- c(1:k)[-SMvector]
-
+    
     SMvector <- unique(SMvector)
     m <- length(SMvector)
     if ( !is.null(free)) {
@@ -109,12 +109,19 @@
         }
     }
     U <- weights*U
+    outOnly <- outlines
     surfOnly <- surface
     freeOnly <- free
     if (!is.null(surface))
         surfOnly <- unique(sort(surface))
     if (!is.null(free))
         freeOnly <- unique(sort(free))
+    if(!is.null(outlines))
+        outOnly <- unique(sort(unlist(outlines)))
+
+    allsurf <- c(outOnly,surfOnly,freeOnly)
+    if (length(allsurf) != length(SMvector))
+        stop("all semi-landmarks must to be tagged as outlines, surfaces or missing")
     ## remove fix columns
     
     Ured0 <- as(U[,1:m],"sparseMatrix")
