@@ -30,6 +30,7 @@
 #' @param fixRepro logical: if \code{TRUE}, fix landmarks will also be
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
+#' @param missing vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{slider3d}}
@@ -66,12 +67,11 @@
 #' }
 #' 
 #' @export
-relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE)
-{
+relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL) {
     
     k <- dim(lm)[1]
     m <- dim(lm)[2]
-    
+    free <- NULL
     p1 <- 10^12
     lm.orig <- lm
     L <- CreateL(reference)
@@ -85,19 +85,22 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
     if (iterations == 0)
         iterations <- 1e10
     if (m == 3) {
-    cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
-    
+        cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
+        
         if (is.null(mesh)) {
-            a <- projRead(lm, sur.name)
-            vs <- t(a$vb[1:3,])
-            vn <- t(a$normals[1:3,])
+            tmp <- projRead(lm, sur.name)
+            
         } else {
-            tmp <- closemeshKD(lm,mesh)
-            vs <- vert2points(tmp)
-            vn <- t(tmp$normals[1:3,])
+            tmp <- projRead(lm,mesh)
         }
+        vs <- vert2points(tmp)
+        vn <- t(tmp$normals[1:3,])
         if (!fixRepro)# use original positions for fix landmarks
             vs[fixLM,] <- lm.orig[fixLM,]
+        if (length(missing)) {
+            free <- missing
+            vs[missing,] <- lm.orig[missing,]
+        }
     } else {
         vs <- lm
     }
@@ -106,23 +109,23 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         lm_old <- vs
         cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (m == 3)
-            U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect)
+            U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
         else
             U <- .calcTang_U(vs,SMvector=SMvector,outlines=outlines,deselect=deselect)
         dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
         if (m == 3) {
             if (is.null(mesh)) {
-                a <- projRead(dataslido, sur.name)
-                vs <- t(a$vb[1:3,])
-                vn <- t(a$normals[1:3,])
-                
+                tmp <- projRead(dataslido, sur.name)
             } else {
-                tmp <- closemeshKD(dataslido,mesh)
-                vs <- vert2points(tmp)
-                vn <- t(tmp$normals[1:3,])
+                tmp <- projRead(dataslido,mesh)
             }
+            vs <- vert2points(tmp)
+            vn <- t(tmp$normals[1:3,])
+            
             if (!fixRepro)# use original positions for fix landmarks
                 vs[fixLM,] <- lm.orig[fixLM,]
+            if (length(missing))
+                vs[missing,] <- dataslido[missing,]
         } else {
             vs <- dataslido
         }

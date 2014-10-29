@@ -60,6 +60,7 @@
 #' @param fixRepro logical: if \code{TRUE}, fix landmarks will also be
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
+#' @param missingList a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}. Only works if \code{ignore=NULL}.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
@@ -130,7 +131,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = parallel::detectCores(), fixRepro=TRUE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -154,7 +155,9 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     
     if (pairedLM[1]!=0 && is.vector(pairedLM))# check if there are only 2 symmetric lms
         pairedLM <- t(as.matrix(pairedLM))
-    
+    if(!is.null(missingList))
+        if(length(missingList) != n)
+            stop(paste0("missingList must be of length", n," - same as samplesize"))
 ### update indexing for after ignored landmarks are removed ###	
     if (!is.null(ignore)) {
         li <- length(ignore)
@@ -231,9 +234,15 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     }
     parfunmeshfile <- function(i, data) {
         if (!is.list(data))
-            out <- projRead(data[,,i],sur.name[i])
+            tmpdata <- data[,,i]
         else
-            out <- projRead(data[[i]],sur.name[i])
+            tmpdata <- data[[i]]
+        
+        out <- projRead(tmpdata,sur.name[i])
+        if (!is.null(missingList))
+            if(length(missingList[[i]]))
+                out$vb[1:3,missingList[[i]]] <- t(tmpdata[missingList[[i]],])
+        
         return(out)
 
     }
@@ -285,7 +294,11 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         a.list <- as.list(1:n)
         slido <- function(j)          		
             {
-                U <- .calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights)
+                free <- NULL
+                if (!is.null(missingList))
+                    if(length(missingList[[j]]))
+                        free <- missingList[[j]]
+                U <- .calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights,free=free)
                 dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
                 return(dataslido)
             }
