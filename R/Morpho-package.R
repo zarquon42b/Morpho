@@ -38,7 +38,7 @@
 #' @import doParallel
 #' @importFrom colorRamps blue2green2red
 #' @importFrom foreach foreach '%dopar%' '%do%'
-#' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t
+#' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t cBind
 #' @importFrom parallel mclapply detectCores
 #' @importFrom rgl lines3d open3d points3d rgl.bg rgl.bringtotop rgl.clear rgl.close  rgl.cur rgl.pop rgl.snapshot shade3d spheres3d text3d translate3d wire3d
 #' @importFrom yaImpute ann
