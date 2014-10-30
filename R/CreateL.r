@@ -49,13 +49,17 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
     if (ncol(matrix) == 3) {
         k <- dim(matrix)[1]
         Q <- cbind(1,matrix)
-        O <- matrix(0,4,4)
+        #O <- matrix(0,4,4)
         if (!is.matrix(matrix) || !is.numeric(matrix))
         stop("matrix must be a numeric matrix")
         K <- .Call("createL",matrix)
+        L <- matrix(0,k+4,k+4)
+        if (lambda !=0 )
+            diag(K) <- lambda
+        L[1:k,1:k] <- K
+        L[(k+1):(k+4),1:k] <- t(Q)
+        L[1:k,(k+1):(k+4)] <- Q
         
-        diag(K) <- lambda
-        L <- rbind(cbind(K,Q),cbind(t(Q),O))
         L1 <- try(solve(L),silent=TRUE)
         if (class(L1)=="try-error") {
             cat("CreateL: singular matrix: general inverse will be used.\n")
