@@ -88,7 +88,7 @@
     SMsort <- sort(SMvector)
     xinfo <- .Call("tweakU",tanvec,m, type,SMsort)
     U <- sparseMatrix(i=xinfo$rows,j=xinfo$cols+1, x=xinfo$x,dims=udims)
-    #U <- weights*U
+    U <- weights*U
     
     
     outOnly <- outlines
