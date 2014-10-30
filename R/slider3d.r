@@ -60,7 +60,7 @@
 #' @param fixRepro logical: if \code{TRUE}, fix landmarks will also be
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
-#' @param missingList a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}. Only works if \code{ignore=NULL}.
+#' @param missingList a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
@@ -171,7 +171,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
                     xo[which(xo==mat.ptr[i,2])] <- mat.ptr[i,1]
                 return(xo)
             }
-        
+        if (!is.null(missingList))
+            missingList <- lapply(missingList,ptr)
         if (!is.null(outlines)) ### update outline indices
             outlines <- lapply(outlines,ptr)
         if (!is.null(surp)) 	### update surface indices
