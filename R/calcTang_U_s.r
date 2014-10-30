@@ -103,8 +103,8 @@
     
     allsurf <- c(outOnly,surfOnly,freeOnly)
     
-    #if (length(allsurf) > length(SMvector))
-    #    stop("all semi-landmarks must to be tagged as outlines, surfaces or missing")
+    if (length(which(!SMvector %in% allsurf)))
+        stop("all semi-landmarks must to be tagged as outlines or surfaces")
     ## remove fix columns
     
     Ured0 <- as(U[,1:m],"sparseMatrix")
