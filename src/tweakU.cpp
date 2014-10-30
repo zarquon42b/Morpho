@@ -1,12 +1,12 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 using std::vector;
+
 void testandpush(vector<int>& rows, vector<int>& cols, vector<double>& x, double testit, int r, int c) {
   if (testit != 0) {
     rows.push_back(r);
     cols.push_back(c);
     x.push_back(testit);
-    //Rprintf("%i %i\n", c,r);
   }
 }
 
@@ -20,9 +20,7 @@ RcppExport SEXP tweakU(SEXP tanvec_, SEXP m_, SEXP type_, SEXP SMsort_) {
     std::vector<int> rows, cols;
     std::vector<double> x;
     for (int i = 0; i < m; i++) {
-      
-      double tt = tanvec(SMsort[i]-1,0);
-      testandpush(rows,cols,x,tt,SMsort[i],i);
+      testandpush(rows,cols,x,tanvec(SMsort[i]-1,0),SMsort[i],i);
       testandpush(rows,cols,x,tanvec(SMsort[i]-1,1),k+SMsort[i],i);
       testandpush(rows,cols,x,tanvec(SMsort[i]-1,2),2*k+SMsort[i],i);
       if (type == 1 || type == 2) {
