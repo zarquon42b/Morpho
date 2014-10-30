@@ -41,7 +41,7 @@
 #' L2 <- CreateL(boneLM[,,2])
 #' be3 <- t(boneLM[,,1])%*%L2$Lsubk%*%boneLM[,,1]
 #' sqrt(sum(be3^2))
-#' 
+#' @importFrom Matrix bdiag
 #' @export
 CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
 {
