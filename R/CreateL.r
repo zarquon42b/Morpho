@@ -72,7 +72,9 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
             Lsubk3[1:k,1:k] <- Lsubk
             Lsubk3[(k+1):(2*k),(k+1):(2*k)] <- Lsubk
             Lsubk3[(2*k+1):(3*k),(2*k+1):(3*k)] <- Lsubk
+            Lsubk3 <- forceSymmetric(Lsubk3)
         }
+        
         return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
     } else if (ncol(matrix) == 2) {
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
