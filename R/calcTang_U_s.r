@@ -15,14 +15,20 @@
     SMvector <- unique(SMvector)
     m <- length(SMvector)
     if ( !is.null(free)) {
+        udims <- c(dims*k,m*3)
         tanvec <- matrix(0,k,dims*3)
-        U <- matrix(0,dims*k,m*3)
+        #U <- matrix(0,dims*k,m*3)
+        type <- 2
     } else if(!is.null(surface)) {
+        udims <- c(dims*k,m*2)
         tanvec <- matrix(0,k,dims*2)
-        U <- matrix(0,dims*k,m*2)
+        #U <- matrix(0,dims*k,m*2)
+        type <- 1
     } else {
+        udims <- c(dims*k,m)
         tanvec <- matrix(0,k,dims)
-        U <- matrix(0,dims*k,m)
+        #U <- matrix(0,dims*k,m)
+        type <- 0
     }
     Gamma0 <- c(datamatrix)
     
@@ -80,35 +86,11 @@
 ### end free sliding ##
     gc() 	
     SMsort <- sort(SMvector)
-    if (!is.null(free)) {		
-        for (i in 1:m) {
-            U[SMsort[i],i] <- tanvec[SMsort[i],1]
-            U[k+SMsort[i],i] <- tanvec[SMsort[i],2] 
-            U[2*k+SMsort[i],i] <- tanvec[SMsort[i],3]
-            U[SMsort[i],(i+m)] <- tanvec[SMsort[i],4]
-            U[k+SMsort[i],(i+m)] <- tanvec[SMsort[i],5]
-            U[2*k+SMsort[i],(i+m)] <- tanvec[SMsort[i],6]
-            U[SMsort[i],(i+2*m)] <- tanvec[SMsort[i],7]
-            U[k+SMsort[i],(i+2*m)] <- tanvec[SMsort[i],8]
-            U[2*k+SMsort[i],(i+2*m)] <- tanvec[SMsort[i],9]
-        }
-    } else if (!is.null(surface)) {		
-        for (i in 1:m) {
-            U[SMsort[i],i] <- tanvec[SMsort[i],1]
-            U[k+SMsort[i],i] <- tanvec[SMsort[i],2] 
-            U[2*k+SMsort[i],i] <- tanvec[SMsort[i],3]
-            U[SMsort[i],(i+m)] <- tanvec[SMsort[i],4]
-            U[k+SMsort[i],(i+m)] <- tanvec[SMsort[i],5]
-            U[2*k+SMsort[i],(i+m)] <- tanvec[SMsort[i],6]
-        }
-    } else {
-        for (i in 1:m) {
-            U[SMsort[i],i] <- tanvec[SMsort[i],1]
-            U[k+SMsort[i],i] <- tanvec[SMsort[i],2] 
-            U[2*k+SMsort[i],i] <- tanvec[SMsort[i],3]
-        }
-    }
-    U <- weights*U
+    xinfo <- .Call("tweakU",tanvec,m, type,SMsort)
+    U <- sparseMatrix(i=xinfo$rows,j=xinfo$cols+1, x=xinfo$x,dims=udims)
+    #U <- weights*U
+    
+    
     outOnly <- outlines
     surfOnly <- surface
     freeOnly <- free
@@ -118,10 +100,11 @@
         freeOnly <- unique(sort(free))
     if(!is.null(outlines))
         outOnly <- unique(sort(unlist(outlines)))
-
+    
     allsurf <- c(outOnly,surfOnly,freeOnly)
-    if (length(allsurf) != length(SMvector))
-        stop("all semi-landmarks must to be tagged as outlines, surfaces or missing")
+    
+    #if (length(allsurf) > length(SMvector))
+    #    stop("all semi-landmarks must to be tagged as outlines, surfaces or missing")
     ## remove fix columns
     
     Ured0 <- as(U[,1:m],"sparseMatrix")
