@@ -87,7 +87,7 @@ disabled.}
 projected onto the surface. If you have landmarks not on the surface, select
 \code{fixRepro=FALSE}}
 
-\item{missingList}{a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}. Only works if \code{ignore=NULL}.}
+\item{missingList}{a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.}
 }
 \value{
 \item{dataslide }{array containing slidden Landmarks in the original

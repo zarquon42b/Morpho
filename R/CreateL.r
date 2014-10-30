@@ -9,7 +9,6 @@
 #' @param blockdiag logical: request blockdiagonal matrix Lsubk3 needed for
 #' sliding of semilandmarks.
 #' @return
-#' \item{L }{Matrix L as specified in Bookstein (1989)}
 #' \item{Linv }{Inverse of matrix L as specified in Bookstein (1989)}
 #' \item{Lsubk }{uper left k x k submatrix of \code{Linv}}
 #' \item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and \code{\link{relaxLM}}. Only available if \code{blockdiag = TRUE}}
@@ -65,14 +64,14 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
             cat("CreateL: singular matrix: general inverse will be used.\n")
             L1 <- armaGinv(as.matrix(L))		
         }
-        Lsubk <- L1[1:k,1:k]
+        Lsubk <- forceSymmetric(L1[1:k,1:k])
         Lsubk3 <- NULL
         if (blockdiag) {
-            Lsubk <- forceSymmetric(Lsubk)
+            #Lsubk <- (Lsubk)
             Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
         }
         
-        return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
+        return(list(Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
     } else if (ncol(matrix) == 2) {
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
         return(out)
