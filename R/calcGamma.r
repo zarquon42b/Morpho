@@ -10,5 +10,5 @@ calcGamma <- function(Gamma0,Lsubk3,U,dims,weights=NULL)
       ULUT <- U%*%T
       Gamma0 <- Gamma0-ULUT
       Gamma0 <- matrix(Gamma0,length(Gamma0)/dims,dims)
-      return(list(Gamatrix=Gamma0))
+      return(Gamma0)
   }

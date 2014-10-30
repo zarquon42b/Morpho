@@ -112,7 +112,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
             U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
         else
             U <- .calcTang_U(vs,SMvector=SMvector,outlines=outlines,deselect=deselect)
-        dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+        dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
         if (m == 3) {
             if (is.null(mesh)) {
                 tmp <- projRead(dataslido, sur.name)

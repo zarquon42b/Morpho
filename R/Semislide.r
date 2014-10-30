@@ -37,7 +37,7 @@ Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recur
         
         for (j in 1:n) {
             U <- .calcTang_U(dataframe[,,j],SMvector=SMvector,outlines=outlines,deselect=deselect)
-            dataslide[,,j] <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+            dataslide[,,j] <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
         }
         proc <- ProcGPA(dataslide,scale=TRUE)
         mshape <- proc$mshape

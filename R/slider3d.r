@@ -299,7 +299,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
                     if(length(missingList[[j]]))
                         free <- missingList[[j]]
                 U <- .calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights,free=free)
-                dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)$Gamatrix
+                dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
                 return(dataslido)
             }
         a.list <- mclapply(a.list,slido,mc.cores=mc.cores)
