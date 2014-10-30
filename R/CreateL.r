@@ -59,20 +59,17 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
         L[1:k,1:k] <- K
         L[(k+1):(k+4),1:k] <- t(Q)
         L[1:k,(k+1):(k+4)] <- Q
-        
+        L <- forceSymmetric(L)
         L1 <- try(solve(L),silent=TRUE)
         if (class(L1)=="try-error") {
             cat("CreateL: singular matrix: general inverse will be used.\n")
-            L1 <- armaGinv(L)		
+            L1 <- armaGinv(as.matrix(L))		
         }
         Lsubk <- L1[1:k,1:k]
         Lsubk3 <- NULL
         if (blockdiag) {
-            Lsubk3 <- Matrix::Matrix(0,3*k,3*k)
-            Lsubk3[1:k,1:k] <- Lsubk
-            Lsubk3[(k+1):(2*k),(k+1):(2*k)] <- Lsubk
-            Lsubk3[(2*k+1):(3*k),(2*k+1):(3*k)] <- Lsubk
-            Lsubk3 <- forceSymmetric(Lsubk3)
+            Lsubk <- forceSymmetric(Lsubk)
+            Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
         }
         
         return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
