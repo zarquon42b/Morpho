@@ -148,6 +148,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
             count <- count+1
         }
     }
+    gc()
     return(vs)
 }
 
