@@ -126,6 +126,6 @@
         
     }
     
-    return(list(tanvec=tanvec,SMvector=SMvector,Gamma0=Gamma0,U=Ured0))             
+    return(list(SMvector=SMvector,Gamma0=Gamma0,U=Ured0))             
 }     
 

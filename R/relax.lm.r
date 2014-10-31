@@ -74,7 +74,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
     free <- NULL
     p1 <- 10^12
     lm.orig <- lm
-    L <- CreateL(reference)
+    L <- CreateL(reference,output="Lsubk3")
     if (deselect)
         fixLM <- SMvector
     else if (length(SMvector) < k)

@@ -291,7 +291,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         if (recursive==TRUE)    # slided Semilandmarks are used in next iteration step
             dat.array <- dataslide
         
-        L <- CreateL(mshape)
+        L <- CreateL(mshape,output="Lsubk3")
         a.list <- as.list(1:n)
         slido <- function(j)          		
             {

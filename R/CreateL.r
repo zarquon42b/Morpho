@@ -8,7 +8,8 @@
 #' @param lambda numeric: regularization factor
 #' @param blockdiag logical: request blockdiagonal matrix Lsubk3 needed for
 #' sliding of semilandmarks.
-#' @return
+#' @return depending on the choices in \code{output}:
+#' \item{L }{Matrix L as specified in Bookstein (1989)}
 #' \item{Linv }{Inverse of matrix L as specified in Bookstein (1989)}
 #' \item{Lsubk }{uper left k x k submatrix of \code{Linv}}
 #' \item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and \code{\link{relaxLM}}. Only available if \code{blockdiag = TRUE}}
@@ -43,9 +44,10 @@
 #' sqrt(sum(be3^2))
 #' @importFrom Matrix bdiag
 #' @export
-CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
+CreateL <- function(matrix,lambda=0, output=c("L","Linv","Lsubk", "Lsubk3"))
 {
     if (ncol(matrix) == 3) {
+        out <- list()
         k <- dim(matrix)[1]
         Q <- cbind(1,matrix)
         #O <- matrix(0,4,4)
@@ -59,20 +61,29 @@ CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
         L[(k+1):(k+4),1:k] <- t(Q)
         L[1:k,(k+1):(k+4)] <- Q
         L <- forceSymmetric(L)
+        if ("L" %in% output)
+            out$L <- L
         L1 <- try(solve(L),silent=TRUE)
         if (class(L1)=="try-error") {
             cat("CreateL: singular matrix: general inverse will be used.\n")
             L1 <- armaGinv(as.matrix(L))		
         }
-        Lsubk <- forceSymmetric(L1[1:k,1:k])
-        Lsubk3 <- NULL
-        if (blockdiag) {
-            #Lsubk <- (Lsubk)
+        if ("Linv" %in% output)
+            out$Linv <- L1
+        if ("Lsubk" %in% output || "Lsubk3" %in% output)
+            Lsubk <- forceSymmetric(L1[1:k,1:k])
+        if ("Lsubk" %in% output)
+            out$Lsubk <- Lsubk
+        
+        if ("Lsubk3" %in% output) {
             Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
+            out$Lsubk3 <- Lsubk3
         }
         
-        return(list(Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
+        return(out)
     } else if (ncol(matrix) == 2) {
+        if ("Lsubk3" %in% output)
+            blockdiag <- TRUE
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
         return(out)
     } else

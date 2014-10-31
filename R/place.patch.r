@@ -152,8 +152,8 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         }
         
 
-        L <- CreateL(atlas.lm)
-        L1 <- CreateL(rbind(atlas.lm,patch))
+        L <- CreateL(atlas.lm,output="Lsubk3")
+        L1 <- CreateL(rbind(atlas.lm,patch),output="Lsubk3")
         meshpath <- paste(path,"/",prefix,name,fileext,sep="")
         i <- 0
         parfun <- function(i){

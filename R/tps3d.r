@@ -42,7 +42,7 @@ tps3d <- function(M,refmat,tarmat,lambda=0)
     q <- dim(M)[1]
     p <- dim(refmat)[1]
     m <- dim(refmat)[2]
-    Lall <- CreateL(refmat,lambda=lambda, blockdiag=FALSE)
+    Lall <- CreateL(refmat,lambda=lambda, output="Linv")
     Linv <- Lall$Linv
     m2 <- rbind(tarmat,matrix(0,m+1,m))
     coeff <- matrix(NA,p+m+1,m)
