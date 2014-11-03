@@ -82,6 +82,7 @@ CreateL <- function(matrix,lambda=0, output=c("L","Linv","Lsubk", "Lsubk3"))
         
         return(out)
     } else if (ncol(matrix) == 2) {
+        blockdiag <- FALSE
         if ("Lsubk3" %in% output)
             blockdiag <- TRUE
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
