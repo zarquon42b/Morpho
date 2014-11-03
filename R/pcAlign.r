@@ -31,8 +31,14 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL) {
     pca2 <- prcomp(y)
     x <- apply(x,2,scale,scale=F)    
     y <- apply(y,2,scale,scale=F)
-    x <- x%*%pca1$rotation
-    y <- y%*%pca2$rotation
+    rotx <- pca1$rotation
+    roty <- pca2$rotation
+    chk <- det(rotx%*%roty)
+    if (chk  < 0)
+        rotx[,3] <- -rotx[,3]
+
+    x <- x%*%rotx
+    y <- y%*%roty
     rotlist <- list(
         arot=getTrafoRotaxis(pt1=c(1,0,0),pt2=c(0,0,0),theta=pi),
         brot= getTrafoRotaxis(pt1=c(0,1,0),pt2=c(0,0,0),theta=pi),
