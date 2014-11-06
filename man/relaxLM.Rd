@@ -80,7 +80,7 @@ relax <- relaxLM(shortnose.lm[1:323, ],
 ##example minimizing Procrustes distance
 relaxProcD <- relaxLM(shortnose.lm,
          longnose.lm, mesh=shortnose.mesh, iterations=1,
-         SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=F)
+         SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=FALSE)
 
 \dontrun{
 # visualize differences red=before and green=after sliding
