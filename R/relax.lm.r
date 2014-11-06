@@ -134,7 +134,8 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         if (!bending) {
             rot <- computeTransform(reference,vs,type="s")
             vs <- applyTransform(vs,rot)
-            vn <- applyTransform(vn,rot)
+            if (m == 3)
+                vn <- applyTransform(vn,rot)
         }
         if (m == 3)
             U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
