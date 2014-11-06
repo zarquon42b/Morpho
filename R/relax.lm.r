@@ -31,6 +31,7 @@
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
 #' @param missing vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).
+#' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{slider3d}}
@@ -58,23 +59,45 @@
 #' relax <- relaxLM(shortnose.lm[1:323, ],
 #'          longnose.lm[1:323, ], mesh=shortnose.mesh, iterations=1,
 #'          SMvector=fix, deselect=TRUE, surp=surp)
+#'
+#' ##example minimizing Procrustes distance
+#' relaxProcD <- relaxLM(shortnose.lm,
+#'          longnose.lm, mesh=shortnose.mesh, iterations=1,
+#'          SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=F)
 #' 
 #' \dontrun{
 #' # visualize differences red=before and green=after sliding
 #' deformGrid3d(shortnose.lm[1:323, ], relax, ngrid=0)
+#'
+#'  
+#' # visualize differences minimizing Procrusted distances red=before and green=after sliding
+#'
+#' deformGrid3d(shortnose.lm, relaxProcD, ngrid=0)
+#' ## no smooth displacement, now let's check the distances:
+#' rot2ref <- rotonto(relaxProcD,longnose.lm)
+#' angle.calc(rot2ref$X,rot2ref$Y)
+#' # 0.2491911 Procrustes distance between reference and slided shape
+#' rot2refOrig <- rotonto(shortnose.lm,longnose.lm)
+#' angle.calc(rot2refOrig$X,rot2refOrig$Y)
+#' # 0.3014957 Procrustes distance between reference and original shape
+#' ##result: while minimizing Procrustes distance, displacement is not
+#' ##guaranteed to be smooth
+#' 
 #' # add surface
 #' wire3d(shortnose.mesh, col="white")
 #' }
 #' 
 #' @export
-relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL) {
+relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE) {
     
     k <- dim(lm)[1]
     m <- dim(lm)[2]
     free <- NULL
     p1 <- 10^12
     lm.orig <- lm
-    L <- CreateL(reference,output="Lsubk3")
+    reference <- apply(reference,2,scale,scale=F)
+    if (bending)
+        L <- CreateL(reference,output="Lsubk3")
     if (deselect)
         fixLM <- SMvector
     else if (length(SMvector) < k)
@@ -108,11 +131,21 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
     while (p1 > tol && count <= iterations) {
         lm_old <- vs
         cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
+        if (!bending) {
+            rot <- computeTransform(reference,vs,type="s")
+            vs <- applyTransform(vs,rot)
+            vn <- applyTransform(vn,rot)
+        }
         if (m == 3)
             U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
         else
             U <- .calcTang_U(vs,SMvector=SMvector,outlines=outlines,deselect=deselect)
-        dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+        if (bending)
+            dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+        else {
+            dataslido <- calcProcDGamma(U$U,U$Gamma0,reference,dims=m)
+            dataslido <- applyTransform(dataslido,rot,inverse=TRUE)
+        }
         if (m == 3) {
             if (is.null(mesh)) {
                 tmp <- projRead(dataslido, sur.name)

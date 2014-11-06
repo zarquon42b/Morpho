@@ -5,7 +5,8 @@
 \usage{
 relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL,
   sur.name = NULL, mesh = NULL, tol = 1e-05, deselect = FALSE,
-  inc.check = TRUE, iterations = 0, fixRepro = TRUE, missing = NULL)
+  inc.check = TRUE, iterations = 0, fixRepro = TRUE, missing = NULL,
+  bending = TRUE)
 }
 \arguments{
 \item{lm}{k x 3 or k x 2 matrix containing landmark data to be slidden.}
@@ -47,6 +48,8 @@ projected onto the surface. If you have landmarks not on the surface, select
 \code{fixRepro=FALSE}}
 
 \item{missing}{vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).}
+
+\item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)}
 }
 \value{
 returns kx3 matrix of slidden landmarks
@@ -74,9 +77,29 @@ relax <- relaxLM(shortnose.lm[1:323, ],
          longnose.lm[1:323, ], mesh=shortnose.mesh, iterations=1,
          SMvector=fix, deselect=TRUE, surp=surp)
 
+##example minimizing Procrustes distance
+relaxProcD <- relaxLM(shortnose.lm,
+         longnose.lm, mesh=shortnose.mesh, iterations=1,
+         SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=F)
+
 \dontrun{
 # visualize differences red=before and green=after sliding
 deformGrid3d(shortnose.lm[1:323, ], relax, ngrid=0)
+
+
+# visualize differences minimizing Procrusted distances red=before and green=after sliding
+
+deformGrid3d(shortnose.lm, relaxProcD, ngrid=0)
+## no smooth displacement, now let's check the distances:
+rot2ref <- rotonto(relaxProcD,longnose.lm)
+angle.calc(rot2ref$X,rot2ref$Y)
+# 0.2491911 Procrustes distance between reference and slided shape
+rot2refOrig <- rotonto(shortnose.lm,longnose.lm)
+angle.calc(rot2refOrig$X,rot2refOrig$Y)
+# 0.3014957 Procrustes distance between reference and original shape
+##result: while minimizing Procrustes distance, displacement is not
+##guaranteed to be smooth
+
 # add surface
 wire3d(shortnose.mesh, col="white")
 }

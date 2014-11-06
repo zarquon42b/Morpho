@@ -61,6 +61,7 @@
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
 #' @param missingList a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
+#' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
@@ -131,7 +132,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,bending=TRUE)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -290,8 +291,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (recursive==TRUE)    # slided Semilandmarks are used in next iteration step
             dat.array <- dataslide
-        
-        L <- CreateL(mshape,output="Lsubk3")
+        if (bending)
+            L <- CreateL(mshape,output="Lsubk3")
         a.list <- as.list(1:n)
         slido <- function(j)          		
             {
@@ -299,8 +300,20 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
                 if (!is.null(missingList))
                     if(length(missingList[[j]]))
                         free <- missingList[[j]]
-                U <- .calcTang_U_s(dat.array[,,j],vn.array[,,j],SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights,free=free)
-                dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+                tmpdata <- dat.array[,,j]
+                tmpvn <- vn.array[,,j]
+                if (!bending) {
+                    rot <- computeTransform(mshape,tmpdata)
+                    tmpdata <- applyTransform(tmpdata,rot)
+                    tmpvn <- applyTransform(tmpvn,rot)
+                }
+                U <- .calcTang_U_s(tmpdata,tmpvn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights,free=free)
+                if (bending) {
+                    dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+                } else {
+                    dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m)
+                    dataslido <- applyTransform(dataslido,rot,inverse=TRUE)
+                }
                 return(dataslido)
             }
         a.list <- mclapply(a.list,slido,mc.cores=mc.cores)
