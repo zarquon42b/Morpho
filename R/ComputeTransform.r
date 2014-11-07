@@ -12,7 +12,7 @@
 #' trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @export
-computeTransform <- function(x,y,type=c("rigid","similarity","affine",),reflection=FALSE) {
+computeTransform <- function(x,y,type=c("rigid","similarity","affine"),reflection=FALSE) {
     type <- substr(type[1],1L,1L)
     if (type %in% c("r","s")) {
         scale <- TRUE
