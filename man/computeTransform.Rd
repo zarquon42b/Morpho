@@ -3,7 +3,7 @@
 \alias{computeTransform}
 \title{calculate an affine transformation matrix}
 \usage{
-computeTransform(x, y, type = c("rigid", "similarity", "affine", ),
+computeTransform(x, y, type = c("rigid", "similarity", "affine"),
   reflection = FALSE)
 }
 \arguments{
