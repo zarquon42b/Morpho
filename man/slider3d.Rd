@@ -10,8 +10,7 @@ slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
   sur.type = "ply", tol = 1e-05, deselect = FALSE, inc.check = TRUE,
   recursive = TRUE, iterations = 0, initproc = TRUE, speed = TRUE,
   pairedLM = 0, weights = NULL, mc.cores = parallel::detectCores(),
-  fixRepro = TRUE, missingList = NULL, bending = TRUE, regType = c("s",
-  "a"))
+  fixRepro = TRUE, missingList = NULL, bending = TRUE)
 }
 \arguments{
 \item{dat.array}{Input k x m x n real array, where k is the number of
@@ -91,8 +90,6 @@ projected onto the surface. If you have landmarks not on the surface, select
 \item{missingList}{a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.}
 
 \item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise.}
-
-\item{regType}{if bending=FALSE, this controls, how the specimens are aligned to the reference. "s" = Procrustes alignment, "a"= affine Transformation. The latter ignores affine transformations and leads to smoother results, in case of large affine variation in the sample (see examples in \code{\link{relaxLM}}).}
 }
 \value{
 \item{dataslide }{array containing slidden Landmarks in the original

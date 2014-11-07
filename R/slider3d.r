@@ -62,7 +62,6 @@
 #' \code{fixRepro=FALSE}
 #' @param missingList a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
 #' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise.
-#' @param regType if bending=FALSE, this controls, how the specimens are aligned to the reference. "s" = Procrustes alignment, "a"= affine Transformation. The latter ignores affine transformations and leads to smoother results, in case of large affine variation in the sample (see examples in \code{\link{relaxLM}}).
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
@@ -133,7 +132,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,bending=TRUE,regType=c("s","a"))
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,bending=TRUE)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -151,7 +150,6 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         scale <- TRUE
         CSinit <- FALSE
     }
-    regType <- regType[1]
     n <- dim(dat.array)[3]
     k <- dim(dat.array)[1]
     m <- dim(dat.array)[2]
