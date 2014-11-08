@@ -68,13 +68,9 @@ fix <- c(1:5,20:21)
 # define surface patch by specifying row indices of matrices
 # all except those defined as fix
 surp <- c(1:dim(shortnose.lm)[1])[-fix]
-## to reduce this example's computation time,
-# we only use the right hand semi-landmarks
-# (which keeps the left hand ones fix)
-surp <- surp[1:316]
 
-relax <- relaxLM(shortnose.lm[1:323, ],
-         longnose.lm[1:323, ], mesh=shortnose.mesh, iterations=1,
+relax <- relaxLM(shortnose.lm,
+         longnose.lm, mesh=shortnose.mesh, iterations=1,
          SMvector=fix, deselect=TRUE, surp=surp)
 
 ##example minimizing Procrustes distance
@@ -93,8 +89,14 @@ deformGrid3d(shortnose.lm, relaxProcD, ngrid=0)
 ## no smooth displacement, now let's check the distances:
 rot2ref <- rotonto(relaxProcD,longnose.lm)
 angle.calc(rot2ref$X,rot2ref$Y)
-# 0.2491911 Procrustes distance between reference and slided shape
-rot2refOrig <- rotonto(shortnose.lm,longnose.lm)
+# 0.2492027 Procrustes distance between reference and slided shape
+# (minimizing Procrustes distance)
+rot2refBend <- rotonto(relax,longnose.lm)
+angle.calc(rot2refBend$X,rot2refBend$Y)
+# 0.2861322 Procrustes distance between reference and slided shape
+# (minimizing bending energy)
+
+rot2ref <- rotonto(shortnose.lm,longnose.lm)
 angle.calc(rot2refOrig$X,rot2refOrig$Y)
 # 0.3014957 Procrustes distance between reference and original shape
 ##result: while minimizing Procrustes distance, displacement is not

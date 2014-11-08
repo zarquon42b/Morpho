@@ -303,16 +303,16 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
                 tmpdata <- dat.array[,,j]
                 tmpvn <- vn.array[,,j]
                 if (!bending) {
-                    rot <- computeTransform(mshape,tmpdata)
-                    tmpdata <- applyTransform(tmpdata,rot)
-                    tmpvn <- applyTransform(tmpvn,rot)
+                    rot <- rotonto(mshape,tmpdata,reflection=FALSE,scale=TRUE)
+                    tmpdata <- rot$yrot
+                    tmpvn <- tmpvn%*%rot$gamm
                 }
                 U <- .calcTang_U_s(tmpdata,tmpvn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights,free=free)
                 if (bending) {
                     dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
                 } else {
                     dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m)
-                    dataslido <- applyTransform(dataslido,rot,inverse=TRUE)
+                    dataslido <- rotreverse(dataslido,rot)
                 }
                 return(dataslido)
             }

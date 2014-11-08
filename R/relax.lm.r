@@ -51,13 +51,9 @@
 #' # define surface patch by specifying row indices of matrices
 #' # all except those defined as fix
 #' surp <- c(1:dim(shortnose.lm)[1])[-fix]
-#' ## to reduce this example's computation time,
-#' # we only use the right hand semi-landmarks
-#' # (which keeps the left hand ones fix)
-#' surp <- surp[1:316]
-#' 
-#' relax <- relaxLM(shortnose.lm[1:323, ],
-#'          longnose.lm[1:323, ], mesh=shortnose.mesh, iterations=1,
+#'  
+#' relax <- relaxLM(shortnose.lm,
+#'          longnose.lm, mesh=shortnose.mesh, iterations=1,
 #'          SMvector=fix, deselect=TRUE, surp=surp)
 #'
 #' ##example minimizing Procrustes distance
@@ -76,8 +72,14 @@
 #' ## no smooth displacement, now let's check the distances:
 #' rot2ref <- rotonto(relaxProcD,longnose.lm)
 #' angle.calc(rot2ref$X,rot2ref$Y)
-#' # 0.2491911 Procrustes distance between reference and slided shape
-#' rot2refOrig <- rotonto(shortnose.lm,longnose.lm)
+#' # 0.2492027 Procrustes distance between reference and slided shape
+#' # (minimizing Procrustes distance)
+#' rot2refBend <- rotonto(relax,longnose.lm)
+#' angle.calc(rot2refBend$X,rot2refBend$Y)
+#' # 0.2861322 Procrustes distance between reference and slided shape
+#' # (minimizing bending energy)
+#' 
+#' rot2ref <- rotonto(shortnose.lm,longnose.lm)
 #' angle.calc(rot2refOrig$X,rot2refOrig$Y)
 #' # 0.3014957 Procrustes distance between reference and original shape
 #' ##result: while minimizing Procrustes distance, displacement is not
@@ -118,6 +120,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         }
         vs <- vert2points(tmp)
         vn <- t(tmp$normals[1:3,])
+        
         if (!fixRepro)# use original positions for fix landmarks
             vs[fixLM,] <- lm.orig[fixLM,]
         if (length(missing)) {
@@ -132,10 +135,10 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         lm_old <- vs
         cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (!bending) {
-            rot <- computeTransform(reference,vs,type="s")
-            vs <- applyTransform(vs,rot)
+            rot <- rotonto(reference,vs,reflection=FALSE,scale=TRUE)
+            vs <- rot$yrot
             if (m == 3)
-                vn <- applyTransform(vn,rot)
+                vn <- vn%*%rot$gamm
         }
         if (m == 3)
             U <- .calcTang_U_s(vs,vn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
@@ -145,7 +148,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
             dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
         else {
             dataslido <- calcProcDGamma(U$U,U$Gamma0,reference,dims=m)
-            dataslido <- applyTransform(dataslido,rot,inverse=TRUE)
+            dataslido <- rotreverse(dataslido,rot)
         }
         if (m == 3) {
             if (is.null(mesh)) {
