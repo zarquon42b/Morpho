@@ -9,7 +9,7 @@ slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
   sur.path = "sur", sur.name = NULL, meshlist = NULL, ignore = NULL,
   sur.type = "ply", tol = 1e-05, deselect = FALSE, inc.check = TRUE,
   recursive = TRUE, iterations = 0, initproc = TRUE, speed = TRUE,
-  pairedLM = 0, weights = NULL, mc.cores = parallel::detectCores(),
+  pairedLM = 0, weight = 1, mc.cores = parallel::detectCores(),
   fixRepro = TRUE, missingList = NULL, bending = TRUE)
 }
 \arguments{
@@ -74,9 +74,7 @@ landmarks, while the right side contains the corresponding right hand
 landmarks. - This will ideally create symmetric mean to get rid of
 assymetry.}
 
-\item{weights}{vector: assign a weight to each landmark: the smaller the
-value is, the less it will be affected by sliding. 0 = fix. This is highly
-experimental!!!}
+\item{weight}{integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}}
 
 \item{mc.cores}{integer: determines how many cores to use for the
 computation. The default is autodetect. But in case, it doesn't work as

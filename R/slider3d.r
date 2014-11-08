@@ -50,9 +50,7 @@
 #' landmarks, while the right side contains the corresponding right hand
 #' landmarks. - This will ideally create symmetric mean to get rid of
 #' assymetry.
-#' @param weights vector: assign a weight to each landmark: the smaller the
-#' value is, the less it will be affected by sliding. 0 = fix. This is highly
-#' experimental!!!
+#' @param weight integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}
 #' @param mc.cores integer: determines how many cores to use for the
 #' computation. The default is autodetect. But in case, it doesn't work as
 #' expected cores can be set manually. In Windows, parallel processing is
@@ -132,7 +130,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weights=NULL,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,bending=TRUE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weight=1,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,bending=TRUE)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -293,6 +291,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
             dat.array <- dataslide
         if (bending)
             L <- CreateL(mshape,output="Lsubk3")
+        else
+            fixRepro=TRUE
         a.list <- as.list(1:n)
         slido <- function(j)          		
             {
@@ -307,11 +307,11 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
                     tmpdata <- rot$yrot
                     tmpvn <- tmpvn%*%rot$gamm
                 }
-                U <- .calcTang_U_s(tmpdata,tmpvn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,weights=weights,free=free)
+                U <- .calcTang_U_s(tmpdata,tmpvn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
                 if (bending) {
-                    dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+                    dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,weight=weight)
                 } else {
-                    dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m)
+                    dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m,weight=weight)
                     dataslido <- rotreverse(dataslido,rot)
                 }
                 return(dataslido)

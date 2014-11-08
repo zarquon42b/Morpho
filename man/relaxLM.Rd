@@ -6,7 +6,7 @@
 relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL,
   sur.name = NULL, mesh = NULL, tol = 1e-05, deselect = FALSE,
   inc.check = TRUE, iterations = 0, fixRepro = TRUE, missing = NULL,
-  bending = TRUE)
+  bending = TRUE, weight = 1)
 }
 \arguments{
 \item{lm}{k x 3 or k x 2 matrix containing landmark data to be slidden.}
@@ -50,6 +50,8 @@ projected onto the surface. If you have landmarks not on the surface, select
 \item{missing}{vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).}
 
 \item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)}
+
+\item{weight}{integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}}
 }
 \value{
 returns kx3 matrix of slidden landmarks

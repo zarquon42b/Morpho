@@ -32,6 +32,7 @@
 #' \code{fixRepro=FALSE}
 #' @param missing vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).
 #' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)
+#' @param weight integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{slider3d}}
@@ -90,7 +91,7 @@
 #' }
 #' 
 #' @export
-relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE) {
+relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,weight=1) {
     
     k <- dim(lm)[1]
     m <- dim(lm)[2]
@@ -100,6 +101,7 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
     reference <- apply(reference,2,scale,scale=F)
     if (bending)
         L <- CreateL(reference,output="Lsubk3")
+
     if (deselect)
         fixLM <- SMvector
     else if (length(SMvector) < k)
@@ -145,9 +147,9 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         else
             U <- .calcTang_U(vs,SMvector=SMvector,outlines=outlines,deselect=deselect)
         if (bending)
-            dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+            dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,weight=weight)
         else {
-            dataslido <- calcProcDGamma(U$U,U$Gamma0,reference,dims=m)
+            dataslido <- calcProcDGamma(U$U,U$Gamma0,reference,dims=m,weight=weight)
             dataslido <- rotreverse(dataslido,rot)
         }
         if (m == 3) {
