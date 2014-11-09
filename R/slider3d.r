@@ -11,13 +11,13 @@
 #' dimnames[[3]] vector contains the names of the surface model (without file
 #' extension) - e.g. if the model is named "surface.ply", the name of the
 #' corresponding matrix of the array would be "surface"
-#' @param SMvector A vector containing the landmarks on the curve(s) and
+#' @param SMvector A vector containing the row indices of (semi-) landmarks on the curve(s) and
 #' surfaces that are allowed to slide
 #' @param outlines A vector (or if threre are several curves) a list of vectors
 #' (containing the rowindices) of the (Semi-)landmarks forming the curve(s) in
 #' the successive position on the curve - including the beginning and end
 #' points, that are not allowed to slide.
-#' @param surp A vector containing Semilandmarks positioned on surfaces.
+#' @param surp integer vector containing the row indices of semi-landmarks positioned on surfaces.
 #' @param sur.path Path to the surface models (e.g. ply, obj, stl files)
 #' @param sur.name character vector: containing the filenames of the
 #' corresponding surfaces - e.g. if the dat.array[,,i] belongs to
@@ -35,9 +35,8 @@
 #' landmarks, that are not allowed to slide.
 #' @param inc.check Logical: if TRUE, the program stops when convergence
 #' criterion starts increasing and reports result from last iteration.
-#' @param speed Logical: if TRUE, only a partial procrustes fit will be
-#' performed - this is faster and can be required, when large samples are
-#' processed.
+#' @param fullGPA Logical: if FALSE, only a partial procrustes fit will be
+#' performed.
 #' @param recursive Logical: if TRUE, during the iterations of the sliding
 #' process, the outcome of the previous iteration will be used.  Otherwise the
 #' original configuration will be used in all iterations.
@@ -50,7 +49,12 @@
 #' landmarks, while the right side contains the corresponding right hand
 #' landmarks. - This will ideally create symmetric mean to get rid of
 #' assymetry.
-#' @param weight integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}
+#' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise.
+#' @param stepsize integer: dampening factor for the amount of sliding.
+#' Useful to keep semi-landmarks from sliding too far off the surface.
+#' The displacement is calculated as
+#' \code{stepsize * displacement}.
+#' Is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @param mc.cores integer: determines how many cores to use for the
 #' computation. The default is autodetect. But in case, it doesn't work as
 #' expected cores can be set manually. In Windows, parallel processing is
@@ -58,8 +62,7 @@
 #' @param fixRepro logical: if \code{TRUE}, fix landmarks will also be
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
-#' @param missingList a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
-#' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise.
+#' @param missingList a list of length samplesize containing integer vectors of row indices specifying missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
@@ -72,7 +75,7 @@
 #' and system resource usage. You can easily stall you computer with this
 #' function with inappropriate data.
 #' @author Stefan Schlager
-#' @seealso \code{\link{relaxLM}}
+#' @seealso \code{\link{relaxLM}, \link{createMissingList}}
 #' @encoding utf8
 #' @references Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis
 #' of symmetric structures: quantifying variation among individuals and
@@ -130,7 +133,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,speed=TRUE,pairedLM=0,weight=1,mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,bending=TRUE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -141,13 +144,6 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     if (is.null(outlines) && is.null(surp))	
         stop("nothing to slide")
     
-    if (speed) {
-        scale <- FALSE
-        CSinit <- TRUE
-    } else {
-        scale <- TRUE
-        CSinit <- FALSE
-    }
     n <- dim(dat.array)[3]
     k <- dim(dat.array)[1]
     m <- dim(dat.array)[2]
@@ -266,7 +262,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     
     if (initproc==TRUE) { # perform proc fit before sliding
         cat("Inital procrustes fit ...")	
-        procini <- ProcGPA(dat.array,scale=scale,CSinit=CSinit)
+        procini <- ProcGPA(dat.array,scale=fullGPA)
         mshape <- procini$mshape
     }
     dataslide <- dat.array
@@ -309,9 +305,9 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
                 }
                 U <- .calcTang_U_s(tmpdata,tmpvn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
                 if (bending) {
-                    dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,weight=weight)
+                    dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,stepsize=stepsize)
                 } else {
-                    dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m,weight=weight)
+                    dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m,stepsize=stepsize)
                     dataslido <- rotreverse(dataslido,rot)
                 }
                 return(dataslido)
@@ -334,7 +330,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
             dataslide[fixLM,,] <- data.orig[fixLM,,]
         
         cat("estimating sample mean shape...")          	
-        proc <- ProcGPA(dataslide,scale=scale,CSinit=CSinit)
+        proc <- ProcGPA(dataslide,scale=fullGPA)
         mshape <- proc$mshape
         if (pairedLM[1]!=0) {# create symmetric mean to get rid of assymetry along outline after first relaxation
             Mir <- diag(c(-1,1,1))

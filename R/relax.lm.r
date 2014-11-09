@@ -6,13 +6,13 @@
 #' 
 #' @param lm k x 3 or k x 2 matrix containing landmark data to be slidden.
 #' @param reference k x 3 or k x 2 matrix containing landmark of the reference
-#' @param SMvector A vector containing the landmarks on the curve(s) that are
+#' @param SMvector A vector containing the row indices of (semi-) landmarks on the curve(s) that are
 #' allowed to slide
 #' @param outlines A vector (or if threre are several curves) a list of vectors
 #' (containing the rowindices) of the (Semi-)landmarks forming the curve(s) in
 #' the successive position on the curve - including the beginning and end
 #' points, that are not allowed to slide.
-#' @param surp A vector containing Semilandmarks positioned on surfaces.
+#' @param surp integer vector containing the row indices of semi-landmarks positioned on surfaces.
 #' @param sur.name character: containing the filename of the corresponding
 #' surface.When specified, mesh has to be NULL.
 #' @param mesh triangular mesh of class "mesh3d" loaded into the R workspace,
@@ -30,9 +30,13 @@
 #' @param fixRepro logical: if \code{TRUE}, fix landmarks will also be
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
-#' @param missing vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).
+#' @param missing vector of integers, specifying row indices of missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).
 #' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)
-#' @param weight integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}
+#' @param stepsize integer: dampening factor for the amount of sliding.
+#' Useful to keep semi-landmarks from sliding too far off the surface.
+#' The displacement is calculated as
+#' \code{stepsize * displacement}.
+#' Is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{slider3d}}
@@ -57,14 +61,15 @@
 #'          longnose.lm, mesh=shortnose.mesh, iterations=1,
 #'          SMvector=fix, deselect=TRUE, surp=surp)
 #'
-#' ##example minimizing Procrustes distance
+#' ## example minimizing Procrustes distance when displacement is not
+#' ## dampened by stepsize
 #' relaxProcD <- relaxLM(shortnose.lm,
 #'          longnose.lm, mesh=shortnose.mesh, iterations=1,
-#'          SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=FALSE)
+#'          SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=FALSE,stepsize=1)
 #' 
 #' \dontrun{
 #' # visualize differences red=before and green=after sliding
-#' deformGrid3d(shortnose.lm[1:323, ], relax, ngrid=0)
+#' deformGrid3d(shortnose.lm, relax, ngrid=0)
 #'
 #'  
 #' # visualize differences minimizing Procrusted distances red=before and green=after sliding
@@ -91,7 +96,7 @@
 #' }
 #' 
 #' @export
-relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,weight=1) {
+relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5)) {
     
     k <- dim(lm)[1]
     m <- dim(lm)[2]
@@ -147,9 +152,9 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         else
             U <- .calcTang_U(vs,SMvector=SMvector,outlines=outlines,deselect=deselect)
         if (bending)
-            dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,weight=weight)
+            dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,stepsize=stepsize)
         else {
-            dataslido <- calcProcDGamma(U$U,U$Gamma0,reference,dims=m,weight=weight)
+            dataslido <- calcProcDGamma(U$U,U$Gamma0,reference,dims=m,stepsize=stepsize)
             dataslido <- rotreverse(dataslido,rot)
         }
         if (m == 3) {

@@ -6,14 +6,14 @@
 relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL,
   sur.name = NULL, mesh = NULL, tol = 1e-05, deselect = FALSE,
   inc.check = TRUE, iterations = 0, fixRepro = TRUE, missing = NULL,
-  bending = TRUE, weight = 1)
+  bending = TRUE, stepsize = ifelse(bending, 1, 0.5))
 }
 \arguments{
 \item{lm}{k x 3 or k x 2 matrix containing landmark data to be slidden.}
 
 \item{reference}{k x 3 or k x 2 matrix containing landmark of the reference}
 
-\item{SMvector}{A vector containing the landmarks on the curve(s) that are
+\item{SMvector}{A vector containing the row indices of (semi-) landmarks on the curve(s) that are
 allowed to slide}
 
 \item{outlines}{A vector (or if threre are several curves) a list of vectors
@@ -21,7 +21,7 @@ allowed to slide}
 the successive position on the curve - including the beginning and end
 points, that are not allowed to slide.}
 
-\item{surp}{A vector containing Semilandmarks positioned on surfaces.}
+\item{surp}{integer vector containing the row indices of semi-landmarks positioned on surfaces.}
 
 \item{sur.name}{character: containing the filename of the corresponding
 surface.When specified, mesh has to be NULL.}
@@ -47,11 +47,15 @@ convergence.}
 projected onto the surface. If you have landmarks not on the surface, select
 \code{fixRepro=FALSE}}
 
-\item{missing}{vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).}
+\item{missing}{vector of integers, specifying row indices of missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).}
 
 \item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)}
 
-\item{weight}{integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}}
+\item{stepsize}{integer: dampening factor for the amount of sliding.
+Useful to keep semi-landmarks from sliding too far off the surface.
+The displacement is calculated as
+\code{stepsize * displacement}.
+Is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
 }
 \value{
 returns kx3 matrix of slidden landmarks
@@ -75,14 +79,15 @@ relax <- relaxLM(shortnose.lm,
          longnose.lm, mesh=shortnose.mesh, iterations=1,
          SMvector=fix, deselect=TRUE, surp=surp)
 
-##example minimizing Procrustes distance
+## example minimizing Procrustes distance when displacement is not
+## dampened by stepsize
 relaxProcD <- relaxLM(shortnose.lm,
          longnose.lm, mesh=shortnose.mesh, iterations=1,
-         SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=FALSE)
+         SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=FALSE,stepsize=1)
 
 \dontrun{
 # visualize differences red=before and green=after sliding
-deformGrid3d(shortnose.lm[1:323, ], relax, ngrid=0)
+deformGrid3d(shortnose.lm, relax, ngrid=0)
 
 
 # visualize differences minimizing Procrusted distances red=before and green=after sliding

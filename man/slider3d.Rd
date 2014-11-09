@@ -8,9 +8,9 @@ energy of a thin-plate spline deformation.}
 slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
   sur.path = "sur", sur.name = NULL, meshlist = NULL, ignore = NULL,
   sur.type = "ply", tol = 1e-05, deselect = FALSE, inc.check = TRUE,
-  recursive = TRUE, iterations = 0, initproc = TRUE, speed = TRUE,
-  pairedLM = 0, weight = 1, mc.cores = parallel::detectCores(),
-  fixRepro = TRUE, missingList = NULL, bending = TRUE)
+  recursive = TRUE, iterations = 0, initproc = TRUE, fullGPA = FALSE,
+  pairedLM = 0, bending = TRUE, stepsize = ifelse(bending, 1, 0.5),
+  mc.cores = parallel::detectCores(), fixRepro = TRUE, missingList = NULL)
 }
 \arguments{
 \item{dat.array}{Input k x m x n real array, where k is the number of
@@ -19,7 +19,7 @@ dimnames[[3]] vector contains the names of the surface model (without file
 extension) - e.g. if the model is named "surface.ply", the name of the
 corresponding matrix of the array would be "surface"}
 
-\item{SMvector}{A vector containing the landmarks on the curve(s) and
+\item{SMvector}{A vector containing the row indices of (semi-) landmarks on the curve(s) and
 surfaces that are allowed to slide}
 
 \item{outlines}{A vector (or if threre are several curves) a list of vectors
@@ -27,7 +27,7 @@ surfaces that are allowed to slide}
 the successive position on the curve - including the beginning and end
 points, that are not allowed to slide.}
 
-\item{surp}{A vector containing Semilandmarks positioned on surfaces.}
+\item{surp}{integer vector containing the row indices of semi-landmarks positioned on surfaces.}
 
 \item{sur.path}{Path to the surface models (e.g. ply, obj, stl files)}
 
@@ -64,9 +64,8 @@ very slow convergence).  0 means iteration until convergence.}
 
 \item{initproc}{requests initial Procrustes fit before sliding.}
 
-\item{speed}{Logical: if TRUE, only a partial procrustes fit will be
-performed - this is faster and can be required, when large samples are
-processed.}
+\item{fullGPA}{Logical: if FALSE, only a partial procrustes fit will be
+performed.}
 
 \item{pairedLM}{A X x 2 numeric matrix with the indices of the rows
 containing paired Landmarks. E.g. the left column contains the lefthand
@@ -74,7 +73,13 @@ landmarks, while the right side contains the corresponding right hand
 landmarks. - This will ideally create symmetric mean to get rid of
 assymetry.}
 
-\item{weight}{integer: dampening factor for the amount of sliding. Useful to keep semi-landmarks from sliding too far off the surface, e.g. when \code{bending=ALSE}}
+\item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise.}
+
+\item{stepsize}{integer: dampening factor for the amount of sliding.
+Useful to keep semi-landmarks from sliding too far off the surface.
+The displacement is calculated as
+\code{stepsize * displacement}.
+Is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
 
 \item{mc.cores}{integer: determines how many cores to use for the
 computation. The default is autodetect. But in case, it doesn't work as
@@ -85,9 +90,7 @@ disabled.}
 projected onto the surface. If you have landmarks not on the surface, select
 \code{fixRepro=FALSE}}
 
-\item{missingList}{a list of length samplesize specifying a vector of missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.}
-
-\item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise.}
+\item{missingList}{a list of length samplesize containing integer vectors of row indices specifying missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.}
 }
 \value{
 \item{dataslide }{array containing slidden Landmarks in the original
@@ -169,6 +172,6 @@ differences and sexual dimorphism. PhD thesis,
 \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 }
 \seealso{
-\code{\link{relaxLM}}
+\code{\link{relaxLM}, \link{createMissingList}}
 }
 
