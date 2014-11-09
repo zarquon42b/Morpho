@@ -1,4 +1,4 @@
-Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursive=TRUE,iterations=0,initproc=FALSE,pairedLM=NULL,bending=TRUE)
+Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursive=TRUE,iterations=0,initproc=FALSE,pairedLM=NULL,bending=TRUE,stepsize=1)
 {
     n <- dim(dataframe)[3]
     k <- dim(dataframe)[1]
@@ -43,9 +43,9 @@ Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recur
             }
             U <- .calcTang_U(tmp,SMvector=SMvector,outlines=outlines,deselect=deselect)
             if (bending) {
-                dataslide[,,j] <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+                dataslide[,,j] <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,stepsize=stepsize)
             } else {
-                tmpslide <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m)
+                tmpslide <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m,stepsize=stepsize)
                 dataslide[,,j] <- rotreverse(tmpslide,rot)
             }
         }

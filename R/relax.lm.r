@@ -36,7 +36,7 @@
 #' Useful to keep semi-landmarks from sliding too far off the surface.
 #' The displacement is calculated as
 #' \code{stepsize * displacement}.
-#' Is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
+#' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{slider3d}}

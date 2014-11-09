@@ -55,7 +55,7 @@ projected onto the surface. If you have landmarks not on the surface, select
 Useful to keep semi-landmarks from sliding too far off the surface.
 The displacement is calculated as
 \code{stepsize * displacement}.
-Is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
+Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
 }
 \value{
 returns kx3 matrix of slidden landmarks
