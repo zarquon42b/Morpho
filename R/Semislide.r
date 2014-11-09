@@ -1,4 +1,4 @@
-Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursive=TRUE,iterations=0,initproc=FALSE,pairedLM=NULL)
+Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recursive=TRUE,iterations=0,initproc=FALSE,pairedLM=NULL,bending=TRUE)
 {
     n <- dim(dataframe)[3]
     k <- dim(dataframe)[1]
@@ -36,8 +36,18 @@ Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recur
         L <- CreateL(mshape)
         
         for (j in 1:n) {
-            U <- .calcTang_U(dataframe[,,j],SMvector=SMvector,outlines=outlines,deselect=deselect)
-            dataslide[,,j] <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+            tmp <- dataframe[,,j]
+            if (!bending) {
+                rot <- rotonto(mshape,tmp,scale=TRUE,reflection=FALSE)
+                tmp <- rot$yrot
+            }
+            U <- .calcTang_U(tmp,SMvector=SMvector,outlines=outlines,deselect=deselect)
+            if (bending) {
+                dataslide[,,j] <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m)
+            } else {
+                tmpslide <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m)
+                dataslide[,,j] <- rotreverse(tmpslide,rot)
+            }
         }
         proc <- ProcGPA(dataslide,scale=TRUE)
         mshape <- proc$mshape

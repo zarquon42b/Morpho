@@ -7,7 +7,7 @@ procSym(dataarray, scale = TRUE, reflect = TRUE, CSinit = TRUE,
   orp = TRUE, tol = 1e-05, pairedLM = NULL, sizeshape = FALSE,
   use.lm = NULL, center.part = FALSE, distfun = c("angle", "riemann"),
   SMvector = NULL, outlines = NULL, deselect = FALSE, recursive = TRUE,
-  iterations = 0, initproc = FALSE)
+  iterations = 0, initproc = FALSE, bending = TRUE)
 }
 \arguments{
 \item{dataarray}{Input k x m x n real array, where k is the number of
@@ -66,7 +66,9 @@ convergence).  0 means iteration until convergence.}
 
 \item{initproc}{Logical: indicating if the first Relaxation step is
 performed against the mean of an initial Procrustes superimposition.
-Symmetric configurations will be relaxed against a perfectly symmetrical
+Symmetric configurations will be relaxed against a perfectly symmetrical}
+
+\item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)
 mean.}
 }
 \value{
