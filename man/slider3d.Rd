@@ -135,19 +135,26 @@ slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
                   # sur.path="." is the current working directory
 
 # now one example with meshes in workspace
-## to reduce this example's computation time,
-# we only use the first 50 right hand semi-landmarks
-surp <- surp[1:50]
+
 meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
 
-slide <- slider3d(data[1:57,,], SMvector=fix, deselect=TRUE, surp=surp,
-                  sur.path=".",iterations=1, meshlist=meshlist,
+slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+                  iterations=1, meshlist=meshlist,
                   mc.cores=1,fixRepro=FALSE)
 require(rgl)
 ## visualize sliding
 deformGrid3d(slide$dataslide[,,1],shortnose.lm,ngrid = 0)
 ## these are fix
 spheres3d(slide$dataslide[fix,,1],col=4,radius=0.7)
+
+###finally an example with missing landmarks:
+## we assume that coordinates 185:189, 205:209 and 225:229 are in the second config are missing
+missingList <- createMissingList(2)
+missingList[[2]] <- c(185:189,205:209,225:229)
+slideMissing <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+                  iterations=1, meshlist=meshlist,
+                  mc.cores=1,fixRepro=FALSE,missingList=missingList)
+
 }
 }
 \author{
