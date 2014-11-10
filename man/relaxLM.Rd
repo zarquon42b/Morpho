@@ -6,14 +6,14 @@
 relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL,
   sur.name = NULL, mesh = NULL, tol = 1e-05, deselect = FALSE,
   inc.check = TRUE, iterations = 0, fixRepro = TRUE, missing = NULL,
-  bending = TRUE)
+  bending = TRUE, stepsize = ifelse(bending, 1, 0.5))
 }
 \arguments{
 \item{lm}{k x 3 or k x 2 matrix containing landmark data to be slidden.}
 
 \item{reference}{k x 3 or k x 2 matrix containing landmark of the reference}
 
-\item{SMvector}{A vector containing the landmarks on the curve(s) that are
+\item{SMvector}{A vector containing the row indices of (semi-) landmarks on the curve(s) that are
 allowed to slide}
 
 \item{outlines}{A vector (or if threre are several curves) a list of vectors
@@ -21,7 +21,7 @@ allowed to slide}
 the successive position on the curve - including the beginning and end
 points, that are not allowed to slide.}
 
-\item{surp}{A vector containing Semilandmarks positioned on surfaces.}
+\item{surp}{integer vector containing the row indices of semi-landmarks positioned on surfaces.}
 
 \item{sur.name}{character: containing the filename of the corresponding
 surface.When specified, mesh has to be NULL.}
@@ -47,9 +47,15 @@ convergence.}
 projected onto the surface. If you have landmarks not on the surface, select
 \code{fixRepro=FALSE}}
 
-\item{missing}{vector of integers, specifying missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).}
+\item{missing}{vector of integers, specifying row indices of missing (semi-)landmarks. They will be relaxed freely in 3D and not projected onto the target (works only for 2D data).}
 
 \item{bending}{if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)}
+
+\item{stepsize}{integer: dampening factor for the amount of sliding.
+Useful to keep semi-landmarks from sliding too far off the surface.
+The displacement is calculated as
+\code{stepsize * displacement}.
+Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
 }
 \value{
 returns kx3 matrix of slidden landmarks
@@ -68,23 +74,20 @@ fix <- c(1:5,20:21)
 # define surface patch by specifying row indices of matrices
 # all except those defined as fix
 surp <- c(1:dim(shortnose.lm)[1])[-fix]
-## to reduce this example's computation time,
-# we only use the right hand semi-landmarks
-# (which keeps the left hand ones fix)
-surp <- surp[1:316]
 
-relax <- relaxLM(shortnose.lm[1:323, ],
-         longnose.lm[1:323, ], mesh=shortnose.mesh, iterations=1,
+relax <- relaxLM(shortnose.lm,
+         longnose.lm, mesh=shortnose.mesh, iterations=1,
          SMvector=fix, deselect=TRUE, surp=surp)
 
-##example minimizing Procrustes distance
+## example minimizing Procrustes distance when displacement is not
+## dampened by stepsize
 relaxProcD <- relaxLM(shortnose.lm,
          longnose.lm, mesh=shortnose.mesh, iterations=1,
-         SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=FALSE)
+         SMvector=fix, deselect=TRUE, surp=c(1:623)[-fix],bending=FALSE,stepsize=1)
 
 \dontrun{
 # visualize differences red=before and green=after sliding
-deformGrid3d(shortnose.lm[1:323, ], relax, ngrid=0)
+deformGrid3d(shortnose.lm, relax, ngrid=0)
 
 
 # visualize differences minimizing Procrusted distances red=before and green=after sliding
@@ -93,8 +96,14 @@ deformGrid3d(shortnose.lm, relaxProcD, ngrid=0)
 ## no smooth displacement, now let's check the distances:
 rot2ref <- rotonto(relaxProcD,longnose.lm)
 angle.calc(rot2ref$X,rot2ref$Y)
-# 0.2491911 Procrustes distance between reference and slided shape
-rot2refOrig <- rotonto(shortnose.lm,longnose.lm)
+# 0.2492027 Procrustes distance between reference and slided shape
+# (minimizing Procrustes distance)
+rot2refBend <- rotonto(relax,longnose.lm)
+angle.calc(rot2refBend$X,rot2refBend$Y)
+# 0.2861322 Procrustes distance between reference and slided shape
+# (minimizing bending energy)
+
+rot2ref <- rotonto(shortnose.lm,longnose.lm)
 angle.calc(rot2refOrig$X,rot2refOrig$Y)
 # 0.3014957 Procrustes distance between reference and original shape
 ##result: while minimizing Procrustes distance, displacement is not

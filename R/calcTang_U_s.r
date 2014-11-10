@@ -1,14 +1,9 @@
-.calcTang_U_s <- function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surface=NULL,free=NULL,deselect=FALSE,weights=NULL)
+.calcTang_U_s <- function(datamatrix,normalmatrix=NULL,SMvector,outlines=NULL,surface=NULL,free=NULL,deselect=FALSE)
 {
     
     dims <- dim(datamatrix)[2]
     k <- dim(datamatrix)[1]
-    
-    if (is.null(weights)){
-        weights <- 1
-    } else
-        weights <- c(weights,weights,weights)
-    
+        
     if (deselect==TRUE)
         SMvector <- c(1:k)[-SMvector]
     
@@ -88,7 +83,7 @@
     SMsort <- sort(SMvector)
     xinfo <- .Call("tweakU",tanvec,m, type,SMsort)
     U <- sparseMatrix(i=xinfo$rows,j=xinfo$cols+1, x=xinfo$x,dims=udims)
-    U <- weights*U
+    #U <- weights*U
     
     
     outOnly <- outlines
