@@ -8,7 +8,7 @@
 #' @param lambda numeric: regularization factor
 #' @param blockdiag logical: request blockdiagonal matrix Lsubk3 needed for
 #' sliding of semilandmarks.
-#' @return
+#' @return depending on the choices in \code{output}:
 #' \item{L }{Matrix L as specified in Bookstein (1989)}
 #' \item{Linv }{Inverse of matrix L as specified in Bookstein (1989)}
 #' \item{Lsubk }{uper left k x k submatrix of \code{Linv}}
@@ -42,35 +42,49 @@
 #' L2 <- CreateL(boneLM[,,2])
 #' be3 <- t(boneLM[,,1])%*%L2$Lsubk%*%boneLM[,,1]
 #' sqrt(sum(be3^2))
-#' 
+#' @importFrom Matrix bdiag
 #' @export
-CreateL <- function(matrix,lambda=0, blockdiag=TRUE)
+CreateL <- function(matrix,lambda=0, output=c("L","Linv","Lsubk", "Lsubk3"))
 {
     if (ncol(matrix) == 3) {
+        out <- list()
         k <- dim(matrix)[1]
         Q <- cbind(1,matrix)
-        O <- matrix(0,4,4)
+        #O <- matrix(0,4,4)
         if (!is.matrix(matrix) || !is.numeric(matrix))
         stop("matrix must be a numeric matrix")
         K <- .Call("createL",matrix)
-        
-        diag(K) <- lambda
-        L <- rbind(cbind(K,Q),cbind(t(Q),O))
+        L <- matrix(0,k+4,k+4)
+        if (lambda !=0 )
+            diag(K) <- lambda
+        L[1:k,1:k] <- K
+        L[(k+1):(k+4),1:k] <- t(Q)
+        L[1:k,(k+1):(k+4)] <- Q
+        L <- forceSymmetric(L)
+        if ("L" %in% output)
+            out$L <- L
         L1 <- try(solve(L),silent=TRUE)
         if (class(L1)=="try-error") {
             cat("CreateL: singular matrix: general inverse will be used.\n")
-            L1 <- armaGinv(L)		
+            L1 <- armaGinv(as.matrix(L))		
         }
-        Lsubk <- L1[1:k,1:k]
-        Lsubk3 <- NULL
-        if (blockdiag) {
-            Lsubk3 <- Matrix::Matrix(0,3*k,3*k)
-            Lsubk3[1:k,1:k] <- Lsubk
-            Lsubk3[(k+1):(2*k),(k+1):(2*k)] <- Lsubk
-            Lsubk3[(2*k+1):(3*k),(2*k+1):(3*k)] <- Lsubk
+        if ("Linv" %in% output)
+            out$Linv <- L1
+        if ("Lsubk" %in% output || "Lsubk3" %in% output)
+            Lsubk <- forceSymmetric(L1[1:k,1:k])
+        if ("Lsubk" %in% output)
+            out$Lsubk <- Lsubk
+        
+        if ("Lsubk3" %in% output) {
+            Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
+            out$Lsubk3 <- Lsubk3
         }
-        return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
+        
+        return(out)
     } else if (ncol(matrix) == 2) {
+        blockdiag <- FALSE
+        if ("Lsubk3" %in% output)
+            blockdiag <- TRUE
         out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
         return(out)
     } else

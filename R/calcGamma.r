@@ -1,17 +1,24 @@
-calcGamma <- function(Gamma0,Lsubk3,U,dims,weights=NULL)
+#' @importFrom Matrix forceSymmetric tcrossprod
+calcGamma <- function(Gamma0,Lsubk3,U,dims,stepsize=1)
   {
+      
       U <- as(U,"sparseMatrix")
-      ULU <- crossprod(U,(Lsubk3%*%U))
-      ULU2 <-  crossprod(U,(Lsubk3%*%Gamma0))
-      diag(ULU) <- diag(ULU)+1e-8
-      if (is.null(weights))
-            weights <- 1
-      Gamma1 <- try(Gamma0 - weights*(U%*%solve(ULU,ULU2)))
-      if (class(Gamma1)=="try-error") {
-          cat("calcGamma: singular matrix: general inverse will be used.\n")
-          B <- armaGinv(as.matrix(ULU))		
-          Gamma1 <- Gamma0-weights*(U%*%B%*%crossprod(U,(Lsubk3%*%Gamma0)))
-    }
-      Gamatrix <- matrix(Gamma1,length(Gamma1)/dims,dims)
-      return(list(Gamma1=Gamma1,Gamatrix=Gamatrix))
+      tUL <- crossprod(U,Lsubk3)
+      ULU <- forceSymmetric(tUL%*%U)
+      B <- tUL%*%Gamma0
+      B <- as(B,"sparseMatrix")
+      T <- solve(ULU,B)
+      ULUT <- U%*%T
+      Gamma0 <- Gamma0-stepsize*ULUT
+      Gamma0 <- matrix(Gamma0,length(Gamma0)/dims,dims)
+      return(Gamma0)
   }
+
+calcProcDGamma <- function(U,Gamma0,mshape,dims,stepsize=1) {
+    Tpart <- tcrossprod(U)
+    mshape <- as.vector(mshape)
+    tmpdiff <- Gamma0-mshape
+    slided <- Gamma0-stepsize*(Tpart%*%tmpdiff)
+    slided <- matrix(slided,length(slided)/dims,dims)
+    return(slided)
+}

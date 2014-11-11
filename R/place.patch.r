@@ -107,7 +107,7 @@ placePatch <- function(atlas, dat.array, path, prefix=NULL, fileext=".ply", ray=
     {
         if (!inherits(atlas, "atlas"))
             stop("please provide object of class atlas")
-        if (!inherits(dat.array, "array"))
+        if (!inherits(dat.array, "array") && !inherits(dat.array,"matrix"))
             stop("dat.array must be a numeric array or a matrix")
         if (is.null(keep.fix)) {
             if (is.null(atlas$keep.fix))
@@ -152,8 +152,8 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         }
         
 
-        L <- CreateL(atlas.lm)
-        L1 <- CreateL(rbind(atlas.lm,patch))
+        L <- CreateL(atlas.lm,output="Lsubk3")
+        L1 <- CreateL(rbind(atlas.lm,patch),output="Lsubk3")
         meshpath <- paste(path,"/",prefix,name,fileext,sep="")
         i <- 0
         parfun <- function(i){
@@ -177,7 +177,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                     }
                 }
                 U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselcurve)
-                slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)$Gamatrix
+                slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)
                 tmp.data <- projRead(slide,tmp.mesh,readnormals=TRUE)
                 tps.lm <- tps3d(patch,atlas.lm,slide)
             } else if (!is.null(SMvector) && is.null(outlines)) {
@@ -253,7 +253,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                     surface <- NULL
                 
                 U1 <- .calcTang_U_s(relax, normals,SMvector=sm,outlines=outltmp,surface=surface,free=free,deselect=deselect)
-                tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)$Gamatrix[c((k+1):(patch.dim+k)),]
+                tps.lm <- calcGamma(U1$Gamma0,L1$Lsubk3,U1$U,dims=3)[c((k+1):(patch.dim+k)),]
                 tps.lm <- projRead(tps.lm,tmp.mesh,readnormals=FALSE)
             } else {# end relaxation ########################
                 tps.lm <- t(tps.lm$vb[1:3,])
