@@ -37,10 +37,11 @@ rpro <- point2plane(boneLM[10,,1],pt=boneLM[9,,1],pt1=boneLM[3,,1],pt2=boneLM[4,
 require(rgl)
 #visualize
 wire3d(skull_0144_ch_fe.mesh,col="white")
+##get plane normal
 pNorm <- crossp(boneLM[3,,1]-boneLM[9,,1],boneLM[4,,1]-boneLM[9,,1])
 pNorm <- pNorm/norm(pNorm,"2")
 ## get plane offset
-d <- norm(point2plane(c(0,0,0),pt=boneLM[9,,1],pt1=boneLM[3,,1],pt2=boneLM[4,,1]),"2")
+d <- norm(point2plane(c(0,0,0),pt=boneLM[9,,1],pNorm=pNorm),"2")
 spheres3d(boneLM[,,1],radius=0.5)
 spheres3d(boneLM[c(3,4,9),,1],radius=0.6,col=3)
 ##original position of Rhinion
@@ -53,6 +54,10 @@ planes3d(pNorm[1],pNorm[2],pNorm[3],d=d,col=2,alpha=0.5)
 
 ##now we project all points onto that plane:
 spheres3d(point2plane(boneLM[,,1],pt=boneLM[9,,1],pt1=boneLM[3,,1],pt2=boneLM[4,,1]),col=3)
+
+## and finally project the vertices of the mesh onto the plane
+meshpro <- point2plane(vert2points(skull_0144_ch_fe.mesh),pt=boneLM[9,,1],pNorm=pNorm)
+points3d(meshpro,col=2)
 }
 }
 
