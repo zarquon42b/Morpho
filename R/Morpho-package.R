@@ -8,8 +8,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.1-1.141111\cr
-#' Date: \tab 2014-11-11\cr
+#' Version: \tab 2.1-1.141118\cr
+#' Date: \tab 2014-11-18\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -146,4 +146,20 @@ regdist.raw <- function (...)
 {
   .Deprecated("regdist", package="Morpho")
   regdist(...)
+}
+
+#' @rdname Morpho-deprecated
+#' @export 
+crossp <- function (...)
+{
+  .Deprecated("crossProduct", package="Morpho")
+  crossProduct(...)
+}
+
+#' @rdname Morpho-deprecated
+#' @export 
+tanplan <- function (...)
+{
+  .Deprecated("tangentPlane", package="Morpho")
+  tangentPlane(...)
 }

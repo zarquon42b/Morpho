@@ -26,11 +26,11 @@ getLocalStretchNoArticulate <- function(mat,pairedLM,hmult=5) {
         Hstar <- Tinv%*%eigCQ$vectors
         w1 <- Hstar[,3]
         w1 <- w1/sqrt(sum(w1^2))
-        n <- crossp(Hstar[,1],Hstar[,2])
+        n <- crossProduct(Hstar[,1],Hstar[,2])
         n <- n/sqrt(sum(n^2))
         if (crossprod(n,w1) < 0)
             n <- -n
-        wtan <- tanplan(n)
+        wtan <- tangentPlane(n)
         wtan <- cbind(wtan$z,wtan$y)
         m <- as.vector(wtan%*%t(wtan)%*%w1)
         m <- m/sqrt(sum(m^2))
