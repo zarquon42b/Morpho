@@ -10,7 +10,7 @@ CreateL(matrix, lambda = 0, output = c("L", "Linv", "Lsubk", "Lsubk3"))
 
 \item{lambda}{numeric: regularization factor}
 
-\item{blockdiag}{logical: request blockdiagonal matrix Lsubk3 needed for
+\item{output}{character vector: select which matrices to create. Can be a vector containing any combination of the strings: \code{ "L","Linv","Lsubk", "Lsubk3"}.
 sliding of semilandmarks.}
 }
 \value{

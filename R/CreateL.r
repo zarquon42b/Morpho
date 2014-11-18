@@ -6,7 +6,7 @@
 #' 
 #' @param matrix k x 3 or k x 2 matrix containing landmark coordinates.
 #' @param lambda numeric: regularization factor
-#' @param blockdiag logical: request blockdiagonal matrix Lsubk3 needed for
+#' @param output character vector: select which matrices to create. Can be a vector containing any combination of the strings: \code{ "L","Linv","Lsubk", "Lsubk3"}.
 #' sliding of semilandmarks.
 #' @return depending on the choices in \code{output}:
 #' \item{L }{Matrix L as specified in Bookstein (1989)}
