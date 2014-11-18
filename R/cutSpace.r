@@ -27,9 +27,9 @@ cutSpace <- function(pointcloud,v1, v2, v3,upper=TRUE) {
     e1 <- e1/sqrt(sum(e1^2))
     e2 <- e2/sqrt(sum(e2^2))
 
-    normal <- crossp(e1,e2)
+    normal <- crossProduct(e1,e2)
     normal <- normal/sqrt(sum(normal^2))
-    e2a <- crossp(e1,normal)
+    e2a <- crossProduct(e1,normal)
     e2a <- e2a/sqrt(sum(e2a^2))
     Ep <- cbind(e1,e2a)
     pointcloud0 <- sweep(pointcloud,2,v1)

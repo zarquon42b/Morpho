@@ -147,3 +147,19 @@ regdist.raw <- function (...)
   .Deprecated("regdist", package="Morpho")
   regdist(...)
 }
+
+#' @rdname Morpho-deprecated
+#' @export 
+crossp <- function (...)
+{
+  .Deprecated("crossProduct", package="Morpho")
+  crossProduct(...)
+}
+
+#' @rdname Morpho-deprecated
+#' @export 
+tanplan <- function (...)
+{
+  .Deprecated("tangentPlane", package="Morpho")
+  tangentPlane(...)
+}

@@ -1,6 +1,6 @@
-#' @rdname tanplan
+#' @rdname tangentPlane
 #' @export
-crossp <- function(x,y)
+crossProduct <- function(x,y)
 {	
 	out <- c(0,0,0)
  	out[1] <- x[2]*y[3]-x[3]*y[2]

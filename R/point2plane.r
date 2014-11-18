@@ -1,7 +1,7 @@
 #' projects a 3D coordinate orthogonally onto a plane
 #'
 #' projects a 3D coordinate orthogonally onto a plane
-#' @param x 3D-vector
+#' @param x 3D-vector or a k x 3 matrix with 3D vectors stored in rows
 #' @param pt point on plane
 #' @param pNorm plane normal (overrides specification by pt1 and pt2)
 #' @param pt1 if pNorm=NULL, the plane will be defined by three points \code{pt, pt1, pt2}
@@ -17,7 +17,7 @@
 #' #visualize
 #' wire3d(skull_0144_ch_fe.mesh,col="white")
 #' ##get plane normal
-#' normal <- crossp(boneLM[3,,1]-boneLM[9,,1],boneLM[4,,1]-boneLM[9,,1])
+#' normal <- crossProduct(boneLM[3,,1]-boneLM[9,,1],boneLM[4,,1]-boneLM[9,,1])
 #' #' ## get plane offset
 #' d <- norm(point2plane(c(0,0,0),pt=boneLM[9,,1],normal=normal),"2")
 #' spheres3d(boneLM[,,1],radius=0.5)
@@ -49,10 +49,10 @@ point2plane <- function(x, pt, normal=NULL, pt1=NULL, pt2=NULL) {
         e1 <- pt1-pt
         e1 <- e1/norm(e1,"2")
         e2 <- pt2-pt
-        normal <- crossp(e1,e2)
-        e2 <- crossp(e1,normal)
+        normal <- crossProduct(e1,e2)
+        e2 <- crossProduct(e1,normal)
     } else {
-        tp <- tanplan(normal)
+        tp <- tangentPlane(normal)
         e1 <- tp$z
         e2 <- tp$y
     }
@@ -60,5 +60,7 @@ point2plane <- function(x, pt, normal=NULL, pt1=NULL, pt2=NULL) {
     pointcloud0 <- sweep(x,2,pt)
     orthopro <- t(Ep%*%t(Ep)%*%t(pointcloud0))
     orthopro <- sweep(orthopro,2,-pt)
+    if (nrow(orthopro) == 1)
+        orthopro <- as.vector(orthopro)
     return(orthopro)
 }

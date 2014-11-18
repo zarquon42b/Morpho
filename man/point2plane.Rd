@@ -6,7 +6,7 @@
 point2plane(x, pt, normal = NULL, pt1 = NULL, pt2 = NULL)
 }
 \arguments{
-\item{x}{3D-vector}
+\item{x}{3D-vector or a k x 3 matrix with 3D vectors stored in rows}
 
 \item{pt}{point on plane}
 
@@ -32,7 +32,7 @@ require(rgl)
 #visualize
 wire3d(skull_0144_ch_fe.mesh,col="white")
 ##get plane normal
-normal <- crossp(boneLM[3,,1]-boneLM[9,,1],boneLM[4,,1]-boneLM[9,,1])
+normal <- crossProduct(boneLM[3,,1]-boneLM[9,,1],boneLM[4,,1]-boneLM[9,,1])
 #' ## get plane offset
 d <- norm(point2plane(c(0,0,0),pt=boneLM[9,,1],normal=normal),"2")
 spheres3d(boneLM[,,1],radius=0.5)

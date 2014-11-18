@@ -64,7 +64,7 @@
         lt <- length(surface)
         temp <- surface
         for (i in 1:lt) {
-            tanp <- tanplan(normalmatrix[temp[i],])
+            tanp <- tangentPlane(normalmatrix[temp[i],])
             tanvec[temp[i],1:6] <- c(tanp$y,tanp$z)				
         }
     }
