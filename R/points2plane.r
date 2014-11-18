@@ -10,7 +10,7 @@
 #' @examples
 #' data(boneData)
 #' ##project rhinion onto plane spanned by Nasion and both Nariales
-#' rpro <- point2plane(boneLM[10,,1],v1=boneLM[9,,1],v2=boneLM[3,,1],v3=boneLM[4,,1])
+#' rpro <- points2plane(boneLM[10,,1],v1=boneLM[9,,1],v2=boneLM[3,,1],v3=boneLM[4,,1])
 #'
 #' \dontrun{
 #' require(rgl)
@@ -19,7 +19,7 @@
 #' ##get plane normal
 #' normal <- crossProduct(boneLM[3,,1]-boneLM[9,,1],boneLM[4,,1]-boneLM[9,,1])
 #' #' ## get plane offset
-#' d <- norm(point2plane(c(0,0,0),v1=boneLM[9,,1],normal=normal),"2")
+#' d <- norm(points2plane(c(0,0,0),v1=boneLM[9,,1],normal=normal),"2")
 #' spheres3d(boneLM[,,1],radius=0.5)
 #' spheres3d(boneLM[c(3,4,9),,1],radius=0.6,col=3)
 #' ##original position of Rhinion
@@ -31,15 +31,15 @@
 #' planes3d(normal[1],normal[2],normal[3],d=d,col=2,alpha=0.5)
 #'
 #' ##now we project all points onto that plane:
-#' spheres3d(point2plane(boneLM[,,1],v1=boneLM[9,,1],v2=boneLM[3,,1],v3=boneLM[4,,1]),col=3)
+#' spheres3d(points2plane(boneLM[,,1],v1=boneLM[9,,1],v2=boneLM[3,,1],v3=boneLM[4,,1]),col=3)
 #'
 #' ## and finally project the vertices of the mesh onto the plane
-#' meshpro <- point2plane(vert2points(skull_0144_ch_fe.mesh),v1=boneLM[9,,1],normal=normal)
+#' meshpro <- points2plane(vert2points(skull_0144_ch_fe.mesh),v1=boneLM[9,,1],normal=normal)
 #' points3d(meshpro,col=2)
 #' }
-#' @rdname point2plane
+#' @rdname points2plane
 #' @export
-point2plane <- function(x, v1, normal=NULL, v2=NULL, v3=NULL) {
+points2plane <- function(x, v1, normal=NULL, v2=NULL, v3=NULL) {
     if (is.vector(x))
         x <- matrix(x,1,3)
 

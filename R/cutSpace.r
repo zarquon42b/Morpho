@@ -21,7 +21,7 @@
 #' \dontrun{
 #' require(rgl)
 #' normal <- crossProduct(v2-v1,v3-v1)
-#' zeroPro <- point2plane(rep(0,3),v1,normal)
+#' zeroPro <- points2plane(rep(0,3),v1,normal)
 #' ## get sign of normal displacement from zero
 #' sig <- sign(crossprod(-zeroPro,normal))
 #' d <- sig*norm(zeroPro,"2")
@@ -30,7 +30,7 @@
 #' }
 #' @export
 cutSpace <- function(pointcloud,v1, v2=NULL, v3=NULL,normal=NULL, upper=TRUE) {
-    orthopro <- point2plane(pointcloud,v1=v1,v2=v2,v3=v3,normal=normal)
+    orthopro <- points2plane(pointcloud,v1=v1,v2=v2,v3=v3,normal=normal)
     diff <- pointcloud-orthopro
     if (is.null(normal)) {
         e1 <- v2-v1

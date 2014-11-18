@@ -38,7 +38,7 @@ upper <- cutSpace(pointcloud, v1, v2, v3)
 \dontrun{
 require(rgl)
 normal <- crossProduct(v2-v1,v3-v1)
-zeroPro <- point2plane(rep(0,3),v1,normal)
+zeroPro <- points2plane(rep(0,3),v1,normal)
 ## get sign of normal displacement from zero
 sig <- sign(crossprod(-zeroPro,normal))
 d <- sig*norm(zeroPro,"2")
