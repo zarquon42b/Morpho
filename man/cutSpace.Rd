@@ -3,7 +3,8 @@
 \alias{cutSpace}
 \title{separate a 3D-pointcloud by a hyperplane}
 \usage{
-cutSpace(pointcloud, v1, v2, v3, upper = TRUE)
+cutSpace(pointcloud, v1, v2 = NULL, v3 = NULL, normal = NULL,
+  upper = TRUE)
 }
 \arguments{
 \item{pointcloud}{numeric n x 3 matrix}
@@ -13,6 +14,8 @@ cutSpace(pointcloud, v1, v2, v3, upper = TRUE)
 \item{v2}{numeric vector of length=3 specifying a point on the separating plane}
 
 \item{v3}{numeric vector of length=3 specifying a point on the separating plane}
+
+\item{normal}{plane normal (overrides specification by v2 and v3)}
 
 \item{upper}{logical specify whether the points above or below the plane are to be reported as TRUE.}
 }
@@ -33,6 +36,13 @@ v3 <- shortnose.lm[3,]
 pointcloud <- vert2points(shortnose.mesh)
 upper <- cutSpace(pointcloud, v1, v2, v3)
 \dontrun{
+require(rgl)
+normal <- crossProduct(v2-v1,v3-v1)
+zeroPro <- point2plane(rep(0,3),v1,normal)
+## get sign of normal displacement from zero
+sig <- sign(crossprod(-zeroPro,normal))
+d <- sig*norm(zeroPro,"2")
+planes3d(normal[1],normal[2],normal[3],d=d)
 points3d(pointcloud[upper,])
 }
 }

@@ -3,18 +3,18 @@
 \alias{point2plane}
 \title{projects a 3D coordinate orthogonally onto a plane}
 \usage{
-point2plane(x, pt, normal = NULL, pt1 = NULL, pt2 = NULL)
+point2plane(x, v1, normal = NULL, v2 = NULL, v3 = NULL)
 }
 \arguments{
 \item{x}{3D-vector or a k x 3 matrix with 3D vectors stored in rows}
 
-\item{pt}{point on plane}
+\item{v1}{point on plane}
 
-\item{pt1}{if pNorm=NULL, the plane will be defined by three points \code{pt, pt1, pt2}}
+\item{normal}{plane normal (overrides specification by v2 and v3)}
 
-\item{pt2}{if pNorm=NULL, the plane will be defined by three points \code{pt, pt1, pt2}}
+\item{v2}{if pNorm=NULL, the plane will be defined by three points \code{v1, v2, v3}}
 
-\item{pNorm}{plane normal (overrides specification by pt1 and pt2)}
+\item{v3}{if pNorm=NULL, the plane will be defined by three points \code{v1, v2, v3}}
 }
 \value{
 projected point
@@ -25,7 +25,7 @@ projects a 3D coordinate orthogonally onto a plane
 \examples{
 data(boneData)
 ##project rhinion onto plane spanned by Nasion and both Nariales
-rpro <- point2plane(boneLM[10,,1],pt=boneLM[9,,1],pt1=boneLM[3,,1],pt2=boneLM[4,,1])
+rpro <- point2plane(boneLM[10,,1],v1=boneLM[9,,1],v2=boneLM[3,,1],v3=boneLM[4,,1])
 
 \dontrun{
 require(rgl)
@@ -34,7 +34,7 @@ wire3d(skull_0144_ch_fe.mesh,col="white")
 ##get plane normal
 normal <- crossProduct(boneLM[3,,1]-boneLM[9,,1],boneLM[4,,1]-boneLM[9,,1])
 #' ## get plane offset
-d <- norm(point2plane(c(0,0,0),pt=boneLM[9,,1],normal=normal),"2")
+d <- norm(point2plane(c(0,0,0),v1=boneLM[9,,1],normal=normal),"2")
 spheres3d(boneLM[,,1],radius=0.5)
 spheres3d(boneLM[c(3,4,9),,1],radius=0.6,col=3)
 ##original position of Rhinion
@@ -46,10 +46,10 @@ lines3d(rbind(rpro,boneLM[10,,1]),lwd=3)
 planes3d(normal[1],normal[2],normal[3],d=d,col=2,alpha=0.5)
 
 ##now we project all points onto that plane:
-spheres3d(point2plane(boneLM[,,1],pt=boneLM[9,,1],pt1=boneLM[3,,1],pt2=boneLM[4,,1]),col=3)
+spheres3d(point2plane(boneLM[,,1],v1=boneLM[9,,1],v2=boneLM[3,,1],v3=boneLM[4,,1]),col=3)
 
 ## and finally project the vertices of the mesh onto the plane
-meshpro <- point2plane(vert2points(skull_0144_ch_fe.mesh),pt=boneLM[9,,1],normal=normal)
+meshpro <- point2plane(vert2points(skull_0144_ch_fe.mesh),v1=boneLM[9,,1],normal=normal)
 points3d(meshpro,col=2)
 }
 }

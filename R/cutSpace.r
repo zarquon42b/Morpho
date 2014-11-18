@@ -6,6 +6,7 @@
 #' @param v1 numeric vector of length=3 specifying a point on the separating plane
 #' @param v2 numeric vector of length=3 specifying a point on the separating plane
 #' @param v3 numeric vector of length=3 specifying a point on the separating plane
+#' @param normal plane normal (overrides specification by v2 and v3)
 #' @param upper logical specify whether the points above or below the plane are to be reported as TRUE.
 #' @return logical vector of length n. Reporting for each point if it is above or below the hyperplane
 #' @details
@@ -18,27 +19,31 @@
 #' pointcloud <- vert2points(shortnose.mesh)
 #' upper <- cutSpace(pointcloud, v1, v2, v3)
 #' \dontrun{
+#' require(rgl)
+#' normal <- crossProduct(v2-v1,v3-v1)
+#' zeroPro <- point2plane(rep(0,3),v1,normal)
+#' ## get sign of normal displacement from zero
+#' sig <- sign(crossprod(-zeroPro,normal))
+#' d <- sig*norm(zeroPro,"2")
+#' planes3d(normal[1],normal[2],normal[3],d=d)
 #' points3d(pointcloud[upper,])
 #' }
 #' @export
-cutSpace <- function(pointcloud,v1, v2, v3,upper=TRUE) {
-    e1 <- v2-v1
-    e2 <- v3-v1
-    e1 <- e1/sqrt(sum(e1^2))
-    e2 <- e2/sqrt(sum(e2^2))
-
-    normal <- crossProduct(e1,e2)
-    normal <- normal/sqrt(sum(normal^2))
-    e2a <- crossProduct(e1,normal)
-    e2a <- e2a/sqrt(sum(e2a^2))
-    Ep <- cbind(e1,e2a)
-    pointcloud0 <- sweep(pointcloud,2,v1)
-    orthopro <- t(Ep%*%t(Ep)%*%t(pointcloud0))
-    diff <- pointcloud0-orthopro
+cutSpace <- function(pointcloud,v1, v2=NULL, v3=NULL,normal=NULL, upper=TRUE) {
+    orthopro <- point2plane(pointcloud,v1=v1,v2=v2,v3=v3,normal=normal)
+    diff <- pointcloud-orthopro
+    if (is.null(normal)) {
+        e1 <- v2-v1
+        e1 <- e1/norm(e1,"2")
+        e2 <- v3-v1
+        e2 <- e2/norm(e2,"2")
+        normal <- crossProduct(e1,e2)
+    }
+    print(normal)
     ins <- t(normal)%*%t(diff)
     #inside <- ang(diff,normal)
     if (upper)
-        upside <- ins >= 0
+        upside <- ins > 0
     else
         upside <- ins <= 0
     return(upside)
@@ -50,13 +55,14 @@ cutSpace <- function(pointcloud,v1, v2, v3,upper=TRUE) {
 #' @param v1 numeric vector of length=3 specifying a point on the separating plane
 #' @param v2 numeric vector of length=3 specifying a point on the separating plane
 #' @param v3 numeric vector of length=3 specifying a point on the separating plane
+#' @param normal plane normal (overrides specification by v2 and v3)
 #' @param keep.upper logical specify whether the points above or below the plane are should be kept
 #' @details see \code{\link{cutSpace}} for more details.
 #' @return mesh with part above/below hyperplane removed
 #' @export
-cutMeshPlane <- function(mesh, v1, v2, v3, keep.upper=TRUE) {
+cutMeshPlane <- function(mesh, v1, v2=NULL, v3=NULL, normal=NULL,keep.upper=TRUE) {
     pointcloud <- vert2points(mesh)
-    upper <- cutSpace(pointcloud, v1, v2, v3,upper=keep.upper)
+    upper <- cutSpace(pointcloud, v1=v1,v2=v2,v3=v3,normal=normal,upper=keep.upper)
     outmesh <- list()
     lremain <- length(which(upper))
     if (lremain) {
