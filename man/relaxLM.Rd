@@ -53,8 +53,7 @@ projected onto the surface. If you have landmarks not on the surface, select
 
 \item{stepsize}{integer: dampening factor for the amount of sliding.
 Useful to keep semi-landmarks from sliding too far off the surface.
-The displacement is calculated as
-\code{stepsize * displacement}.
+The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y = Y0 + stepsize * UT}.
 Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
 }
 \value{

@@ -34,8 +34,7 @@
 #' @param bending if TRUE, bending energy will be minimized, Procrustes distance otherwise (not suggested with large shape differences)
 #' @param stepsize integer: dampening factor for the amount of sliding.
 #' Useful to keep semi-landmarks from sliding too far off the surface.
-#' The displacement is calculated as
-#' \code{stepsize * displacement}.
+#' The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y = Y0 + stepsize * UT}.
 #' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
