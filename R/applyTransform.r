@@ -32,7 +32,7 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
          trafo <- solve(trafo)
      x$vb <- trafo%*%x$vb
     if (det(trafo) < 0) {
-        x <- conv2backf(x)
+        x <- invertFaces(x)
         message("reflection involved, faces orientation has been inverted")
     } else if (!is.null(x$normals))
         x <- vcgUpdateNormals(x)

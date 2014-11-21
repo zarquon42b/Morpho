@@ -59,7 +59,7 @@ warp.mesh <- function(mesh,matr,matt,lambda=0,updateNormals=TRUE, silent=FALSE)
     mesh$normals <- NULL
     testref <- rotonto(matr,matt)$reflect
     if(testref == 1)
-        mesh <- conv2backf(mesh)
+        mesh <- invertFaces(mesh)
     
     if(updateNormals) {
         if (!silent)

@@ -15,13 +15,13 @@
 #' \dontrun{
 #' shade3d(shortnose.mesh,col=3)
 #' }
-#' noseinvert <- conv2backf(shortnose.mesh)
+#' noseinvert <- invertFaces(shortnose.mesh)
 #' ## show normals
 #' \dontrun{
 #' plotNormals(noseinvert,long=0.01)
 #' }
 #' @export
-conv2backf <- function(mesh)
+invertFaces <- function(mesh)
 { 	
 	mesh$it <- mesh$it[c(3,2,1),]
         mesh <- vcgUpdateNormals(mesh)

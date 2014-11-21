@@ -46,7 +46,7 @@ rotmesh.onto <- function(mesh, refmat, tarmat, adnormals=FALSE, scale=FALSE, ref
   hmat <- getTrafo4x4(rot)
   mesh$vb <- hmat%*%mesh$vb
   if (sign(det(rot$gamm) < 0 && reflection))
-      mesh <- conv2backf(mesh)
+      mesh <- invertFaces(mesh)
   if (adnormals) 
       mesh <- vcgUpdateNormals(mesh)
   if (!is.null(mesh$normals) && !adnormals)

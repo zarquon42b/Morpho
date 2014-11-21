@@ -73,7 +73,7 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL) {
     x <- vert2points(mesh)
     vb <- mirror(x,icpiter=icpiter,subsample=subsample)
     mesh$vb[1:3,] <- t(vb)
-    mesh <- conv2backf(mesh)
+    mesh <- invertFaces(mesh)
     return(mesh)    
 }
 

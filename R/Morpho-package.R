@@ -163,3 +163,11 @@ tanplan <- function (...)
   .Deprecated("tangentPlane", package="Morpho")
   tangentPlane(...)
 }
+
+#' @rdname Morpho-deprecated
+#' @export 
+conv2backf <- function (...)
+{
+  .Deprecated("conv2backf", package="Morpho")
+  conv2backf(...)
+}
