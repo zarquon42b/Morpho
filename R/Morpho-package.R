@@ -168,6 +168,6 @@ tanplan <- function (...)
 #' @export 
 conv2backf <- function (...)
 {
-  .Deprecated("conv2backf", package="Morpho")
-  conv2backf(...)
+  .Deprecated("invertFaces", package="Morpho")
+  invertFaces(...)
 }
