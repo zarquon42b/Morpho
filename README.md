@@ -10,27 +10,8 @@ Within R:
 	install.packages("Morpho")
 
 
-#### Installation of the R-package Morpho from sourceforge/github (latest release): ####
-1. Make sure to work with the latest version of R and install dependencies (type the following commands into your R terminal): 
-     
-            
-        install.packages(c("rgl","doParallel","colorRamps","yaImpute","RcppArmadillo"))
-
-
-  Also required are the packages 'Matrix' and 'parallel' which usually are already installed as R's recommended packages.
-
-
-2. Download the version suitable for your OS from [sourceforge](https://sourceforge.net/projects/morpho-rpackage/) or [github](https://github.com/zarquon42b/Morpho/releases). Either the compiled package (for Windows and OS X) or the source tarball (Linux).
-
-3. Installation command from within R: 
-   
-        install.packages("Path_to_downloaded_package_Morpho[Version_OS]",repos=NULL)
-
-4. check if the package can be loaded:
-        
-        load package: library(Morpho)
-
 #### Installation of the R-package Morpho (development snapshot) using *devtools*: ####
+
 ##### Install prerequisites #####
 
 1. Install *devtools* from within R (Ubuntu/Debian users will have to install *libcurl4-gnutls-dev* beforehand):
