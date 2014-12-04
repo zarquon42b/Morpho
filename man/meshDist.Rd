@@ -16,7 +16,7 @@ meshDist(x, ...)
   to = NULL, steps = 20, ceiling = FALSE, file = "default",
   imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50,
   save = FALSE, plot = TRUE, sign = TRUE, tol = NULL,
-  displace = FALSE, shade = TRUE, method = c("morpho", "vcglib"),
+  displace = FALSE, shade = TRUE, method = c("vcglib", "morpho"),
   add = FALSE, ...)
 }
 \arguments{
