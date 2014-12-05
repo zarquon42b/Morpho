@@ -14,7 +14,7 @@ pcAlign(x, y, optim = TRUE, subsample = NULL)
 \arguments{
 \item{x}{matrix or mesh3d}
 
-\item{y}{matrix or mesh3d}
+\item{y}{matrix or mesh3d, if missing, x will be centered by its centroid and aligned by its princial axis.}
 
 \item{optim}{logical if TRUE, all possible PC-axis are tested and the rotation with the smallest RMSE between configs will be used.}
 
