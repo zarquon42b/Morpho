@@ -11,9 +11,9 @@
     Gmeans <- matrix(0, ng, l)
     for (i in 1:ng) {
         if(gsizes[i] > 1)
-            Gmeans[i, ] <- apply(N[groups==lev[i], ], 2, mean)
+            Gmeans[i, ] <- apply(N[groups==lev[i], ,drop=F], 2, mean)
         else
-            Gmeans[i, ] <- N[groups==lev[i], ]
+            Gmeans[i, ] <- N[groups==lev[i], ,drop=F]
     }
     if (weighting)
         wt <- gsizes

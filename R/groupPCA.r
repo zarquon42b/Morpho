@@ -109,9 +109,9 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     rownames(Gmeans) <- lev
     for (i in 1:ng) {
         if(gsizes[i] > 1)
-            Gmeans[i, ] <- apply(N[groups==lev[i], ], 2, mean)
+            Gmeans[i, ] <- apply(N[groups==lev[i], ,drop=F], 2, mean)
         else
-            Gmeans[i, ] <- N[groups==lev[i], ]
+            Gmeans[i, ] <- N[groups==lev[i], ,drop=F]
     }
     if (weighting==TRUE)
         wt <- gsizes
@@ -154,7 +154,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     
     crovafun <- function(x)
         {
-        crovtmp <- .groupPCAcrova(Tmatrix[-x,],groups[-x],tol=tol,groupPCs=groupPCs,weighting=weighting)
+        crovtmp <- .groupPCAcrova(Tmatrix[-x,,drop=F],groups[-x],tol=tol,groupPCs=groupPCs,weighting=weighting)
         out <- as.vector(Tmatrix[x,]-crovtmp$Grandmean) %*% as.matrix(crovtmp$PCs)
         return(out)
     }
