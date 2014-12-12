@@ -16,6 +16,7 @@
 #' according to weights during the rotation process, instead of being scaled to
 #' the Centroid size.
 #' @param reflection logical: allow reflections.
+#' @param pcAlign logical: if TRUE, the shapes are aligned by the principal axis of the first specimen, otherwise the orientation of the first specimen is used.
 #' @return returns a list with
 #' \item{rotated }{k x m x n array of the rotated configurations}
 #' \item{mshape }{sample meanshape}
@@ -37,7 +38,7 @@
 #' proc.wt <- ProcGPA(boneLM, CSinit=TRUE, weights=weights, silent=TRUE)
 #' 
 #' @export
-ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE, reflection=TRUE)
+ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE, reflection=TRUE,pcAlign=TRUE)
 {
     if (!is.null(weights))
         weights <- weights/sum(weights)
@@ -74,11 +75,8 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weig
         mshape <- scale(mshape,scale=F,center=mcent)
     }
 ### align mean by principal axes ###	
-    rotms <- eigen(crossprod(mshape))$vectors
-    if (det(rotms) < 0)
-        rotms[,1] <- rotms[,1]*-1
-    
-    mshape <- mshape%*%rotms
+    if (pcAlign)
+        mshape <- pcAlign(mshape)
     
     while (p1 > tol) {
 ### rotation of all configs on current consensus ###		

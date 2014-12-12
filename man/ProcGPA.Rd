@@ -5,7 +5,7 @@
 \usage{
 ProcGPA(dat.array, tol = 1e-05, scale = TRUE, CSinit = FALSE,
   silent = FALSE, weights = NULL, centerweight = FALSE,
-  reflection = TRUE)
+  reflection = TRUE, pcAlign = TRUE)
 }
 \arguments{
 \item{dat.array}{Input k x m x n real array, where k is the number of
@@ -28,6 +28,8 @@ according to weights during the rotation process, instead of being scaled to
 the Centroid size.}
 
 \item{reflection}{logical: allow reflections.}
+
+\item{pcAlign}{logical: if TRUE, the shapes are aligned by the principal axis of the first specimen, otherwise the orientation of the first specimen is used.}
 }
 \value{
 returns a list with

@@ -33,6 +33,7 @@
 #' defined by use.lm will be centered according to the centroid of the complete
 #' configuration. Otherwise orp will be set to FALSE to avoid erroneous
 #' projection into tangent space.
+#' @param pcAlign logical: if TRUE, the shapes are aligned by the principal axis of the first specimen
 #' @param distfun character: "riemann" requests a Riemannian distance for
 #' calculating distances to mean, while "angle" uses an approximation by
 #' calculating the angle between rotated shapes on the unit sphere.
@@ -143,7 +144,7 @@
 #' 
 #' 
 #' @export
-procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE, bending=TRUE,stepsize=1)
+procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE, pcAlign=TRUE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE, bending=TRUE,stepsize=1)
 {
     t0 <- Sys.time()     
     A <- dataarray
@@ -193,7 +194,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     cat("performing Procrustes Fit ")
     
     if (!is.null(use.lm)) { ### only use subset for rotation and scale
-        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect)
+        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign)
         tmp <- Aall
         for (i in 1:dim(Aall)[3]) {
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
@@ -205,7 +206,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         proc$rotated <- tmp
         proc$mshape <- arrMean3(tmp) ##calc new meanshape
     } else
-        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect)
+        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign)
     
     procrot <- proc$rotated
     dimna <- dimnames(dataarray)
