@@ -78,8 +78,13 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL) {
         x <- t(t(x)+pca2$center)
         return(x)
     } else {
-        pca1 <- prcomp(x)
-        return(pca1$x)
+        x <- scale(x,scale=F)
+        rotms <- eigen(crossprod(x))$vectors
+        if (det(rotms) < 0)
+            rotms[,1] <- rotms[,1]*-1
+        
+        x <- x%*%rotms
+        return(x)
     }
         
     }
