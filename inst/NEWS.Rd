@@ -14,6 +14,10 @@
       \item added helper function createMissingList
       \item added function points2plane for projecting a
       point/pointcloud onto a plane.
+      \item pcAlign with y missing now centers a shape and aligns it by
+      its principal axes.
+      \item added option pcAlign in procSym and ProcGPA to
+  enable/disable alignment of sample by principal axes
     }
   }
   \subsection{bugfixes and minor changes}{
