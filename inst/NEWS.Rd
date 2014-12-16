@@ -2,7 +2,7 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 2.2 (2014-12-25)}{
+\section{Changes in Morpho version 2.2 (2014-12-16)}{
   \subsection{New features}{
     \itemize{
       \item slider3d, relaxLM and procSym now allow minimizing
