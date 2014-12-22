@@ -29,7 +29,7 @@ classify.bgPCA <- function(x,cv=TRUE) {
         classVec[i] <- names(tmpdist)[which(tmpdist == min(tmpdist))]
     }
     classVec <- factor(classVec)
-    out <- list(class=classVec,groups=x$groups)
+    out <- list(class=classVec,groups=x$groups,cv=cv)
     class(out) <- "classify"
     return(out)
 }
@@ -39,7 +39,7 @@ classify.bgPCA <- function(x,cv=TRUE) {
 classify.CVA <- function(x,cv=T) {
 
     if (!is.null(x$class) && cv) {
-        out <- list(class=x$class,groups=x$groups,posterior=x$posterior)
+        out <- list(class=x$class,groups=x$groups,posterior=x$posterior,cv=cv)
         class(out) <- "classify"
         return(out)
     } else {
@@ -61,7 +61,7 @@ classify.CVA <- function(x,cv=T) {
         names(classVec) <- rownames(classprobs) <- rownames(x$CVscores)
         colnames(classprobs) <- rownames(x$groupmeans)
         classVec <- factor(classVec)
-        out <- list(class=classVec,groups=x$groups,posterior=classprobs)
+        out <- list(class=classVec,groups=x$groups,posterior=classprobs,cv=cv)
         class(out) <- "classify"
         return(out)
     }
@@ -70,14 +70,20 @@ classify.CVA <- function(x,cv=T) {
     
 #' @export       
 print.classify <- function(x,...) {
+    if (x$cv)
+        cat(" cross-validated classification results in frequencies\n")
+    else 
     cat(" classification result in frequencies\n")
     tab <- table(x$groups,x$class)
     acc <- 100*sum(diag(tab))/sum(tab)
     
     probtab <- prop.table(tab,1)*100
     print(tab)
-    cat("\n\n classification result in %\n")
-    print(probtab)
+    if (x$cv)
+        cat("\n\n cross-validated classification result in %\n")
+    else
+        cat("\n\n classification result in %\n")
+    print(probtab,digits=5)
     
     cat(paste0("\n\n overall classification accuracy: ",round(acc,digits=5)," %\n"))
 }
