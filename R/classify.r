@@ -74,7 +74,7 @@ print.classify <- function(x,...) {
     tab <- table(x$groups,x$class)
     acc <- 100*sum(diag(tab))/sum(tab)
     
-    probtab <- prop.table(tab,1)
+    probtab <- prop.table(tab,1)*100
     print(tab)
     cat("\n\n classification result in %\n")
     print(probtab)
