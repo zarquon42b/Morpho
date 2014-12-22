@@ -4,7 +4,7 @@
 \name{Morpho-package}
 \alias{Morpho}
 \alias{Morpho-package}
-\title{A toolbox providing methods for data-acquisitiopn, visualisation and
+\title{A toolbox providing methods for data-acquisition, visualisation and
 statistical methods related to Geometric Morphometrics and shape analysis}
 \description{
 A toolbox for Morphometric calculations. Including sliding operations for

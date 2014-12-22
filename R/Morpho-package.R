@@ -1,4 +1,4 @@
-#' A toolbox providing methods for data-acquisitiopn, visualisation and
+#' A toolbox providing methods for data-acquisition, visualisation and
 #' statistical methods related to Geometric Morphometrics and shape analysis
 #' 
 #' A toolbox for Morphometric calculations. Including sliding operations for
