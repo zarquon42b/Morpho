@@ -314,3 +314,12 @@ probpost <- function(dist,prior) {
     return(posts)
 }
     
+#' @export
+print.CVA <- function(x,...) {
+    print(classify(x,cv=TRUE))
+}
+
+#' @export
+print.bgPCA <- function(x,...) {
+    print(classify(x,cv=TRUE))
+}
