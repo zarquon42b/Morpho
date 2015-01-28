@@ -15,7 +15,7 @@ surface}
 \item{tarmat}{target matrix - e.g. landmark configuration on a target
 surface}
 
-\item{lambda}{integer: regularisation parameter of the TPS.}
+\item{lambda}{numeric: regularisation parameter of the TPS.}
 }
 \value{
 returns the warped datamatrix

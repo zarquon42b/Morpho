@@ -10,7 +10,7 @@
 #' @param tarmat target matrix - e.g. landmark configuration on a target
 #' surface
 #' 
-#' @param lambda integer: regularisation parameter of the TPS.
+#' @param lambda numeric: regularisation parameter of the TPS.
 #' @return returns the warped datamatrix
 #' @author Stefan Schlager
 #' @seealso \code{\link{warp.mesh}}

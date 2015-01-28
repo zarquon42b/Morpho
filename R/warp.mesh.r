@@ -14,7 +14,7 @@
 #' 
 #' @param updateNormals Logical: requests the (re)calculation of vertex
 #' normals.
-#' @param lambda integer: regularisation parameter of the TPS.
+#' @param lambda numeric: regularisation parameter of the TPS.
 #' @param silent logical: suppress messages.
 #' @return
 #' object of class "mesh3d"

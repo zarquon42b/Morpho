@@ -14,7 +14,7 @@ warp.mesh(mesh, matr, matt, lambda = 1e-05, updateNormals = TRUE,
 
 \item{matt}{matrix of corresponding landmarks on the target surface}
 
-\item{lambda}{integer: regularisation parameter of the TPS.}
+\item{lambda}{numeric: regularisation parameter of the TPS.}
 
 \item{updateNormals}{Logical: requests the (re)calculation of vertex
 normals.}
