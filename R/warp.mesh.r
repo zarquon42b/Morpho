@@ -49,7 +49,7 @@
 #' 
 #' 
 #' @export
-warp.mesh <- function(mesh,matr,matt,lambda=0,updateNormals=TRUE, silent=FALSE)
+warp.mesh <- function(mesh,matr,matt,lambda=1e-5,updateNormals=TRUE, silent=FALSE)
 {
     vert <- t(mesh$vb[1:3,])
     if (!silent)

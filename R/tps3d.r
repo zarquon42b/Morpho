@@ -37,7 +37,7 @@
 #' }
 #' 
 #' @export
-tps3d <- function(M,refmat,tarmat,lambda=0)
+tps3d <- function(M,refmat,tarmat,lambda=1e-5)
 {   
     q <- dim(M)[1]
     p <- dim(refmat)[1]
