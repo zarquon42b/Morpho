@@ -4,8 +4,8 @@
 \alias{computeTransform}
 \title{calculate an affine transformation matrix}
 \usage{
-computeTransform(x, y, type = c("rigid", "similarity", "affine"),
-  reflection = FALSE)
+computeTransform(x, y, type = c("rigid", "similarity", "affine", "tps"),
+  reflection = FALSE, lambda = 1e-05)
 }
 \arguments{
 \item{x}{fix landmarks}
@@ -15,9 +15,11 @@ computeTransform(x, y, type = c("rigid", "similarity", "affine"),
 \item{type}{set type of affine transformation: options are  "rigid", "similarity" (rigid + scale) and "affine",}
 
 \item{reflection}{logical: if TRUE "rigid" and "similarity" allow reflections.}
+
+\item{lambda}{numeric: regularisation parameter of the TPS.}
 }
 \value{
-returns a 4x4 (3x3 in 2D case)  transformation matrix
+returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
 }
 \description{
 calculate an affine transformation matrix

@@ -62,54 +62,8 @@
 #' }
 #' @export
 tps3d <- function(x,refmat,tarmat,lambda=1e-5,...) {
-    coeff <- tpsGetCoeff(refmat=refmat,tarmat=tarmat,lambda=lambda)
+    coeff <- computeTransform(refmat=refmat,tarmat=tarmat,lambda=lambda)
     transM <- applyTransform(x,coeff)
     return(transM)
     
 }
-
-#' calculate coefficients for a thin-plate spline deformation
-#'
-#' calculate coefficients for a thin-plate spline deformation
-#' @param refmat reference matrix - e.g. landmark configuration on a surface
-#' @param tarmat target matrix - e.g. landmark configuration on a target
-#' surface
-#' 
-#' @param lambda numeric: regularisation parameter of the TPS.
-#' @return returns an object of class "tpsCoeff" with
-#' \item{refmat}{reference points}
-#' \item{tarmat}{target points}
-#' \item{coeff}{TPS-coefficients}
-#' \item{lambda}{lambda value as specified}
-#' @examples
-#'
-#' data(nose)
-#' ## define some landmarks
-#' refind <- c(1:3,4,19:20)
-#' ## use a subset of shortnose.lm as anchor points for a TPS-deformation
-#' reflm <- shortnose.lm[refind,]
-#' tarlm <- reflm
-#' ##replace the landmark at the tip of the nose with that of longnose.lm
-#' tarlm[4,] <- longnose.lm[4,]
-#' ##  deform a set of semilandmarks by applying a TPS-deformation
-#' ##  based on 5 reference points
-#' trafo <- tpsGetCoeff(reflm, tarlm)
-#' ## apply Deformation to a mesh
-#' deformMesh <- applyTransform(shortnose.mesh,trafo)
-#' retroDef <- applyTransform(deformMesh,trafo,inverse=T)
-#' @export
-tpsGetCoeff <- function(refmat,tarmat,lambda=1e-5) {
-    p <- dim(refmat)[1]
-    m <- dim(refmat)[2]
-    Lall <- CreateL(refmat,lambda=lambda, output="Linv")
-    Linv <- Lall$Linv
-    m2 <- rbind(tarmat,matrix(0,m+1,m))
-    coeff <- matrix(NA,p+m+1,m)
-    coeff <- as.matrix(Linv%*%m2)
-    transformCoeff <- list(refmat=refmat,tarmat=tarmat,coeff=coeff,lambda=lambda)
-    class(transformCoeff) <- "tpsCoeff"
-    return(transformCoeff)
-}
-
-
-    

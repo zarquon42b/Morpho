@@ -5,21 +5,22 @@
 #' @param y moving landmarks
 #' @param type set type of affine transformation: options are  "rigid", "similarity" (rigid + scale) and "affine",
 #' @param reflection logical: if TRUE "rigid" and "similarity" allow reflections.
-#' @return returns a 4x4 (3x3 in 2D case)  transformation matrix
+#' @param lambda numeric: regularisation parameter of the TPS.
+#' @return returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
 #' 
 #' @examples
 #' data(boneData)
 #' trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @export
-computeTransform <- function(x,y,type=c("rigid","similarity","affine"),reflection=FALSE) {
+computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-5) {
     type <- substr(type[1],1L,1L)
     if (type %in% c("r","s")) {
         scale <- TRUE
         if (type == "r")
             scale <- FALSE
         trafo <- getTrafo4x4(rotonto(x,y,scale = scale,reflection=reflection))
-    } else {
+    } else if (type=="a"){
         k <- nrow(x)
         m <- ncol(x)
         xp <- as.vector(t(x))
@@ -33,6 +34,17 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine"),reflectio
         trafo <- matrix(projS,m,m+1,byrow = T)
         trafo <- rbind(trafo,0)
         trafo[m+1,m+1] <- 1
+    } else if (type == "t") {
+        m <- ncol(y)
+        Lall <- CreateL(y,lambda=lambda, output="Linv")
+        Linv <- Lall$Linv
+        m2 <- rbind(x,matrix(0,m+1,m))
+        coeff <- as.matrix(Linv%*%m2)
+        trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)
+        class(trafo) <- "tpsCoeff"
+    } else {
+        stop("Unknown transformation type")
     }
+        
     return(trafo)
 }
