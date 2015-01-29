@@ -52,7 +52,7 @@ spheres3d(boneLM[,,10])
 Stefan Schlager
 }
 \seealso{
-\code{\link{file2mesh}},\code{\link{warp.mesh}}
+\code{\link{file2mesh}},\code{\link{tps3d}}
 ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 }
 

@@ -4,11 +4,11 @@
 \alias{tps3d}
 \title{thin plate spline mapping}
 \usage{
-tps3d(M, refmat, tarmat, lambda = 1e-05)
+tps3d(x, refmat, tarmat, lambda = 1e-05, ...)
 }
 \arguments{
-\item{M}{datamatrix - e.g. the matrix information of vertices of a given
-surface}
+\item{x}{matrix - e.g. the matrix information of vertices of a given
+surface or a triangular mesh of class "mesh3d"}
 
 \item{refmat}{reference matrix - e.g. landmark configuration on a surface}
 
@@ -16,16 +16,17 @@ surface}
 surface}
 
 \item{lambda}{numeric: regularisation parameter of the TPS.}
+
+\item{...}{additional arguments, currently not used.}
 }
 \value{
-returns the warped datamatrix
+returns the deformed input
 }
 \description{
 maps a datamatrix via thin plate spline between calculated by a reference on
 a target configuration in 2D and 3D
 }
 \examples{
-require(Morpho)
 data(nose)
 ## define some landmarks
 refind <- c(1:3,4,19:20)
@@ -40,6 +41,31 @@ deformed <- tps3d(shortnose.lm, reflm, tarlm)
 \dontrun{
 ##visualize results by applying a deformation grid
 deformGrid3d(shortnose.lm,deformed,ngrid = 5)
+
+
+data(nose)##load data
+##warp a mesh onto another landmark configuration:
+warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
+
+
+require(rgl)
+shade3d(warpnose.long,col=skin1)
+}
+
+data(boneData)
+## deform mesh belonging to the first specimen
+## onto the landmark configuration of the 10th specimen
+
+\dontrun{
+warpskull <- tps3d(skull_0144_ch_fe.mesh,boneLM[,,1],
+                     boneLM[,,10])
+## render deformed mesh and landmarks
+shade3d(warpskull, col=2, specular=1)
+spheres3d(boneLM[,,1])
+## render original mesh
+shade3d(skull_0144_ch_fe.mesh, col=3, specular=1)
+spheres3d(boneLM[,,10])
+
 }
 }
 \author{
@@ -51,6 +77,6 @@ decomposition of deformations. IEEE Transactions on pattern analysis and
 machine intelligence 11(6).
 }
 \seealso{
-\code{\link{warp.mesh}}
+\code{\link{tpsGetCoeff}}
 }
 

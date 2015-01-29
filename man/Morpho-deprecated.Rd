@@ -8,6 +8,7 @@
 \alias{deprecated}
 \alias{regdist.raw}
 \alias{tanplan}
+\alias{warp.mesh}
 \title{deprecated functions of Morpho}
 \usage{
 deform.grid(...)
@@ -22,6 +23,9 @@ crossp(...)
 tanplan(...)
 
 conv2backf(...)
+
+warp.mesh(mesh, matr, matt, lambda = 1e-05, updateNormals = TRUE,
+  silent = FALSE)
 }
 \description{
 document deprecated functions

@@ -15,9 +15,9 @@ applyTransform(x, trafo, inverse)
 \arguments{
 \item{x}{matrix or mesh3d}
 
-\item{trafo}{4x4 transformation matrix (for mesh3d the matrix will be transformed to a 4x4 matrix)}
+\item{trafo}{4x4 transformation matrix or an object of class "tpsCoeff"}
 
-\item{inverse}{logical: if TRUE, the inverse of the transformation is applied}
+\item{inverse}{logical: if TRUE, the inverse of the transformation is applied (for TPS coefficients have to be recomputed)}
 }
 \value{
 the transformed object

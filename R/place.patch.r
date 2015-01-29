@@ -60,7 +60,7 @@
 #' matrix is returned.
 #' @author Stefan Schlager
 #' @seealso \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM},
-#' \link{slider3d}, \link{warp.mesh}}
+#' \link{slider3d}, \link{tps3d}}
 #' @encoding utf8
 #' @references Schlager S. 2013. Soft-tissue reconstruction of the human nose:
 #' population differences and sexual dimorphism. PhD thesis,
@@ -73,7 +73,7 @@
 #' data(nose)
 #' require(rgl)
 #' ###create mesh for longnose
-#' longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
 #' ## create atlas
 #' fix <- c(1:5,20:21)
 #' atlas <- createAtlas(shortnose.mesh, landmarks =
@@ -196,7 +196,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 slide[fix,] <- dat.array[fix,]
 
             if (!is.null(inflate) || !is.null(rhotol)) {
-                atlas.warp <- warp.mesh(atlas.mesh,atlas.lm,slide, silent=silent)
+                atlas.warp <- tps3d(atlas.mesh,atlas.lm,slide, silent=silent)
                 tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE)
                 warp.norm <- tps.lm$normals[1:3,]### keep projected normals
             }

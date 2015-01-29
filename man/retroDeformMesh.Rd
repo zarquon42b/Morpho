@@ -30,6 +30,6 @@ retroDeformMesh(mesh, mat, pairedLM, hmult = 5, alpha = 0.01, rot = TRUE,
 symmetrize a triangular mesh
 }
 \details{
-this function performs \code{\link{retroDeform3d}} and deforms the mesh accordingly using the function \code{\link{warp.mesh}}.
+this function performs \code{\link{retroDeform3d}} and deforms the mesh accordingly using the function \code{\link{tps3d}}.
 }
 

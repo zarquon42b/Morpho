@@ -19,7 +19,7 @@
 #' \item{yrot }{rotated refmat}
 #' \item{trafo }{4x4 transformation matrix}
 #' @author Stefan Schlager
-#' @seealso \code{\link{file2mesh}},\code{\link{warp.mesh}}
+#' @seealso \code{\link{file2mesh}},\code{\link{tps3d}}
 #' ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 #' 
 #' @examples

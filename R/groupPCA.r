@@ -75,7 +75,7 @@
 #' require(rgl)
 #' ## visualize grandmean mesh
 #' 
-#' grandm.mesh <- warp.mesh(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean)
+#' grandm.mesh <- tps3d(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean)
 #' wire3d(grandm.mesh, col="white")
 #' spheres3d(grandmean, radius=0.005)
 #' }

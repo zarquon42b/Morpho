@@ -8,8 +8,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.2\cr
-#' Date: \tab 2014-12-16\cr
+#' Version: \tab 2.2.150129\cr
+#' Date: \tab 2015-01-29\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -170,4 +170,12 @@ conv2backf <- function (...)
 {
   .Deprecated("invertFaces", package="Morpho")
   invertFaces(...)
+}
+
+#' @rdname Morpho-deprecated
+#' @export 
+warp.mesh <- function (mesh,matr,matt,lambda=1e-5,updateNormals=TRUE, silent=FALSE)
+{
+  .Deprecated("tps3d", package="Morpho")
+  tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda)
 }

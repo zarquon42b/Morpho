@@ -110,7 +110,7 @@ installed.
 require(rgl)
 data(nose)##load data
 ##warp a mesh onto another landmark configuration:
-warpnose.long <- warp.mesh(shortnose.mesh, shortnose.lm, longnose.lm)
+warpnose.long <- tps3d(shortnose.mesh, shortnose.lm, longnose.lm)
 \dontrun{
 meshDist(warpnose.long, shortnose.mesh, method="m")
 }

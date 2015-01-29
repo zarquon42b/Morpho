@@ -93,7 +93,7 @@ in PDFs in a latex environment (e.g. latex package: aninmate).
  data(nose)##load data
 \dontrun{
 ##warp a mesh onto another landmark configuration:
-warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
 
 warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
 
@@ -119,6 +119,6 @@ warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x
 Stefan Schlager
 }
 \seealso{
-\code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
+\code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{tps3d}}
 }
 

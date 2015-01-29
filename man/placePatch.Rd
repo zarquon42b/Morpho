@@ -90,7 +90,7 @@ on the (deformed) atlas.
 data(nose)
 require(rgl)
 ###create mesh for longnose
-longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
 ## create atlas
 fix <- c(1:5,20:21)
 atlas <- createAtlas(shortnose.mesh, landmarks =
@@ -130,6 +130,6 @@ population differences and sexual dimorphism. PhD thesis,
 }
 \seealso{
 \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM},
-\link{slider3d}, \link{warp.mesh}}
+\link{slider3d}, \link{tps3d}}
 }
 

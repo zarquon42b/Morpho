@@ -96,7 +96,7 @@
 #' \dontrun{
 #' data(nose)
 #' ###create mesh for longnose
-#' longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
 #' ### write meshes to disk
 #' mesh2ply(shortnose.mesh, filename="shortnose")
 #' mesh2ply(longnose.mesh, filename="longnose")

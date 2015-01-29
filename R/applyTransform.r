@@ -2,8 +2,8 @@
 #'
 #' apply affine transformation to data
 #' @param x matrix or mesh3d
-#' @param trafo 4x4 transformation matrix (for mesh3d the matrix will be transformed to a 4x4 matrix)
-#' @param inverse logical: if TRUE, the inverse of the transformation is applied
+#' @param trafo 4x4 transformation matrix or an object of class "tpsCoeff"
+#' @param inverse logical: if TRUE, the inverse of the transformation is applied (for TPS coefficients have to be recomputed)
 #' @return the transformed object
 #' @examples
 #' data(boneData)
@@ -17,26 +17,44 @@ applyTransform <- function(x,trafo,inverse)UseMethod("applyTransform")
 #' @rdname applyTransform
 #' @export
 applyTransform.matrix <- function(x,trafo,inverse=FALSE) {
-    if (inverse)
-        trafo <- solve(trafo)
-    out <-homg2mat(trafo%*%mat2homg(x))
+    if (is.matrix(trafo)) {
+        if (ncol(trafo) == 3 && ncol(x) ==3)
+            trafo <- mat3x3tomat4x4(trafo)
+        if (inverse)
+            trafo <- solve(trafo)
+        out <-homg2mat(trafo%*%mat2homg(x))
+    } else if (inherits(trafo,"tpsCoeff")) {
+        if (ncol(trafo$refmat) != ncol(x))
+            stop("TPS must be computed from control points of the same dimensionality")
+        if (inverse)
+            trafo <- tpsGetCoeff(trafo$tarmat,trafo$refmat)
+        out <- .fx(trafo$refmat,x,trafo$coeff)
+    }
     return(out)
 }
 
 #' @rdname applyTransform
 #' @export
 applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
-    if (ncol(trafo) == 3)
-        trafo <- mat3x3tomat4x4(trafo)
-     if (inverse)
-         trafo <- solve(trafo)
-     x$vb <- trafo%*%x$vb
-    if (det(trafo) < 0) {
-        x <- invertFaces(x)
-        message("reflection involved, faces orientation has been inverted")
-    } else if (!is.null(x$normals))
+    tmp <- vert2points(x)
+    x$vb[1:3,] <- t(applyTransform(tmp,trafo,inverse = inverse))
+    ## case affine transformation
+    reflect <- FALSE
+    if (is.matrix(trafo)) {
+        if (det(trafo) < 0) 
+            reflect <- TRUE
+    } else {
+        if (det(computeTransform(trafo$refmat,trafo$tarmat,reflection = T)) < 0)
+            reflect <- TRUE
+    }
+        if (reflect) {
+            x <- invertFaces(x)
+            message("faces' orientation has been inverted")
+        }
+    ##case transform is tps
+    if (!is.null(x$normals))
         x <- vcgUpdateNormals(x)
-     return(x)
+    return(x)
  }
 
 

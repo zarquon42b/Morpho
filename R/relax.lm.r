@@ -84,7 +84,7 @@
 #' # 0.2861322 Procrustes distance between reference and slided shape
 #' # (minimizing bending energy)
 #' 
-#' rot2ref <- rotonto(shortnose.lm,longnose.lm)
+#' rot2refOrig <- rotonto(shortnose.lm,longnose.lm)
 #' angle.calc(rot2refOrig$X,rot2refOrig$Y)
 #' # 0.3014957 Procrustes distance between reference and original shape
 #' ##result: while minimizing Procrustes distance, displacement is not

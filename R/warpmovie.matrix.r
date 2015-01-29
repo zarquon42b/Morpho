@@ -43,7 +43,7 @@
 #' \code{\link{points}} (2D).
 #' @author Stefan Schlager
 #' @seealso
-#' \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{warp.mesh}}
+#' \code{\link{ply2mesh},\link{file2mesh},\link{mesh2ply},\link{tps3d}}
 #' 
 #' @examples
 #' 
@@ -52,7 +52,7 @@
 #'  data(nose)##load data
 #' \dontrun{
 #' ##warp a mesh onto another landmark configuration:
-#' warpnose.long <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+#' warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
 #' 
 #' warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
 #' 

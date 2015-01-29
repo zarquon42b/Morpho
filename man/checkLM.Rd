@@ -69,7 +69,7 @@ installed
 \examples{
 data(nose)
 ###create mesh for longnose
-longnose.mesh <- warp.mesh(shortnose.mesh,shortnose.lm,longnose.lm)
+longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
 ### write meshes to disk
 save(shortnose.mesh, file="shortnose")
 save(longnose.mesh, file="longnose")
