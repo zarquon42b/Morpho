@@ -2,7 +2,7 @@
 % Please edit documentation in R/tps3d.r
 \name{tps3d}
 \alias{tps3d}
-\title{thin plate spline mapping}
+\title{thin plate spline mapping (2D and 3D) for coordinates and triangular meshes}
 \usage{
 tps3d(x, refmat, tarmat, lambda = 1e-05, ...)
 }
@@ -23,7 +23,7 @@ surface}
 returns the deformed input
 }
 \description{
-maps a datamatrix via thin plate spline between calculated by a reference on
+maps landmarks or a triangular mesh via thin plate spline based on a reference and
 a target configuration in 2D and 3D
 }
 \examples{
@@ -77,6 +77,6 @@ decomposition of deformations. IEEE Transactions on pattern analysis and
 machine intelligence 11(6).
 }
 \seealso{
-\code{\link{tpsGetCoeff}}
+\code{\link{computeTransform}, \link{applyTransform}}
 }
 

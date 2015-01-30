@@ -1,6 +1,6 @@
-#' thin plate spline mapping
+#' thin plate spline mapping (2D and 3D) for coordinates and triangular meshes
 #' 
-#' maps a datamatrix via thin plate spline between calculated by a reference on
+#' maps landmarks or a triangular mesh via thin plate spline based on a reference and
 #' a target configuration in 2D and 3D
 #' 
 #' 
@@ -14,7 +14,7 @@
 #' @param ... additional arguments, currently not used.
 #' @return returns the deformed input
 #' @author Stefan Schlager
-#' @seealso \code{\link{tpsGetCoeff}}
+#' @seealso \code{\link{computeTransform}, \link{applyTransform}}
 #' @references Bookstein FL. 1989. Principal Warps: Thin-plate splines and the
 #' decomposition of deformations. IEEE Transactions on pattern analysis and
 #' machine intelligence 11(6).
