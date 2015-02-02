@@ -21,14 +21,14 @@ classify.bgPCA <- function(x,cv=TRUE) {
         CV <- x$CV
     else
         CV <- x$Scores
-    classVec <- NULL
+    classVec <- x$groups
     GmeanCenter <- sweep(x$groupmeans,2,x$Grandmean)
     GmeanScores <- GmeanCenter%*%x$groupPCs
     for (i in 1:nrow(CV)) {
         tmpdist <- (sqrt(rowSums(sweep(GmeanScores,2,CV[i,])^2)))
         classVec[i] <- names(tmpdist)[which(tmpdist == min(tmpdist))]
     }
-    classVec <- factor(classVec)
+    #classVec <- factor(classVec)
     out <- list(class=classVec,groups=x$groups,cv=cv)
     class(out) <- "classify"
     return(out)
@@ -48,7 +48,7 @@ classify.CVA <- function(x,cv=T) {
             x$groupmeans <- vecx(x$groupmeans)
         }
         CV <- x$CVscores
-        classVec <- NULL
+        classVec <- x$groups
         GmeanCenter <- sweep(x$groupmeans,2,x$Grandm)
         GmeanScores <- GmeanCenter%*%x$CV
         classprobs <- NULL
@@ -60,7 +60,7 @@ classify.CVA <- function(x,cv=T) {
         }
         names(classVec) <- rownames(classprobs) <- rownames(x$CVscores)
         colnames(classprobs) <- rownames(x$groupmeans)
-        classVec <- factor(classVec)
+        #classVec <- factor(classVec)
         out <- list(class=classVec,groups=x$groups,posterior=classprobs,cv=cv)
         class(out) <- "classify"
         return(out)
