@@ -62,7 +62,7 @@
 #' }
 #' @export
 tps3d <- function(x,refmat,tarmat,lambda=1e-5,...) {
-    coeff <- computeTransform(refmat=refmat,tarmat=tarmat,lambda=lambda)
+    coeff <- computeTransform(x=tarmat,y=refmat,lambda=lambda,type="tps")
     transM <- applyTransform(x,coeff)
     return(transM)
     
