@@ -12,6 +12,7 @@ RcppExport SEXP tpsfx(SEXP A_,SEXP B_,SEXP Bh_, SEXP coefs_) {
     NumericMatrix Bh(Bh_);
     NumericMatrix coefs(coefs_);
     uint m = A.nrow();
+    uint lmdim = A.ncol();
     mat AA(A.begin(), A.nrow(), A.ncol());
     mat BA(B.begin(), B.nrow(), B.ncol());
     mat BhA(Bh.begin(), Bh.nrow(), Bh.ncol());
@@ -23,10 +24,18 @@ RcppExport SEXP tpsfx(SEXP A_,SEXP B_,SEXP Bh_, SEXP coefs_) {
     for (uint i=0; i < BA.n_rows; ++i) { 
       for (uint j=0; j < m; ++j) {
 	mat tmp = AA.row(j) - BA.row(i);
-	x(j) = -sqrt(dot(tmp,tmp));
+	if (lmdim > 2) {
+	  x(j) = -sqrt(dot(tmp,tmp));
+	} else {
+	  double tmp0 = dot(tmp,tmp);
+	  if (tmp0 == 0) 
+	    x(j) = 0;
+	  else 
+	    x(j) = tmp0*log(tmp0);
+	}
       }
       vec tmp = coefsNoAff*x;
-      vec tmpres = coefsA.cols(m,m+3)*BhA.row(i).t();
+      vec tmpres = coefsA.cols(m,m+lmdim)*BhA.row(i).t();
       result.row(i) = (tmp+tmpres).t();
     }
     return wrap(result);
