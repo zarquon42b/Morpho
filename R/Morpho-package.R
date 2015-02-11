@@ -174,7 +174,7 @@ conv2backf <- function (...)
 
 #' @rdname Morpho-deprecated
 #' @export 
-warp.mesh <- function (mesh,matr,matt,lambda=1e-5,updateNormals=TRUE, silent=FALSE)
+warp.mesh <- function (mesh,matr,matt,lambda=0,updateNormals=TRUE, silent=FALSE)
 {
   .Deprecated("tps3d", package="Morpho")
   tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda)
