@@ -7,9 +7,9 @@
 #' @param data array or matrix containing data
 #' @param groups factors determining grouping.
 #' @param rounds number of permutations
-#' @param which integer (optional): in case the factor levels are > 2 this determins which
-#' @param p.adjust.method method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for details.
-#' factorlevels to use
+#' @param which integer (optional): in case the factor levels are > 2 this determins which factorlevels to use
+#' @param p.adjust.method method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.
+#' 
 #' @return
 #' \item{dist }{distance matrix with distances between actual group means}
 #' \item{p.adjust.method}{method used for p-value adjustion}

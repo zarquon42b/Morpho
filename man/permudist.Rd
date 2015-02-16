@@ -14,10 +14,9 @@ permudist(data, groups, rounds = 1000, which = NULL,
 
 \item{rounds}{number of permutations}
 
-\item{which}{integer (optional): in case the factor levels are > 2 this determins which}
+\item{which}{integer (optional): in case the factor levels are > 2 this determins which factorlevels to use}
 
-\item{p.adjust.method}{method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for details.
-factorlevels to use}
+\item{p.adjust.method}{method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.}
 }
 \value{
 \item{dist }{distance matrix with distances between actual group means}
