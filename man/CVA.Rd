@@ -5,7 +5,7 @@
 \title{Canonical Variate Analysis}
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
-  rounds = 0, cv = FALSE)
+  rounds = 0, cv = FALSE, p.adjust.method = p.adjust.methods)
 }
 \arguments{
 \item{dataarray}{Either a k x m x n real array, where k is the number of
@@ -30,6 +30,8 @@ Mahalanobis distances (from the pooled within-group covariance matrix) and Eucli
 rounds = 0, no test is performed.}
 
 \item{cv}{logical: requests a Jackknife Crossvalidation.}
+
+\item{p.adjust.method}{method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.}
 }
 \value{
 \item{CV }{A matrix containing the Canonical Variates}

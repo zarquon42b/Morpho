@@ -1,4 +1,4 @@
-.CVAdists <- function(N, groups,rounds,winv) {
+.CVAdists <- function(N, groups,rounds,winv,p.adjust.method) {
     if (rounds == 0)
         rounds <- 1
     l <- dim(N)[2]
@@ -42,8 +42,11 @@
     out$GroupdistMaha <- as.dist(t(mahadist))
     out$GroupdistEuclid <- as.dist(t(procdist))
     if (rounds > 1) {
+        mahaprobs[upper.tri(mahaprobs)] <- p.adjust(mahaprobs[upper.tri(mahaprobs)],method=p.adjust.method)
+        procprobs[upper.tri(procprobs)] <- p.adjust(procprobs[upper.tri(procprobs)],method=p.adjust.method)
         out$probsMaha <- as.dist(t(mahaprobs))
         out$probsEuclid <- as.dist(t(procprobs))
+        out$p.adjust.method <- match.arg(p.adjust.method,p.adjust.methods)
     }
     return(out)
 }
