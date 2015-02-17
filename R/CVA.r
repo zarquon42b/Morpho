@@ -260,7 +260,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         groupmeans <- Gmeans
         rownames(groupmeans) <- lev
     }
-    classVec <- NULL
+    classVec <- groups
     classprobs <- NULL
     classdist <- NULL
     CVcv <- NULL
@@ -287,7 +287,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         rownames(classprobs) <- rownames(N)
         colnames(classprobs) <- lev
         names(classVec) <- rownames(N)
-        classVec <- factor(classVec)
+        #classVec <- factor(classVec)
     } 
        
     out <- list(CV = CV, CVscores = CVscores, Grandm = Grandm,
