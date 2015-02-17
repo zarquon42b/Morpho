@@ -16,6 +16,7 @@
 #' @param col1 color of "matrix"
 #' @param col2 color of "tarmat"
 #' @param pcaxis logical: align grid by shape's principal axes.
+#' @param add logical: if TRUE, output will be drawn on existing plot.
 #' @param ... additional parameters passed to plot
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
@@ -28,7 +29,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -67,11 +68,14 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
     }
     lims <- apply(rbind(matrix,tarmatrix,x0),2,range)
     if (1 %in% show)
-        plot(matrix,col=col1,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
+         if (add)
+             points(matrix,col=col1,...)
+         else 
+             plot(matrix,col=col1,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
     if(2 %in% show) {
-        if (1 %in% show)
+        if (1 %in% show || add)
             points(tarmatrix,col=col2,...)
-        else
+        else 
             plot(tarmatrix,col=col2,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
         if (lines) {
             linemesh <- list()
@@ -79,7 +83,7 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
             linemesh$vb <- rbind(matrix,tarmatrix)
             linemesh$it <- cbind(1:k,(1:k)+k)
             for (i in 1:nrow(linemesh$it))
-                lines(linemesh$vb[linemesh$it[i,],],lwd=lwd)
+                lines(linemesh$vb[linemesh$it[i,],],lwd=lwd,col=lcol)
         }
     }
     if (ngrid > 1) {
