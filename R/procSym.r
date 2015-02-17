@@ -351,3 +351,22 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     return(out)
     
 }
+#' @export       
+print.nosymproc <- function(x,...) {
+    cat(paste0(" No. of Specimens: ",dim(x$rotated)[3],"\n"))
+        cat(paste0(" ",dim(x$rotated)[1]," Landmarks in ", dim(x$rotated)[2]," dimensions\n"))
+    cat("\n Variance Table\n")
+    print(as.data.frame(x$Var),row.names=FALSE)
+}
+    
+#' @export       
+print.symproc <- function(x,...) {
+    cat(paste0(" No. of Specimens: ",dim(x$rotated)[3],"\n"))
+    cat(paste0(" ",dim(x$rotated)[1]," Landmarks in ", dim(x$rotated)[2]," dimensions\n"))
+    cat(paste0("    - of which there are ",dim(x$pairedLM)[1]," sets of paired Landmarks\n"))
+    cat("\n Variance Table of Symmetric Component\n")
+    print(as.data.frame(x$SymVar),row.names=FALSE)
+    cat("\n Variance Table of Asymmetric Component\n")
+    print(as.data.frame(x$AsymVar),row.names=FALSE)
+}
+    
