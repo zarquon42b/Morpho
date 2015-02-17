@@ -3,7 +3,15 @@
         if (is.matrix(x))
             x <- array(x,dim=c(dim(x),1))
         if (is.matrix(y))
-            y <- array(y,dim=c(dim(y),1))              
+            y <- array(y,dim=c(dim(y),1))
+
+        if (length(y) == 1 && along %in% c(1,2)) {
+            if (along == 2)
+                y <- array(y,dim=c(dim(x)[2],1,dim(x)[3]))
+            else
+                y <- array(y,dim=c(1,dim(x)[2],dim(x)[3]))
+        }
+                                 
         xdim <- dim(x)
         ydim <- dim(y)
         outnames <- list()
