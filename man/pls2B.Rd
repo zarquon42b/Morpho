@@ -60,7 +60,7 @@ pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],
 }
 pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],
               same.config=FALSE,rounds=50,mc.cores=1)
-pls1$CoVar
+pls1
 layout(matrix(1:4,2,2,byrow=TRUE))
 for(i in 1:4)
  plot(pls1$Xscores[,i]~pls1$Yscores[,i])
