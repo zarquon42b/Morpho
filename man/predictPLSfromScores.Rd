@@ -23,6 +23,6 @@ predict data from 2-Block PLS-scores
 either x or y must be missing
 }
 \seealso{
-\code{\link{pls2B}, \link{getPLSscores}}
+\code{\link{pls2B}, \link{getPLSscores},\link{predictPLSfromData}}
 }
 

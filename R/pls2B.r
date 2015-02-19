@@ -52,9 +52,15 @@
 #' layout(matrix(1:4,2,2,byrow=TRUE))
 #' for(i in 1:4)
 #'  plot(pls1$Xscores[,i]~pls1$Yscores[,i])
+#'
+#'
+#' ## predict first 4 landmarks from second 4 for first config
 #' 
-#' 
-#' 
+#' predPLS <- predictPLSfromData(pls1,y=proc$rotated[5:8,,1])
+#' ## show differences between prediction and original
+#' deformGrid2d(predPLS,proc$rotated[1:4,,1],pch=19)
+#' ##plot the complete first config
+#' points(proc$rotated[,,1])
 #' 
 #' @export
 pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=parallel::detectCores())
@@ -179,7 +185,8 @@ print.pls2B <- function(x,...) {
 #' @param y scores associated with dataset x in original pls2B
 #' @note either x or y must be missing
 #' @return returns an array/matrix of landmarks or original values, depending on input for computing \code{pls}
-#' @seealso \code{\link{pls2B}, \link{getPLSscores}}
+#' @seealso \code{\link{pls2B}, \link{getPLSscores},\link{predictPLSfromData}}
+#' 
 #' @export
 predictPLSfromScores <- function(pls,x,y) {
     if (!missing(x) && !missing(y))
@@ -237,8 +244,9 @@ predictPLSfromScores <- function(pls,x,y) {
 #' @param x matrix or vector representing new dataset(s) -  same kind as in original pls2B
 #' @param y matrix or vector representing new dataset(s) - same kind as in original pls2B
 #' @note either x or y must be missing
+#' 
 #' @return returns a vector of pls-scores
-#' @seealso \code{\link{pls2B}, \link{predictPLSfromScores}}
+#' @seealso \code{\link{pls2B}, \link{predictPLSfromScores},\link{predictPLSfromData}}
 #' @export
 getPLSscores <- function(pls,x,y) {
     if (!missing(x) && !missing(y))
@@ -287,7 +295,9 @@ getPLSscores <- function(pls,x,y) {
 #' @param y data in the same format as in original pls2B (for landmarks this can be an array or a matrix and for other data a matrix of a vector)
 #' @note either x or y must be missing
 #' @return returns an array/matrix/vector of predictions - depending on input for computing \code{pls}
-#' @seealso \code{\link{pls2B}, \link{getPLSscores}}
+#' @seealso \code{\link{pls2B}, \link{getPLSscores},\link{predictPLSfromScores}}
+#' @examples
+#' ##see examples in pls2B
 #' @export
 predictPLSfromData <- function(pls,x,y) {
     if (!missing(x) && !missing(y))

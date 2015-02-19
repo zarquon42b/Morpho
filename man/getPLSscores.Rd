@@ -23,6 +23,6 @@ compute 2-Block PLS scores for new data from an existing pls2B
 either x or y must be missing
 }
 \seealso{
-\code{\link{pls2B}, \link{predictPLSfromScores}}
+\code{\link{pls2B}, \link{predictPLSfromScores},\link{predictPLSfromData}}
 }
 

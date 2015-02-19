@@ -64,6 +64,15 @@ pls1
 layout(matrix(1:4,2,2,byrow=TRUE))
 for(i in 1:4)
  plot(pls1$Xscores[,i]~pls1$Yscores[,i])
+
+
+## predict first 4 landmarks from second 4 for first config
+
+predPLS <- predictPLSfromData(pls1,y=proc$rotated[5:8,,1])
+## show differences between prediction and original
+deformGrid2d(predPLS,proc$rotated[1:4,,1],pch=19)
+##plot the complete first config
+points(proc$rotated[,,1])
 }
 \author{
 Stefan Schlager

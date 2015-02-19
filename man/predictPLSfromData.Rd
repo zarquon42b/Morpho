@@ -22,7 +22,10 @@ predict 2 Block-PLS from new data
 \note{
 either x or y must be missing
 }
+\examples{
+##see examples in pls2B
+}
 \seealso{
-\code{\link{pls2B}, \link{getPLSscores}}
+\code{\link{pls2B}, \link{getPLSscores},\link{predictPLSfromScores}}
 }
 
