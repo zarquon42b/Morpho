@@ -2,7 +2,7 @@
 % Please edit documentation in R/pls2B.r
 \name{predictPLSfromScores}
 \alias{predictPLSfromScores}
-\title{predict data from pls-scores}
+\title{predict data from 2-Block PLS-scores}
 \usage{
 predictPLSfromScores(pls, x, y)
 }
@@ -17,7 +17,7 @@ predictPLSfromScores(pls, x, y)
 returns an array/matrix of landmarks or original values, depending on input for computing \code{pls}
 }
 \description{
-predict data from pls-scores
+predict data from 2-Block PLS-scores
 }
 \note{
 either x or y must be missing

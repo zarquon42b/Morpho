@@ -2,7 +2,7 @@
 % Please edit documentation in R/pls2B.r
 \name{getPLSscores}
 \alias{getPLSscores}
-\title{compute PLS-scores for new data from an existing pls2B}
+\title{compute 2-Block PLS scores for new data}
 \usage{
 getPLSscores(pls, x, y)
 }
@@ -17,7 +17,7 @@ getPLSscores(pls, x, y)
 returns a vector of pls-scores
 }
 \description{
-compute PLS-scores for new data from an existing pls2B
+compute 2-Block PLS scores for new data from an existing pls2B
 }
 \note{
 either x or y must be missing

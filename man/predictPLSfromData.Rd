@@ -2,7 +2,7 @@
 % Please edit documentation in R/pls2B.r
 \name{predictPLSfromData}
 \alias{predictPLSfromData}
-\title{predict 2Block-PLS from new data}
+\title{predict 2 Block-PLS from new data}
 \usage{
 predictPLSfromData(pls, x, y)
 }
@@ -17,7 +17,7 @@ predictPLSfromData(pls, x, y)
 returns an array/matrix/vector of predictions - depending on input for computing \code{pls}
 }
 \description{
-predict 2Block-PLS from new data
+predict 2 Block-PLS from new data
 }
 \note{
 either x or y must be missing

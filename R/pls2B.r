@@ -171,9 +171,9 @@ print.pls2B <- function(x,...) {
     print( df,row.names=FALSE)
 }
 
-#' predict data from pls-scores
+#' predict data from 2-Block PLS-scores
 #'
-#' predict data from pls-scores
+#' predict data from 2-Block PLS-scores
 #' @param pls output of pls2B
 #' @param x scores associated with dataset x in original pls2B
 #' @param y scores associated with dataset x in original pls2B
@@ -230,9 +230,9 @@ predictPLSfromScores <- function(pls,x,y) {
 }
 
 
-#' compute PLS-scores for new data from an existing pls2B
+#' compute 2-Block PLS scores for new data 
 #'
-#' compute PLS-scores for new data from an existing pls2B
+#' compute 2-Block PLS scores for new data from an existing pls2B
 #' @param pls output of pls2B
 #' @param x matrix or vector representing new dataset(s) -  same kind as in original pls2B
 #' @param y matrix or vector representing new dataset(s) - same kind as in original pls2B
@@ -279,9 +279,9 @@ getPLSscores <- function(pls,x,y) {
     }
     return(out)
 }
-#' predict 2Block-PLS from new data
+#' predict 2 Block-PLS from new data
 #'
-#' predict 2Block-PLS from new data
+#' predict 2 Block-PLS from new data
 #' @param pls output of pls2B
 #' @param x data in the same format as in original pls2B (for landmarks this can be an array or a matrix and for other data a matrix of a vector)
 #' @param y data in the same format as in original pls2B (for landmarks this can be an array or a matrix and for other data a matrix of a vector)
