@@ -279,4 +279,29 @@ getPLSscores <- function(pls,x,y) {
     }
     return(out)
 }
+#' predict 2Block-PLS from new data
+#'
+#' predict 2Block-PLS from new data
+#' @param pls output of pls2B
+#' @param x data in the same format as in original pls2B (for landmarks this can be an array or a matrix and for other data a matrix of a vector)
+#' @param y data in the same format as in original pls2B (for landmarks this can be an array or a matrix and for other data a matrix of a vector)
+#' @note either x or y must be missing
+#' @return returns an array/matrix/vector of predictions - depending on input for computing \code{pls}
+#' @seealso \code{\link{pls2B}, \link{getPLSscores}}
+#' @export
+predictPLSfromData <- function(pls,x,y) {
+    if (!missing(x) && !missing(y))
+        stop("either x or y must be missing")
     
+
+    if (missing(y)) {
+        scores <- getPLSscores(pls,x=x)
+        out <- predictPLSfromScores(pls,x=scores)
+
+    }
+    if (missing(x)) {
+        scores <- getPLSscores(pls,y=y)
+        out <- predictPLSfromScores(pls,y=scores)
+    }
+    return(out)
+}
