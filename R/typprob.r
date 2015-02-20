@@ -61,7 +61,7 @@
 #' ### check results for second method:
 #' ct1 <- table(fac,typClass2$groupaffin)
 #' ct1 #view classification table ### one specimen has been tagged an outlier.
-#' ### get percentage of correct callification
+#' ### get percentage of correct classification
 #' prop.table(ct1, 1) 
 #' 
 #' 
