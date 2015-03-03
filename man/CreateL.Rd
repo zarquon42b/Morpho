@@ -57,6 +57,6 @@ decomposition of deformations. IEEE Transactions on pattern analysis and
 machine intelligence 11(6).
 }
 \seealso{
-\code{\link{tps3d}, \link{tpsGetCoeff}}
+\code{\link{tps3d}}
 }
 

@@ -15,7 +15,7 @@
 #' \item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and \code{\link{relaxLM}}. Only available if \code{blockdiag = TRUE}}
 #' @note This function is not intended to be called directly - except for
 #' playing around to grasp the mechansims of the Thin-Plate Spline.
-#' @seealso \code{\link{tps3d}, \link{tpsGetCoeff}}
+#' @seealso \code{\link{tps3d}}
 #' @references Gunz, P., P. Mitteroecker, and F. L. Bookstein. 2005.
 #' Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical
 #' Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer
