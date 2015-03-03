@@ -27,7 +27,7 @@ applyTransform.matrix <- function(x,trafo,inverse=FALSE) {
         if (ncol(trafo$refmat) != ncol(x))
             stop("TPS must be computed from control points of the same dimensionality")
         if (inverse)
-            trafo <- tpsGetCoeff(trafo$tarmat,trafo$refmat)
+            trafo <- computeTransform(trafo$tarmat,trafo$refmat,type="tps")
         out <- .fx(trafo$refmat,x,trafo$coeff)
     }
     return(out)
