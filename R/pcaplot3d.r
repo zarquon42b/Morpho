@@ -20,8 +20,6 @@
 #' 
 #' \dontrun{
 #' data(boneData)
-#' #make a tiny sample
-#' nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
 #' proc <- procSym(boneLM)
 #' pcaplot3d(proc,pcshow=1:3,mag=-3)#only one PC available
 #' }
