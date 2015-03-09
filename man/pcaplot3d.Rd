@@ -9,10 +9,10 @@
 pcaplot3d(x, ...)
 
 \method{pcaplot3d}{symproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
-  lwd = 1, sym = TRUE, ...)
+  lwd = 1, sym = TRUE, legend = TRUE, ...)
 
 \method{pcaplot3d}{nosymproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
-  lwd = 1, ...)
+  lwd = 1, legend = TRUE, ...)
 }
 \arguments{
 \item{x}{a object derived from the function procSym calculated on 3D
@@ -30,6 +30,8 @@ which PC has to be visualized.}
 \item{sym}{logical: if TRUE the symmetric component of shape is displayed.
 Otherwise the asymmetric one.}
 
+\item{legend}{logical: if TRUE a legend explaining the color coding of the PCs is plotted.}
+
 \item{\dots}{Additional parameters which will be passed to the methods.}
 }
 \value{
@@ -43,11 +45,11 @@ visualization of the shape changes explained by Principal components
 }
 \examples{
 \dontrun{
-data(nose)
+data(boneData)
 #make a tiny sample
 nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
-proc <- procSym(nosearr)
-pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
+proc <- procSym(boneLM)
+pcaplot3d(proc,pcshow=1:3,mag=-3)#only one PC available
 }
 }
 \seealso{

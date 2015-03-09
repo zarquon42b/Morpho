@@ -12,17 +12,18 @@
 #' @param lwd width of the lines representing the shape change.
 #' @param sym logical: if TRUE the symmetric component of shape is displayed.
 #' Otherwise the asymmetric one.
+#' @param legend logical: if TRUE a legend explaining the color coding of the PCs is plotted.
 #' @param \dots Additional parameters which will be passed to the methods.
 #' @return returns an invisible array containing the shapes associated with the Principal components selected.
 #' @seealso \code{\link{procSym}}
 #' @examples
 #' 
 #' \dontrun{
-#' data(nose)
+#' data(boneData)
 #' #make a tiny sample
 #' nosearr <- bindArr(longnose.lm, shortnose.lm, along=3)
-#' proc <- procSym(nosearr)
-#' pcaplot3d(proc,pcshow=1,mag=-3)#only one PC available
+#' proc <- procSym(boneLM)
+#' pcaplot3d(proc,pcshow=1:3,mag=-3)#only one PC available
 #' }
 #' @rdname pcaplot3d
 #' @export
@@ -31,7 +32,7 @@ pcaplot3d <- function (x,...) UseMethod("pcaplot3d")
 #' @rdname pcaplot3d
 #'
 #' @export
-pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...) 
+pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,legend=TRUE,...) 
 {   
   refshape <- x$mshape
   if (sym) {
@@ -42,20 +43,20 @@ pcaplot3d.symproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,sym=TRUE,...
       Scores <- x$PCscore_asym
   }
   
-  .pcaplot3d(refshape, PCs, Scores, pcshow=pcshow, mag=mag,color=color, lwd=lwd)
+  .pcaplot3d(refshape, PCs, Scores, pcshow=pcshow, mag=mag,color=color, lwd=lwd,legend=legend)
 }
 #' @rdname pcaplot3d
 #'
 #' @export
-pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
+pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,legend=TRUE,...)
 {   
     refshape <- x$mshape
     PCs <- x$PCs
     Scores <- x$PCscores
-    .pcaplot3d(refshape, PCs, Scores, pcshow=pcshow, mag=mag,color=color, lwd=lwd)
+    .pcaplot3d(refshape, PCs, Scores, pcshow=pcshow, mag=mag,color=color, lwd=lwd, legend=legend)
 }
 
-.pcaplot3d <- function(refshape,PCs, Scores, pcshow=c(1,2,3), mag=3,color=4,lwd=1,...) {
+.pcaplot3d <- function(refshape,PCs, Scores, pcshow=c(1,2,3), mag=3,color=4,lwd=1,legend=TRUE,...) {
     A <- refshape
     k <- dim(A)[1]
     m <- dim(A)[2]
@@ -81,6 +82,10 @@ pcaplot3d.nosymproc <- function(x,pcshow=c(1,2,3),mag=3,color=4,lwd=1,...)
         linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
         class(linemesh) <- "mesh3d"
         wire3d(linemesh,lwd=lwd,lit=F,col=rainb[i])
+    }
+    if (legend) {
+        plot(0,0, xlab="", ylab="", axes =F, cex=0,xlim=c(-1,1), ylim=c(-1,1))
+        legend(-1,1, pch=20, cex=2, col=rainb, legend=paste0("PC",pcshow))
     }
     spheres3d(refshape,  col = color,radius=sz)
     invisible(outarr)
