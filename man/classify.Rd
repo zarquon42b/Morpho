@@ -4,16 +4,19 @@
 \alias{classify}
 \alias{classify.CVA}
 \alias{classify.bgPCA}
-\title{classify specimen based on between-group PCA or CVA}
+\alias{classify.typprob}
+\title{classify specimen based on between-group PCA or CVA or typprobClass}
 \usage{
 classify(x, cv = TRUE)
 
 \method{classify}{bgPCA}(x, cv = TRUE)
 
 \method{classify}{CVA}(x, cv = T)
+
+\method{classify}{typprob}(x, cv = TRUE)
 }
 \arguments{
-\item{x}{result of groupPCA or CVA}
+\item{x}{result of groupPCA, CVA or typprobClass}
 
 \item{cv}{logical: use cross-validated scores if available}
 }
@@ -21,9 +24,12 @@ classify(x, cv = TRUE)
 \item{class}{classification result}
 \item{groups}{original grouping variable}
 
-for object of CVA, also the posterior probabilities are returned.
+for object of CVA and typprob, also the posterior probabilities are returned.
 }
 \description{
-classify specimen based on between-group PCA or CVA
+classify specimen based on between-group PCA, CVA or typprobClass
+}
+\seealso{
+\code{\link{CVA},\link{groupPCA},  \link{typprobClass}}
 }
 

@@ -9,12 +9,12 @@ typprob(x, data, small = FALSE, method = c("chisquare", "wilson"),
   center = NULL, cova = NULL)
 
 typprobClass(x, data, groups, small = FALSE, method = c("chisquare",
-  "wilson"), outlier = 0.01, sep = FALSE)
+  "wilson"), outlier = 0.01, sep = FALSE, cv = TRUE)
 }
 \arguments{
 \item{x}{vector or matrix of data the probability is to be calculated.}
 
-\item{data}{Reference data set.}
+\item{data}{Reference data set. If missing x will be used.}
 
 \item{small}{adjustion of Mahalanobis D^2 for small sample sizes as
 suggested by Wilson (1981), only takes effect when method="wilson".}
@@ -38,14 +38,18 @@ assigned to any group-}
 
 \item{sep}{logical: if TRUE, probability will be calculated from the pooled
 within group covariance matrix.}
+
+\item{cv}{logical: if data is missing and \code{cv=TRUE}, the resulting classification will be validated by leaving-one-out crossvalidation.}
 }
 \value{
 typprob: returns a vector of probabilities.
 
 typprobClass:
 \item{probs }{matrix of probabilities for each group}
-\item{groupaffin }{vector of groups each specimen has been assigned to.
-Outliers are classified "none"}
+\item{groupaffin }{vector of groups each specimen has been assigned to. Outliers are classified "none"}
+\item{probsCV }{cross-validated matrix of probabilities for each group}
+\item{groupaffinCV }{cross-validated vector of groups each specimen has been assigned to. Outliers are classified "none"}
+\item{self }{logical: if TRUE, the data has been classified by self-inference.}
 }
 \description{
 calculate typicality probabilities
@@ -65,21 +69,16 @@ plot(probas,maha,xlab="Probability",ylab="Mahalanobis D^2")
 
 data2 <- procSym(abind(gorf.dat,gorm.dat))$PCscores[,1:3]
 fac <- as.factor(c(rep("female",dim(gorf.dat)[3]),rep("male",dim(gorm.dat)[3])))
-typClass <- typprobClass(data2,data2,fac,method="w",small=TRUE)
+typClass <- typprobClass(data2,groups=fac,method="w",small=TRUE,cv=TRUE)
 ## only 59 specimen is rather small.
-typClass2 <- typprobClass(data2,data2,fac,method="c")## use default settings
+typClass2 <- typprobClass(data2,groups=fac,method="c",cv=TRUE)## use default settings
 
 ### check results for first method:
-ct <- table(fac,typClass$groupaffin)
-ct #view classification table
-### get percentage of correct classification
-prop.table(ct, 1)
+typClass
+
 
 ### check results for second method:
-ct1 <- table(fac,typClass2$groupaffin)
-ct1 #view classification table ### one specimen has been tagged an outlier.
-### get percentage of correct classification
-prop.table(ct1, 1)
+typClass2
 }
 \author{
 Stefan Schlager
