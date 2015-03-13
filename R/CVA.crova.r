@@ -48,8 +48,8 @@
     Ec <- eigcoW$values
     Ec2 <- Ec
     
-    if (min(E) < tolinv)
-        cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
+    #if (min(E) < tolinv)
+    #    cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
     for (i in 1:length(eigW$values)) {
         if (Ec[i] < tolinv) {
             E[i] <- Ec[i] <- Ec2[i] <- 0
