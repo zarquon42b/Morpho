@@ -32,6 +32,9 @@
 showPC <- function(scores,PC,mshape)
   {
     dims <- dim(mshape)
+    PC <- as.matrix(PC)
+    if (length(scores) != ncol(PC))
+        stop("scores must be of the same length as ncol(PC)")
     if (length(scores) > 1)                                    #pred1 <- t(coeff)%*%mod
       predPC <- PC%*%scores
     else
