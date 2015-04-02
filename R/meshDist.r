@@ -30,6 +30,7 @@
 #' "to", if to is NULL.
 #' @param ray logical: if TRUE, the search is along vertex normals.
 #' @param raytol maximum distance to follow a normal.
+#' @param raystrict logical: if TRUE, only outward along normals will be sought for closest points.
 #' @param save logical: save a colored mesh.
 #' @param plot logical: visualise result as 3D-plot and distance charts
 #' @param sign logical: request signed distances. Only meaningful, if mesh2 is
@@ -87,7 +88,7 @@ meshDist <- function(x,...) UseMethod("meshDist")
 #' @method meshDist mesh3d
 #' @importFrom Rvcg vcgClostKD
 #' @export
-meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE, ...)
+meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE, file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, raystrict=FALSE, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE, ...)
   {
     method=substring(method[1],1L,1L)
     neg=FALSE
@@ -105,9 +106,9 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
             if (!sign)
                 dists <- abs(dists)
         } else {
-            promesh <- ray2mesh(x,mesh2,tol=raytol,mindist=TRUE)
+            promesh <- ray2mesh(x,mesh2,tol=raytol,mindist=!raystrict)
             clost <- promesh$vb[1:3,]
-            dists <- promesh$quality
+            dists <- promesh$distance
             distsOrig <- dists
             if (!sign)
               dists <- abs(dists)

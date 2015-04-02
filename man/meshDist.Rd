@@ -11,9 +11,9 @@ meshDist(x, ...)
 \method{meshDist}{mesh3d}(x, mesh2 = NULL, distvec = NULL, from = NULL,
   to = NULL, steps = 20, ceiling = FALSE, file = "default",
   imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50,
-  save = FALSE, plot = TRUE, sign = TRUE, tol = NULL,
-  displace = FALSE, shade = TRUE, method = c("vcglib", "morpho"),
-  add = FALSE, ...)
+  raystrict = FALSE, save = FALSE, plot = TRUE, sign = TRUE,
+  tol = NULL, displace = FALSE, shade = TRUE, method = c("vcglib",
+  "morpho"), add = FALSE, ...)
 
 \method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL, from = NULL,
   to = NULL, steps = 20, ceiling = FALSE, uprange = 1, plot = TRUE,
@@ -53,6 +53,8 @@ produce n-1 colors.}
 \item{ray}{logical: if TRUE, the search is along vertex normals.}
 
 \item{raytol}{maximum distance to follow a normal.}
+
+\item{raystrict}{logical: if TRUE, only outward along normals will be sought for closest points.}
 
 \item{save}{logical: save a colored mesh.}
 
