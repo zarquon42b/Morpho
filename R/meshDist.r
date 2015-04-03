@@ -96,7 +96,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
   {
     method=substring(method[1],1L,1L)
     neg=FALSE
-    
+    NAcol <- colorRampPalette(NAcol)(1)
     #ramp <- blue2green2red(steps-1)
     ramp <- colorRampPalette(rampcolors)(steps-1)
     if (is.null(distvec)) {
