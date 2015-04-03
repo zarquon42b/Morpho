@@ -1,11 +1,11 @@
 #' @rdname meshDist
 #' @method meshDist matrix
 #' @export
-meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE,uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,...)
+meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=c("blue","green","red"),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,...)
     {
         x <- list(vb=t(x),it=matrix(1:dim(x)[1]),1,dim(x)[1])
         class(x) <- "mesh3d"
-        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,displace=FALSE,...)
+        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,...)
         class(out) <- "matrixDist"
         render(out,radius=radius,type=type,displace=displace,add=add)
         invisible(out)
@@ -13,7 +13,7 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
 #' @rdname render
 #' @method render matrixDist
 #' @export
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,sign=NULL,add=FALSE,...) {
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,displace=FALSE,sign=NULL,add=FALSE,...) {
     if (!add) {
         if (rgl.cur() !=0)
             rgl.clear()
@@ -27,7 +27,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
     params <- x$params
     distqual <- x$distqual    
     
-    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol) || !is.null(sign)) {
+    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol) || !is.null(sign) || !is.null(rampcolors)) {
         neg=FALSE
         dists <- x$dists
         distsOrig <- dists
@@ -36,6 +36,8 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
             steps <- x$params$steps
         if(is.null(sign))
             sign <- x$params$sign
+        if (is.null(rampcolors))
+            rampcolors <- x$params$rampcolors
         if (!sign) {
             distsOrig <- dists
             dists <- abs(dists)
@@ -60,14 +62,14 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
         if(ceiling)
             to <- ceiling(to)
         to <- to+1e-10
-        ramp <- blue2green2red(steps-1)
+        ramp <- colorRampPalette(rampcolors)(steps-1)
         colseq <- seq(from=from,to=to,length.out=steps)
         coldif <- colseq[2]-colseq[1]
         if (neg && sign) {
             negseq <- length(which(colseq<0))
             poseq <- steps-negseq
             maxseq <- max(c(negseq,poseq))
-            ramp <- blue2green2red(maxseq*2)
+            ramp <- colorRampPalette(rampcolors)(maxseq*2)
             ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
             distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
             distqual[which(distqual < 1)] <- steps+10
