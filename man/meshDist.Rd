@@ -9,14 +9,16 @@
 meshDist(x, ...)
 
 \method{meshDist}{mesh3d}(x, mesh2 = NULL, distvec = NULL, from = NULL,
-  to = NULL, steps = 20, ceiling = FALSE, file = "default",
+  to = NULL, steps = 20, ceiling = FALSE, rampcolors = c("blue",
+  "green", "red"), NAcol = "white", file = "default",
   imagedim = "100x800", uprange = 1, ray = FALSE, raytol = 50,
   raystrict = FALSE, save = FALSE, plot = TRUE, sign = TRUE,
   tol = NULL, displace = FALSE, shade = TRUE, method = c("vcglib",
   "morpho"), add = FALSE, ...)
 
 \method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL, from = NULL,
-  to = NULL, steps = 20, ceiling = FALSE, uprange = 1, plot = TRUE,
+  to = NULL, steps = 20, ceiling = FALSE, rampcolors = c("blue",
+  "green", "red"), NAcol = "white", uprange = 1, plot = TRUE,
   sign = TRUE, tol = NULL, type = c("s", "p"), radius = NULL,
   displace = FALSE, add = FALSE, ...)
 }
@@ -40,6 +42,10 @@ maximum distance}
 produce n-1 colors.}
 
 \item{ceiling}{logical: if TRUE, the next larger integer of "to" is used}
+
+\item{rampcolors}{character vector: specify the colors which are used to create a colorramp.}
+
+\item{NAcol}{character: specify color for values outside the range defined by \code{from} and \code{to}.}
 
 \item{file}{character: filename for mesh and image files produced. E.g.
 "mydist" will produce the files mydist.ply and mydist.png}
@@ -114,12 +120,14 @@ data(nose)##load data
 ##warp a mesh onto another landmark configuration:
 warpnose.long <- tps3d(shortnose.mesh, shortnose.lm, longnose.lm)
 \dontrun{
-meshDist(warpnose.long, shortnose.mesh, method="m")
+mD <- meshDist(warpnose.long, shortnose.mesh)
+##now change the color ramp
+render(mD,rampcolors = c("white","red"))
 }
-#use signed distances and
+#use unsigned distances and a ramp from blue to red
 #color distances < 0.01 green:
 \dontrun{
-meshDist(warpnose.long, shortnose.mesh, sign=TRUE, tol=0.01, method="m")
+meshDist(warpnose.long, shortnose.mesh, rampcolors = c("blue", "red"),sign=FALSE, tol=0.5)
 }
 }
 \author{
