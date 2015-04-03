@@ -8,8 +8,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.2.150313\cr
-#' Date: \tab 2015-03-13\cr
+#' Version: \tab 2.2.150403\cr
+#' Date: \tab 2015-04-03\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
