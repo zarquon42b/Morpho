@@ -36,7 +36,6 @@
 #' @keywords package
 #' @useDynLib Morpho
 #' @import doParallel
-#' @importFrom colorRamps blue2green2red
 #' @importFrom foreach foreach '%dopar%' '%do%'
 #' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t cBind
 #' @importFrom parallel mclapply detectCores

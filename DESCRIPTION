@@ -19,7 +19,6 @@ Depends:
 Imports:
     Rvcg (>= 0.7),
     rgl (>= 0.93.963),
-    colorRamps,
     foreach (>= 1.4.0),
     Matrix (>= 1.0-1),
     parallel,
