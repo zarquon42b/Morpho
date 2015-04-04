@@ -145,19 +145,22 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     
     to <- to+1e-10
     colseq <- seq(from=from,to=to,length.out=steps)
+    
     coldif <- colseq[2]-colseq[1]
     if (neg && sign) {
         negseq <- length(which(colseq<0))
         poseq <- steps-negseq
         maxseq <- max(c(negseq,poseq))
         ramp <- colorRampPalette(rampcolors)(maxseq*2)
-        #ramp <- blue2green2red(maxseq*2)
+                                        #ramp <- blue2green2red(maxseq*2)
         ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
         distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
-        #distqual[which(distqual < 1)] <- steps+10
-    } else {
-        distqual <- ceiling((dists/coldif)+1e-14)
-    }
+                                        #distqual[which(distqual < 1)] <- steps+10
+    } else if (from > 0) {
+          distqual <- ceiling(((dists-from)/coldif)+1e-14)
+      } else {
+            distqual <- ceiling((dists/coldif)+1e-14)
+        }
     distqual[which(distqual < 1)] <- steps+10
     colorall <- ramp[distqual]
     
@@ -298,9 +301,11 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
             distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
             #distqual[which(distqual < 1)] <- steps+10
-        } else {
-            distqual <- ceiling((dists/coldif)+1e-14)
-        }
+        } else if (from > 0) {
+              distqual <- ceiling(((dists-from)/coldif)+1e-14)
+          } else {
+                distqual <- ceiling((dists/coldif)+1e-14)
+            }
         distqual[which(distqual < 1)] <- steps+10
         colorall <- ramp[distqual]
         if (!is.null(tol)) {

@@ -73,9 +73,12 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
             ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
             distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
             distqual[which(distqual < 1)] <- steps+10
-        } else {
-            distqual <- ceiling((dists/coldif)+1e-14)
-        }
+        } else if (from > 0) {
+              distqual <- ceiling(((dists-from)/coldif)+1e-14)
+          } else {
+                distqual <- ceiling((dists/coldif)+1e-14)
+            }
+        distqual[which(distqual < 1)] <- steps+10
         colorall <- ramp[distqual]
         if (!is.null(tol)) {
             if (sign)
