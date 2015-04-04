@@ -178,7 +178,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     x$material$color <- matrix(colfun(x$it),dim(x$it))
     x$material$color[is.na(x$material$color)] <- NAcol
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
-    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors)
+    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors,NAcol=NAcol)
     out <- list(colMesh=x,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     class(out) <- "meshDist"
 
@@ -212,6 +212,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' @param tol numeric: threshold to color distances within this threshold
 #' green.
 #' @param rampcolors character vector: specify the colors which are used to create a colorramp.
+#' @param NAcol character: specify color for values outside the range defined by \code{from} and \code{to}.
 #' @param displace logical: if TRUE, displacement vectors between original and
 #' closest points are drawn colored according to the distance.
 #' @param shade logical: if FALSE, the rendering of the colored surface will be
@@ -239,7 +240,7 @@ render <- function(x,...) UseMethod("render")
 #' @rdname render
 #' @method render meshDist
 #' @export
-render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,rampcolors=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,...)
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,...)
   {
     clost <- x$clost
     dists <- x$dists
@@ -253,13 +254,15 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         if (rgl.cur() !=0)
             rgl.clear()
     }
-    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign) || !is.null(steps) || !is.null(rampcolors)) {
+    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign) || !is.null(steps) || !is.null(rampcolors) || !is.null(NAcol)) {
         neg=FALSE
         colMesh <- x$colMesh
         if(is.null(steps))
             steps <- x$params$steps
         if (is.null(rampcolors))
             rampcolors <- x$params$rampcolors
+        if (is.null(NAcol))
+            NAcol <- x$params$NAcol
         if(is.null(sign))
           sign <- x$params$sign
         if (!sign) {
@@ -319,6 +322,8 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         }
         colfun <- function(x){x <- colorall[x];return(x)}
         colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
+        colMesh$material$color[is.na(colMesh$material$color)] <- NAcol
+        #colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
         colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     } else {
         if (is.null(tol))
@@ -343,9 +348,9 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         if (sum(abs(tol)) != 0)
             image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col="green",useRaster=TRUE,add=TRUE)
     }
-    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors)
+    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors,NAcol=NAcol)
     out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
-                                        #out <- list(colMesh=colMesh,colramp=colramp)
+                                
     class(out) <- "meshDist"
     invisible(out)
 }

@@ -12,12 +12,13 @@ render(x, ...)
 
 \method{render}{meshDist}(x, from = NULL, to = NULL, steps = NULL,
   ceiling = NULL, uprange = NULL, tol = NULL, rampcolors = NULL,
-  displace = FALSE, shade = TRUE, sign = NULL, add = FALSE, ...)
+  NAcol = NULL, displace = FALSE, shade = TRUE, sign = NULL,
+  add = FALSE, ...)
 
 \method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
   ceiling = NULL, uprange = NULL, tol = NULL, type = c("s", "p"),
-  radius = NULL, rampcolors = NULL, displace = FALSE, sign = NULL,
-  add = FALSE, ...)
+  radius = NULL, rampcolors = NULL, NAcol = NULL, displace = FALSE,
+  sign = NULL, add = FALSE, ...)
 
 export(x, ...)
 
@@ -43,6 +44,8 @@ has.}
 green.}
 
 \item{rampcolors}{character vector: specify the colors which are used to create a colorramp.}
+
+\item{NAcol}{character: specify color for values outside the range defined by \code{from} and \code{to}.}
 
 \item{displace}{logical: if TRUE, displacement vectors between original and
 closest points are drawn colored according to the distance.}
