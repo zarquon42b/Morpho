@@ -15,7 +15,7 @@ procSym(dataarray, scale = TRUE, reflect = TRUE, CSinit = TRUE,
 \item{dataarray}{Input k x m x n real array, where k is the number of
 points, m is the number of dimensions, and n is the sample size.}
 
-\item{scale}{logical: indicating if scaling is requested}
+\item{scale}{logical: indicating if scaling is requested to minimize the General Procrustes distance. To avoid all scaling, one has to set \code{CSinit=FALSE}, too.}
 
 \item{reflect}{logical: allow reflections.}
 

@@ -14,7 +14,7 @@
 #' 
 #' @param dataarray Input k x m x n real array, where k is the number of
 #' points, m is the number of dimensions, and n is the sample size.
-#' @param scale logical: indicating if scaling is requested
+#' @param scale logical: indicating if scaling is requested to minimize the General Procrustes distance. To avoid all scaling, one has to set \code{CSinit=FALSE}, too.
 #' @param reflect logical: allow reflections.
 #' @param CSinit logical: if TRUE, all configurations are initially scaled to
 #' Unit Centroid Size.
