@@ -70,7 +70,6 @@
 #' 
 #' @examples
 #' 
-#' require(rgl)
 #' data(nose)##load data
 #' ##warp a mesh onto another landmark configuration:
 #' warpnose.long <- tps3d(shortnose.mesh, shortnose.lm, longnose.lm)
