@@ -41,6 +41,6 @@ lines(log(myseq),ratiosSig,col=2)
 Bookstein, F. L. Measuring and reasoning: numerical inference in the sciences. Cambridge University Press, 2014
 }
 \seealso{
-getMeaningfulPCs
+\code{\link{getMeaningfulPCs}}
 }
 

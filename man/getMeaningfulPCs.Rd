@@ -36,4 +36,7 @@ barplot(proc$eigenvalues)
 \references{
 Bookstein, F. L. Measuring and reasoning: numerical inference in the sciences. Cambridge University Press, 2014
 }
+\seealso{
+\code{\link{getPCtol}}
+}
 

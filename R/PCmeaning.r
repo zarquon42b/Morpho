@@ -27,7 +27,7 @@
 #' 
 #' @references
 #' Bookstein, F. L. Measuring and reasoning: numerical inference in the sciences. Cambridge University Press, 2014
-#' @seealso getMeaningfulPCs
+#' @seealso  \code{\link{getMeaningfulPCs}}
 #' @export
 getPCtol <- function(n,expect=2) {
     x <- exp(expect/(2*n))+ sqrt(exp((2*expect)/(2*n))-1)
@@ -53,6 +53,7 @@ getPCtol <- function(n,expect=2) {
 #' barplot(proc$eigenvalues)
 #' @references
 #' Bookstein, F. L. Measuring and reasoning: numerical inference in the sciences. Cambridge University Press, 2014
+#' @seealso \code{\link{getPCtol}}
 #' @export
 getMeaningfulPCs <- function(values,n,expect=2,sdev=FALSE) {
     nv <- length(values)
