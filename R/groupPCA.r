@@ -135,18 +135,6 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     
 ###### create a neat variance table for the groupmean PCA ###### 
     values <- eigenGmeans$values[valScores]
-    #if (length(values) == 1) {
-    #    Var <- values
-    #} else {
-    #    Var <- matrix(NA,length(values),3)
-    #    Var[,1] <- values
-    #    for (i in 1:length(values)) 
-    #        Var[i,2] <- (values[i]/sum(values))*100
-    #    Var[1,3] <- Var[1,2]
-    #    for (i in 2:length(values))
-    #        Var[i,3] <- Var[i,2]+ Var[i-1,3]
-    #    colnames(Var) <- c("eigenvalues","% Variance","Cumulative %")
-    #}
     bgnames <- c(paste("bgPC",1:length(values),sep="_"))
     Var <- createVarTable(values,FALSE,rownames = bgnames)
     cnames <- c(paste("bgPC",1:length(values),sep="_"),paste("resPC",1:length(resPrcomp$sdev),sep="_"))
