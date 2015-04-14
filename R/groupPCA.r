@@ -37,7 +37,7 @@
 #' \item{groups }{grouping Variable}
 #' \item{resPCs}{PCs orthogonal to the between-group PCs}
 #' \item{resPCscores}{Scores of the residualPCs}
-#' \item{resPCVar}{table displaying the residual variance explained by each residual PC}
+#' \item{resVar}{table displaying the residual variance explained by each residual PC}
 #' \item{combinedVar}{table displaying the overall variance explained by the between-group PCs and residual PC. Check the rownames to identify which type belongs to which value}
 #' @author Stefan Schlager
 #' @seealso \code{\link{CVA}}
@@ -151,6 +151,8 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     Var <- createVarTable(values,FALSE,rownames = bgnames)
     cnames <- c(paste("bgPC",1:length(values),sep="_"),paste("resPC",1:length(resPrcomp$sdev),sep="_"))
     combinedVar <- createVarTable(c(values,resPrcomp$sdev^2),square = FALSE,rownames = cnames)
+    resnames <- paste("resPC",1:length(resPrcomp$sdev),sep="_")
+    resVar <- createVarTable(resPrcomp$sdev,square = TRUE,rownames = resnames)
 ### calculate between group distances ###
     
 ### Permutation Test for Distances	
@@ -189,7 +191,7 @@ CV=NULL
                 CV[i] <- crossval[[i]]
         }
     }
-    out <- list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resPCVar=createVarTable(resPrcomp$sdev),combinedVar=combinedVar)
+    out <- list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resVar=resVar,combinedVar=combinedVar)
     class(out) <- "bgPCA"
     return(out)
 }
