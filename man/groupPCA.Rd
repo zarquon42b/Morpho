@@ -47,7 +47,7 @@ permuation testing}
 \item{groups }{grouping Variable}
 \item{resPCs}{PCs orthogonal to the between-group PCs}
 \item{resPCscores}{Scores of the residualPCs}
-\item{resPCVar}{table displaying the residual variance explained by each residual PC}
+\item{resVar}{table displaying the residual variance explained by each residual PC}
 \item{combinedVar}{table displaying the overall variance explained by the between-group PCs and residual PC. Check the rownames to identify which type belongs to which value}
 }
 \description{
