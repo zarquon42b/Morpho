@@ -9,10 +9,11 @@
 pcaplot3d(x, ...)
 
 \method{pcaplot3d}{symproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
-  lwd = 1, sym = TRUE, legend = TRUE, ...)
+  lwd = 1, sym = TRUE, legend = TRUE, type = c("spheres", "points"),
+  ...)
 
 \method{pcaplot3d}{nosymproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
-  lwd = 1, legend = TRUE, ...)
+  lwd = 1, legend = TRUE, type = c("spheres", "points"), ...)
 }
 \arguments{
 \item{x}{a object derived from the function procSym calculated on 3D
@@ -31,6 +32,8 @@ which PC has to be visualized.}
 Otherwise the asymmetric one.}
 
 \item{legend}{logical: if TRUE a legend explaining the color coding of the PCs is plotted.}
+
+\item{type}{character: for \code{type="spheres"}, the landmarks will be rendered using rgl's \code{spheres3d} function and for \code{type="points"} by  \code{points3d} respectivly.}
 
 \item{\dots}{Additional parameters which will be passed to the methods.}
 }
