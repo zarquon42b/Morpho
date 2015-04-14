@@ -4,12 +4,14 @@
 \alias{getMeaningfulPCs}
 \title{get number of meaningful Principal components}
 \usage{
-getMeaningfulPCs(values, n, sdev = FALSE)
+getMeaningfulPCs(values, n, expect = 2, sdev = FALSE)
 }
 \arguments{
 \item{values}{eigenvalues from a PCA}
 
 \item{n}{sample size}
+
+\item{expect}{expectation value for chi-square distribution of df=2}
 
 \item{sdev}{logical: if TRUE, it is assumed that the values are square roots of eigenvalues.}
 }
