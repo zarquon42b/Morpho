@@ -36,8 +36,7 @@ to group sizes.}
 matrix}
 \item{groupPCs }{PC-axes - i.e. eigenvectors of the groupmean covariance
 matrix}
-\item{Variance }{table displaying the variance explained by eache
-eigenvalue}
+\item{Variance }{table displaying the between-group variance explained by each between group PC}
 \item{Scores }{Scores of all observation in the PC-space}
 \item{probs }{p-values of pairwise groupdifferences - based on
 permuation testing}
@@ -46,6 +45,10 @@ permuation testing}
 \item{Grandmean }{Grand mean}
 \item{CV }{Cross-validated scores}
 \item{groups }{grouping Variable}
+\item{resPCs}{PCs orthogonal to the between-group PCs}
+\item{resPCscores}{Scores of the residualPCs}
+\item{resPCVar}{table displaying the residual variance explained by each residual PC}
+\item{combinedVar}{table displaying the overall variance explained by the between-group PCs and residual PC. Check the rownames to identify which type belongs to which value}
 }
 \description{
 Calculate covariance matrix of the groupmeans and project all observations

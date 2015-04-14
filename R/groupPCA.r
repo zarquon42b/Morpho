@@ -26,8 +26,7 @@
 #' matrix}
 #' \item{groupPCs }{PC-axes - i.e. eigenvectors of the groupmean covariance
 #' matrix}
-#' \item{Variance }{table displaying the variance explained by eache
-#' eigenvalue}
+#' \item{Variance }{table displaying the between-group variance explained by each between group PC}
 #' \item{Scores }{Scores of all observation in the PC-space}
 #' \item{probs }{p-values of pairwise groupdifferences - based on
 #' permuation testing}
@@ -36,6 +35,10 @@
 #' \item{Grandmean }{Grand mean}
 #' \item{CV }{Cross-validated scores}
 #' \item{groups }{grouping Variable}
+#' \item{resPCs}{PCs orthogonal to the between-group PCs}
+#' \item{resPCscores}{Scores of the residualPCs}
+#' \item{resPCVar}{table displaying the residual variance explained by each residual PC}
+#' \item{combinedVar}{table displaying the overall variance explained by the between-group PCs and residual PC. Check the rownames to identify which type belongs to which value}
 #' @author Stefan Schlager
 #' @seealso \code{\link{CVA}}
 #' @references Mitteroecker P, Bookstein F 2011. Linear Discrimination,
@@ -126,21 +129,28 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     valScores <- which(eigenGmeans$values > tol)
     groupScores <- N%*%(eigenGmeans$vectors[,valScores])
     groupPCs <- eigenGmeans$vectors[,valScores]
-
+    residuals <- N-groupScores%*%t(groupPCs)
+    resPrcomp <- prcomp(residuals,center = F,tol=sqrt(tol))
+   
+    
 ###### create a neat variance table for the groupmean PCA ###### 
     values <- eigenGmeans$values[valScores]
-    if (length(values) == 1) {
-        Var <- values
-    } else {
-        Var <- matrix(NA,length(values),3)
-        Var[,1] <- values
-        for (i in 1:length(values)) 
-            Var[i,2] <- (values[i]/sum(values))*100
-        Var[1,3] <- Var[1,2]
-        for (i in 2:length(values))
-            Var[i,3] <- Var[i,2]+ Var[i-1,3]
-        colnames(Var) <- c("eigenvalues","% Variance","Cumulative %")
-    }
+    #if (length(values) == 1) {
+    #    Var <- values
+    #} else {
+    #    Var <- matrix(NA,length(values),3)
+    #    Var[,1] <- values
+    #    for (i in 1:length(values)) 
+    #        Var[i,2] <- (values[i]/sum(values))*100
+    #    Var[1,3] <- Var[1,2]
+    #    for (i in 2:length(values))
+    #        Var[i,3] <- Var[i,2]+ Var[i-1,3]
+    #    colnames(Var) <- c("eigenvalues","% Variance","Cumulative %")
+    #}
+    bgnames <- c(paste("bgPC",1:length(values),sep="_"))
+    Var <- createVarTable(values,FALSE,rownames = bgnames)
+    cnames <- c(paste("bgPC",1:length(values),sep="_"),paste("resPC",1:length(resPrcomp$sdev),sep="_"))
+    combinedVar <- createVarTable(c(values,resPrcomp$sdev^2),square = FALSE,rownames = cnames)
 ### calculate between group distances ###
     
 ### Permutation Test for Distances	
@@ -179,8 +189,18 @@ CV=NULL
                 CV[i] <- crossval[[i]]
         }
     }
-    out <- list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups)
+    out <- list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resPCVar=createVarTable(resPrcomp$sdev),combinedVar=combinedVar)
     class(out) <- "bgPCA"
     return(out)
 }
 
+createVarTable <- function (sdev, square = TRUE, rownames=NULL) {
+    if (square) 
+        sdev <- sdev^2
+    sdsum <- sum(sdev)
+    sdVar <- sdev/sdsum
+    sdCum <- cumsum(sdVar)
+    Variance <- data.frame(eigenvalues = sdev, exVar = sdVar, cumVar = sdCum)
+    rownames(Variance) <- rownames
+    return(Variance)
+}
