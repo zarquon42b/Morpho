@@ -11,7 +11,8 @@ slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
   sur.type = "ply", tol = 1e-05, deselect = FALSE, inc.check = TRUE,
   recursive = TRUE, iterations = 0, initproc = TRUE, fullGPA = FALSE,
   pairedLM = 0, bending = TRUE, stepsize = ifelse(bending, 1, 0.5),
-  mc.cores = parallel::detectCores(), fixRepro = TRUE, missingList = NULL)
+  mc.cores = parallel::detectCores(), fixRepro = TRUE, missingList = NULL,
+  use.lm = NULL)
 }
 \arguments{
 \item{dat.array}{Input k x m x n real array, where k is the number of
@@ -91,6 +92,8 @@ projected onto the surface. If you have landmarks not on the surface, select
 \code{fixRepro=FALSE}}
 
 \item{missingList}{a list of length samplesize containing integer vectors of row indices specifying missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.}
+
+\item{use.lm}{indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.}
 }
 \value{
 \item{dataslide }{array containing slidden Landmarks in the original
