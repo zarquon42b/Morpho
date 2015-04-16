@@ -4,8 +4,8 @@
 #' sample mean)
 #' 
 #' 
-#' @param lm k x 3 or k x 2 matrix containing landmark data to be slidden.
-#' @param reference k x 3 or k x 2 matrix containing landmark of the reference
+#' @param lm k x 3 or k x 2 matrix containing landmark data to be slidden - or a triangular mesh of class "mesh3d". See details
+#' @param reference k x 3 or k x 2 matrix containing landmark of the reference, or a mesh with the same amount of vertices as there are landmarks in \code{lm}.
 #' @param SMvector A vector containing the row indices of (semi-) landmarks on the curve(s) that are
 #' allowed to slide
 #' @param outlines A vector (or if threre are several curves) a list of vectors
@@ -36,6 +36,8 @@
 #' Useful to keep semi-landmarks from sliding too far off the surface.
 #' The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y = Y0 + stepsize * UT}.
 #' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
+#' @param use.lm indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.
+#' @param ... additonal arguments - currently unused
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{slider3d}}
@@ -43,7 +45,7 @@
 #' Semilandmarks in Three Dimensions, in Modern Morphometrics in Physical
 #' Anthropology. Edited by D. E. Slice, pp. 73-98. New York: Kluwer
 #' Academic/Plenum Publishers.
-#' 
+#' @details if \code{lm} is a surface mesh, all vertices will be treated as semilandmarks and a allowed to freely slide along the surface.
 #' @examples
 #' 
 #' require(rgl)
@@ -92,13 +94,32 @@
 #' 
 #' # add surface
 #' wire3d(shortnose.mesh, col="white")
-#' }
+#'
 #' 
+#' ## finally relax two meshes with corresponding vertices:
+#' 
+#' mediumnose.mesh <- tps3d(shortnose.mesh,shortnose.lm, (shortnose.lm+longnose.lm)/2)
+#' ## we use Procrustes distance as criterion as bending energy is pretty slow because
+#' ## of too many coordinates (more than 3000 is very unreasonable).
+#' relaxMesh <- relaxLM(shortnose.mesh,mediumnose.mesh,iterations=2,bending=FALSE,stepsize=0.05)
+#' }
+#' @rdname relaxLM
 #' @export
-relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5)) {
-    
+relaxLM <- function(lm,...)UseMethod("relaxLM")
+
+#' @rdname relaxLM
+#' @export
+relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,...) {
+    if(inherits(reference,"mesh3d"))
+       reference <- vert2points(reference)
     k <- dim(lm)[1]
     m <- dim(lm)[2]
+    weights <- NULL
+    if (!is.null(use.lm)) {
+        weights <- rep(0,nrow(lm))
+        weights[use.lm] <- 1
+    }
+    
     free <- NULL
     p1 <- 10^12
     lm.orig <- lm
@@ -141,7 +162,8 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
         lm_old <- vs
         cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (!bending) {
-            rot <- rotonto(reference,vs,reflection=FALSE,scale=TRUE)
+            print(length(weights))
+            rot <- rotonto(reference,vs,reflection=FALSE,scale=TRUE,weights=weights,centerweight = TRUE)
             vs <- rot$yrot
             if (m == 3)
                 vn <- vn%*%rot$gamm
@@ -195,5 +217,16 @@ relaxLM <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,
     return(vs)
 }
 
-
-
+#' @rdname relaxLM
+#' @export
+relaxLM.mesh3d <- function(lm,reference,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=FALSE,stepsize=ifelse(bending,1,0.5),use.lm=NULL, ...){
+    lmtmp <- vert2points(lm)
+    mesh <- lm
+    SMvector <- surp <- 1:ncol(lm$vb)
+    sur.name <- NULL
+    outlines <- NULL
+    reltmp <- relaxLM(lmtmp,reference=reference,SMvector=SMvector,surp=surp,mesh=mesh,tol=tol,deselect=deselect,inc.check=inc.check,iterations=iterations, fixRepro=fixRepro, missing=missing, bending=bending,stepsize=stepsize,use.lm=use.lm)
+    lm$vb[1:3,] <- t(reltmp)
+    lm <- vcgUpdateNormals(lm)
+    return(lm)
+}

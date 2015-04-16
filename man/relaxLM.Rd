@@ -2,17 +2,28 @@
 % Please edit documentation in R/relax.lm.r
 \name{relaxLM}
 \alias{relaxLM}
+\alias{relaxLM.matrix}
+\alias{relaxLM.mesh3d}
 \title{relax one specific landmark configuration against a reference}
 \usage{
-relaxLM(lm, reference, SMvector, outlines = NULL, surp = NULL,
-  sur.name = NULL, mesh = NULL, tol = 1e-05, deselect = FALSE,
+relaxLM(lm, ...)
+
+\method{relaxLM}{matrix}(lm, reference, SMvector, outlines = NULL,
+  surp = NULL, sur.name = NULL, mesh = NULL, tol = 1e-05,
+  deselect = FALSE, inc.check = TRUE, iterations = 0, fixRepro = TRUE,
+  missing = NULL, bending = TRUE, stepsize = ifelse(bending, 1, 0.5),
+  use.lm = NULL, ...)
+
+\method{relaxLM}{mesh3d}(lm, reference, tol = 1e-05, deselect = FALSE,
   inc.check = TRUE, iterations = 0, fixRepro = TRUE, missing = NULL,
-  bending = TRUE, stepsize = ifelse(bending, 1, 0.5))
+  bending = FALSE, stepsize = ifelse(bending, 1, 0.5), use.lm = NULL, ...)
 }
 \arguments{
-\item{lm}{k x 3 or k x 2 matrix containing landmark data to be slidden.}
+\item{lm}{k x 3 or k x 2 matrix containing landmark data to be slidden - or a triangular mesh of class "mesh3d". See details}
 
-\item{reference}{k x 3 or k x 2 matrix containing landmark of the reference}
+\item{...}{additonal arguments - currently unused}
+
+\item{reference}{k x 3 or k x 2 matrix containing landmark of the reference, or a mesh with the same amount of vertices as there are landmarks in \code{lm}.}
 
 \item{SMvector}{A vector containing the row indices of (semi-) landmarks on the curve(s) that are
 allowed to slide}
@@ -56,6 +67,8 @@ projected onto the surface. If you have landmarks not on the surface, select
 Useful to keep semi-landmarks from sliding too far off the surface.
 The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y = Y0 + stepsize * UT}.
 Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
+
+\item{use.lm}{indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.}
 }
 \value{
 returns kx3 matrix of slidden landmarks
@@ -63,6 +76,9 @@ returns kx3 matrix of slidden landmarks
 \description{
 relax one specific landmark configuration against a reference (e.g. a
 sample mean)
+}
+\details{
+if \code{lm} is a surface mesh, all vertices will be treated as semilandmarks and a allowed to freely slide along the surface.
 }
 \examples{
 require(rgl)
@@ -111,6 +127,14 @@ angle.calc(rot2refOrig$X,rot2refOrig$Y)
 
 # add surface
 wire3d(shortnose.mesh, col="white")
+
+
+## finally relax two meshes with corresponding vertices:
+
+mediumnose.mesh <- tps3d(shortnose.mesh,shortnose.lm, (shortnose.lm+longnose.lm)/2)
+## we use Procrustes distance as criterion as bending energy is pretty slow because
+## of too many coordinates (more than 3000 is very unreasonable).
+relaxMesh <- relaxLM(shortnose.mesh,mediumnose.mesh,iterations=2,bending=FALSE,stepsize=0.05)
 }
 }
 \author{
