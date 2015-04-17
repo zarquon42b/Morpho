@@ -63,8 +63,8 @@
 #' points(proc$rotated[,,1])
 #' 
 #' @export
-pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=parallel::detectCores())
-    {
+pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=parallel::detectCores(),scale=FALSE) {
+    
         landmarks <- FALSE
         xorig <- x
         yorig <- y
@@ -91,12 +91,16 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=paralle
         
         x <- scale(x,scale = F)
         y <- scale(y,scale = F)
-        cova <- cov(cbind(x,y))
+        if (!scale)
+            cova <- cov(cbind(x,y))
+        else
+            cova <- cor(cbind(x,y))
+        
         svd.cova <- svd(cova[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
 
         svs <- svd.cova$d
         svs <- svs/sum(svs)
-        svs <- svs[which(svs > 0.001)]
+        svs <- svs[which(svs > tol)]
         
         covas <- svs*100
         l.covas <- length(covas)
@@ -192,7 +196,7 @@ predictPLSfromScores <- function(pls,x,y) {
     if (!missing(x) && !missing(y))
         stop("either x or y must be missing")
     
-    
+    scalevec <- apply(pls$Yscores,2,sd)/apply(pls$Xscores,2,sd)
     svdpls <- pls$svd
     if (missing(y)) {
         if (is.vector(x) || length(x) == 1) {
@@ -201,7 +205,9 @@ predictPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(x))
             xl <- ncol(x)
-        out <- t(svdpls$v[,1:xl]%*%t(x))
+        
+        scaledv <- t(scalevec[1:xl]*t(svdpls$v[,1:xl]))
+        out <- t(scaledv%*%t(x))
         out <- sweep(out,2,-pls$ycenter)
         if (length(dim(pls$y)) == 3) {
             if (is.matrix(x) && nrow(x) > 1) {
@@ -221,7 +227,8 @@ predictPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(y))
             xl <- ncol(y)
-        out <- t(svdpls$u[,1:xl]%*%t(y))
+        scaledu <- t((1/scalevec[1:xl])*t(svdpls$u[,1:xl]))
+        out <- t(scaledu%*%t(y))
         out <- sweep(out,2,-pls$xcenter)
         if (length(dim(pls$x)) == 3) {
             if (is.matrix(y) && nrow(y) > 1) {
