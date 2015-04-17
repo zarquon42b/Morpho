@@ -5,7 +5,7 @@
 \alias{name2num}
 \title{extract data from array names}
 \usage{
-name2factor(x, sep = "_", which, collapse = sep)
+name2factor(x, sep = "_", which, collapse = sep, as.factor = TRUE)
 
 name2num(x, sep = "_", which, collapse = sep, dif = TRUE)
 }
@@ -21,6 +21,8 @@ they will be concatenated by the string specified with the option
 
 \item{collapse}{character by which to collapse data if two strings are to be
 concatenated}
+
+\item{as.factor}{logical: if TRUE, a factor vector will be returned, strings otherwise.}
 
 \item{dif}{logical: calculate difference if two fields containing numbers
 are selected.}
