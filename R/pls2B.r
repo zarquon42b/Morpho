@@ -63,8 +63,8 @@
 #' points(proc$rotated[,,1])
 #' 
 #' @export
-pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=parallel::detectCores(),scale=FALSE) {
-    
+pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=parallel::detectCores()) {
+    scale=FALSE
         landmarks <- FALSE
         xorig <- x
         yorig <- y
