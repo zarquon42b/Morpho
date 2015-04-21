@@ -205,9 +205,11 @@ predictPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(x))
             xl <- ncol(x)
-        
-        scaledv <- t(scalevec[1:xl]*t(svdpls$v[,1:xl]))
-        out <- t(scaledv%*%t(x))
+        lmpred <- lm(pls$Yscores ~ pls$Xscores)
+        yest <- predict(lmpred,newdata = list("pls$Xscores"=x))
+        #scaledv <- t(scalevec[1:xl]*t(svdpls$v[,1:xl]))
+        scaledv <- svdpls$v[,1:xl]
+        out <- t(scaledv%*%t(yest))
         out <- sweep(out,2,-pls$ycenter)
         if (length(dim(pls$y)) == 3) {
             if (is.matrix(x) && nrow(x) > 1) {
@@ -227,8 +229,11 @@ predictPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(y))
             xl <- ncol(y)
-        scaledu <- t((1/scalevec[1:xl])*t(svdpls$u[,1:xl]))
-        out <- t(scaledu%*%t(y))
+        lmpred <- lm(pls$Xscores ~ pls$Yscores)
+        xest <- predict(lmpred,newdata = list("pls$Yscores"=y))
+        #scaledv <- t(scalevec[1:xl]*t(svdpls$v[,1:xl]))
+        scaledu <- svdpls$u[,1:xl]
+        out <- t(scaledu%*%t(xest))
         out <- sweep(out,2,-pls$xcenter)
         if (length(dim(pls$x)) == 3) {
             if (is.matrix(y) && nrow(y) > 1) {
