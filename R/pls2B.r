@@ -20,6 +20,7 @@
 #' superimposition of permuted landmarks. This is necessary if both blocks
 #' originate from landmarks that are superimposed together.
 #' @param rounds rounds of permutation testing.
+#' @param useCor if TRUE, the correlation matrix instead of the covariance matrix is used.
 #' @param mc.cores integer: determines how many cores to use for the
 #' computation. The default is autodetect. But in case, it doesn't work as
 #' expected cores can be set manually. Parallel processing is disabled on
@@ -63,8 +64,8 @@
 #' points(proc$rotated[,,1])
 #' 
 #' @export
-pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=parallel::detectCores()) {
-    scale=FALSE
+pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.cores=parallel::detectCores()) {
+    
         landmarks <- FALSE
         xorig <- x
         yorig <- y
@@ -91,7 +92,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=paralle
         
         x <- scale(x,scale = F)
         y <- scale(y,scale = F)
-        if (!scale)
+        if (!useCor)
             cova <- cov(cbind(x,y))
         else
             cova <- cor(cbind(x,y))
@@ -114,7 +115,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=paralle
 ### calculate correlations between pls scores
         cors <- 0
         for(i in 1:length(covas))
-            cors[i] <- cor(z1[,i],z2[,i])
+            cors[i] <- cor(Xscores[,i],Yscores[,i])
         
 
 ### Permutation testing
