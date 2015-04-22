@@ -4,7 +4,7 @@
 \alias{predictPLSfromData}
 \title{predict 2 Block-PLS from new data}
 \usage{
-predictPLSfromData(pls, x, y)
+predictPLSfromData(pls, x, y, ncomp = NULL)
 }
 \arguments{
 \item{pls}{output of pls2B}
@@ -12,6 +12,8 @@ predictPLSfromData(pls, x, y)
 \item{x}{data in the same format as in original pls2B (for landmarks this can be an array or a matrix and for other data a matrix of a vector)}
 
 \item{y}{data in the same format as in original pls2B (for landmarks this can be an array or a matrix and for other data a matrix of a vector)}
+
+\item{ncomp}{number of (latent) components to use for prediction.}
 }
 \value{
 returns an array/matrix/vector of predictions - depending on input for computing \code{pls}
