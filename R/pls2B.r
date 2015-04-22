@@ -107,8 +107,8 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=paralle
         svd.cova$d <- svd.cova$d[1:l.covas]
         svd.cova$u <- svd.cova$u[,1:l.covas]
         svd.cova$v <- svd.cova$v[,1:l.covas]
-        z1 <- x%*%svd.cova$u#pls scores of x
-        z2 <- y%*%svd.cova$v #pls scores of y
+        Xscores <- x%*%svd.cova$u#pls scores of x
+        Yscores <- y%*%svd.cova$v #pls scores of y
         
         
 ### calculate correlations between pls scores
@@ -161,14 +161,19 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0, mc.cores=paralle
                 p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
             
         }
+### get weights
+        xlm <- lm(Xscores ~ Yscores -1)
+        ylm <- lm(Yscores ~ Xscores -1)
 ### create covariance table
         Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
         colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient", "p-value")
-        out <- list(svd=svd.cova,Xscores=z1,Yscores=z2,CoVar=Cova)
+        out <- list(svd=svd.cova,Xscores=Xscores,Yscores=Yscores,CoVar=Cova)
         out$x <- xorig
         out$y <- yorig
         out$xcenter <- attributes(x)$"scaled:center"
         out$ycenter <- attributes(y)$"scaled:center"
+        out$xlm <- xlm
+        out$ylm <- ylm
         class(out) <- "pls2B"
         return(out)
     }
@@ -186,8 +191,8 @@ print.pls2B <- function(x,...) {
 #' predict data from 2-Block PLS-scores
 #' @param pls output of pls2B
 #' @param x scores associated with dataset x in original pls2B
-#' @param y scores associated with dataset x in original pls2B
-#' @note either x or y must be missing
+#' @param y scores associated with dataset y in original pls2B
+#' @note either x or y must be missing. If x-scores are provided, the yscores will be estimated and the predictions calculated.
 #' @return returns an array/matrix of landmarks or original values, depending on input for computing \code{pls}
 #' @seealso \code{\link{pls2B}, \link{getPLSscores},\link{predictPLSfromData}}
 #' 
@@ -196,7 +201,6 @@ predictPLSfromScores <- function(pls,x,y) {
     if (!missing(x) && !missing(y))
         stop("either x or y must be missing")
     
-    scalevec <- apply(pls$Yscores,2,sd)/apply(pls$Xscores,2,sd)
     svdpls <- pls$svd
     if (missing(y)) {
         if (is.vector(x) || length(x) == 1) {
@@ -205,11 +209,9 @@ predictPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(x))
             xl <- ncol(x)
-        lmpred <- lm(pls$Yscores ~ pls$Xscores)
-        yest <- predict(lmpred,newdata = list("pls$Xscores"=x))
-        #scaledv <- t(scalevec[1:xl]*t(svdpls$v[,1:xl]))
-        scaledv <- svdpls$v[,1:xl]
-        out <- t(scaledv%*%t(yest))
+
+        yest <- t(t(pls$ylm$coefficients[1:xl,])%*%t(x))
+        out <- t(svdpls$v%*%t(yest))
         out <- sweep(out,2,-pls$ycenter)
         if (length(dim(pls$y)) == 3) {
             if (is.matrix(x) && nrow(x) > 1) {
@@ -229,11 +231,10 @@ predictPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(y))
             xl <- ncol(y)
-        lmpred <- lm(pls$Xscores ~ pls$Yscores)
-        xest <- predict(lmpred,newdata = list("pls$Yscores"=y))
-        #scaledv <- t(scalevec[1:xl]*t(svdpls$v[,1:xl]))
-        scaledu <- svdpls$u[,1:xl]
-        out <- t(scaledu%*%t(xest))
+        
+        xest <- t(t(pls$xlm$coefficients[c(1:xl),])%*%t(y))
+        out <- t(svdpls$u%*%t(xest))
+        
         out <- sweep(out,2,-pls$xcenter)
         if (length(dim(pls$x)) == 3) {
             if (is.matrix(y) && nrow(y) > 1) {
