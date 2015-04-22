@@ -7,7 +7,7 @@
 showPC(scores, PC, mshape)
 }
 \arguments{
-\item{scores}{vector of PC-scores}
+\item{scores}{vector of PC-scores, or matrix with rows containing PC-scores}
 
 \item{PC}{Principal components (eigenvectors of the covariance matrix)
 associated with 'scores'.}
@@ -16,7 +16,7 @@ associated with 'scores'.}
 the data by the PCA)}
 }
 \value{
-returns matrix containing landmarks
+returns matrix or array containing landmarks
 }
 \description{
 convert PC-scores to landmark coordinates

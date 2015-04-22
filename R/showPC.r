@@ -5,12 +5,12 @@
 #' Rotates and translates PC-scores derived from shape data back into
 #' configuration space.
 #' 
-#' @param scores vector of PC-scores
+#' @param scores vector of PC-scores, or matrix with rows containing PC-scores
 #' @param PC Principal components (eigenvectors of the covariance matrix)
 #' associated with 'scores'.
 #' @param mshape matrix containing the meanshape's landmarks (used to center
 #' the data by the PCA)
-#' @return returns matrix containing landmarks
+#' @return returns matrix or array containing landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{prcomp}}, \code{\link{procSym}}
 #' 
@@ -33,9 +33,18 @@ showPC <- function(scores,PC,mshape)
   {
     dims <- dim(mshape)
     PC <- as.matrix(PC)
-    if (length(scores) != ncol(PC))
-        stop("scores must be of the same length as ncol(PC)")
-    predPC <- PC%*%scores
-    modell <- mshape+matrix(predPC,dims[1],dims[2])
-    return(modell)
+    if (!is.matrix(scores)){
+        if (length(scores) != ncol(PC))
+            stop("scores must be of the same length as ncol(PC)")
+        predPC <- PC%*%scores
+        modell <- mshape+matrix(predPC,dims[1],dims[2])
+        return(modell)
+    } else {
+          n <- nrow(scores)
+          outarr <- array(0,dim=c(dims,n))
+          for (i in 1:n) {
+              outarr[,,i] <- showPC(scores[i,],PC,mshape)
+          }
+          return(outarr)
+      }    
 }
