@@ -92,10 +92,12 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
         
         x <- scale(x,scale = F)
         y <- scale(y,scale = F)
-        if (!useCor)
-            cova <- cov(cbind(x,y))
-        else
-            cova <- cor(cbind(x,y))
+
+        mycorfun <- cov
+        if (useCor)
+            mycorfun <- cor
+        cova <- mycorfun(cbind(x,y))
+        
         
         svd.cova <- svd(cova[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
 
@@ -134,7 +136,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
                 }
                 x1 <- scale(x1,scale = F)
                 y1 <- scale(y1,scale = F)
-                cova.tmp <- cov(cbind(x1[x.sample,],y1[y.sample,]))
+                cova.tmp <- mycorfun(cbind(x1[x.sample,],y1[y.sample,]))
                 svd.cova.tmp <- svd(cova.tmp[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
                 svs.tmp <- svd.cova.tmp$d
                 return(svs.tmp[1:l.covas])
@@ -209,21 +211,18 @@ getPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(x))
             xl <- ncol(x)
-        scaledv <- svdpls$v[,1:xl]
-        out <- t(scaledv%*%t(x))
+        out <- t(svdpls$u[,1:xl]%*%t(x))
         out <- sweep(out,2,-pls$xcenter)
         return(out)
     }
     if (missing(x)) {
-        print(1)
         if (is.vector(y) || length(y) == 1) {
             xl <- length(y)
             y <- t(y)
-        }
-        else if (is.matrix(y))
+        } else if (is.matrix(y))
             xl <- ncol(y)
-        scaledu <- svdpls$u[,1:xl]
-        out <- t(scaledu%*%t(y))
+        
+        out <- t(svdpls$v[,1:xl]%*%t(y))
         out <- sweep(out,2,-pls$ycenter)
         return(out)
     }
