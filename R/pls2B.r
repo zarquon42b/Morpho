@@ -187,6 +187,52 @@ print.pls2B <- function(x,...) {
     print( df,row.names=FALSE)
 }
 
+#' compute changes associated with 2-Block PLS-scores 
+#'
+#' compute changes associated with 2-Block PLS-scores 
+#'
+#' @param pls output of pls2B
+#' @param x scores associated with dataset x in original pls2B
+#' @param y scores associated with dataset y in original pls2B
+#' @return returns data in the original space associated with the specified values.
+#' @details other than \code{\link{predictPLSfromScores}}, providing Xscores will not compute predictions of y, but the changes in the original data \code{x} that is associated with the specific scores
+#' @export
+getPLSfromScores <- function(pls,x,y) {
+    if (!missing(x) && !missing(y))
+        stop("either x or y must be missing")
+        svdpls <- pls$svd
+
+    if (missing(y)) {
+        if (is.vector(x) || length(x) == 1) {
+            xl <- length(x)
+            x <- t(x)
+        }
+        else if (is.matrix(x))
+            xl <- ncol(x)
+        scaledv <- svdpls$v[,1:xl]
+        out <- t(scaledv%*%t(x))
+        out <- sweep(out,2,-pls$xcenter)
+        return(out)
+    }
+    if (missing(x)) {
+        print(1)
+        if (is.vector(y) || length(y) == 1) {
+            xl <- length(y)
+            y <- t(y)
+        }
+        else if (is.matrix(y))
+            xl <- ncol(y)
+        scaledu <- svdpls$u[,1:xl]
+        out <- t(scaledu%*%t(y))
+        out <- sweep(out,2,-pls$ycenter)
+        return(out)
+    }
+    
+}
+    
+
+    
+
 #' predict data from 2-Block PLS-scores
 #'
 #' predict data from 2-Block PLS-scores
