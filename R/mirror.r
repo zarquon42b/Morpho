@@ -37,15 +37,8 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
         x <- cbind(x,0)
     
     pca <- prcomp(x,scale. = F)
-    krdelta <- diag(3)
-    mirmat <- matrix(0,3,3)
-    a <- c(0,0,1)
-    anorm <- sum(a^2)
-    for (i in 1:3)
-        for (j in 1:3)
-            mirmat[i,j] <- 2*a[i]*a[j]/anorm
-
-    mirmat <- krdelta-mirmat
+    # i.e. a reflection along the z axis
+    mirmat=diag(c(1,1,-1))
     out <- pca$x%*%t(mirmat)
     xrot = rgl::rotationMatrix(pi, 1, 0, 0)
     pca2 <- prcomp(out)
