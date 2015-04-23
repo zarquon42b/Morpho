@@ -12,4 +12,10 @@ test_that("mirror.matrix behaves", {
     3L))
   data(boneData)
   expect_equal(mirror(boneLM[,,1],icpiter=50), boneMir.baseline, tol=1e-6)
+  
+  skullMir.baseline=readRDS("testdata/skullMir.rds")
+  # subsample involves non-deterministic k-means
+  set.seed(42)
+  expect_equal(mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30),
+               skullMir.baseline)
 })
