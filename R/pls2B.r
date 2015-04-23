@@ -32,8 +32,10 @@
 #' \item{Yscores }{PLS-scores of y}
 #' \item{CoVar }{Dataframe containing singular values, explained
 #' covariation, correlation coeffictient between PLS-scores and p-values}
+#' \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
+#' \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 #' @author Stefan Schlager
-#' @seealso \code{\link{svd}}
+#' @seealso \code{\link{plsCoVar}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
 #' @references Rohlf FJ, Corti M. 2000. Use of two-block partial least-squares
 #' to study covariation in shape. Systematic Biology 49:740-753.
 #' @examples
@@ -62,7 +64,16 @@
 #' deformGrid2d(predPLS,proc$rotated[1:4,,1],pch=19)
 #' ##plot the complete first config
 #' points(proc$rotated[,,1])
-#' 
+#'
+#' ##show effects of first latent variable
+#' plsEffects <- plsCoVar(pls1,i=1)
+#' deformGrid2d(plsEffects$x[,,1],plsEffects$x[,,2])##show on x
+#' deformGrid2d(plsEffects$y[,,1],plsEffects$y[,,2],add=T,pch=19)##show on y
+#'
+#' ##show effects of 2nd latent variable
+#' plsEffects2 <- plsCoVar(pls1,i=2)
+#' deformGrid2d(plsEffects2$x[,,1],plsEffects2$x[,,2])##show on x
+#' deformGrid2d(plsEffects2$y[,,1],plsEffects2$y[,,2],add=T,pch=19)##show on y
 #' @export
 pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.cores=parallel::detectCores()) {
     
@@ -211,8 +222,17 @@ getPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(x))
             xl <- ncol(x)
+
         out <- t(svdpls$u[,1:xl]%*%t(x))
         out <- sweep(out,2,-pls$xcenter)
+        if (length(dim(pls$x)) == 3) {
+            if (is.matrix(x) && nrow(x) > 1) {
+                out <- vecx(out,revert = T,lmdim = dim(pls$x)[2])
+                #dimnames(out) <- dimnames(pls$y)
+            } else {
+                out <- matrix(out,dim(pls$x)[1],dim(pls$x)[2])
+            }
+        }
         return(out)
     }
     if (missing(x)) {
@@ -224,6 +244,14 @@ getPLSfromScores <- function(pls,x,y) {
         
         out <- t(svdpls$v[,1:xl]%*%t(y))
         out <- sweep(out,2,-pls$ycenter)
+        if (length(dim(pls$y)) == 3) {
+            if (is.matrix(y) && nrow(y) > 1) {
+                out <- vecx(out,revert = T,lmdim = dim(pls$y)[2])
+                #dimnames(out) <- dimnames(pls$y)
+            } else {
+                out <- matrix(out,dim(pls$y)[1],dim(pls$y)[2])
+            }
+        }
         return(out)
     }
     
@@ -256,13 +284,16 @@ predictPLSfromScores <- function(pls,x,y) {
         else if (is.matrix(x))
             xl <- ncol(x)
 
-        yest <- t(t(pls$ylm$coefficients[1:xl,])%*%t(x))
+        if (xl == 1)
+            yest <- pls$ylm$coefficients[1:xl,]*x
+        else
+            yest <- t(t(pls$ylm$coefficients[1:xl,])%*%t(x))
         out <- t(svdpls$v%*%t(yest))
         out <- sweep(out,2,-pls$ycenter)
         if (length(dim(pls$y)) == 3) {
             if (is.matrix(x) && nrow(x) > 1) {
                 out <- vecx(out,revert = T,lmdim = dim(pls$x)[2])
-                dimnames(out) <- dimnames(pls$y)
+                #dimnames(out) <- dimnames(pls$y)
             } else {
                 out <- matrix(out,dim(pls$y)[1],dim(pls$y)[2])
             }
@@ -277,15 +308,17 @@ predictPLSfromScores <- function(pls,x,y) {
         }
         else if (is.matrix(y))
             xl <- ncol(y)
-        
-        xest <- t(t(pls$xlm$coefficients[c(1:xl),])%*%t(y))
+        if (xl == 1)
+            xest <- pls$xlm$coefficients[1:xl,]*y
+        else
+            xest <- t(t(pls$xlm$coefficients[c(1:xl),])%*%t(y))
         out <- t(svdpls$u%*%t(xest))
         
         out <- sweep(out,2,-pls$xcenter)
         if (length(dim(pls$x)) == 3) {
             if (is.matrix(y) && nrow(y) > 1) {
                 out <- vecx(out,revert = T,lmdim = dim(pls$x)[2])
-                dimnames(out) <- dimnames(pls$y)
+                #dimnames(out) <- dimnames(pls$x)
             } else {
                 out <- matrix(out,dim(pls$x)[1],dim(pls$x)[2])
             }
