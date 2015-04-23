@@ -409,3 +409,28 @@ predictPLSfromData <- function(pls,x,y,ncomp=NULL) {
     }
     return(out)
 }
+
+
+#' Get the shape changes from pls2B associated with each latent variable
+#'
+#' Get the shape changes from pls2B associated with each latent variable
+#' @param pls output of pls2B
+#' @param i integer: which latent variable to show. E.g. i=3 will show the changes associated with the 3rd latent variable.
+#' @param sdx standard deviation on the xscores. sdx=3 will show the effecs of +3sd vs -3sd
+#' @param sdy standard deviation on the yscores. sdy=3 will show the effecs of +3sd vs -3sd
+#' @return \item{x}{matrix/array with reconstructed x}
+#' @return \item{y}{matrix/array with reconstructed x}
+#' 
+#' @export 
+plsCoVar <- function(pls,i,sdx=3,sdy=3) {
+    
+    x <- t(t(c(-1,1)*sdx*sd(pls$Xscores[,i])))
+    y <- t(t(c(-1,1)*sdy*sd(pls$Yscores[,i])))
+    x0 <- matrix(0,2,i); x0[,i] <- x
+    y0 <- matrix(0,2,i); y0[,i] <- y
+    pls1x <- getPLSfromScores(pls,x=x0)
+    pls1y <- getPLSfromScores(pls,y=y0)
+
+    pls1out <- list(x=pls1x,y=pls1y)
+    return(pls1out)
+}
