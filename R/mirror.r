@@ -48,7 +48,6 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     mirmat <- krdelta-mirmat
     out <- pca$x%*%t(mirmat)
     xrot = getTrafoRotaxis(c(0,0,0),c(1,0,0),pi)
-    zrot = getTrafoRotaxis(c(0,0,0),c(0,0,1),pi)
     pca2 <- prcomp(out)
     test <- diag(pca2$rotation[,]%*%diag(3))
     if (test[3] < 0 || test[1] < 0)##test if rotation around x-axis is needed to fix orientation
