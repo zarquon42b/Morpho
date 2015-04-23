@@ -36,7 +36,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     if (m == 2)
         x <- cbind(x,0)
     
-    xc <- apply(x,2,scale,scale=FALSE)
+    xc <- scale(x,center=TRUE,scale=FALSE)
     trans <- x[1,]-xc[1,]
     pca <- prcomp(xc,scale. = F)
     krdelta <- diag(3)
