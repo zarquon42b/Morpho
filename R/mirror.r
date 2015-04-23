@@ -42,7 +42,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     out <- pca$x%*%t(mirmat)
     xrot = rgl::rotationMatrix(pi, 1, 0, 0)
     pca2 <- prcomp(out)
-    test <- diag(pca2$rotation%*%diag(3))
+    test <- diag(pca2$rotation)
     if (test[3] < 0 || test[1] < 0)##test if rotation around x-axis is needed to fix orientation
         out <-  applyTransform(out,xrot)
     
