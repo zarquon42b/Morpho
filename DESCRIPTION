@@ -9,14 +9,15 @@ Description: A toolset for Geometric Morphometrics and mesh processing. This
     includes (among other stuff) mesh deformations based on reference points,
     permutation tests, detection of outliers, processing of sliding
     semi-landmarks and semi-automated surface landmark placement.
-Suggests:
+Suggests: 
     car,
     lattice,
     MASS,
-    shapes
-Depends:
+    shapes,
+    testthat
+Depends: 
     R (>= 3.0.2)
-Imports:
+Imports: 
     Rvcg (>= 0.7),
     rgl (>= 0.93.963),
     foreach (>= 1.4.0),
