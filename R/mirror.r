@@ -36,9 +36,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     if (m == 2)
         x <- cbind(x,0)
     
-    xc <- scale(x,center=TRUE,scale=FALSE)
-    trans <- x[1,]-xc[1,]
-    pca <- prcomp(xc,scale. = F)
+    pca <- prcomp(x,scale. = F)
     krdelta <- diag(3)
     mirmat <- matrix(0,3,3)
     a <- c(0,0,1)
@@ -59,7 +57,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     if (icpiter > 0)
         out <- icpmat(out,pca$x,icpiter,subsample = subsample)
     out <- out%*%t(pca$rotation)
-    out <- t(t(out)+trans)
+    out <- t(t(out)+pca$center)
     if (m == 2)
         out <- out[,1:2]
     return(out)
