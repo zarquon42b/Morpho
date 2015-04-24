@@ -39,7 +39,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     
     pca <- prcomp(x,scale. = F)
     # i.e. a reflection along the z axis
-    mirmat=diag(c(1,1,-1))
+    mirmat <- diag(c(1,1,-1))
     out <- pca$x%*%t(mirmat)
     xrot <- rotationMatrix(pi, 1, 0, 0)
     pca2 <- prcomp(out, retx = F)
