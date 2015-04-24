@@ -3,8 +3,10 @@ Type: Package
 Title: Calculations and Visualisations Related to Geometric Morphometrics
 Version: 2.2.150423
 Date: 2015-04-23
-Author: Stefan Schlager
-Maintainer: Stefan Schlager <stefan.schlager@uniklinik-freiburg.de>
+Authors@R: c(
+    person("Stefan", "Schlager",, "stefan.schlager@uniklinik-freiburg.de", c("aut", "cre", "cph")),
+    person("Gregory", "Jefferis",,, c("ctb"))
+    )    
 Description: A toolset for Geometric Morphometrics and mesh processing. This
     includes (among other stuff) mesh deformations based on reference points,
     permutation tests, detection of outliers, processing of sliding
