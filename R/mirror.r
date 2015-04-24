@@ -36,30 +36,20 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     if (m == 2)
         x <- cbind(x,0)
     
-    xc <- apply(x,2,scale,scale=FALSE)
-    trans <- x[1,]-xc[1,]
-    pca <- prcomp(xc,scale. = F)
-    krdelta <- diag(3)
-    mirmat <- matrix(0,3,3)
-    a <- c(0,0,1)
-    anorm <- sum(a^2)
-    for (i in 1:3)
-        for (j in 1:3)
-            mirmat[i,j] <- 2*a[i]*a[j]/anorm
-
-    mirmat <- krdelta-mirmat
+    pca <- prcomp(x,scale. = F)
+    # i.e. a reflection along the z axis
+    mirmat=diag(c(1,1,-1))
     out <- pca$x%*%t(mirmat)
-    xrot = getTrafoRotaxis(c(0,0,0),c(1,0,0),pi)
-    zrot = getTrafoRotaxis(c(0,0,0),c(0,0,1),pi)
-    pca2 <- prcomp(out)
-    test <- diag(pca2$rotation[,]%*%diag(3))
+    xrot = rgl::rotationMatrix(pi, 1, 0, 0)
+    pca2 <- prcomp(out, retx = F)
+    test <- diag(pca2$rotation)
     if (test[3] < 0 || test[1] < 0)##test if rotation around x-axis is needed to fix orientation
         out <-  applyTransform(out,xrot)
     
     if (icpiter > 0)
         out <- icpmat(out,pca$x,icpiter,subsample = subsample)
     out <- out%*%t(pca$rotation)
-    out <- t(t(out)+trans)
+    out <- t(t(out)+pca$center)
     if (m == 2)
         out <- out[,1:2]
     return(out)
