@@ -19,8 +19,8 @@
 kendalldist <- function(x,y)
     {
         m <- ncol(x)
-        x <- apply(x,2,scale,scale=FALSE)
-        y <- apply(y,2,scale,scale=FALSE)
+        x <- scale(x, scale=FALSE)
+        y <- scale(y, scale=FALSE)
         x <- x/cSize(x)
         y <- y/cSize(y)
         if (max(abs(x - y) > 0)) {

@@ -38,8 +38,8 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         x2 <- x1 <- c(0:(ngrid-1))/ngrid;
         x0 <- as.matrix(expand.grid(x1,x2))
     
-        cent.mat <- apply(matrix,2,scale,scale=F)
-        mean.mat <- apply(matrix,2,mean)
+        cent.mat <- scale(matrix,scale=FALSE)
+        mean.mat <- colMeans(matrix)
         xrange <- diff(range(matrix[,1]))
         yrange <- diff(range(matrix[,2]))
         
@@ -49,7 +49,7 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         maxi <- max(c(xrange,yrange,xrange1,yrange1))
         maxi <- 1.2*maxi
         x0 <- maxi*x0
-        x0 <- apply(x0,2,scale,scale=FALSE)
+        x0 <- scale(x0, scale=FALSE)
         if (pcaxis)
             space <- eigen(crossprod(cent.mat))$vectors
         else

@@ -123,7 +123,7 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
     free <- NULL
     p1 <- 10^12
     lm.orig <- lm
-    reference <- apply(reference,2,scale,scale=F)
+    reference <- scale(reference, scale=FALSE)
     if (bending)
         L <- CreateL(reference,output="Lsubk3")
 

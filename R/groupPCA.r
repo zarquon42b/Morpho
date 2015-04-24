@@ -111,12 +111,9 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     Gmeans <- matrix(0, ng, l)
     rownames(Gmeans) <- lev
     for (i in 1:ng) {
-        if(gsizes[i] > 1)
-            Gmeans[i, ] <- apply(N[groups==lev[i], ,drop=F], 2, mean)
-        else
-            Gmeans[i, ] <- N[groups==lev[i], ,drop=F]
+        Gmeans[i, ] <- colMeans(N[groups==lev[i], ,drop=F])
     }
-    if (weighting==TRUE)
+    if (weighting)
         wt <- gsizes
     else
         wt <- rep(1,ng)

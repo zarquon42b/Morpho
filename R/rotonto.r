@@ -55,8 +55,8 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
         weights <- weights/sum(weights)
 
     if (nrow(x) > 1) {
-        X <- apply(x,2,scale,scale=F)
-        Y <- apply(y,2,scale,scale=F)
+        X <- scale(x, scale=FALSE)
+        Y <- scale(y, scale=FALSE)
     } else {
         X <- x
         Y <- y

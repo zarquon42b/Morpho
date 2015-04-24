@@ -199,7 +199,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         for (i in 1:dim(Aall)[3]) {
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
             if (center.part)
-                tmp[,,i] <- apply(tmp[,,i],2,scale,scale=F) ## center shapes
+                tmp[,,i] <- scale(tmp[,,i], scale=FALSE) ## center shapes
             else
                 orp <- FALSE
         }

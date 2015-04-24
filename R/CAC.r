@@ -47,8 +47,8 @@ CAC <- function(x, size, groups=NULL, log=FALSE) {
         gmeans <- lm0$fitted.values[indices,]
         rownames(gmeans) <- lev
     } else {
-        x <- apply(x,2,scale,scale= FALSE)
-        gmeans <- apply(x,2,mean)
+        x <- scale(x,scale = FALSE)
+        gmeans <- colMeans(x)
     }
     if (log)
         size <- log(size)

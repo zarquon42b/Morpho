@@ -28,10 +28,10 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL) {
     if (!missing(y)) {
         if (inherits(y,"mesh3d"))
             y <- vert2points(y)
-        pca1 <- prcomp(x)
-        pca2 <- prcomp(y)
-        x <- apply(x,2,scale,scale=F)    
-        y <- apply(y,2,scale,scale=F)
+        pca1 <- prcomp(x, retx=FALSE)
+        pca2 <- prcomp(y, retx=FALSE)
+        x <- scale(x, scale=F)    
+        y <- scale(y, scale=F)
         rotx <- pca1$rotation
         roty <- pca2$rotation
         chk <- det(rotx%*%roty)
@@ -42,8 +42,8 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL) {
         y <- y%*%roty
         rotlist <- list(
             arot=getTrafoRotaxis(pt1=c(1,0,0),pt2=c(0,0,0),theta=pi),
-            brot= getTrafoRotaxis(pt1=c(0,1,0),pt2=c(0,0,0),theta=pi),
-            crot = getTrafoRotaxis(pt1=c(0,0,1),pt2=c(0,0,0),theta=pi))
+            brot=getTrafoRotaxis(pt1=c(0,1,0),pt2=c(0,0,0),theta=pi),
+            crot=getTrafoRotaxis(pt1=c(0,0,1),pt2=c(0,0,0),theta=pi))
         tests <- as.matrix(expand.grid(c(1,0),c(1,0),c(1,0)))
         tmpfun <- function(x,rotlist){
             for (i in 1:3) {

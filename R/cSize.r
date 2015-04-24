@@ -13,7 +13,7 @@
 #' 
 #' @export
 cSize <- function(x)
-{	X <- apply(x, 2, scale, scale = F)
+{	X <- scale(x, scale = FALSE)
 	y <- sqrt(sum(as.vector(X)^2))
 	return(y)
 }

@@ -26,9 +26,9 @@ scalemesh <- function(mesh,size,center=c("bbox","mean", "none"))
 {	
     getmean <- TRUE
   if (substr(center[1],1L,1L) =="b")
-    meshmean <- apply(meshcube(mesh),2,mean)
+    meshmean <- colMeans(meshcube(mesh))
   else if (substr(center[1],1L,1L) =="m")
-    meshmean <- apply(vert2points(mesh),2,mean)
+    meshmean <- colMeans(vert2points(mesh))
   else if (substr(center[1],1L,1L) =="n")
      getmean <- FALSE
   else

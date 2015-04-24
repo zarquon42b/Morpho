@@ -156,7 +156,7 @@ permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-1
   for (i in 1:ng) {
       for (j in 1:nsub) {
           tmp <- subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
-          Gmeans[i,] <- Gmeans[i,]+apply(B[tmp,],2,mean)
+          Gmeans[i,] <- Gmeans[i,]+colMeans(B[tmp,,drop=FALSE])
       }
       Gmeans[i,] <- Gmeans[i,]/nsub
   }
@@ -180,10 +180,10 @@ permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-1
   for (i in 1:ng) {	
       for (j in 1:nsub) {
           tmp <- subgroups[[j]][which(subgroups[[j]] %in% groups[[i]])]
-          meanlist[[i]][j,] <- apply(B[tmp,],2,mean)
+          meanlist[[i]][j,] <- colMeans(B[tmp,,drop=FALSE])
 ### calc within subgroups Sum of Squares
           if (scale)
-              covW <- covW+cov(apply(B[tmp,],2,scale,scale=F))*(length(tmp)-1)
+              covW <- covW+cov(scale(B[tmp,,drop=FALSE],2, scale=F))*(length(tmp)-1)
       }
       
 ### calc pooled groupspecific within subgroups covariance matrix and overall variance ###
@@ -224,7 +224,7 @@ permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-1
       for (i in 1:ng) {
           for (j in 1:nsub) {
               tmp <- subgroups[[j]][which(subgroups[[j]] %in% b1[[i]])]
-              tmplist[[i]][j,] <- apply(Btmp[tmp,],2,mean)
+              tmplist[[i]][j,] <- colMeans(Btmp[tmp,,drop=FALSE])
           }
           meanvectmp[i,] <- (tmplist[[i]][1,]-tmplist[[i]][2,])
       }

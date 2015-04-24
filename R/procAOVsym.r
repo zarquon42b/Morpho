@@ -70,12 +70,12 @@ procAOVsym <- function(symproc,indnames=NULL)
 
     asymfun <- function(x)
       {
-        x <- sum(apply(symproc$Asymtan[x,],2,mean)^2)*length(x)
+        x <- sum(colMeans(symproc$Asymtan[x,])^2)*length(x)
         return(x)
       }
     symfun <- function(x)
       {
-        x <- sum(apply(symproc$Symtan[x,],2,mean)^2)*length(x)
+        x <- sum(colMeans(symproc$Symtan[x,])^2)*length(x)
         return(x)
       }
     if (length(alist[[1]]) > 1)

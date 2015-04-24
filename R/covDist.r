@@ -107,7 +107,7 @@ covPCA <- function(data,groups,rounds=1000,bootrounds=0,lower.bound=0.05, upper.
     lev <- levels(groups)
     nlev <- length(lev)
     for (i in 1:nlev) # center data per group
-        data[groups==lev[i],] <- sweep(data[groups==lev[i],],2, apply(data[groups==lev[i],],2,mean))
+        data[groups==lev[i],] <- sweep(data[groups==lev[i],],2, colMeans(data[groups==lev[i],,drop=FALSE]))
     data <- as.matrix(data)
     groups <- as.integer(groups)
     rounds <- as.integer(rounds)[1]

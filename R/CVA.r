@@ -170,15 +170,12 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     
     Gmeans <- matrix(0, ng, l)
     for (i in 1:ng) {
-        if (gsizes[i] > 1)
-            Gmeans[i, ] <- apply(N[groups==lev[i], ], 2, mean)
-        else
-            Gmeans[i, ] <- N[groups==lev[i], ]
+        Gmeans[i, ] <- colMeans(N[groups==lev[i], ,drop=FALSE])
     }
     if (weighting) {
-        Grandm <- apply(Gmeans*gsizes,2,sum)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
+        Grandm <- colMeans(Gmeans*gsizes) ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
     } else {
-        Grandm <- as.vector(apply(Gmeans, 2, mean))
+        Grandm <- colMeans(Gmeans)
     }
     Tmatrix <- N
     N <- sweep(N, 2, Grandm) #center data according to Grandmean

@@ -47,7 +47,7 @@
 #' probas <- typprob(data,data,small=TRUE)### get probability for each specimen
 #' 
 #' ### now we check how this behaves compared to the mahalanobis distance
-#' maha <- mahalanobis(data,apply(data,2,mean),cov(data))
+#' maha <- mahalanobis(data,colMeans(data),cov(data))
 #' plot(probas,maha,xlab="Probability",ylab="Mahalanobis D^2")
 #' 
 #' data2 <- procSym(abind(gorf.dat,gorm.dat))$PCscores[,1:3]
@@ -76,7 +76,7 @@ typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=N
 
     ndata <- dim(data)[1]
     if (is.null(center))
-        center <- apply(data,2,mean)
+        center <- colMeans(data)
     
     if (is.null(cova))
         cova <- cov(data)
@@ -124,7 +124,7 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
             if (sep)# use separate covariance matrices for scaling
                 tmp <- typprob(x,data[groups==glev[i],],small=small,method=method)
             else #used pooled within group covariance
-                tmp <- typprob(x,data,small=small,method=method,center=apply(data[groups==glev[i],],2,mean),cova=cova)
+                tmp <- typprob(x,data,small=small,method=method,center=colMeans(data[groups==glev[i],,drop=FALSE]),cova=cova)
             probs <- cbind(probs,tmp)
         }
     colnames(probs) <- as.character(glev)

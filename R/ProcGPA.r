@@ -59,13 +59,13 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weig
     
     if (CSinit) {
         arr.list <- lapply(arr.list, function(x){
-            x[[1]] <- apply(x[[1]],2,scale,scale=F);
+            x[[1]] <- scale(x[[1]], scale=FALSE);
             x[[1]] <- x[[1]]/sqrt(sum(x[[1]]^2));
             return(list(x[[1]],x[[2]]))
         })
     } else { 
         arr.list <- lapply(arr.list,function(x){
-            x[[1]] <- apply(x[[1]],2,scale,scale=F);
+            x[[1]] <- scale(x[[1]], scale=FALSE);
             return(list(x[[1]],x[[2]]))
         })
     }

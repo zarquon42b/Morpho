@@ -4,7 +4,7 @@ orp <- function(A, mshape=NULL)
   k <- dim(A)[2]
   n <- dim(A)[3]
   if (is.null(mshape))
-      mshape <- apply(A,c(1,2),mean)
+      mshape <- arrMean3(A)
       
   m.size <- cSize(mshape)
   Xc <- as.vector(mshape/m.size)
