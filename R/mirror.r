@@ -25,6 +25,7 @@
 #' wire3d(skullMir,col=2)
 #' }
 #' @rdname mirror
+#' @importFrom rgl rotationMatrix
 #' @export
 mirror <- function(x,icpiter=50,subsample=NULL) UseMethod("mirror")
 
@@ -40,7 +41,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     # i.e. a reflection along the z axis
     mirmat=diag(c(1,1,-1))
     out <- pca$x%*%t(mirmat)
-    xrot = rgl::rotationMatrix(pi, 1, 0, 0)
+    xrot <- rotationMatrix(pi, 1, 0, 0)
     pca2 <- prcomp(out, retx = F)
     test <- diag(pca2$rotation)
     if (test[3] < 0 || test[1] < 0)##test if rotation around x-axis is needed to fix orientation
