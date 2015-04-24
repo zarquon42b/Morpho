@@ -64,7 +64,7 @@ data <- procSym(gorf.dat)$PCscores[,1:3]
 probas <- typprob(data,data,small=TRUE)### get probability for each specimen
 
 ### now we check how this behaves compared to the mahalanobis distance
-maha <- mahalanobis(data,apply(data,2,mean),cov(data))
+maha <- mahalanobis(data,colMeans(data),cov(data))
 plot(probas,maha,xlab="Probability",ylab="Mahalanobis D^2")
 
 data2 <- procSym(abind(gorf.dat,gorm.dat))$PCscores[,1:3]
