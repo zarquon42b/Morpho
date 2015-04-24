@@ -46,7 +46,7 @@ asymPermute <- function(x,groups,rounds=1000,which=NULL) {
     gmeans <- matrix(NA, ng,ncol(asym))
     groupmeans <- array(NA, dim=c(dim(x$mshape),ng))
     for ( i in 1:ng) {
-        gmeans[i,] <- meanMat(asym[groups == lev[i],])
+        gmeans[i,] <- colMeans(asym[groups == lev[i],,drop=FALSE])
         groupmeans[,,i] <- matrix(gmeans[i,],nrow(x$mshape), ncol(x$mshape))
     }
     
@@ -91,34 +91,3 @@ asymPermute <- function(x,groups,rounds=1000,which=NULL) {
     
     return(out)
 }
-#' fast calculation of a Matrix' per row/ per column mean - useful for very large matrices
-#'
-#' fast calculation of a Matrix' per row/ per column mean - equivalent to apply(X,2,mean) or apply(X,1,mean)- useful for very large matrices
-#'
-#' @param A numeric matrix
-#' @param usedim integer: select over which dimension to average
-#'
-#' @return
-#' vector containing row/column mean
-#' @examples
-#' A <- matrix(rnorm(1e6),1000,1000)
-#' b <- meanMat(A)
-#' # same as apply(A,2,mean)
-#' b1 <- meanMat(A,1)
-#' # same as apply(A,1,mean)
-#' \dontrun{
-#' #compare timing
-#' system.time(meanMat(A))
-#' system.time(apply(A,2,mean))
-#' }
-#' @export
-meanMat <-function(A,usedim=2)
-{
-    if (!is.matrix(A) || !is.numeric(A))
-        stop("A must be a numeric matrix")
-    if (usedim==1)
-        A <- t(A)
-    out <- A[1,]*0
-    resul <- .Call("meanMat",A)
-    return(resul)
-} 
