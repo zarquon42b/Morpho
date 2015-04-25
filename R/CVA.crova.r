@@ -22,7 +22,7 @@
         Gmeans[i, ] <- colMeans(N[groups==lev[i], ,drop=FALSE])
     }
     if (weighting) {
-        Grandm <- colMeans(Gmeans*gsizes) ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
+        Grandm <- colSums(Gmeans*gsizes)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
     } else {
         Grandm <- colMeans(Gmeans)
     }
