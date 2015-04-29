@@ -1,7 +1,7 @@
 #' @rdname meshDist
 #' @method meshDist matrix
 #' @export
-meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=c("blue","green","red"),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,...)
+meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,...)
     {
         x <- list(vb=t(x),it=matrix(1:dim(x)[1]),1,dim(x)[1])
         class(x) <- "mesh3d"

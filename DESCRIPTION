@@ -27,6 +27,7 @@ Imports:
     parallel,
     yaImpute,
     doParallel (>= 1.0.6),
+    colorRamps,
     Rcpp
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
