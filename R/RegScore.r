@@ -43,6 +43,7 @@ RegScore <- function(model,x=NULL) {
     coef <- coef(model)[-1,]
     if (!is.vector(coef))
         coef <- t(coef)
+    coef <- coef/base::norm(coef,"2")
     RegScores <- x%*%coef
     colnames(RegScores) <- colnames(coef)
     return(RegScores)
