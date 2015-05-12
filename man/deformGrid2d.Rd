@@ -6,7 +6,7 @@
 \usage{
 deformGrid2d(matrix, tarmatrix, ngrid = 0, lwd = 1, show = c(1:2),
   lines = TRUE, lcol = 1, col1 = 2, col2 = 3, pcaxis = FALSE,
-  add = FALSE, ...)
+  add = FALSE, wireframe = NULL, ...)
 }
 \arguments{
 \item{matrix}{reference matrix containing 2D landmark coordinates or mesh of class "mesh3d"}
@@ -32,6 +32,8 @@ plotted. Options are combinations of 1,2 and 3.}
 \item{pcaxis}{logical: align grid by shape's principal axes.}
 
 \item{add}{logical: if TRUE, output will be drawn on existing plot.}
+
+\item{wireframe}{list/vector containing row indices to be plotted as wireframe (see \code{\link{lineplot}}.)}
 
 \item{...}{additional parameters passed to plot}
 }

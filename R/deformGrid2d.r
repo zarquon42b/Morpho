@@ -17,6 +17,7 @@
 #' @param col2 color of "tarmat"
 #' @param pcaxis logical: align grid by shape's principal axes.
 #' @param add logical: if TRUE, output will be drawn on existing plot.
+#' @param wireframe list/vector containing row indices to be plotted as wireframe (see \code{\link{lineplot}}.)
 #' @param ... additional parameters passed to plot
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
@@ -29,7 +30,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -37,9 +38,9 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
 
         x2 <- x1 <- c(0:(ngrid-1))/ngrid;
         x0 <- as.matrix(expand.grid(x1,x2))
-    
+        
         cent.mat <- scale(matrix,scale=FALSE)
-        mean.mat <- colMeans(matrix)
+        mean.mat <- colMeans((matrix+tarmatrix)/2)
         xrange <- diff(range(matrix[,1]))
         yrange <- diff(range(matrix[,2]))
         
@@ -50,11 +51,14 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         maxi <- 1.2*maxi
         x0 <- maxi*x0
         x0 <- scale(x0, scale=FALSE)
+        x0[,2] <- x0[,2]
         if (pcaxis)
             space <- eigen(crossprod(cent.mat))$vectors
         else
             space <- diag(2)
-        x0 <- t(t(x0%*%space)+mean.mat)
+        
+        x0 <- (x0%*%space)
+        x00 <- x0 <- scale(x0,center=-mean.mat,scale=F)
         x0 <- tps3d(x0,matrix,tarmatrix)
         
         ## create deformation cube
@@ -67,33 +71,38 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
             zinit <- cbind(zinit,zinit0+(i*ngrid))
     }
     lims <- apply(rbind(matrix,tarmatrix,x0),2,range)
-    if (1 %in% show)
-         if (add)
-             points(matrix,col=col1,...)
-         else 
-             plot(matrix,col=col1,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
+    if (1 %in% show) {
+        if (add)
+            points(matrix,col=col1,...)
+        else 
+            plot(matrix,col=col1,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
+        if (!is.null(wireframe))
+            lineplot(matrix,wireframe,col=col1,lwd=lwd)
+        
+    }
     if(2 %in% show) {
         if (1 %in% show || add)
             points(tarmatrix,col=col2,...)
         else 
             plot(tarmatrix,col=col2,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
-        if (lines) {
-            linemesh <- list()
-            
-            linemesh$vb <- rbind(matrix,tarmatrix)
-            linemesh$it <- cbind(1:k,(1:k)+k)
-            for (i in 1:nrow(linemesh$it))
-                lines(linemesh$vb[linemesh$it[i,],],lwd=lwd,col=lcol)
-        }
+        if (!is.null(wireframe))
+            lineplot(tarmatrix,wireframe,col=col2,lwd=lwd)
     }
+    if (lines) {
+        linemesh <- list()
+        
+        linemesh$vb <- rbind(matrix,tarmatrix)
+        linemesh$it <- cbind(1:k,(1:k)+k)
+        for (i in 1:nrow(linemesh$it))
+            lines(linemesh$vb[linemesh$it[i,],],lwd=lwd,col=lcol)
+    }
+    
     if (ngrid > 1) {
         for (i in 1:ncol(zinit)) {
             polygon(x0[zinit[,i],],lwd=lwd)
         }
-        if (2 %in% show)
-            points(tarmatrix,col=col2,...)
-        if (1 %in% show)
-            points(matrix,col=col1,...)
+       
     }
+   
 }
 
