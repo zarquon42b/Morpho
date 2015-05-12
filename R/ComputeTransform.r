@@ -6,6 +6,8 @@
 #' @param type set type of affine transformation: options are  "rigid", "similarity" (rigid + scale) and "affine",
 #' @param reflection logical: if TRUE "rigid" and "similarity" allow reflections.
 #' @param lambda numeric: regularisation parameter of the TPS.
+#' @details
+#' \code{x} and \code{y} can also be a pair of meshes with corresponding vertices.
 #' @return returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
 #' 
 #' @examples
@@ -14,6 +16,10 @@
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @export
 computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=0) {
+    if (inherits(x,"mesh3d"))
+        x <- vert2points(x)
+     if (inherits(y,"mesh3d"))
+        y <- vert2points(y)
     type <- substr(type[1],1L,1L)
     if (type %in% c("r","s")) {
         scale <- TRUE

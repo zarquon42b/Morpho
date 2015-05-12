@@ -24,6 +24,9 @@ returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tps
 \description{
 calculate an affine transformation matrix
 }
+\details{
+\code{x} and \code{y} can also be a pair of meshes with corresponding vertices.
+}
 \examples{
 data(boneData)
 trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
