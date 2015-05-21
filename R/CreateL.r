@@ -44,7 +44,7 @@
 #' sqrt(sum(be3^2))
 #' @importFrom Matrix bdiag
 #' @export
-CreateL <- function(matrix,lambda=0, output=c("L","Linv","Lsubk", "Lsubk3"))
+CreateL <- function(matrix,lambda=1e-8, output=c("L","Linv","Lsubk", "Lsubk3"))
 {
     if (ncol(matrix) == 3) {
         out <- list()
@@ -90,7 +90,7 @@ CreateL <- function(matrix,lambda=0, output=c("L","Linv","Lsubk", "Lsubk3"))
     } else
         stop("only works for matrices with 2 or 3 columns")
 }
-CreateL2D <- function(matrix, lambda=0, blockdiag=TRUE)
+CreateL2D <- function(matrix, lambda=1e-8, blockdiag=TRUE)
 {
     k <- dim(matrix)[1]
     K <- matrix(0,k,k)

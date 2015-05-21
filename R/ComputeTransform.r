@@ -15,7 +15,7 @@
 #' trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @export
-computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=0) {
+computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8) {
     if (inherits(x,"mesh3d"))
         x <- vert2points(x)
      if (inherits(y,"mesh3d"))
