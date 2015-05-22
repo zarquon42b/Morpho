@@ -24,7 +24,7 @@ tanplan(...)
 
 conv2backf(...)
 
-warp.mesh(mesh, matr, matt, lambda = 0, updateNormals = TRUE,
+warp.mesh(mesh, matr, matt, lambda = 1e-08, updateNormals = TRUE,
   silent = FALSE)
 }
 \description{

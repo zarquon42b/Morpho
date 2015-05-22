@@ -5,7 +5,7 @@
 \title{symmetrize a triangular mesh}
 \usage{
 retroDeformMesh(mesh, mat, pairedLM, hmult = 5, alpha = 0.01, rot = TRUE,
-  lambda = 0)
+  lambda = 1e-08)
 }
 \arguments{
 \item{mesh}{triangular mesh of class mesh3d}
