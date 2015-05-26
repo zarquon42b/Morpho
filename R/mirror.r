@@ -77,7 +77,7 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL) {
 #' @param iterations integer: number of iterations
 #' @param mindist restrict valid points to be within this distance
 #' @param subsample use a subsample determined by kmean clusters to speed up computation
-#' @param scale logical: if TRUE, scaling is allowed
+#' @param type character: select the transform to be applied, can be "rigid","similarity" or "affine"
 #' @return returns the rotated landmarks
 #' @examples
 #' data(nose)
@@ -99,12 +99,13 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL) {
 #' lines(rbind(icpsort[i,],gorf.dat[i,,2]))
 #' @importFrom Rvcg vcgKDtree
 #' @export
-icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,scale=FALSE) {
+icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","similarity","affine")) {
     m <- ncol(x)
     if (m == 2) {
         x <- cbind(x,0)
         y <- cbind(y,0)
     }
+    type <- match.arg(type,c("rigid","similarity","affine"))
     if (!is.null(subsample)) {
         subsample <- min(nrow(x)-1,subsample)
         subs <- duplicated(kmeans(x,centers=subsample,iter.max =100)$cluster)
@@ -115,10 +116,13 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,scale=FALSE) {
     for (i in 1:iterations) {
         clost <- vcgKDtree(y,xtmp,1)
         good <- which(clost$distance < mindist)
-        xtmp[,1:m] <- rotonmat(xtmp[,1:m],xtmp[good,1:m],y[clost$index[good],1:m],scale = scale,reflection=FALSE)
+        trafo <- computeTransform(y[clost$index[good],1:m],xtmp[good,1:m],type=type)
+        xtmp <- applyTransform(xtmp[,1:m],trafo)
     }
-    if (!is.null(subsample))
-        xtmp <- rotonmat(x[,1:m],x[!subs,1:m],xtmp[,1:m],scale=scale,reflection=FALSE)
+    if (!is.null(subsample)) {
+        fintrafo <- computeTransform(xtmp[,1:m],x[!subs,1:m],type = type)
+        xtmp <- applyTransform(x,fintrafo)
+    }
     if (m == 2)
         xtmp <- xtmp[,1:2]
     return(xtmp)

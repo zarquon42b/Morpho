@@ -4,7 +4,8 @@
 \alias{icpmat}
 \title{match two landmark configurations using iteratively closest point search}
 \usage{
-icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL, scale = FALSE)
+icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL,
+  type = c("rigid", "similarity", "affine"))
 }
 \arguments{
 \item{x}{moving landmarks}
@@ -17,7 +18,7 @@ icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL, scale = FALSE)
 
 \item{subsample}{use a subsample determined by kmean clusters to speed up computation}
 
-\item{scale}{logical: if TRUE, scaling is allowed}
+\item{type}{character: select the transform to be applied, can be "rigid","similarity" or "affine"}
 }
 \value{
 returns the rotated landmarks
