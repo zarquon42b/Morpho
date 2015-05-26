@@ -6,20 +6,24 @@
 \alias{pcAlign.mesh3d}
 \title{align two 3D-pointclouds/meshes by their principal axes}
 \usage{
-pcAlign(x, y, optim = TRUE, subsample = NULL)
+pcAlign(x, y, optim = TRUE, subsample = NULL, iterations = iterations)
 
-\method{pcAlign}{matrix}(x, y, optim = TRUE, subsample = NULL)
+\method{pcAlign}{matrix}(x, y, optim = TRUE, subsample = NULL,
+  iterations = 10)
 
-\method{pcAlign}{mesh3d}(x, y, optim = TRUE, subsample = NULL)
+\method{pcAlign}{mesh3d}(x, y, optim = TRUE, subsample = NULL,
+  iterations = 10)
 }
 \arguments{
 \item{x}{matrix or mesh3d}
 
 \item{y}{matrix or mesh3d, if missing, x will be centered by its centroid and aligned by its princial axis.}
 
-\item{optim}{logical if TRUE, all possible PC-axis are tested and the rotation with the smallest RMSE between configs will be used.}
+\item{optim}{logical if TRUE, the RMSE between reference and target will be minimized testing all possible axes alignments and (if iterations > 0) followed by a rigid ICP procedure.}
 
-\item{subsample}{integer use subsampled points to decrease computation time}
+\item{subsample}{integer: use subsampled points to decrease computation time of optimization.}
+
+\item{iterations}{integer: number of iterations for optimization.}
 }
 \value{
 rotated and translated version of x to the center and principal axes of y.
