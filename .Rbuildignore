@@ -1,2 +1,4 @@
 R/covWrap.r
 .gitignore
+^.*\.Rproj$
+^\.Rproj\.user$
