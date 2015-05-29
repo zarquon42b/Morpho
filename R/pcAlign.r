@@ -61,31 +61,27 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL,iterations=10) {
         dists <- 1e10
         fintrafo <- diag(4)
         if (optim) {
-        for (i in 1:8) {
-            
-            rottmp <- tmpfun(tests[i,],rotlist)
-            trafotmp <- rottmp[[1]]%*%rottmp[[2]]%*%rottmp[[3]]
-            xtmp <- applyTransform(x,trafotmp)
-            if (iterations > 0) {
-                xtmp1 <- icpmat(xtmp,y,iterations=iterations,subsample=subsample)
-                trafoicp <- computeTransform(xtmp1,xtmp)
-                trafotmp <- trafoicp%*%trafotmp
-            }
+            for (i in 1:8) {
+                rottmp <- tmpfun(tests[i,],rotlist)
+                trafotmp <- rottmp[[1]]%*%rottmp[[2]]%*%rottmp[[3]]
+                xtmp <- applyTransform(x,trafotmp)
+                if (iterations > 0) {
+                    xtmp1 <- icpmat(xtmp,y,iterations=iterations,subsample=subsample)
+                    trafoicp <- computeTransform(xtmp1,xtmp)
+                    trafotmp <- trafoicp%*%trafotmp
+                }
                                         # print(system.time(disttmp <- mean(ann(xtmp,y,k=1,verbose = F,search.type = "priority")$knnIndexDist[2]^2)))
-            disttmp <- mean(vcgKDtree(y,xtmp1[!subs,],k=1)$dist^2)
-            if (disttmp < dists) {
-                dists <- disttmp
-                fintrafo <- trafotmp
-                
+                disttmp <- mean(vcgKDtree(y,xtmp1[!subs,],k=1)$dist^2)
+                if (disttmp < dists) {
+                    dists <- disttmp
+                    fintrafo <- trafotmp
+                }
             }
-            #x <- icpmat(x,y,iterations=iterations,subsample=subsample)
         }
         x <- applyTransform(x,fintrafo)
-                
         x <- x%*%t(pca2$rotation)
         x <- t(t(x)+pca2$center)
-        
-        
+                
         return(x)
     } else {
         x <- scale(x,scale=F)
@@ -95,8 +91,6 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL,iterations=10) {
         
         x <- x%*%rotms
         return(x)
-    }
-        
     }
 }
 #' @rdname pcAlign
