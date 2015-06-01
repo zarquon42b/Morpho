@@ -1,6 +1,6 @@
 #' get intersection between a line and a plane
 #'
-#'  get intersection between a line and a plane
+#' get intersection between a line and a plane
 #' @param ptLine vector of length 3: point on line
 #' @param ptDir  vector of length 3: direction vector of line
 #' @param planeNorm vector of length 3: plane normal vector
