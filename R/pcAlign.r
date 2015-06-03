@@ -66,12 +66,13 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL,iterations=10) {
                 trafotmp <- rottmp[[1]]%*%rottmp[[2]]%*%rottmp[[3]]
                 xtmp <- applyTransform(x,trafotmp)
                 if (iterations > 0) {
-                    xtmp <- icpmat(xtmp,y,iterations=iterations,subsample=subsample)
+                    xtmp1 <- icpmat(xtmp,y,iterations=iterations,subsample=subsample)
                     trafoicp <- computeTransform(xtmp1,xtmp)
                     trafotmp <- trafoicp%*%trafotmp
+                    disttmp <- mean(vcgKDtree(y,xtmp1[!subs,],k=1)$dist^2)
+                } else {
+                    disttmp <- mean(vcgKDtree(y,xtmp[!subs,],k=1)$dist^2)
                 }
-                                        # print(system.time(disttmp <- mean(ann(xtmp,y,k=1,verbose = F,search.type = "priority")$knnIndexDist[2]^2)))
-                disttmp <- mean(vcgKDtree(y,xtmp[!subs,],k=1)$dist^2)
                 if (disttmp < dists) {
                     dists <- disttmp
                     fintrafo <- trafotmp
