@@ -41,18 +41,13 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
     # i.e. a reflection along the z axis
     mirmat <- diag(c(1,1,-1))
     out <- pca$x%*%t(mirmat)
-    xrot <- rotationMatrix(pi, 1, 0, 0)
-    pca2 <- prcomp(out, retx = F)
-    test <- diag(pca2$rotation)
-    if (test[3] < 0 || test[1] < 0)##test if rotation around x-axis is needed to fix orientation
-        out <-  applyTransform(out,xrot)
     
-    if (icpiter > 0) {
-        if (pcAlign)
-            out <- pcAlign(out,pca$x,iterations=icpiter,subsample = subsample)
-        else
-            out <- icpmat(out,pca$x,icpiter,subsample = subsample)
-    }
+    
+    if (pcAlign)
+        out <- pcAlign(out,pca$x,iterations=icpiter,subsample = subsample)
+    else if (icpiter > 0)
+        out <- icpmat(out,pca$x,icpiter,subsample = subsample)
+    
     out <- out%*%t(pca$rotation)
     out <- t(t(out)+pca$center)
     if (m == 2)
