@@ -5,7 +5,7 @@
 #' @param x k x 3 matrix or mesh3d
 #' @param icpiter integer: number of iterations to match reflected configuration onto original one
 #' @param subsample integer: use only a subset for icp matching
-#'
+#' @param pcAlign if TRUE, the icp will be preceeded by an alignment of the principal axis (only used if icpiter > 0).
 #' @details reflect a mesh configuration at the plane spanned by its first 2 principal axis, then try to rigidily register the reflected configuration onto the original one using iterative closest point search to establish correspondences.
 #' @return returns the reflected object
 #' @examples
@@ -27,11 +27,11 @@
 #' @rdname mirror
 #' @importFrom rgl rotationMatrix
 #' @export
-mirror <- function(x,icpiter=50,subsample=NULL) UseMethod("mirror")
+mirror <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) UseMethod("mirror")
 
 #' @rdname mirror
 #' @export
-mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
+mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
 
     m <- ncol(x)
     if (m == 2)
@@ -47,8 +47,12 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
     if (test[3] < 0 || test[1] < 0)##test if rotation around x-axis is needed to fix orientation
         out <-  applyTransform(out,xrot)
     
-    if (icpiter > 0)
-        out <- icpmat(out,pca$x,icpiter,subsample = subsample)
+    if (icpiter > 0) {
+        if (pcAlign)
+            out <- pcAlign(out,pca$x,iterations=icpiter,subsample = subsample)
+        else
+            out <- icpmat(out,pca$x,icpiter,subsample = subsample)
+    }
     out <- out%*%t(pca$rotation)
     out <- t(t(out)+pca$center)
     if (m == 2)
@@ -59,10 +63,10 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL) {
 
 #' @rdname mirror
 #' @export
-mirror.mesh3d <- function(x,icpiter=50,subsample=NULL) {
+mirror.mesh3d <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
     mesh <- x
     x <- vert2points(mesh)
-    vb <- mirror(x,icpiter=icpiter,subsample=subsample)
+    vb <- mirror(x,icpiter=icpiter,subsample=subsample,pcAlign=pcAlign)
     mesh$vb[1:3,] <- t(vb)
     mesh <- invertFaces(mesh)
     return(mesh)    
