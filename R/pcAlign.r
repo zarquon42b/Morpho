@@ -5,7 +5,7 @@
 #' @param y matrix or mesh3d, if missing, x will be centered by its centroid and aligned by its princial axis.
 #' @param optim logical if TRUE, the RMSE between reference and target will be minimized testing all possible axes alignments and (if iterations > 0) followed by a rigid ICP procedure.
 #' @param subsample integer: use subsampled points to decrease computation time of optimization.
-#' @param iterations integer: number of iterations for optimization.
+#' @param iterations integer: number of iterations for optimization (the higher the more accurate but also more time consuming).
 #' @return rotated and translated version of x to the center and principal axes of y.
 #' @details \code{x} and \code{y} will first be centered and aligned by their PC-axes. If \code{optim=TRUE},all possible 8 ordinations of PC-axes will be tested and the one with the smallest RMSE between the transformed version of \code{x} and the closest points on \code{y} will be used. Then the rotated version of \code{x} is translated to the original center of mass of \code{y}.
 #' @examples
@@ -20,7 +20,7 @@
 #' @rdname pcAlign
 #' @importFrom Rvcg vcgKDtree
 #' @export
-pcAlign <- function(x,y,optim=TRUE,subsample=NULL,iterations=iterations)UseMethod("pcAlign")
+pcAlign <- function(x,y,optim=TRUE,subsample=NULL,iterations=10) UseMethod("pcAlign")
 
 #' @rdname pcAlign
 #' @export

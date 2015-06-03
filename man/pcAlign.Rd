@@ -6,7 +6,7 @@
 \alias{pcAlign.mesh3d}
 \title{align two 3D-pointclouds/meshes by their principal axes}
 \usage{
-pcAlign(x, y, optim = TRUE, subsample = NULL, iterations = iterations)
+pcAlign(x, y, optim = TRUE, subsample = NULL, iterations = 10)
 
 \method{pcAlign}{matrix}(x, y, optim = TRUE, subsample = NULL,
   iterations = 10)
@@ -23,7 +23,7 @@ pcAlign(x, y, optim = TRUE, subsample = NULL, iterations = iterations)
 
 \item{subsample}{integer: use subsampled points to decrease computation time of optimization.}
 
-\item{iterations}{integer: number of iterations for optimization.}
+\item{iterations}{integer: number of iterations for optimization (the higher the more accurate but also more time consuming).}
 }
 \value{
 rotated and translated version of x to the center and principal axes of y.
