@@ -17,6 +17,7 @@
 #' @param tol tolerance for the eigenvalues of the bending energy matrix to be
 #' zero
 #' @param orp logical: request orthogonal projection into tangent space.
+#' @param pcAlign logical: if TRUE, the shapes are aligned by the principal axis of the first specimen
 #' @return
 #' \item{bescores }{relative warp scores}
 #' \item{uniscores }{uniform scores}
@@ -63,14 +64,14 @@
 #' }
 #' 
 #' @export
-relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE)
+relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE)
 {
     #n <- dim(data)[3]
     m <- dim(data)[2]
     k <- dim(data)[1]
     datanames <- dimnames(data)[[3]]
 ### superimpose data ###
-    proc <- ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE)
+    proc <- ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE,pcAlign=pcAlign)
     if (orp)
         proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
     
