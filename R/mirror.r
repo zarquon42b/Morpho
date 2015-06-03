@@ -38,20 +38,8 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
         x <- cbind(x,0)
     
     pca <- prcomp(x,scale. = F)
-<<<<<<< HEAD
     # i.e. a reflection along the z axis
     mirmat <- diag(c(1,1,-1))
-=======
-    krdelta <- diag(3)
-    mirmat <- matrix(0,3,3)
-    a <- c(0,0,1)
-    anorm <- sum(a^2)
-    for (i in 1:3)
-        for (j in 1:3)
-            mirmat[i,j] <- 2*a[i]*a[j]/anorm
-
-    mirmat <- krdelta-mirmat
->>>>>>> parent of f98c4e0... simplify calculation of mirror matrix along z axis
     out <- pca$x%*%t(mirmat)
     xrot <- rotationMatrix(pi, 1, 0, 0)
     pca2 <- prcomp(out, retx = F)
