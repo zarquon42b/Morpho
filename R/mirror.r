@@ -115,11 +115,11 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
     for (i in 1:iterations) {
         clost <- vcgKDtree(y,xtmp,1)
         good <- which(clost$distance < mindist)
-        trafo <- computeTransform(y[clost$index[good],1:m],xtmp[good,1:m],type=type)
-        xtmp <- cbind(applyTransform(xtmp[,1:m],trafo),0)
+        trafo <- computeTransform(y[clost$index[good],],xtmp[good,],type=type)
+        xtmp <- applyTransform(xtmp[,],trafo)
     }
     if (!is.null(subsample)) {
-        fintrafo <- computeTransform(xtmp[,1:m],x[!subs,1:m],type = type)
+        fintrafo <- computeTransform(xtmp[,],x[!subs,],type = type)
         xtmp <- applyTransform(x,fintrafo)
     }
     if (m == 2)
