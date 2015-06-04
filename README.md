@@ -1,6 +1,5 @@
 
 Morpho [![Travis Build Status](https://travis-ci.org/zarquon42b/Morpho.png?branch=master)](https://travis-ci.org/zarquon42b/Morpho)
-
 ======
 __Morpho__ provides a rich toolset for Geometric Morphometrics and mesh processing in R. This includes (among other stuff) mesh deformations based on reference points, permutation tests, detection of outliers, processing of sliding semi-landmarks, im- and export of a variety of triangular surface mesh files.
 
