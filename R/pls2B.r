@@ -68,12 +68,12 @@
 #' ##show effects of first latent variable
 #' plsEffects <- plsCoVar(pls1,i=1)
 #' deformGrid2d(plsEffects$x[,,1],plsEffects$x[,,2])##show on x
-#' deformGrid2d(plsEffects$y[,,1],plsEffects$y[,,2],add=T,pch=19)##show on y
+#' deformGrid2d(plsEffects$y[,,1],plsEffects$y[,,2],add=TRUE,pch=19)##show on y
 #'
 #' ##show effects of 2nd latent variable
 #' plsEffects2 <- plsCoVar(pls1,i=2)
 #' deformGrid2d(plsEffects2$x[,,1],plsEffects2$x[,,2])##show on x
-#' deformGrid2d(plsEffects2$y[,,1],plsEffects2$y[,,2],add=T,pch=19)##show on y
+#' deformGrid2d(plsEffects2$y[,,1],plsEffects2$y[,,2],add=TRUE,pch=19)##show on y
 #' @export
 pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.cores=parallel::detectCores()) {
     
