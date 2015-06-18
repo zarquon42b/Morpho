@@ -2,6 +2,45 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.3.0 (2015-06-18)}{
+  \subsection{New features}{
+    \itemize{
+      \item added function line2plane to calculate intersection of a
+      line and a plane
+      \item added option pcAlign in function mirror to improve alignment to original object
+      \item added option pcAlign in relWarps and procSym to allow
+      alignment to first specimen rather than PC-axes.
+      \item Gregory  Jefferis added unit testing setup infrastructure
+      \item added new functions getPLSfromScores, getPLSscores
+      predictPLSfromScores,predictPLSfromData and plsCoVar for
+      prediction and handling results from 2-Block PLS regression.
+      \item  made relaxLM an S3 function and added methods for mesh3d to relax two meshes with corresponding vertices. Added use.lm to specify subset of coordinates for alignment if bending =FALSE
+      \item new option 'as.factor' in name2factor
+      \item deprecated warp.mesh (use tps3d now for meshes and matrices)
+      \item meshDist now allows custom colorramps
+      \item added option wireframe in deformGrid2d
+      \item added support for registered meshes in computeTransform
+      \item added selection of transform type in icpmat
+      \item added option use.lm to slider3d to specify subset for
+      alignment if bending =FALSE
+      \item added getMeaningfulPCs to determine meaningful Principal Components. 
+
+    }
+  }
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item fixed normal handling in mergeMeshes
+      \item fixed coefficient scaling in RegScore
+      \item added update of normals in meshDist
+      \item removed unnecessary function meanMat and replaced it with generic colMeans
+      \item fixed calculation of loadings in pls2B
+      \item set lambda (regularization) in all tps related functions to 1e-8 to avoid gross distortions in some cases
+      \item fixed typo in pcAlign leading to misbehaviour if iterations < 1
+    }
+  }
+}
+
+
 \section{Changes in Morpho version 2.2 (2014-12-16)}{
   \subsection{New features}{
     \itemize{
@@ -92,6 +131,8 @@
    \item add new function 'quad2trimesh' for converting quadric meshes into triangular meshes.
    \item made code in pcaplot3d easier to maintain by creating .pcaplot3d
    \item assigned additional attributes to output of procSym
+   \item exposed armaGinv, a simple wrapper to call Armadillos
+   pseudo-inverse function.
  }
 }
 
