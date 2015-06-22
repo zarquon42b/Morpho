@@ -6,6 +6,7 @@
 #' @param icpiter integer: number of iterations to match reflected configuration onto original one
 #' @param subsample integer: use only a subset for icp matching
 #' @param pcAlign if TRUE, the icp will be preceeded by an alignment of the principal axis (only used if icpiter > 0).
+#' @param mc.cores use parallel processing to find best alignment to original shape.
 #' @details reflect a mesh configuration at the plane spanned by its first 2 principal axis, then try to rigidily register the reflected configuration onto the original one using iterative closest point search to establish correspondences.
 #' @return returns the reflected object
 #' @examples
@@ -27,11 +28,11 @@
 #' @rdname mirror
 #' @importFrom rgl rotationMatrix
 #' @export
-mirror <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) UseMethod("mirror")
+mirror <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE,mc.cores=2) UseMethod("mirror")
 
 #' @rdname mirror
 #' @export
-mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
+mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE,mc.cores=2) {
 
     m <- ncol(x)
     if (m == 2)
@@ -44,7 +45,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
     
     
     if (pcAlign)
-        out <- pcAlign(out,pca$x,iterations=icpiter,subsample = subsample)
+        out <- pcAlign(out,pca$x,iterations=icpiter,subsample = subsample,mc.cores = mc.cores)
     else if (icpiter > 0)
         out <- icpmat(out,pca$x,icpiter,subsample = subsample)
     
@@ -58,10 +59,10 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
 
 #' @rdname mirror
 #' @export
-mirror.mesh3d <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE) {
+mirror.mesh3d <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE,mc.cores=2) {
     mesh <- x
     x <- vert2points(mesh)
-    vb <- mirror(x,icpiter=icpiter,subsample=subsample,pcAlign=pcAlign)
+    vb <- mirror(x,icpiter=icpiter,subsample=subsample,pcAlign=pcAlign,mc.cores=mc.cores)
     mesh$vb[1:3,] <- t(vb)
     mesh <- invertFaces(mesh)
     return(mesh)    

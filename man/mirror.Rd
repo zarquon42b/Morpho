@@ -6,11 +6,13 @@
 \alias{mirror.mesh3d}
 \title{mirror landmarks or triangular mesh in place}
 \usage{
-mirror(x, icpiter = 50, subsample = NULL, pcAlign = TRUE)
+mirror(x, icpiter = 50, subsample = NULL, pcAlign = TRUE, mc.cores = 2)
 
-\method{mirror}{matrix}(x, icpiter = 50, subsample = NULL, pcAlign = TRUE)
+\method{mirror}{matrix}(x, icpiter = 50, subsample = NULL, pcAlign = TRUE,
+  mc.cores = 2)
 
-\method{mirror}{mesh3d}(x, icpiter = 50, subsample = NULL, pcAlign = TRUE)
+\method{mirror}{mesh3d}(x, icpiter = 50, subsample = NULL, pcAlign = TRUE,
+  mc.cores = 2)
 }
 \arguments{
 \item{x}{k x 3 matrix or mesh3d}
@@ -20,6 +22,8 @@ mirror(x, icpiter = 50, subsample = NULL, pcAlign = TRUE)
 \item{subsample}{integer: use only a subset for icp matching}
 
 \item{pcAlign}{if TRUE, the icp will be preceeded by an alignment of the principal axis (only used if icpiter > 0).}
+
+\item{mc.cores}{use parallel processing to find best alignment to original shape.}
 }
 \value{
 returns the reflected object
