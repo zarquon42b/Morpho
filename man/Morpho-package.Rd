@@ -23,9 +23,9 @@ LazyLoad: \tab yes\cr
 }
 }
 \note{
-The pdf-version of Morpho-help can be obtained from CRAN on \url{http://cran.r-project.org/web/packages/Morpho/Morpho.pdf}
+The pdf-version of Morpho-help can be obtained from CRAN on \url{http://cran.r-project.org/package=Morpho}
 
-For more advanced operations on triangular surface meshes, check out my package Rvcg: \url{http://cran.r-project.org/web/packages/Rvcg/} or the code repository on github \url{https://github.com/zarquon42b/Rvcg}
+For more advanced operations on triangular surface meshes, check out my package Rvcg: \url{http://cran.r-project.org/package=Rvcg} or the code repository on github \url{https://github.com/zarquon42b/Rvcg}
 }
 \author{
 Stefan Schlager \email{stefan.schlager@uniklinik-freiburg.de}
