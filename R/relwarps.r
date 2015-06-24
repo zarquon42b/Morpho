@@ -86,67 +86,56 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
     Sc <- cov(vecs)
     
 ### explore eigenstructure of BE ###	
-    eigBE <- eigen(BE,symmetric=TRUE)
-    eigBE$values <- Re(eigBE$values)
-    eigBE$vectors <- Re(eigBE$vectors)
+    eigBE <- svd(BE)
+    eigBE$d <- Re(eigBE$d)
+    eigBE$v <- Re(eigBE$v)
     
-    zero <- which(eigBE$values<tol)
-    diaginv <- diagBE <- eigBE$values*0
-    diagBE[-zero] <- eigBE$values[-zero]^(-alpha/2)
-    diaginv[-zero] <- eigBE$values[-zero]^(alpha/2)
-    IM <- diag(rep(1,m))
+    zero <- which(eigBE$d<tol)
+    diaginv <- diagBE <- eigBE$d*0
+    diagBE[-zero] <- eigBE$d[-zero]^(-alpha/2)
+    diaginv[-zero] <- eigBE$d[-zero]^(alpha/2)
+    IM <- Matrix::Diagonal(x=rep(1,m))
     
     if (alpha !=0) {	
-        BE2 <- IM%x%(eigBE$vectors%*%diag(diagBE)%*%t(eigBE$vectors))
+        suppressMessages(BE2 <- IM%x%(eigBE$v%*%Matrix::Diagonal(x=diagBE)%*%t(eigBE$v)))
         ##  invBE2 <- IM%x%(eigBE$vectors%*%diag(diaginv)%*%t(eigBE$vectors))
     } else {
-        BE2 <- diag(rep(1,k*m))
+        BE2 <- Matrix::Diagonal(x=rep(1,k*m))
         ##   invBE2 <- BE2
     }
     
 ### generate covariance structure of scaled space ###
-    covcom <- BE2%*%Sc%*%BE2	
-    eigCOVCOM <- eigen(covcom,symmetric=TRUE)
-    nonz <- which(eigCOVCOM$values>tol)
-    bescores <- t(t(eigCOVCOM$vectors[,nonz])%*%BE2%*%t(vecs))
+    covcom <- suppressMessages(BE2%*%Sc%*%BE2)
+    eigCOVCOM <- svd(covcom)
+    nonz <- which(eigCOVCOM$d > tol)
+    bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$v[,nonz])%*%BE2)%*%t(vecs)))
     rownames(bescores) <- rownames(vecs)
-    bePCs <- IM %x% eigBE$vectors
-    bePCs <- bePCs %*% diag(rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$vectors
-    
+    bePCs <-  suppressMessages(IM %x% eigBE$v)
+    bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$v))
+
 ### calculate uniform component scores ###
     ## U <- NULL
     uniscores <- NULL
     
 ### Rohlf first method ###
     
-    E <- eigBE$vectors[,-zero]
+    E <- eigBE$v[,-zero]
     N <- diag(rep(1,k))-E%*%solve(crossprod(E))%*%t(E)
     V <- vecs
     NIk <- IM %x% N
     
     svdBend <- svd(V%*%NIk)
+    useBendv <- min(ncol(svdBend$v),(m+0.5*m*(m-1)-1))
     LS <- svdBend$u%*%diag(svdBend$d)
-    uniscores <- LS[,1:(m+0.5*m*(m-1)-1)]
+    useLS <- min(ncol(LS),(m+0.5*m*(m-1)-1))
+    uniscores <- LS[,1:useLS]
     rownames(uniscores) <- datanames   
     
 ### create Variance table according to eigenvalues ###
-    values <- eigCOVCOM$values[nonz]
-    if (length(values)==1) {
-        Var <- values
-    } else {
-        Var <- matrix(NA,length(values),3)
-        Var[,1] <- values
-        
-        for (i in 1:length(values))
-            Var[i,2] <- (values[i]/sum(values))*100
-        Var[1,3] <- Var[1,2]
-        for (i in 2:length(values))
-            Var[i,3] <- Var[i,2]+ Var[i-1,3]
-        
-        colnames(Var) <- c("eigenvalues","% Variance","Cumulative %")
-    }
+   
+    Var <- createVarTable(eigCOVCOM$d[nonz],square = FALSE)
     
-    return(list(bescores=bescores,uniscores=uniscores,Var=Var,mshape=proc$mshape,rotated=proc$rotated,bePCs=bePCs,uniPCs=svdBend$v[,1:(m+0.5*m*(m-1)-1)]))
+    return(list(bescores=bescores,uniscores=uniscores,Var=Var,mshape=proc$mshape,rotated=proc$rotated,bePCs=bePCs,uniPCs=svdBend$v[,1:useBendv]))
     
 }
 
