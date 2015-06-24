@@ -23,7 +23,10 @@
       \item added selection of transform type in icpmat
       \item added option use.lm to slider3d to specify subset for
       alignment if bending =FALSE
-      \item added getMeaningfulPCs to determine meaningful Principal Components. 
+      \item added getMeaningfulPCs to determine meaningful Principal
+      Components. 
+      \item made optimization in pcAlign and mirror run in parallel (not supported
+      on Windows OS).
 
     }
   }
