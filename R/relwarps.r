@@ -75,8 +75,12 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
     datanames <- dimnames(data)[[3]]
 ### superimpose data ###
     proc <- ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE,pcAlign=pcAlign)
-    if (orp)
-        proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
+    if (orp) {
+        if (CSinit)
+            proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
+        else
+            message("\n   NOTE: projection into tangent space has been skipped because CSinit == FALSE\n")
+    }
 
     if (alpha !=0 ) {
 ### create bending energy matrix ###
