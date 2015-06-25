@@ -1,0 +1,17 @@
+Source: morpho
+Section: gnu-r
+Priority: optional
+Maintainer: Stefan Schlager <zarquon42@gmail.com>
+Build-Depends: r-base-dev, xvfb, xauth, xfonts-base, r-base-core, r-cran-rcpp, r-cran-rcpparmadillo, r-cran-yaimpute, r-cran-rvcg, r-cran-rgl, r-cran-foreach, r-cran-yaimpute, r-cran-doparallel, r-cran-colorramps, debhelper (>> 4.1.0), cdbs
+Standards-Version: 3.9.1
+
+Package: r-cran-morpho
+Architecture: any
+Depends: r-base-core, r-cran-rcpp, r-cran-rcpparmadillo, r-cran-yaimpute, r-cran-rvcg, r-cran-rgl, r-cran-foreach, r-cran-yaimpute, r-cran-doparallel, r-cran-colorramps
+Description: Calculations and Visualisations Related to Geometric Morphometrics
+ .
+ A toolset for Geometric Morphometrics and mesh processing. This includes (among other stuff) mesh deformations based on reference points, permutation tests, detection of outliers, processing of sliding semi-landmarks and semi-automated surface landmark placement.
+ .
+ Author: Stefan Schlager
+ .
+ Maintainer: Stefan Schlager <zarquon42@gmail.com>
