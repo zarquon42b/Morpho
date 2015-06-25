@@ -10,7 +10,7 @@ before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
-  - ./travis-tool.sh install_r_binary rgl Rcpp RcppEigen RcppArmadillo foreach doParallel yaImpute testthat car colorRamps shapes
+  - ./travis-tool.sh install_r_binary rgl Rcpp RcppEigen RcppArmadillo foreach doParallel yaImpute testthat car colorRamps shapes rvcg
 install:
   - ./travis-tool.sh install_deps
 script: ./travis-tool.sh run_tests
