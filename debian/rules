@@ -1,3 +1,0 @@
-#!/usr/bin/make -f
-debRreposname := cran
-include /usr/share/R/debian/r-cran.mk
