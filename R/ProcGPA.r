@@ -59,15 +59,15 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weig
     
     if (CSinit) {
         arr.list <- lapply(arr.list, function(x){
-            x[[1]] <- scale(x[[1]], scale=FALSE);
-            x[[1]] <- x[[1]]/sqrt(sum(x[[1]]^2));
-            return(list(x[[1]],x[[2]]))
-        })
+                               x[[1]] <- scale(x[[1]], scale=FALSE);
+                               x[[1]] <- x[[1]]/sqrt(sum(x[[1]]^2));
+                               return(list(x[[1]],x[[2]]))
+                           })
     } else { 
         arr.list <- lapply(arr.list,function(x){
-            x[[1]] <- scale(x[[1]], scale=FALSE);
-            return(list(x[[1]],x[[2]]))
-        })
+                               x[[1]] <- scale(x[[1]], scale=FALSE);
+                               return(list(x[[1]],x[[2]]))
+                           })
     }
     mshape <- x[,,1]
     if (centerweight && !is.null(weights)) {
@@ -81,12 +81,12 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weig
     while (p1 > tol) {
 ### rotation of all configs on current consensus ###		
         arr.list <- lapply(arr.list,function(x){
-            x[[1]] <- rot.proc(x[[1]], x=mshape, scale=F,
-                               weights=weights,
-                               centerweight=centerweight,
-                               reflection=reflection);
-            return(list(x[[1]],x[[2]]))
-        })
+                               x[[1]] <- rot.proc(x[[1]], x=mshape, scale=F,
+                                                  weights=weights,
+                                                  centerweight=centerweight,
+                                                  reflection=reflection);
+                               return(list(x[[1]],x[[2]]))
+                           })
         
         for( i in 1:n)
             x[,,i] <- arr.list[[i]][[1]]
@@ -94,50 +94,51 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weig
         x2 <- gdif(x)
         p1 <- abs(x1-x2)
         x1 <- x2
-    }
-    
-### scale/rotate step ###	
-    if (scale) {      
-        for ( i in 1:n)
-            arr.list[[i]] <- list(x[,,i],1)
         
-        while (p2 > tol) {
-            for( i in 1:n)
-                if (!is.null(weights))
-                    x[,,i] <- arr.list[[i]][[1]]*weights
-                else
-                    x[,,i] <- arr.list[[i]][[1]]
-            eigc <- scaleproc(x)
-            for ( i in 1:n)	
-                arr.list[[i]][[2]] <- eigc[i]
+        
+### scale/rotate step ###	
+        if (scale) {      
+            for ( i in 1:n)
+                arr.list[[i]] <- list(x[,,i],1)
             
-            arr.list <- lapply(arr.list,function(x){
-                x[[1]] <- x[[1]]*x[[2]];
-                return(list(x[[1]],x[[2]]))
-            })         
+            while (p2 > tol) {
+                for( i in 1:n)
+                    if (!is.null(weights))
+                        x[,,i] <- arr.list[[i]][[1]]*weights
+                    else
+                        x[,,i] <- arr.list[[i]][[1]]
+                eigc <- scaleproc(x)
+                for ( i in 1:n)	
+                    arr.list[[i]][[2]] <- eigc[i]
+                
+                arr.list <- lapply(arr.list,function(x){
+                                       x[[1]] <- x[[1]]*x[[2]];
+                                       return(list(x[[1]],x[[2]]))
+                                   })         
 ### rotation of all configs on current consensus ###		
-            arr.list <- lapply(arr.list,function(x){
-                x[[1]] <- rot.proc(x[[1]],x=mshape,scale=F,
-                                   weights=weights,
-                                   centerweight=centerweight,
-                                   reflection=reflection);
-                return(list(x[[1]],x[[2]]))
-            })
+                arr.list <- lapply(arr.list,function(x){
+                                       x[[1]] <- rot.proc(x[[1]],x=mshape,scale=F,
+                                                          weights=weights,
+                                                          centerweight=centerweight,
+                                                          reflection=reflection);
+                                       return(list(x[[1]],x[[2]]))
+                                   })
 ### scale step ####
-            for( i in 1:n)
-                x[,,i] <- arr.list[[i]][[1]]
-            
-            x2 <- gdif(x)
-            p2 <- abs(x1-x2)
-            x1 <- x2
+                for( i in 1:n)
+                    x[,,i] <- arr.list[[i]][[1]]
+                
+                x2 <- gdif(x)
+                p2 <- abs(x1-x2)
+                x1 <- x2
+            }
         }
-    }
-    mshape <- arrMean3(x)
-    if (CSinit) {
-        msize <- cSize(mshape)
-        mshape <- mshape/msize
-        if (scale)
-            x <- x/msize
+        mshape <- arrMean3(x)
+        if (CSinit) {
+            msize <- cSize(mshape)
+            mshape <- mshape/msize
+            if (scale)
+                x <- x/msize
+        }
     }
     t1 <- Sys.time()
     if (!silent)
