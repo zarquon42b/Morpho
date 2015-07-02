@@ -28,7 +28,12 @@ Imports:
     yaImpute,
     doParallel (>= 1.0.6),
     colorRamps,
-    Rcpp
+    Rcpp,
+    graphics,
+    grDevices,
+    methods, 
+    stats,
+    utils
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
