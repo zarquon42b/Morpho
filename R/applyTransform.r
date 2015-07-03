@@ -36,8 +36,7 @@ applyTransform.matrix <- function(x,trafo,inverse=FALSE) {
 #' @rdname applyTransform
 #' @export
 applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
-    tmp <- vert2points(x)
-    x$vb[1:3,] <- t(applyTransform(tmp,trafo,inverse = inverse))
+    x$vb[1:3,] <- t(applyTransform(t(x$vb[1:3,]) ,trafo,inverse = inverse))
     ## case affine transformation
     reflect <- FALSE
     if (is.matrix(trafo)) {
