@@ -1,0 +1,9 @@
+The original GNU R package is Copyright (C) 2013 Stefan Schlager and
+he authors of VCGLIB for the included version of the code.
+
+The GNU R package DESCRIPTION offers a Copyright licenses under the
+terms of the license: GPL-2 .  On a Debian GNU/Linux system, common
+licenses are included in the directory /usr/share/common-licenses/.
+
+The DESCRIPTION file for the original GNU R package can be found in
+/usr/lib/R/site-library/r-cran-combinat/DESCRIPTION
