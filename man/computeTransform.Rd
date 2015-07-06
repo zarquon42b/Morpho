@@ -27,6 +27,9 @@ calculate an affine transformation matrix
 \details{
 \code{x} and \code{y} can also be a pair of meshes with corresponding vertices.
 }
+\note{
+all lines containing NA, or NaN are ignored in computing the transformation.
+}
 \examples{
 data(boneData)
 trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
