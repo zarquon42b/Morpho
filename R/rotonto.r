@@ -32,10 +32,10 @@
 #' superimposition. Else, reflect = 0}
 #' @author Stefan Schlager
 #' @seealso \code{\link{rotmesh.onto}}
-#' @references Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C. (1976). A
+#' @references Lissitz, R. W., Schoenemann, P. H., & Lingoes, J. C. (1976). A
 #' solution to the weighted Procrustes problem in which the transformation is
 #' in agreement with the loss function. Psychometrika, 41,547-550.
-#' 
+#' @note all lines containing NA, or NaN are ignored in computing the transformation.
 #' @examples
 #' 
 #' library(shapes)
@@ -50,7 +50,19 @@
 #' @export
 rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE) {
     reflect=0
-    m <- dim(x)[2]
+    k <- nrow(x)
+    m <- ncol(x)
+    ##check for missing entries
+    xrows <- rowSums(x)
+    yrows <- rowSums(y)
+    xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
+    ybad <- which(as.logical(is.na(yrows) + is.nan(yrows)))
+    bad <- unique(c(xbad,ybad))
+    if (length(bad)) {
+        message("some landmarks are missing and ignored for calculating the transform")
+        x <- x[-bad,]
+        y <- y[-bad,]
+    }
     if (!is.null(weights))
         weights <- weights/sum(weights)
 
@@ -115,7 +127,18 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     }
     Y <- yrot  	
     yrot <- t(t(yrot)+trans)
-    out <- list(yrot=yrot,Y=Y,X=X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect)
+    matlist <- list(yrot=yrot,Y=Y,X=X)
+    myfun <- function(x,bad) {
+        NAmat <- matrix(NA,k,m)
+        NAmat[-bad,] <- x
+        return(NAmat)
+    }
+    if (length(ybad)) 
+        matlist[1:2] <- lapply(matlist[1:2],myfun,ybad)
+    if (length(xbad))
+        matlist[[3]] <- myfun(matlist[[3]],xbad)
+    
+    out <- list(yrot=matlist$yrot,Y=matlist$Y,X=matlist$X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect)
     class(out) <- "rotonto"
     return(out)
 }

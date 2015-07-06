@@ -9,7 +9,7 @@
 #' @details
 #' \code{x} and \code{y} can also be a pair of meshes with corresponding vertices.
 #' @return returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
-#' 
+#' @note all lines containing NA, or NaN are ignored in computing the transformation.
 #' @examples
 #' data(boneData)
 #' trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
@@ -21,6 +21,18 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
      if (inherits(y,"mesh3d"))
         y <- vert2points(y)
     type <- substr(type[1],1L,1L)
+    ##check for missing entries
+    xrows <- rowSums(x)
+    yrows <- rowSums(y)
+    xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
+    ybad <- which(as.logical(is.na(yrows) + is.nan(yrows)))
+    print(ybad)
+    bad <- unique(c(xbad,ybad))
+    if (length(bad)) {
+        message("some landmarks are missing and ignored for calculating the transform")
+        x <- x[-bad,]
+        y <- y[-bad,]
+    }
     if (type %in% c("r","s")) {
         scale <- TRUE
         if (type == "r")

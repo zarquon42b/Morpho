@@ -59,6 +59,9 @@ fitting
 rotate a matrix onto an other without loosing information about the location
 of the targetmatrix and reverse this transformations using rotreverse
 }
+\note{
+all lines containing NA, or NaN are ignored in computing the transformation.
+}
 \examples{
 library(shapes)
 lims <- c(min(gorf.dat[,,1:2]),max(gorf.dat[,,1:2]))
@@ -72,7 +75,7 @@ points(rev1,cex=2) ### show inversion by larger circles around original configur
 Stefan Schlager
 }
 \references{
-Lissitz, R. W., Sch6nemann, P. H., & Lingoes, J. C. (1976). A
+Lissitz, R. W., Schoenemann, P. H., & Lingoes, J. C. (1976). A
 solution to the weighted Procrustes problem in which the transformation is
 in agreement with the loss function. Psychometrika, 41,547-550.
 }
