@@ -75,7 +75,7 @@
 #' print(typprobs)
 #' ## visualize the CV scores by their groups estimated from (cross-validated) typicality probabilities:
 #' require(car)
-#' spm(cva.1$CVscores,groups=typprobs$groupaffinCV,diagonal="none",smooth=FALSE,reg.line=FALSE)
+#' scatterplot(cva.1$CVscores[,1],cva.1$CVscores[,2],groups=typprobs$groupaffinCV,smooth=FALSE,reg.line=FALSE)
 #' # plot the CVA
 #' plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
 #'    xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"%")),
