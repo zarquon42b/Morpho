@@ -68,7 +68,14 @@
 #' vari <- iris[,1:4]
 #' facto <- iris[,5]
 #' 
-#' cva.1=CVA(vari, groups=facto) 
+#' cva.1=CVA(vari, groups=facto)
+#' ## get the typicality probabilities and resulting classifications - tagging
+#' ## all specimens with a probability of < 0.01 as outliers (assigned to no class)
+#' typprobs <- typprobClass(cva.1$CVscores,groups=facto)
+#' print(typprobs)
+#' ## visualize the CV scores by their groups estimated from (cross-validated) typicality probabilities:
+#' require(car)
+#' spm(cva.1$CVscores,groups=typprobs$groupaffinCV,diagonal="none",smooth=F,reg.line=F)
 #' # plot the CVA
 #' plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
 #'    xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"%")),
