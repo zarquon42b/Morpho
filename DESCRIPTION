@@ -1,8 +1,8 @@
 Package: Morpho
 Type: Package
 Title: Calculations and Visualisations Related to Geometric Morphometrics
-Version: 2.3.0
-Date: 2015-06-18
+Version: 2.3.0.150716
+Date: 2015-07-16
 Authors@R: c(
     person("Stefan", "Schlager",, "stefan.schlager@uniklinik-freiburg.de", c("aut", "cre", "cph")),
     person("Gregory", "Jefferis",,, c("ctb"))
