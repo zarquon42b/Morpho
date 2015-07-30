@@ -39,7 +39,6 @@ cutSpace <- function(pointcloud,v1, v2=NULL, v3=NULL,normal=NULL, upper=TRUE) {
         e2 <- e2/norm(e2,"2")
         normal <- crossProduct(e1,e2)
     }
-    print(normal)
     ins <- t(normal)%*%t(diff)
     #inside <- ang(diff,normal)
     if (upper)

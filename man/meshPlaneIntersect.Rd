@@ -4,7 +4,7 @@
 \alias{meshPlaneIntersect}
 \title{get intersections between mesh and a plane}
 \usage{
-meshPlaneIntersect(mesh, v1, v2, v3)
+meshPlaneIntersect(mesh, v1, v2 = NULL, v3 = NULL, normal = NULL)
 }
 \arguments{
 \item{mesh}{triangular mesh of class "mesh3d"}
@@ -14,6 +14,8 @@ meshPlaneIntersect(mesh, v1, v2, v3)
 \item{v2}{numeric vector of length=3 specifying a point on the separating plane}
 
 \item{v3}{numeric vector of length=3 specifying a point on the separating plane}
+
+\item{normal}{plane normal (overrides specification by v2 and v3)}
 }
 \value{
 returns the intersections of edges and the plane
