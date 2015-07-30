@@ -300,7 +300,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
                 )
     class(out) <- "CVA"
     if (!cv) {
-        cl <- classify(out)
+        cl <- classify(out,cv=FALSE)
         out$class <- cl$class
         out$posterior <- cl$posterior
     }
