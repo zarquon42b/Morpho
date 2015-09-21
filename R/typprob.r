@@ -122,7 +122,7 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
     for( i in 1:nlev)
         {
             if (sep)# use separate covariance matrices for scaling
-                tmp <- typprob(x,data[groups==glev[i],],small=small,method=method)
+                tmp <- typprob(x,data[groups==glev[i],,drop=FALSE],small=small,method=method)
             else #used pooled within group covariance
                 tmp <- typprob(x,data,small=small,method=method,center=colMeans(data[groups==glev[i],,drop=FALSE]),cova=cova)
             probs <- cbind(probs,tmp)
@@ -139,7 +139,7 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
         gaffinCV <- as.character(groupaffin)
         
         for(i in 1:length(groups)) {
-            tmp <- typprobClass(data[i,],data[-i,],groups=groups[-i],small=small,method=method,outlier = outlier, sep=sep,cv=FALSE)
+            tmp <- typprobClass(data[i,],data[-i,,drop=FALSE],groups=groups[-i],small=small,method=method,outlier = outlier, sep=sep,cv=FALSE)
             probsCV[i,] <- tmp$probs
             gaffinCV[i] <- as.character(tmp$groupaffin)
         }
@@ -186,7 +186,7 @@ covW <- function(data, groups)
         covWithin <- 0
         for (i in 1:nlev)
             if (gsizes[i] > 1) 
-                covWithin <- covWithin + (cov(data[groups==glev[i],]) * (gsizes[i]-1))
+                covWithin <- covWithin + (cov(data[groups==glev[i],,drop=FALSE]) * (gsizes[i]-1))
         
         covWithin <- covWithin/(ndata - nlev)
         return(covWithin)
