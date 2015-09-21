@@ -76,7 +76,8 @@ points2plane <- function(x, v1, normal=NULL, v2=NULL, v3=NULL) {
 #' @return mirrored coordinates mesh
 #' @examples
 #' # mirror mesh on plane spanned by 3 midsagital landmarks
-#' mirrmesh <- mirror2plane(skull_0144_ch_fe.mesh,v1=boneLM[1,,1],v2=boneLM[9,,1],v3=boneLM[10,,1]))
+#' data(boneData)
+#' mirrmesh <- mirror2plane(skull_0144_ch_fe.mesh,v1=boneLM[1,,1],v2=boneLM[9,,1],v3=boneLM[10,,1])
 #' @rdname mirror2plane
 #' @export
 mirror2plane <- function(x,v1, normal=NULL, v2=NULL, v3=NULL) UseMethod("mirror2plane")
