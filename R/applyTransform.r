@@ -52,7 +52,7 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
         }
     ##case transform is tps
     if (!is.null(x$normals))
-        x <- vcgUpdateNormals(x)
+        x <- vcgUpdateNormals(x,silent=TRUE)
     return(x)
  }
 
