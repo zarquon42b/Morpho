@@ -2,6 +2,7 @@
 % Please edit documentation in R/applyTransform.r
 \name{applyTransform}
 \alias{applyTransform}
+\alias{applyTransform.default}
 \alias{applyTransform.matrix}
 \alias{applyTransform.mesh3d}
 \title{apply affine transformation to data}
@@ -11,6 +12,8 @@ applyTransform(x, trafo, inverse)
 \method{applyTransform}{matrix}(x, trafo, inverse = FALSE)
 
 \method{applyTransform}{mesh3d}(x, trafo, inverse = FALSE)
+
+\method{applyTransform}{default}(x, trafo, inverse = FALSE)
 }
 \arguments{
 \item{x}{matrix or mesh3d}

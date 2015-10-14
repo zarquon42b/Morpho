@@ -98,6 +98,8 @@ print.classify <- function(x,...) {
         self <- TRUE
     else
         self <- attributes(x)$self
+
+    out <- list()
     if (self) {
         if (x$cv)
             cat(" cross-validated classification results in frequencies\n")
@@ -108,7 +110,6 @@ print.classify <- function(x,...) {
         good <- which(as.character(x$groups) == as.character(x$class))
         acc <- 100*length(good)/length(x$groups)
         
-        
         probtab <- prop.table(tab,1)*100
         print(tab)
         if (x$cv)
@@ -116,8 +117,12 @@ print.classify <- function(x,...) {
         else
             cat("\n\n classification result in %\n")
         print(probtab,digits=5)
-        
+        out$accuracy <- acc
+        out$cv <- x$cv
+        out$probtable <- probtab
+        out$table <- tab
         cat(paste0("\n\n overall classification accuracy: ",round(acc,digits=5)," %\n"))
+        invisible(out)
     } else {
         numbs <- tapply(x$class,x$class,length)
         cat("\n\n specimens have been classified as:\n\n ")

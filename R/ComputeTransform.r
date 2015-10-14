@@ -26,7 +26,6 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
     yrows <- rowSums(y)
     xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
     ybad <- which(as.logical(is.na(yrows) + is.nan(yrows)))
-    print(ybad)
     bad <- unique(c(xbad,ybad))
     if (length(bad)) {
         message("some landmarks are missing and ignored for calculating the transform")

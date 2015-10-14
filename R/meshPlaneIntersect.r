@@ -5,6 +5,7 @@
 #' @param v1 numeric vector of length=3 specifying a point on the separating plane
 #' @param v2 numeric vector of length=3 specifying a point on the separating plane
 #' @param v3 numeric vector of length=3 specifying a point on the separating plane
+#' @param normal plane normal (overrides specification by v2 and v3)
 #' @return returns the intersections of edges and the plane
 #' @examples
 #' data(nose)
@@ -20,10 +21,10 @@
 #' }
 #' @importFrom Rvcg vcgGetEdge
 #' @export
-meshPlaneIntersect <- function(mesh, v1, v2, v3) {
+meshPlaneIntersect <- function(mesh, v1, v2=NULL, v3=NULL,normal=NULL) {
     
     pointcloud <- vert2points(mesh)
-    updown <- cutSpace(pointcloud, v1, v2, v3)
+    updown <- cutSpace(pointcloud,v1=v1,v2=v2,v3=v3,normal=normal)
     ## get infos about up and down
     upface <- getFaces(mesh,which(updown))
     downface <- getFaces(mesh,which(!updown))
@@ -33,7 +34,7 @@ meshPlaneIntersect <- function(mesh, v1, v2, v3) {
     mesh <- rmUnrefVertex(mesh,silent=TRUE)
     edges <- as.matrix(vcgGetEdge(mesh)[,1:2])
     pointcloud <- vert2points(mesh)
-    out <- edgePlaneIntersect(pointcloud,edges,v1,v2,v3)
+    out <- edgePlaneIntersect(pointcloud,edges,v1=v1,v2=v2,v3=v3,normal=normal)
     return(out)
 }
 
@@ -73,7 +74,12 @@ getFaces <- function(mesh,index) {
         
 }
 
-edgePlaneIntersect <- function(pointcloud,edges,v1,v2,v3) {
+edgePlaneIntersect <- function(pointcloud,edges,v1, v2=NULL, v3=NULL,normal=NULL) {
+    if (!is.null(normal)) {
+        tangent <- tangentPlane(normal)
+        v2 <- v1+tangent$z
+        v3 <- v1+tangent$y
+    }
     e1 <- v2-v1
     e2 <- v3-v1
     e1 <- e1/sqrt(sum(e1^2))

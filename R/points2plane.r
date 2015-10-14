@@ -64,3 +64,40 @@ points2plane <- function(x, v1, normal=NULL, v2=NULL, v3=NULL) {
         orthopro <- as.vector(orthopro)
     return(orthopro)
 }
+
+#' mirror points or mesh on an arbitrary plane
+#'
+#' mirror points or mesh on an arbitrary plane
+#' @param x x 3D-vector or a k x 3 matrix with 3D vectors stored in rows. Or a triangular mesh of class mesh3d
+#' @param v1 point on plane
+#' @param normal plane normal (overrides specification by v2 and v3)
+#' @param v2 if pNorm=NULL, the plane will be defined by three points \code{v1, v2, v3}
+#' @param v3 if pNorm=NULL, the plane will be defined by three points \code{v1, v2, v3}
+#' @return mirrored coordinates mesh
+#' @examples
+#' # mirror mesh on plane spanned by 3 midsagital landmarks
+#' data(boneData)
+#' mirrmesh <- mirror2plane(skull_0144_ch_fe.mesh,v1=boneLM[1,,1],v2=boneLM[9,,1],v3=boneLM[10,,1])
+#' @rdname mirror2plane
+#' @export
+mirror2plane <- function(x,v1, normal=NULL, v2=NULL, v3=NULL) UseMethod("mirror2plane")
+
+#'@rdname mirror2plane
+#' @export
+mirror2plane.matrix <- function(x,v1, normal=NULL, v2=NULL, v3=NULL){
+    onplane <- points2plane(x,v1=v1,normal=normal,v2=v2,v3=v3)
+    diff <- onplane-x
+    mirrored <- onplane+diff
+    return(mirrored)
+}
+
+#' @rdname mirror2plane
+#' @export
+mirror2plane.mesh3d <- function(x,v1, normal=NULL, v2=NULL, v3=NULL){
+    mesh <- x
+    x <- vert2points(x)
+    newx <- mirror2plane(x,v1=v1,normal=normal,v2=v2,v3=v3)
+    mesh$vb[1:3,] <- t(newx)
+    mesh <- invertFaces(mesh)
+    return(mesh)
+}

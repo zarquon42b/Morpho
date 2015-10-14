@@ -52,10 +52,29 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
         }
     ##case transform is tps
     if (!is.null(x$normals))
-        x <- vcgUpdateNormals(x)
+        x <- vcgUpdateNormals(x,silent=TRUE)
     return(x)
  }
 
+#' @rdname applyTransform
+#' @export
+applyTransform.default <- function(x,trafo,inverse=FALSE) {
+    x <- t(x)
+    if (is.matrix(trafo)) {
+        if (ncol(trafo) == 3 && ncol(x) ==3)
+            trafo <- mat3x3tomat4x4(trafo)
+        if (inverse)
+            trafo <- solve(trafo)
+        out <- homg2mat(trafo%*%mat2homg(x))
+    } else if (inherits(trafo,"tpsCoeff")) {
+        if (ncol(trafo$refmat) != ncol(x))
+            stop("TPS must be computed from control points of the same dimensionality")
+        if (inverse)
+            trafo <- computeTransform(trafo$refmat,trafo$tarmat,type="tps")
+        out <- .fx(trafo$refmat,x,trafo$coeff)
+    }
+    return(out)
+}
 
 mat3x3tomat4x4 <- function(x) {
     n <- ncol(x)

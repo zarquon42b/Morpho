@@ -58,7 +58,7 @@
 #'
 #'
 #' ## predict first 4 landmarks from second 4 for first config
-#' 
+#' layout(1)
 #' predPLS <- predictPLSfromData(pls1,y=proc$rotated[5:8,,1])
 #' ## show differences between prediction and original
 #' deformGrid2d(predPLS,proc$rotated[1:4,,1],pch=19)
@@ -420,7 +420,7 @@ predictPLSfromData <- function(pls,x,y,ncomp=NULL) {
 #' @param sdy standard deviation on the yscores. sdy=3 will show the effecs of +3sd vs -3sd
 #' @return \item{x}{matrix/array with reconstructed x}
 #' @return \item{y}{matrix/array with reconstructed x}
-#' 
+#' @seealso \code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
 #' @export 
 plsCoVar <- function(pls,i,sdx=3,sdy=3) {
     
