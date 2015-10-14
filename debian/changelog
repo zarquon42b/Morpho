@@ -1,3 +1,9 @@
+morpho (2.3.0-precise1) precise; urgency=medium
+
+  * update to stop travis warnings for icp 
+
+ -- Stefan Schlager <zarquon42@gmail.com>  Wed, 14 Oct 2015 16:42:05 +0200
+
 morpho (2.3.0-precise0) precise; urgency=medium
 
   *  initial debianization
