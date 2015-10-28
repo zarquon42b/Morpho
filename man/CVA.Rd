@@ -5,7 +5,7 @@
 \title{Canonical Variate Analysis}
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
-  rounds = 0, cv = FALSE, p.adjust.method = p.adjust.methods)
+  rounds = 0, cv = FALSE, p.adjust.method = "none")
 }
 \arguments{
 \item{dataarray}{Either a k x m x n real array, where k is the number of

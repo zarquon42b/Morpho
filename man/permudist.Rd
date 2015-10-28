@@ -5,7 +5,7 @@
 \title{performs permutation testing for group differences.}
 \usage{
 permudist(data, groups, rounds = 1000, which = NULL,
-  p.adjust.method = p.adjust.methods)
+  p.adjust.method = "none")
 }
 \arguments{
 \item{data}{array or matrix containing data}
