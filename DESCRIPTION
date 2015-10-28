@@ -37,6 +37,7 @@ Imports:
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
+BugReports: https://github.com/zarquon42b/Morpho/issues
 LazyLoad: yes
 URL: https://github.com/zarquon42b/Morpho
 Encoding: UTF-8
