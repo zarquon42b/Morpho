@@ -1,3 +1,9 @@
+morpho (2.3.0-trusty1) trusty; urgency=medium
+
+  * snapshot for travis trusty ppa
+
+ -- Stefan Schlager <zarquon42@gmail.com>  Wed, 28 Oct 2015 08:12:17 +0100
+
 morpho (2.3.0-precise1) precise; urgency=medium
 
   * update to stop travis warnings for icp 
