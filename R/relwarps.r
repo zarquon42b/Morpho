@@ -109,7 +109,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         covcom <- suppressMessages(BE2%*%Sc%*%BE2)
         eigCOVCOM <- svd(covcom)
         nonz <- which(eigCOVCOM$d > tol)
-        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$v[,nonz])%*%BE2)%*%t(vecs)))
+        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$v[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
         rownames(bescores) <- rownames(vecs)
         bePCs <-  suppressMessages(IM %x% eigBE$v)
         bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$v[,nonz]))
