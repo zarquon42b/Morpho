@@ -150,7 +150,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             out <- matrix(NA,(patch.dim+k),3)
             name <- NULL
         }
-        
+        nall <- patch.dim+k
 
         L <- CreateL(atlas.lm,output="Lsubk3")
         L1 <- CreateL(rbind(atlas.lm,patch),output="Lsubk3")
@@ -270,15 +270,19 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 
         
         if (!usematrix && n > 1) {
-            tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
+            tmpout <- array(NA, dim=c(nall,3,n))
             for (i in 1:n) {
                 if (is.matrix(out[[i]]))
                     tmpout[,,i] <- out[[i]]
+                else
+                    warning(paste("matching for specimen",i,"failed"))
             }
             out <- tmpout
             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
         } else {
             out <- out[[1]]
+            if (!is.matrix(out))
+                stop("matching failed")
         }
         if (.Platform$OS.type == "windows" && mc.cores > 1)
             stopCluster(cl)
