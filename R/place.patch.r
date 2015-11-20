@@ -166,6 +166,9 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 tmp.data <- projRead(dat.array,tmp.mesh,readnormals=TRUE)
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
+                notinout <- which(! (1:k) %in% unlist(outlines))
+                if (length(notinout))
+                    SMvector <- unique(c(SMvector,notinout))
                 sm <- SMvector
                 deselcurve <- TRUE
                 if (prod(length(unique(SMvector)) == k)) {
@@ -272,10 +275,11 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         if (!usematrix && n > 1) {
             tmpout <- array(NA, dim=c(nall,3,n))
             for (i in 1:n) {
-                if (is.matrix(out[[i]]))
+                if (is.matrix(out[[i]])) {
                     tmpout[,,i] <- out[[i]]
-                else
-                    warning(paste("matching for specimen",i,"failed"))
+                } else {
+                    warning(paste("matching for specimen",i,"failed with:",out[[i]]))
+                }
             }
             out <- tmpout
             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
