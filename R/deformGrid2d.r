@@ -1,7 +1,7 @@
 #' visualise differences between two superimposed sets of 2D landmarks
 #' 
 #' visualise differences between two superimposed sets of 2D landmarks by
-#' deforming a cubic grid based on a thin-plate spline interpolation
+#' deforming a square grid based on a thin-plate spline interpolation
 #' 
 #' 
 #' @param matrix reference matrix containing 2D landmark coordinates or mesh of class "mesh3d"

@@ -6,20 +6,20 @@ Date: 2015-07-16
 Authors@R: c(
     person("Stefan", "Schlager",, "stefan.schlager@uniklinik-freiburg.de", c("aut", "cre", "cph")),
     person("Gregory", "Jefferis",,, c("ctb"))
-    )    
+    )
 Description: A toolset for Geometric Morphometrics and mesh processing. This
     includes (among other stuff) mesh deformations based on reference points,
     permutation tests, detection of outliers, processing of sliding
     semi-landmarks and semi-automated surface landmark placement.
-Suggests: 
+Suggests:
     car,
     lattice,
     MASS,
     shapes,
     testthat
-Depends: 
+Depends:
     R (>= 3.0.2)
-Imports: 
+Imports:
     Rvcg (>= 0.7),
     rgl (>= 0.93.963),
     foreach (>= 1.4.0),
@@ -31,7 +31,7 @@ Imports:
     Rcpp,
     graphics,
     grDevices,
-    methods, 
+    methods,
     stats,
     utils
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
@@ -41,3 +41,4 @@ BugReports: https://github.com/zarquon42b/Morpho/issues
 LazyLoad: yes
 URL: https://github.com/zarquon42b/Morpho
 Encoding: UTF-8
+RoxygenNote: 5.0.1
