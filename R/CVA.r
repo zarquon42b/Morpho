@@ -3,11 +3,13 @@
 #' performs a Canonical Variate Analysis.
 #' 
 #' 
-#' @param dataarray Either a k x m x n real array, where k is the number of
+#' @param x Either a k x m x n real array, where k is the number of
 #' points, m is the number of dimensions, and n is the sample size. Or
 #' alternatively a n x m Matrix where n is the numeber of observations and m
-#' the number of variables (this can be PC scores for example)
+#' the number of variables (this can be PC scores for example).
+#' @param formula a formula
 #' @param groups a character/factor vector containgin grouping variable.
+#' @param data dataframe containing variables in case the formula interface is used.
 #' @param weighting Logical: Determines whether the between group covariance 
 #' matrix and Grandmean is to be weighted according to group size.
 #' @param tolinv Threshold for the eigenvalues of the pooled
@@ -20,6 +22,7 @@
 #' rounds = 0, no test is performed.
 #' @param cv logical: requests a Jackknife Crossvalidation.
 #' @param p.adjust.method method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.
+#' @param ... additional parameters.
 #' @return
 #' \item{CV }{A matrix containing the Canonical Variates}
 #' \item{CVscores }{A matrix containing the individual Canonical Variate scores}
@@ -147,7 +150,12 @@
 #' deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
 #' }
 #' @export
-CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE,p.adjust.method= "none") 
+#' @rdname CVA
+CVA <- function(x,...) UseMethod("CVA")
+
+#' @rdname CVA
+#' @export
+CVA.default <- function (x, groups, weighting = TRUE, tolinv = 1e-10,plot = FALSE, rounds = 0, cv = FALSE,p.adjust.method= "none",...) 
 {
     groups <- factor(groups)
     lev <- levels(groups)
@@ -159,7 +167,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         warning("group with one entry found - crossvalidation will be disabled.")
     }
     prior <- gsizes/sum(gsizes)
-    N <- dataarray
+    N <- x
     n3 <- FALSE
     if (length(dim(N)) == 3) {
         k <- dim(N)[1]
@@ -196,8 +204,6 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         X <- resGmeans
     } else 
         X <- sqrt(n/ng) * resGmeans
-
-    
     
     covW <- covW(N, groups)
     eigW <- eigen(covW*(n - ng))
@@ -306,11 +312,31 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         out$class <- cl$class
         out$posterior <- cl$posterior
     }
-
+    out$call <- match.call()
+    out$call[[1L]] <- as.name("CVA")
     return(out)
 }
 
-
+#' @rdname CVA
+#' @export
+CVA.formula <- function(formula,data,...) {
+    m <- match.call(expand.dots = FALSE)
+    m$... <- NULL
+    m[[1L]] <- quote(stats::model.frame)
+    m <- eval.parent(m)
+    Terms <- attr(m, "terms")
+    grouping <- model.response(m)
+    x <- model.matrix(Terms, m)
+    xint <- match("(Intercept)", colnames(x), nomatch = 0L)
+    if (xint > 0L) 
+        x <- x[, -xint, drop = FALSE]
+    res <- CVA.default(x, as.factor(grouping), ...)
+    res$terms <- Terms
+    cl <- match.call()
+    cl[[1L]] <- as.name("CVA")
+    res$call <- cl
+    res
+}
 probpost <- function(dist,prior) {
     posts <- NULL
     const <- sqrt(2*pi)
@@ -328,4 +354,36 @@ print.CVA <- function(x,...) {
 #' @export
 print.bgPCA <- function(x,...) {
     print(classify(x,cv=TRUE))
+}
+
+
+predict.CVA <- function(object,newdata,...) {
+    out <- list()
+    if (missing(newdata)) {
+        tmp <- classify(object,cv=T)
+        out <- list(class=tmp$class,posterior=tmp$posterior)
+        
+        return(out)
+    }  else {
+        if (length(dim(newdata)) == 3)
+            newdata <- vecx(newdata)
+        N <- sweep(newdata,2,object$Grandm)
+        CV <- N%*%object$CV
+        GmeanCenter <- sweep(object$groupmeans,2,object$Grandm)
+        GmeanScores <- GmeanCenter%*%object$CV
+        classVec <- rep(object$groups[1],nrow(newdata))
+        classprobs <- NULL
+        for (i in 1:nrow(CV)) {
+            tmpdist <- (rowSums(sweep(GmeanScores,2,CV[i,])^2))
+            post <- probpost(tmpdist,object$prior)
+            classVec[i] <- names(tmpdist)[which(post == max(post))]
+            classprobs <- rbind(classprobs,post)
+        }
+        names(classVec) <- rownames(classprobs) <- rownames(CV)
+        colnames(classprobs) <- rownames(object$groupmeans)
+        
+        out <- list(class=classVec,posterior=classprobs)
+        
+        return(out)
+    }
 }

@@ -2,16 +2,24 @@
 % Please edit documentation in R/CVA.r
 \name{CVA}
 \alias{CVA}
+\alias{CVA.default}
+\alias{CVA.formula}
 \title{Canonical Variate Analysis}
 \usage{
-CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
-  rounds = 0, cv = FALSE, p.adjust.method = "none")
+CVA(x, ...)
+
+\method{CVA}{default}(x, groups, weighting = TRUE, tolinv = 1e-10,
+  plot = FALSE, rounds = 0, cv = FALSE, p.adjust.method = "none", ...)
+
+\method{CVA}{formula}(formula, data, ...)
 }
 \arguments{
-\item{dataarray}{Either a k x m x n real array, where k is the number of
+\item{x}{Either a k x m x n real array, where k is the number of
 points, m is the number of dimensions, and n is the sample size. Or
 alternatively a n x m Matrix where n is the numeber of observations and m
-the number of variables (this can be PC scores for example)}
+the number of variables (this can be PC scores for example).}
+
+\item{...}{additional parameters.}
 
 \item{groups}{a character/factor vector containgin grouping variable.}
 
@@ -32,6 +40,10 @@ rounds = 0, no test is performed.}
 \item{cv}{logical: requests a Jackknife Crossvalidation.}
 
 \item{p.adjust.method}{method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.}
+
+\item{formula}{a formula}
+
+\item{data}{dataframe containing variables in case the formula interface is used.}
 }
 \value{
 \item{CV }{A matrix containing the Canonical Variates}
