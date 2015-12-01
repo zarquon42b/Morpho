@@ -4,7 +4,7 @@
 \alias{qqmat}
 \title{Q-Q plot to assess normality of data}
 \usage{
-qqmat(x, output = FALSE, square = TRUE)
+qqmat(x, output = FALSE, square = FALSE)
 }
 \arguments{
 \item{x}{sample data: matrix or vector}

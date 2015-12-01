@@ -26,7 +26,7 @@
 #' qqmat(data1,square=FALSE)
 #' 
 #' @export
-qqmat <- function(x,output=FALSE,square=TRUE)
+qqmat <- function(x,output=FALSE,square=FALSE)
   {
     x <- as.matrix(x)
     center <- colMeans(x)
