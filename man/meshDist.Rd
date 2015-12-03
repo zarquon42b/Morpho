@@ -14,13 +14,14 @@ meshDist(x, ...)
   file = "default", imagedim = "100x800", uprange = 1, ray = FALSE,
   raytol = 50, raystrict = FALSE, save = FALSE, plot = TRUE,
   sign = TRUE, tol = NULL, displace = FALSE, shade = TRUE,
-  method = c("vcglib", "morpho"), add = FALSE, ...)
+  method = c("vcglib", "morpho"), add = FALSE, scaleramp = FALSE, ...)
 
 \method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL, from = NULL,
   to = NULL, steps = 20, ceiling = FALSE,
   rampcolors = colorRamps::blue2green2red(steps - 1), NAcol = "white",
   uprange = 1, plot = TRUE, sign = TRUE, tol = NULL, type = c("s",
-  "p"), radius = NULL, displace = FALSE, add = FALSE, ...)
+  "p"), radius = NULL, displace = FALSE, add = FALSE, scaleramp = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{reference mesh; object of class "mesh3d" or a n x 3 matrix

@@ -13,12 +13,12 @@ render(x, ...)
 \method{render}{meshDist}(x, from = NULL, to = NULL, steps = NULL,
   ceiling = NULL, uprange = NULL, tol = NULL, rampcolors = NULL,
   NAcol = NULL, displace = FALSE, shade = TRUE, sign = NULL,
-  add = FALSE, ...)
+  add = FALSE, scaleramp = NULL, ...)
 
 \method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
   ceiling = NULL, uprange = NULL, tol = NULL, type = c("s", "p"),
   radius = NULL, rampcolors = NULL, NAcol = NULL, displace = FALSE,
-  sign = NULL, add = FALSE, ...)
+  sign = NULL, add = FALSE, scaleramp = FALSE, ...)
 
 export(x, ...)
 
@@ -56,6 +56,8 @@ supressed.}
 \item{sign}{logical: request signed distances to be visualised.}
 
 \item{add}{logical: if TRUE, visualization will be added to the rgl window currently in focus}
+
+\item{scaleramp}{if TRUE the ramp colors get scaled symmetrically into positive and negative direction.}
 
 \item{type}{character: "s" shows coordinates as spheres, while "p" shows 3D
 dots.}
