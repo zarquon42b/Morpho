@@ -419,7 +419,7 @@ predictPLSfromData <- function(pls,x,y,ncomp=NULL) {
 #' @param sdx standard deviation on the xscores. sdx=3 will show the effecs of +3sd vs -3sd
 #' @param sdy standard deviation on the yscores. sdy=3 will show the effecs of +3sd vs -3sd
 #' @return \item{x}{matrix/array with reconstructed x}
-#' @return \item{y}{matrix/array with reconstructed x}
+#' @return \item{y}{matrix/array with reconstructed y, with each prediction named accordingly: e.g. neg_x_sd_3 means the prediction of x at a score of \code{-3*sd(Xscores)}}. 
 #' @seealso \code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
 #' @export 
 plsCoVar <- function(pls,i,sdx=3,sdy=3) {
@@ -428,8 +428,18 @@ plsCoVar <- function(pls,i,sdx=3,sdy=3) {
     y <- t(t(c(-1,1)*sdy*sd(pls$Yscores[,i])))
     x0 <- matrix(0,2,i); x0[,i] <- x
     y0 <- matrix(0,2,i); y0[,i] <- y
+    xnames <-  paste(c("neg","pos"),"x_sd",sdx,sep="_")
+    ynames <-  paste(c("neg","pos"),"y_sd",sdy,sep="_")
     pls1x <- getPLSfromScores(pls,x=x0)
+    if (is.matrix(pls1x))
+        rownames(pls1x) <- xnames
+    else
+        dimnames(pls1x)[[3]] <- xnames
     pls1y <- getPLSfromScores(pls,y=y0)
+    if (is.matrix(pls1y))
+        rownames(pls1y) <- ynames
+    else
+        dimnames(pls1y)[[3]] <- ynames
 
     pls1out <- list(x=pls1x,y=pls1y)
     return(pls1out)
