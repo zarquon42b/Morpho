@@ -2,6 +2,35 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+
+\section{Changes in Morpho version 2.3.1 (2015-12-15)}{
+  \subsection{New features}{
+    \itemize{
+      \item meshPlaneIntersect now also supports normals (as cutSpace)
+      \item added default method for applyTransform for 2D and 3D vectors
+
+    }
+  }
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item removed bePCs with zero variance from output in relWarps
+      \item improved error handling in placePatch
+      \item set square=FALSE in qqmat
+      \item added message if CSinit = F and orp = T, that orp is disabled
+      \item fixed applyTransform for type="tps" and inverse = TRUE
+      \item added testthat test for relWarps
+      \item tweaked relWarps to work with large amounts of coordinates
+      \item fixed wrong bracket position in ProcGPA leading to only a
+      single iteration
+      \item CVA: fixed calculation of posterior probs if cv=F
+      \item fixed linewidth in CVA example to stop check complaints
+      \item set p.adjust.method="none"
+      \item only return significant scores in relWarps
+      \item named output of plsCoVar
+    }
+  }
+}
+
 \section{Changes in Morpho version 2.3.0 (2015-06-18)}{
   \subsection{New features}{
     \itemize{
