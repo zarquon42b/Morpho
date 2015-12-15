@@ -21,6 +21,7 @@
 #' for very large pointclouds.
 #' @param size control size/radius of points/spheres
 #' @param pcaxis logical: align grid by shape's principal axes.
+#' @param ask logical: if TRUE for > 1000 coordinates the user will be asked to prefer points over spheres.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
 #' 
@@ -30,14 +31,14 @@
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #' }
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
     if (inherits(tarmatrix,"mesh3d"))
         tarmatrix <- vert2points(tarmatrix)
     type <- type[1]
-    if (dim(matrix)[1] > 1000 && type =="s" && (is.null(size) || size > 0)) {
+    if (dim(matrix)[1] > 1000 && type =="s" && (is.null(size) || size > 0) && ask) {
         answer <- readline("You have a lot of landmarks\n Render them as points (faster)? (yes/NO)\n")
         if (! substr(answer,1L,1L) %in% c("n","N"))
             type <- "p"
