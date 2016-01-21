@@ -273,22 +273,15 @@ vec getBaryCent(vec point, int fptr, mat vb, umat it) {
 // main function to handle in and output
 SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SEXP sign_, SEXP bary_, SEXP method_) {
   try {
-    NumericMatrix Rref(ref_);//reference 
-    NumericMatrix Rvb(vb_);//target vertices
-    NumericMatrix Rnormals(normals_);//target normals
-    //IntegerMatrix Rit(it_);//target faces
-    IntegerMatrix RclostInd(clostInd_);//face indices to search on
-    int nref = Rref.ncol();
+    mat ref = as<mat>(ref_);//reference 
+    mat vb = as<mat>(vb_);//target vertices
+    mat normals = as<mat>(normals_);//target normals
+    umat clostIndU = as<arma::umat>(clostInd_);//face indices to search on
+    int nref = ref.n_cols;
     bool sign = as<bool>(sign_);
     bool bary = as<bool>(bary_);
     int method = as<int>(method_);
-    mat ref(Rref.begin(), Rref.nrow(), Rref.ncol());
-    mat vb(Rvb.begin(),Rvb.nrow(),Rvb.ncol());
-    mat normals(Rnormals.begin(),Rnormals.nrow(),Rnormals.ncol());
-    //imat it = as<arma::imat>(it_);
     umat itU = as<arma::umat>(it_);// convert to unsigned
-    //imat clostInd = as<arma::imat>(clostInd_);
-    umat clostIndU = as<arma::umat>(clostInd_);// convert to unsigned
     // check which faces are acutally searched
     uvec uniclost = unique(clostIndU);
     // calculate edges and stuff needed for point search
