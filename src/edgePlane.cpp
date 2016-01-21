@@ -26,7 +26,8 @@ RcppExport SEXP edgePlane(SEXP vb_, SEXP diff_, SEXP edges_) {
 	test.push_back(i);
       }
     }
-    out = out.rows(uvec(test));
+    uvec myinds = conv_to<uvec>::from(test);
+    out = out.rows(myinds);
     return wrap(out);
   } catch (std::exception& e) {
     ::Rf_error( e.what());

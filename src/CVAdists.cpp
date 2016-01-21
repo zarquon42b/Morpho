@@ -5,14 +5,14 @@ SEXP CVAdists(SEXP data_, SEXP  groups_, SEXP rounds_, SEXP winv_) {
   try {
     NumericMatrix data(data_);
     NumericMatrix winv(winv_);
-    IntegerVector groups(groups_);
+    arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);
     int rounds = as<int>(rounds_);
     //bool n3 = as<bool>(n3_);
     int n = data.nrow();
     int m = data.ncol();
     mat armaData(data.begin(), n,m);
     mat winvA(winv.begin(), winv.nrow(), winv.ncol());
-    ivec armaGroups(groups.begin(),groups.size(),false);
+    //ivec armaGroups(groups.begin(),groups.size(),false);
     int maxlev = armaGroups.max();
     int alldist=0;
     for (int i=1; i < maxlev; ++i)
