@@ -2,6 +2,16 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.3.1.1 (2016-01-22)}{
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item fixed c++14 standard requirements
+      \item made index in rmVertex unique
+      
+    }
+  }
+}
+
 
 \section{Changes in Morpho version 2.3.1 (2015-12-15)}{
   \subsection{New features}{
