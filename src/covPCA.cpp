@@ -142,10 +142,9 @@ SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
   //process input
   int scramble = Rcpp::as<int>(scramble_);
   int rounds = as<int>(rounds_);
-  Rcpp::NumericMatrix data(data_);
+  mat armaData = as<mat>(data_);
   arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);
-  mat armaData(data.begin(), data.nrow(),data.ncol());
-   
+  
   // get distance matrix
   mat dist = covDistMulti(armaData,armaGroups,false);
   cube bootstrap;
@@ -174,10 +173,8 @@ SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
 //this is a function exposed to R calculating distance only 
 //currently not used  
 SEXP covWrap(SEXP s1_, SEXP s2_) {
-  NumericMatrix s1(s1_);
-  NumericMatrix s2(s2_);
-  mat S1(s1.begin(), s1.nrow(), s1.ncol());
-  mat S2(s2.begin(), s2.nrow(), s2.ncol());
+  mat S1 = as<mat>(s1_);
+  mat S2 = as<mat>(s2_);
   double cdist = covDist(S1, S2);
   return wrap(cdist);
 

@@ -7,16 +7,18 @@ using namespace arma;
 RcppExport SEXP tpsfx(SEXP A_,SEXP B_,SEXP Bh_, SEXP coefs_) {
   try {
     typedef unsigned int uint;
+    mat AA = as<mat>(A_);
+    mat BA = as<mat>(B_);
+    mat BhA = as<mat>(Bh_);
+    mat coefsA = as<mat>(coefs_);
     NumericMatrix A(A_);
     NumericMatrix B(B_);
     NumericMatrix Bh(Bh_);
     NumericMatrix coefs(coefs_);
-    uint m = A.nrow();
-    uint lmdim = A.ncol();
-    mat AA(A.begin(), A.nrow(), A.ncol());
-    mat BA(B.begin(), B.nrow(), B.ncol());
-    mat BhA(Bh.begin(), Bh.nrow(), Bh.ncol());
-    mat coefsA(coefs.begin(), coefs.nrow(), coefs.ncol());
+    uint m = AA.n_rows;
+    uint lmdim = AA.n_cols;
+    
+    
     mat coefsNoAff = coefsA.cols(0, m-1);
     mat result = BA; result.zeros();
     colvec x(m);

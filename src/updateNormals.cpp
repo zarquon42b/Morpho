@@ -4,11 +4,10 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
   try {
     typedef unsigned int uint;
     bool angweight = Rcpp::as<bool>(angweight_);
-    NumericMatrix vb(vb_);
-    IntegerMatrix it(it_);
     mat vbA = as<arma::mat>(vb_);
-    mat normals = vbA*0;
     imat itA = as<arma::imat>(it_);
+    mat normals = vbA*0;
+    
     //setup vectors to store temporary data
     colvec tmp0(3), tmp1(3), tmp2(3), angtmp(3), ntmp(3);
     int nit = itA.n_cols;

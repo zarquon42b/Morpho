@@ -8,12 +8,12 @@ using namespace arma;
 
 SEXP asymPerm(SEXP asymr, SEXP groupsr, SEXP roundr) {
   try {
-    Rcpp::NumericMatrix asym(asymr);
+    mat armaAsym =as<mat>(asymr);
     arma::ivec armaGroups = Rcpp::as<arma::ivec>(groupsr);
     int rounds = Rcpp::as<int>(roundr);
-    int n = asym.nrow();
-    int m = asym.ncol();
-    mat armaAsym(asym.begin(), n,m);
+    int n = armaAsym.n_rows;
+    int m = armaAsym.n_cols;
+    
     ivec permuvec = armaGroups;
     std::vector<double> diff,angle;
     for (int i=0; i <= rounds; ++i) {
@@ -44,12 +44,11 @@ SEXP asymPerm(SEXP asymr, SEXP groupsr, SEXP roundr) {
 
 RcppExport SEXP asymPermute(SEXP data_, SEXP groups_, SEXP rounds_) {
   try {
-    Rcpp::NumericMatrix data(data_);
+    mat armaData = as<mat>(data_);
     arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);
     int rounds = Rcpp::as<int>(rounds_);
-    int n = data.nrow();
-    int m = data.ncol();
-    mat armaData(data.begin(), n,m);
+    int n = armaData.n_rows;
+    int m = armaData.n_cols;
     ivec permuvec = armaGroups;
     int maxlev = armaGroups.max();
     int alldist=0;

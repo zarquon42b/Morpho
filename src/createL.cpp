@@ -6,10 +6,8 @@ using namespace arma;
 
 RcppExport SEXP createL(SEXP Matrix_) {
   try {
-    NumericMatrix Matrix(Matrix_);
-    //int m = Matrix.ncol();
-    int k = Matrix.nrow();
-    mat MatrixA(Matrix.begin(), Matrix.nrow(), Matrix.ncol());
+    mat MatrixA = as<mat>(Matrix_);
+    int k = MatrixA.n_rows;
     mat K(k,k); K.zeros();
     for (int i=0; i < k; ++i) {
       for(int j=i; j < k; ++j) {
