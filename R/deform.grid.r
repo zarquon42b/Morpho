@@ -8,6 +8,7 @@
 #' @param tarmatrix target matrix containing 3D landmark coordinates or mesh of class "mesh3d"
 #' @param ngrid number of grid lines to be plotted; ngrid=0 suppresses grid
 #' creation.
+#' @param align logical: if TRUE, \code{tarmatrix} will be aligned rigidly to \code{matrix}
 #' @param lwd width of lines connecting landmarks.
 #' @param showaxis integer (vector): which dimensions of the grid to be
 #' plotted. Options are combinations of 1,2 and 3.
@@ -31,12 +32,14 @@
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #' }
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
     if (inherits(tarmatrix,"mesh3d"))
         tarmatrix <- vert2points(tarmatrix)
+    if (align)
+        tarmatrix <- rotonto(matrix,tarmatrix,reflection=FALSE)$yrot
     type <- type[1]
     if (dim(matrix)[1] > 1000 && type =="s" && (is.null(size) || size > 0) && ask) {
         answer <- readline("You have a lot of landmarks\n Render them as points (faster)? (yes/NO)\n")

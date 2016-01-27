@@ -110,7 +110,7 @@ warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
             a1 <- lineplot(mesh,links,col=col,lwd=lwd)
             a <- append(a,a1)
         }
-        if (i ==0 && ask==TRUE)
+        if (i ==0 && ask==TRUE && interactive())
             readline("please select view and press return\n")
         
         filename <- sprintf("%s%04d.png", movie, countbegin+i)

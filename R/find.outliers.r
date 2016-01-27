@@ -89,8 +89,8 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
     lo <- 1
     if (m==3)
         op <- open3d()	
-    
-    while (t1 <= n ) {
+    if (interactive()) {
+        while (t1 <= n ) {
         if (m==3)
             .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE, text=text)
         else 
@@ -216,6 +216,7 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
                 cat("already at top of the line!\n")
         } else if (answer1 == "s" || answer1 == "S")
             break 
+    }
     }
 ### remove outlier from array
     if (! is.null(outlier))

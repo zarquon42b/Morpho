@@ -36,7 +36,7 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
           land <- (i/n)*yland+(1-(i/n))*xland
           a <- append(a, spheres3d(land, radius=radius, col = lmcol))
       }
-      if (i ==0 && ask==TRUE)
+      if (i ==0 && ask==TRUE && interactive())
         {readline("please select view and press return\n")
        }
       
