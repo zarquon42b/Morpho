@@ -6,8 +6,10 @@
 
 language: c
 sudo: required
+dist: trusty
+
 before_install:
-  - sudo add-apt-repository ppa:zarquon42/precise-backports -y
+  - sudo add-apt-repository ppa:zarquon42/travis-trusty -y
   - sudo apt-get update -qq
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
