@@ -129,9 +129,9 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     }  
     
     if (is.null(from)) {
-        mindist <- min(dists)
+        mindist <- min(dists,na.rm=TRUE)
         if (sign && mindist < 0 ) {
-            from <- quantile(dists,probs=(1-uprange)) 
+            from <- quantile(dists,probs=(1-uprange),na.rm = TRUE) 
             neg <- TRUE            
         } else {
             from <- 0
@@ -140,7 +140,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     if (from < 0)
         neg <- TRUE
     if (is.null(to))
-        to <- quantile(dists,probs=uprange)    
+        to <- quantile(dists,probs=uprange,na.rm = TRUE)    
     if(ceiling)
         to <- ceiling(to)
     
