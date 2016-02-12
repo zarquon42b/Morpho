@@ -4,10 +4,10 @@
 \alias{deformGrid3d}
 \title{visualise differences between two superimposed sets of 3D landmarks}
 \usage{
-deformGrid3d(matrix, tarmatrix, ngrid = 0, lwd = 1, showaxis = c(1, 2),
-  show = c(1, 2), lines = TRUE, lcol = 1, add = FALSE, col1 = 2,
-  col2 = 3, type = c("s", "p"), size = NULL, pcaxis = FALSE,
-  ask = TRUE)
+deformGrid3d(matrix, tarmatrix, ngrid = 0, align = FALSE, lwd = 1,
+  showaxis = c(1, 2), show = c(1, 2), lines = TRUE, lcol = 1,
+  add = FALSE, col1 = 2, col2 = 3, type = c("s", "p"), size = NULL,
+  pcaxis = FALSE, ask = TRUE)
 }
 \arguments{
 \item{matrix}{reference matrix containing 3D landmark coordinates or mesh of class "mesh3d"}
@@ -16,6 +16,8 @@ deformGrid3d(matrix, tarmatrix, ngrid = 0, lwd = 1, showaxis = c(1, 2),
 
 \item{ngrid}{number of grid lines to be plotted; ngrid=0 suppresses grid
 creation.}
+
+\item{align}{logical: if TRUE, \code{tarmatrix} will be aligned rigidly to \code{matrix}}
 
 \item{lwd}{width of lines connecting landmarks.}
 
