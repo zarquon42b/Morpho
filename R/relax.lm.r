@@ -37,6 +37,7 @@
 #' The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y = Y0 + stepsize * UT}.
 #' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @param use.lm indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.
+#' @param silent logical: if TRUE, console output is suppressed.
 #' @param ... additonal arguments - currently unused
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
@@ -109,7 +110,7 @@ relaxLM <- function(lm,...)UseMethod("relaxLM")
 
 #' @rdname relaxLM
 #' @export
-relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,...) {
+relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,silent=FALSE,...) {
     if(inherits(reference,"mesh3d"))
        reference <- vert2points(reference)
     k <- dim(lm)[1]
@@ -137,7 +138,9 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
     if (iterations == 0)
         iterations <- 1e10
     if (m == 3) {
-        cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
+        if (!silent)
+            if (!silent)
+                cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
         
         if (is.null(mesh)) {
             tmp <- projRead(lm, sur.name)
@@ -160,7 +163,8 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
     count <- 1
     while (p1 > tol && count <= iterations) {
         lm_old <- vs
-        cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
+        if (!silent)
+            cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (!bending) {
             print(length(weights))
             rot <- rotonto(reference,vs,reflection=FALSE,scale=TRUE,weights=weights,centerweight = TRUE)
@@ -201,15 +205,18 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
         if (inc.check) {
             if (p1 > p1_old) {
                 vs <- lm_old
-                cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
+                if (!silent)
+                    cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
                 p1 <- 0
                 count <- count+1   
             } else {
-                cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
+                if (!silent)
+                    cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
                 count <- count+1
             }
         } else {
-            cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
+            if (!silent)
+                cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
             count <- count+1
         }
     }

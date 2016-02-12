@@ -12,7 +12,7 @@ relaxLM(lm, ...)
   surp = NULL, sur.name = NULL, mesh = NULL, tol = 1e-05,
   deselect = FALSE, inc.check = TRUE, iterations = 0, fixRepro = TRUE,
   missing = NULL, bending = TRUE, stepsize = ifelse(bending, 1, 0.5),
-  use.lm = NULL, ...)
+  use.lm = NULL, silent = FALSE, ...)
 
 \method{relaxLM}{mesh3d}(lm, reference, tol = 1e-05, deselect = FALSE,
   inc.check = TRUE, iterations = 0, fixRepro = TRUE, missing = NULL,
@@ -69,6 +69,8 @@ The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y
 Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
 
 \item{use.lm}{indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.}
+
+\item{silent}{logical: if TRUE, console output is suppressed.}
 }
 \value{
 returns kx3 matrix of slidden landmarks

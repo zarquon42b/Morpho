@@ -63,6 +63,7 @@
 #' \code{fixRepro=FALSE}
 #' @param missingList a list of length samplesize containing integer vectors of row indices specifying missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
 #' @param use.lm indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.
+#' @param silent logical: if TRUE, console output is suppressed.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
@@ -140,7 +141,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,silent=FALSE)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -230,8 +231,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     
     ini <- rotonto(dat.array[,,1],dat.array[,,2],signref=FALSE) # create mean between first tow configs to avoid singular BE Matrix
     mshape <- (ini$Y+ini$X)/2
-    
-    cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
+    if (!silent)
+        cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
     ## parallel function in case meshlist != NULL
     parfunmeshlist <- function(i,data) {
         if (!is.list(data))
@@ -269,12 +270,13 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     if (!fixRepro)# use original positions for fix landmarks
         dat.array[fixLM,,] <- data.orig[fixLM,,]
     
-    
-    cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
+    if (!silent)
+        cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
     
     if (initproc==TRUE) { # perform proc fit before sliding
-        cat("Inital procrustes fit ...")	
-        procini <- ProcGPA(dat.array,scale=fullGPA)
+        if (!silent)
+            cat("Inital procrustes fit ...")	
+        procini <- ProcGPA(dat.array,scale=fullGPA,silent=silent)
         mshape <- procini$mshape
     }
     dataslide <- dat.array
@@ -287,14 +289,16 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         symproc <- rotonto(A,Amir)
         mshape <- (symproc$X+symproc$Y)/2
     }
-    cat(paste("Start sliding...","\n","-------------------------------------------","\n"))
+    if (!silent)
+        cat(paste("Start sliding...","\n","-------------------------------------------","\n"))
     gc(verbose=F)
     ## calculation for a defined max. number of iterations
     count <- 1
     while (p1>tol && count <= iterations) {
         dataslide_old <- dataslide
-        mshape_old <- mshape           
-        cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
+        mshape_old <- mshape
+        if (!silent)
+            cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (recursive==TRUE)    # slided Semilandmarks are used in next iteration step
             dat.array <- dataslide
         if (bending)
@@ -340,9 +344,10 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         
         if (!fixRepro)# use original positions for fix landmarks
             dataslide[fixLM,,] <- data.orig[fixLM,,]
-        
-        cat("estimating sample mean shape...")          	
-        proc <- ProcGPA(dataslide,scale=fullGPA)
+
+        if (!silent)
+            cat("estimating sample mean shape...")          	
+        proc <- ProcGPA(dataslide,scale=fullGPA,silent=silent)
         mshape <- proc$mshape
         if (pairedLM[1]!=0) {# create symmetric mean to get rid of assymetry along outline after first relaxation
             Mir <- diag(c(-1,1,1))
@@ -360,14 +365,17 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         if (inc.check) {
             if (p1 > p1_old) {
                 dataslide <- dataslide_old
-                cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
+                if (!silent)
+                    cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
                 p1 <- 0
             } else {
-                cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
+                if (!silent)
+                    cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
                 count <- count+1         
             }
         } else {
-            cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
+            if (!silent)
+                cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
             count <- count+1         
         }
         gc(verbose = FALSE)
