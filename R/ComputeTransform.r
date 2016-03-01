@@ -1,11 +1,15 @@
 #' calculate an affine transformation matrix
 #'
 #' calculate an affine transformation matrix
-#' @param x fix landmarks
-#' @param y moving landmarks
+#' @param x fix landmarks. Can be a k x m matrix or mesh3d.
+#' @param y moving landmarks. Can be a k x m matrix or mesh3d.
 #' @param type set type of affine transformation: options are  "rigid", "similarity" (rigid + scale) and "affine",
 #' @param reflection logical: if TRUE "rigid" and "similarity" allow reflections.
 #' @param lambda numeric: regularisation parameter of the TPS.
+#' @param weights vector of length k, containing weights for each landmark (only used in type="rigid" or "similarity").
+#' @param centerweight logical: if weights are defined and centerweigths=TRUE,
+#' the matrix will be centered according to these weights instead of the
+#' barycenter.
 #' @details
 #' \code{x} and \code{y} can also be a pair of meshes with corresponding vertices.
 #' @return returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
@@ -15,7 +19,7 @@
 #' trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @export
-computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8) {
+computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8, weights=NULL,centerweight=FALSE) {
     if (inherits(x,"mesh3d"))
         x <- vert2points(x)
      if (inherits(y,"mesh3d"))
@@ -36,7 +40,7 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         scale <- TRUE
         if (type == "r")
             scale <- FALSE
-        trafo <- getTrafo4x4(rotonto(x,y,scale = scale,reflection=reflection))
+        trafo <- getTrafo4x4(rotonto(x,y,scale = scale,reflection=reflection,weights=weights,centerweight=centerweight))
     } else if (type=="a"){
         k <- nrow(x)
         m <- ncol(x)

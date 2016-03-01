@@ -5,18 +5,25 @@
 \title{calculate an affine transformation matrix}
 \usage{
 computeTransform(x, y, type = c("rigid", "similarity", "affine", "tps"),
-  reflection = FALSE, lambda = 1e-08)
+  reflection = FALSE, lambda = 1e-08, weights = NULL,
+  centerweight = FALSE)
 }
 \arguments{
-\item{x}{fix landmarks}
+\item{x}{fix landmarks. Can be a k x m matrix or mesh3d.}
 
-\item{y}{moving landmarks}
+\item{y}{moving landmarks. Can be a k x m matrix or mesh3d.}
 
 \item{type}{set type of affine transformation: options are  "rigid", "similarity" (rigid + scale) and "affine",}
 
 \item{reflection}{logical: if TRUE "rigid" and "similarity" allow reflections.}
 
 \item{lambda}{numeric: regularisation parameter of the TPS.}
+
+\item{weights}{vector of length k, containing weights for each landmark (only used in type="rigid" or "similarity").}
+
+\item{centerweight}{logical: if weights are defined and centerweigths=TRUE,
+the matrix will be centered according to these weights instead of the
+barycenter.}
 }
 \value{
 returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
