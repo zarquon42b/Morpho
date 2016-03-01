@@ -11,6 +11,7 @@
 #' trafo <- getTrafo4x4(rot)
 #' boneLM2trafo <- applyTransform(boneLM[,,2],trafo)
 #' @rdname applyTransform
+#' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \linkt{tps3d}, \link{computeTransform}}
 #' @export
 applyTransform <- function(x,trafo,inverse)UseMethod("applyTransform")
 
