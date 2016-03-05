@@ -9,8 +9,8 @@
 #' @param refmat reference matrix - e.g. landmark configuration on a surface
 #' @param tarmat target matrix - e.g. landmark configuration on a target
 #' surface
-#' 
 #' @param lambda numeric: regularisation parameter of the TPS.
+#' @param threads threads to be used for parallel execution in tps deformation.
 #' @param ... additional arguments, currently not used.
 #' @return returns the deformed input
 #' @author Stefan Schlager
@@ -61,9 +61,9 @@
 #' 
 #' }
 #' @export
-tps3d <- function(x,refmat,tarmat,lambda=1e-8,...) {
+tps3d <- function(x,refmat,tarmat,lambda=1e-8,threads=1,...) {
     coeff <- computeTransform(x=tarmat,y=refmat,lambda=lambda,type="tps")
-    transM <- applyTransform(x,coeff)
+    transM <- applyTransform(x,coeff,threads=threads)
     return(transM)
     
 }

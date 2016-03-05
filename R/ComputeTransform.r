@@ -10,6 +10,7 @@
 #' @param centerweight logical: if weights are defined and centerweigths=TRUE,
 #' the matrix will be centered according to these weights instead of the
 #' barycenter.
+#'
 #' @details
 #' \code{x} and \code{y} can also be a pair of meshes with corresponding vertices.
 #' @return returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
@@ -58,10 +59,9 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         trafo[m+1,m+1] <- 1
     } else if (type == "t") {
         m <- ncol(y)
-        Lall <- CreateL(y,lambda=lambda, output="L")
-        Linv <- Lall$L
+        L <- CreateL(y,lambda=lambda, output="L")$L
         m2 <- rbind(x,matrix(0,m+1,m))
-        coeff <- as.matrix(solve(Linv,m2))
+        coeff <- as.matrix(solve(L,m2))
         trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)
         class(trafo) <- "tpsCoeff"
     } else {

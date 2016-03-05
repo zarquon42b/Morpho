@@ -7,13 +7,13 @@
 \alias{applyTransform.mesh3d}
 \title{apply affine transformation to data}
 \usage{
-applyTransform(x, trafo, inverse)
+applyTransform(x, trafo, inverse, threads, ...)
 
-\method{applyTransform}{matrix}(x, trafo, inverse = FALSE)
+\method{applyTransform}{matrix}(x, trafo, inverse = FALSE, threads = 1)
 
-\method{applyTransform}{mesh3d}(x, trafo, inverse = FALSE)
+\method{applyTransform}{mesh3d}(x, trafo, inverse = FALSE, threads = 1)
 
-\method{applyTransform}{default}(x, trafo, inverse = FALSE)
+\method{applyTransform}{default}(x, trafo, inverse = FALSE, threads = 1)
 }
 \arguments{
 \item{x}{matrix or mesh3d}
@@ -21,6 +21,8 @@ applyTransform(x, trafo, inverse)
 \item{trafo}{4x4 transformation matrix or an object of class "tpsCoeff"}
 
 \item{inverse}{logical: if TRUE, the inverse of the transformation is applied (for TPS coefficients have to be recomputed)}
+
+\item{threads}{threads to be used for parallel execution in tps deformation.}
 }
 \value{
 the transformed object

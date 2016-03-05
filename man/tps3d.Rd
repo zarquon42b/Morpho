@@ -4,7 +4,7 @@
 \alias{tps3d}
 \title{thin plate spline mapping (2D and 3D) for coordinates and triangular meshes}
 \usage{
-tps3d(x, refmat, tarmat, lambda = 1e-08, ...)
+tps3d(x, refmat, tarmat, lambda = 1e-08, threads = 1, ...)
 }
 \arguments{
 \item{x}{matrix - e.g. the matrix information of vertices of a given
@@ -16,6 +16,8 @@ surface or a triangular mesh of class "mesh3d"}
 surface}
 
 \item{lambda}{numeric: regularisation parameter of the TPS.}
+
+\item{threads}{threads to be used for parallel execution in tps deformation.}
 
 \item{...}{additional arguments, currently not used.}
 }

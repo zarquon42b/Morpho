@@ -63,21 +63,23 @@ CreateL <- function(matrix,lambda=1e-8, output=c("L","Linv","Lsubk", "Lsubk3"))
         L <- forceSymmetric(L)
         if ("L" %in% output)
             out$L <- L
-        L1 <- try(solve(L),silent=TRUE)
-        if (class(L1)=="try-error") {
-            cat("CreateL: singular matrix: general inverse will be used.\n")
-            L1 <- armaGinv(as.matrix(L))		
-        }
-        if ("Linv" %in% output)
-            out$Linv <- L1
-        if ("Lsubk" %in% output || "Lsubk3" %in% output)
-            Lsubk <- forceSymmetric(L1[1:k,1:k])
-        if ("Lsubk" %in% output)
-            out$Lsubk <- Lsubk
-        
-        if ("Lsubk3" %in% output) {
-            Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
-            out$Lsubk3 <- Lsubk3
+        if ("Linv" %in% output || "Lsubk" %in% output || "Lsubk3" %in% output) {
+            L1 <- try(solve(L),silent=TRUE)
+            if (class(L1)=="try-error") {
+                cat("CreateL: singular matrix: general inverse will be used.\n")
+                L1 <- armaGinv(as.matrix(L))		
+            }
+            if ("Linv" %in% output)
+                out$Linv <- L1
+            if ("Lsubk" %in% output || "Lsubk3" %in% output)
+                Lsubk <- forceSymmetric(L1[1:k,1:k])
+            if ("Lsubk" %in% output)
+                out$Lsubk <- Lsubk
+            
+            if ("Lsubk3" %in% output) {
+                Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
+                out$Lsubk3 <- Lsubk3
+            }
         }
         
         return(out)
