@@ -35,6 +35,6 @@ trafo <- getTrafo4x4(rot)
 boneLM2trafo <- applyTransform(boneLM[,,2],trafo)
 }
 \seealso{
-\code{\link{rotonto}, link{rotmesh.onto}, \linkt{tps3d}, \link{computeTransform}}
+\code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}, \link{computeTransform}}
 }
 

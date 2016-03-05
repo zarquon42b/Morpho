@@ -18,7 +18,7 @@
 #' data(boneData)
 #' trafo <- computeTransform(boneLM[,,1],boneLM[,,2])
 #' transLM <- applyTransform(boneLM[,,2],trafo)
-#' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \linkt{tps3d}}
+#' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}}
 #' @export
 computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8, weights=NULL,centerweight=FALSE) {
     if (inherits(x,"mesh3d"))
