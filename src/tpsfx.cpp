@@ -1,5 +1,7 @@
 #include <RcppArmadillo.h>
-
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 using namespace Rcpp;
 using namespace std;
 using namespace arma;
@@ -21,9 +23,12 @@ RcppExport SEXP tpsfx(SEXP A_,SEXP B_,SEXP Bh_, SEXP coefs_) {
     
     mat coefsNoAff = coefsA.cols(0, m-1);
     mat result = BA; result.zeros();
-    colvec x(m);
-  
-    for (uint i=0; i < BA.n_rows; ++i) { 
+    
+    uint i;
+    #pragma omp parallel for schedule(static) private(i) num_threads(1)
+
+    for (i=0; i < BA.n_rows; ++i) {
+      colvec x(m);
       for (uint j=0; j < m; ++j) {
 	mat tmp = AA.row(j) - BA.row(i);
 	if (lmdim > 2) {

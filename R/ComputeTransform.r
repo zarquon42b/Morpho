@@ -58,10 +58,10 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         trafo[m+1,m+1] <- 1
     } else if (type == "t") {
         m <- ncol(y)
-        Lall <- CreateL(y,lambda=lambda, output="Linv")
-        Linv <- Lall$Linv
+        Lall <- CreateL(y,lambda=lambda, output="L")
+        Linv <- Lall$L
         m2 <- rbind(x,matrix(0,m+1,m))
-        coeff <- as.matrix(Linv%*%m2)
+        coeff <- as.matrix(solve(Linv,m2))
         trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)
         class(trafo) <- "tpsCoeff"
     } else {
