@@ -7,6 +7,7 @@
 #' @param matrix k x 3 or k x 2 matrix containing landmark coordinates.
 #' @param lambda numeric: regularization factor
 #' @param output character vector: select which matrices to create. Can be a vector containing any combination of the strings: \code{ "L","Linv","Lsubk", "Lsubk3"}.
+#' @param threads threads to be used for parallel execution calculating K.
 #' sliding of semilandmarks.
 #' @return depending on the choices in \code{output}:
 #' \item{L }{Matrix L as specified in Bookstein (1989)}
@@ -44,7 +45,7 @@
 #' sqrt(sum(be3^2))
 #' @importFrom Matrix bdiag
 #' @export
-CreateL <- function(matrix,lambda=1e-8, output=c("L","Linv","Lsubk", "Lsubk3"))
+CreateL <- function(matrix,lambda=1e-8, output=c("L","Linv","Lsubk", "Lsubk3"),threads=1)
 {
     if (ncol(matrix) == 3) {
         out <- list()
@@ -53,7 +54,7 @@ CreateL <- function(matrix,lambda=1e-8, output=c("L","Linv","Lsubk", "Lsubk3"))
         #O <- matrix(0,4,4)
         if (!is.matrix(matrix) || !is.numeric(matrix))
         stop("matrix must be a numeric matrix")
-        K <- .Call("createL",matrix)
+        K <- .Call("createL",matrix,threads)
         L <- matrix(0,k+4,k+4)
         if (lambda !=0 )
             diag(K) <- lambda

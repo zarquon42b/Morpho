@@ -10,7 +10,7 @@
 #' @param centerweight logical: if weights are defined and centerweigths=TRUE,
 #' the matrix will be centered according to these weights instead of the
 #' barycenter.
-#'
+#' @param threads number of threads to use in TPS interpolation.
 #' @details
 #' \code{x} and \code{y} can also be a pair of meshes with corresponding vertices.
 #' @return returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
@@ -21,7 +21,7 @@
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}}
 #' @export
-computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8, weights=NULL,centerweight=FALSE) {
+computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8, weights=NULL,centerweight=FALSE,threads=1) {
     if (inherits(x,"mesh3d"))
         x <- vert2points(x)
      if (inherits(y,"mesh3d"))
@@ -59,7 +59,7 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         trafo[m+1,m+1] <- 1
     } else if (type == "t") {
         m <- ncol(y)
-        L <- CreateL(y,lambda=lambda, output="L")$L
+        L <- CreateL(y,lambda=lambda, output="L",threads=threads)$L
         m2 <- rbind(x,matrix(0,m+1,m))
         coeff <- as.matrix(solve(L,m2))
         trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)

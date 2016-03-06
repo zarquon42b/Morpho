@@ -6,7 +6,7 @@
 \usage{
 computeTransform(x, y, type = c("rigid", "similarity", "affine", "tps"),
   reflection = FALSE, lambda = 1e-08, weights = NULL,
-  centerweight = FALSE)
+  centerweight = FALSE, threads = 1)
 }
 \arguments{
 \item{x}{fix landmarks. Can be a k x m matrix or mesh3d.}
@@ -24,6 +24,8 @@ computeTransform(x, y, type = c("rigid", "similarity", "affine", "tps"),
 \item{centerweight}{logical: if weights are defined and centerweigths=TRUE,
 the matrix will be centered according to these weights instead of the
 barycenter.}
+
+\item{threads}{number of threads to use in TPS interpolation.}
 }
 \value{
 returns a 4x4 (3x3 in 2D case)  transformation matrix or an object of class "tpsCoeff" in case of type="tps".
