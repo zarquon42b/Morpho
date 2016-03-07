@@ -49,8 +49,16 @@ fastKmeans <- function(x,k,iter.max=10,tol=1e-5,project=TRUE,threads=parallel::d
     while (cnt < iter.max && centerchk > tol) {
         centerold <- centers
         clost <- vcgKDtree(centers,x,k=1,threads = threads)$index
-        centers <- .Call("fastSubsetMeans",x,clost-1L,threads)
-        centerchk <- mean(vcgKDtree(centers,centerold,k=1,threads = threads)$distance)
+        centers <- .Call("fastSubsetMeans",x,clost-1L,k,threads)
+        ## precaution for empty centers due to bad initialization
+        if (sum(centers$checkempty)) { 
+            centerinit <- sample(1:nrow(x))[1:k]
+            centers <- x[centerinit,]
+            cnt <- 1
+        } else {
+            centers <- centers$centers
+        }
+        centerchk <- mean(vcgKDtree(centers,centerold,k=1,threads = threads)$distance,na.rm=TRUE)
         clost_center <- sort(unique(vcgKDtree(x,centers,k=1,threads = threads)$index))
         cnt <- cnt+1
     }
