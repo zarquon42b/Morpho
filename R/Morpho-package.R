@@ -176,5 +176,5 @@ conv2backf <- function (...)
 warp.mesh <- function (mesh,matr,matt,lambda=1e-8,updateNormals=TRUE, silent=FALSE)
 {
   .Deprecated("tps3d", package="Morpho")
-  tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda)
+  tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda,threads=1)
 }

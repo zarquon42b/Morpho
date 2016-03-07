@@ -59,7 +59,7 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         
         x0 <- (x0%*%space)
         x00 <- x0 <- scale(x0,center=-mean.mat,scale=F)
-        x0 <- tps3d(x0,matrix,tarmatrix)
+        x0 <- tps3d(x0,matrix,tarmatrix,threads=1)
         
         ## create deformation cube
         zinit <- NULL

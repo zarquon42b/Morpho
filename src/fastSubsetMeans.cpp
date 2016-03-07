@@ -2,12 +2,14 @@
 using namespace Rcpp;
 using namespace arma;
 
-RcppExport SEXP fastSubsetMeans(SEXP x_, SEXP inds_) {
+RcppExport SEXP fastSubsetMeans(SEXP x_, SEXP inds_,SEXP threads_) {
    try {
      mat x = as<mat>(x_);
   uvec inds = as<uvec>(inds_);
+  int threads = as<int>(threads_);
   int maxlev = inds.max();
   mat center(maxlev,x.n_cols);
+#pragma omp parallel for schedule(static) num_threads(threads)
   for (int i =0; i < maxlev;i++) {
     
     uvec tmpinds = find(inds ==i);

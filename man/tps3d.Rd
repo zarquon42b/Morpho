@@ -4,7 +4,8 @@
 \alias{tps3d}
 \title{thin plate spline mapping (2D and 3D) for coordinates and triangular meshes}
 \usage{
-tps3d(x, refmat, tarmat, lambda = 1e-08, threads = 1, ...)
+tps3d(x, refmat, tarmat, lambda = 1e-08, threads = parallel::detectCores(),
+  ...)
 }
 \arguments{
 \item{x}{matrix - e.g. the matrix information of vertices of a given
@@ -40,7 +41,7 @@ tarlm <- reflm
 tarlm[4,] <- longnose.lm[4,]
 ##  deform a set of semilandmarks by applying a TPS-deformation
 ##  based on 5 reference points
-deformed <- tps3d(shortnose.lm, reflm, tarlm)
+deformed <- tps3d(shortnose.lm, reflm, tarlm,threads=2)
 \dontrun{
 ##visualize results by applying a deformation grid
 deformGrid3d(shortnose.lm,deformed,ngrid = 5)
@@ -48,7 +49,7 @@ deformGrid3d(shortnose.lm,deformed,ngrid = 5)
 
 data(nose)##load data
 ##warp a mesh onto another landmark configuration:
-warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
+warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=2)
 
 
 require(rgl)
@@ -61,7 +62,7 @@ data(boneData)
 
 \dontrun{
 warpskull <- tps3d(skull_0144_ch_fe.mesh,boneLM[,,1],
-                     boneLM[,,10])
+                     boneLM[,,10], threads=2)
 ## render deformed mesh and landmarks
 shade3d(warpskull, col=2, specular=1)
 spheres3d(boneLM[,,1])

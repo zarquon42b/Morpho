@@ -91,7 +91,7 @@ on the (deformed) atlas.
 data(nose)
 require(rgl)
 ###create mesh for longnose
-longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
+longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=2)
 ## create atlas
 fix <- c(1:5,20:21)
 atlas <- createAtlas(shortnose.mesh, landmarks =

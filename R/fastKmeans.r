@@ -5,6 +5,7 @@
 #' @param k number of clusters
 #' @param iter.max maximum number of iterations
 #' @param tol convergence threshold if the mean distance between centers is below it, the algorithm stops
+#' @param project logical: if x is a triangular mesh, the centers will be projected onto the surface.
 #' @param threads integer number of threads to use
 #' @return
 #' returns a list containing
@@ -14,6 +15,7 @@
 #' @examples
 #' require(Rvcg);require(rgl)
 #' data(humface)
+#' set.seed(42)
 #' clust <- fastKmeans(humface,k=1000,threads=2)
 #' \dontrun{
 #' require(rgl)
@@ -28,9 +30,13 @@
 #' 
 #' 
 #' @export
-fastKmeans <- function(x,k,iter.max=10,tol=1e-5,threads=parallel::detectCores()) {
-    if (inherits(x,"mesh3d"))
+fastKmeans <- function(x,k,iter.max=10,tol=1e-5,project=TRUE,threads=parallel::detectCores()) {
+    isMesh <- FALSE
+    if (inherits(x,"mesh3d")) {
+        xorig <- x
         x <- vert2points(x)
+        isMesh <- TRUE
+    }
     k <- abs(k)
     if (k >= nrow(x))
         return(list(centers=x,selected=1:nrow(x)))
@@ -43,11 +49,14 @@ fastKmeans <- function(x,k,iter.max=10,tol=1e-5,threads=parallel::detectCores())
     while (cnt < iter.max && centerchk > tol) {
         centerold <- centers
         clost <- vcgKDtree(centers,x,k=1,threads = threads)$index
-        centers <- .Call("fastSubsetMeans",x,clost-1L)
+        centers <- .Call("fastSubsetMeans",x,clost-1L,threads)
         centerchk <- mean(vcgKDtree(centers,centerold,k=1,threads = threads)$distance)
         clost_center <- sort(unique(vcgKDtree(x,centers,k=1,threads = threads)$index))
         cnt <- cnt+1
     }
+    if (isMesh && project)
+        centers <- vert2points(vcgClost(centers,xorig))
+    
     out <- list(selected=clost_center,centers=centers,class=clost)
     return(out)
 }

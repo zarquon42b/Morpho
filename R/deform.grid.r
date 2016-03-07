@@ -96,7 +96,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
         else
             space <- diag(3)
         x0 <- t(t(x0%*%space)+mean.mat)
-        x0 <- tps3d(x0,matrix,tarmatrix,lambda = 1e-8)
+        x0 <- tps3d(x0,matrix,tarmatrix,lambda = 1e-8,threads=1)
         
         ## create deformation cube
         outmesh <- list(vb = rbind(t(x0),1))

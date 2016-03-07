@@ -81,7 +81,7 @@ fixLMmirror.matrix <- function(x,pairedLM) {
     xmir[c(pairedLM),] <- xmir[c(pairedLM[,2:1]),]##relabel landmarks
     xref <- xmir[-c(unilatNA,pairedLM[affected,]),]
     xtar <- x[-c(unilatNA,pairedLM[affected,]),]
-    xout <- tps3d(xmir,xref,xtar)
+    xout <- tps3d(xmir,xref,xtar,threads=1)
     xout[goodPaired,] <- x[goodPaired,]
     return(xout)
 

@@ -123,9 +123,9 @@ fixLMtps <- function(data,comp=3,weight=TRUE)
           for (j in 1:comp) {
               lm.est <- lm.est+lms[,,j]*wcalc$data$weight[j]
           }
-          tpsout <- tps3d(lm.est,lm.est[-miss,],data[-miss,,check[i]])
+          tpsout <- tps3d(lm.est,lm.est[-miss,],data[-miss,,check[i]],threads=1)
       } else {
-          tpsout <- tps3d(mean0,mean0[-miss,],data[-miss,,check[i]])
+          tpsout <- tps3d(mean0,mean0[-miss,],data[-miss,,check[i]],threads=1)
       }
       out[,,check[i]] <- tpsout
   }
