@@ -14,7 +14,7 @@
 #' @rdname applyTransform
 #' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}, \link{computeTransform}}
 #' @export
-applyTransform <- function(x,trafo,inverse,threads,...)UseMethod("applyTransform")
+applyTransform <- function(x,trafo,inverse,threads)UseMethod("applyTransform")
 
 #' @rdname applyTransform
 #' @export

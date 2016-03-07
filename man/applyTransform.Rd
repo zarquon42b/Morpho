@@ -7,7 +7,7 @@
 \alias{applyTransform.mesh3d}
 \title{apply affine transformation to data}
 \usage{
-applyTransform(x, trafo, inverse, threads, ...)
+applyTransform(x, trafo, inverse, threads)
 
 \method{applyTransform}{matrix}(x, trafo, inverse = FALSE, threads = 1)
 
