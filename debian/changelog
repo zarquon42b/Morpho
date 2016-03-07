@@ -1,3 +1,9 @@
+morpho (2.3.1.1.99-trusty0) trusty; urgency=medium
+
+  *  travis updated
+
+ -- Stefan Schlager <zarquon42@gmail.com>  Mon, 07 Mar 2016 12:44:38 +0100
+
 morpho (2.3.0-trusty1) trusty; urgency=medium
 
   * snapshot for travis trusty ppa
