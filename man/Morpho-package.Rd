@@ -16,8 +16,8 @@ and semi-automated placement of surface landmarks.
 \tabular{ll}{
 Package: \tab Morpho\cr
 Type: \tab Package\cr
-Version: \tab 2.3.1.1\cr
-Date: \tab 2016-01-21\cr
+Version: \tab 2.3.1.1.160307\cr
+Date: \tab 2016-03-07\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
