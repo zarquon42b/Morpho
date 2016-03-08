@@ -49,7 +49,7 @@ asymPermute <- function(x,groups,rounds=1000,which=NULL) {
         gmeans[i,] <- colMeans(asym[groups == lev[i],,drop=FALSE])
         groupmeans[,,i] <- matrix(gmeans[i,],nrow(x$mshape), ncol(x$mshape))
     }
-    
+    set.seed(rnorm(1))
     shaker <- .Call("asymPermute",asym,as.integer(groups),as.integer(rounds))
     out <- list(groupmeans=groupmeans)
     out$levels <- lev

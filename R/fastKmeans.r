@@ -4,7 +4,6 @@
 #' @param x matrix containing coordinates or mesh3d
 #' @param k number of clusters
 #' @param iter.max maximum number of iterations
-#' @param tol convergence threshold if the mean distance between centers is below it, the algorithm stops
 #' @param project logical: if x is a triangular mesh, the centers will be projected onto the surface.
 #' @param threads integer number of threads to use
 #' @return
@@ -30,7 +29,7 @@
 #' 
 #' 
 #' @export
-fastKmeans <- function(x,k,iter.max=10,tol=1e-5,project=TRUE,threads=parallel::detectCores()) {
+fastKmeans <- function(x,k,iter.max=10,project=TRUE,threads=parallel::detectCores()) {
     isMesh <- FALSE
     if (inherits(x,"mesh3d")) {
         xorig <- x
@@ -46,8 +45,9 @@ fastKmeans <- function(x,k,iter.max=10,tol=1e-5,project=TRUE,threads=parallel::d
     centers <- x[centerinit,]
     cnt <- 1
     centerchk <- 1e12
-    while (cnt < iter.max && centerchk > tol) {
-        centerold <- centers
+    clost <- 1:nrow(x)
+    while (cnt < iter.max && centerchk > 0) {
+        indexold <- clost
         clost <- vcgKDtree(centers,x,k=1,threads = threads)$index
         centers <- .Call("fastSubsetMeans",x,clost-1L,k,threads)
         ## precaution for empty centers due to bad initialization
@@ -58,13 +58,13 @@ fastKmeans <- function(x,k,iter.max=10,tol=1e-5,project=TRUE,threads=parallel::d
         } else {
             centers <- centers$centers
         }
-        centerchk <- mean(vcgKDtree(centers,centerold,k=1,threads = threads)$distance,na.rm=TRUE)
-        clost_center <- sort(unique(vcgKDtree(x,centers,k=1,threads = threads)$index))
+        centerchk <- max(abs(clost-indexold))
+        
         cnt <- cnt+1
     }
     if (isMesh && project)
         centers <- vert2points(vcgClost(centers,xorig))
-    
+    clost_center <- sort(unique(vcgKDtree(x,centers,k=1,threads = threads)$index))
     out <- list(selected=clost_center,centers=centers,class=clost)
     return(out)
 }

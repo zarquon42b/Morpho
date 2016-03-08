@@ -112,6 +112,7 @@ covPCA <- function(data,groups,rounds=1000,bootrounds=0,lower.bound=0.05, upper.
     groups <- as.integer(groups)
     rounds <- as.integer(rounds)[1]
     bootrounds <- as.integer(bootrounds)[1]
+    set.seed(rnorm(1))
     result <- .Call("covPCAwrap", data, groups,bootrounds,rounds)
     
     dist <- result$dist
