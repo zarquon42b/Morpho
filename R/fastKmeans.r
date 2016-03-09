@@ -36,11 +36,19 @@ fastKmeans <- function(x,k,iter.max=10,project=TRUE,threads=parallel::detectCore
         x <- vert2points(x)
         isMesh <- TRUE
     }
+    if (is.vector(x))
+        x <- as.matrix(x)
+    if (!ncol(x) %in% 1:3)
+        stop("x can only have 1,2 or 3 columns")
+    origdim <- ncol(x)
+    if (origdim < 3) {
+        supplement <- matrix(0,nrow(x),3-origdim)
+        x <- cbind(x,supplement)
+    }
     k <- abs(k)
     if (k >= nrow(x))
-        return(list(centers=x,selected=1:nrow(x)))
-    if (!ncol(x) %in% 2:3)
-        stop("x can only have 2 or 3 columns")
+        stop("k exceeds sample size")
+
     centerinit <- sample(1:nrow(x))[1:k]
     centers <- x[centerinit,]
     cnt <- 1
@@ -65,7 +73,7 @@ fastKmeans <- function(x,k,iter.max=10,project=TRUE,threads=parallel::detectCore
     if (isMesh && project)
         centers <- vert2points(vcgClost(centers,xorig))
     clost_center <- sort(unique(vcgKDtree(x,centers,k=1,threads = threads)$index))
-    out <- list(selected=clost_center,centers=centers,class=clost)
+    out <- list(selected=clost_center,centers=centers[,1:origdim],class=clost)
     return(out)
 }
     
