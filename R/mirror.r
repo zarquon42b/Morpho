@@ -11,7 +11,7 @@
 #' @return returns the reflected object
 #' @examples
 #' data(boneData)
-#' boneMir <- mirror(boneLM[,,1],icpiter=50)
+#' boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2)
 #' ## 2D Example:
 #' require(shapes)
 #' gorfMir <- mirror(gorf.dat[,,1])
@@ -20,7 +20,7 @@
 #' \dontrun{
 #' ## now mirror a complete mesh
 #' require(rgl)
-#' skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30)
+#' skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30,mc.cores=2)
 #' ###compare result to original
 #' wire3d(skull_0144_ch_fe.mesh,col=3)
 #' wire3d(skullMir,col=2)
@@ -32,7 +32,7 @@ mirror <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE,mc.cores=2) UseMetho
 
 #' @rdname mirror
 #' @export
-mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE,mc.cores=2) {
+mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE, mc.cores=2) {
 
     m <- ncol(x)
     if (m == 2)
@@ -108,8 +108,8 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
     type <- match.arg(type,c("rigid","similarity","affine"))
     if (!is.null(subsample)) {
         subsample <- min(nrow(x)-1,subsample)
-        subs <- duplicated(kmeans(x,centers=subsample,iter.max =100)$cluster)
-        xtmp <- x[!subs,]
+        subs <- fastKmeans(x,k=subsample,iter.max = 100,threads=1)$selected
+        xtmp <- x[subs,]
     } else {
         xtmp <- x
     }
@@ -120,7 +120,7 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
         xtmp <- applyTransform(xtmp[,],trafo)
     }
     if (!is.null(subsample)) {
-        fintrafo <- computeTransform(xtmp[,],x[!subs,],type = type)
+        fintrafo <- computeTransform(xtmp[,],x[subs,],type = type)
         xtmp <- applyTransform(x,fintrafo)
     }
     if (m == 2)

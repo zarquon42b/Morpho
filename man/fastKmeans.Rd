@@ -4,7 +4,7 @@
 \alias{fastKmeans}
 \title{fast kmeans clustering for 2D or 3D point clouds}
 \usage{
-fastKmeans(x, k, iter.max = 10, tol = 1e-05, project = TRUE,
+fastKmeans(x, k, iter.max = 10, project = TRUE,
   threads = parallel::detectCores())
 }
 \arguments{
@@ -13,8 +13,6 @@ fastKmeans(x, k, iter.max = 10, tol = 1e-05, project = TRUE,
 \item{k}{number of clusters}
 
 \item{iter.max}{maximum number of iterations}
-
-\item{tol}{convergence threshold if the mean distance between centers is below it, the algorithm stops}
 
 \item{project}{logical: if x is a triangular mesh, the centers will be projected onto the surface.}
 

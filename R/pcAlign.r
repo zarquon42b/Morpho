@@ -55,10 +55,10 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL,iterations=10, mc.core
             }
             return(rotlist)
         }
-        subs <- rep(FALSE,nrow(x))
+        subs <- 1:nrow(x)
         if (!is.null(subsample)) {
             subsample <- min(nrow(x)-1,subsample)
-            subs <- duplicated(kmeans(x,centers=subsample,iter.max =100)$cluster)
+            subs <- fastKmeans(x,k=subsample,iter.max = 100,threads=1)$selected
         }
         
         dists <- 1e10
@@ -73,9 +73,9 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL,iterations=10, mc.core
                     xtmp1 <- icpmat(xtmp,y,iterations=iterations,subsample=subsample)
                     trafoicp <- computeTransform(xtmp1,xtmp)
                     trafotmp <- trafoicp%*%trafotmp
-                    disttmp <- mean(vcgKDtree(y,xtmp1[!subs,],k=1)$dist^2)
+                    disttmp <- mean(vcgKDtree(y,xtmp1[subs,],k=1)$dist^2)
                 } else {
-                    disttmp <- mean(vcgKDtree(y,xtmp[!subs,],k=1)$dist^2)
+                    disttmp <- mean(vcgKDtree(y,xtmp[subs,],k=1)$dist^2)
                 }
                 out <- list(dist=disttmp,trafo=trafotmp)
             }

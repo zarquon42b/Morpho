@@ -36,7 +36,7 @@ reflect a mesh configuration at the plane spanned by its first 2 principal axis,
 }
 \examples{
 data(boneData)
-boneMir <- mirror(boneLM[,,1],icpiter=50)
+boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2)
 ## 2D Example:
 require(shapes)
 gorfMir <- mirror(gorf.dat[,,1])
@@ -45,7 +45,7 @@ points(gorf.dat[,,1],col=3)
 \dontrun{
 ## now mirror a complete mesh
 require(rgl)
-skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30)
+skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30,mc.cores=2)
 ###compare result to original
 wire3d(skull_0144_ch_fe.mesh,col=3)
 wire3d(skullMir,col=2)
