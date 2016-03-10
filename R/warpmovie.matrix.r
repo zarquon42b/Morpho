@@ -52,7 +52,7 @@
 #'  data(nose)##load data
 #' \dontrun{
 #' ##warp a mesh onto another landmark configuration:
-#' warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=2)
+#' warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' 
 #' warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
 #' 

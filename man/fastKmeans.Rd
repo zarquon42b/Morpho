@@ -30,7 +30,7 @@ fast kmeans clustering for 2D or 3D point clouds - with the primary purpose to g
 require(Rvcg);require(rgl)
 data(humface)
 set.seed(42)
-clust <- fastKmeans(humface,k=1000,threads=2)
+clust <- fastKmeans(humface,k=1000,threads=1)
 \dontrun{
 require(rgl)
 

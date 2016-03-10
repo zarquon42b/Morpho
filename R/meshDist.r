@@ -73,7 +73,7 @@
 #' 
 #' data(nose)##load data
 #' ##warp a mesh onto another landmark configuration:
-#' warpnose.long <- tps3d(shortnose.mesh, shortnose.lm, longnose.lm,threads=2)
+#' warpnose.long <- tps3d(shortnose.mesh, shortnose.lm, longnose.lm,threads=1)
 #' \dontrun{
 #' mD <- meshDist(warpnose.long, shortnose.mesh)
 #' ##now change the color ramp

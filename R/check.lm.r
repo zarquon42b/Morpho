@@ -45,7 +45,7 @@
 #' 
 #' data(nose)
 #' ###create mesh for longnose
-#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=2)
+#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' ### write meshes to disk
 #' save(shortnose.mesh, file="shortnose")
 #' save(longnose.mesh, file="longnose")

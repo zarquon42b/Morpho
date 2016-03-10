@@ -99,7 +99,7 @@
 #' 
 #' ## finally relax two meshes with corresponding vertices:
 #' 
-#' mediumnose.mesh <- tps3d(shortnose.mesh,shortnose.lm, (shortnose.lm+longnose.lm)/2,threads=2)
+#' mediumnose.mesh <- tps3d(shortnose.mesh,shortnose.lm, (shortnose.lm+longnose.lm)/2,threads=1)
 #' ## we use Procrustes distance as criterion as bending energy is pretty slow because
 #' ## of too many coordinates (more than 3000 is very unreasonable).
 #' relaxMesh <- relaxLM(shortnose.mesh,mediumnose.mesh,iterations=2,bending=FALSE,stepsize=0.05)

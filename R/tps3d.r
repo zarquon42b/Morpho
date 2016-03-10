@@ -30,7 +30,7 @@
 #' tarlm[4,] <- longnose.lm[4,]
 #' ##  deform a set of semilandmarks by applying a TPS-deformation
 #' ##  based on 5 reference points
-#' deformed <- tps3d(shortnose.lm, reflm, tarlm,threads=2)
+#' deformed <- tps3d(shortnose.lm, reflm, tarlm,threads=1)
 #' \dontrun{
 #' ##visualize results by applying a deformation grid
 #' deformGrid3d(shortnose.lm,deformed,ngrid = 5)
@@ -38,7 +38,7 @@
 #' 
 #' data(nose)##load data
 #' ##warp a mesh onto another landmark configuration:
-#' warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=2)
+#' warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' 
 #' 
 #' require(rgl)
@@ -51,7 +51,7 @@
 #'
 #' \dontrun{
 #' warpskull <- tps3d(skull_0144_ch_fe.mesh,boneLM[,,1],
-#'                      boneLM[,,10], threads=2)
+#'                      boneLM[,,10], threads=1)
 #' ## render deformed mesh and landmarks
 #' shade3d(warpskull, col=2, specular=1)
 #' spheres3d(boneLM[,,1])
