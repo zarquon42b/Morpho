@@ -4,8 +4,7 @@
 \alias{tps3d}
 \title{thin plate spline mapping (2D and 3D) for coordinates and triangular meshes}
 \usage{
-tps3d(x, refmat, tarmat, lambda = 1e-08, threads = parallel::detectCores(),
-  ...)
+tps3d(x, refmat, tarmat, lambda = 1e-08, threads = 0, ...)
 }
 \arguments{
 \item{x}{matrix - e.g. the matrix information of vertices of a given

@@ -4,8 +4,7 @@
 \alias{fastKmeans}
 \title{fast kmeans clustering for 2D or 3D point clouds}
 \usage{
-fastKmeans(x, k, iter.max = 10, project = TRUE,
-  threads = parallel::detectCores())
+fastKmeans(x, k, iter.max = 10, project = TRUE, threads = 0)
 }
 \arguments{
 \item{x}{matrix containing coordinates or mesh3d}

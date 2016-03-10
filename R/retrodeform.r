@@ -199,7 +199,7 @@ retroDeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
 #' \item{landmarks}{a list containing the deformed and original landmarks}
 #' 
 #' @export
-retroDeformMesh <- function(mesh,mat,pairedLM,hmult=5,alpha=0.01,rot=TRUE,lambda=1e-8,threads=parallel::detectCores()) {
+retroDeformMesh <- function(mesh,mat,pairedLM,hmult=5,alpha=0.01,rot=TRUE,lambda=1e-8,threads=0) {
     deform <- retroDeform3d(mat,pairedLM,hmult=hmult,alpha=alpha)
     if (rot) 
         deform$deformed <- rotonto(deform$orig,deform$deformed,reflection = FALSE)$yrot

@@ -29,7 +29,7 @@
 #' 
 #' 
 #' @export
-fastKmeans <- function(x,k,iter.max=10,project=TRUE,threads=parallel::detectCores()) {
+fastKmeans <- function(x,k,iter.max=10,project=TRUE,threads=0) {
     isMesh <- FALSE
     if (inherits(x,"mesh3d")) {
         xorig <- x

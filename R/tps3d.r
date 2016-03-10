@@ -61,7 +61,7 @@
 #' 
 #' }
 #' @export
-tps3d <- function(x,refmat,tarmat,lambda=1e-8,threads=parallel::detectCores(),...) {
+tps3d <- function(x,refmat,tarmat,lambda=1e-8,threads=0,...) {
     coeff <- computeTransform(x=tarmat,y=refmat,lambda=lambda,type="tps",threads=threads)
     transM <- applyTransform(x,coeff,threads=threads)
     return(transM)
