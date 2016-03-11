@@ -25,7 +25,7 @@
 #' dat.array does not contain surface names.
 #' @param meshlist list containing triangular meshes of class 'mesh3d', for
 #' example imported with \code{\link{mesh2ply}} or \code{\link{file2mesh}} in
-#' the same order as the specimen in the array (see examples below)
+#' the same order as the specimen in the array (see examples below).
 #' @param ignore vector containing indices of landmarks that are to be ignored.
 #' Indices of outlines/surfaces etc will be updated automatically.
 #' @param sur.type character:if all surfaces are of the same file format and
@@ -68,6 +68,9 @@
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
 #' \item{vn.array }{array containing landmark normals}
+#' @note if \code{sur.path = NULL} and \code{meshlist = NULL}, surface landmarks
+#' are relaxed based on a surface normals approximated by the pointcloud, this can lead to bad results for sparse sets of semilandmarks. Obviously, no projection onto the surfaces will be occur and landmarks will likely be off
+#' the original surface.
 #' @section Warning: Depending on the size of the suface meshes and especially
 #' the amount of landmarks this can use an extensive amount of your PC's
 #' resources, especially when running in parallel. As the computation time and
@@ -137,7 +140,19 @@
 #' slideMissing <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 #'                   iterations=1, meshlist=meshlist,
 #'                   mc.cores=1,fixRepro=FALSE,missingList=missingList)
-#' 
+#'
+#' ## example with two curves
+#' ## Example with surface semilandmarks and two curves
+#' fix <- c(1:5,20:21)
+#' outline1 <- c(304:323)
+#' outline2 <- c(604:623)
+#' outlines <- 611:623
+#' outlines <- list(outline1,outline2)
+#' surp <- c(1:623)[-c(fix,outline1,outline2)]
+#' slideWithCurves <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+#'                             meshlist=meshlist,iterations=1,mc.cores=1,outlines=outlines)
+#' deformGrid3d(slideWithCurves$dataslide[,,1],shortnose.lm,ngrid = 0)
+#' plot(slideWithCurves)
 #' }
 #' 
 #' @export
@@ -257,23 +272,19 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         return(out)
 
     }
-    if (!nomesh) {
-        if (is.null(meshlist)) {
-            repro <- mclapply(1:n, parfunmeshfile,dat.array,mc.cores=mc.cores)
-        } else {
-            repro <- mclapply(1:n, parfunmeshlist,dat.array,mc.cores=mc.cores)
-        } 
-        for (j in 1:n) {
-            reprotmp <- repro[[j]]         
-            dat.array[,,j] <- t(reprotmp$vb[1:3,])
-            vn.array[,,j] <- t(reprotmp$normals[1:3,])
-        }
+    if (is.null(meshlist) && !nomesh) {
+        repro <- mclapply(1:n, parfunmeshfile,dat.array,mc.cores=mc.cores)
+    } else if (!nomesh) {
+        repro <- mclapply(1:n, parfunmeshlist,dat.array,mc.cores=mc.cores)
     } else {
-        warning("no surfaces specified - semi-landmarks can slip away from the surface")
-        vn.array <- dat.array
-        nomesh <- TRUE
-        if (!is.null(surp))
-            missingList <- lapply(1:n,function(x) x <- surp)
+        repro <- mclapply(1:n,function(x) x <- vcgUpdateNormals(dat.array[,,x],silent=TRUE),mc.cores=mc.cores)
+        warning("no surfaces specified - surface is approximated from point cloud")
+    }    
+    for (j in 1:n) {
+        reprotmp <- repro[[j]]         
+        dat.array[,,j] <- t(reprotmp$vb[1:3,])
+        vn.array[,,j] <- t(reprotmp$normals[1:3,])
+        
     }
     
     
@@ -341,23 +352,20 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         a.list <- mclapply(a.list,slido,mc.cores=mc.cores)
         
 ###projection onto surface
-        if (!nomesh) {
-        if (is.null(meshlist)) {
+       
+        if (is.null(meshlist) && !nomesh) {
             repro <- mclapply(1:n, parfunmeshfile,a.list,mc.cores=mc.cores)
-        } else {
+        } else if (!nomesh) {
             repro <- mclapply(1:n, parfunmeshlist,a.list,mc.cores=mc.cores)
+        } else {
+            repro <- mclapply(a.list,function(x) x <- vcgUpdateNormals(x,silent=TRUE),mc.cores=mc.cores)
         }
         for (j in 1:n) {
             reprotmp <- repro[[j]]         
             dataslide[,,j] <- t(reprotmp$vb[1:3,])
             vn.array[,,j] <- t(reprotmp$normals[1:3,])
         }
-        } else {
-            for (j in 1:n) {
-                dataslide[,,j] <- a.list[[j]]
-                vn.array <- a.list[[j]]
-            }
-        }
+       
         
         
         if (!fixRepro)# use original positions for fix landmarks

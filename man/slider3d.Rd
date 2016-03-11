@@ -109,8 +109,7 @@ deformation)
 }
 \note{
 if \code{sur.path = NULL} and \code{meshlist = NULL}, surface landmarks
-are relaxed without surface constraints and a warning will be issued.
-Obviously, no projection onto the surfaces will be occur and landmarks will likely be off
+are relaxed based on a surface normals approximated by the pointcloud, this can lead to bad results for sparse sets of semilandmarks. Obviously, no projection onto the surfaces will be occur and landmarks will likely be off
 the original surface.
 }
 \section{Warning}{
