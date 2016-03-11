@@ -177,6 +177,16 @@ slideWithCurves <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
                             meshlist=meshlist,iterations=1,mc.cores=1,outlines=outlines)
 deformGrid3d(slideWithCurves$dataslide[,,1],shortnose.lm,ngrid = 0)
 plot(slideWithCurves)
+
+## finally an example with sliding without meshes by estimating the surface from the
+## semi-landmarks
+
+slideWithCurvesNoMeshes <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+                            iterations=1,mc.cores=1,outlines=outlines)
+## compare it to the data with surfaces
+deformGrid3d(slideWithCurves$dataslide[,,1],slideWithCurvesNoMeshes$dataslide[,,1],ngrid = 0)
+## not too bad, only lonely surface semi-landmarks are a bit off
+
 }
 
 }
