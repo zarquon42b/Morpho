@@ -19,10 +19,11 @@ sliding of semilandmarks.}
 }
 \value{
 depending on the choices in \code{output}:
+\item{L }{Matrix K as specified in Bookstein (1989)}
 \item{L }{Matrix L as specified in Bookstein (1989)}
 \item{Linv }{Inverse of matrix L as specified in Bookstein (1989)}
 \item{Lsubk }{uper left k x k submatrix of \code{Linv}}
-\item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and \code{\link{relaxLM}}. Only available if \code{blockdiag = TRUE}}
+\item{Lsubk3 }{Matrix used for sliding in \code{\link{slider3d}} and \code{\link{relaxLM}}}.
 }
 \description{
 Create (Bending Engergy) Matrices necessary for Thin-Plate Spline, and
