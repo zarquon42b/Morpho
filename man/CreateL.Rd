@@ -12,7 +12,7 @@ CreateL(matrix, lambda = 1e-08, output = c("L", "Linv", "Lsubk", "Lsubk3"),
 
 \item{lambda}{numeric: regularization factor}
 
-\item{output}{character vector: select which matrices to create. Can be a vector containing any combination of the strings: \code{ "L","Linv","Lsubk", "Lsubk3"}.}
+\item{output}{character vector: select which matrices to create. Can be a vector containing any combination of the strings: \code{"K", "L","Linv","Lsubk", "Lsubk3"}.}
 
 \item{threads}{threads to be used for parallel execution calculating K.
 sliding of semilandmarks.}
