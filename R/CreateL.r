@@ -43,9 +43,9 @@
 #' L2 <- CreateL(boneLM[,,2])
 #' be3 <- t(boneLM[,,1])%*%L2$Lsubk%*%boneLM[,,1]
 #' sqrt(sum(be3^2))
-#' @importFrom Matrix bdiag Matrix
+#' @importFrom Matrix bdiag
 #' @export
-CreateL <- function(matrix,lambda=1e-8, output=c("k","L","Linv","Lsubk", "Lsubk3"),threads=1)
+CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3"),threads=1)
 {
     if (ncol(matrix) == 3) {
         out <- list()

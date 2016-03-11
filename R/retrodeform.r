@@ -76,7 +76,7 @@ GetPhi <- function(P,Q,hmult) {
 #'
 #' @param mat matrix with bilateral landmarks
 #' @param pairedLM 2-column integer matrix with the 1st columns containing row indices of left side landmarks and 2nd column the right hand landmarks
-#' @param hmult damping factor for calculating local weights
+#' @param hmult factor controlling the bandwidth for calculating local weights (which will be \code{hmult} * average distance between landmarks and their closest neighbour).
 #' @param alpha factor controlling spacing along x-axis
 #' @return
 #' \item{deformed}{matrix containing deformed landmarks}

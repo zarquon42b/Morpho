@@ -11,7 +11,7 @@ retroDeform3d(mat, pairedLM, hmult = 5, alpha = 0.01)
 
 \item{pairedLM}{2-column integer matrix with the 1st columns containing row indices of left side landmarks and 2nd column the right hand landmarks}
 
-\item{hmult}{damping factor for calculating local weights}
+\item{hmult}{factor controlling the bandwidth for calculating local weights (which will be \code{hmult} * average distance between landmarks and their closest neighbour).}
 
 \item{alpha}{factor controlling spacing along x-axis}
 }

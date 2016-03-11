@@ -4,8 +4,8 @@
 \alias{CreateL}
 \title{Create Matrices necessary for Thin-Plate Spline}
 \usage{
-CreateL(matrix, lambda = 1e-08, output = c("L", "Linv", "Lsubk", "Lsubk3"),
-  threads = 1)
+CreateL(matrix, lambda = 1e-08, output = c("K", "L", "Linv", "Lsubk",
+  "Lsubk3"), threads = 1)
 }
 \arguments{
 \item{matrix}{k x 3 or k x 2 matrix containing landmark coordinates.}
