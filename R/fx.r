@@ -1,15 +1,5 @@
-.fx <- function(refmat,M,coefs,time=TRUE,threads=1)
-{ 	
-    q <- dim(M)[1]
-    p <- dim(refmat)[1]
-    m <- dim(refmat)[2]
-    M1 <- cbind(1,M)
-    coefs <- t(coefs)
-    storage.mode(M) <- "double"
-    storage.mode(refmat) <- "double"
-    storage.mode(coefs) <- "double"
-                                        #splM <- .Fortran("tpsfx",refmat,p,M,q,M1,refmat[,1],coefs,M)[[8]]
-    splM <- .Call("tpsfx",refmat, M, M1, coefs,threads)
-    
+.fx <- function(refmat,M,coefs,time=TRUE,threads=1) { 	
+    M <- cbind(1,M)
+    splM <- .Call("tpsfx",refmat,  M, t(coefs),threads)
     return(splM)
 }
