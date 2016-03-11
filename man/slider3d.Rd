@@ -40,7 +40,7 @@ dat.array does not contain surface names.}
 
 \item{meshlist}{list containing triangular meshes of class 'mesh3d', for
 example imported with \code{\link{mesh2ply}} or \code{\link{file2mesh}} in
-the same order as the specimen in the array (see examples below)}
+the same order as the specimen in the array (see examples below).}
 
 \item{ignore}{vector containing indices of landmarks that are to be ignored.
 Indices of outlines/surfaces etc will be updated automatically.}
@@ -107,6 +107,12 @@ slides Semilandmarks along curves and surfaces in 3D. The positions on the
 surface are sought which minimise bending energy (of a thin-plate spline
 deformation)
 }
+\note{
+if \code{sur.path = NULL} and \code{meshlist = NULL}, surface landmarks
+are relaxed without surface constraints and a warning will be issued.
+Obviously, no projection onto the surfaces will be occur and landmarks will likely be off
+the original surface.
+}
 \section{Warning}{
  Depending on the size of the suface meshes and especially
 the amount of landmarks this can use an extensive amount of your PC's
@@ -160,6 +166,18 @@ slideMissing <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
                   iterations=1, meshlist=meshlist,
                   mc.cores=1,fixRepro=FALSE,missingList=missingList)
 
+## example with two curves
+## Example with surface semilandmarks and two curves
+fix <- c(1:5,20:21)
+outline1 <- c(304:323)
+outline2 <- c(604:623)
+outlines <- 611:623
+outlines <- list(outline1,outline2)
+surp <- c(1:623)[-c(fix,outline1,outline2)]
+slideWithCurves <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+                            meshlist=meshlist,iterations=1,mc.cores=1,outlines=outlines)
+deformGrid3d(slideWithCurves$dataslide[,,1],shortnose.lm,ngrid = 0)
+plot(slideWithCurves)
 }
 
 }

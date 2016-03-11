@@ -399,5 +399,49 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         gc(verbose = FALSE)
     }
     gc(verbose = FALSE)
-    return(list(dataslide=dataslide,vn.array=vn.array))
+    out <- list(dataslide=dataslide,vn.array=vn.array)
+    class(out) <- "slider3d"
+    out$sliderinfo <- list(fixLM=fixLM,outlineLM=outlines,surfaceLM=surp)
+    return(out)
+}
+#' plot the result of slider3d
+#'
+#' plot the result of slider3d
+#' @param x result of \code{slider3d} call
+#' @param cols vector containing colors for each coordinate type cols[1]=landmarks, cols[2]=surface landmarks, cols[3]=outlines.
+#' @param pt.size size of plotted points/spheres. If \code{point="s"}.
+#' \code{pt.size} defines the radius of the spheres. If \code{point="p"} it
+#' sets the variable \code{size} used in \code{point3d}.
+#' @param point how to render landmarks.
+#' @param specimen integer: select the specimen to plot
+#' @param add logical: if TRUE, a new rgl window is opened.
+#' @param ... additonal, currently unused parameters
+#' @method plot slider3d
+#' @export
+plot.slider3d <- function(x, cols=2:4, pt.size = NULL, point = c("sphere", "point"),specimen=1,add = TRUE,...) {
+    if (!inherits(x, "slider3d")) 
+        stop("please provide object of class 'slider3d'")
+    sliderinfo <- x$sliderinfo
+    plotx <- x$dataslide[,,specimen]
+    point <- match.arg(point[1],c("sphere", "point"))
+    radius <- pt.size
+    if (is.null(radius)) {
+        if (point == "sphere") 
+            radius <- (cSize(plotx)/sqrt(nrow(plotx))) * (1/30)
+        else radius <- 10
+    }
+    size <- radius
+    if (point == "sphere") 
+        rendpoint <- spheres3d
+    else if (point == "point") 
+        rendpoint <- points3d
+    
+    if (!add) 
+        open3d()
+    if (!is.null(sliderinfo$fixLM))
+        rendpoint(plotx[sliderinfo$fixLM,], col=cols[1], radius = radius, size = size)
+    if (!is.null(sliderinfo$surfaceLM))
+        rendpoint(plotx[sliderinfo$surfaceLM,], col=cols[2], radius = radius/2, size = size/2)
+    if (!is.null(sliderinfo$outlineLM))
+        rendpoint(plotx[unlist(sliderinfo$outlineLM),], col=cols[3], radius = radius/2, size = size/2)
 }
