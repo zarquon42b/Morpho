@@ -119,7 +119,7 @@
 #' 
 #' # now one example with meshes in workspace
 #' 
-#' meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
+#' meshlist <- list(shortnose.mesh,longnose.mesh)
 #' 
 #' slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 #'                   iterations=1, meshlist=meshlist,
@@ -141,7 +141,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,silent=FALSE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,silent=FALSE)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -155,7 +155,9 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     n <- dim(dat.array)[3]
     k <- dim(dat.array)[1]
     m <- dim(dat.array)[2]
-    
+    nomesh <- FALSE
+    if (is.null(meshlist) && is.null(sur.path))
+        nomesh <- TRUE
     if (pairedLM[1]!=0 && is.vector(pairedLM))# check if there are only 2 symmetric lms
         pairedLM <- t(as.matrix(pairedLM))
     if(!is.null(missingList))
@@ -223,7 +225,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         weights <- rep(0,dim(dat.array)[1])
         weights[use.lm] <- 1
     }
-    if(length(sur.name)==0) {
+    if(length(sur.name)==0 && !is.null(sur.path)) {
         sur.name <- dimnames(dat.array)[[3]]
         sur.name <- paste(sur.path,"/",sur.name,".",sur.type,sep="")
     }
@@ -231,7 +233,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     
     ini <- rotonto(dat.array[,,1],dat.array[,,2],signref=FALSE) # create mean between first tow configs to avoid singular BE Matrix
     mshape <- (ini$Y+ini$X)/2
-    if (!silent)
+    if (!silent && !nomesh)
         cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
     ## parallel function in case meshlist != NULL
     parfunmeshlist <- function(i,data) {
@@ -255,22 +257,30 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         return(out)
 
     }
-    if (is.null(meshlist)) {
-        repro <- mclapply(1:n, parfunmeshfile,dat.array,mc.cores=mc.cores)
+    if (!nomesh) {
+        if (is.null(meshlist)) {
+            repro <- mclapply(1:n, parfunmeshfile,dat.array,mc.cores=mc.cores)
+        } else {
+            repro <- mclapply(1:n, parfunmeshlist,dat.array,mc.cores=mc.cores)
+        } 
+        for (j in 1:n) {
+            reprotmp <- repro[[j]]         
+            dat.array[,,j] <- t(reprotmp$vb[1:3,])
+            vn.array[,,j] <- t(reprotmp$normals[1:3,])
+        }
     } else {
-        repro <- mclapply(1:n, parfunmeshlist,dat.array,mc.cores=mc.cores)
-    }
-    for (j in 1:n) {
-        reprotmp <- repro[[j]]         
-        dat.array[,,j] <- t(reprotmp$vb[1:3,])
-        vn.array[,,j] <- t(reprotmp$normals[1:3,])
+        warning("no surfaces specified - semi-landmarks can slip away from the surface")
+        vn.array <- dat.array
+        nomesh <- TRUE
+        if (!is.null(surp))
+            missingList <- lapply(1:n,function(x) x <- surp)
     }
     
     
     if (!fixRepro)# use original positions for fix landmarks
         dat.array[fixLM,,] <- data.orig[fixLM,,]
     
-    if (!silent)
+    if (!silent && !nomesh)
         cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
     
     if (initproc==TRUE) { # perform proc fit before sliding
@@ -331,6 +341,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         a.list <- mclapply(a.list,slido,mc.cores=mc.cores)
         
 ###projection onto surface
+        if (!nomesh) {
         if (is.null(meshlist)) {
             repro <- mclapply(1:n, parfunmeshfile,a.list,mc.cores=mc.cores)
         } else {
@@ -341,6 +352,13 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
             dataslide[,,j] <- t(reprotmp$vb[1:3,])
             vn.array[,,j] <- t(reprotmp$normals[1:3,])
         }
+        } else {
+            for (j in 1:n) {
+                dataslide[,,j] <- a.list[[j]]
+                vn.array <- a.list[[j]]
+            }
+        }
+        
         
         if (!fixRepro)# use original positions for fix landmarks
             dataslide[fixLM,,] <- data.orig[fixLM,,]

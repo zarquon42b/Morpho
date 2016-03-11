@@ -7,7 +7,7 @@
 energy of a thin-plate spline deformation.}
 \usage{
 slider3d(dat.array, SMvector, outlines = NULL, surp = NULL,
-  sur.path = "sur", sur.name = NULL, meshlist = NULL, ignore = NULL,
+  sur.path = NULL, sur.name = NULL, meshlist = NULL, ignore = NULL,
   sur.type = "ply", tol = 1e-05, deselect = FALSE, inc.check = TRUE,
   recursive = TRUE, iterations = 0, initproc = TRUE, fullGPA = FALSE,
   pairedLM = 0, bending = TRUE, stepsize = ifelse(bending, 1, 0.5),
@@ -141,7 +141,7 @@ slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 
 # now one example with meshes in workspace
 
-meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
+meshlist <- list(shortnose.mesh,longnose.mesh)
 
 slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
                   iterations=1, meshlist=meshlist,
