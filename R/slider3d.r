@@ -288,7 +288,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         repro <- mclapply(1:n, parfunmeshlist,dat.array,mc.cores=mc.cores)
     } else {
         repro <- mclapply(1:n,function(x) x <- vcgUpdateNormals(dat.array[,,x],silent=TRUE),mc.cores=mc.cores)
-        warning("no surfaces specified - surface is approximated from point cloud")
+        message("no surfaces specified - surface is approximated from point cloud")
     }    
     for (j in 1:n) {
         reprotmp <- repro[[j]]         
