@@ -10,5 +10,5 @@ test_that("relwarps behaves", {
               fix <- c(1:5,20:21)
               surp <- c(1:nrow(shortnose.lm))[-fix]
               slide <- slider3d(data, SMvector=fix, deselect=TRUE,meshlist=meshlist,surp=surp,iterations=1,mc.cores=1,fixRepro=FALSE)$dataslide
-              expect_equal(slide,slider.baseline,tol=1e-7)
+              expect_equal(slide,slider.baseline,tol=1e-3)
 })
