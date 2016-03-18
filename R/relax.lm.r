@@ -111,6 +111,9 @@ relaxLM <- function(lm,...)UseMethod("relaxLM")
 #' @rdname relaxLM
 #' @export
 relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,silent=FALSE,...) {
+    nomesh <- FALSE
+    if (is.null(mesh) && is.null(sur.name))
+        nomesh <- TRUE
     if(inherits(reference,"mesh3d"))
        reference <- vert2points(reference)
     k <- dim(lm)[1]
@@ -139,14 +142,16 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
         iterations <- 1e10
     if (m == 3) {
         if (!silent)
-            if (!silent)
+            if (!silent && !nomesh)
                 cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
         
-        if (is.null(mesh)) {
+        if (is.null(mesh) && !nomesh) {
             tmp <- projRead(lm, sur.name)
-            
-        } else {
+        } else if (!nomesh) {
             tmp <- projRead(lm,mesh)
+        } else {
+            tmp <- vcgUpdateNormals(lm,silent=TRUE)
+            message("no surfaces specified - surface is approximated from point cloud")
         }
         vs <- vert2points(tmp)
         vn <- t(tmp$normals[1:3,])
@@ -183,10 +188,12 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
             dataslido <- rotreverse(dataslido,rot)
         }
         if (m == 3) {
-            if (is.null(mesh)) {
+            if (is.null(mesh) && !nomesh) {
                 tmp <- projRead(dataslido, sur.name)
-            } else {
+            } else if (!nomesh){
                 tmp <- projRead(dataslido,mesh)
+            } else {
+                tmp <- vcgUpdateNormals(dataslido,silent=TRUE)
             }
             vs <- vert2points(tmp)
             vn <- t(tmp$normals[1:3,])
