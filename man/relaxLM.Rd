@@ -36,11 +36,10 @@ points, that are not allowed to slide.}
 \item{surp}{integer vector containing the row indices of semi-landmarks positioned on surfaces.}
 
 \item{sur.name}{character: containing the filename of the corresponding
-surface.When specified, mesh has to be NULL.}
+surface.When specified, mesh has to be NULL. If \code{sur.name=NULL} and \code{mesh=NULL}, the tangent planes will be estimated from the point cloud.}
 
 \item{mesh}{triangular mesh of class "mesh3d" loaded into the R workspace,
-when specified, "sur.name" has to be NULL. The function
-\code{\link{closemeshKD}} will be used for reprojection onto the surface.}
+when specified, "sur.name" has to be NULL.}
 
 \item{tol}{numeric: Threshold for convergence in the sliding proces. Full
 Procrustes distance between actual result and previous iteration.}
