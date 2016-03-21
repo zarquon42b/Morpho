@@ -7,9 +7,7 @@ SEXP CVAdists(SEXP data_, SEXP  groups_, SEXP rounds_, SEXP winv_) {
     mat winvA = as<mat>(winv_);
     arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);
     int rounds = as<int>(rounds_);
-    //bool n3 = as<bool>(n3_);
-    int n = armaData.n_rows;
-    int m = armaData.n_cols;
+    
     //ivec armaGroups(groups.begin(),groups.size(),false);
     int maxlev = armaGroups.max();
     int alldist=0;

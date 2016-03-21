@@ -6,9 +6,7 @@ SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_) {
     mat armaData = as<mat>(data_);
     arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);
     int rounds = Rcpp::as<int>(rounds_);
-    int n = armaData.n_rows;
-    int m = armaData.n_cols;
-    
+        
     ivec permuvec = armaGroups;
     int maxlev = armaGroups.max();
     int alldist=0;
