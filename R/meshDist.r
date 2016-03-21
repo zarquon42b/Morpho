@@ -289,7 +289,8 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             }             
         }
         if (is.null(scaleramp))
-            scaleramp <- x$scaleramp
+            scaleramp <- x$params$scaleramp
+       
         if (from < 0)
             neg <- TRUE
         if (is.null(to))
@@ -307,7 +308,6 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             negseq <- length(which(colseq<0))
             poseq <- steps-negseq
             maxseq <- max(c(negseq,poseq))
-                                        
             if (scaleramp) {
                 ramp <- colorRampPalette(rampcolors)(maxseq*2)
                 ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
