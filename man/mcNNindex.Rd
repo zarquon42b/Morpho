@@ -2,7 +2,7 @@
 % Please edit documentation in R/mcNNindex.r
 \name{mcNNindex}
 \alias{mcNNindex}
-\title{find nearest neighbours for point clouds}
+\title{find nearest neighbours for 2D and 3D point clouds}
 \usage{
 mcNNindex(target, query, cores = parallel::detectCores(), k = k, ...)
 }
@@ -11,8 +11,7 @@ mcNNindex(target, query, cores = parallel::detectCores(), k = k, ...)
 
 \item{query}{\code{l x m} matrix containing data for which to search.}
 
-\item{cores}{integer: amount of CPU-cores to be used. Speed benefits are
-only relevant for \code{k > 20}}
+\item{cores}{integer: amount of CPU-cores to be used. Only available on systems with OpenMP support.}
 
 \item{k}{integer: how many closest points are sought.}
 
@@ -22,13 +21,8 @@ only relevant for \code{k > 20}}
 \code{l x k } matrix containing indices of closest points.
 }
 \description{
-find nearest neighbours for point clouds by using algorithms from the ANN
-library. This is just a wrapper for the function ann from the package
-yaImpute, enabling parallel processing.
-}
-\details{
-wraps the function \code{ann} from package 'yaImpute' to allow multicore
-processing
+find nearest neighbours for point clouds using a kd-tree search. This is just a wrapper of the function vcgKDtree from
+package Rvcg. Wwraps the function \code{vcgKDtree} from package 'Rvcg' (for backward compatibility )
 }
 \examples{
 
@@ -42,7 +36,6 @@ spheres3d(vert2points(shortnose.mesh)[clost,],col=2,radius=0.3)
 spheres3d(shortnose.lm,radius=0.3)
 wire3d(shortnose.mesh)
 }
-
 }
 \seealso{
 \code{\link{closemeshKD}}

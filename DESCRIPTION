@@ -25,7 +25,6 @@ Imports:
     foreach (>= 1.4.0),
     Matrix (>= 1.0-1),
     parallel,
-    yaImpute,
     doParallel (>= 1.0.6),
     colorRamps,
     Rcpp,
