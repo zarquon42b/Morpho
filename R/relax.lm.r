@@ -170,7 +170,6 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
         if (!silent)
             cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (!bending) {
-            print(length(weights))
             rot <- rotonto(reference,vs,reflection=FALSE,scale=TRUE,weights=weights,centerweight = TRUE)
             vs <- rot$yrot
             if (m == 3)
