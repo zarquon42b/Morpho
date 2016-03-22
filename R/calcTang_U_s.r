@@ -81,7 +81,7 @@
 ### end free sliding ##
     gc() 	
     SMsort <- sort(SMvector)
-    xinfo <- .Call("setupU",tanvec,m, type,SMsort)
+    xinfo <- .Call("tweakU",tanvec,m, type,SMsort)
     U <- sparseMatrix(i=xinfo$rows,j=xinfo$cols+1, x=xinfo$x,dims=udims)
     #U <- weights*U
     

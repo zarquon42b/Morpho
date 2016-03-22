@@ -10,7 +10,7 @@ void testandpush(vector<int>& rows, vector<int>& cols, vector<double>& x, double
   }
 }
 
-RcppExport SEXP setupU(SEXP tanvec_, SEXP m_, SEXP type_, SEXP SMsort_) {
+RcppExport SEXP tweakU(SEXP tanvec_, SEXP m_, SEXP type_, SEXP SMsort_) {
   try {
     NumericMatrix tanvec(tanvec_);
     IntegerVector SMsort(SMsort_);
