@@ -34,7 +34,8 @@ fastKmeans <- function(x,k,iter.max=10,project=TRUE,threads=0) {
     if (inherits(x,"mesh3d")) {
         xorig <- x
         x <- vert2points(x)
-        isMesh <- TRUE
+        if (!is.null(xorig$it))
+            isMesh <- TRUE
     }
     if (is.vector(x))
         x <- as.matrix(x)
