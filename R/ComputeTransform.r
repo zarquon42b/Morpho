@@ -61,7 +61,7 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         m <- ncol(y)
         L <- CreateL(y,lambda=lambda, output="L",threads=threads)$L
         m2 <- rbind(x,matrix(0,m+1,m))
-        coeff <- as.matrix(solve(L,m2))
+        coeff <- as.matrix(base::solve(L,m2))
         trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)
         class(trafo) <- "tpsCoeff"
     } else {
