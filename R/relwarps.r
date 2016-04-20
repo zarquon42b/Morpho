@@ -140,7 +140,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         uniPCs <- svdBend$v[,1:useBendv]
         Var <- createVarTable(eigCOVCOM$d[nonz],square = FALSE)
     } else {
-        pca <- prcomp(vecx(proc$rotated))
+        pca <- prcompfast(vecx(proc$rotated))
         bad <- which(pca$sdev^2 < tol)
         bePCs <- pca$rotation[,-bad]
         bescores <- pca$x[,-bad]

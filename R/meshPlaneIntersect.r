@@ -98,7 +98,7 @@ edgePlaneIntersect <- function(pointcloud,edges,v1, v2=NULL, v3=NULL,normal=NULL
 }
 
 binfun <- function(coords,bs=1,margin=10){
-    pca <- prcomp(coords)
+    pca <- prcompfast(coords)
     S0 <- pca$x[,1:2]
     i <- floor((S0[,2])/bs)
     j <- floor(S0[,1]/bs)

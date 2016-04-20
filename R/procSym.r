@@ -255,7 +255,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     dimnames(Symarray) <- dimnames(dataarray)
     
 ###### PCA Sym Component ###### 
-    princ <- try(prcomp(tan),silent=TRUE)
+    princ <- try(prcompfast(tan),silent=TRUE)
     if (class(princ) == "try-error")
         princ <- eigenPCA(tan)
 
@@ -289,7 +289,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     if (!is.null(pairedLM)) {
         asymmean <- arrMean3(Asymm)
         asymtan <- vecx(sweep(Asymm, 1:2, asymmean))[1:n,]
-        pcasym <- try(prcomp(asymtan),silent=TRUE)
+        pcasym <- try(prcompfast(asymtan),silent=TRUE)
         if (class(pcasym) == "try-error")
             pcasym <- eigenPCA(asymtan)
         

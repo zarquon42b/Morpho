@@ -127,7 +127,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     groupScores <- N%*%(eigenGmeans$vectors[,valScores])
     groupPCs <- eigenGmeans$vectors[,valScores]
     residuals <- N-groupScores%*%t(groupPCs)
-    resPrcomp <- prcomp(residuals,center = F,tol=sqrt(tol))
+    resPrcomp <- prcompfast(residuals,center = F,tol=sqrt(tol))
    
     
 ###### create a neat variance table for the groupmean PCA ###### 

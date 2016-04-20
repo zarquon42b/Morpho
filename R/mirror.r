@@ -38,7 +38,7 @@ mirror.matrix <- function(x,icpiter=50,subsample=NULL,pcAlign=TRUE, mc.cores=2) 
     if (m == 2)
         x <- cbind(x,0)
     
-    pca <- prcomp(x,scale. = F)
+    pca <- prcompfast(x,scale. = F)
     # i.e. a reflection along the z axis
     mirmat <- diag(c(1,1,-1))
     out <- pca$x%*%t(mirmat)

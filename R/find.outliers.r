@@ -70,7 +70,7 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
         A$rho <- rho
     } else {
         cat("mahalanobis distance is used\n")
-        PCs <- prcomp(vecx(A$rotated))$x
+        PCs <- prcompfast(vecx(A$rotated))$x
         if (!is.null(PCuse))
             PCs <- PCs[,1:PCuse]
         A$rho <- mahalanobis(PCs,cov=cov(PCs),center=0)

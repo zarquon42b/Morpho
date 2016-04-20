@@ -31,8 +31,8 @@ pcAlign.matrix <- function(x, y,optim=TRUE,subsample=NULL,iterations=10, mc.core
             y <- vert2points(y)
         if (.Platform$OS.type == "windows")
             mc.cores <- 1
-        pca1 <- prcomp(x, retx=FALSE)
-        pca2 <- prcomp(y, retx=FALSE)
+        pca1 <- prcompfast(x, retx=FALSE)
+        pca2 <- prcompfast(y, retx=FALSE)
         x <- scale(x, scale=F)    
         y <- scale(y, scale=F)
         rotx <- pca1$rotation

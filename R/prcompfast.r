@@ -30,7 +30,7 @@
 #'
 #'\item{center, scale:}{ the centering and scaling used, or \code{FALSE}}.
 #' pcafast <- prcompfast(iris[,1:4])
-#' pcadefault <- prcomp(iris[,1:4])
+#' pcadefault <- prcompfast(iris[,1:4])
 #' ## check if both results are idential (ignoring the sign)
 #' all.equal(lapply(pcafast,abs),lapply(pcadefault,abs))
 #' @export
