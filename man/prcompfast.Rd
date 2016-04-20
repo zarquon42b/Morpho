@@ -11,15 +11,15 @@ prcompfast(x, retx = TRUE, center = TRUE, scale. = FALSE, tol = NULL,
 \item{x}{a numeric or complex matrix (or data frame) which provides
 the data for the principal components analysis.}
 
+\item{retx}{a logical value indicating whether the rotated variables should be returned}
+
+\item{center}{a logical value indicating whether the variables should be shifted to be zero centered. Alternately, a vector of length}
+
+\item{scale.}{a logical value indicating whether the variables should be scaled to have unit variance before the analysis takes place. The default is \code{FALSE} for consistency with S, but in general scaling is advisable.  Alternatively, a vector of length equal the number of columns of \code{x} can be supplied.  The          value is passed to \code{scale}. equal the number of columns of \code{x} can be supplied.  The value is passed to \code{scale}.}
+
+\item{tol}{a value indicating the magnitude below which components should be omitted. (Components are omitted if their standard deviations are less than or equal to \code{tol} times the standard deviation of the first component.)  With the default null setting, no components are omitted.  Other settings for tol could be \code{tol = 0} or \code{tol = sqrt(.Machine$double.eps)}, which would omit essentially constant components.}
+
 \item{...}{arguments passed to or from other methods.}
-
-\item{a}{logical value indicating whether the rotated variables should be returned}
-
-\item{a}{logical value indicating whether the variables should be shifted to be zero centered. Alternately, a vector of length}
-
-\item{a}{logical value indicating whether the variables should be scaled to have unit variance before the analysis takes place. The default is \code{FALSE} for consistency with S, but in general scaling is advisable.  Alternatively, a vector of length equal the number of columns of \code{x} can be supplied.  The          value is passed to \code{scale}. equal the number of columns of \code{x} can be supplied.  The value is passed to \code{scale}.}
-
-\item{a}{value indicating the magnitude below which components should be omitted. (Components are omitted if their standard deviations are less than or equal to \code{tol} times the standard deviation of the first component.)  With the default null setting, no components are omitted.  Other settings for tol could be \code{tol = 0} or \code{tol = sqrt(.Machine$double.eps)}, which would omit essentially constant components.}
 }
 \value{
 \code{prcomp} returns a list with class \code{prcomp} containing the followin components:
@@ -42,7 +42,7 @@ the data for the principal components analysis.}
 
 \item{center, scale:}{ the centering and scaling used, or \code{FALSE}}.
 pcafast <- prcompfast(iris[,1:4])
-pcadefault <- prcomp(iris[,1:4])
+pcadefault <- prcompfast(iris[,1:4])
 ## check if both results are idential (ignoring the sign)
 all.equal(lapply(pcafast,abs),lapply(pcadefault,abs))
 }

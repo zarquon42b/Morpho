@@ -3,10 +3,10 @@
 #' fast Principal Component Analysis (PCA)
 #' @param x a numeric or complex matrix (or data frame) which provides
 #'          the data for the principal components analysis.
-#' @param a logical value indicating whether the rotated variables should be returned
-#' @param a logical value indicating whether the variables should be shifted to be zero centered. Alternately, a vector of length
-#' @param a logical value indicating whether the variables should be scaled to have unit variance before the analysis takes place. The default is \code{FALSE} for consistency with S, but in general scaling is advisable.  Alternatively, a vector of length equal the number of columns of \code{x} can be supplied.  The          value is passed to \code{scale}. equal the number of columns of \code{x} can be supplied.  The value is passed to \code{scale}.
-#' @param a value indicating the magnitude below which components should be omitted. (Components are omitted if their standard deviations are less than or equal to \code{tol} times the standard deviation of the first component.)  With the default null setting, no components are omitted.  Other settings for tol could be \code{tol = 0} or \code{tol = sqrt(.Machine$double.eps)}, which would omit essentially constant components.
+#' @param retx a logical value indicating whether the rotated variables should be returned
+#' @param center a logical value indicating whether the variables should be shifted to be zero centered. Alternately, a vector of length
+#' @param scale. a logical value indicating whether the variables should be scaled to have unit variance before the analysis takes place. The default is \code{FALSE} for consistency with S, but in general scaling is advisable.  Alternatively, a vector of length equal the number of columns of \code{x} can be supplied.  The          value is passed to \code{scale}. equal the number of columns of \code{x} can be supplied.  The value is passed to \code{scale}.
+#' @param tol a value indicating the magnitude below which components should be omitted. (Components are omitted if their standard deviations are less than or equal to \code{tol} times the standard deviation of the first component.)  With the default null setting, no components are omitted.  Other settings for tol could be \code{tol = 0} or \code{tol = sqrt(.Machine$double.eps)}, which would omit essentially constant components.
 #' @param ... arguments passed to or from other methods.
 #' @note this function returns the same results as \code{prcomp} (apart from sign differences) but uses smarter matrix decompositions making it faster for nrow(x) >> ncol(x) and nrow(x) << ncol(x).
 #' @return
