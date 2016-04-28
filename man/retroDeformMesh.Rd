@@ -14,7 +14,7 @@ retroDeformMesh(mesh, mat, pairedLM, hmult = 5, alpha = 0.01, rot = TRUE,
 
 \item{pairedLM}{2-column integer matrix with the 1st columns containing row indices of left side landmarks and 2nd column the right hand landmarks}
 
-\item{hmult}{damping factor for calculating local weights}
+\item{hmult}{damping factor for calculating local weights which is calculated as \code{humult} times the average squared distance between a landmark and its closest neighbor (on each side).}
 
 \item{alpha}{factor controlling spacing along x-axis}
 

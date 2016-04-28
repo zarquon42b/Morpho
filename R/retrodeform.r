@@ -59,7 +59,7 @@ getLocalStretchNoArticulate <- function(mat,pairedLM,hmult=5) {
 GetPhi <- function(P,Q,hmult) {
     nnpd <- vcgKDtree(P,P,2)$distance[,-1]
     nnqd <- vcgKDtree(Q,Q,2)$distance[,-1]
-    h <- hmult*mean(c(nnpd,nnqd))
+    h <- hmult*mean(c(nnpd,nnqd))^2
     h2 <- h^2
     dp <- exp(-as.matrix(dist(P)^2)/h2)
     dq <- exp(-as.matrix(dist(Q)^2)/h2)
@@ -187,7 +187,7 @@ retroDeform3d <- function(mat,pairedLM,hmult=5,alpha=0.01) {
 #' @param mesh triangular mesh of class mesh3d
 #' @param mat matrix with bilateral landmarks
 #' @param pairedLM 2-column integer matrix with the 1st columns containing row indices of left side landmarks and 2nd column the right hand landmarks
-#' @param hmult damping factor for calculating local weights
+#' @param hmult damping factor for calculating local weights which is calculated as \code{humult} times the average squared distance between a landmark and its closest neighbor (on each side).
 #' @param alpha factor controlling spacing along x-axis
 #' @param rot logical: if TRUE the deformed landmarks are rotated back onto the original ones
 #' @param lambda control parameter passed to \code{\link{tps3d}}
