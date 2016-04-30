@@ -125,8 +125,8 @@ print.classify <- function(x,...) {
         ## Kappa statistics
         if (length(levels(x$groups)) == length(levels(x$class))) {
             n <- length(x$groups)
-            p <- tapply(x$groups,levels(x$groups),length)/n
-            q <- tapply(x$class,levels(x$class),length)/n
+            p <- tapply(x$groups,x$groups,length)/n
+            q <- tapply(x$class,x$class,length)/n
             expAccuracy <- sum(p*q)
             out$kappa = (out$accuracy/100 - expAccuracy) / (1 - expAccuracy)
             cat(paste0("\n Kappa statistic: ",round(out$kappa,digits=5),"\n"))
