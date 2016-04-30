@@ -123,12 +123,14 @@ print.classify <- function(x,...) {
         out$table <- tab
         cat(paste0("\n\n overall classification accuracy: ",round(acc,digits=5)," %\n"))
         ## Kappa statistics
-        n <- length(x$groups)
-        p <- tapply(x$groups,x$groups,length)/n
-        q <- tapply(x$class,x$class,length)/n
-        expAccuracy <- sum(p*q)
-        out$kappa = (out$accuracy/100 - expAccuracy) / (1 - expAccuracy)
-        cat(paste0("\n Kappa statistic: ",round(out$kappa,digits=5),"\n"))
+        if (length(levels(x$groups)) == length(levels(x$class))) {
+            n <- length(x$groups)
+            p <- tapply(x$groups,levels(x$groups),length)/n
+            q <- tapply(x$class,levels(x$class),length)/n
+            expAccuracy <- sum(p*q)
+            out$kappa = (out$accuracy/100 - expAccuracy) / (1 - expAccuracy)
+            cat(paste0("\n Kappa statistic: ",round(out$kappa,digits=5),"\n"))
+        }
 
         invisible(out)
     } else {
