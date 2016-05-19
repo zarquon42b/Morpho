@@ -181,6 +181,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
     k <- dim(dat.array)[1]
     m <- dim(dat.array)[2]
     nomesh <- FALSE
+    if (length(sur.name) && is.null(sur.path))
+        sur.path <- ""
     if (is.null(meshlist) && is.null(sur.path))
         nomesh <- TRUE
     if (pairedLM[1]!=0 && is.vector(pairedLM))# check if there are only 2 symmetric lms
