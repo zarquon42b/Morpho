@@ -39,7 +39,6 @@ read.lmdta <- function(file="x", na=9999) {
     nas <- which(arr == na)
     if (length(nas) > 0)
         arr[nas] <- NA
-    
-    dimnames(arr)[[3]] <- idnames
+    dimnames(arr)[[3]] <- as.list(idnames)
     return(list(arr=arr,info=info,idnames=idnames))
 }
