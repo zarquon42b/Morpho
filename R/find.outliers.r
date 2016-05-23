@@ -19,6 +19,7 @@
 #' components.
 #' @param text logical: if \code{TRUE}, landmark labels (rownumbers) are
 #' displayed
+#' @param reflection logical: specify whether reflections are allowed for superimpositioning.
 #' @return
 #' \item{data.cleaned }{array (in original coordinate system) containing
 #' the changes applied and outliers eliminated}
@@ -49,13 +50,13 @@
 #' }
 #' 
 #' @export
-find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, text=TRUE)
+find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, text=TRUE, reflection=FALSE)
 {   	
     raw <- A
     n <- dim(A)[3]
     k <- dim(A)[1]
     m <- dim(A)[2]
-    A <- ProcGPA(A)
+    A <- ProcGPA(A,reflection = reflection)
     disType <- "Procrustes"
 ###from here on the same as find.outliers ###		
     rho <- NULL
@@ -70,11 +71,17 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
         A$rho <- rho
     } else {
         cat("mahalanobis distance is used\n")
-        PCs <- prcompfast(vecx(A$rotated))$x
+        PCA <- prcompfast(vecx(A$rotated))
+        PCs <- PCA$x
         if (!is.null(PCuse))
             PCs <- PCs[,1:PCuse]
         A$rho <- mahalanobis(PCs,cov=cov(PCs),center=0)
-        disType <- "Mahalanobis D^2"     
+        disType <- "Mahalanobis D^2"
+        getmaha <- function(x) {
+            x <- x-A$mshape
+            x <- ((PCA$rotation)%*%c(x))[1:PCuse]
+            return(sum(x^2))
+        }
     }
 
     if (is.null(dimnames(raw)[[3]]))
@@ -92,9 +99,9 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
     if (interactive()) {
         while (t1 <= n ) {
         if (m==3)
-            .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE, text=text)
+            .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,rgl.new=FALSE, text=text)
         else 
-            .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1], text=text)
+            .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1], text=text)
 
         cat(paste("outlier #",t1,": ",disti.sort[t1,1]," - ",disti.sort[t1,3],"     ",disType," dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
         
@@ -123,13 +130,16 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
 ### switch rows of selected landmarks ##
                     raw[c(answer1a,answer1b),,disti.sort[t1,1]] <- raw[c(answer1b,answer1a),,disti.sort[t1,1]]
                     A$rotated[c(answer1a,answer1b),,disti.sort[t1,1]] <- A$rotated[c(answer1b,answer1a),,disti.sort[t1,1]]
-                    rho.new <- angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)
-                    
+                    A$rotated[,,disti.sort[t1,1]] <- rotonto(A$mshape, A$rotated[,,disti.sort[t1,1]],reflection = reflection,scale = TRUE)$yrot
+                    if (mahalanobis)
+                        rho.new <- getmaha(A$rotated[,,disti.sort[t1,1]])
+                    else
+                        rho.new <- angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)
                     if (m==3) {
                         rgl.clear()
-                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE, text=text)
+                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,rgl.new=FALSE, text=text)
                     } else {
-                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1],text=text)
+                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1],text=text)
                     }
                     cat(paste("new distance to mean:",rho.new,"\n"))
                     loop0 <- substr(readline("switch more (y/N)? "),1L,1L)
@@ -174,12 +184,16 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
 ### switch rows of selected landmarks ##
                     raw[c(answer1a,answer1b),,disti.sort[t1,1]] <- raw[c(answer1b,answer1a),,disti.sort[t1,1]]
                     A$rotated[c(answer1a,answer1b),,disti.sort[t1,1]] <- A$rotated[c(answer1b,answer1a),,disti.sort[t1,1]]
-                    rho.new <- angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)
+                    A$rotated[,,disti.sort[t1,1]] <- rotonto(A$mshape, A$rotated[,,disti.sort[t1,1]],reflection = reflection,scale = TRUE)$yrot
+                    if (mahalanobis)
+                        rho.new <- getmaha(A$rotated[,,disti.sort[t1,1]])
+                    else
+                        rho.new <- angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)
                     if (m==3) {
                         rgl.clear()
-                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,rgl.new=FALSE, text=text)
+                        .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,rgl.new=FALSE, text=text)
                     } else {
-                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=1,lcol=lcol,main=disti.sort[t1,1], text=text)
+                        .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1], text=text)
                     }
                     cat(paste("new distance to mean:",rho.new,"\n"))
                     loop0 <- substr(readline("switch more (y/N)? "),1L,1L)
@@ -223,3 +237,6 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
         raw <- raw[,,-outlier]
     invisible(list(data.cleaned=raw,outlier=outlier,dist.sort=disti.sort,type=disType))
 }
+
+
+

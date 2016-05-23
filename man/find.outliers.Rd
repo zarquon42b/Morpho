@@ -5,7 +5,7 @@
 \title{Graphical interface to find outliers and/or to switch mislabeld landmarks}
 \usage{
 find.outliers(A, color = 4, lwd = 1, lcol = 2, mahalanobis = FALSE,
-  PCuse = NULL, text = TRUE)
+  PCuse = NULL, text = TRUE, reflection = FALSE)
 }
 \arguments{
 \item{A}{Input k x m x n real array, where k is the number of points, m is
@@ -26,6 +26,8 @@ components.}
 
 \item{text}{logical: if \code{TRUE}, landmark labels (rownumbers) are
 displayed}
+
+\item{reflection}{logical: specify whether reflections are allowed for superimpositioning.}
 }
 \value{
 \item{data.cleaned }{array (in original coordinate system) containing
