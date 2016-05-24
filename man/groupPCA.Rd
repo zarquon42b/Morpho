@@ -41,8 +41,8 @@ matrix}
 \item{probs }{p-values of pairwise groupdifferences - based on
 permuation testing}
 \item{groupdists }{Euclidean distances between groups' averages}
-\item{groupmeans }{Groupmeans}
-\item{Grandmean }{Grand mean}
+\item{groupmeans }{matrix with rows containing the Groupmeans, or a k x m x groupsize array if the input is a k x m x n landmark array}
+\item{Grandmean }{vector containing the Grand mean, or a matrix if the input is a k x m x n landmark array}
 \item{CV }{Cross-validated scores}
 \item{groups }{grouping Variable}
 \item{resPCs}{PCs orthogonal to the between-group PCs}
@@ -76,7 +76,7 @@ gpca <- groupPCA(proc$orpdata, groups=pop_sex, rounds=0, mc.cores=2)
 ## visualize shape associated with first between group PC
 dims <- dim(proc$mshape)
 ## calculate matrix containing landmarks of grandmean
-grandmean <- matrix(gpca$Grandmean, dims[1], dims[2])
+grandmean <-gpca$Grandmean
 ## calculate landmarks from first between-group PC
 #                   (+2 and -2 standard deviations)
 gpcavis2sd<- showPC(2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
