@@ -56,7 +56,7 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
     n <- dim(A)[3]
     k <- dim(A)[1]
     m <- dim(A)[2]
-    A <- ProcGPA(A,reflection = reflection)
+    A <- ProcGPA(A,reflection = reflection,silent = TRUE)
     disType <- "Procrustes"
 ###from here on the same as find.outliers ###		
     rho <- NULL
@@ -104,6 +104,8 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
             .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1], text=text)
 
         cat(paste("outlier #",t1,": ",disti.sort[t1,1]," - ",disti.sort[t1,3],"     ",disType," dist. to mean: ",disti.sort[t1,2],"\n",sep=""))
+        if (mahalanobis)
+                        cat(paste("probability of specimen belonging to sample:",pchisq(disti.sort[t1,2],df=PCuse,lower.tail=F),"\n"))
         
         if (disti.sort[t1,1] %in% outlier) {
             answer <- substr(readline(" already added to outlierlist! remove from list (y/N/s)?\ny=yes,n=no,s=switch landmarks: "), 1L,1L)
@@ -142,6 +144,8 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
                         .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1],text=text)
                     }
                     cat(paste("new distance to mean:",rho.new,"\n"))
+                    if (mahalanobis)
+                        cat(paste("probability of specimen belonging to sample:",pchisq(rho.new,df=PCuse,lower.tail=F),"\n"))
                     loop0 <- substr(readline("switch more (y/N)? "),1L,1L)
                     while(loop0 != "y" && loop0 != "Y" && loop0 != "n" && loop0 != "N" ) {
                         loop0 <- substr(readline("yes or no? "),1L,1L)
@@ -196,6 +200,8 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
                         .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1], text=text)
                     }
                     cat(paste("new distance to mean:",rho.new,"\n"))
+                    if (mahalanobis)
+                        cat(paste("probability of specimen belonging to sample:",pchisq(rho.new,df=PCuse,lower.tail=F),"\n"))
                     loop0 <- substr(readline("switch more (y/N)? "),1L,1L)
                     while(loop0 != "y" && loop0 != "Y" && loop0 != "n" && loop0 != "N" ) {
                         loop0 <- substr(readline("yes or no? "),1L,1L)
