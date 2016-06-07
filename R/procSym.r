@@ -194,7 +194,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     cat("performing Procrustes Fit ")
     
     if (!is.null(use.lm)) { ### only use subset for rotation and scale
-        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign)
+        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign,silent=FALSE)
         tmp <- Aall
         for (i in 1:dim(Aall)[3]) {
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
@@ -206,7 +206,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         proc$rotated <- tmp
         proc$mshape <- arrMean3(tmp) ##calc new meanshape
     } else
-        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign)
+        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign,silent=FALSE)
     
     procrot <- proc$rotated
     dimna <- dimnames(dataarray)

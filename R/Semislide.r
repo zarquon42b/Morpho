@@ -11,7 +11,7 @@ Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recur
     mshape <- (ini$X+ini$Y)/2
     
     if(initproc==TRUE) { # perform proc fit before sliding
-        procini <- ProcGPA(dataframe,scale=TRUE)
+        procini <- ProcGPA(dataframe,scale=TRUE,silent=TRUE)
         mshape <- procini$mshape
     }
     dataslide <- dataframe
@@ -49,7 +49,7 @@ Semislide <- function(dataframe,SMvector,outlines,tol=1e-05,deselect=FALSE,recur
                 dataslide[,,j] <- rotreverse(tmpslide,rot)
             }
         }
-        proc <- ProcGPA(dataslide,scale=TRUE)
+        proc <- ProcGPA(dataslide,scale=TRUE,silent=TRUE)
         mshape <- proc$mshape
         p1_old <- p1   
         p1 <- sum(diag(crossprod((mshape_old/cSize(mshape_old))-(mshape/cSize(mshape)))))

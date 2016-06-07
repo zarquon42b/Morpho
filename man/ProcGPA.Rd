@@ -5,7 +5,7 @@
 \title{Workhorse function for procSym, responsible for Procrustes registration}
 \usage{
 ProcGPA(dat.array, tol = 1e-05, scale = TRUE, CSinit = FALSE,
-  silent = FALSE, weights = NULL, centerweight = FALSE,
+  silent = TRUE, weights = NULL, centerweight = FALSE,
   reflection = TRUE, pcAlign = TRUE)
 }
 \arguments{
