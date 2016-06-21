@@ -97,7 +97,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         dimnames(proc$rotated)[[3]] <- rownames(vecs) <- datanames
         
 ### generate covariance matrix of superimposed data ###
-        Sc <- cov(vecs)
+        ## Sc <- cov(vecs)
         
 ### explore eigenstructure of BE ###	
         eigBE <- svd(BE)
@@ -112,13 +112,15 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         suppressMessages(BE2 <- IM%x%(eigBE$v%*%Matrix::Diagonal(x=diagBE)%*%t(eigBE$v)))
         
 ### generate covariance structure of scaled space ###
-        covcom <- suppressMessages(BE2%*%Sc%*%BE2)
+        #covcom1 <- suppressMessages(BE2%*%Sc%*%BE2)
+        covcom <- suppressMessages(BE2%*%t(vecs))
         eigCOVCOM <- svd(covcom)
+        eigCOVCOM$d <-  (eigCOVCOM$d/sqrt(nrow(vecs)-1))^2
         nonz <- which(eigCOVCOM$d > tol)
-        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$v[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
+        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$u[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
         rownames(bescores) <- rownames(vecs)
         bePCs <-  suppressMessages(IM %x% eigBE$v)
-        bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$v[,nonz]))
+        bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$u[,nonz]))
        
 ### calculate uniform component scores ###
         ## U <- NULL
