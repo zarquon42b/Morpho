@@ -84,7 +84,7 @@ The displacement is calculated as \cr
 \item{rotated }{k x m x n array of the rotated configurations}
 \item{Sym }{k x m x n array of the Symmetrical component - only
 available for the "Symmetry"-Option (when pairedLM is defined)}
-\item{Asym }{k x m x n array of the Asymmetrical component - only
+\item{Asym }{k x m x n array of the Asymmetrical component. It contains the per-landmark asymmetric displacement for each specimen. Only
 available for the "Symmetry"-Option (when pairedLM is defined)}
 \item{asymmean }{k x m matrix of mean asymmetric deviation from
 symmetric mean}

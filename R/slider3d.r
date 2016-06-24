@@ -176,7 +176,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
     
     if (is.null(outlines) && is.null(surp))	
         stop("nothing to slide")
-    
+    fixLM <- integer(0)
     n <- dim(dat.array)[3]
     k <- dim(dat.array)[1]
     m <- dim(dat.array)[2]
