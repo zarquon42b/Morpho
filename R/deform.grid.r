@@ -23,6 +23,7 @@
 #' @param size control size/radius of points/spheres
 #' @param pcaxis logical: align grid by shape's principal axes.
 #' @param ask logical: if TRUE for > 1000 coordinates the user will be asked to prefer points over spheres.
+#' @param margin margin around the bounding box to draw the grid
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
 #' 
@@ -32,7 +33,7 @@
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #' }
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
@@ -88,7 +89,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
         yrange1 <- diff(range(tarmatrix[,2]))
         zrange1 <- diff(range(tarmatrix[,3]))
         maxi <- max(c(xrange,yrange,zrange,xrange1,yrange1,zrange1))
-        maxi <- 1.2*maxi
+        maxi <- (1+margin)*maxi
         x0 <- maxi*x0
         x0 <- scale(x0, scale=FALSE)
         if (pcaxis)

@@ -7,7 +7,7 @@
 deformGrid3d(matrix, tarmatrix, ngrid = 0, align = FALSE, lwd = 1,
   showaxis = c(1, 2), show = c(1, 2), lines = TRUE, lcol = 1,
   add = FALSE, col1 = 2, col2 = 3, type = c("s", "p"), size = NULL,
-  pcaxis = FALSE, ask = TRUE)
+  pcaxis = FALSE, ask = TRUE, margin = 0.2)
 }
 \arguments{
 \item{matrix}{reference matrix containing 3D landmark coordinates or mesh of class "mesh3d"}
@@ -44,6 +44,8 @@ for very large pointclouds.}
 \item{pcaxis}{logical: align grid by shape's principal axes.}
 
 \item{ask}{logical: if TRUE for > 1000 coordinates the user will be asked to prefer points over spheres.}
+
+\item{margin}{margin around the bounding box to draw the grid}
 }
 \description{
 visualise differences between two superimposed sets of 3D landmarks by

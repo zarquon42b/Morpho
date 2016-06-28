@@ -18,6 +18,7 @@
 #' @param pcaxis logical: align grid by shape's principal axes.
 #' @param add logical: if TRUE, output will be drawn on existing plot.
 #' @param wireframe list/vector containing row indices to be plotted as wireframe (see \code{\link{lineplot}}.)
+#' @param margin margin around the bounding box to draw the grid
 #' @param ... additional parameters passed to plot
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
@@ -30,7 +31,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -48,7 +49,7 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         yrange1 <- diff(range(tarmatrix[,2]))
         
         maxi <- max(c(xrange,yrange,xrange1,yrange1))
-        maxi <- 1.2*maxi
+        maxi <- (1+margin)*maxi
         x0 <- maxi*x0
         x0 <- scale(x0, scale=FALSE)
         x0[,2] <- x0[,2]
