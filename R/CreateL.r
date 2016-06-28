@@ -46,26 +46,26 @@
 #' sqrt(sum(be3^2))
 #' @importFrom Matrix bdiag
 #' @export
-CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3"),threads=1)
-{
-    if (ncol(matrix) == 3) {
+CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3"),threads=1) {
+    if (ncol(matrix) %in%  c(2,3)) {
         out <- list()
-        k <- dim(matrix)[1]
+        k <- nrow(matrix)
+        m <- ncol(matrix)
         Q <- cbind(1,matrix)
-        #O <- matrix(0,4,4)
+                                        #O <- matrix(0,4,4)
         if (!is.matrix(matrix) || !is.numeric(matrix))
-        stop("matrix must be a numeric matrix")
+            stop("matrix must be a numeric matrix")
         K <- .Call("createL",matrix,threads)
-        L <- matrix(0,k+4,k+4)
+        L <- matrix(0,k+m+1,k+m+1)
         if (lambda !=0 )
             diag(K) <- lambda
-        #K <- forceSymmetric(K)
+                                        #K <- forceSymmetric(K)
         if ("K" %in% output)
             out$K <- K
         if (length(grep("L",output))) {
             L[1:k,1:k] <- K
-            L[(k+1):(k+4),1:k] <- t(Q)
-            L[1:k,(k+1):(k+4)] <- Q
+            L[(k+1):(k+m+1),1:k] <- t(Q)
+            L[1:k,(k+1):(k+m+1)] <- Q
             L <- forceSymmetric(L)
         }
         if ("L" %in% output)
@@ -90,40 +90,7 @@ CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3
         }
         
         return(out)
-    } else if (ncol(matrix) == 2) {
-        blockdiag <- FALSE
-        if ("Lsubk3" %in% output)
-            blockdiag <- TRUE
-        out <- CreateL2D(matrix, lambda, blockdiag=blockdiag)
-        return(out)
     } else
         stop("only works for matrices with 2 or 3 columns")
 }
-CreateL2D <- function(matrix, lambda=1e-8, blockdiag=TRUE)
-{
-    k <- dim(matrix)[1]
-    K <- matrix(0,k,k)
-    Q <- cbind(1,matrix)
-    O <- matrix(0,3,3)
 
-    for (i in 1:k) {
-        for (j in 1:k) {
-            r2 <- sum((matrix[i,]-matrix[j,])^2)
-            K[i,j] <- r2*log(r2)
-        }
-    }
-    K[which(is.na(K))] <- 0
-    diag(K) <- lambda
-    L <- rbind(cbind(K,Q),cbind(t(Q),O))
-    
-	L1 <- try(solve(L),silent=TRUE)
-    	if (class(L1)=="try-error") {
-            cat("singular matrix: general inverse will be used.\n")
-            L1 <- armaGinv(L)		
-        }
-    Lsubk <- L1[1:k,1:k]
-    Lsubk3 <- NULL
-    if (blockdiag)
-        Lsubk3 <- rbind(cbind(Lsubk,matrix(0,k,k)),cbind(matrix(0,k,k),Lsubk))
-    return(list(L=L,Linv=L1,Lsubk=Lsubk,Lsubk3=Lsubk3))
-}
