@@ -59,7 +59,7 @@ equidistantCurve <- function(x,n=NULL,open=TRUE,subsample=0,increment=2,smoothit
 
 
 equidistantCurveHelper <- function(x,n=100,subsample=0,seed=42) {
-    if (subsample > 0 && subsample > nrow(x))
+    if (subsample > 0 && subsample < nrow(x))
         x <- x[sort(fastKmeans(x,k=subsample)$selected),]
     dists <- x[-1,]-x[-nrow(x),]
     dists <- sqrt(rowSums(dists^2))
