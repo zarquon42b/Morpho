@@ -18,6 +18,7 @@
 #' zero
 #' @param orp logical: request orthogonal projection into tangent space.
 #' @param pcAlign logical: if TRUE, the shapes are aligned by the principal axis of the first specimen
+#' @param computeBasis logical: whether to compute the basis of the resulting vector space (takes a lot of memory and time for configurations with > 1000 coordinates.
 #' @return
 #' \item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
 #' \item{uniscores }{uniform scores, NULL if  \code{alpha = 0}}
@@ -72,10 +73,10 @@
 #' }
 #' 
 #' @export
-relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE)
+relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE,computeBasis=TRUE)
 {
                                         #n <- dim(data)[3]
-    uniscores <- uniPCs <- NULL
+    uniscores <- uniPCs <- bePCs <- NULL
     m <- dim(data)[2]
     k <- dim(data)[1]
     datanames <- dimnames(data)[[3]]
@@ -112,16 +113,17 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         suppressMessages(BE2 <- IM%x%(eigBE$v%*%Matrix::Diagonal(x=diagBE)%*%t(eigBE$v)))
         
 ### generate covariance structure of scaled space ###
-        #covcom1 <- suppressMessages(BE2%*%Sc%*%BE2)
+                                        #covcom1 <- suppressMessages(BE2%*%Sc%*%BE2)
         covcom <- suppressMessages(BE2%*%t(vecs))
         eigCOVCOM <- svd(covcom)
         eigCOVCOM$d <-  (eigCOVCOM$d/sqrt(nrow(vecs)-1))^2
         nonz <- which(eigCOVCOM$d > tol)
         bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$u[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
         rownames(bescores) <- rownames(vecs)
-        bePCs <-  suppressMessages(IM %x% eigBE$v)
-        bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$u[,nonz]))
-       
+        if (computeBasis) {
+            bePCs <-  suppressMessages(IM %x% eigBE$v)
+            bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$u[,nonz]))
+       }
 ### calculate uniform component scores ###
         ## U <- NULL
         

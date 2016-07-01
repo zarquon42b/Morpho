@@ -5,7 +5,7 @@
 \title{calculate relative Warp analysis}
 \usage{
 relWarps(data, scale = TRUE, CSinit = TRUE, alpha = 1, tol = 1e-10,
-  orp = TRUE, pcAlign = TRUE)
+  orp = TRUE, pcAlign = TRUE, computeBasis = TRUE)
 }
 \arguments{
 \item{data}{Input k x m x n real array, where k is the number of points, m
@@ -27,6 +27,8 @@ zero}
 \item{orp}{logical: request orthogonal projection into tangent space.}
 
 \item{pcAlign}{logical: if TRUE, the shapes are aligned by the principal axis of the first specimen}
+
+\item{computeBasis}{logical: whether to compute the basis of the resulting vector space (takes a lot of memory and time for configurations with > 1000 coordinates.}
 }
 \value{
 \item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
