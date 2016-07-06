@@ -2,6 +2,57 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+
+\section{Changes in Morpho version 2.4 (2016-07-06)}{
+
+  \subsection{New features}{
+    \itemize{
+      \item added sortCurve and equidistantCurve
+      \item added kappa statistic to print.classify
+      \item added read/write.fcsv to read write landmark in 3DSlicer
+      format
+      \item added prcompfast, a faster and more memory efficient version
+      of prcomp
+      \item slider3d: now sliding without specifying surfaces is
+      possible. Surface is estimated by computing normals from point clouds using vcgUpdateNormals
+      \item added plot method for slider3d
+      \item added fastKmeans a very fast and efficient way to compute
+    kmeans-clustering for 2D and 3D data.
+
+    }
+  }
+  
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item fixed c++14 standard requirements
+      \item made index in rmVertex unique
+      \item showPC: for single PCs vectors of length> 1 are coerced to
+      matrix
+      \item added option margin in deformGrid3d and deforGrid2d
+      \item unified code for creating bending energy matrix
+      \item made relWarps more memory and speed efficient and added
+      option getBasis to disable (computationally expensive) calculation
+      of vector basis.
+      \item added dimnames from rownames in vecx
+      \item returns Grandmean and Groupmeans as matrix/array for landmark data
+      \item correct output in find.outliers if mahalanobis=TRUE and add
+      probability
+      \item added reflection=FALSE in find.outliers and corrected reported distances
+      \item fixed read.lmdta for single configs
+      \item slider3d: fixed case where all file infos are stored in sur.name
+      \item fixed print.classify
+      \item removed dependency yaImpute using vcgKDtree instead
+      \item added unit testing for slider3d
+      \item made CreateL and tps3d multi-threaded
+      \item added options silent to slider3d and relaxLM
+      \item ignore missing values when calculating quantiles and mindist in meshdist
+
+
+    }
+  }
+}
+
+
 \section{Changes in Morpho version 2.3.1.1 (2016-01-22)}{
   \subsection{bugfixes and minor changes}{
     \itemize{
