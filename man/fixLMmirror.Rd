@@ -26,7 +26,7 @@ a matrix or array with fixed missing bilateral landmarks.
 estimate missing landmarks from their bilateral counterparts
 }
 \details{
-the configurations are mirrored and the relabled version is matched onto the original using a thin-plate spline deformation. The missing landmark is now estimated using its bilateral counterpart.
+the configurations are mirrored and the relabled version is matched onto the original using a thin-plate spline deformation. The missing landmark is now estimated using its bilateral counterpart. If one side is completely missing, the landmarks will be mirrored and aligned by the unilateral landmarks.
 }
 \note{
 in case both landmarks of a bilateral pair are missing a message will be issued. As well if there are missing landmarks on the midsaggital plane are detected.
@@ -43,6 +43,14 @@ exampmat[4,] <- NA #set 4th landmark to be NA
 fixed <- fixLMmirror(exampmat, pairedLM=pairedLM)
 \dontrun{
 deformGrid3d(fixed, boneLM[,,1],ngrid=0)
+## result is a bit off due to actual asymmetry
+}
+## example with one side completely missing
+oneside <- boneLM[,,1]
+oneside[pairedLM[,1],] <- NA
+onesidefixed <- fixLMmirror(oneside,pairedLM)
+\dontrun{
+deformGrid3d(onesidefixed, boneLM[,,1],ngrid=0)
 ## result is a bit off due to actual asymmetry
 }
 }
