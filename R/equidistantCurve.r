@@ -62,7 +62,7 @@ equidistantCurveHelper <- function(x,n=100,subsample=0,seed=42) {
     if (subsample > 0 && subsample < nrow(x))
         x <- x[sort(fastKmeans(x,k=subsample)$selected),]
     dists <- x[-1,]-x[-nrow(x),]
-    dists <- sqrt(rowSums(dists^2))
+    dists <- c(0,sqrt(rowSums(dists^2)))
     meandist <- mean(dists)
     m <- ncol(x)
     k <- nrow(x)
@@ -71,8 +71,7 @@ equidistantCurveHelper <- function(x,n=100,subsample=0,seed=42) {
     noisen <- rnorm(n*m,sd=meandist/1e6)
     ## print(range(noise))
     flatCurve <- matrix(noise,nrow(x),ncol(x))
-    flatCurve[1,1] <- 0
-    flatCurve[-1,1] <- cumsum(dists)
+    flatCurve[,1] <- cumsum(dists)
     xout <- matrix(noisen,n,ncol(x))
     xout[,1] <- seq(from=0,to=flatCurve[nrow(x),1],length.out = n)
     xout <- tps3d(xout,flatCurve,x,lambda=0)
