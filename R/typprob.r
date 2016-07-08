@@ -186,26 +186,36 @@ print.typprob <- function(x,...) {
 #' @importFrom MASS cov.rob
 #' @export
 covW <- function(data, groups,robust=c("classical", "mve", "mcd"),...) {
-    robust=robust[1]
+    robust <- match.arg(robust[1],c("classical", "mve", "mcd"))
     if (!is.factor(groups)) {
         groups <- as.factor(groups)
         warning("groups coerced to factors")
     }
-    ndata <- dim(data)[1]
+    ndata <- nrow(data)
+    p <- ncol(data)
     groups <- factor(groups)
     glev <- levels(groups)
     nlev <- length(glev)
     gsizes <- as.vector(tapply(groups, groups, length))
     covWithin <- 0
     means <- NULL
+    nsmallerp <- FALSE
     for (i in 1:nlev)
         if (gsizes[i] > 1) {
-            covtmp <- cov.rob(data[groups==glev[i],,drop=FALSE],method=robust,...)
-            means <- rbind(means,covtmp$center)
-            covWithin <- covWithin + (covtmp$cov * (gsizes[i]-1))
+            if (gsizes[i] >= p + 1) {
+                covtmp <- cov.rob(data[groups==glev[i],,drop=FALSE],method=robust)
+                means <- rbind(means,covtmp$center)
+                covWithin <- covWithin + (covtmp$cov * (gsizes[i]-1))
+            } else {
+                nsmallerp <- TRUE
+                covtmp <- cov(data[groups==glev[i],,drop=FALSE])
+                means <- rbind(means,colMeans(data[groups==glev[i],,drop=FALSE]))
+                covWithin <- covWithin + (covtmp * (gsizes[i]-1))
+            }
         }
     rownames(means) <- glev
-    
+    if (robust != "classical" && nsmallerp)
+        message("In some cases robust estimation have been disabled as number of variables exceed group size.")
     covWithin <- covWithin/(ndata - nlev)
     attributes(covWithin) <- append(attributes(covWithin),list(means=means))
     return(covWithin)
