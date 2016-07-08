@@ -23,7 +23,9 @@
 #' defined, group mean will be used.
 #' @param cova covariance matrix to calculate mahalanobis-distance: specify
 #' custom covariance matrix to calculate distance.
+#' @param robust character: determines covariance estimation methods, allowing for robust estimations using \code{MASS::cov.rob}. Default is the standard product-moment covariance matrix.
 #' @param cv logical: if data is missing and \code{cv=TRUE}, the resulting classification will be validated by leaving-one-out crossvalidation.
+#' @param ... additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations.
 #' @return typprob: returns a vector of probabilities.
 #' 
 #' typprobClass:
@@ -65,9 +67,10 @@
 #' 
 #' 
 #' @rdname typprob
+#' @importFrom MASS cov.rob
 #' @export
-typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=NULL, cova=NULL)
-{
+typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=NULL, cova=NULL,robust=c("classical", "mve", "mcd"),...) {
+    robust <- robust[1]
     method <- substr(method[1],1L,1L)
     if (is.matrix(x))
         nx <- dim(x)[2]
@@ -75,22 +78,27 @@ typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=N
         nx <- length(x)
 
     ndata <- dim(data)[1]
-    if (is.null(center))
+    ## case covariance matrix is provided, but no center
+    if (is.null(center) && !is.null(cova))
         center <- colMeans(data)
-    
-    if (is.null(cova))
-        cova <- cov(data)
+    ## case covariance is to be estimated
+    if (is.null(cova)) {
+        covarobust <- cov.rob(data,method = robust,...)
+        cova <- covarobust$cov
+        if (is.null(center))
+            center <- covarobust$center
+    }
     
     dists <- mahalanobis(x, center=center, cov=cova)
     if (method == "w")
-        {
-            if (small)
-                dists <- ndata*log(1+(dists*ndata/(ndata^2-1)))
-            t2 <- ndata*dists/(ndata+1)
-            f <- t2*(ndata-nx)/(nx*(ndata-1))
-            alpha <- pf(f,nx,(ndata-nx),lower.tail=T)
-            alpha <- 1-alpha
-        }
+    {
+        if (small)
+            dists <- ndata*log(1+(dists*ndata/(ndata^2-1)))
+        t2 <- ndata*dists/(ndata+1)
+        f <- t2*(ndata-nx)/(nx*(ndata-1))
+        alpha <- pf(f,nx,(ndata-nx),lower.tail=T)
+        alpha <- 1-alpha
+    }
     else if (method == "c")
         alpha <- pchisq(dists,nx,lower.tail=F)
     else
@@ -101,12 +109,12 @@ typprob <- function(x,data,small=FALSE, method=c("chisquare","wilson"), center=N
 
 #' @rdname typprob
 #' @export
-typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01,sep=FALSE,cv=TRUE)
-{
+typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"),outlier=0.01,sep=FALSE,cv=TRUE,robust=c("classical", "mve", "mcd"),...) {
+    robust <- robust[1]
     if (!is.factor(groups)) {
-            groups <- as.factor(groups)
-            warning("groups coerced to factors")
-        }
+        groups <- as.factor(groups)
+        warning("groups coerced to factors")
+    }
     self <- FALSE
     if (missing(data)) {
         data <- x
@@ -118,15 +126,17 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
     nlev <- length(glev)
     cova <- NULL
     if (!sep)
-        cova <- covW(data,groups)
+        cova <- covW(data,groups,robust = robust,...)
     for( i in 1:nlev)
-        {
-            if (sep)# use separate covariance matrices for scaling
-                tmp <- typprob(x,data[groups==glev[i],,drop=FALSE],small=small,method=method)
-            else #used pooled within group covariance
-                tmp <- typprob(x,data,small=small,method=method,center=colMeans(data[groups==glev[i],,drop=FALSE]),cova=cova)
-            probs <- cbind(probs,tmp)
+    {
+        if (sep)# use separate covariance matrices for scaling
+            tmp <- typprob(x,data[groups==glev[i],,drop=FALSE],small=small,method=method,robust=robust)
+        else { #used pooled within group covariance
+            center <- attributes(cova)$means[i,,drop=FALSE]
+            tmp <- typprob(x,data,small=small,method=method,center=center,cova=cova)
         }
+        probs <- cbind(probs,tmp)
+    }
     colnames(probs) <- as.character(glev)
     classify <- apply(probs,1,function(x){out <- which(x==max(x));return(out)})
     glev <- c(glev,"none")
@@ -139,7 +149,7 @@ typprobClass <- function(x,data,groups,small=FALSE,method=c("chisquare","wilson"
         gaffinCV <- as.character(groupaffin)
         
         for(i in 1:length(groups)) {
-            tmp <- typprobClass(data[i,],data[-i,,drop=FALSE],groups=groups[-i],small=small,method=method,outlier = outlier, sep=sep,cv=FALSE)
+            tmp <- typprobClass(data[i,],data[-i,,drop=FALSE],groups=groups[-i],small=small,method=method,outlier = outlier, sep=sep,cv=FALSE,robust=robust,...)
             probsCV[i,] <- tmp$probs
             gaffinCV[i] <- as.character(tmp$groupaffin)
         }
@@ -165,29 +175,38 @@ print.typprob <- function(x,...) {
 #' calculate the pooled within groups covariance matrix
 #' @param data a matrix containing data
 #' @param groups grouping variables
-#' @return Returns the pooled within group covariance matrix
+#' @param robust character: determines covariance estimation methods in case \code{sep=TRUE}, when covariance matrices and group means can be estimated robustly using \code{MASS::cov.rob}. Default is the standard product-moment covariance matrix.
+#' @param ... additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations.
+#' @return Returns the pooled within group covariance matrix. The attributes contain the entry means, containing the respective group means.
 #' @author Stefan Schlager
 #' @seealso \code{\link{cov}}, \code{\link{typprobClass}}
 #' @examples
 #' data(iris)
 #' poolCov <- covW(iris[,1:4],iris[,5])
+#' @importFrom MASS cov.rob
 #' @export
-covW <- function(data, groups)
-    {
-        if (!is.factor(groups)) {
-            groups <- as.factor(groups)
-            warning("groups coerced to factors")
-        }
-        ndata <- dim(data)[1]
-        groups <- factor(groups)
-        glev <- levels(groups)
-        nlev <- length(glev)
-        gsizes <- as.vector(tapply(groups, groups, length))
-        covWithin <- 0
-        for (i in 1:nlev)
-            if (gsizes[i] > 1) 
-                covWithin <- covWithin + (cov(data[groups==glev[i],,drop=FALSE]) * (gsizes[i]-1))
-        
-        covWithin <- covWithin/(ndata - nlev)
-        return(covWithin)
+covW <- function(data, groups,robust=c("classical", "mve", "mcd"),...) {
+    robust=robust[1]
+    if (!is.factor(groups)) {
+        groups <- as.factor(groups)
+        warning("groups coerced to factors")
     }
+    ndata <- dim(data)[1]
+    groups <- factor(groups)
+    glev <- levels(groups)
+    nlev <- length(glev)
+    gsizes <- as.vector(tapply(groups, groups, length))
+    covWithin <- 0
+    means <- NULL
+    for (i in 1:nlev)
+        if (gsizes[i] > 1) {
+            covtmp <- cov.rob(data[groups==glev[i],,drop=FALSE],method=robust,...)
+            means <- rbind(means,covtmp$center)
+            covWithin <- covWithin + (covtmp$cov * (gsizes[i]-1))
+        }
+    rownames(means) <- glev
+    
+    covWithin <- covWithin/(ndata - nlev)
+    attributes(covWithin) <- append(attributes(covWithin),list(means=means))
+    return(covWithin)
+}

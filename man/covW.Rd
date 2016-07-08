@@ -4,15 +4,19 @@
 \alias{covW}
 \title{calculate the pooled within groups covariance matrix}
 \usage{
-covW(data, groups)
+covW(data, groups, robust = c("classical", "mve", "mcd"), ...)
 }
 \arguments{
 \item{data}{a matrix containing data}
 
 \item{groups}{grouping variables}
+
+\item{robust}{character: determines covariance estimation methods in case \code{sep=TRUE}, when covariance matrices and group means can be estimated robustly using \code{MASS::cov.rob}. Default is the standard product-moment covariance matrix.}
+
+\item{...}{additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations.}
 }
 \value{
-Returns the pooled within group covariance matrix
+Returns the pooled within group covariance matrix. The attributes contain the entry means, containing the respective group means.
 }
 \description{
 calculate the pooled within groups covariance matrix

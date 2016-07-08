@@ -14,7 +14,6 @@ Description: A toolset for Geometric Morphometrics and mesh processing. This
 Suggests:
     car,
     lattice,
-    MASS,
     shapes,
     testthat
 Depends:
@@ -24,6 +23,7 @@ Imports:
     rgl (>= 0.93.963),
     foreach (>= 1.4.0),
     Matrix (>= 1.0-1),
+    MASS,
     parallel,
     doParallel (>= 1.0.6),
     colorRamps,

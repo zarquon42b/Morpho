@@ -1,4 +1,4 @@
-.CVAcrova <- function(dataarray,groups,test ,weighting=TRUE,tolinv=1e-10)
+.CVAcrova <- function(dataarray,groups,test ,weighting=TRUE,tolinv=1e-10,robust=c("classical", "mve", "mcd"),...)
 {   
     groups <- factor(groups)
     lev <- levels(groups)
@@ -16,11 +16,8 @@
     if (is.vector(N) || dim(N)[2] == 1)
         stop("data should contain at least 2 variable dimensions")
     
-    Gmeans <- matrix(0, ng, l)
-    rownames(Gmeans) <- lev
-    for (i in 1:ng) {
-        Gmeans[i, ] <- colMeans(N[groups==lev[i], ,drop=FALSE])
-    }
+    covW <- covW(N, groups,robust=robust,...)
+    Gmeans <- attributes(covW)$means
     if (weighting) {
         Grandm <- colSums(Gmeans*gsizes)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
     } else {

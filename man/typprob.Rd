@@ -6,10 +6,11 @@
 \title{calculate typicality probabilities}
 \usage{
 typprob(x, data, small = FALSE, method = c("chisquare", "wilson"),
-  center = NULL, cova = NULL)
+  center = NULL, cova = NULL, robust = c("classical", "mve", "mcd"), ...)
 
 typprobClass(x, data, groups, small = FALSE, method = c("chisquare",
-  "wilson"), outlier = 0.01, sep = FALSE, cv = TRUE)
+  "wilson"), outlier = 0.01, sep = FALSE, cv = TRUE,
+  robust = c("classical", "mve", "mcd"), ...)
 }
 \arguments{
 \item{x}{vector or matrix of data the probability is to be calculated.}
@@ -30,6 +31,10 @@ defined, group mean will be used.}
 
 \item{cova}{covariance matrix to calculate mahalanobis-distance: specify
 custom covariance matrix to calculate distance.}
+
+\item{robust}{character: determines covariance estimation methods, allowing for robust estimations using \code{MASS::cov.rob}. Default is the standard product-moment covariance matrix.}
+
+\item{...}{additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations.}
 
 \item{groups}{vector containing grouping information.}
 

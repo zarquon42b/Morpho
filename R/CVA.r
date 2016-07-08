@@ -16,10 +16,12 @@
 #' @param plot Logical: determins whether in the two-sample case a histogramm
 #' ist to be plotted.
 #' @param rounds integer: number of permutations if a permutation test of the
-#' Mahalanobis distances (from the pooled within-group covariance matrix) and Euclidean distance between group means is requested.If
-#' rounds = 0, no test is performed.
+#' Mahalanobis distances (from the pooled within-group covariance matrix) and Euclidean distance between group means is requested
+#' If rounds = 0, no test is performed.
 #' @param cv logical: requests a Jackknife Crossvalidation.
 #' @param p.adjust.method method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.
+#' @param robust character: determines covariance estimation methods, allowing for robust estimations using \code{MASS::cov.rob}
+#' @param ... additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations
 #' @return
 #' \item{CV }{A matrix containing the Canonical Variates}
 #' \item{CVscores }{A matrix containing the individual Canonical Variate scores}
@@ -147,7 +149,7 @@
 #' deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
 #' }
 #' @export
-CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE,p.adjust.method= "none") 
+CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE,p.adjust.method= "none",robust=c("classical", "mve", "mcd"),...) 
 {
     groups <- factor(groups)
     lev <- levels(groups)
@@ -176,11 +178,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
    
     if (is.vector(N) || dim(N)[2] == 1)
         stop("data should contain at least 2 variable dimensions")
-    
-    Gmeans <- matrix(0, ng, l)
-    for (i in 1:ng) {
-        Gmeans[i, ] <- colMeans(N[groups==lev[i], ,drop=FALSE])
-    }
+    covW <- covW(N, groups,robust,...)
+    Gmeans <- attributes(covW)$means
     if (weighting) {
         Grandm <- colSums(Gmeans*gsizes)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
     } else {
@@ -196,10 +195,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         X <- resGmeans
     } else 
         X <- sqrt(n/ng) * resGmeans
-
     
-    
-    covW <- covW(N, groups)
     eigW <- eigen(covW*(n - ng))
     eigcoW <- eigen(covW)
     U <- eigW$vectors
@@ -276,7 +272,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         a.list <- as.list(1:n)
         crovafun <- function(i)
             {
-                tmp <- .CVAcrova(Tmatrix[-i, ],groups=groups[-i],test=CV, tolinv = tolinv, weighting=weighting)
+                tmp <- .CVAcrova(Tmatrix[-i, ],groups=groups[-i],test=CV, tolinv = tolinv, weighting=weighting,robust=robust,...)
                 out <- (Tmatrix[i, ]-tmp$Grandmean) %*% tmp$CV
                 tmpdist <- rowSums(sweep(tmp$meanscores,2,as.vector(out))^2)
                 post <- probpost(tmpdist,prior)

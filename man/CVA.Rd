@@ -5,7 +5,8 @@
 \title{Canonical Variate Analysis}
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
-  rounds = 0, cv = FALSE, p.adjust.method = "none")
+  rounds = 0, cv = FALSE, p.adjust.method = "none",
+  robust = c("classical", "mve", "mcd"), ...)
 }
 \arguments{
 \item{dataarray}{Either a k x m x n real array, where k is the number of
@@ -26,12 +27,16 @@ general inverse of the pooled withing groups covariance matrix.}
 ist to be plotted.}
 
 \item{rounds}{integer: number of permutations if a permutation test of the
-Mahalanobis distances (from the pooled within-group covariance matrix) and Euclidean distance between group means is requested.If
-rounds = 0, no test is performed.}
+Mahalanobis distances (from the pooled within-group covariance matrix) and Euclidean distance between group means is requested
+If rounds = 0, no test is performed.}
 
 \item{cv}{logical: requests a Jackknife Crossvalidation.}
 
 \item{p.adjust.method}{method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.}
+
+\item{robust}{character: determines covariance estimation methods, allowing for robust estimations using \code{MASS::cov.rob}}
+
+\item{...}{additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations}
 }
 \value{
 \item{CV }{A matrix containing the Canonical Variates}
