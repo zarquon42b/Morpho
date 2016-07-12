@@ -31,7 +31,7 @@ containing 3D coordinates.}
 pointing to a surface mesh (ply, obj or stl file)}
 
 \item{distvec}{vector: optional, a vector containing distances for each
-vertex of mesh1, if distvec != NULL, x will be ignored.}
+vertex/coordinate of \code{x}, if distvec != NULL, \code{mesh2} will be ignored.}
 
 \item{from}{numeric: minimum distance to be colorised; default is set to 0
 mm}

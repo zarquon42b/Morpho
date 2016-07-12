@@ -14,7 +14,7 @@
 #' @param mesh2 target mesh: either object of class "mesh3d" or a character
 #' pointing to a surface mesh (ply, obj or stl file)
 #' @param distvec vector: optional, a vector containing distances for each
-#' vertex of mesh1, if distvec != NULL, x will be ignored.
+#' vertex/coordinate of \code{x}, if distvec != NULL, \code{mesh2} will be ignored.
 #' @param from numeric: minimum distance to be colorised; default is set to 0
 #' mm
 #' @param to numeric: maximum distance to be colorised; default is set to the
