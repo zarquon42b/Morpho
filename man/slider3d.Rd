@@ -170,7 +170,6 @@ slideMissing <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 fix <- c(1:5,20:21)
 outline1 <- c(304:323)
 outline2 <- c(604:623)
-outlines <- 611:623
 outlines <- list(outline1,outline2)
 surp <- c(1:623)[-c(fix,outline1,outline2)]
 slideWithCurves <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,

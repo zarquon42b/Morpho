@@ -146,7 +146,6 @@
 #' fix <- c(1:5,20:21)
 #' outline1 <- c(304:323)
 #' outline2 <- c(604:623)
-#' outlines <- 611:623
 #' outlines <- list(outline1,outline2)
 #' surp <- c(1:623)[-c(fix,outline1,outline2)]
 #' slideWithCurves <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
@@ -343,8 +342,15 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
             {
                 free <- NULL
                 if (!is.null(missingList))
-                    if(length(missingList[[j]]))
-                        free <- missingList[[j]]
+                    if(length(missingList[[j]])) {
+                        if (!is.null(outlines)) {
+                            notoutlines <- which(!missingList[[j]] %in% unlist(outlines))
+                            if (length(notoutlines))
+                                free <- missingList[[j]][notoutlines]
+                        } else {
+                            free <- missingList[[j]]
+                        }
+                    }
                 tmpdata <- dat.array[,,j]
                 tmpvn <- vn.array[,,j]
                 if (!bending) {
