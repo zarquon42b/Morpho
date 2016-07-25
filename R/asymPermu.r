@@ -7,7 +7,7 @@
 #' @param rounds number of permutations
 #' @param which select which factorlevels to use, if NULL, all pairwise differences will be assessed after shuffling pooled data.
 #' @note
-#' This test is only sensible if between-group differences concerning directional asymmetry have been established (e.g. by applying a MANOVA on the "asymmetric" PCscores (see also \code{\link{procSym}}) and one wants to test whether these can be attributed to differences in amount and/or direction of asymmetric displacement. If there is no or only very little directional asymmetry present, the angles will only be significan when larger than 90 degrees (pi/2). So careful interpretation is advised. The Null-Hypothesis is that we have the same directional asymmetry in both groups. If you want to test whether the angle between groups is similar, please use \code{\link{angleTest}}.
+#' This test is only sensible if between-group differences concerning directional asymmetry have been established (e.g. by applying a MANOVA on the "asymmetric" PCscores (see also \code{\link{procSym}}) and one wants to test whether these can be attributed to differences in amount and/or direction of asymmetric displacement. Careful interpretation for very small amounts of directional asymmetry is advised. The Null-Hypothesis is that we have the same directional asymmetry in both groups. If you want to test whether the angle between groups is similar, please use \code{\link{angleTest}}.
 #' @return
 #' \item{dist }{difference between vector lengths of group means}
 #' \item{angle }{angle (in radians) between vectors of group specific asymmetric deviation}
