@@ -108,8 +108,8 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
         ys <- scale(y,scale = TRUE)
     }
     
-    cova <- crossprod(xs,ys)/(nrow(x)-1)
-    svd.cova <- svd(cova)
+    ## cova <- crossprod(xs,ys)/(nrow(x)-1)
+    svd.cova <- svd2B(xs,ys,scale = useCor)
 
     svs <- svd.cova$d
     svs <- svs/sum(svs)
@@ -144,10 +144,8 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
             x1 <- x
             y1 <- y
         }
-        x1 <- scale(x1,scale = useCor)
-        y1 <- scale(y1,scale = useCor)
-        cova.tmp <- crossprod(x1[x.sample,],y1[y.sample,])/(nrow(x)-1)
-        svd.cova.tmp <- svd(cova.tmp,nu=0,nv=0)
+                #cova.tmp <- crossprod(x1[x.sample,],y1[y.sample,])/(nrow(x)-1)
+        svd.cova.tmp <- svd2B(x1[x.sample,],y1[y.sample,],u=F,v=F,scale = useCor)
         svs.tmp <- svd.cova.tmp$d
         return(svs.tmp[1:l.covas])
     }
@@ -443,4 +441,25 @@ plsCoVar <- function(pls,i,sdx=3,sdy=3) {
 
     pls1out <- list(x=pls1x,y=pls1y)
     return(pls1out)
+}
+
+svd2B <- function(x,y,scale=F,u=T,v=T) {
+    xs <- scale(x,scale = scale)
+    ys <- scale(y,scale = scale)
+    svdx <- svd(xs)
+    svdy <- svd(ys)
+    u1 <- t(t(svdx$u)*svdx$d)
+    u2 <- t(t(svdy$u)*svdy$d)
+    utu <- crossprod(u1,u2)
+    svdutu <- svd(utu)
+    svdutu$d <- svdutu$d/(nrow(x) -1 )
+    if (u)
+        svdutu$u <- (svdx$v)%*%svdutu$u
+    else
+        svdutu$u <- NULL
+    if (v)
+        svdutu$v <- (svdy$v)%*%svdutu$v
+    else
+        svdutu$v <- NULL
+    return(svdutu)
 }

@@ -4,6 +4,6 @@ test_that("pls2B behaves",{
     pls.baseline <- readRDS("testdata/pls-baseline.rds")
     proc <- procSym(gorf.dat)
     set.seed(42)
-    pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],same.config=TRUE,rounds=50,mc.cores=1)
-    expect_equal(pls1,pls.baseline,tol=0.01)
+    pls1 <- pls2B(proc$rotated[1:4,,],proc$rotated[5:8,,],same.config=TRUE,rounds=0,mc.cores=1)
+    expect_equal(lapply(pls1$svd,abs),lapply(pls.baseline$svd,abs),tol=0.01)
 })
