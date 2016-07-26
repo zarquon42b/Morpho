@@ -77,120 +77,119 @@
 #' @export
 pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.cores=parallel::detectCores()) {
     
+    landmarks <- FALSE
+    xorig <- x
+    yorig <- y
+    win <- FALSE
+    if(.Platform$OS.type == "windows")
+        win <- TRUE
+    else
+        registerDoParallel(cores=mc.cores)### register parallel backend
+    
+    if (length(dim(x)) == 3) {
+        landmarks <- TRUE
+        x <- vecx(x)
+    }
+    if (length(dim(y)) == 3)
+        y <- vecx(y)
+    else
         landmarks <- FALSE
-        xorig <- x
-        yorig <- y
-        win <- FALSE
-        if(.Platform$OS.type == "windows")
-            win <- TRUE
-        else
-            registerDoParallel(cores=mc.cores)### register parallel backend
-        
-        if (length(dim(x)) == 3) {
-            landmarks <- TRUE
-            x <- vecx(x)
-        }
-        if (length(dim(y)) == 3)
-            y <- vecx(y)
-        else
-            landmarks <- FALSE
-        
-        xdim <- dim(x)
-        ydim <- dim(y)
+    
+    xdim <- dim(x)
+    ydim <- dim(y)
 
-        if (same.config && !landmarks)
-            warning("the option same.config requires landmark array as input")
-        
-        x <- scale(x,scale = F)
-        y <- scale(y,scale = F)
+    if (same.config && !landmarks)
+        warning("the option same.config requires landmark array as input")
+    
+    xs <- x <- scale(x,scale = F)
+    ys <- y <- scale(y,scale = F)
+    if (useCor) {
+        xs <- scale(x,scale = TRUE)
+        ys <- scale(y,scale = TRUE)
+    }
+    
+    cova <- crossprod(xs,ys)/(nrow(x)-1)
+    svd.cova <- svd(cova)
 
-        mycorfun <- cov
-        if (useCor)
-            mycorfun <- cor
-        cova <- mycorfun(cbind(x,y))
-        
-        
-        svd.cova <- svd(cova[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
-
-        svs <- svd.cova$d
-        svs <- svs/sum(svs)
-        svs <- svs[which(svs > tol)]
-        
-        covas <- svs*100
-        l.covas <- length(covas)
-        svd.cova$d <- svd.cova$d[1:l.covas]
-        svd.cova$u <- svd.cova$u[,1:l.covas]
-        svd.cova$v <- svd.cova$v[,1:l.covas]
-        Xscores <- x%*%svd.cova$u#pls scores of x
-        Yscores <- y%*%svd.cova$v #pls scores of y
-        
-        
+    svs <- svd.cova$d
+    svs <- svs/sum(svs)
+    svs <- svs[which(svs > tol)]
+    
+    covas <- svs*100
+    l.covas <- length(covas)
+    svd.cova$d <- svd.cova$d[1:l.covas]
+    svd.cova$u <- svd.cova$u[,1:l.covas]
+    svd.cova$v <- svd.cova$v[,1:l.covas]
+    Xscores <- x%*%svd.cova$u#pls scores of x
+    Yscores <- y%*%svd.cova$v #pls scores of y
+    
+    
 ### calculate correlations between pls scores
-        cors <- 0
-        for(i in 1:length(covas))
-            cors[i] <- cor(Xscores[,i],Yscores[,i])
-        
+    cors <- 0
+    for(i in 1:length(covas))
+        cors[i] <- cor(Xscores[,i],Yscores[,i])
+    
 
 ### Permutation testing
-        permupls <- function(i)
-            {
-                x.sample <- sample(1:xdim[1])
-                y.sample <- sample(x.sample)
-                if (same.config && landmarks) {
-                    tmparr <- .bindArr2(xorig[,,x.sample],yorig[,,y.sample],along=1)
-                    tmpproc <- ProcGPA(tmparr,silent=TRUE)
-                    x1 <- vecx(tmpproc$rotated[1:dim(xorig)[1],,])
-                    y1 <- vecx(tmpproc$rotated[1:dim(yorig)[1],,])
-                } else {
-                    x1 <- x
-                    y1 <- y
-                }
-                x1 <- scale(x1,scale = F)
-                y1 <- scale(y1,scale = F)
-                cova.tmp <- mycorfun(cbind(x1[x.sample,],y1[y.sample,]))
-                svd.cova.tmp <- svd(cova.tmp[1:xdim[2],c((xdim[2]+1):(xdim[2]+ydim[2]))])
-                svs.tmp <- svd.cova.tmp$d
-                return(svs.tmp[1:l.covas])
-            }
-        p.values <- rep(NA,l.covas)
-        if (rounds > 0) {
-            if (win)
-                permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
-            else
-                permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
-            
-            p.val <- function(x,rand.x)
-                {
-                    p.value <- length(which(rand.x >= x))
-                    
-                    if (p.value > 0)
-                        p.value <- p.value/rounds
-                    else
-                        p.value <- 1/rounds
-                    gc()
-                    return(p.value)
-                }
-            
-            for (i in 1:l.covas)
-                p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
-            
+    permupls <- function(i)
+    {
+        x.sample <- sample(1:xdim[1])
+        y.sample <- sample(x.sample)
+        if (same.config && landmarks) {
+            tmparr <- .bindArr2(xorig[,,x.sample],yorig[,,y.sample],along=1)
+            tmpproc <- ProcGPA(tmparr,silent=TRUE)
+            x1 <- vecx(tmpproc$rotated[1:dim(xorig)[1],,])
+            y1 <- vecx(tmpproc$rotated[1:dim(yorig)[1],,])
+        } else {
+            x1 <- x
+            y1 <- y
         }
-### get weights
-        xlm <- lm(Xscores ~ Yscores -1)
-        ylm <- lm(Yscores ~ Xscores -1)
-### create covariance table
-        Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
-        colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient", "p-value")
-        out <- list(svd=svd.cova,Xscores=Xscores,Yscores=Yscores,CoVar=Cova)
-        out$x <- xorig
-        out$y <- yorig
-        out$xcenter <- attributes(x)$"scaled:center"
-        out$ycenter <- attributes(y)$"scaled:center"
-        out$xlm <- xlm
-        out$ylm <- ylm
-        class(out) <- "pls2B"
-        return(out)
+        x1 <- scale(x1,scale = useCor)
+        y1 <- scale(y1,scale = useCor)
+        cova.tmp <- crossprod(x1[x.sample,],y1[y.sample,])/(nrow(x)-1)
+        svd.cova.tmp <- svd(cova.tmp,nu=0,nv=0)
+        svs.tmp <- svd.cova.tmp$d
+        return(svs.tmp[1:l.covas])
     }
+    p.values <- rep(NA,l.covas)
+    if (rounds > 0) {
+        if (win)
+            permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
+        else
+            permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
+        
+        p.val <- function(x,rand.x)
+        {
+            p.value <- length(which(rand.x >= x))
+            
+            if (p.value > 0)
+                p.value <- p.value/rounds
+            else
+                p.value <- 1/rounds
+            gc()
+            return(p.value)
+        }
+        
+        for (i in 1:l.covas)
+            p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
+        
+    }
+### get weights
+    xlm <- lm(Xscores ~ Yscores -1)
+    ylm <- lm(Yscores ~ Xscores -1)
+### create covariance table
+    Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
+    colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient", "p-value")
+    out <- list(svd=svd.cova,Xscores=Xscores,Yscores=Yscores,CoVar=Cova)
+    out$x <- xorig
+    out$y <- yorig
+    out$xcenter <- attributes(x)$"scaled:center"
+    out$ycenter <- attributes(y)$"scaled:center"
+    out$xlm <- xlm
+    out$ylm <- ylm
+    class(out) <- "pls2B"
+    return(out)
+}
 
 #' @export
 print.pls2B <- function(x,...) {
@@ -213,7 +212,7 @@ print.pls2B <- function(x,...) {
 getPLSfromScores <- function(pls,x,y) {
     if (!missing(x) && !missing(y))
         stop("either x or y must be missing")
-        svdpls <- pls$svd
+    svdpls <- pls$svd
 
     if (missing(y)) {
         if (is.vector(x) || length(x) == 1) {
@@ -228,7 +227,7 @@ getPLSfromScores <- function(pls,x,y) {
         if (length(dim(pls$x)) == 3) {
             if (is.matrix(x) && nrow(x) > 1) {
                 out <- vecx(out,revert = T,lmdim = dim(pls$x)[2])
-                #dimnames(out) <- dimnames(pls$y)
+                                        #dimnames(out) <- dimnames(pls$y)
             } else {
                 out <- matrix(out,dim(pls$x)[1],dim(pls$x)[2])
             }
@@ -247,7 +246,7 @@ getPLSfromScores <- function(pls,x,y) {
         if (length(dim(pls$y)) == 3) {
             if (is.matrix(y) && nrow(y) > 1) {
                 out <- vecx(out,revert = T,lmdim = dim(pls$y)[2])
-                #dimnames(out) <- dimnames(pls$y)
+                                        #dimnames(out) <- dimnames(pls$y)
             } else {
                 out <- matrix(out,dim(pls$y)[1],dim(pls$y)[2])
             }
@@ -256,9 +255,9 @@ getPLSfromScores <- function(pls,x,y) {
     }
     
 }
-    
 
-    
+
+
 
 #' predict data from 2-Block PLS-scores
 #'
@@ -294,7 +293,7 @@ predictPLSfromScores <- function(pls,x,y) {
         if (length(dim(pls$y)) == 3) {
             if (is.matrix(x) && nrow(x) > 1) {
                 out <- vecx(out,revert = T,lmdim = dim(pls$x)[2])
-                #dimnames(out) <- dimnames(pls$y)
+                                        #dimnames(out) <- dimnames(pls$y)
             } else {
                 out <- matrix(out,dim(pls$y)[1],dim(pls$y)[2])
             }
@@ -319,7 +318,7 @@ predictPLSfromScores <- function(pls,x,y) {
         if (length(dim(pls$x)) == 3) {
             if (is.matrix(y) && nrow(y) > 1) {
                 out <- vecx(out,revert = T,lmdim = dim(pls$x)[2])
-                #dimnames(out) <- dimnames(pls$x)
+                                        #dimnames(out) <- dimnames(pls$x)
             } else {
                 out <- matrix(out,dim(pls$x)[1],dim(pls$x)[2])
             }
