@@ -178,8 +178,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
    
     if (is.vector(N) || dim(N)[2] == 1)
         stop("data should contain at least 2 variable dimensions")
-    covW <- covW(N, groups,robust,...)
-    Gmeans <- attributes(covW)$means
+    covWithin <- covW(N, groups,robust,...)
+    Gmeans <- attributes(covWithin)$means
     if (weighting) {
         Grandm <- colSums(Gmeans*gsizes)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
     } else {
@@ -195,15 +195,16 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         X <- resGmeans
     } else 
         X <- sqrt(n/ng) * resGmeans
+
+    eigcoW <- eigen(covWithin); ## eigen decomp of between group covariance Matrix
+    eigW <- eigcoW; eigW$values <- eigcoW$values*(n - ng)  ##eigen decomp of between group SSPQR
     
-    eigW <- eigen(covW*(n - ng))
-    eigcoW <- eigen(covW)
     U <- eigW$vectors
     E <- eigW$values
     Ec <- eigcoW$values
     Ec2 <- Ec
     
-    if (min(E) < tolinv)
+    if (min(Ec) < tolinv)
         cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
     for (i in 1:length(eigW$values)) {
         if (Ec[i] < tolinv) {
@@ -221,7 +222,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     useEig <- min((ng-1), l)
     A <- Re(eigZ$vectors[, 1:useEig])
     CV <- U %*% invcW %*% A
-    CVvis <- covW %*% CV
+    CVvis <- covWithin %*% CV
     CVscores <- N %*% CV
 
     roots <- eigZ$values[1:useEig]
@@ -246,11 +247,6 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     disto <- matrix(0, ng, ng)
     rownames(disto) <- colnames(disto) <- lev
          
-    #proc.distout <- NULL
-    #pmatrix <- NULL
-    #pmatrix.proc <- NULL
-
-
 ### Permutation Test for Distances	
     Dist <- .CVAdists(N, groups, rounds,  winv ,p.adjust.method)
 

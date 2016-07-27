@@ -16,8 +16,8 @@
     if (is.vector(N) || dim(N)[2] == 1)
         stop("data should contain at least 2 variable dimensions")
     
-    covW <- covW(N, groups,robust=robust,...)
-    Gmeans <- attributes(covW)$means
+    covWithin <- covW(N, groups,robust=robust,...)
+    Gmeans <- attributes(covWithin)$means
     if (weighting) {
         Grandm <- colSums(Gmeans*gsizes)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
     } else {
@@ -34,9 +34,9 @@
     } else 
         X <- sqrt(n/ng) * resGmeans
     
-    covW <- covW(N, groups)
-    eigW <- eigen(covW*(n - ng))
-    eigcoW <- eigen(covW)
+    covWithin <- covW(N, groups)
+    eigW <- eigen(covWithin*(n - ng))
+    eigcoW <- eigen(covWithin)
     U <- eigW$vectors
     E <- eigW$values
     Ec <- eigcoW$values
