@@ -197,35 +197,32 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         X <- sqrt(n/ng) * resGmeans
 
     eigcoW <- eigen(covWithin); ## eigen decomp of between group covariance Matrix
-    eigW <- eigcoW; eigW$values <- eigcoW$values*(n - ng)  ##eigen decomp of between group SSPQR
-    
-    U <- eigW$vectors
-    E <- eigW$values
+    E <- eigcoW$values*(n - ng)  ##eigenvalues of between group SSPQR
+    U <- eigcoW$vectors
     Ec <- eigcoW$values
     Ec2 <- Ec
-    
-    if (min(Ec) < tolinv)
+    geninv <- FALSE
+    if (min(Ec) < tolinv) {
         cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
-    for (i in 1:length(eigW$values)) {
-        if (Ec[i] < tolinv) {
-            E[i] <- Ec[i] <- Ec2[i] <- 0
-        } else {
-            E[i] <- sqrt(1/E[i])
-            Ec[i] <- sqrt(1/Ec[i])
-            Ec2[i] <- (1/Ec2[i])
-        }
+        geninv <- TRUE
     }
-    invcW <- diag(Ec)
-    irE <- diag(E)
-    ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
-    eigZ <- eigen(ZtZ,symmetric=TRUE)
+    abovetol <- which(Ec >= tolinv)
+    E[abovetol] <- sqrt(1/E[abovetol])
+    Ec[abovetol] <- sqrt(1/Ec[abovetol])
+    Ec2[abovetol] <- 1/Ec2[abovetol]
+    if (geninv)
+        Ec[-abovetol] <- E[-abovetol] <- Ec2[-abovetol] <- 0
+
     useEig <- min((ng-1), l)
-    A <- Re(eigZ$vectors[, 1:useEig])
-    CV <- U %*% invcW %*% A
+    ZtZ <- (E * t(X %*% U))
+    eigZ <- svd(ZtZ,nv=0,nu=useEig)
+    eigZ$d <- eigZ$d^2
+    A <- Re(eigZ$u)
+    CV <- U %*% (Ec * A)
     CVvis <- covWithin %*% CV
     CVscores <- N %*% CV
 
-    roots <- eigZ$values[1:useEig]
+    roots <- eigZ$d[1:useEig]
     if (length(roots) == 1) {
         Var <- matrix(roots, 1, 1)
         colnames(Var) <- "Canonical root"
