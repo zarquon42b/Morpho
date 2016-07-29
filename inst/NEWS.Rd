@@ -3,7 +3,7 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 
-\section{Changes in Morpho version 2.4 (2016-07-06)}{
+\section{Changes in Morpho version 2.4 (2016-07-29)}{
 
   \subsection{New features}{
     \itemize{
@@ -46,7 +46,14 @@
       \item made CreateL and tps3d multi-threaded
       \item added options silent to slider3d and relaxLM
       \item ignore missing values when calculating quantiles and mindist in meshdist
-
+      \item refactored CVA and added test for CVA
+      \item fixed predictPLSfromScores for ncomp=1
+      \item fixed correct lwd passing in deformGrid3d
+      \item fixed procAOVsym for 2D case (correct df)
+      \item added unit test for pls2B
+      \item speed up pls2B by some orders of magnitude, now suitable for
+      very large landmark configurations
+      \item showPC: for single PCs vectors of length> 1 are coerced to matrix
 
     }
   }
