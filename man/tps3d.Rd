@@ -48,11 +48,11 @@ deformGrid3d(shortnose.lm,deformed,ngrid = 5)
 
 data(nose)##load data
 ##warp a mesh onto another landmark configuration:
-warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
+longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 
 
 require(rgl)
-shade3d(warpnose.long,col=skin1)
+shade3d(longnose.mesh,col=skin1)
 }
 
 data(boneData)
