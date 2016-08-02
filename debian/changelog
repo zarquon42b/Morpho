@@ -1,3 +1,9 @@
+morpho (2.4-trusty0) trusty; urgency=medium
+
+  * CRAN release
+
+ -- Stefan Schlager <zarquon42@gmail.com>  Tue, 02 Aug 2016 08:52:45 +0200
+
 morpho (2.3.1.1.99-trusty0) trusty; urgency=medium
 
   *  travis updated
