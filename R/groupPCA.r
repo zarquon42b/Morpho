@@ -31,8 +31,8 @@
 #' \item{probs }{p-values of pairwise groupdifferences - based on
 #' permuation testing}
 #' \item{groupdists }{Euclidean distances between groups' averages}
-#' \item{groupmeans }{Groupmeans}
-#' \item{Grandmean }{Grand mean}
+#' \item{groupmeans }{matrix with rows containing the Groupmeans, or a k x m x groupsize array if the input is a k x m x n landmark array}
+#' \item{Grandmean }{vector containing the Grand mean, or a matrix if the input is a k x m x n landmark array}
 #' \item{CV }{Cross-validated scores}
 #' \item{groups }{grouping Variable}
 #' \item{resPCs}{PCs orthogonal to the between-group PCs}
@@ -69,7 +69,7 @@
 #' ## visualize shape associated with first between group PC
 #' dims <- dim(proc$mshape)
 #' ## calculate matrix containing landmarks of grandmean
-#' grandmean <- matrix(gpca$Grandmean, dims[1], dims[2])
+#' grandmean <-gpca$Grandmean
 #' ## calculate landmarks from first between-group PC
 #' #                   (+2 and -2 standard deviations)
 #' gpcavis2sd<- showPC(2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
@@ -78,7 +78,7 @@
 #' require(rgl)
 #' ## visualize grandmean mesh
 #' 
-#' grandm.mesh <- tps3d(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean)
+#' grandm.mesh <- tps3d(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean,threads=1)
 #' wire3d(grandm.mesh, col="white")
 #' spheres3d(grandmean, radius=0.005)
 #' }
@@ -99,9 +99,12 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         cv <- FALSE
         warning("group with one entry found - crossvalidation will be disabled.")
     }
+    lmdim <- NULL
     N <- dataarray
-    if (length(dim(N)) == 3) 
+    if (length(dim(N)) == 3) {
         N <- vecx(N)
+        lmdim <- dim(dataarray)[2]
+    }
     N <- as.matrix(N)
     n <- dim(N)[1]
     l <- dim(N)[2]
@@ -127,7 +130,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     groupScores <- N%*%(eigenGmeans$vectors[,valScores])
     groupPCs <- eigenGmeans$vectors[,valScores]
     residuals <- N-groupScores%*%t(groupPCs)
-    resPrcomp <- prcomp(residuals,center = F,tol=sqrt(tol))
+    resPrcomp <- prcompfast(residuals,center = F,tol=sqrt(tol))
    
     
 ###### create a neat variance table for the groupmean PCA ###### 
@@ -175,6 +178,11 @@ CV=NULL
             else
                 CV[i] <- crossval[[i]]
         }
+    }
+    
+    if (!is.null(lmdim)) {
+        Gmeans <- vecx(Gmeans,revert=TRUE,lmdim=lmdim)
+        Grandm <- vecx(t(Grandm),revert=TRUE,lmdim=lmdim)[,,1]
     }
     out <- list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resVar=resVar,combinedVar=combinedVar)
     class(out) <- "bgPCA"

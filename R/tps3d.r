@@ -9,8 +9,8 @@
 #' @param refmat reference matrix - e.g. landmark configuration on a surface
 #' @param tarmat target matrix - e.g. landmark configuration on a target
 #' surface
-#' 
 #' @param lambda numeric: regularisation parameter of the TPS.
+#' @param threads threads to be used for parallel execution in tps deformation.
 #' @param ... additional arguments, currently not used.
 #' @return returns the deformed input
 #' @author Stefan Schlager
@@ -30,7 +30,7 @@
 #' tarlm[4,] <- longnose.lm[4,]
 #' ##  deform a set of semilandmarks by applying a TPS-deformation
 #' ##  based on 5 reference points
-#' deformed <- tps3d(shortnose.lm, reflm, tarlm)
+#' deformed <- tps3d(shortnose.lm, reflm, tarlm,threads=1)
 #' \dontrun{
 #' ##visualize results by applying a deformation grid
 #' deformGrid3d(shortnose.lm,deformed,ngrid = 5)
@@ -38,11 +38,11 @@
 #' 
 #' data(nose)##load data
 #' ##warp a mesh onto another landmark configuration:
-#' warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
+#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' 
 #' 
 #' require(rgl)
-#' shade3d(warpnose.long,col=skin1)
+#' shade3d(longnose.mesh,col=skin1)
 #' }
 #' 
 #' data(boneData)
@@ -51,7 +51,7 @@
 #'
 #' \dontrun{
 #' warpskull <- tps3d(skull_0144_ch_fe.mesh,boneLM[,,1],
-#'                      boneLM[,,10])
+#'                      boneLM[,,10], threads=1)
 #' ## render deformed mesh and landmarks
 #' shade3d(warpskull, col=2, specular=1)
 #' spheres3d(boneLM[,,1])
@@ -61,9 +61,9 @@
 #' 
 #' }
 #' @export
-tps3d <- function(x,refmat,tarmat,lambda=1e-8,...) {
-    coeff <- computeTransform(x=tarmat,y=refmat,lambda=lambda,type="tps")
-    transM <- applyTransform(x,coeff)
+tps3d <- function(x,refmat,tarmat,lambda=1e-8,threads=0,...) {
+    coeff <- computeTransform(x=tarmat,y=refmat,lambda=lambda,type="tps",threads=threads)
+    transM <- applyTransform(x,coeff,threads=threads)
     return(transM)
     
 }

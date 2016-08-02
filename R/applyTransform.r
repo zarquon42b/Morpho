@@ -4,6 +4,7 @@
 #' @param x matrix or mesh3d
 #' @param trafo 4x4 transformation matrix or an object of class "tpsCoeff"
 #' @param inverse logical: if TRUE, the inverse of the transformation is applied (for TPS coefficients have to be recomputed)
+#' @param threads threads to be used for parallel execution in tps deformation.
 #' @return the transformed object
 #' @examples
 #' data(boneData)
@@ -11,12 +12,13 @@
 #' trafo <- getTrafo4x4(rot)
 #' boneLM2trafo <- applyTransform(boneLM[,,2],trafo)
 #' @rdname applyTransform
+#' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}, \link{computeTransform}}
 #' @export
-applyTransform <- function(x,trafo,inverse)UseMethod("applyTransform")
+applyTransform <- function(x,trafo,inverse,threads)UseMethod("applyTransform")
 
 #' @rdname applyTransform
 #' @export
-applyTransform.matrix <- function(x,trafo,inverse=FALSE) {
+applyTransform.matrix <- function(x,trafo,inverse=FALSE,threads=1) {
     if (is.matrix(trafo)) {
         if (ncol(trafo) == 3 && ncol(x) ==3)
             trafo <- mat3x3tomat4x4(trafo)
@@ -28,15 +30,15 @@ applyTransform.matrix <- function(x,trafo,inverse=FALSE) {
             stop("TPS must be computed from control points of the same dimensionality")
         if (inverse)
             trafo <- computeTransform(trafo$refmat,trafo$tarmat,type="tps")
-        out <- .fx(trafo$refmat,x,trafo$coeff)
+        out <- .fx(trafo$refmat,x,trafo$coeff,threads=threads)
     }
     return(out)
 }
 
 #' @rdname applyTransform
 #' @export
-applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
-    x$vb[1:3,] <- t(applyTransform(t(x$vb[1:3,]) ,trafo,inverse = inverse))
+applyTransform.mesh3d <- function(x,trafo,inverse=FALSE,threads=1) {
+    x$vb[1:3,] <- t(applyTransform(t(x$vb[1:3,]) ,trafo,inverse = inverse,threads=threads))
     ## case affine transformation
     reflect <- FALSE
     if (is.matrix(trafo)) {
@@ -58,10 +60,10 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE) {
 
 #' @rdname applyTransform
 #' @export
-applyTransform.default <- function(x,trafo,inverse=FALSE) {
+applyTransform.default <- function(x,trafo,inverse=FALSE,threads=1) {
     x <- t(x)
     if (is.matrix(trafo)) {
-        if (ncol(trafo) == 3 && ncol(x) ==3)
+        if (ncol(trafo) == 3 && ncol(x) == 3)
             trafo <- mat3x3tomat4x4(trafo)
         if (inverse)
             trafo <- solve(trafo)
@@ -71,7 +73,7 @@ applyTransform.default <- function(x,trafo,inverse=FALSE) {
             stop("TPS must be computed from control points of the same dimensionality")
         if (inverse)
             trafo <- computeTransform(trafo$refmat,trafo$tarmat,type="tps")
-        out <- .fx(trafo$refmat,x,trafo$coeff)
+        out <- .fx(trafo$refmat,x,trafo$coeff,threads=threads)
     }
     return(out)
 }

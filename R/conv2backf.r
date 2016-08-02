@@ -23,7 +23,7 @@
 #' @export
 invertFaces <- function(mesh)
 { 	
-	mesh$it <- mesh$it[c(3,2,1),]
+	mesh$it <- mesh$it[c(3,2,1),,drop=F]
         mesh <- vcgUpdateNormals(mesh)
   	return(mesh)
 }

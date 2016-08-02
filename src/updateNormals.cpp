@@ -4,14 +4,13 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
   try {
     typedef unsigned int uint;
     bool angweight = Rcpp::as<bool>(angweight_);
-    NumericMatrix vb(vb_);
-    IntegerMatrix it(it_);
-    mat vbA(vb.begin(),vb.nrow(),vb.ncol());
+    mat vbA = as<arma::mat>(vb_);
+    imat itA = as<arma::imat>(it_);
     mat normals = vbA*0;
-    imat itA(it.begin(),it.nrow(),it.ncol());
+    
     //setup vectors to store temporary data
     colvec tmp0(3), tmp1(3), tmp2(3), angtmp(3), ntmp(3);
-    int nit = it.ncol();
+    int nit = itA.n_cols;
     for (int i=0; i < nit; ++i) {
       tmp0 = vbA.col(itA(1,i))-vbA.col(itA(0,i));
       tmp1 = vbA.col(itA(2,i))-vbA.col(itA(0,i));
@@ -56,12 +55,11 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
       
 SEXP updateFaceNormals(SEXP vb_, SEXP it_) {
   try {
-    NumericMatrix vb(vb_);
-    IntegerMatrix it(it_);
-    mat vbA(vb.begin(),vb.nrow(),vb.ncol());
-    mat normals(it.nrow(), it.ncol()); normals.fill(0.0);
-    imat itA(it.begin(),it.nrow(),it.ncol());
-    int nit = it.ncol();
+    mat vbA = as<arma::mat>(vb_);
+    imat itA = as<arma::imat>(it_);
+    mat normals(itA.n_rows, itA.n_cols); normals.fill(0.0);
+
+    int nit = itA.n_cols;
     colvec tmp0(3), tmp1(3), ntmp(3);
     for (int i=0; i < nit; ++i) {
       tmp0 = vbA.col(itA(1,i))-vbA.col(itA(0,i));

@@ -52,12 +52,12 @@
 #'  data(nose)##load data
 #' \dontrun{
 #' ##warp a mesh onto another landmark configuration:
-#' warpnose.long <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
+#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' 
-#' warpmovie3d(shortnose.mesh,warpnose.long,n=15)## create 15 images.
+#' warpmovie3d(shortnose.mesh,longnose.mesh,n=15)## create 15 images.
 #' 
 #' ### ad some landmarks
-#' warpmovie3d(shortnose.mesh,warpnose.long,n=15,xland=shortnose.lm,
+#' warpmovie3d(shortnose.mesh,longnose.mesh,n=15,xland=shortnose.lm,
 #'             yland=longnose.lm)## create 15 images.
 #'
 #' 
@@ -110,7 +110,7 @@ warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
             a1 <- lineplot(mesh,links,col=col,lwd=lwd)
             a <- append(a,a1)
         }
-        if (i ==0 && ask==TRUE)
+        if (i ==0 && ask==TRUE && interactive())
             readline("please select view and press return\n")
         
         filename <- sprintf("%s%04d.png", movie, countbegin+i)

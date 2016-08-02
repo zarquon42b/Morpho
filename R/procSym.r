@@ -65,7 +65,7 @@
 #' \item{rotated }{k x m x n array of the rotated configurations}
 #' \item{Sym }{k x m x n array of the Symmetrical component - only
 #' available for the "Symmetry"-Option (when pairedLM is defined)}
-#' \item{Asym }{k x m x n array of the Asymmetrical component - only
+#' \item{Asym }{k x m x n array of the Asymmetrical component. It contains the per-landmark asymmetric displacement for each specimen. Only
 #' available for the "Symmetry"-Option (when pairedLM is defined)}
 #' \item{asymmean }{k x m matrix of mean asymmetric deviation from
 #' symmetric mean}
@@ -194,7 +194,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     cat("performing Procrustes Fit ")
     
     if (!is.null(use.lm)) { ### only use subset for rotation and scale
-        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign)
+        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign,silent=FALSE)
         tmp <- Aall
         for (i in 1:dim(Aall)[3]) {
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
@@ -206,7 +206,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         proc$rotated <- tmp
         proc$mshape <- arrMean3(tmp) ##calc new meanshape
     } else
-        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign)
+        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign,silent=FALSE)
     
     procrot <- proc$rotated
     dimna <- dimnames(dataarray)
@@ -255,7 +255,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     dimnames(Symarray) <- dimnames(dataarray)
     
 ###### PCA Sym Component ###### 
-    princ <- try(prcomp(tan),silent=TRUE)
+    princ <- try(prcompfast(tan),silent=TRUE)
     if (class(princ) == "try-error")
         princ <- eigenPCA(tan)
 
@@ -289,7 +289,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     if (!is.null(pairedLM)) {
         asymmean <- arrMean3(Asymm)
         asymtan <- vecx(sweep(Asymm, 1:2, asymmean))[1:n,]
-        pcasym <- try(prcomp(asymtan),silent=TRUE)
+        pcasym <- try(prcompfast(asymtan),silent=TRUE)
         if (class(pcasym) == "try-error")
             pcasym <- eigenPCA(asymtan)
         

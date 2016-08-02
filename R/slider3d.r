@@ -25,7 +25,7 @@
 #' dat.array does not contain surface names.
 #' @param meshlist list containing triangular meshes of class 'mesh3d', for
 #' example imported with \code{\link{mesh2ply}} or \code{\link{file2mesh}} in
-#' the same order as the specimen in the array (see examples below)
+#' the same order as the specimen in the array (see examples below).
 #' @param ignore vector containing indices of landmarks that are to be ignored.
 #' Indices of outlines/surfaces etc will be updated automatically.
 #' @param sur.type character:if all surfaces are of the same file format and
@@ -63,10 +63,14 @@
 #' \code{fixRepro=FALSE}
 #' @param missingList a list of length samplesize containing integer vectors of row indices specifying missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
 #' @param use.lm indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.
+#' @param silent logical: if TRUE, console output is suppressed.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original
 #' space - not yet processed by a Procrustes analysis}
 #' \item{vn.array }{array containing landmark normals}
+#' @note if \code{sur.path = NULL} and \code{meshlist = NULL}, surface landmarks
+#' are relaxed based on a surface normals approximated by the pointcloud, this can lead to bad results for sparse sets of semilandmarks. Obviously, no projection onto the surfaces will be occur and landmarks will likely be off
+#' the original surface.
 #' @section Warning: Depending on the size of the suface meshes and especially
 #' the amount of landmarks this can use an extensive amount of your PC's
 #' resources, especially when running in parallel. As the computation time and
@@ -97,7 +101,7 @@
 #' \dontrun{
 #' data(nose)
 #' ###create mesh for longnose
-#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
+#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' ### write meshes to disk
 #' mesh2ply(shortnose.mesh, filename="shortnose")
 #' mesh2ply(longnose.mesh, filename="longnose")
@@ -118,7 +122,7 @@
 #' 
 #' # now one example with meshes in workspace
 #' 
-#' meshlist <- meshlist <- list(shortnose.mesh,longnose.mesh)
+#' meshlist <- list(shortnose.mesh,longnose.mesh)
 #' 
 #' slide <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 #'                   iterations=1, meshlist=meshlist,
@@ -136,11 +140,32 @@
 #' slideMissing <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
 #'                   iterations=1, meshlist=meshlist,
 #'                   mc.cores=1,fixRepro=FALSE,missingList=missingList)
-#' 
+#'
+#' ## example with two curves
+#' ## Example with surface semilandmarks and two curves
+#' fix <- c(1:5,20:21)
+#' outline1 <- c(304:323)
+#' outline2 <- c(604:623)
+#' outlines <- list(outline1,outline2)
+#' surp <- c(1:623)[-c(fix,outline1,outline2)]
+#' slideWithCurves <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+#'                             meshlist=meshlist,iterations=1,mc.cores=1,outlines=outlines)
+#' deformGrid3d(slideWithCurves$dataslide[,,1],shortnose.lm,ngrid = 0)
+#' plot(slideWithCurves)
+#'
+#' ## finally an example with sliding without meshes by estimating the surface from the
+#' ## semi-landmarks
+#'
+#' slideWithCurvesNoMeshes <- slider3d(data, SMvector=fix, deselect=TRUE, surp=surp,
+#'                             iterations=1,mc.cores=1,outlines=outlines)
+#' ## compare it to the data with surfaces
+#' deformGrid3d(slideWithCurves$dataslide[,,1],slideWithCurvesNoMeshes$dataslide[,,1],ngrid = 0)
+#' ## not too bad, only lonely surface semi-landmarks are a bit off
+#'
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,silent=FALSE)
 {
     if(.Platform$OS.type == "windows")
         mc.cores <- 1
@@ -150,11 +175,15 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     
     if (is.null(outlines) && is.null(surp))	
         stop("nothing to slide")
-    
+    fixLM <- integer(0)
     n <- dim(dat.array)[3]
     k <- dim(dat.array)[1]
     m <- dim(dat.array)[2]
-    
+    nomesh <- FALSE
+    if (length(sur.name) && is.null(sur.path))
+        sur.path <- ""
+    if (is.null(meshlist) && is.null(sur.path))
+        nomesh <- TRUE
     if (pairedLM[1]!=0 && is.vector(pairedLM))# check if there are only 2 symmetric lms
         pairedLM <- t(as.matrix(pairedLM))
     if(!is.null(missingList))
@@ -222,7 +251,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         weights <- rep(0,dim(dat.array)[1])
         weights[use.lm] <- 1
     }
-    if(length(sur.name)==0) {
+    if(length(sur.name)==0 && !is.null(sur.path)) {
         sur.name <- dimnames(dat.array)[[3]]
         sur.name <- paste(sur.path,"/",sur.name,".",sur.type,sep="")
     }
@@ -230,8 +259,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
     
     ini <- rotonto(dat.array[,,1],dat.array[,,2],signref=FALSE) # create mean between first tow configs to avoid singular BE Matrix
     mshape <- (ini$Y+ini$X)/2
-    
-    cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
+    if (!silent && !nomesh)
+        cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
     ## parallel function in case meshlist != NULL
     parfunmeshlist <- function(i,data) {
         if (!is.list(data))
@@ -254,27 +283,32 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         return(out)
 
     }
-    if (is.null(meshlist)) {
+    if (is.null(meshlist) && !nomesh) {
         repro <- mclapply(1:n, parfunmeshfile,dat.array,mc.cores=mc.cores)
-    } else {
+    } else if (!nomesh) {
         repro <- mclapply(1:n, parfunmeshlist,dat.array,mc.cores=mc.cores)
-    }
+    } else {
+        repro <- mclapply(1:n,function(x) x <- vcgUpdateNormals(dat.array[,,x],silent=TRUE),mc.cores=mc.cores)
+        message("no surfaces specified - surface is approximated from point cloud")
+    }    
     for (j in 1:n) {
         reprotmp <- repro[[j]]         
         dat.array[,,j] <- t(reprotmp$vb[1:3,])
         vn.array[,,j] <- t(reprotmp$normals[1:3,])
+        
     }
     
     
     if (!fixRepro)# use original positions for fix landmarks
         dat.array[fixLM,,] <- data.orig[fixLM,,]
     
-    
-    cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
+    if (!silent && !nomesh)
+        cat(paste("\n","-------------------------------------------","\n"),"Projection finished","\n","-------------------------------------------","\n")
     
     if (initproc==TRUE) { # perform proc fit before sliding
-        cat("Inital procrustes fit ...")	
-        procini <- ProcGPA(dat.array,scale=fullGPA)
+        if (!silent)
+            cat("Inital procrustes fit ...")	
+        procini <- ProcGPA(dat.array,scale=fullGPA,silent=silent)
         mshape <- procini$mshape
     }
     dataslide <- dat.array
@@ -287,14 +321,16 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         symproc <- rotonto(A,Amir)
         mshape <- (symproc$X+symproc$Y)/2
     }
-    cat(paste("Start sliding...","\n","-------------------------------------------","\n"))
+    if (!silent)
+        cat(paste("Start sliding...","\n","-------------------------------------------","\n"))
     gc(verbose=F)
     ## calculation for a defined max. number of iterations
     count <- 1
     while (p1>tol && count <= iterations) {
         dataslide_old <- dataslide
-        mshape_old <- mshape           
-        cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
+        mshape_old <- mshape
+        if (!silent)
+            cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (recursive==TRUE)    # slided Semilandmarks are used in next iteration step
             dat.array <- dataslide
         if (bending)
@@ -306,8 +342,15 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
             {
                 free <- NULL
                 if (!is.null(missingList))
-                    if(length(missingList[[j]]))
-                        free <- missingList[[j]]
+                    if(length(missingList[[j]])) {
+                        if (!is.null(outlines)) {
+                            notoutlines <- which(!missingList[[j]] %in% unlist(outlines))
+                            if (length(notoutlines))
+                                free <- missingList[[j]][notoutlines]
+                        } else {
+                            free <- missingList[[j]]
+                        }
+                    }
                 tmpdata <- dat.array[,,j]
                 tmpvn <- vn.array[,,j]
                 if (!bending) {
@@ -327,22 +370,28 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         a.list <- mclapply(a.list,slido,mc.cores=mc.cores)
         
 ###projection onto surface
-        if (is.null(meshlist)) {
+       
+        if (is.null(meshlist) && !nomesh) {
             repro <- mclapply(1:n, parfunmeshfile,a.list,mc.cores=mc.cores)
-        } else {
+        } else if (!nomesh) {
             repro <- mclapply(1:n, parfunmeshlist,a.list,mc.cores=mc.cores)
+        } else {
+            repro <- mclapply(a.list,function(x) x <- vcgUpdateNormals(x,silent=TRUE),mc.cores=mc.cores)
         }
         for (j in 1:n) {
             reprotmp <- repro[[j]]         
             dataslide[,,j] <- t(reprotmp$vb[1:3,])
             vn.array[,,j] <- t(reprotmp$normals[1:3,])
         }
+       
+        
         
         if (!fixRepro)# use original positions for fix landmarks
             dataslide[fixLM,,] <- data.orig[fixLM,,]
-        
-        cat("estimating sample mean shape...")          	
-        proc <- ProcGPA(dataslide,scale=fullGPA)
+
+        if (!silent)
+            cat("estimating sample mean shape...")          	
+        proc <- ProcGPA(dataslide,scale=fullGPA,silent=silent)
         mshape <- proc$mshape
         if (pairedLM[1]!=0) {# create symmetric mean to get rid of assymetry along outline after first relaxation
             Mir <- diag(c(-1,1,1))
@@ -360,18 +409,65 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path="sur",s
         if (inc.check) {
             if (p1 > p1_old) {
                 dataslide <- dataslide_old
-                cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
+                if (!silent)
+                    cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
                 p1 <- 0
             } else {
-                cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
+                if (!silent)
+                    cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
                 count <- count+1         
             }
         } else {
-            cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
+            if (!silent)
+                cat(paste("squared distance between means:",p1,sep=" "),"\n","-------------------------------------------","\n")
             count <- count+1         
         }
         gc(verbose = FALSE)
     }
     gc(verbose = FALSE)
-    return(list(dataslide=dataslide,vn.array=vn.array))
+    out <- list(dataslide=dataslide,vn.array=vn.array)
+    class(out) <- "slider3d"
+    out$sliderinfo <- list(fixLM=fixLM,outlineLM=outlines,surfaceLM=surp)
+    return(out)
+}
+#' plot the result of slider3d
+#'
+#' plot the result of slider3d
+#' @param x result of \code{slider3d} call
+#' @param cols vector containing colors for each coordinate type cols[1]=landmarks, cols[2]=surface landmarks, cols[3]=outlines.
+#' @param pt.size size of plotted points/spheres. If \code{point="s"}.
+#' \code{pt.size} defines the radius of the spheres. If \code{point="p"} it
+#' sets the variable \code{size} used in \code{point3d}.
+#' @param point how to render landmarks.
+#' @param specimen integer: select the specimen to plot
+#' @param add logical: if TRUE, a new rgl window is opened.
+#' @param ... additonal, currently unused parameters
+#' @method plot slider3d
+#' @export
+plot.slider3d <- function(x, cols=2:4, pt.size = NULL, point = c("sphere", "point"),specimen=1,add = TRUE,...) {
+    if (!inherits(x, "slider3d")) 
+        stop("please provide object of class 'slider3d'")
+    sliderinfo <- x$sliderinfo
+    plotx <- x$dataslide[,,specimen]
+    point <- match.arg(point[1],c("sphere", "point"))
+    radius <- pt.size
+    if (is.null(radius)) {
+        if (point == "sphere") 
+            radius <- (cSize(plotx)/sqrt(nrow(plotx))) * (1/30)
+        else radius <- 10
+    }
+    size <- radius
+    if (point == "sphere") 
+        rendpoint <- spheres3d
+    else if (point == "point") 
+        rendpoint <- points3d
+    
+    if (!add) 
+        open3d()
+    if (!is.null(sliderinfo$fixLM))
+        rendpoint(plotx[sliderinfo$fixLM,], col=cols[1], radius = radius, size = size)
+    if (!is.null(sliderinfo$surfaceLM))
+        rendpoint(plotx[sliderinfo$surfaceLM,], col=cols[2], radius = radius/2, size = size/2)
+    if (!is.null(sliderinfo$outlineLM))
+        rendpoint(plotx[unlist(sliderinfo$outlineLM),], col=cols[3], radius = radius/2, size = size/2)
 }

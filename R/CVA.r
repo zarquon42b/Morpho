@@ -16,10 +16,12 @@
 #' @param plot Logical: determins whether in the two-sample case a histogramm
 #' ist to be plotted.
 #' @param rounds integer: number of permutations if a permutation test of the
-#' Mahalanobis distances (from the pooled within-group covariance matrix) and Euclidean distance between group means is requested.If
-#' rounds = 0, no test is performed.
+#' Mahalanobis distances (from the pooled within-group covariance matrix) and Euclidean distance between group means is requested
+#' If rounds = 0, no test is performed.
 #' @param cv logical: requests a Jackknife Crossvalidation.
 #' @param p.adjust.method method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.
+#' @param robust character: determines covariance estimation methods, allowing for robust estimations using \code{MASS::cov.rob}
+#' @param ... additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations
 #' @return
 #' \item{CV }{A matrix containing the Canonical Variates}
 #' \item{CVscores }{A matrix containing the individual Canonical Variate scores}
@@ -147,7 +149,7 @@
 #' deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
 #' }
 #' @export
-CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE,p.adjust.method= p.adjust.methods) 
+CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE,p.adjust.method= "none",robust=c("classical", "mve", "mcd"),...) 
 {
     groups <- factor(groups)
     lev <- levels(groups)
@@ -176,11 +178,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
    
     if (is.vector(N) || dim(N)[2] == 1)
         stop("data should contain at least 2 variable dimensions")
-    
-    Gmeans <- matrix(0, ng, l)
-    for (i in 1:ng) {
-        Gmeans[i, ] <- colMeans(N[groups==lev[i], ,drop=FALSE])
-    }
+    covWithin <- covW(N, groups,robust,...)
+    Gmeans <- attributes(covWithin)$means
     if (weighting) {
         Grandm <- colSums(Gmeans*gsizes)/n ## calculate weighted Grandmean (thanks to Anne-Beatrice Dufour for the bug-fix)
     } else {
@@ -197,38 +196,33 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     } else 
         X <- sqrt(n/ng) * resGmeans
 
-    
-    
-    covW <- covW(N, groups)
-    eigW <- eigen(covW*(n - ng))
-    eigcoW <- eigen(covW)
-    U <- eigW$vectors
-    E <- eigW$values
+    eigcoW <- eigen(covWithin); ## eigen decomp of between group covariance Matrix
+    E <- eigcoW$values*(n - ng)  ##eigenvalues of between group SSPQR
+    U <- eigcoW$vectors
     Ec <- eigcoW$values
     Ec2 <- Ec
-    
-    if (min(E) < tolinv)
+    geninv <- FALSE
+    if (min(Ec) < tolinv) {
         cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
-    for (i in 1:length(eigW$values)) {
-        if (Ec[i] < tolinv) {
-            E[i] <- Ec[i] <- Ec2[i] <- 0
-        } else {
-            E[i] <- sqrt(1/E[i])
-            Ec[i] <- sqrt(1/Ec[i])
-            Ec2[i] <- (1/Ec2[i])
-        }
+        geninv <- TRUE
     }
-    invcW <- diag(Ec)
-    irE <- diag(E)
-    ZtZ <- irE %*% t(U) %*% t(X) %*% X %*% U %*% irE
-    eigZ <- eigen(ZtZ,symmetric=TRUE)
+    abovetol <- which(Ec >= tolinv)
+    E[abovetol] <- sqrt(1/E[abovetol])
+    Ec[abovetol] <- sqrt(1/Ec[abovetol])
+    Ec2[abovetol] <- 1/Ec2[abovetol]
+    if (geninv)
+        Ec[-abovetol] <- E[-abovetol] <- Ec2[-abovetol] <- 0
+
     useEig <- min((ng-1), l)
-    A <- Re(eigZ$vectors[, 1:useEig])
-    CV <- U %*% invcW %*% A
-    CVvis <- covW %*% CV
+    ZtZ <- (E * t(X %*% U))
+    eigZ <- svd(ZtZ,nv=0,nu=useEig)
+    eigZ$d <- eigZ$d^2
+    A <- Re(eigZ$u)
+    CV <- U %*% (Ec * A)
+    CVvis <- covWithin %*% CV
     CVscores <- N %*% CV
 
-    roots <- eigZ$values[1:useEig]
+    roots <- eigZ$d[1:useEig]
     if (length(roots) == 1) {
         Var <- matrix(roots, 1, 1)
         colnames(Var) <- "Canonical root"
@@ -250,11 +244,6 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     disto <- matrix(0, ng, ng)
     rownames(disto) <- colnames(disto) <- lev
          
-    #proc.distout <- NULL
-    #pmatrix <- NULL
-    #pmatrix.proc <- NULL
-
-
 ### Permutation Test for Distances	
     Dist <- .CVAdists(N, groups, rounds,  winv ,p.adjust.method)
 
@@ -276,7 +265,7 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         a.list <- as.list(1:n)
         crovafun <- function(i)
             {
-                tmp <- .CVAcrova(Tmatrix[-i, ],groups=groups[-i],test=CV, tolinv = tolinv, weighting=weighting)
+                tmp <- .CVAcrova(Tmatrix[-i, ],groups=groups[-i],test=CV, tolinv = tolinv, weighting=weighting,robust=robust,...)
                 out <- (Tmatrix[i, ]-tmp$Grandmean) %*% tmp$CV
                 tmpdist <- rowSums(sweep(tmp$meanscores,2,as.vector(out))^2)
                 post <- probpost(tmpdist,prior)

@@ -183,7 +183,7 @@ permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-1
           meanlist[[i]][j,] <- colMeans(B[tmp,,drop=FALSE])
 ### calc within subgroups Sum of Squares
           if (scale)
-              covW <- covW+cov(scale(B[tmp,,drop=FALSE],2, scale=F))*(length(tmp)-1)
+              covW <- covW+cov(scale(B[tmp,,drop=FALSE], scale=F))*(length(tmp)-1)
       }
       
 ### calc pooled groupspecific within subgroups covariance matrix and overall variance ###

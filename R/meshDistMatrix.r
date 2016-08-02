@@ -1,11 +1,11 @@
 #' @rdname meshDist
 #' @method meshDist matrix
 #' @export
-meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,...)
+meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,scaleramp=FALSE,...)
     {
         x <- list(vb=t(x),it=matrix(1:dim(x)[1]),1,dim(x)[1])
         class(x) <- "mesh3d"
-        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,...)
+        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,scaleramp=scaleramp,...)
         class(out) <- "matrixDist"
         render(out,radius=radius,type=type,displace=displace,add=add)
         invisible(out)
@@ -13,7 +13,7 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
 #' @rdname render
 #' @method render matrixDist
 #' @export
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,...) {
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,...) {
     if (!add) {
         if (rgl.cur() !=0)
             rgl.clear()
@@ -27,7 +27,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
     params <- x$params
     distqual <- x$distqual    
     
-    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol) || !is.null(sign) || !is.null(rampcolors) || !is.null(NAcol)) {
+    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol) || !is.null(sign) || !is.null(rampcolors) || !is.null(NAcol) || !is.null(scaleramp)) {
         neg=FALSE
         dists <- x$dists
         distsOrig <- dists
@@ -49,18 +49,20 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
         if(is.null(uprange))
             uprange <- x$params$uprange
         if (is.null(from)) {
-            mindist <- min(dists)
+            mindist <- min(dists,na.rm=TRUE)
             if (sign && mindist < 0 ) {
-                from <- quantile(dists,probs=(1-uprange)) 
+                from <- quantile(dists,probs=(1-uprange),na.rm = TRUE) 
                 neg <- TRUE            
             } else {
                 from <- 0
             }             
         }
+        if (is.null(scaleramp))
+            scaleramp <- x$scaleramp
         if (from < 0)
             neg <- TRUE
         if (is.null(to))
-            to <- quantile(dists,probs=uprange)    
+            to <- quantile(dists,probs=uprange,na.rm = TRUE)    
         if(ceiling)
             to <- ceiling(to)
         to <- to+1e-10
@@ -71,8 +73,13 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
             negseq <- length(which(colseq<0))
             poseq <- steps-negseq
             maxseq <- max(c(negseq,poseq))
-            ramp <- colorRampPalette(rampcolors)(maxseq*2)
-            ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
+            if (scaleramp) {
+                ramp <- colorRampPalette(rampcolors)(maxseq*2)
+                ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
+                
+            }
+            else
+                ramp <- colorRampPalette(rampcolors)(steps-1)
             distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
             distqual[which(distqual < 1)] <- steps+10
         } else if (from > 0) {

@@ -3,13 +3,10 @@
 
 SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_) {
   try {
-    Rcpp::NumericMatrix data(data_);
-    Rcpp::IntegerVector groups(groups_);
+    mat armaData = as<mat>(data_);
+    arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);
     int rounds = Rcpp::as<int>(rounds_);
-    int n = data.nrow();
-    int m = data.ncol();
-    mat armaData(data.begin(), n,m);
-    ivec armaGroups(groups.begin(),groups.size(),false);
+        
     ivec permuvec = armaGroups;
     int maxlev = armaGroups.max();
     int alldist=0;

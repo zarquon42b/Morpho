@@ -273,22 +273,15 @@ vec getBaryCent(vec point, int fptr, mat vb, umat it) {
 // main function to handle in and output
 SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SEXP sign_, SEXP bary_, SEXP method_) {
   try {
-    NumericMatrix Rref(ref_);//reference 
-    NumericMatrix Rvb(vb_);//target vertices
-    NumericMatrix Rnormals(normals_);//target normals
-    IntegerMatrix Rit(it_);//target faces
-    IntegerMatrix RclostInd(clostInd_);//face indices to search on
-    int nref = Rref.ncol();
+    mat ref = as<mat>(ref_);//reference 
+    mat vb = as<mat>(vb_);//target vertices
+    mat normals = as<mat>(normals_);//target normals
+    umat clostIndU = as<arma::umat>(clostInd_);//face indices to search on
+    int nref = ref.n_cols;
     bool sign = as<bool>(sign_);
     bool bary = as<bool>(bary_);
     int method = as<int>(method_);
-    mat ref(Rref.begin(), Rref.nrow(), Rref.ncol());
-    mat vb(Rvb.begin(),Rvb.nrow(),Rvb.ncol());
-    mat normals(Rnormals.begin(),Rnormals.nrow(),Rnormals.ncol());
-    imat it(Rit.begin(),Rit.nrow(),Rit.ncol());
-    umat itU = conv_to<umat>::from(it);// convert to unsigned
-    imat clostInd(RclostInd.begin(),RclostInd.nrow(),RclostInd.ncol());
-    umat clostIndU = conv_to<umat>::from(clostInd);// convert to unsigned
+    umat itU = as<arma::umat>(it_);// convert to unsigned
     // check which faces are acutally searched
     uvec uniclost = unique(clostIndU);
     // calculate edges and stuff needed for point search
@@ -304,11 +297,12 @@ SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SE
       vec tmpvec(3), weight(3); 
       tmpvec.zeros();weight.zeros();
       int faceptrtmp=0;
-      closeMat.col(i) = pt2mesh(ref.col(i), tmpdat, dists(i), faceptrtmp,region(i),method);
-      faceptr(i)=clostInd(faceptrtmp,i);
+      int regioni = region(i);
+      closeMat.col(i) = pt2mesh(ref.col(i), tmpdat, dists(i), faceptrtmp, regioni,method);
+      faceptr(i)=clostIndU(faceptrtmp,i);
       //get normal weights
       for (int j =0; j < 2; ++j) {
-	vec tmpdiff = closeMat.col(i)-vb.col(it(j,faceptr(i)));
+	vec tmpdiff = closeMat.col(i)-vb.col(itU(j,faceptr(i)));
 	weight(j) = sqrt(dot(tmpdiff,tmpdiff));
 	if (weight(j) == 0.0) {
 	  weight(j) = 1e12;
@@ -320,7 +314,7 @@ SEXP points2mesh(SEXP ref_,SEXP vb_, SEXP it_, SEXP normals_, SEXP clostInd_, SE
       vec tmpnormal(3); tmpnormal.zeros();
 
       for (int j = 0; j < 3; j++) {
-	tmpnormal += weight(j)*normals.col(it(j,faceptr(i)));
+	tmpnormal += weight(j)*normals.col(itU(j,faceptr(i)));
       }
       double normlen = norm(tmpnormal,2);
       if (normlen > 0) {

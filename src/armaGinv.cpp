@@ -5,8 +5,7 @@ SEXP armaGinv(SEXP matIn_, SEXP tol_) {
     if (!Rf_isMatrix(matIn_)){
       return wrap(1);
     } else {
-      NumericMatrix matIn(matIn_);
-      mat matA(matIn.begin(), matIn.nrow(), matIn.ncol());
+      mat matA = as<mat>(matIn_);
       mat invA;
       bool check;
       if (Rf_isNumeric(tol_)) {

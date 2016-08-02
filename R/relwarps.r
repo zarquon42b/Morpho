@@ -18,6 +18,7 @@
 #' zero
 #' @param orp logical: request orthogonal projection into tangent space.
 #' @param pcAlign logical: if TRUE, the shapes are aligned by the principal axis of the first specimen
+#' @param computeBasis logical: whether to compute the basis of the resulting vector space (takes a lot of memory and time for configurations with > 1000 coordinates.
 #' @return
 #' \item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
 #' \item{uniscores }{uniform scores, NULL if  \code{alpha = 0}}
@@ -51,6 +52,9 @@
 #' spm(rW$uniscores[,1:5],group=pop)
 #' ##plot non-affine variance associated with each relative warp
 #' barplot(rW$Var[,2], xlab="relative Warps")
+#' ## visualize first relative warp +-3 sd of the scores
+#' rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
+#' deformGrid3d(rw1[,,1],rw1[,,2],ngrid=5)
 #' 
 #' ## 2D example:
 #' require(shapes)
@@ -63,13 +67,16 @@
 #' spm(rW$uniscores[,1:2],group=sex)
 #' ##plot non-affine variance associated with each relative warp
 #' barplot(rW$Var[,2], xlab="relative Warps")
+#' ## visualize first relative warp +-3 sd of the scores
+#' rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
+#' deformGrid2d(rw1[,,1],rw1[,,2],ngrid=10)
 #' }
 #' 
 #' @export
-relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE)
+relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE,computeBasis=TRUE)
 {
                                         #n <- dim(data)[3]
-    uniscores <- uniPCs <- NULL
+    uniscores <- uniPCs <- bePCs <- NULL
     m <- dim(data)[2]
     k <- dim(data)[1]
     datanames <- dimnames(data)[[3]]
@@ -91,7 +98,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         dimnames(proc$rotated)[[3]] <- rownames(vecs) <- datanames
         
 ### generate covariance matrix of superimposed data ###
-        Sc <- cov(vecs)
+        ## Sc <- cov(vecs)
         
 ### explore eigenstructure of BE ###	
         eigBE <- svd(BE)
@@ -106,14 +113,17 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         suppressMessages(BE2 <- IM%x%(eigBE$v%*%Matrix::Diagonal(x=diagBE)%*%t(eigBE$v)))
         
 ### generate covariance structure of scaled space ###
-        covcom <- suppressMessages(BE2%*%Sc%*%BE2)
+                                        #covcom1 <- suppressMessages(BE2%*%Sc%*%BE2)
+        covcom <- suppressMessages(BE2%*%t(vecs))
         eigCOVCOM <- svd(covcom)
+        eigCOVCOM$d <-  (eigCOVCOM$d/sqrt(nrow(vecs)-1))^2
         nonz <- which(eigCOVCOM$d > tol)
-        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$v[,nonz])%*%BE2)%*%t(vecs)))
+        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$u[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
         rownames(bescores) <- rownames(vecs)
-        bePCs <-  suppressMessages(IM %x% eigBE$v)
-        bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$v[,nonz]))
-       
+        if (computeBasis) {
+            bePCs <-  suppressMessages(IM %x% eigBE$v)
+            bePCs <- as.matrix(suppressMessages(bePCs %*% Matrix::Diagonal(x=rep(diaginv,m)) %*% t(bePCs) %*%  eigCOVCOM$u[,nonz]))
+       }
 ### calculate uniform component scores ###
         ## U <- NULL
         
@@ -134,7 +144,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         uniPCs <- svdBend$v[,1:useBendv]
         Var <- createVarTable(eigCOVCOM$d[nonz],square = FALSE)
     } else {
-        pca <- prcomp(vecx(proc$rotated))
+        pca <- prcompfast(vecx(proc$rotated))
         bad <- which(pca$sdev^2 < tol)
         bePCs <- pca$rotation[,-bad]
         bescores <- pca$x[,-bad]

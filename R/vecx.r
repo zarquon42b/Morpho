@@ -54,6 +54,7 @@ vecx <- function(x, byrow=FALSE, revert=FALSE, lmdim) {
             for (i in 1:n)
                 vecs[,,i] <- t(tmp[,,i])
         }
+        dimnames(vecs)[[3]] <- names
     }
     if (!is.null(names) && !revert) {
         rownames(vecs) <- names

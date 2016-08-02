@@ -6,10 +6,13 @@
 
 language: c
 sudo: required
+dist: trusty
+
 before_install:
-  - sudo add-apt-repository ppa:zarquon42/precise-backports -y
+  - sudo add-apt-repository ppa:zarquon42/travis-trusty -y
   - sudo apt-get update -qq
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - export RGL_USE_NULL=TRUE
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh install_r_binary rgl Rcpp RcppEigen RcppArmadillo foreach doParallel yaImpute testthat car colorRamps shapes rvcg

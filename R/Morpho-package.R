@@ -8,8 +8,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.3.0.150716\cr
-#' Date: \tab 2015-07-16\cr
+#' Version: \tab 2.4\cr
+#' Date: \tab 2016-07-29\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -40,7 +40,6 @@
 #' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t cBind
 #' @importFrom parallel mclapply detectCores
 #' @importFrom rgl lines3d open3d points3d rgl.bg rgl.bringtotop rgl.clear rgl.close  rgl.cur rgl.pop rgl.snapshot shade3d spheres3d text3d translate3d wire3d
-#' @importFrom yaImpute ann
 #' @importFrom Rcpp evalCpp
 #' @importFrom Rvcg vcgUpdateNormals
 #' @importClassesFrom Matrix dgCMatrix dgeMatrix dsCMatrix dtCMatrix sparseMatrix
@@ -176,5 +175,5 @@ conv2backf <- function (...)
 warp.mesh <- function (mesh,matr,matt,lambda=1e-8,updateNormals=TRUE, silent=FALSE)
 {
   .Deprecated("tps3d", package="Morpho")
-  tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda)
+  tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda,threads=1)
 }

@@ -14,10 +14,9 @@
 #' points, that are not allowed to slide.
 #' @param surp integer vector containing the row indices of semi-landmarks positioned on surfaces.
 #' @param sur.name character: containing the filename of the corresponding
-#' surface.When specified, mesh has to be NULL.
+#' surface.When specified, mesh has to be NULL. If \code{sur.name=NULL} and \code{mesh=NULL}, the tangent planes will be estimated from the point cloud.
 #' @param mesh triangular mesh of class "mesh3d" loaded into the R workspace,
-#' when specified, "sur.name" has to be NULL. The function
-#' \code{\link{closemeshKD}} will be used for reprojection onto the surface.
+#' when specified, "sur.name" has to be NULL. 
 #' @param tol numeric: Threshold for convergence in the sliding proces. Full
 #' Procrustes distance between actual result and previous iteration.
 #' @param deselect Logical: if TRUE, the SMvector is interpreted as those
@@ -37,6 +36,7 @@
 #' The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y = Y0 + stepsize * UT}.
 #' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @param use.lm indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.
+#' @param silent logical: if TRUE, console output is suppressed.
 #' @param ... additonal arguments - currently unused
 #' @return returns kx3 matrix of slidden landmarks
 #' @author Stefan Schlager
@@ -98,7 +98,7 @@
 #' 
 #' ## finally relax two meshes with corresponding vertices:
 #' 
-#' mediumnose.mesh <- tps3d(shortnose.mesh,shortnose.lm, (shortnose.lm+longnose.lm)/2)
+#' mediumnose.mesh <- tps3d(shortnose.mesh,shortnose.lm, (shortnose.lm+longnose.lm)/2,threads=1)
 #' ## we use Procrustes distance as criterion as bending energy is pretty slow because
 #' ## of too many coordinates (more than 3000 is very unreasonable).
 #' relaxMesh <- relaxLM(shortnose.mesh,mediumnose.mesh,iterations=2,bending=FALSE,stepsize=0.05)
@@ -109,7 +109,10 @@ relaxLM <- function(lm,...)UseMethod("relaxLM")
 
 #' @rdname relaxLM
 #' @export
-relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,...) {
+relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,silent=FALSE,...) {
+    nomesh <- FALSE
+    if (is.null(mesh) && is.null(sur.name))
+        nomesh <- TRUE
     if(inherits(reference,"mesh3d"))
        reference <- vert2points(reference)
     k <- dim(lm)[1]
@@ -137,13 +140,17 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
     if (iterations == 0)
         iterations <- 1e10
     if (m == 3) {
-        cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
+        if (!silent)
+            if (!silent && !nomesh)
+                cat(paste("Points will be initially projected onto surfaces","\n","-------------------------------------------","\n"))
         
-        if (is.null(mesh)) {
+        if (is.null(mesh) && !nomesh) {
             tmp <- projRead(lm, sur.name)
-            
-        } else {
+        } else if (!nomesh) {
             tmp <- projRead(lm,mesh)
+        } else {
+            tmp <- vcgUpdateNormals(lm,silent=TRUE)
+            message("no surfaces specified - surface is approximated from point cloud")
         }
         vs <- vert2points(tmp)
         vn <- t(tmp$normals[1:3,])
@@ -160,9 +167,9 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
     count <- 1
     while (p1 > tol && count <= iterations) {
         lm_old <- vs
-        cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
+        if (!silent)
+            cat(paste("Iteration",count,sep=" "),"..\n")  # reports which Iteration is calculated
         if (!bending) {
-            print(length(weights))
             rot <- rotonto(reference,vs,reflection=FALSE,scale=TRUE,weights=weights,centerweight = TRUE)
             vs <- rot$yrot
             if (m == 3)
@@ -179,10 +186,12 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
             dataslido <- rotreverse(dataslido,rot)
         }
         if (m == 3) {
-            if (is.null(mesh)) {
+            if (is.null(mesh) && !nomesh) {
                 tmp <- projRead(dataslido, sur.name)
-            } else {
+            } else if (!nomesh){
                 tmp <- projRead(dataslido,mesh)
+            } else {
+                tmp <- vcgUpdateNormals(dataslido,silent=TRUE)
             }
             vs <- vert2points(tmp)
             vn <- t(tmp$normals[1:3,])
@@ -201,15 +210,18 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
         if (inc.check) {
             if (p1 > p1_old) {
                 vs <- lm_old
-                cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
+                if (!silent)
+                    cat(paste("Distance between means starts increasing: value is ",p1, ".\n Result from last iteration step will be used. \n"))
                 p1 <- 0
                 count <- count+1   
             } else {
-                cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
+                if (!silent)
+                    cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
                 count <- count+1
             }
         } else {
-            cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
+            if (!silent)
+                cat(paste("squared distance between iterations:",p1,sep=" "),"\n","-------------------------------------------","\n")
             count <- count+1
         }
     }

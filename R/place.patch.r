@@ -73,7 +73,7 @@
 #' data(nose)
 #' require(rgl)
 #' ###create mesh for longnose
-#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm)
+#' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' ## create atlas
 #' fix <- c(1:5,20:21)
 #' atlas <- createAtlas(shortnose.mesh, landmarks =
@@ -150,7 +150,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
             out <- matrix(NA,(patch.dim+k),3)
             name <- NULL
         }
-        
+        nall <- patch.dim+k
 
         L <- CreateL(atlas.lm,output="Lsubk3")
         L1 <- CreateL(rbind(atlas.lm,patch),output="Lsubk3")
@@ -166,6 +166,9 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 tmp.data <- projRead(dat.array,tmp.mesh,readnormals=TRUE)
 ### relax existing curves against atlas ###
             if (!is.null(outlines)) {
+                notinout <- which(! (1:k) %in% unlist(outlines))
+                if (length(notinout))
+                    SMvector <- unique(c(SMvector,notinout))
                 sm <- SMvector
                 deselcurve <- TRUE
                 if (prod(length(unique(SMvector)) == k)) {
@@ -179,13 +182,13 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 U <- .calcTang_U_s(t(tmp.data$vb[1:3,]),t(tmp.data$normals[1:3,]),SMvector=SMvector,outlines=outlines,surface=NULL,deselect=deselcurve)
                 slide <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=3)
                 tmp.data <- projRead(slide,tmp.mesh,readnormals=TRUE)
-                tps.lm <- tps3d(patch,atlas.lm,slide)
+                tps.lm <- tps3d(patch,atlas.lm,slide,threads=1)
             } else if (!is.null(SMvector) && is.null(outlines)) {
                 sm <- SMvector
-                tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]))
+                tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]),threads=1)
             } else {
                 sm <- 1:k
-                tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]))
+                tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]),threads=1)
             }
             
             slide <- t(tmp.data$vb[1:3,])
@@ -196,7 +199,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 slide[fix,] <- dat.array[fix,]
 
             if (!is.null(inflate) || !is.null(rhotol)) {
-                atlas.warp <- tps3d(atlas.mesh,atlas.lm,slide, silent=silent)
+                atlas.warp <- tps3d(atlas.mesh,atlas.lm,slide, silent=silent,threads=1)
                 tps.lm <- projRead(tps.lm,atlas.warp,readnormals=TRUE,smooth=TRUE)
                 warp.norm <- tps.lm$normals[1:3,]### keep projected normals
             }
@@ -270,15 +273,20 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
 
         
         if (!usematrix && n > 1) {
-            tmpout <- array(NA, dim=c(nrow(out[[1]]),ncol(out[[1]]),n))
+            tmpout <- array(NA, dim=c(nall,3,n))
             for (i in 1:n) {
-                if (is.matrix(out[[i]]))
+                if (is.matrix(out[[i]])) {
                     tmpout[,,i] <- out[[i]]
+                } else {
+                    warning(paste("matching for specimen",i,"failed with:",out[[i]]))
+                }
             }
             out <- tmpout
             dimnames(out)[[3]] <-  dimnames(dat.array)[[3]]
         } else {
             out <- out[[1]]
+            if (!is.matrix(out))
+                stop("matching failed")
         }
         if (.Platform$OS.type == "windows" && mc.cores > 1)
             stopCluster(cl)

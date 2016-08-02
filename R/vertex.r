@@ -59,6 +59,7 @@ unrefVertex <- function(mesh)
 #' @export
 rmVertex <- function(mesh,index,keep=FALSE) {
     if (! keep) {
+        index <- unique(index)
         it <- mesh$it
         itdim <- dim(it)
         lRm <- length(index)

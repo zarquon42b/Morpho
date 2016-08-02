@@ -5,7 +5,7 @@
     lev <- levels(groups)
     ng <- length(lev)
     gsizes <- as.vector(tapply(groups, groups, length))
-    
+    set.seed(rnorm(1))
     groups <- as.integer(groups)
     shaker <- .Call("CVAdists", N, groups, as.integer(rounds), winv)
     mahadist <- mahaprobs <- procdist <- procprobs <- matrix(0,ng,ng)

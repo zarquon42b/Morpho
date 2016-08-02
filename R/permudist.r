@@ -30,7 +30,7 @@
 #' 
 #' 
 #' @export 
-permudist <- function(data, groups, rounds=1000, which=NULL,p.adjust.method= p.adjust.methods)
+permudist <- function(data, groups, rounds=1000, which=NULL,p.adjust.method= "none")
 {
     if (rounds == 0)
         rounds <- 1

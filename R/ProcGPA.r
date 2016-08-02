@@ -38,7 +38,7 @@
 #' proc.wt <- ProcGPA(boneLM, CSinit=TRUE, weights=weights, silent=TRUE)
 #' 
 #' @export
-ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=FALSE,weights=NULL,centerweight=FALSE, reflection=TRUE,pcAlign=TRUE)
+ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=TRUE,weights=NULL,centerweight=FALSE, reflection=TRUE,pcAlign=TRUE)
 {
     if (!is.null(weights))
         weights <- weights/sum(weights)
