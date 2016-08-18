@@ -115,7 +115,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
     svs <- svs/sum(svs)
     svs <- svs[which(svs > tol)]
     
-    covas <- svs*100
+    covas <- (svs/sum(svs))*100
     l.covas <- length(covas)
     svd.cova$d <- svd.cova$d[1:l.covas]
     svd.cova$u <- svd.cova$u[,1:l.covas]
