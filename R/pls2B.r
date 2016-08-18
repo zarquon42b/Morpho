@@ -112,15 +112,14 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
     svd.cova <- svd2B(xs,ys,scale = useCor)
 
     svs <- svd.cova$d
-    svs <- svs/sum(svs)
     svs <- svs[which(svs > tol)]
-    
+    svs <- svs^2
     covas <- (svs/sum(svs))*100
     l.covas <- length(covas)
     svd.cova$d <- svd.cova$d[1:l.covas]
     svd.cova$u <- svd.cova$u[,1:l.covas]
     svd.cova$v <- svd.cova$v[,1:l.covas]
-    Xscores <- x%*%svd.cova$u#pls scores of x
+    Xscores <- x%*%svd.cova$u #pls scores of x
     Yscores <- y%*%svd.cova$v #pls scores of y
     
     
