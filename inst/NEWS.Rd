@@ -2,6 +2,13 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.4.1 (2016-09-12)}{
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item fixed amount of covariance estimation
+    }
+  }
+}
 
 \section{Changes in Morpho version 2.4 (2016-07-29)}{
 
