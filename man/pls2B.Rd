@@ -35,7 +35,7 @@ Windows due to occasional errors.}
 \item{Xscores }{PLS-scores of x}
 \item{Yscores }{PLS-scores of y}
 \item{CoVar }{Dataframe containing singular values, explained
-covariation, correlation coeffictient between PLS-scores and p-values}
+covariation, correlation coeffictient between PLS-scores and p-values for singular values obtained from permutation testing}
 \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
 \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 }

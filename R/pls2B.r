@@ -31,7 +31,7 @@
 #' \item{Xscores }{PLS-scores of x}
 #' \item{Yscores }{PLS-scores of y}
 #' \item{CoVar }{Dataframe containing singular values, explained
-#' covariation, correlation coeffictient between PLS-scores and p-values}
+#' covariation, correlation coeffictient between PLS-scores and p-values for singular values obtained from permutation testing}
 #' \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
 #' \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 #' @author Stefan Schlager
@@ -163,7 +163,6 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
                 p.value <- p.value/rounds
             else
                 p.value <- 1/rounds
-            gc()
             return(p.value)
         }
         
