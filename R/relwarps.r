@@ -145,12 +145,14 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         rownames(uniscores) <- datanames
         uniPCs <- svdBend$v[,1:useBendv]
         Var <- createVarTable(eigCOVCOM$d[nonz],square = FALSE)
+        myattr <- list(BE2=BE2,eigCOVCOM=eigCOVCOM,scale=scale,nonz=nonz,orp=orp,alpha=alpha)
     } else {
         pca <- prcompfast(vecx(proc$rotated))
         bad <- which(pca$sdev^2 < tol)
         bePCs <- pca$rotation[,-bad]
         bescores <- pca$x[,-bad]
         Var <- createVarTable(pca$sdev)
+        myattr <- list(scale=scale,orp=orp,alpha=alpha)
     }
         
 ### create Variance table according to eigenvalues ###
@@ -158,16 +160,16 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
     
     
     out <- list(bescores=bescores,uniscores=uniscores,Var=Var,mshape=proc$mshape,rotated=proc$rotated,bePCs=bePCs,uniPCs=uniPCs)
-    myattr <- list(BE2=BE2,eigCOVCOM=eigCOVCOM,scale=scale,nonz=nonz,orp=orp,alpha=alpha)
+    
     class(out) <- "relwarps"
     attributes(out) <- append(attributes(out),myattr)
     return(out)
     
 }
 
-#' predict relative warps for data not included in the trainin set
+#' predict relative warps for data not included in the training data set
 #'
-#'  predict relative warps for data not included in the trainin set
+#' predict relative warps for data not included in the training data set
 #' @param x output from \code{relWarps}
 #' @param newdata k x m x n array holding new landmark data
 #' @return returns relative warp scores
@@ -180,14 +182,22 @@ predictRelWarps <- function(x,newdata)  {
     for (i in 1:dim(newdata)[3]) {
         newalign[,,i] <- rotonto(x$mshape,newdata[,,i],scale=myattr$scale)$yrot
     }
+    
     if (myattr$orp)
         newalign <- orp(newalign,mshape=x$mshape)
+    dimnames(newalign) <- dimnames(newdata)
     vecs <- vecx(newalign)
     vecs <- sweep(vecs,2,as.vector(x$mshape))
-    eigCOVCOM <- myattr$eigCOVCOM
-    BE2 <- myattr$BE2
-    nonz <- myattr$nonz
-    bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$u[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
+    
+    if (myattr$alpha != 0) {
+        eigCOVCOM <- myattr$eigCOVCOM
+        BE2 <- myattr$BE2
+        nonz <- myattr$nonz
+        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$u[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
+    } else {
+        bescores <- vecs%*%x$bePCs
+    }
+    rownames(bescores) <- rownames(vecs)
     return(bescores)
 }
 

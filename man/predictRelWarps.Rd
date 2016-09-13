@@ -2,7 +2,7 @@
 % Please edit documentation in R/relwarps.r
 \name{predictRelWarps}
 \alias{predictRelWarps}
-\title{predict relative warps for data not included in the trainin set}
+\title{predict relative warps for data not included in the training data set}
 \usage{
 predictRelWarps(x, newdata)
 }
@@ -15,6 +15,6 @@ predictRelWarps(x, newdata)
 returns relative warp scores
 }
 \description{
-predict relative warps for data not included in the trainin set
+predict relative warps for data not included in the training data set
 }
 
