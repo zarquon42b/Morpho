@@ -4,17 +4,22 @@
 \alias{predictRelWarps}
 \title{predict relative warps for data not included in the training data set}
 \usage{
-predictRelWarps(x, newdata)
+predictRelWarps(x, newdata, noalign = FALSE)
 }
 \arguments{
 \item{x}{output from \code{relWarps}}
 
 \item{newdata}{k x m x n array holding new landmark data}
+
+\item{noalign}{logical: if TRUE, data is assumed to be already aligned to training data and alignment is skipped.}
 }
 \value{
 returns relative warp scores
 }
 \description{
 predict relative warps for data not included in the training data set
+}
+\details{
+This function aligns the new data to the mean from \code{x} and transforms it into the relative warp space computed from the training data.
 }
 

@@ -19,6 +19,7 @@
 #' @param orp logical: request orthogonal projection into tangent space.
 #' @param pcAlign logical: if TRUE, the shapes are aligned by the principal axis of the first specimen
 #' @param computeBasis logical: whether to compute the basis of the resulting vector space (takes a lot of memory and time for configurations with > 1000 coordinates.
+#' @param noalign logical: if TRUE, data is assumed to be already aligned and alignment and orthogonal projection are skipped.
 #' @return
 #' \item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
 #' \item{uniscores }{uniform scores, NULL if  \code{alpha = 0}}
@@ -73,7 +74,7 @@
 #' }
 #' 
 #' @export
-relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE,computeBasis=TRUE)
+relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE,computeBasis=TRUE,noalign=FALSE)
 {
                                         #n <- dim(data)[3]
     uniscores <- uniPCs <- bePCs <- NULL
@@ -81,16 +82,22 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
     k <- dim(data)[1]
     datanames <- dimnames(data)[[3]]
 ### superimpose data ###
-    proc <- ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE,pcAlign=pcAlign)
-    if (orp) {
-        if (CSinit)
-            proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
-        else {
-            message("\n   NOTE: projection into tangent space has been skipped because CSinit == FALSE\n")
-            orp <- FALSE
+    if (!noalign) {
+        proc <- ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE,pcAlign=pcAlign)
+        if (orp) {
+            if (CSinit)
+                proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
+            else {
+                message("\n   NOTE: projection into tangent space has been skipped because CSinit == FALSE\n")
+                orp <- FALSE
+            }
         }
+    } else {
+        proc <- list(rotated=data)
+        proc$mshape <- arrMean3(data)
     }
-
+    if (noalign)
+        orp <- FALSE
     if (alpha !=0 ) {
 ### create bending energy matrix ###
         BE <- CreateL(proc$mshape,output="Lsubk")$Lsubk
@@ -172,17 +179,22 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
 #' predict relative warps for data not included in the training data set
 #' @param x output from \code{relWarps}
 #' @param newdata k x m x n array holding new landmark data
+#' @param noalign logical: if TRUE, data is assumed to be already aligned to training data and alignment is skipped.
+#' @details This function aligns the new data to the mean from \code{x} and transforms it into the relative warp space computed from the training data.
 #' @return returns relative warp scores
 #' @export
-predictRelWarps <- function(x,newdata)  {
+predictRelWarps <- function(x,newdata,noalign=FALSE)  {
     if (!inherits(x,"relwarps"))
         stop("x must be of class relwarps")
     myattr <- attributes(x)
-    newalign <- newdata
-    for (i in 1:dim(newdata)[3]) {
-        newalign[,,i] <- rotonto(x$mshape,newdata[,,i],scale=myattr$scale)$yrot
-    }
     
+    newalign <- newdata
+    if (!noalign) {
+        for (i in 1:dim(newdata)[3]) {
+            newalign[,,i] <- rotonto(x$mshape,newdata[,,i],scale=myattr$scale)$yrot
+        }
+    }
+        
     if (myattr$orp)
         newalign <- orp(newalign,mshape=x$mshape)
     dimnames(newalign) <- dimnames(newdata)
