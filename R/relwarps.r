@@ -19,6 +19,7 @@
 #' @param orp logical: request orthogonal projection into tangent space.
 #' @param pcAlign logical: if TRUE, the shapes are aligned by the principal axis of the first specimen
 #' @param computeBasis logical: whether to compute the basis of the resulting vector space (takes a lot of memory and time for configurations with > 1000 coordinates.
+#' @param noalign logical: if TRUE, data is assumed to be already aligned and alignment and orthogonal projection are skipped.
 #' @return
 #' \item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
 #' \item{uniscores }{uniform scores, NULL if  \code{alpha = 0}}
@@ -73,7 +74,7 @@
 #' }
 #' 
 #' @export
-relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE,computeBasis=TRUE)
+relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcAlign=TRUE,computeBasis=TRUE,noalign=FALSE)
 {
                                         #n <- dim(data)[3]
     uniscores <- uniPCs <- bePCs <- NULL
@@ -81,14 +82,22 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
     k <- dim(data)[1]
     datanames <- dimnames(data)[[3]]
 ### superimpose data ###
-    proc <- ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE,pcAlign=pcAlign)
-    if (orp) {
-        if (CSinit)
-            proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
-        else
-            message("\n   NOTE: projection into tangent space has been skipped because CSinit == FALSE\n")
+    if (!noalign) {
+        proc <- ProcGPA(data,scale=scale,CSinit=CSinit,silent=TRUE,pcAlign=pcAlign)
+        if (orp) {
+            if (CSinit)
+                proc$rotated <- orp(proc$rotated, mshape=proc$mshape)
+            else {
+                message("\n   NOTE: projection into tangent space has been skipped because CSinit == FALSE\n")
+                orp <- FALSE
+            }
+        }
+    } else {
+        proc <- list(rotated=data)
+        proc$mshape <- arrMean3(data)
     }
-
+    if (noalign)
+        orp <- FALSE
     if (alpha !=0 ) {
 ### create bending energy matrix ###
         BE <- CreateL(proc$mshape,output="Lsubk")$Lsubk
@@ -143,20 +152,64 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         rownames(uniscores) <- datanames
         uniPCs <- svdBend$v[,1:useBendv]
         Var <- createVarTable(eigCOVCOM$d[nonz],square = FALSE)
+        myattr <- list(BE2=BE2,eigCOVCOM=eigCOVCOM,scale=scale,nonz=nonz,orp=orp,alpha=alpha)
     } else {
         pca <- prcompfast(vecx(proc$rotated))
         bad <- which(pca$sdev^2 < tol)
         bePCs <- pca$rotation[,-bad]
         bescores <- pca$x[,-bad]
         Var <- createVarTable(pca$sdev)
+        myattr <- list(scale=scale,orp=orp,alpha=alpha)
     }
         
 ### create Variance table according to eigenvalues ###
     
     
     
+    out <- list(bescores=bescores,uniscores=uniscores,Var=Var,mshape=proc$mshape,rotated=proc$rotated,bePCs=bePCs,uniPCs=uniPCs)
     
-    return(list(bescores=bescores,uniscores=uniscores,Var=Var,mshape=proc$mshape,rotated=proc$rotated,bePCs=bePCs,uniPCs=uniPCs))
+    class(out) <- "relwarps"
+    attributes(out) <- append(attributes(out),myattr)
+    return(out)
     
+}
+
+#' predict relative warps for data not included in the training data set
+#'
+#' predict relative warps for data not included in the training data set
+#' @param x output from \code{relWarps}
+#' @param newdata k x m x n array holding new landmark data
+#' @param noalign logical: if TRUE, data is assumed to be already aligned to training data and alignment is skipped.
+#' @details This function aligns the new data to the mean from \code{x} and transforms it into the relative warp space computed from the training data.
+#' @return returns relative warp scores
+#' @export
+predictRelWarps <- function(x,newdata,noalign=FALSE)  {
+    if (!inherits(x,"relwarps"))
+        stop("x must be of class relwarps")
+    myattr <- attributes(x)
+    
+    newalign <- newdata
+    if (!noalign) {
+        for (i in 1:dim(newdata)[3]) {
+            newalign[,,i] <- rotonto(x$mshape,newdata[,,i],scale=myattr$scale)$yrot
+        }
+    }
+        
+    if (myattr$orp)
+        newalign <- orp(newalign,mshape=x$mshape)
+    dimnames(newalign) <- dimnames(newdata)
+    vecs <- vecx(newalign)
+    vecs <- sweep(vecs,2,as.vector(x$mshape))
+    
+    if (myattr$alpha != 0) {
+        eigCOVCOM <- myattr$eigCOVCOM
+        BE2 <- myattr$BE2
+        nonz <- myattr$nonz
+        bescores <- as.matrix(t(suppressMessages(t(eigCOVCOM$u[,nonz])%*%BE2)%*%t(vecs)))[,nonz]
+    } else {
+        bescores <- vecs%*%x$bePCs
+    }
+    rownames(bescores) <- rownames(vecs)
+    return(bescores)
 }
 
