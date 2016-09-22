@@ -6,12 +6,15 @@
 \alias{mirror.mesh3d}
 \title{mirror landmarks or triangular mesh in place}
 \usage{
-mirror(x, icpiter = 50, subsample = NULL, pcAlign = TRUE, mc.cores = 2)
+mirror(x, icpiter = 50, subsample = NULL, pcAlign = FALSE,
+  mirroraxis = 1, initPC = TRUE, initCenter = TRUE, mc.cores = 2)
 
-\method{mirror}{matrix}(x, icpiter = 50, subsample = NULL, pcAlign = TRUE,
+\method{mirror}{matrix}(x, icpiter = 50, subsample = NULL,
+  pcAlign = FALSE, mirroraxis = 1, initPC = TRUE, initCenter = TRUE,
   mc.cores = 2)
 
-\method{mirror}{mesh3d}(x, icpiter = 50, subsample = NULL, pcAlign = TRUE,
+\method{mirror}{mesh3d}(x, icpiter = 50, subsample = NULL,
+  pcAlign = FALSE, mirroraxis = 1, initPC = TRUE, initCenter = TRUE,
   mc.cores = 2)
 }
 \arguments{
@@ -21,7 +24,13 @@ mirror(x, icpiter = 50, subsample = NULL, pcAlign = TRUE, mc.cores = 2)
 
 \item{subsample}{integer: use only a subset for icp matching}
 
-\item{pcAlign}{if TRUE, the icp will be preceeded by an alignment of the principal axis (only used if icpiter > 0).}
+\item{pcAlign}{if TRUE, the icp will be preceeded by an alignment of the principal axis (only used if icpiter > 0), currently only works for 3D data.}
+
+\item{mirroraxis}{integer: which axis to mirror at}
+
+\item{initPC}{logical: if TRUE the data will be prealigned by its principal axes.}
+
+\item{initCenter}{logical: if TRUE and \code{initPC=FALSE}, \code{x} will be translated to its centroid before mirroring.}
 
 \item{mc.cores}{use parallel processing to find best alignment to original shape.}
 }
@@ -36,16 +45,16 @@ reflect a mesh configuration at the plane spanned by its first 2 principal axis,
 }
 \examples{
 data(boneData)
-boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2)
+boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2,mirroraxis=3)
 ## 2D Example:
 require(shapes)
-gorfMir <- mirror(gorf.dat[,,1])
+gorfMir <- mirror(gorf.dat[,,1],mirroraxis=2,pcAlign=T,icpiter = 0)
 plot(gorfMir,asp = 1)
 points(gorf.dat[,,1],col=3)
 \dontrun{
 ## now mirror a complete mesh
 require(rgl)
-skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30,mc.cores=2)
+skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30,mc.cores=2,mirroraxis=3,pcAlign=T)
 ###compare result to original
 wire3d(skull_0144_ch_fe.mesh,col=3)
 wire3d(skullMir,col=2)
