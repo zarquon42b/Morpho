@@ -267,7 +267,6 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
             tmpdata <- data[,,i]
         else
             tmpdata <- data[[i]]
-        print(1)
         out <- projRead(tmpdata,meshlist[[i]])
         if (!is.null(missingList))
             if(length(missingList[[i]]))
