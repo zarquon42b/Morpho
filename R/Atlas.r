@@ -110,14 +110,15 @@ plotAtlas <- function(atlas, pt.size=NULL, alpha=1, render=c("w","s"), point=c("
             stop("argument \"point\" must be \"s\" for spheres or \"p\" for points")
         }
         if (render=="w") {
+            back <- front <- "lines"
             rend <- wire3d
         } else {
-            rend <- shade3d
+            back <- front <- "filled"
         }
         if (!add)
             open3d()
         if (!is.null(atlas$mesh))
-            outid <- rend(atlas$mesh, col=meshcol, alpha=alpha)
+            outid <- shade3d(atlas$mesh, col=meshcol, alpha=alpha,back=back,front=front)
         ## plot reference landmarks and patch
         landm <- atlas$landmarks
         if (!is.null(atlas$corrCurves)) {
