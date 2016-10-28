@@ -44,7 +44,7 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE,threads=1) {
     if (is.matrix(trafo)) {
         if (det(trafo) < 0) 
             reflect <- TRUE
-    } else {
+    } else { ##case transform is tps
         if (det(computeTransform(trafo$refmat,trafo$tarmat,reflection = T)) < 0)
             reflect <- TRUE
     }
@@ -52,9 +52,17 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE,threads=1) {
             x <- invertFaces(x)
             message("faces' orientation has been inverted")
         }
-    ##case transform is tps
-    if (!is.null(x$normals))
-        x <- vcgUpdateNormals(x,silent=TRUE)
+    
+    ## update normals
+    if (!is.null(x$normals)) {
+        if (!is.null(x$it) || !is.matrix(trafo)) {
+            x <- vcgUpdateNormals(x,silent=TRUE)
+        } else {
+            ntrafo <- trafo
+            ntrafo[1:3,4] <- 0
+            x$normals[1:3,] <- t(applyTransform(t(x$normals[1:3,]),ntrafo))
+        }
+    }
     return(x)
  }
 
