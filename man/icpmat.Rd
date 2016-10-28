@@ -5,7 +5,7 @@
 \title{match two landmark configurations using iteratively closest point search}
 \usage{
 icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL,
-  type = c("rigid", "similarity", "affine"))
+  type = c("rigid", "similarity", "affine"), threads = 1)
 }
 \arguments{
 \item{x}{moving landmarks}
@@ -19,6 +19,8 @@ icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL,
 \item{subsample}{use a subsample determined by kmean clusters to speed up computation}
 
 \item{type}{character: select the transform to be applied, can be "rigid","similarity" or "affine"}
+
+\item{threads}{integer: number of threads to use.}
 }
 \value{
 returns the rotated landmarks

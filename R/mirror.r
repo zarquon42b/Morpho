@@ -94,6 +94,7 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL,pcAlign=FALSE,mirroraxis=1
 #' @param mindist restrict valid points to be within this distance
 #' @param subsample use a subsample determined by kmean clusters to speed up computation
 #' @param type character: select the transform to be applied, can be "rigid","similarity" or "affine"
+#' @param threads integer: number of threads to use.
 #' @return returns the rotated landmarks
 #' @examples
 #' data(nose)
@@ -113,9 +114,9 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL,pcAlign=FALSE,mirroraxis=1
 #' icpsort <- icpgorf[index,]
 #' for (i in 1:8)
 #' lines(rbind(icpsort[i,],gorf.dat[i,,2]))
-#' @importFrom Rvcg vcgKDtree
+#' @importFrom Rvcg vcgKDtree vcgSearchKDtree vcgCreateKDtree
 #' @export
-icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","similarity","affine")) {
+icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","similarity","affine"),threads=1) {
     m <- ncol(x)
     if (m == 2) {
         x <- cbind(x,0)
@@ -124,13 +125,14 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
     type <- match.arg(type,c("rigid","similarity","affine"))
     if (!is.null(subsample)) {
         subsample <- min(nrow(x)-1,subsample)
-        subs <- fastKmeans(x,k=subsample,iter.max = 100,threads=1)$selected
+        subs <- fastKmeans(x,k=subsample,iter.max = 100,threads=threads)$selected
         xtmp <- x[subs,]
     } else {
         xtmp <- x
     }
+    yKD <- vcgCreateKDtree(y)
     for (i in 1:iterations) {
-        clost <- vcgKDtree(y,xtmp,1)
+        clost <- vcgSearchKDtree(yKD,xtmp,1,threads=threads)
         good <- which(clost$distance < mindist)
         trafo <- computeTransform(y[clost$index[good],],xtmp[good,],type=type)
         xtmp <- applyTransform(xtmp[,],trafo)
