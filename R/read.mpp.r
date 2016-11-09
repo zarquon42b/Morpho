@@ -55,4 +55,3 @@ read.mpp <- function(file, info=FALSE) {
   }
 
 
-read_xml(file)
