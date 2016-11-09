@@ -16,38 +16,43 @@
 #' @seealso \code{\link{read.pts}}
 #' 
 #' @export
-read.mpp <- function(file, info=FALSE)
-  {
+read.mpp <- function(file, info=FALSE) {
     raw <- readLines(file)
-    points <- grep("point x",raw)
+    points <- grep("<point ",raw)
     data <- strsplit(raw[points],split="\ ")
 
-    subfun <- function(x)
-      {
-        tmp <- strsplit(x[3:5],split="=")
-        tmp <- unlist(tmp,recursive=F)
-        
-        return(tmp)
-      }
-    subfuninfo <- function(x)
-      {
-        tmp <- strsplit(x[6:7],split="=")
-        tmp <- unlist(tmp,recursive=F)
-        
-        return(tmp)
-      }
-    infoin <- lapply(data,subfuninfo)
-    infoin <- gsub("\"","",unlist(lapply(infoin,function(x){x <- x[c(2,4)]})))
-    infoin <- gsub("/>","",infoin)
-    infoin <- matrix(infoin,length(points),2,byrow=T)
-    infout <- data.frame(active=as.integer(infoin[,1]),name=infoin[,2])
-    data <- lapply(data,subfun)
-    tmp <- as.numeric(gsub("\"","",unlist(lapply(data,function(x){x <- x[c(2,4,6)]}))))
-    tmp <- matrix(tmp,length(points),3,byrow=T)
-    rownames(tmp) <- infout$name
-    tmp <- tmp[which(infout$active == 1),]
+    getcoord <- function(x) {
+        xc <- grep("x=",x)
+        yc <- grep("y=",x)
+        zc <- grep("z=",x)
+        namec <- grep("name=",x)
+        activec <- grep("active=",x)
+        dataind <- c(xc,yc,zc)
+        infoind <- c(namec,activec)
+        return(list(dataind=dataind,infoind=infoind))
+    }
+    
+    getinds <- lapply(data,getcoord)
+    datamat <- infomat <- NULL
+    for (i in 1:length(getinds)) {
+        tmppoints <- data[[i]][getinds[[i]]$dataind]
+        tmppoints <- as.numeric(gsub("[a-z,\\,\",\\=,\\/,\\>]","",tmppoints))
+        datamat <- rbind(datamat,tmppoints)
+        tmpinfo <- data[[i]][getinds[[i]]$infoind]
+        tmpinfo <- gsub("[a-z,\\,\",\\=,\\/,\\>]","",tmpinfo)
+        infomat <- rbind(infomat,tmpinfo)
+    }
+    rownames(infomat) <- NULL
+    colnames(infomat) <- c("name","active")
+    infomat <- as.data.frame(infomat)
+   
+    rownames(datamat) <- infomat$name
+    datamat <- datamat[which(infomat$active == 1),]
     if (info)
-        return(list(data=tmp,info=infout))
+        return(list(data=datamat,info=infomat))
     else
-        return(tmp)
+        return(datamat)
   }
+
+
+read_xml(file)
