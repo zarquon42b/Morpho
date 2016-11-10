@@ -7,11 +7,11 @@
 #' @param info logical: if TRUE, addtional infos are returned
 #' @return if \code{info=FALSE}:
 #' 
-#' a matrix containing picked-points coordinates
+#' a matrix containing picked-points coordinates (only those tagged as active).
 #' 
 #' if \code{info=TRUE}: a list containing
-#' \item{data }{matrix containing coordinates}
-#' \item{info }{additional info contained in file}
+#' \item{data }{matrix containing coordinates - including points tagged as inactive}
+#' \item{info }{additional info contained in file.}
 #' @author Stefan Schlager
 #' @seealso \code{\link{read.pts}}
 #' 
@@ -45,13 +45,14 @@ read.mpp <- function(file, info=FALSE) {
     rownames(infomat) <- NULL
     colnames(infomat) <- c("name","active")
     infomat <- as.data.frame(infomat)
-   
     rownames(datamat) <- infomat$name
-    datamat <- datamat[which(infomat$active == 1),]
-    if (info)
+    
+    if (info) 
         return(list(data=datamat,info=infomat))
-    else
+    else {
+        datamat <- datamat[which(infomat$active == 1),]
         return(datamat)
-  }
+    }
+}
 
 

@@ -14,11 +14,11 @@ read.mpp(file, info = FALSE)
 \value{
 if \code{info=FALSE}:
 
-a matrix containing picked-points coordinates
+a matrix containing picked-points coordinates (only those tagged as active).
 
 if \code{info=TRUE}: a list containing
-\item{data }{matrix containing coordinates}
-\item{info }{additional info contained in file}
+\item{data }{matrix containing coordinates - including points tagged as inactive}
+\item{info }{additional info contained in file.}
 }
 \description{
 imports pick points selected with meshlab

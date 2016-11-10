@@ -24,6 +24,8 @@
 #' @param pcaxis logical: align grid by shape's principal axes.
 #' @param ask logical: if TRUE for > 1000 coordinates the user will be asked to prefer points over spheres.
 #' @param margin margin around the bounding box to draw the grid
+#' @param createMesh logical: if TRUE, a triangular mesh of spheres and displacement vectors (can take some time depending on number of reference points and grid density).
+#' @return if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
 #' 
@@ -32,8 +34,10 @@
 #' data(nose)
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #' }
+#' @importFrom Rvcg vcgSphere
+#' @importFrom rgl translate3d
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
@@ -96,7 +100,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             space <- eigen(crossprod(cent.mat))$vectors
         else
             space <- diag(3)
-        x0 <- t(t(x0%*%space)+mean.mat)
+        x0orig <- t(t(x0%*%space)+mean.mat)
         x0 <- tps3d(x0,matrix,tarmatrix,lambda = 1e-8,threads=1)
         
         ## create deformation cube
@@ -145,6 +149,104 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
         outmesh$ib <- cbind(xinit,yinit,zinit)
         wire3d(outmesh,lit=F)
     }
+    ## create a mesh displaying the stuff
+    if (createMesh) {
+        mysphere <- vcgSphere(subdivision=1)
+        mysphere <- scalemesh(mysphere,sz,"none")
+        col1mesh <- rgb(t(col2rgb(col1)), maxColorValue = 255)
+        matmesh <- lapply(1:nrow(matrix),function(x) x <- mysphere)
+        matmesh <- lapply(1:nrow(matrix),function(x) x <- translate3d(matmesh[[x]],x=matrix[x,1],y=matrix[x,2],z=matrix[x,3]))
+        matmesh <- mergeMeshes(matmesh)
+        matmesh$material$color <- matrix(col1mesh,3,ncol(matmesh$it))
+
+        col2mesh <- rgb(t(col2rgb(col2)), maxColorValue = 255)
+        tarmatmesh <- lapply(1:nrow(tarmatrix),function(x) x <- mysphere)
+        tarmatmesh <- lapply(1:nrow(tarmatrix),function(x) x <- translate3d(tarmatmesh[[x]],x=tarmatrix[x,1],y=tarmatrix[x,2],z=tarmatrix[x,3]))
+        tarmatmesh <- mergeMeshes(tarmatmesh)
+        tarmatmesh$material$color <- matrix(col2mesh,3,ncol(tarmatmesh$it))
+
+        allMerge <- mergeMeshes(matmesh,tarmatmesh)
+        if (lines) {
+            lcolmesh <- rgb(t(col2rgb(lcol)), maxColorValue = 255)
+            diffs <- tarmatrix-matrix
+            dists <- sqrt(rowSums(diffs^2))
+            mylinemesh <- mergeMeshes(lapply(1:nrow(matrix),function(x) cylinder(matrix[x,],diffs[x,],dists[x],fine=20,radius=lwd*(sz/10))))
+            mylinemesh$material$color <- matrix(lcolmesh,3,ncol(mylinemesh$it))
+            allMerge <- mergeMeshes(allMerge,mylinemesh)
+        }
+        if (ngrid > 0) {
+            cageverts <- vert2points(outmesh)
+            refinds <- as.vector(t(outmesh$ib))
+            tarinds <- as.vector(t(outmesh$ib[c(2:4,1),]))
+            cagetarmatrix <- cageverts[tarinds,]
+            cagematrix <- cageverts[refinds,]
+            cagediffs <- cageverts[tarinds,]-cageverts[refinds,]
+            cagedists <- sqrt(rowSums(cagediffs^2))
+            mycagemesh <- mergeMeshes(lapply(1:nrow(cagematrix),function(x) cylinder(cagematrix[x,],cagediffs[x,],cagedists[x],fine=20,radius=lwd*(sz/10))))
+            mycagemesh$material$color <- matrix("#000000",3,ncol(mycagemesh$it))
+            #mycagemesh <- tps3d(mycagemesh,matrix,tarmatrix,lambda = 1e-8,threads=1)
+            allMerge <- mergeMeshes(allMerge,mycagemesh)
+        }
+        invisible(allMerge)
+    }
+    
 }
 
 
+cylinder <- function(x,dirs,length,radius=1,fine=20,adNormals=FALSE)
+    {
+### create a 3D mesh representing a cylinder and place it in a requested positon
+### create initial circle ###
+        seqby <- 2/fine
+        circ <- seq(from=0,to=(2-seqby), by=seqby)*pi
+        data <- matrix(0,fine,3)
+        data[,1] <- sin(circ)
+        data[,2] <- cos(circ)
+        data <- data*radius
+        lc <- dim(data)[1]
+        
+###  begin create faces of a cylinder ###
+        it <-NULL
+        for (i in 1:(lc-1)) {
+            face0 <- c(i,i+1,i+lc)
+            face1 <- c(i+1,i+lc+1,i+lc)
+            it <- rbind(it,face0,face1)
+        }
+        it <- rbind(it,c(lc,1,lc+1))
+        it <- rbind(it,c(2*lc,lc,lc+1))
+### close lids ###
+        for (i in 1:(lc-1))
+            it <- rbind(it,c(lc*2+1,i+1,i))
+        it <- rbind(it,c(1,lc,lc*2+1))
+        
+        for (i in (lc+1):(2*lc-1))
+            it <- rbind(it,c(lc*2+2,i,i+1))
+        it <- rbind(it,c(lc*2+2,lc*2,lc+1))
+### end faces creation ###
+        
+### rotate initial circle and create opposing circle ###    
+        dirs <- dirs/sqrt(sum(dirs^2))
+        yz <- tangentPlane(dirs)
+        rmat <- cbind(yz$z,yz$y,dirs)
+        data <- t(rmat%*%t(data))
+        data2 <- t(apply(data,1,function(x){x <- x+length*dirs;return(x)}))
+
+### create cylinder mesh ###
+        datavb <- rbind(data,data2)
+        x0 <- c(0,0,0)
+        x1 <- x0+length*dirs
+        datavb <- rbind(datavb,x0,x1)
+        cylvb <-  t(cbind(datavb,1))
+        colnames(cylvb) <- NULL
+        cyl <- list()
+        class(cyl) <- "mesh3d"
+        cyl$vb <- cylvb
+        cyl$it <- t(it)
+        cyl <- invertFaces(cyl)
+        cyl$normals <- NULL
+        cyl <- translate3d(cyl,x[1],x[2],x[3])
+        if (adNormals)
+            cyl <- vcgUpdateNormals(cyl)
+            
+        return(cyl)
+    }
