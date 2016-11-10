@@ -170,7 +170,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             lcolmesh <- rgb(t(col2rgb(lcol)), maxColorValue = 255)
             diffs <- tarmatrix-matrix
             dists <- sqrt(rowSums(diffs^2))
-            mylinemesh <- mergeMeshes(lapply(1:nrow(matrix),function(x) cylinder(matrix[x,],diffs[x,],dists[x],fine=20,radius=lwd*(sz/10))))
+            mylinemesh <- mergeMeshes(lapply(1:nrow(matrix),function(x) cylinder(matrix[x,],diffs[x,],dists[x],fine=10,radius=lwd*(sz/10))))
             mylinemesh$material$color <- matrix(lcolmesh,3,ncol(mylinemesh$it))
             allMerge <- mergeMeshes(allMerge,mylinemesh)
         }
@@ -182,7 +182,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             cagematrix <- cageverts[refinds,]
             cagediffs <- cageverts[tarinds,]-cageverts[refinds,]
             cagedists <- sqrt(rowSums(cagediffs^2))
-            mycagemesh <- mergeMeshes(lapply(1:nrow(cagematrix),function(x) cylinder(cagematrix[x,],cagediffs[x,],cagedists[x],fine=20,radius=lwd*(sz/10))))
+            mycagemesh <- mergeMeshes(lapply(1:nrow(cagematrix),function(x) cylinder(cagematrix[x,],cagediffs[x,],cagedists[x],fine=4,radius=lwd*(sz/10))))
             mycagemesh$material$color <- matrix("#000000",3,ncol(mycagemesh$it))
             #mycagemesh <- tps3d(mycagemesh,matrix,tarmatrix,lambda = 1e-8,threads=1)
             allMerge <- mergeMeshes(allMerge,mycagemesh)
