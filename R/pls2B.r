@@ -116,9 +116,9 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
     svs <- svs^2
     covas <- (svs/sum(svs))*100
     l.covas <- length(covas)
-    svd.cova$d <- svd.cova$d[1:l.covas]
-    svd.cova$u <- svd.cova$u[,1:l.covas]
-    svd.cova$v <- svd.cova$v[,1:l.covas]
+    svd.cova$d <- svd.cova$d[1:l.covas,drop=FALSE]
+    svd.cova$u <- svd.cova$u[,1:l.covas,drop=FALSE]
+    svd.cova$v <- svd.cova$v[,1:l.covas,drop=FALSE]
     Xscores <- x%*%svd.cova$u #pls scores of x
     Yscores <- y%*%svd.cova$v #pls scores of y
     
@@ -218,7 +218,7 @@ getPLSfromScores <- function(pls,x,y) {
         else if (is.matrix(x))
             xl <- ncol(x)
 
-        out <- t(svdpls$u[,1:xl]%*%t(x))
+        out <- t(svdpls$u[,1:xl,drop=FALSE]%*%t(x))
         out <- sweep(out,2,-pls$xcenter)
         if (length(dim(pls$x)) == 3) {
             if (is.matrix(x) && nrow(x) > 1) {
@@ -452,11 +452,11 @@ svd2B <- function(x,y,scale=F,u=T,v=T) {
     svdutu <- svd(utu)
     svdutu$d <- svdutu$d/(nrow(x) -1 )
     if (u)
-        svdutu$u <- (svdx$v)%*%svdutu$u
+        svdutu$u <- as.matrix((svdx$v)%*%svdutu$u)
     else
         svdutu$u <- NULL
     if (v)
-        svdutu$v <- (svdy$v)%*%svdutu$v
+        svdutu$v <- as.matrix((svdy$v)%*%svdutu$v)
     else
         svdutu$v <- NULL
     return(svdutu)
