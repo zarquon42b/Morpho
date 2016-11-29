@@ -13,15 +13,16 @@ meshDist(x, ...)
   rampcolors = colorRamps::blue2green2red(steps - 1), NAcol = "white",
   file = "default", imagedim = "100x800", uprange = 1, ray = FALSE,
   raytol = 50, raystrict = FALSE, save = FALSE, plot = TRUE,
-  sign = TRUE, tol = NULL, displace = FALSE, shade = TRUE,
-  method = c("vcglib", "morpho"), add = FALSE, scaleramp = TRUE, ...)
+  sign = TRUE, tol = NULL, tolcol = "green", displace = FALSE,
+  shade = TRUE, method = c("vcglib", "morpho"), add = FALSE,
+  scaleramp = TRUE, ...)
 
 \method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL, from = NULL,
   to = NULL, steps = 20, ceiling = FALSE,
   rampcolors = colorRamps::blue2green2red(steps - 1), NAcol = "white",
-  uprange = 1, plot = TRUE, sign = TRUE, tol = NULL, type = c("s",
-  "p"), radius = NULL, displace = FALSE, add = FALSE, scaleramp = FALSE,
-  ...)
+  uprange = 1, plot = TRUE, sign = TRUE, tol = NULL, tolcol = "green",
+  type = c("s", "p"), radius = NULL, displace = FALSE, add = FALSE,
+  scaleramp = FALSE, ...)
 }
 \arguments{
 \item{x}{reference mesh; object of class "mesh3d" or a n x 3 matrix
@@ -72,6 +73,8 @@ specified or distvec contains signed distances.}
 
 \item{tol}{numeric: threshold to color distances within this threshold
 green.}
+
+\item{tolcol}{a custom color to color vertices below a threshold defined by \code{tol}. Default is green.}
 
 \item{displace}{logical: if TRUE, displacement vectors between original and
 closest points are drawn colored according to the distance.}

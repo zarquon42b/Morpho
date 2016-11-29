@@ -1,11 +1,11 @@
 #' @rdname meshDist
 #' @method meshDist matrix
 #' @export
-meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,scaleramp=FALSE,...)
+meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,tolcol="green",type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,scaleramp=FALSE,...)
     {
         x <- list(vb=t(x),it=matrix(1:dim(x)[1]),1,dim(x)[1])
         class(x) <- "mesh3d"
-        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,scaleramp=scaleramp,...)
+        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,scaleramp=scaleramp,tolcol=tolcol,...)
         class(out) <- "matrixDist"
         render(out,radius=radius,type=type,displace=displace,add=add)
         invisible(out)
@@ -13,7 +13,7 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
 #' @rdname render
 #' @method render matrixDist
 #' @export
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,...) {
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol="green",type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,...) {
     if (!add) {
         if (rgl.cur() !=0)
             rgl.clear()
@@ -27,7 +27,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
     params <- x$params
     distqual <- x$distqual    
     
-    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol) || !is.null(sign) || !is.null(rampcolors) || !is.null(NAcol) || !is.null(scaleramp)) {
+    if (!is.null(from) || !is.null(to) || !is.null(to) || !is.null(uprange) ||  !is.null(tol) || !is.null(sign) || !is.null(rampcolors) || !is.null(NAcol)|| !is.null(tolcol) || !is.null(scaleramp)) {
         neg=FALSE
         dists <- x$dists
         distsOrig <- dists
@@ -40,6 +40,10 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
             rampcolors <- x$params$rampcolors
         if (is.null(NAcol))
             NAcol <- x$params$NAcol
+        if (is.null(tol))
+            tol <- x$params$tol
+        if (is.null(tolcol))
+            tolcol <- x$params$tolcol
         if (!sign) {
             distsOrig <- dists
             dists <- abs(dists)
@@ -89,13 +93,16 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
             }
         distqual[which(distqual < 1)] <- steps+10
         colorall <- ramp[distqual]
-        if (!is.null(tol)) {
-            if (sign)
-                tol <- c(-tol,tol)
-            else
-                tol <- c(0,tol)
+         if (!is.null(tol)) {
+            if ( length(tol) < 2 ) {
+                if (sign) {
+                    tol <- c(-tol,tol)
+                } else {
+                    tol <- c(0,tol)
+                }
+            }
             good <- which(abs(dists) < tol[2])
-            colorall[good] <- "#00FF00"
+            colorall[good] <- tolcol
         }
         colfun <- function(x){x <- colorall[x];return(x)}
         colMesh$material$color <- colfun(colMesh$it)

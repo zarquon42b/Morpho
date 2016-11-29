@@ -11,14 +11,14 @@
 render(x, ...)
 
 \method{render}{meshDist}(x, from = NULL, to = NULL, steps = NULL,
-  ceiling = NULL, uprange = NULL, tol = NULL, rampcolors = NULL,
-  NAcol = NULL, displace = FALSE, shade = TRUE, sign = NULL,
-  add = FALSE, scaleramp = NULL, ...)
+  ceiling = NULL, uprange = NULL, tol = NULL, tolcol = NULL,
+  rampcolors = NULL, NAcol = NULL, displace = FALSE, shade = TRUE,
+  sign = NULL, add = FALSE, scaleramp = NULL, ...)
 
 \method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
-  ceiling = NULL, uprange = NULL, tol = NULL, type = c("s", "p"),
-  radius = NULL, rampcolors = NULL, NAcol = NULL, displace = FALSE,
-  sign = NULL, add = FALSE, scaleramp = FALSE, ...)
+  ceiling = NULL, uprange = NULL, tol = NULL, tolcol = "green",
+  type = c("s", "p"), radius = NULL, rampcolors = NULL, NAcol = NULL,
+  displace = FALSE, sign = NULL, add = FALSE, scaleramp = FALSE, ...)
 
 export(x, ...)
 
@@ -41,7 +41,9 @@ has.}
 "to", if to is NULL.}
 
 \item{tol}{numeric: threshold to color distances within this threshold
-green.}
+according to \code{tolcol}.}
+
+\item{tolcol}{a custom color to color vertices below a threshold defined by \code{tol}. Default is green.}
 
 \item{rampcolors}{character vector: specify the colors which are used to create a colorramp.}
 

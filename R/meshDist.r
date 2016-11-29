@@ -39,6 +39,7 @@
 #' specified or distvec contains signed distances.
 #' @param tol numeric: threshold to color distances within this threshold
 #' green.
+#' @param tolcol a custom color to color vertices below a threshold defined by \code{tol}. Default is green.
 #' @param displace logical: if TRUE, displacement vectors between original and
 #' closest points are drawn colored according to the distance.
 #' @param shade logical: if FALSE, the rendering of the colored surface will be
@@ -93,12 +94,13 @@ meshDist <- function(x,...) UseMethod("meshDist")
 #' @importFrom Rvcg vcgClostKD
 #' @importFrom colorRamps blue2green2red
 #' @export
-meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE,  rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, raystrict=FALSE, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL, displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE,scaleramp=TRUE,...)
-  {
+meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE,  rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, raystrict=FALSE, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL,tolcol="green", displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE,scaleramp=TRUE,...)
+{
     method=substring(method[1],1L,1L)
     neg=FALSE
     NAcol <- colorRampPalette(NAcol)(1)
-    #ramp <- blue2green2red(steps-1)
+                                        #ramp <- blue2green2red(steps-1)
+    tolcol <- colorRampPalette(tolcol)(1)
     ramp <- colorRampPalette(rampcolors)(steps-1)
     if (is.null(distvec)) {
         if(!ray) {
@@ -118,7 +120,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
             dists <- promesh$distance
             distsOrig <- dists
             if (!sign)
-              dists <- abs(dists)
+                dists <- abs(dists)
         }
     } else {
         clost <- NULL
@@ -153,18 +155,18 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
         maxseq <- max(c(negseq,poseq))
         ramp <- colorRampPalette(rampcolors)(maxseq*2)
         if (scaleramp) {
-                ramp <- colorRampPalette(rampcolors)(maxseq*2)
-                ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
-            }
-            else
-                ramp <- colorRampPalette(rampcolors)(steps-1)
+            ramp <- colorRampPalette(rampcolors)(maxseq*2)
+            ramp <- ramp[c(maxseq-negseq+1):(maxseq+poseq)]
+        }
+        else
+            ramp <- colorRampPalette(rampcolors)(steps-1)
         distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
                                         #distqual[which(distqual < 1)] <- steps+10
     } else if (from > 0) {
-          distqual <- ceiling(((dists-from)/coldif)+1e-14)
-      } else {
-            distqual <- ceiling((dists/coldif)+1e-14)
-        }
+        distqual <- ceiling(((dists-from)/coldif)+1e-14)
+    } else {
+        distqual <- ceiling((dists/coldif)+1e-14)
+    }
     distqual[which(distqual < 1)] <- steps+10
     colorall <- ramp[distqual]
     
@@ -175,14 +177,14 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
             tol <- c(0,tol)
         }
         good <- which(abs(dists) < tol[2])
-        colorall[good] <- "#00FF00"
+        colorall[good] <- tolcol
     }   
     
     colfun <- function(x){x <- colorall[x];return(x)}
     x$material$color <- matrix(colfun(x$it),dim(x$it))
     x$material$color[is.na(x$material$color)] <- NAcol
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
-    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors,NAcol=NAcol,scaleramp=scaleramp)
+    params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors,NAcol=NAcol,scaleramp=scaleramp,tolcol=tolcol)
     out <- list(colMesh=x,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     class(out) <- "meshDist"
 
@@ -214,7 +216,8 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' @param uprange numeric between 0 and 1: restricts "to" to a quantile of
 #' "to", if to is NULL.
 #' @param tol numeric: threshold to color distances within this threshold
-#' green.
+#' according to \code{tolcol}.
+#' @param tolcol a custom color to color vertices below a threshold defined by \code{tol}. Default is green.
 #' @param rampcolors character vector: specify the colors which are used to create a colorramp.
 #' @param NAcol character: specify color for values outside the range defined by \code{from} and \code{to}.
 #' @param displace logical: if TRUE, displacement vectors between original and
@@ -245,8 +248,7 @@ render <- function(x,...) UseMethod("render")
 #' @rdname render
 #' @method render meshDist
 #' @export
-render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,scaleramp=NULL,...)
-  {
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,scaleramp=NULL,...) {
     clost <- x$clost
     dists <- x$dists
     distsOrig <- dists
@@ -254,12 +256,13 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
     colramp <- x$colramp
     params <- x$params
     distqual <- x$distqual
-    
+    if (!is.null(tolcol))
+        tolcol <- colorRampPalette(tolcol)(1)
     if (!add) {
         if (rgl.cur() !=0)
             rgl.clear()
     }
-    if (!is.null(from) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign) || !is.null(steps) || !is.null(rampcolors) || !is.null(NAcol) || !is.null(scaleramp)) {
+    if (!is.null(from) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign) || !is.null(steps) || !is.null(rampcolors) || !is.null(NAcol) || !is.null(tolcol) || !is.null(scaleramp)) {
         neg=FALSE
         colMesh <- x$colMesh
         if(is.null(steps))
@@ -268,8 +271,12 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             rampcolors <- x$params$rampcolors
         if (is.null(NAcol))
             NAcol <- x$params$NAcol
+        if (is.null(tolcol))
+            tolcol <- x$params$tolcol
+        if (is.null(tol))
+            tol <- x$params$tol
         if(is.null(sign))
-          sign <- x$params$sign
+            sign <- x$params$sign
         if (!sign) {
             distsOrig <- dists
             dists <- abs(dists)
@@ -277,8 +284,8 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         if(is.null(ceiling))
             ceiling <- x$params$ceiling
         if(is.null(uprange))
-          uprange <- x$params$uprange
-                 
+            uprange <- x$params$uprange
+        
         if (is.null(from)) {
             mindist <- min(dists)
             if (sign && mindist < 0 ) {
@@ -290,7 +297,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         }
         if (is.null(scaleramp))
             scaleramp <- x$params$scaleramp
-       
+        
         if (from < 0)
             neg <- TRUE
         if (is.null(to))
@@ -299,7 +306,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             to <- ceiling(to)
         
         to <- to+1e-10
-        #ramp <- blue2green2red(maxseq*2)
+                                        #ramp <- blue2green2red(maxseq*2)
         ramp <- colorRampPalette(rampcolors)(steps-1)
         colseq <- seq(from=from,to=to,length.out=steps)
         coldif <- colseq[2]-colseq[1]
@@ -316,32 +323,33 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             else
                 ramp <- colorRampPalette(rampcolors)(steps-1)
             distqual <- ceiling(((dists+abs(from))/coldif)+1e-14)
-            #distqual[which(distqual < 1)] <- steps+10
+                                        #distqual[which(distqual < 1)] <- steps+10
         } else if (from > 0) {
-              distqual <- ceiling(((dists-from)/coldif)+1e-14)
-          } else {
-                distqual <- ceiling((dists/coldif)+1e-14)
-            }
+            distqual <- ceiling(((dists-from)/coldif)+1e-14)
+        } else {
+            distqual <- ceiling((dists/coldif)+1e-14)
+        }
         distqual[which(distqual < 1)] <- steps+10
         colorall <- ramp[distqual]
         if (!is.null(tol)) {
-            if (sign) {
-                tol <- c(-tol,tol)
-            } else {
-                tol <- c(0,tol)
+            if ( length(tol) < 2 ) {
+                if (sign) {
+                    tol <- c(-tol,tol)
+                } else {
+                    tol <- c(0,tol)
+                }
             }
             good <- which(abs(dists) < tol[2])
-            colorall[good] <- "#00FF00"
+            colorall[good] <- tolcol
         }
         colfun <- function(x){x <- colorall[x];return(x)}
         colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
         colMesh$material$color[is.na(colMesh$material$color)] <- NAcol
-        #colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
+                                        #colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
         colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     } else {
         if (is.null(tol))
             tol <- x$params$tol
-        
         colramp <- x$colramp
         colMesh <- x$colMesh
     }
@@ -363,7 +371,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
     }
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors,NAcol=NAcol)
     out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
-                                
+    
     class(out) <- "meshDist"
     invisible(out)
 }
