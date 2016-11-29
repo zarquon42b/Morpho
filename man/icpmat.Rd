@@ -5,7 +5,8 @@
 \title{match two landmark configurations using iteratively closest point search}
 \usage{
 icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL,
-  type = c("rigid", "similarity", "affine"), threads = 1)
+  type = c("rigid", "similarity", "affine"), weights = NULL, threads = 1,
+  centerweight = FALSE)
 }
 \arguments{
 \item{x}{moving landmarks}
@@ -20,7 +21,11 @@ icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL,
 
 \item{type}{character: select the transform to be applied, can be "rigid","similarity" or "affine"}
 
+\item{weights}{vector of length \code{nrow(x)} containing weights for each row in \code{x}}
+
 \item{threads}{integer: number of threads to use.}
+
+\item{centerweight}{logical: if weights are defined and centerweigths=TRUE, the matrix will be centered according to these weights instead of the barycenter.}
 }
 \value{
 returns the rotated landmarks

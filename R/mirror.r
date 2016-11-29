@@ -95,6 +95,8 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL,pcAlign=FALSE,mirroraxis=1
 #' @param mindist restrict valid points to be within this distance
 #' @param subsample use a subsample determined by kmean clusters to speed up computation
 #' @param type character: select the transform to be applied, can be "rigid","similarity" or "affine"
+#' @param weights vector of length \code{nrow(x)} containing weights for each row in \code{x}
+#' @param centerweight logical: if weights are defined and centerweigths=TRUE, the matrix will be centered according to these weights instead of the barycenter.
 #' @param threads integer: number of threads to use.
 #' @return returns the rotated landmarks
 #' @examples
@@ -117,17 +119,22 @@ mirror.mesh3d <- function(x,icpiter=50,subsample=NULL,pcAlign=FALSE,mirroraxis=1
 #' lines(rbind(icpsort[i,],gorf.dat[i,,2]))
 #' @importFrom Rvcg vcgKDtree vcgSearchKDtree vcgCreateKDtree
 #' @export
-icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","similarity","affine"),threads=1) {
+icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","similarity","affine"),weights=NULL,threads=1,centerweight=FALSE) {
     m <- ncol(x)
     if (m == 2) {
         x <- cbind(x,0)
         y <- cbind(y,0)
     }
+    if (!is.null(weights))
+        if (length(weights) != nrow(x))
+            stop("weights must be of same length as nrow(x)")
     type <- match.arg(type,c("rigid","similarity","affine"))
     if (!is.null(subsample)) {
         subsample <- min(nrow(x)-1,subsample)
         subs <- fastKmeans(x,k=subsample,iter.max = 100,threads=threads)$selected
         xtmp <- x[subs,]
+        if (!is.null(weights))
+            weights <- weights[subs]
     } else {
         xtmp <- x
     }
@@ -135,7 +142,10 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
     for (i in 1:iterations) {
         clost <- vcgSearchKDtree(yKD,xtmp,1,threads=threads)
         good <- which(clost$distance < mindist)
-        trafo <- computeTransform(y[clost$index[good],],xtmp[good,],type=type)
+        tmpweights <- weights
+        if (!is.null(weights))
+            tmpweights <- weights[good]
+        trafo <- computeTransform(y[clost$index[good],],xtmp[good,],type=type,weights = tmpweights,centerweight = centerweight)
         xtmp <- applyTransform(xtmp[,],trafo)
     }
     if (!is.null(subsample)) {
@@ -148,3 +158,10 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
         
 }
     
+
+
+
+
+
+
+
