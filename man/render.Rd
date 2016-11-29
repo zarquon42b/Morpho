@@ -16,7 +16,7 @@ render(x, ...)
   sign = NULL, add = FALSE, scaleramp = NULL, ...)
 
 \method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
-  ceiling = NULL, uprange = NULL, tol = NULL, tolcol = "green",
+  ceiling = NULL, uprange = NULL, tol = NULL, tolcol = NULL,
   type = c("s", "p"), radius = NULL, rampcolors = NULL, NAcol = NULL,
   displace = FALSE, sign = NULL, add = FALSE, scaleramp = FALSE, ...)
 
