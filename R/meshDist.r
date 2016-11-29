@@ -356,8 +356,6 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
     if (is.null(tolcol))
         tolcol <- x$params$tolcol
     
-    print(tolcol)
-
     if (shade)
         shade3d(vcgUpdateNormals(colMesh),specular="black",...)
     if (displace) {
