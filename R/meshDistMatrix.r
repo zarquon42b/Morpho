@@ -13,7 +13,7 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
 #' @rdname render
 #' @method render matrixDist
 #' @export
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol="green",type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,...) {
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,...) {
     if (!add) {
         if (rgl.cur() !=0)
             rgl.clear()
@@ -115,7 +115,8 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
         colramp <- x$colramp
         colMesh <- x$colMesh
     }
-    
+    if (is.null(tolcol))
+        tolcol <- x$params$tolcol
     if (type == "p") {
         points3d(t(colMesh$vb),col=colMesh$material$color,...)
     } else {
@@ -138,7 +139,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
     if (!is.null(tol)) {
         if (sum(abs(tol)) != 0)
-            image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col="green",useRaster=TRUE,add=TRUE)
+            image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col=tolcol,useRaster=TRUE,add=TRUE)
     }
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol)
     out <- list(colMesh=colMesh,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,NAcol=NAcol)
