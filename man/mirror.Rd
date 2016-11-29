@@ -54,7 +54,8 @@ points(gorf.dat[,,1],col=3)
 \dontrun{
 ## now mirror a complete mesh
 require(rgl)
-skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30,mc.cores=2,mirroraxis=3,pcAlign=T)
+skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30,
+                   mc.cores=2,mirroraxis=3,pcAlign=T)
 ###compare result to original
 wire3d(skull_0144_ch_fe.mesh,col=3)
 wire3d(skullMir,col=2)
