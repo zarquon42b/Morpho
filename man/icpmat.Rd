@@ -46,7 +46,7 @@ require(Rvcg)
 RMSE <- sqrt(sum(vcgKDtree(longnose.lm,icp[1:3,],k=1)$distance^2))
 RMSEW<- sqrt(sum(vcgKDtree(longnose.lm,icpw[1:3,],k=1)$distance^2))
 barplot(c(RMSE,RMSEW),names.arg=c("RMSE weighted","RMSE unweighted"))
-\dontrun {
+\dontrun{
 ## plot the differences between unweighted and weighted icp
 deformGrid3d(icp,icpw)
 ## plot the first four coordinates from the icps:
@@ -54,7 +54,6 @@ spheres3d(icp[1:3,],col="red",radius = 0.5)
 spheres3d(icpw[1:3,],col="green",radius = 0.5)
 ## plot the target
 spheres3d(longnose.lm,col="yellow",radius = 0.2)
-
 }
 ##2D example  using icpmat to determine point correspondences
 require(shapes)
