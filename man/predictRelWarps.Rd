@@ -24,4 +24,19 @@ predict relative warps for data not included in the training data set
 \details{
 This function aligns the new data to the mean from \code{x} and transforms it into the relative warp space computed from the training data.
 }
+\examples{
+data(boneData)
+set.seed(42)
+training <- sample(1:80,size=60)
+rW1 <- relWarps(boneLM[,,training], alpha = -1)
+## predict scores for the entire sample
+predAll <- predictRelWarps(rW1,boneLM)
+
+## now compare the scores predicted scores to the original ones
+layout(matrix(1:4,2,2))
+for (i in 1:2) {
+  plot(rW1$bescores[,i],predAll$bescores[training,i],main=paste("RW",i))
+  plot(rW1$uniscores[,i],predAll$uniscores[training,i],main=paste("UC",i))
+}
+}
 

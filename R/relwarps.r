@@ -184,6 +184,20 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
 #' @return returns a list containing
 #' \item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
 #' \item{uniscores }{uniform scores, NULL if  \code{alpha = 0}}
+#' @examples
+#' data(boneData)
+#' set.seed(42)
+#' training <- sample(1:80,size=60)
+#' rW1 <- relWarps(boneLM[,,training], alpha = -1)
+#' ## predict scores for the entire sample
+#' predAll <- predictRelWarps(rW1,boneLM)
+#'
+#' ## now compare the scores predicted scores to the original ones
+#' layout(matrix(1:4,2,2))
+#' for (i in 1:2) {
+#'   plot(rW1$bescores[,i],predAll$bescores[training,i],main=paste("RW",i))
+#'   plot(rW1$uniscores[,i],predAll$uniscores[training,i],main=paste("UC",i))
+#' }
 #' @export
 predictRelWarps <- function(x,newdata,noalign=FALSE)  {
     if (!inherits(x,"relwarps"))
@@ -228,6 +242,8 @@ predictRelWarps <- function(x,newdata,noalign=FALSE)  {
             if (atest > pi/2)
                 uniscores[,i] <- -uniscores[,i]
         }
+        rownames(uniscores) <- rownames(vecs)
+
     }
     return(list(bescores=bescores,uniscores=uniscores))
 }
