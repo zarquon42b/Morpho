@@ -84,7 +84,10 @@ CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3
                 out$Lsubk <- Lsubk
             
             if ("Lsubk3" %in% output) {
-                Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
+                if (m == 3)
+                    Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk,Lsubk))
+                else
+                    Lsubk3 <- forceSymmetric(bdiag(Lsubk,Lsubk))
                 out$Lsubk3 <- Lsubk3
             }
         }
