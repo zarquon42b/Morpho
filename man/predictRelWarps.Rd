@@ -14,7 +14,9 @@ predictRelWarps(x, newdata, noalign = FALSE)
 \item{noalign}{logical: if TRUE, data is assumed to be already aligned to training data and alignment is skipped.}
 }
 \value{
-returns relative warp scores
+returns a list containing
+\item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
+\item{uniscores }{uniform scores, NULL if  \code{alpha = 0}}
 }
 \description{
 predict relative warps for data not included in the training data set

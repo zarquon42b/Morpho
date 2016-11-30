@@ -152,7 +152,7 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
         rownames(uniscores) <- datanames
         uniPCs <- svdBend$v[,1:useBendv]
         Var <- createVarTable(eigCOVCOM$d[nonz],square = FALSE)
-        myattr <- list(BE2=BE2,eigCOVCOM=eigCOVCOM,scale=scale,nonz=nonz,orp=orp,alpha=alpha)
+        myattr <- list(BE2=BE2,eigCOVCOM=eigCOVCOM,scale=scale,nonz=nonz,orp=orp,alpha=alpha,NIk=NIk,m=m)
     } else {
         pca <- prcompfast(vecx(proc$rotated))
         bad <- which(pca$sdev^2 < tol)
@@ -181,7 +181,9 @@ relWarps <- function(data,scale=TRUE,CSinit=TRUE,alpha=1,tol=1e-10,orp=TRUE, pcA
 #' @param newdata k x m x n array holding new landmark data
 #' @param noalign logical: if TRUE, data is assumed to be already aligned to training data and alignment is skipped.
 #' @details This function aligns the new data to the mean from \code{x} and transforms it into the relative warp space computed from the training data.
-#' @return returns relative warp scores
+#' @return returns a list containing
+#' \item{bescores }{relative warp scores (PC-scores if \code{alpha = 0})}
+#' \item{uniscores }{uniform scores, NULL if  \code{alpha = 0}}
 #' @export
 predictRelWarps <- function(x,newdata,noalign=FALSE)  {
     if (!inherits(x,"relwarps"))
@@ -210,6 +212,23 @@ predictRelWarps <- function(x,newdata,noalign=FALSE)  {
         bescores <- vecs%*%x$bePCs
     }
     rownames(bescores) <- rownames(vecs)
-    return(bescores)
+    uniscores <- NULL
+    if (myattr$alpha != 0) {
+        m <- myattr$m
+        NIk <- myattr$NIk
+        svdBend <- svd(vecs%*%NIk)
+        
+        useBendv <- min(ncol(svdBend$v),(m+0.5*m*(m-1)-1))
+        LS <- svdBend$u%*%diag(svdBend$d)
+        useLS <- min(ncol(LS),(m+0.5*m*(m-1)-1))
+        uniscores <- LS[,1:useLS,drop=FALSE]
+        uniPCs <- svdBend$v[,1:useBendv]
+        for (i in 1:useLS) {
+            atest <- angle.calc(x$uniPCs[,i],svdBend$v[,i])
+            if (atest > pi/2)
+                uniscores[,i] <- -uniscores[,i]
+        }
+    }
+    return(list(bescores=bescores,uniscores=uniscores))
 }
 
