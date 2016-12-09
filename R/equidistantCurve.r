@@ -17,7 +17,7 @@
 #' @examples
 #' data(nose)
 #' x <- shortnose.lm[c(304:323),]
-#' xsample <- equidistantCurve(x,n=50,iterations=10,increment=1)
+#' xsample <- equidistantCurve(x,n=50,iterations=10,increment=2)
 #' \dontrun{
 #' require(rgl)
 #' points3d(xsample,size=5)
@@ -25,6 +25,9 @@
 #' }
 #' @export
 equidistantCurve <- function(x,n=NULL,open=TRUE,subsample=0,increment=2,smoothit=0,mesh=NULL,iterations=1) {
+    
+
+    
     if (!open)
         x <- rbind(x,x[1,])
     if (is.null(n)) {
@@ -67,10 +70,11 @@ equidistantCurveHelper <- function(x,n=100,subsample=0,seed=42) {
     m <- ncol(x)
     k <- nrow(x)
     set.seed(42)
-    noise <- rnorm(m*k,sd=meandist/1e6)
-    noisen <- rnorm(n*m,sd=meandist/1e6)
+    noise <- rnorm(m*k,sd=meandist/1e3)
+    noisen <- rnorm(n*m,sd=meandist/1e3)
     ## print(range(noise))
     flatCurve <- matrix(noise,nrow(x),ncol(x))
+    flatCurve[c(1,nrow(x)),] <- 0
     flatCurve[,1] <- cumsum(dists)
     xout <- matrix(noisen,n,ncol(x))
     xout[,1] <- seq(from=0,to=flatCurve[nrow(x),1],length.out = n)
@@ -139,3 +143,6 @@ sortCurve <- function(x,k=5, start=NULL) {
     }
     return(list(xsorted=x[index0,],index=index0))
 }
+
+
+

@@ -39,7 +39,7 @@ if n >> number of original points, the resulting curves can show unwanted distor
 \examples{
 data(nose)
 x <- shortnose.lm[c(304:323),]
-xsample <- equidistantCurve(x,n=50,iterations=10,increment=1)
+xsample <- equidistantCurve(x,n=50,iterations=10,increment=2)
 \dontrun{
 require(rgl)
 points3d(xsample,size=5)
