@@ -272,6 +272,7 @@ predictPLSfromScores <- function(pls,x,y) {
     
     svdpls <- pls$svd
     if (missing(y)) {
+        pls$ylm$coefficients <- as.matrix(pls$ylm$coefficients)
         if (is.vector(x) || length(x) == 1) {
             xl <- length(x)
             x <- t(x)
@@ -280,9 +281,7 @@ predictPLSfromScores <- function(pls,x,y) {
             xl <- ncol(x)
 
         if (xl == 1)
-            yest <- t(as.matrix(pls$ylm$coefficients[1:xl,]*x))
-        else
-            yest <- t(t(pls$ylm$coefficients[1:xl,])%*%t(x))
+            yest <- t(t(pls$ylm$coefficients[1:xl,,drop=FALSE])%*%t(x))
         
         out <- t(svdpls$v%*%t(yest))
         out <- sweep(out,2,-pls$ycenter)
@@ -298,16 +297,14 @@ predictPLSfromScores <- function(pls,x,y) {
     }
     
     if (missing(x)) {
+        pls$xlm$coefficients <- as.matrix(pls$xlm$coefficients)
         if (is.vector(y) || length(y) == 1) {
             xl <- length(y)
             y <- t(y)
         }
         else if (is.matrix(y))
             xl <- ncol(y)
-        if (xl == 1)
-            xest <- t(as.matrix(pls$xlm$coefficients[1:xl,]*y))
-        else
-            xest <- t(t(pls$xlm$coefficients[c(1:xl),])%*%t(y))
+        xest <- t(t(pls$xlm$coefficients[c(1:xl),,drop=FALSE])%*%t(y))
         out <- t(svdpls$u%*%t(xest))
         
         out <- sweep(out,2,-pls$xcenter)
@@ -353,7 +350,7 @@ getPLSscores <- function(pls,x,y) {
             if (is.matrix(x))
                 x <- as.vector(x)
             x <- x-pls$xcenter
-            out <- t(x)%*%pls$svd$u
+            out <- t(t(pls$svd$u)%*%x)
         }
         
     }
@@ -369,7 +366,7 @@ getPLSscores <- function(pls,x,y) {
             if (is.matrix(y))
                 y <- as.vector(y)
             y <- y-pls$ycenter
-            out <- t(y)%*%pls$svd$v
+            out <- t(t(pls$svd$v)%*%y)
             
         }
     }
