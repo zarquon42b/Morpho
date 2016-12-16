@@ -231,13 +231,13 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
 
 #' @rdname relaxLM
 #' @export
-relaxLM.mesh3d <- function(lm,reference,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=FALSE,stepsize=ifelse(bending,1,0.5),use.lm=NULL, ...){
+relaxLM.mesh3d <- function(lm,reference,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=FALSE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,silent=FALSE, ...){
     lmtmp <- vert2points(lm)
     mesh <- lm
     SMvector <- surp <- 1:ncol(lm$vb)
     sur.name <- NULL
     outlines <- NULL
-    reltmp <- relaxLM(lmtmp,reference=reference,SMvector=SMvector,surp=surp,mesh=mesh,tol=tol,deselect=deselect,inc.check=inc.check,iterations=iterations, fixRepro=fixRepro, missing=missing, bending=bending,stepsize=stepsize,use.lm=use.lm)
+    reltmp <- relaxLM(lmtmp,reference=reference,SMvector=SMvector,surp=surp,mesh=mesh,tol=tol,deselect=deselect,inc.check=inc.check,iterations=iterations, fixRepro=fixRepro, missing=missing, bending=bending,stepsize=stepsize,use.lm=use.lm,silent=silent)
     lm$vb[1:3,] <- t(reltmp)
     lm <- vcgUpdateNormals(lm)
     return(lm)
