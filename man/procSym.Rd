@@ -6,10 +6,10 @@
 \usage{
 procSym(dataarray, scale = TRUE, reflect = TRUE, CSinit = TRUE,
   orp = TRUE, tol = 1e-05, pairedLM = NULL, sizeshape = FALSE,
-  use.lm = NULL, center.part = FALSE, pcAlign = TRUE,
-  distfun = c("angle", "riemann"), SMvector = NULL, outlines = NULL,
-  deselect = FALSE, recursive = TRUE, iterations = 0, initproc = FALSE,
-  bending = TRUE, stepsize = 1)
+  use.lm = NULL, center.part = FALSE, weights = NULL,
+  centerweight = FALSE, pcAlign = TRUE, distfun = c("angle", "riemann"),
+  SMvector = NULL, outlines = NULL, deselect = FALSE, recursive = TRUE,
+  iterations = 0, initproc = FALSE, bending = TRUE, stepsize = 1)
 }
 \arguments{
 \item{dataarray}{Input k x m x n real array, where k is the number of
@@ -42,6 +42,12 @@ for Procrustes registration.}
 defined by use.lm will be centered according to the centroid of the complete
 configuration. Otherwise orp will be set to FALSE to avoid erroneous
 projection into tangent space.}
+
+\item{weights}{numeric vector: assign per landmark weights.}
+
+\item{centerweight}{logical: if TRUE, the landmark configuration is scaled
+according to weights during the rotation process, instead of being scaled to
+the Centroid size.}
 
 \item{pcAlign}{logical: if TRUE, the shapes are aligned by the principal axis of the first specimen}
 
