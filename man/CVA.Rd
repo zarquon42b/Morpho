@@ -6,7 +6,7 @@
 \usage{
 CVA(dataarray, groups, weighting = TRUE, tolinv = 1e-10, plot = TRUE,
   rounds = 0, cv = FALSE, p.adjust.method = "none",
-  robust = c("classical", "mve", "mcd"), ...)
+  robust = c("classical", "mve", "mcd"), prior = NULL, ...)
 }
 \arguments{
 \item{dataarray}{Either a k x m x n real array, where k is the number of
@@ -35,6 +35,8 @@ If rounds = 0, no test is performed.}
 \item{p.adjust.method}{method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.}
 
 \item{robust}{character: determines covariance estimation methods, allowing for robust estimations using \code{MASS::cov.rob}}
+
+\item{prior}{vector assigning each group a prior probability.}
 
 \item{...}{additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations}
 }

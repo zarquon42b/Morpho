@@ -21,6 +21,7 @@
 #' @param cv logical: requests a Jackknife Crossvalidation.
 #' @param p.adjust.method method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.
 #' @param robust character: determines covariance estimation methods, allowing for robust estimations using \code{MASS::cov.rob}
+#' @param prior vector assigning each group a prior probability.
 #' @param ... additional parameters passed to \code{MASS::cov.rob} for robust covariance and mean estimations
 #' @return
 #' \item{CV }{A matrix containing the Canonical Variates}
@@ -149,7 +150,7 @@
 #' deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
 #' }
 #' @export
-CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE,p.adjust.method= "none",robust=c("classical", "mve", "mcd"),...) 
+CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE, rounds = 0, cv = FALSE,p.adjust.method= "none",robust=c("classical", "mve", "mcd"),prior=NULL,...) 
 {
     groups <- factor(groups)
     lev <- levels(groups)
@@ -160,7 +161,13 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
         cv <- FALSE
         warning("group with one entry found - crossvalidation will be disabled.")
     }
-    prior <- gsizes/sum(gsizes)
+    if (is.null(prior))
+        prior <- gsizes/sum(gsizes)
+    else {
+        if (length(prior) != ng)
+            stop("you need to specify prior probabilities for all groups")
+        prior <- prior/sum(prior)
+    }
     N <- dataarray
     n3 <- FALSE
     if (length(dim(N)) == 3) {
