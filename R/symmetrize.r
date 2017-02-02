@@ -2,7 +2,7 @@
 #'
 #' create a perfectly symmetric version of landmarks
 #'
-#' @param x k x m matrix with rows containing landmark coordinates
+#' @param x k x m matrix or k x m x n array, with rows containing landmark coordinates
 #' @param pairedLM A X x 2 matrix containing the indices (rownumbers) of the
 #' paired LM. E.g. the left column contains the lefthand landmarks, while the
 #' right side contains the corresponding right hand landmarks.
@@ -25,9 +25,16 @@
 #' }
 #' @export
 symmetrize <- function(x, pairedLM) {
-    xmir <- mirror(x,icpiter=0)
-    xmir[c(pairedLM),] <- xmir[c(pairedLM[,2:1]),]
-    xrot <- rotonto(x,xmir)$yrot
-    xsym <- (x+xrot)/2
+    if (length(dim(x)) == 3) {
+        for (i in 1:dim(x)[3])
+            x[,,i] <- symmetrize(x[,,i],pairedLM=pairedLM)
+        xsym <- x
+    } else {
+        xmir <- mirror(x,icpiter=0)
+        xmir[c(pairedLM),] <- xmir[c(pairedLM[,2:1]),]
+        xrot <- rotonto(x,xmir)$yrot
+        xsym <- (x+xrot)/2
+    }
     return(xsym)
 }
+
