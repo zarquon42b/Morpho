@@ -17,14 +17,14 @@
 #' boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2,mirroraxis=3)
 #' ## 2D Example:
 #' require(shapes)
-#' gorfMir <- mirror(gorf.dat[,,1],mirroraxis=2,pcAlign=T,icpiter = 0)
+#' gorfMir <- mirror(gorf.dat[,,1],mirroraxis=2,pcAlign=TRUE,icpiter = 0)
 #' plot(gorfMir,asp = 1)
 #' points(gorf.dat[,,1],col=3)
 #' \dontrun{
 #' ## now mirror a complete mesh
 #' require(rgl)
 #' skullMir <- mirror(skull_0144_ch_fe.mesh,icpiter=10,subsample = 30,
-#'                    mc.cores=2,mirroraxis=3,pcAlign=T)
+#'                    mc.cores=2,mirroraxis=3,pcAlign=TRUE)
 #' ###compare result to original
 #' wire3d(skull_0144_ch_fe.mesh,col=3)
 #' wire3d(skullMir,col=2)

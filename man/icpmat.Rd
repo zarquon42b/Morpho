@@ -40,7 +40,7 @@ icp <- icpmat(shortnose.lm,longnose.lm,iterations=10)
 ## example using weights
 ## we want to assign high weights to the first three cordinates
 icpw <- icpmat(shortnose.lm,longnose.lm,iterations=10,
-               weights=c(rep(100,3),rep(1,620)),centerweight = T)
+               weights=c(rep(100,3),rep(1,620)),centerweight = TRUE)
 ## the RMSE between those four points and the target is now smaller:
 require(Rvcg)
 RMSE <- sqrt(sum(vcgKDtree(longnose.lm,icp[1:3,],k=1)$distance^2))
