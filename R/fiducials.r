@@ -32,7 +32,8 @@ read.fcsv <- function(x) {
 #' @export 
 write.fcsv <- function(x,filename=dataname,description=NULL) {
     dataname <- deparse(substitute(x))
-    filename <- paste0(filename,".fcsv")
+    if (!grepl("*.fcsv$",filename))
+        filename <- paste0(filename,".fcsv")
     cat("# Markups fiducial file version = 4.4\n# CoordinateSystem = 0\n# columns = id,x,y,z,ow,ox,oy,oz,vis,sel,lock,label,desc,associatedNodeID\n",file=filename)
     ptdim <- ncol(x)
     ptn <- nrow(x)

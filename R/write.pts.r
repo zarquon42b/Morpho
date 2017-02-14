@@ -23,7 +23,8 @@
 write.pts <- function(x, filename=dataname,rownames=NULL)
 {
     dataname <- deparse(substitute(x))
-    filename <- paste(filename,".pts",sep="")
+    if (!grepl("*.pts$",filename))
+        filename <- paste(filename,".pts",sep="")
     k <- dim(x)[1]
     m <- dim(x)[2]
     x <- as.matrix(x)
