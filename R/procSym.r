@@ -174,7 +174,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     if (!is.null(SMvector)) { # includes sliding of Semilandmarks
         if (is.null(outlines))
             stop("please specify outlines")
-        dataslide <- Semislide(A, SMvector=SMvector,outlines=outlines,tol=tol,deselect=deselect,recursive=recursive,iterations=iterations,pairedLM=pairedLM,initproc=initproc, bending=bending,stepsize=stepsize)
+        dataslide <- slider2d(A, SMvector=SMvector,outlines=outlines,tol=tol,deselect=deselect,recursive=recursive,iterations=iterations,pairedLM=pairedLM,initproc=initproc, bending=bending,stepsize=stepsize)
         A <- dataslide
         for (i in 1:n)
             CS <- apply(A,3,cSize)
