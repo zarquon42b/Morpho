@@ -35,12 +35,8 @@
 #' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @param silent logical: if TRUE, console output is suppressed.
 #' @return
-#' \item{dataslide }{array containing slidden Landmarks in the original
-#' space - not yet processed by a Procrustes analysis}
-#' \item{vn.array }{array containing landmark normals}
-#' @note if \code{sur.path = NULL} and \code{meshlist = NULL}, surface landmarks
-#' are relaxed based on a surface normals approximated by the pointcloud, this can lead to bad results for sparse sets of semilandmarks. Obviously, no projection onto the surfaces will be occur and landmarks will likely be off
-#' the original surface.
+#' returns an array containing slided coorndinates in the original
+#' space - not yet processed by a Procrustes analysis.
 #' @section Warning: Depending on the amount of landmarks this can use an extensive amount of your PC's
 #' resources, especially when running in parallel. As the computation time and
 #' RAM usage of matrix algebra involved is quadratic to the amount of landmarks
