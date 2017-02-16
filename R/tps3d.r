@@ -15,6 +15,7 @@
 #' @return returns the deformed input
 #' @author Stefan Schlager
 #' @seealso \code{\link{computeTransform}, \link{applyTransform}}
+#' @note \code{tps2d} is simply an alias for \code{tps3d} that can handle both cases.
 #' @references Bookstein FL. 1989. Principal Warps: Thin-plate splines and the
 #' decomposition of deformations. IEEE Transactions on pattern analysis and
 #' machine intelligence 11(6).
@@ -67,3 +68,7 @@ tps3d <- function(x,refmat,tarmat,lambda=1e-8,threads=0,...) {
     return(transM)
     
 }
+
+#' @rdname tps3d
+#' @export
+tps2d <- tps3d

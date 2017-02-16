@@ -2,9 +2,12 @@
 % Please edit documentation in R/tps3d.r
 \name{tps3d}
 \alias{tps3d}
+\alias{tps2d}
 \title{thin plate spline mapping (2D and 3D) for coordinates and triangular meshes}
 \usage{
 tps3d(x, refmat, tarmat, lambda = 1e-08, threads = 0, ...)
+
+tps2d(x, refmat, tarmat, lambda = 1e-08, threads = 0, ...)
 }
 \arguments{
 \item{x}{matrix - e.g. the matrix information of vertices of a given
@@ -27,6 +30,9 @@ returns the deformed input
 \description{
 maps landmarks or a triangular mesh via thin plate spline based on a reference and
 a target configuration in 2D and 3D
+}
+\note{
+\code{tps2d} is simply an alias for \code{tps3d} that can handle both cases.
 }
 \examples{
 
@@ -71,9 +77,6 @@ spheres3d(boneLM[,,10])
 
 }
 }
-\author{
-Stefan Schlager
-}
 \references{
 Bookstein FL. 1989. Principal Warps: Thin-plate splines and the
 decomposition of deformations. IEEE Transactions on pattern analysis and
@@ -82,4 +85,6 @@ machine intelligence 11(6).
 \seealso{
 \code{\link{computeTransform}, \link{applyTransform}}
 }
-
+\author{
+Stefan Schlager
+}
