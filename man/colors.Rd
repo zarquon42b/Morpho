@@ -2,10 +2,10 @@
 % Please edit documentation in R/Morpho-package.R
 \docType{data}
 \name{colors}
+\alias{colors}
 \alias{bone1}
 \alias{bone2}
 \alias{bone3}
-\alias{colors}
 \alias{skin1}
 \alias{skin2}
 \alias{skin3}
@@ -32,4 +32,3 @@ skin3
 skin4
 }
 \keyword{datasets}
-

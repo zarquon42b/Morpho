@@ -47,4 +47,3 @@ spheres3d(blm1,col=2)#aligned configuration
 spheres3d(boneLM[,,2],col=3)#target
 }
 }
-

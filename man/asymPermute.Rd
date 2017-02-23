@@ -35,4 +35,3 @@ This test is only sensible if between-group differences concerning directional a
 \seealso{
 \code{\link{procSym}}
 }
-

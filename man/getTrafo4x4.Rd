@@ -23,4 +23,3 @@ data(boneData)
 rot <- rotonto(boneLM[,,1],boneLM[,,2])
 trafo <- getTrafo4x4(rot)
 }
-

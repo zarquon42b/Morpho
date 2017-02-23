@@ -29,4 +29,3 @@ data <- read.pts("shortnose.pts")
 \seealso{
 \code{\link{read.pts}}
 }
-

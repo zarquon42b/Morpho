@@ -16,4 +16,3 @@ Landmarks on the osseous human nose and a triangular mesh representing this
 structure.
 }
 \keyword{datasets}
-

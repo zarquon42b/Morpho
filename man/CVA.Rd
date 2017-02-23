@@ -161,9 +161,6 @@ cvvisNeg5 <- showPC(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
 deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
 }
 }
-\author{
-Stefan Schlager
-}
 \references{
 Cambell, N. A. & Atchley, W. R.. 1981 The Geometry of Canonical
 Variate Analysis: Syst. Zool., 30(3), 268-280.
@@ -175,4 +172,6 @@ Systematic Biology 54, 678-688.
 \seealso{
 \code{\link{groupPCA}}
 }
-
+\author{
+Stefan Schlager
+}

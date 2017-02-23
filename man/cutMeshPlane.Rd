@@ -29,4 +29,3 @@ cut a mesh by a hyperplane and remove parts above/below that plane
 \details{
 see \code{\link{cutSpace}} for more details.
 }
-

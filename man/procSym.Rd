@@ -173,9 +173,6 @@ spm(~symproc$PCscore_asym[,1:5], groups=pop)
 
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Dryden IL, and Mardia KV. 1998. Statistical shape analysis.
 Chichester.
@@ -191,4 +188,6 @@ E. Slice, pp. 73-98. New York: Kluwer Academic/Plenum Publishers.
 \seealso{
 \code{\link{slider3d}}
 }
-
+\author{
+Stefan Schlager
+}

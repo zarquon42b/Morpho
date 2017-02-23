@@ -56,4 +56,3 @@ plot(estim,asp=1)## show estimation
 points(proc$rotated[,,1],col=3)##show original
 
 }
-

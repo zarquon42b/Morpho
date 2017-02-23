@@ -35,4 +35,3 @@ range(gdat.restored-gorf.dat)
 \author{
 Stefan Schlager
 }
-

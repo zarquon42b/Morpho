@@ -47,4 +47,3 @@ planes3d(normal[1],normal[2],normal[3],d=d)
 points3d(pointcloud[upper,])
 }
 }
-

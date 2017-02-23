@@ -7,10 +7,10 @@
 bindArr(..., along = 1)
 }
 \arguments{
-\item{along}{dimension along which to concatenate.}
-
 \item{\dots}{matrices and/or arrays with appropriate dimensionality to
 combine to one array, or a single list containing suitable matrices, or arrays).}
+
+\item{along}{dimension along which to concatenate.}
 }
 \value{
 returns array of combined matrices/arrays
@@ -39,4 +39,3 @@ newArr2 <- bindArr(newArr,newArr,along=1)
 \seealso{
 \code{\link{cbind}}, \code{\link{rbind}}, \code{\link{array}}
 }
-

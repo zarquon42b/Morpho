@@ -22,4 +22,3 @@ compute the area of an n-dimensional hypersphere cap
 \examples{
 areaSpherePart(2,pi/2) # covers half the area of a circle
 }
-

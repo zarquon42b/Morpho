@@ -33,10 +33,9 @@ data(nose)
 largenose <- scalemesh(shortnose.mesh,4)
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{rotmesh.onto}}
 }
-
+\author{
+Stefan Schlager
+}

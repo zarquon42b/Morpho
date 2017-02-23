@@ -80,4 +80,3 @@ text(perm$angle,15,label=paste("actual distance\\n
 ## also non-significant
 
 }
-

@@ -21,4 +21,3 @@ a simple wrapper to call Armadillo's pinv function
 mat <- matrix(rnorm(12),3,4)
 pinvmat <- armaGinv(mat)
 }
-

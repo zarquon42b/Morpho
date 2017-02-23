@@ -48,4 +48,3 @@ mesh <- ply2mesh("shortnose.mesh.ply")
 mesh2obj(shortnose.mesh)
 mesh2 <- obj2mesh("shortnose.mesh.obj")
 }
-

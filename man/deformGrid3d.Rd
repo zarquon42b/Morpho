@@ -62,10 +62,9 @@ data(nose)
 deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 }
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{tps3d}}
 }
-
+\author{
+Stefan Schlager
+}

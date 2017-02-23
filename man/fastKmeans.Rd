@@ -44,4 +44,3 @@ spheres3d(vert2points(humface)[clust$selected,],col=2)
 
 
 }
-

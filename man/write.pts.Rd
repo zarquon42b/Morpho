@@ -29,10 +29,9 @@ data(nose)
 write.pts(shortnose.lm, filename="shortnose")
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{read.pts}}
 }
-
+\author{
+Stefan Schlager
+}

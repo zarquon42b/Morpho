@@ -21,10 +21,9 @@ After exporting the pts file of the atlas from "landmark" and importing it
 into R via "read.pts" cExtract gets information which rows of the landmark
 datasets belong to curves or patches.
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{read.lmdta}} ,\code{\link{read.pts}}
 }
-
+\author{
+Stefan Schlager
+}

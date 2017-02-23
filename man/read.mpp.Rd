@@ -23,10 +23,9 @@ if \code{info=TRUE}: a list containing
 \description{
 imports pick points selected with meshlab
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{read.pts}}
 }
-
+\author{
+Stefan Schlager
+}

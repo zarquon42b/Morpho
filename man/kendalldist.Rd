@@ -26,4 +26,3 @@ OPA <- rotonto(gorf.dat[,,1],gorf.dat[,,2])
 kendalldist(OPA$X,OPA$Y)
 
 }
-

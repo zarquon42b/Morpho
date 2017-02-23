@@ -32,4 +32,3 @@ shade3d(shortnose.mesh,col=3)
 \author{
 Stefan Schlager
 }
-

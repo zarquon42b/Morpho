@@ -26,4 +26,3 @@ missingList[[9]] <- 10:50
 \seealso{
 \code{\link{fixLMtps},\link{fixLMmirror}, \link{slider3d}}
 }
-

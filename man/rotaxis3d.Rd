@@ -49,13 +49,12 @@ shade3d(shrot.rot,col=2)
 #' lines3d(rbind(rep(-0.1,3),rep(0.1,3)))
 }
 }
-\author{
-Stefan Schlager
-}
 \references{
 http://en.wikipedia.org/wiki/Rotation_matrix
 }
 \seealso{
 \code{\link{rotonto}}, \code{\link{rotmesh.onto}}
 }
-
+\author{
+Stefan Schlager
+}

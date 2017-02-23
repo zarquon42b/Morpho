@@ -25,4 +25,3 @@ symmetrize a bilateral landmark configuration by removing bending and stretching
 \references{
 Ghosh, D.; Amenta, N. & Kazhdan, M. Closed-form Blending of Local Symmetries. Computer Graphics Forum, Wiley-Blackwell, 2010, 29, 1681-1688
 }
-

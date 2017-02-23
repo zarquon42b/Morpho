@@ -39,4 +39,3 @@ PCdist(a$PCs, a$PCscores, x = 2)
 \author{
 Stefan Schlager
 }
-

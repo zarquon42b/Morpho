@@ -27,4 +27,3 @@ opa <- rotonto(boneLM[,,1],boneLM[,,2])
 angle.calc(opa$X, opa$Y)
 
 }
-

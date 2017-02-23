@@ -49,9 +49,6 @@ weights <- c(rep(1,4),rep(2,5),1)
 proc.wt <- ProcGPA(boneLM, CSinit=TRUE, weights=weights, silent=TRUE)
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Goodall C. 1991. Procrustes methods in the statistical analysis
 of shape. Journal of the Royal Statistical Society. Series B. Statistical
@@ -63,4 +60,6 @@ sons, Chichester.
 \seealso{
 \code{\link{procSym}, \link{rotonto}}
 }
-
+\author{
+Stefan Schlager
+}

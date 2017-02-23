@@ -50,11 +50,10 @@ spheres3d(boneLM[,,10])
 }
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{file2mesh}},\code{\link{tps3d}}
 ,\code{\link{rotonto}},\code{\link{mesh2ply}}
 }
-
+\author{
+Stefan Schlager
+}

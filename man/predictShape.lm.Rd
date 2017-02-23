@@ -37,6 +37,7 @@ PCscores.
 \code{datamod} correspond exactly to those used in \code{fit}. Otherwise
 model matrix will be calculated erroneous.
 }
+
 \examples{
 
 data(boneData)
@@ -83,4 +84,3 @@ pred <- predictShape.lm(fit,datamod, proc$PCs[,1:4],proc$mshape)
 \seealso{
 \code{\link{model.matrix}, \link{lm}, \link{formula}}
 }
-

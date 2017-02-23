@@ -39,4 +39,3 @@ Bookstein, F. L. Measuring and reasoning: numerical inference in the sciences. C
 \seealso{
 \code{\link{getPCtol}}
 }
-

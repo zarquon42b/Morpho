@@ -2,10 +2,10 @@
 % Please edit documentation in R/Morpho-package.R
 \docType{data}
 \name{nose}
-\alias{longnose.lm}
 \alias{nose}
-\alias{shortnose.lm}
 \alias{shortnose.mesh}
+\alias{shortnose.lm}
+\alias{longnose.lm}
 \title{landmarks and a triangular mesh representing a human nose}
 \format{\code{shortnose.mesh}: A triangular mesh of class 'mesh3d'.
 
@@ -19,4 +19,3 @@ triangular mesh representing a human nose and two matrices containing
 landmark data
 }
 \keyword{datasets}
-

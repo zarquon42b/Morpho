@@ -15,4 +15,3 @@ returns an array concatenating all matrices
 \description{
 converts a list of matrices to an array
 }
-

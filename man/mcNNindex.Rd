@@ -40,4 +40,3 @@ wire3d(shortnose.mesh)
 \seealso{
 \code{\link{closemeshKD}}
 }
-

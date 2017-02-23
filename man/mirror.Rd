@@ -61,4 +61,3 @@ wire3d(skull_0144_ch_fe.mesh,col=3)
 wire3d(skullMir,col=2)
 }
 }
-

@@ -34,4 +34,3 @@ mirror points or mesh on an arbitrary plane
 data(boneData)
 mirrmesh <- mirror2plane(skull_0144_ch_fe.mesh,v1=boneLM[1,,1],v2=boneLM[9,,1],v3=boneLM[10,,1])
 }
-

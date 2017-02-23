@@ -23,4 +23,3 @@ data(boneData)
 proc <- ProcGPA(boneLM, silent = TRUE)
 mshape <- arrMean3(proc$rotated)
 }
-

@@ -15,10 +15,9 @@ returns a mesh with material$color replaced by greyscale rgb values.
 \description{
 convert the colors of a colored mesh to greyscale values
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{ply2mesh}},\code{\link{file2mesh}}
 }
-
+\author{
+Stefan Schlager
+}

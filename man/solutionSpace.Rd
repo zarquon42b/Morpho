@@ -34,4 +34,3 @@ y <- 1:dims
 solution <- subspace$basis\%*\%y+subspace$translate # this is one solution for the equation above
 A\%*\%solution ## pretty close
 }
-

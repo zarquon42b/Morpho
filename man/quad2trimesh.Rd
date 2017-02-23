@@ -26,4 +26,3 @@ trimesh <- quad2trimesh(quadmesh)# convert to trimesh
 
 
 }
-

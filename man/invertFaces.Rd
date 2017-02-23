@@ -28,10 +28,9 @@ noseinvert <- invertFaces(shortnose.mesh)
 plotNormals(noseinvert,long=0.01)
 }
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{updateNormals}}
 }
-
+\author{
+Stefan Schlager
+}

@@ -15,11 +15,11 @@ exVar(model, ...)
 \arguments{
 \item{model}{a model of classes "lm" or "mvr" (from the package "pls")}
 
+\item{\dots}{currently unused additional arguments.}
+
 \item{ncomp}{How many latent variables to use (only for mvr models)}
 
 \item{val}{use cross-vaildated predictions (only for mvr models)}
-
-\item{\dots}{currently unused additional arguments.}
 }
 \value{
 returns the quotient.
@@ -42,12 +42,11 @@ R-package "ffmanova", which reports this value factor-wise.
 lm1 <- lm(as.matrix(iris[,1:4]) ~ iris[,5])
 exVar(lm1)
 }
-\author{
-Stefan Schlager
-}
 \references{
 Langsrud O, Juergensen K, Ofstad R, Naes T. 2007. Analyzing
 Designed Experiments with Multiple Responses Journal of Applied Statistics
 34:1275-1296.
 }
-
+\author{
+Stefan Schlager
+}

@@ -57,4 +57,3 @@ infos$pop.sex <- name2factor(data,which=2:3)
 \author{
 Stefan Schlager
 }
-

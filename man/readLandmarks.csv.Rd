@@ -31,10 +31,9 @@ imported.}
 \description{
 import landmark data from csv files
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{read.table}}
 }
-
+\author{
+Stefan Schlager
+}

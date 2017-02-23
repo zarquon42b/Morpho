@@ -54,4 +54,3 @@ plotAtlas(atlas)
 \seealso{
 \code{\link{placePatch}, \link{createAtlas}}
 }
-

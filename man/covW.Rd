@@ -25,10 +25,9 @@ calculate the pooled within groups covariance matrix
 data(iris)
 poolCov <- covW(iris[,1:4],iris[,5])
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{cov}}, \code{\link{typprobClass}}
 }
-
+\author{
+Stefan Schlager
+}

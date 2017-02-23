@@ -50,10 +50,9 @@ proc <- procSym(gorf.dat)
 deformGrid2d(proc$mshape,proc$rotated[,,1],ngrid=5,pch=19)
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{tps3d}}
 }
-
+\author{
+Stefan Schlager
+}

@@ -64,4 +64,3 @@ machine intelligence 11(6).
 \seealso{
 \code{\link{tps3d}}
 }
-

@@ -121,6 +121,7 @@ used, doubling the amount of semi-landmarks will quadruple computation time
 and system resource usage. You can easily stall you computer with this
 function with inappropriate data.
 }
+
 \examples{
 \dontrun{
 data(nose)
@@ -189,9 +190,6 @@ deformGrid3d(slideWithCurves$dataslide[,,1],slideWithCurvesNoMeshes$dataslide[,,
 }
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis
 of symmetric structures: quantifying variation among individuals and
@@ -213,4 +211,6 @@ differences and sexual dimorphism. PhD thesis,
 \seealso{
 \code{\link{relaxLM}, \link{createMissingList}}
 }
-
+\author{
+Stefan Schlager
+}

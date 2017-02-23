@@ -61,9 +61,6 @@ repair <- fixLMtps(data,comp=10)
 deformGrid3d(repair$out[,,1], boneLM[,,1],ngrid=0)
 }
 }
-\author{
-Stefan Schlager
-}
 \references{
 Bookstein FL. 1989. Principal Warps: Thin-plate splines and the
 decomposition of deformations IEEE Transactions on pattern analysis and
@@ -72,4 +69,6 @@ machine intelligence 11.
 \seealso{
 \code{\link{proc.weight}}, \code{\link{tps3d}}
 }
-
+\author{
+Stefan Schlager
+}

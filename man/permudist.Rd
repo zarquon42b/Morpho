@@ -41,4 +41,3 @@ perm1 <- permudist(proc$PCscores, groups=groups,which=3:4, rounds=10000)
 
 
 }
-

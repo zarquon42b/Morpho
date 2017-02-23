@@ -81,9 +81,6 @@ deformGrid2d(rw1[,,1],rw1[,,2],ngrid=10)
 }
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Bookstein FL 1989. Principal Warps: Thin-plate splines and the
 decomposition of deformations. IEEE Transactions on pattern analysis and
@@ -95,4 +92,6 @@ data. Geometry and biology. Cambridge Univ. Press, Cambridge.
 Rohlf FJ, Bookstein FL 2003. Computing the Uniform Component of Shape
 Variation. Systematic Biology 52:66-69.
 }
-
+\author{
+Stefan Schlager
+}

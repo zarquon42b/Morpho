@@ -2,8 +2,8 @@
 % Please edit documentation in R/meshDist.r, R/meshDistMatrix.r
 \name{meshDist}
 \alias{meshDist}
-\alias{meshDist.matrix}
 \alias{meshDist.mesh3d}
+\alias{meshDist.matrix}
 \title{calculates and visualises distances between surface meshes or 3D coordinates and a surface mesh.}
 \usage{
 meshDist(x, ...)
@@ -27,6 +27,9 @@ meshDist(x, ...)
 \arguments{
 \item{x}{reference mesh; object of class "mesh3d" or a n x 3 matrix
 containing 3D coordinates.}
+
+\item{\dots}{additional arguments passed to \code{\link{shade3d}}. See
+\code{\link{rgl.material}} for details.}
 
 \item{mesh2}{target mesh: either object of class "mesh3d" or a character
 pointing to a surface mesh (ply, obj or stl file)}
@@ -95,9 +98,6 @@ dots.}
 
 \item{radius}{determines size of spheres; if not specified, optimal radius
 size will be estimated by centroid size of the configuration.}
-
-\item{\dots}{additional arguments passed to \code{\link{shade3d}}. See
-\code{\link{rgl.material}} for details.}
 }
 \value{
 Returns an object of class "meshDist" if the input is a surface mesh
@@ -136,9 +136,6 @@ render(mD,rampcolors = c("white","red"))
 meshDist(longnose.mesh, shortnose.mesh, rampcolors = c("blue", "red"),sign=FALSE, tol=0.5)
 }
 }
-\author{
-Stefan Schlager
-}
 \references{
 Detection of inside/outside uses the algorithm proposed in:
 
@@ -149,4 +146,6 @@ Fields From Triangle Meshes. Informatics and Mathematical Modelling, .
 \code{\link{render.meshDist}}, , \code{\link{export.meshDist}},
 \code{\link{shade3d}}
 }
-
+\author{
+Stefan Schlager
+}

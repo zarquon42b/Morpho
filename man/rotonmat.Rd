@@ -52,10 +52,9 @@ rotonmat(shortnose.lm,shortnose.lm[1:9,],longnose.lm[1:9,])
 deformGrid3d(shortnose.rot,shortnose.lm,ngrid=0)
 }
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{rotonto}},\code{\link{rotmesh.onto}}
 }
-
+\author{
+Stefan Schlager
+}

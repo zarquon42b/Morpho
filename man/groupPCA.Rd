@@ -92,9 +92,6 @@ spheres3d(grandmean, radius=0.005)
 
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Mitteroecker P, Bookstein F 2011. Linear Discrimination,
 Ordination, and the Visualization of Selection Gradients in Modern
@@ -106,4 +103,6 @@ of Pure and Applied Mathematics 19, 359-366.
 \seealso{
 \code{\link{CVA}}
 }
-
+\author{
+Stefan Schlager
+}

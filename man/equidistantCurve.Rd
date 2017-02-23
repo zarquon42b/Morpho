@@ -46,4 +46,3 @@ points3d(xsample,size=5)
 spheres3d(x,col=2,radius=0.3,alpha=0.5)
 }
 }
-

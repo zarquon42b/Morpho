@@ -70,4 +70,3 @@ icpsort <- icpgorf[index,]
 for (i in 1:8)
 lines(rbind(icpsort[i,],gorf.dat[i,,2]))
 }
-

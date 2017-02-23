@@ -20,4 +20,3 @@ compute the area of an n-dimensional hypersphere
 \examples{
 areaSphere(2) #gives us the circumference of a circle of radius 1
 }
-

@@ -24,4 +24,3 @@ get intersection between a line and a plane
 \note{
 in case you only have three points on a plane (named \code{pt1, pt2, pt3} you can get the plane's normal by calling \code{crossProduct(pt1-pt2,pt1-pt3)}.
 }
-

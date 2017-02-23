@@ -21,4 +21,3 @@ data(boneData)
 cSize(boneLM[,,1])
 
 }
-

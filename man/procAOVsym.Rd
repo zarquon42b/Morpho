@@ -40,9 +40,6 @@ symproc <- procSym(boneLM, pairedLM=pairedLM)
 procAOVsym(symproc)
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Klingenberg CP, Barluenga M, Meyer A. 2002. Shape analysis of
 symmetric structures: quantifying variation among individuals and asymmetry.
@@ -51,4 +48,6 @@ Evolution 56:1909-20.
 \seealso{
 \code{\link{procSym}}
 }
-
+\author{
+Stefan Schlager
+}

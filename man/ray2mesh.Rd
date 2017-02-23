@@ -33,10 +33,9 @@ projects the vertices of a mesh onto the surface of another one by searching
 for the closest point along vertex normals on the
 target by for each vertex.
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{ply2mesh}}, \code{\link{closemeshKD}}
 }
-
+\author{
+Stefan Schlager
+}

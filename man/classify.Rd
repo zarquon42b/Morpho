@@ -2,8 +2,8 @@
 % Please edit documentation in R/classify.r
 \name{classify}
 \alias{classify}
-\alias{classify.CVA}
 \alias{classify.bgPCA}
+\alias{classify.CVA}
 \alias{classify.typprob}
 \title{classify specimen based on between-group PCA or CVA or typprobClass}
 \usage{
@@ -32,4 +32,3 @@ classify specimen based on between-group PCA, CVA or typprobClass
 \seealso{
 \code{\link{CVA},\link{groupPCA},  \link{typprobClass}}
 }
-

@@ -36,4 +36,3 @@ spheres3d(shortnose.lm[1:3,],col=2)#the plane
 spheres3d(intersect,col=3,radius = 0.2)#intersections
 }
 }
-

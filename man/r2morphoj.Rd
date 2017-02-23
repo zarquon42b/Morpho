@@ -41,4 +41,3 @@ labelname <- "sex"
 r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
 
 }
-

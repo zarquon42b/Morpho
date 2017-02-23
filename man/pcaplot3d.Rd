@@ -2,8 +2,8 @@
 % Please edit documentation in R/pcaplot3d.r
 \name{pcaplot3d}
 \alias{pcaplot3d}
-\alias{pcaplot3d.nosymproc}
 \alias{pcaplot3d.symproc}
+\alias{pcaplot3d.nosymproc}
 \title{visualization of shape variation}
 \usage{
 pcaplot3d(x, ...)
@@ -18,6 +18,8 @@ pcaplot3d(x, ...)
 \arguments{
 \item{x}{a object derived from the function procSym calculated on 3D
 coordinates.}
+
+\item{\dots}{Additional parameters which will be passed to the methods.}
 
 \item{pcshow}{a vector containing the PCscores to be visualized.}
 
@@ -34,8 +36,6 @@ Otherwise the asymmetric one.}
 \item{legend}{logical: if TRUE a legend explaining the color coding of the PCs is plotted.}
 
 \item{type}{character: for \code{type="spheres"}, the landmarks will be rendered using rgl's \code{spheres3d} function and for \code{type="points"} by  \code{points3d} respectivly.}
-
-\item{\dots}{Additional parameters which will be passed to the methods.}
 }
 \value{
 returns an invisible array containing the shapes associated with the Principal components selected.
@@ -57,4 +57,3 @@ pcaplot3d(proc,pcshow=1:3,mag=-3)#only one PC available
 \seealso{
 \code{\link{procSym}}
 }
-

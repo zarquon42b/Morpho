@@ -27,4 +27,3 @@ sets the variable \code{size} used in \code{point3d}.}
 \description{
 plot the result of slider3d
 }
-

@@ -27,4 +27,3 @@ wire3d(skull_0144_ch_fe.mesh)
 }
 
 }
-

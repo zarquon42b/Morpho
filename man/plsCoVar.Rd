@@ -26,4 +26,3 @@ Get the shape changes from pls2B associated with each latent variable
 \seealso{
 \code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
 }
-

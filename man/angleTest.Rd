@@ -30,4 +30,3 @@ angleTest(x,y)
 \references{
 S. Li , 2011. Concise Formulas for the Area and Volume of a Hyperspherical Cap. Asian Journal of Mathematics & Statistics, 4: 66-70.
 }
-

@@ -35,10 +35,9 @@ data1 <- rchisq(100,df=3)
 qqmat(data1,square=FALSE)
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{qqplot}}
 }
-
+\author{
+Stefan Schlager
+}

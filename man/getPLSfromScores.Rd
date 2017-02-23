@@ -22,4 +22,3 @@ compute changes associated with 2-Block PLS-scores
 \details{
 other than \code{\link{predictPLSfromScores}}, providing Xscores will not compute predictions of y, but the changes in the original data \code{x} that is associated with the specific scores
 }
-

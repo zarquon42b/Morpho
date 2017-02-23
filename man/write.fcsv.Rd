@@ -21,4 +21,3 @@ require(Rvcg)
 data(dummyhead)
 write.fcsv(dummyhead.lm)
 }
-

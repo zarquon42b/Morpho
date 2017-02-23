@@ -88,9 +88,6 @@ typClass2
 
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Albrecht G. 1992. Assessing the affinities of fossils using
 canonical variates and generalized distances Human Evolution 7:49-69.
@@ -98,4 +95,6 @@ canonical variates and generalized distances Human Evolution 7:49-69.
 Wilson S. 1981. On comparing fossil specimens with population samples
 Journal of Human Evolution 10:207 - 214.
 }
-
+\author{
+Stefan Schlager
+}

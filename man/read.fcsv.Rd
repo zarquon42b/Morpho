@@ -15,4 +15,3 @@ a k x 3 matrix with landmarks
 \description{
 read fiducials from slicer4
 }
-

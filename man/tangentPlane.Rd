@@ -55,4 +55,3 @@ lines3d(rbind(0, z), col=3, lwd=2)
 \author{
 Stefan Schlager
 }
-

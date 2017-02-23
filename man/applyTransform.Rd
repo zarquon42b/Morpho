@@ -2,9 +2,9 @@
 % Please edit documentation in R/applyTransform.r
 \name{applyTransform}
 \alias{applyTransform}
-\alias{applyTransform.default}
 \alias{applyTransform.matrix}
 \alias{applyTransform.mesh3d}
+\alias{applyTransform.default}
 \title{apply affine transformation to data}
 \usage{
 applyTransform(x, trafo, inverse, threads)
@@ -39,4 +39,3 @@ boneLM2trafo <- applyTransform(boneLM[,,2],trafo)
 \seealso{
 \code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}, \link{computeTransform}}
 }
-

@@ -23,6 +23,7 @@ the data are orthogonally projected onto the regression lines associated with ea
 \section{Warning}{
  if \code{model} contains factors with more than 2 levels, R calculates one regression line per 2 factors. Check the \code{colnames} of the returned matrix to select the appropriate one. See examples for details.
 }
+
 \examples{
 model <- lm(as.matrix(iris[,1:3]) ~ iris[,4])
 rs <- RegScore(model)
@@ -54,4 +55,3 @@ plot(rs0,proc$size[rand[-c(1:50)]])
 \references{
 Drake, AG. & Klingenberg, CP. The pace of morphological change: historical transformation of skull shape in St Bernard dogs. Proceedings of the Royal Society B: Biological Sciences, The Royal Society, 2008, 275, 71-76.
 }
-

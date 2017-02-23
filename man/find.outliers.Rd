@@ -66,10 +66,9 @@ outliers <- find.outliers(boneLM, mahalanobis= TRUE, PCuse=10)
 }
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{typprob}},\code{\link{typprobClass}}
 }
-
+\author{
+Stefan Schlager
+}

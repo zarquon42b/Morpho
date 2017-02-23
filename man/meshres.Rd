@@ -26,4 +26,3 @@ mres <- meshres(skull_0144_ch_fe.mesh)
 \author{
 Stefan Schlager
 }
-

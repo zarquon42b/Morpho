@@ -25,4 +25,3 @@ either x or y must be missing
 \seealso{
 \code{\link{pls2B}, \link{predictPLSfromScores},\link{predictPLSfromData}}
 }
-

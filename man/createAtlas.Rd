@@ -47,4 +47,3 @@ atlas <- createAtlas(shortnose.mesh, landmarks =
 \seealso{
 \code{\link{placePatch}, \link{plotAtlas}}
 }
-

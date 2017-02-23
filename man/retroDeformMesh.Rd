@@ -34,4 +34,3 @@ symmetrize a triangular mesh
 \details{
 this function performs \code{\link{retroDeform3d}} and deforms the mesh accordingly using the function \code{\link{tps3d}}.
 }
-

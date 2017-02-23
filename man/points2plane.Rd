@@ -54,4 +54,3 @@ meshpro <- points2plane(vert2points(skull_0144_ch_fe.mesh),v1=boneLM[9,,1],norma
 points3d(meshpro,col=2)
 }
 }
-

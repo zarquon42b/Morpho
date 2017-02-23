@@ -74,9 +74,6 @@ points(rev1,cex=2) ### show inversion by larger circles around original configur
 
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Lissitz, R. W., Schoenemann, P. H., & Lingoes, J. C. (1976). A
 solution to the weighted Procrustes problem in which the transformation is
@@ -85,4 +82,6 @@ in agreement with the loss function. Psychometrika, 41,547-550.
 \seealso{
 \code{\link{rotmesh.onto}}
 }
-
+\author{
+Stefan Schlager
+}

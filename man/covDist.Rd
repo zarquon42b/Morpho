@@ -93,9 +93,6 @@ for (i in 2:3) {
 
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Mitteroecker P, Bookstein F. 2009. The ontogenetic trajectory of
 the phenotypic covariance matrix, with examples from craniofacial shape in
@@ -107,4 +104,6 @@ learning. Springer New York.
 \seealso{
 \code{\link{prcomp}}
 }
-
+\author{
+Stefan Schlager
+}

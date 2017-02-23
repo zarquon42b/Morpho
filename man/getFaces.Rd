@@ -17,4 +17,3 @@ vector of face indices
 \description{
 find indices of faces that contain specified vertices
 }
-

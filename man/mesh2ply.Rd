@@ -52,10 +52,9 @@ shade3d(cube,col=3) ## view the green cube
 }
 mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{ply2mesh}, \link{quad2trimesh} }
 }
-
+\author{
+Stefan Schlager
+}

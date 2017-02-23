@@ -41,10 +41,9 @@ library(shapes)
 regdist(gorf.dat)
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{regdist}}
 }
-
+\author{
+Stefan Schlager
+}

@@ -31,4 +31,3 @@ points3d(bary, col=2)
 \seealso{
 \code{\link{closemeshKD}}
 }
-

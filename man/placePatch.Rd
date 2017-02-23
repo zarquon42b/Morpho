@@ -120,9 +120,6 @@ wire3d(longnose.mesh,col=3)
 spheres3d(patched)
 }
 }
-\author{
-Stefan Schlager
-}
 \references{
 Schlager S. 2013. Soft-tissue reconstruction of the human nose:
 population differences and sexual dimorphism. PhD thesis,
@@ -133,4 +130,6 @@ population differences and sexual dimorphism. PhD thesis,
 \code{\link{createAtlas}, \link{relaxLM}, \link{checkLM},
 \link{slider3d}, \link{tps3d}}
 }
-
+\author{
+Stefan Schlager
+}

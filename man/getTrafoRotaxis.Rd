@@ -22,4 +22,3 @@ compute a 4x4 Transformation matrix for rotation around an arbitrary axis
 \note{
 the resulting matrix can be used in \code{\link{applyTransform}}
 }
-

@@ -52,4 +52,3 @@ fast Principal Component Analysis (PCA)
 \note{
 this function returns the same results as \code{prcomp} (apart from sign differences) but uses smarter matrix decompositions making it faster for nrow(x) >> ncol(x) and nrow(x) << ncol(x).
 }
-

@@ -54,4 +54,3 @@ deformGrid3d(onesidefixed, boneLM[,,1],ngrid=0)
 ## result is a bit off due to actual asymmetry
 }
 }
-

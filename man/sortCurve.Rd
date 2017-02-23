@@ -39,4 +39,3 @@ curvesort <- sortCurve(curveunsort)
 ## after sorting lines are nice again
 plot(curvesort$xsorted);lines(curvesort$xsorted,col=3)
 }
-

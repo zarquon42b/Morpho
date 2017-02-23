@@ -55,9 +55,6 @@ out <- closemeshKD(longnose.lm,shortnose.mesh,sign=TRUE)
 hist(out$quality)
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed
 Distance Fields From Triangle Meshes. Informatics and Mathematical
@@ -70,4 +67,6 @@ Signal Processing Society 3:128-138.
 \seealso{
 \code{\link{ply2mesh}}
 }
-
+\author{
+Stefan Schlager
+}

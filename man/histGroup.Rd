@@ -53,10 +53,9 @@ histGroup(iris$Petal.Length,iris$Species)
 
 
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{hist}}
 }
-
+\author{
+Stefan Schlager
+}

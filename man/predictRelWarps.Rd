@@ -39,4 +39,3 @@ for (i in 1:2) {
   plot(rW1$uniscores[,i],predAll$uniscores[training,i],main=paste("UC",i))
 }
 }
-

@@ -39,4 +39,3 @@ Klingenberg CP, Barluenga M, and Meyer A. 2002. Shape analysis of symmetric
 structures: quantifying variation among individuals and asymmetry. Evolution
 56(10):1909-1920.
 }
-

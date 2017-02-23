@@ -51,4 +51,3 @@ points(estim[,,1],col=2)
 \seealso{
 \code{\link{proc.weight}}, \code{\link{fixLMtps}}
 }
-

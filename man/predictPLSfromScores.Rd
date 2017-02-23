@@ -25,4 +25,3 @@ either x or y must be missing. If x-scores are provided, the yscores will be est
 \seealso{
 \code{\link{pls2B}, \link{getPLSscores},\link{predictPLSfromData}}
 }
-

@@ -40,10 +40,9 @@ LMs are missing in which observation}
 \description{
 imports all data files contained in a specified folder.
 }
-\author{
-Stefan Schlager
-}
 \seealso{
 \code{\link{read.table}}
 }
-
+\author{
+Stefan Schlager
+}

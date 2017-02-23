@@ -38,9 +38,6 @@ repro <- projRead(shortnose.lm,shortnose.mesh)
 }
 
 }
-\author{
-Stefan Schlager
-}
 \references{
 Detection of inside/outside uses the algorithm proposed in:
 
@@ -50,4 +47,6 @@ Fields From Triangle Meshes. Informatics and Mathematical Modelling.
 \seealso{
 \code{\link{closemeshKD}}
 }
-
+\author{
+Stefan Schlager
+}
