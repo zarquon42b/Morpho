@@ -5,7 +5,7 @@
 \title{calculate weights inverse to the distances from the specified observation.}
 \usage{
 proc.weight(data, number, ref, report = TRUE, reg = 0, log = FALSE,
-  mahalanobis = FALSE)
+  mahalanobis = FALSE, weightfun = NULL)
 }
 \arguments{
 \item{data}{array containing landmark configurations}
@@ -22,6 +22,8 @@ diagonal of eigenvalues of the covariance matrix.}
 \item{log}{logical: use the logarithm of the distances.}
 
 \item{mahalanobis}{logical: use mahalanobis distance.}
+
+\item{weightfun}{custom function that operates on a vector of distances (see examples) and generates weights accordingly.}
 }
 \value{
 \item{data }{dataframe containing id, procrustes/mahalanobis distance
@@ -54,5 +56,12 @@ for (i in 1:4)
 ### visualise
 plot(estim,asp=1)## show estimation
 points(proc$rotated[,,1],col=3)##show original
+
+## use a gaussian smoother to compute weights using a bandwidth of 0.05
+gaussWeight <- function(r,sigma=0.05) {
+   sigma <- 2*sigma^2
+   return(exp(-r^2/ sigma))
+}
+weights <- proc.weight(proc$rotated,4,1,weightfun=gaussWeight)
 
 }
