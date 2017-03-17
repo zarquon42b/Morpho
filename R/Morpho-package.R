@@ -34,7 +34,7 @@
 #' \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 #' @encoding utf8
 #' @keywords package
-#' @useDynLib Morpho
+#' @useDynLib Morpho, .registration = TRUE 
 #' @import doParallel graphics grDevices methods stats utils
 #' @importFrom foreach foreach '%dopar%' '%do%'
 #' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t cBind

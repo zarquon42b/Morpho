@@ -3,7 +3,7 @@ using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-RcppExport SEXP meshres(SEXP vb_, SEXP it_) {
+RcppExport SEXP meshresCpp(SEXP vb_, SEXP it_) {
   try {
         
     arma::mat vbA = Rcpp::as<arma::mat>(vb_);

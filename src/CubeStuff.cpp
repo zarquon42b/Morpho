@@ -7,7 +7,7 @@ using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-SEXP addo(SEXP array_) {
+SEXP addoCpp(SEXP array_) {
   try {
     NumericVector vecArray(array_);
     IntegerVector arrayDims = vecArray.attr("dim");
@@ -21,7 +21,7 @@ SEXP addo(SEXP array_) {
   }
 
 }
-SEXP arrMean3(SEXP array_) {
+SEXP arrMean3Cpp(SEXP array_) {
   try {
     NumericVector vecArray(array_);
     IntegerVector arrayDims = vecArray.attr("dim");
@@ -38,7 +38,7 @@ SEXP arrMean3(SEXP array_) {
 
 }
 
-SEXP scaleproc(SEXP array_) {
+SEXP scaleprocCpp(SEXP array_) {
   try {
     typedef unsigned int uint;
     vec h;

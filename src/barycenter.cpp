@@ -4,7 +4,7 @@ using namespace Rcpp;
 using namespace std;
 //using namespace arma;
 
-RcppExport SEXP barycenter(SEXP vb_, SEXP it_) {
+RcppExport SEXP barycenterCpp(SEXP vb_, SEXP it_) {
   try {
     NumericMatrix vb(vb_);
     IntegerMatrix it(it_);

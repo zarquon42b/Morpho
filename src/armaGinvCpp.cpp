@@ -1,6 +1,6 @@
-#include "armaGinv.h"
+#include "armaGinvCpp.h"
 
-SEXP armaGinv(SEXP matIn_, SEXP tol_) {
+SEXP armaGinvCpp(SEXP matIn_, SEXP tol_) {
   try {
     if (!Rf_isMatrix(matIn_)){
       return wrap(1);

@@ -39,7 +39,7 @@ SEXP asymPerm(SEXP asymr, SEXP groupsr, SEXP roundr) {
   }
 }
 
-RcppExport SEXP asymPermute(SEXP data_, SEXP groups_, SEXP rounds_) {
+RcppExport SEXP asymPermuteCpp(SEXP data_, SEXP groups_, SEXP rounds_) {
   try {
     mat armaData = as<mat>(data_);
     arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);

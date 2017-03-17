@@ -1,7 +1,7 @@
 addo <- function(arr) {
     if (!is.numeric(arr) || length(dim(arr)) != 3)
         stop("please provide 3D numeric array")
-    out <- .Call("addo",arr)
+    out <- .Call("addoCpp",arr)
     return(out)
 }
 #' calculate mean of an array
@@ -19,6 +19,6 @@ addo <- function(arr) {
 arrMean3 <- function(arr) {
     if (!is.numeric(arr) || length(dim(arr)) != 3)
         stop("please provide 3D numeric array")
-    out <- .Call("arrMean3",arr)
+    out <- .Call("arrMean3Cpp",arr)
     return(out)
 }

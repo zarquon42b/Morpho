@@ -26,7 +26,7 @@ meshres <- function(mesh)
       vb <- mesh$vb[1:3,]
        if (!is.matrix(vb) || !is.numeric(vb))
           stop("vertices must be a numeric matrix")
-      res <- .Call("meshres",vb,it)
+      res <- .Call("meshresCpp",vb,it)
       return(res)
   }
     
