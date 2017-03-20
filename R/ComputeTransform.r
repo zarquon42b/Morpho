@@ -61,7 +61,7 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         m <- ncol(y)
         L <- CreateL(y,lambda=lambda, output="L",threads=threads)$L
         m2 <- rbind(x,matrix(0,m+1,m))
-        coeff <- try(as.matrix(base::solve(L,m2)),silent = TRUE)
+        coeff <- try(as.matrix(base::solve(L,m2,tol=1e-20)),silent = TRUE)
         if (inherits(coeff,"try-error")) ## in some cases base::solve is more sensitive with near-singularity
             coeff <- try(as.matrix(Matrix::solve(L,m2)))
 
