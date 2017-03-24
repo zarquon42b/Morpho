@@ -7,17 +7,16 @@
 
    \subsection{New features}{
     \itemize{
-     \item added align2procSym to align new data to existing Procrustes
-    aligned data.
-    \item CVA: added option to specify prior probs
-    \item fixLMtps, proc.weight: allow custom weight functions
-    \item slider2d: public version of formerly private Semislide function
-    \item procSym: added weights and centerweights to control Procrustes registration.
-    \item predictRelWarps: added prediction of uniform scores
-    \item added support in predictRelWarps for alpha=0
-    \item icpmat: added options for weights and centerweight
-    \item deformGrid3d: allow exporting resulting 3D object as mesh.
-
+      \item added align2procSym to align new data to existing Procrustes
+      aligned data.
+      \item CVA: added option to specify prior probs
+      \item fixLMtps, proc.weight: allow custom weight functions
+      \item slider2d: public version of formerly private Semislide function
+      \item procSym: added weights and centerweights to control Procrustes registration.
+      \item predictRelWarps: added prediction of uniform scores
+      \item added support in predictRelWarps for alpha=0
+      \item icpmat: added options for weights and centerweight
+      \item deformGrid3d: allow exporting resulting 3D object as mesh.
     }
   }
   \subsection{bugfixes and minor changes}{

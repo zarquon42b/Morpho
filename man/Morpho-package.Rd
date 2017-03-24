@@ -16,8 +16,8 @@ and semi-automated placement of surface landmarks.
 \tabular{ll}{
 Package: \tab Morpho\cr
 Type: \tab Package\cr
-Version: \tab 2.4.1.1\cr
-Date: \tab 2016-09-13\cr
+Version: \tab 2.5\cr
+Date: \tab 2017-03-24\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
@@ -34,8 +34,8 @@ population differences and sexual dimorphism. PhD thesis,
 \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 }
 \author{
-Stefan Schlager \email{stefan.schlager@uniklinik-freiburg.de}
+Stefan Schlager \email{zarquon42@gmail.com}
 
-Maintainer: Stefan Schlager \email{stefan.schlager@uniklinik-freiburg.de}
+Maintainer: Stefan Schlager \email{zarquon42@gmail.com}
 }
 \keyword{package}

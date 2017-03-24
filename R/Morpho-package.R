@@ -8,8 +8,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.4.1.1\cr
-#' Date: \tab 2016-09-13\cr
+#' Version: \tab 2.5\cr
+#' Date: \tab 2017-03-24\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -17,9 +17,9 @@
 #' @name Morpho-package
 #' @aliases Morpho-package Morpho
 #' @docType package
-#' @author Stefan Schlager \email{stefan.schlager@@uniklinik-freiburg.de}
+#' @author Stefan Schlager \email{zarquon42@@gmail.com}
 #' 
-#' Maintainer: Stefan Schlager \email{stefan.schlager@@uniklinik-freiburg.de}
+#' Maintainer: Stefan Schlager \email{zarquon42@@gmail.com}
 #' @note
 #' The pdf-version of Morpho-help can be obtained from CRAN on \url{https://cran.r-project.org/package=Morpho}
 #'
