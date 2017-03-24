@@ -33,7 +33,7 @@ newdata <- boneLM[,,61:80]
 proc1 <- procSym(array1)
 newalign <- align2procSym(proc1,newdata)
 ## compare alignment for one specimen to Proc. registration using all data
-\dontrun  {
+\dontrun{
 deformGrid3d(newalign[,,1],proc$orpdata[,,61])
 }
 }
