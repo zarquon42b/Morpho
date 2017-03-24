@@ -280,9 +280,7 @@ predictPLSfromScores <- function(pls,x,y) {
         else if (is.matrix(x))
             xl <- ncol(x)
 
-        if (xl == 1)
-            yest <- t(t(pls$ylm$coefficients[1:xl,,drop=FALSE])%*%t(x))
-        
+        yest <- t(t(pls$ylm$coefficients[1:xl,,drop=FALSE])%*%t(x))
         out <- t(svdpls$v%*%t(yest))
         out <- sweep(out,2,-pls$ycenter)
         if (length(dim(pls$y)) == 3) {
