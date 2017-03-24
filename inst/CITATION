@@ -1,0 +1,10 @@
+bibentry(bibtype = "InCollection",
+         author = person("Stefan", "Schlager"),
+         title = "Morpho and Rvcg -- Shape Analysis in {R}",
+         booktitle = "Statistical Shape and Deformation Analysis",
+         publisher = "Academic Press",
+         year = 2017,
+         editor = c(person("Guoyan", "Zheng"),person("Shuo","Li"),person("Gabor", "Szekely")),
+         pages = "217--257",
+         isbn = "9780128104934"
+         )
