@@ -2,6 +2,40 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+
+\section{Changes in Morpho version 2.5 (2017-03-24)}{
+
+   \subsection{New features}{
+    \itemize{
+     \item added align2procSym to align new data to existing Procrustes
+    aligned data.
+    \item CVA: added option to specify prior probs
+    \item fixLMtps, proc.weight: allow custom weight functions
+    \item slider2d: public version of formerly private Semislide function
+    \item procSym: added weights and centerweights to control Procrustes registration.
+    \item predictRelWarps: added prediction of uniform scores
+    \item added support in predictRelWarps for alpha=0
+    \item icpmat: added options for weights and centerweight
+    \item deformGrid3d: allow exporting resulting 3D object as mesh.
+
+    }
+  }
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item computeTransform: decreased singularity tolerance for type="tps"
+      \item tps2d: added as alias of tps3d to avoid user confusion
+      \item equidistantCurve: some minor improvements and fix for 2D case
+      \item CreateL: fixed return of Lsubk3 if dim=2
+      \item made read.mpp more generic
+      \item applyTransform: more efficient normal handling for affine transform
+      \item write.* functions: only append file suffix if missing in the filename
+
+    }
+  }
+}
+
+
+
 \section{Changes in Morpho version 2.4.1 (2016-09-12)}{
   \subsection{bugfixes and minor changes}{
     \itemize{
