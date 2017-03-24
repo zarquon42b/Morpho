@@ -351,7 +351,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         
         class(out) <- "nosymproc"
     }
-    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect))
+    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect,centerweight=centerweight,weights=weights))
     return(out)
     
 }
@@ -373,4 +373,46 @@ print.symproc <- function(x,...) {
     cat("\n Variance Table of Asymmetric Component\n")
     print(as.data.frame(x$AsymVar),row.names=FALSE)
 }
-    
+
+#' align new data to an existing Procrustes registration
+#'
+#' align new data to an existing Procrustes registration
+#'
+#' @param x result of a \code{procSym} call
+#' @param newdata matrix or array of with landmarks corresponding to the data aligned in x
+#' @param orp logical: allows to skip orthogonal projection, even if it was used in the \code{procSym} call.
+#' @return an array with data aligned to the mean shape in x (and projected into tangent space)
+#' @note this will never yield the same result as a pooled Procrustes analysis because the sample mean is iteratively updated and new data would change the mean.
+#' @examples
+#' require(Morpho)
+#' data(boneData)
+#' # run procSym on entire data set
+#' proc <- procSym(boneLM)
+#' # this is the training data
+#' array1 <- boneLM[,,1:60]
+#' newdata <- boneLM[,,61:80]
+#' proc1 <- procSym(array1)
+#' newalign <- align2procSym(proc1,newdata)
+#' ## compare alignment for one specimen to Proc. registration using all data
+#' \dontrun  {
+#' deformGrid3d(newalign[,,1],proc$orpdata[,,61])
+#' }
+#' @export
+align2procSym <- function(x,newdata,orp=TRUE) {
+    if (!inherits(x,c( "nosymproc","symproc")))
+        stop("x must be of class symproc or nosymproc")
+    if (is.matrix(newdata))
+        newdata <- array(newdata,dim=c(dim(newdata),1))
+    if (length(dim(newdata)) != 3)
+        stop("newdata must be a 3D array")
+    n <- dim(newdata)[3]
+    atts <- attributes(x)
+    newdatarot <- newdata
+    for (i in 1:n)
+        newdatarot[,,i] <- rotonto(x$mshape,newdata[,,i],scale=atts$scale,reflection=atts$reflect,centerweight=atts$centerweight,weights=atts$weights)$yrot
+    if (atts$orp && orp)
+        orpdata <- orp(newdatarot,x$mshape)
+     if (dim(orpdata)[3] == 1)
+         orpdata <- orpdata[,,1]
+    return(orpdata)
+}
