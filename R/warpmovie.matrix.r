@@ -69,11 +69,11 @@
 #' ### imagemagick.
 #' }
 #' ### 2D example
-#' library(shapes)
+#' if (require(shapes)) {
 #' bb <- procSym(gorf.dat)
 #' ### morph superimposed first specimen onto sample mean
 #' warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")
-#' 
+#' }
 #' @rdname warpmovie3d
 #' @export
 warpmovie3d <- function (x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",...) UseMethod("warpmovie3d")

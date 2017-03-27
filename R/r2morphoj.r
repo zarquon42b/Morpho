@@ -14,7 +14,7 @@
 #' 
 #' @examples
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' r2morphoj(gorf.dat,file="gorf.dat")
 #' 
 #' data <- bindArr(gorf.dat, gorm.dat, along=3)
@@ -22,7 +22,7 @@
 #' rep("male",dim(gorm.dat)[3]))
 #' labelname <- "sex"
 #' r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
-#' 
+#' }
 #' @rdname r2morphoj
 #' @export
 r2morphoj <- function(x,file,id.string=NULL)

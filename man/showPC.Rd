@@ -27,7 +27,7 @@ configuration space.
 }
 \examples{
 
-library(shapes)
+if (require(shapes)) {
 ## generate landmarks using
 ##the first PC-score of the first specimen
 
@@ -38,7 +38,7 @@ plot(lm,asp=1)
 ##now the first 3 scores
 lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 points(lm2,col=2)
-
+}
 }
 \seealso{
 \code{\link{prcomp}}, \code{\link{procSym}}

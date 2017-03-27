@@ -65,7 +65,7 @@ nromal distribution
 }
 \examples{
 
-library(shapes)
+if (require(shapes)) {
 data <- procSym(gorf.dat)$PCscores[,1:3]
 probas <- typprob(data,data,small=TRUE)### get probability for each specimen
 
@@ -85,7 +85,7 @@ typClass
 
 ### check results for second method:
 typClass2
-
+}
 
 }
 \references{

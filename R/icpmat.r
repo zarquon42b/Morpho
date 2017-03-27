@@ -35,7 +35,7 @@
 #' spheres3d(longnose.lm,col="yellow",radius = 0.2)
 #' }
 #' ##2D example  using icpmat to determine point correspondences
-#' require(shapes)
+#' if (require(shapes)) {
 #' ## we scramble rows to show that this is independent of point order
 #' moving <- gorf.dat[sample(1:8),,1]
 #' plot(moving,asp=1) ## starting config
@@ -48,6 +48,7 @@
 #' icpsort <- icpgorf[index,]
 #' for (i in 1:8)
 #' lines(rbind(icpsort[i,],gorf.dat[i,,2]))
+#' }
 #' @importFrom Rvcg vcgKDtree vcgSearchKDtree vcgCreateKDtree
 #' @export
 icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","similarity","affine"),weights=NULL,threads=1,centerweight=FALSE) {

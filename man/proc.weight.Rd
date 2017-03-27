@@ -43,7 +43,7 @@ to zero.
 }
 \examples{
 
-library(shapes)
+if (require(shapes)) {
 proc <- procSym(gorf.dat)
 ##get weights for the the four specimen closest to the first observation.
 weights <- proc.weight(proc$rotated,4,1)
@@ -63,5 +63,5 @@ gaussWeight <- function(r,sigma=0.05) {
    return(exp(-r^2/ sigma))
 }
 weights <- proc.weight(proc$rotated,4,1,weightfun=gaussWeight)
-
+}
 }

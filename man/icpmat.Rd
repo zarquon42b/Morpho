@@ -56,7 +56,7 @@ spheres3d(icpw[1:3,],col="green",radius = 0.5)
 spheres3d(longnose.lm,col="yellow",radius = 0.2)
 }
 ##2D example  using icpmat to determine point correspondences
-require(shapes)
+if (require(shapes)) {
 ## we scramble rows to show that this is independent of point order
 moving <- gorf.dat[sample(1:8),,1]
 plot(moving,asp=1) ## starting config
@@ -69,4 +69,5 @@ index <- mcNNindex(icpgorf,gorf.dat[,,2],k=1,cores=1)
 icpsort <- icpgorf[index,]
 for (i in 1:8)
 lines(rbind(icpsort[i,],gorf.dat[i,,2]))
+}
 }

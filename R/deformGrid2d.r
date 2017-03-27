@@ -24,10 +24,10 @@
 #' @seealso \code{\link{tps3d}}
 #' 
 #' @examples
-#' require(shapes)
+#' if (require(shapes)) {
 #' proc <- procSym(gorf.dat)
-#' 
 #' deformGrid2d(proc$mshape,proc$rotated[,,1],ngrid=5,pch=19)
+#' }
 #' 
 #' @export
 

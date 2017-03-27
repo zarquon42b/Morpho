@@ -165,10 +165,11 @@ pcaplot3d(symproc, sym=FALSE)
 
 ## visualze distribution of symmetric PCscores population
 pop <- name2factor(boneLM, which=3)
-require(car)
+if (require(car)) {
 spm(~symproc$PCscore_sym[,1:5], groups=pop)
 ## visualze distribution of asymmetric PCscores population
 spm(~symproc$PCscore_asym[,1:5], groups=pop)
+}
 }
 
 

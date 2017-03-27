@@ -47,10 +47,11 @@ reflect a mesh configuration at the plane spanned by its first 2 principal axis,
 data(boneData)
 boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2,mirroraxis=3)
 ## 2D Example:
-require(shapes)
+if (require(shapes)) {
 gorfMir <- mirror(gorf.dat[,,1],mirroraxis=2,pcAlign=TRUE,icpiter = 0)
 plot(gorfMir,asp = 1)
 points(gorf.dat[,,1],col=3)
+}
 \dontrun{
 ## now mirror a complete mesh
 require(rgl)

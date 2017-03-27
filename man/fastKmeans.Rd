@@ -27,7 +27,7 @@ returns a list containing
 fast kmeans clustering for 2D or 3D point clouds - with the primary purpose to get a spatially equally distributed samples
 }
 \examples{
-require(Rvcg);require(rgl)
+require(Rvcg)
 data(humface)
 set.seed(42)
 clust <- fastKmeans(humface,k=1000,threads=1)

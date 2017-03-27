@@ -44,10 +44,10 @@ visualise differences between two superimposed sets of 2D landmarks by
 deforming a square grid based on a thin-plate spline interpolation
 }
 \examples{
-require(shapes)
+if (require(shapes)) {
 proc <- procSym(gorf.dat)
-
 deformGrid2d(proc$mshape,proc$rotated[,,1],ngrid=5,pch=19)
+}
 
 }
 \seealso{

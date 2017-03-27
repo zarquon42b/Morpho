@@ -37,7 +37,7 @@ landmark data has to be registered beforehand.
 }
 \examples{
 
-library(shapes)
+if (require(shapes)) {
 proc <- procSym(gorf.dat)
 #use the closest 3 specimen based on the first 4 landmarks
 #to estimate the shape
@@ -45,7 +45,7 @@ estim <- NNshapeReg(proc$rotated[1:4,,],proc$rotated,n=3,mc.cores=1)
 #compare estimation and true config
 plot(proc$rotated[,,1],asp=1)
 points(estim[,,1],col=2)
-
+}
 
 }
 \seealso{

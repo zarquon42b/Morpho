@@ -16,14 +16,15 @@
 #' 
 #' @examples
 #' 
-#' require(rgl)
-#' library(shapes)
+#' 
+#' if (require(shapes)) {
 #' ##2D example
 #' plot(gorf.dat[,,1],asp=1)
 #' lineplot(gorf.dat[,,1],point=c(1,5:2,8:6,1),col=2)
-#' 
+#' }
 #' ##3D example
 #' \dontrun{
+#' require(rgl)
 #' data(nose)
 #' points3d(shortnose.lm[1:9,])
 #' lineplot(shortnose.lm[1:9,],point=list(c(1,3,2),c(3,4,5),c(8,6,5,7,9)),col=2)

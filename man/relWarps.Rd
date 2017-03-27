@@ -53,11 +53,12 @@ data(boneData)
 pop <- name2factor(boneLM,which=3)
 rW <- relWarps(boneLM, alpha = -1)
 \dontrun{
-require(car)
+if (require(car)) {
 # plot first 5 relative warps scores grouped by population
 spm(rW$bescores[,1:5],group=pop)
 # plot uniform component scores grouped by population
 spm(rW$uniscores[,1:5],group=pop)
+}
 ##plot non-affine variance associated with each relative warp
 barplot(rW$Var[,2], xlab="relative Warps")
 ## visualize first relative warp +-3 sd of the scores
@@ -65,20 +66,22 @@ rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$
 deformGrid3d(rw1[,,1],rw1[,,2],ngrid=5)
 
 ## 2D example:
-require(shapes)
+if (require(shapes)) {
 data <- bindArr(gorf.dat, gorm.dat, along=3)
 sex <- factor(c(rep("fem", dim(gorf.dat)[3]), rep("male",dim(gorm.dat)[3])))
 rW <- relWarps(data, alpha = -1)
+if (require(car)) {
 # plot first 3 relative warps scores grouped by population
 spm(rW$bescores[,1:3],group=sex)
 # plot uniform component scores grouped by population
 spm(rW$uniscores[,1:2],group=sex)
+}
 ##plot non-affine variance associated with each relative warp
 barplot(rW$Var[,2], xlab="relative Warps")
 ## visualize first relative warp +-3 sd of the scores
 rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
 deformGrid2d(rw1[,,1],rw1[,,2],ngrid=10)
-}
+}}
 
 }
 \references{

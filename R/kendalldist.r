@@ -10,11 +10,10 @@
 #' @return returns Riemannian distance
 #' 
 #' @examples
-#' 
-#' library(shapes)
+#' if(require(shapes)) {
 #' OPA <- rotonto(gorf.dat[,,1],gorf.dat[,,2])
 #' kendalldist(OPA$X,OPA$Y)
-#' 
+#' }
 #' @export
 kendalldist <- function(x,y)
     {

@@ -17,10 +17,10 @@ inverts faces' orientation of triangular mesh and recomputes vertex normals
 }
 \examples{
 
-require(rgl)
+
 data(nose)
 \dontrun{
-shade3d(shortnose.mesh,col=3)
+rgl::shade3d(shortnose.mesh,col=3)
 }
 noseinvert <- invertFaces(shortnose.mesh)
 ## show normals

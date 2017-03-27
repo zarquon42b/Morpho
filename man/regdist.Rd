@@ -37,9 +37,9 @@ calculates the correlation between tangent and shape space.
 }
 \examples{
 
-library(shapes)
+if (require(shapes)) {
 regdist(gorf.dat)
-
+}
 }
 \seealso{
 \code{\link{regdist}}

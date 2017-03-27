@@ -26,9 +26,9 @@
 #' 
 #' @examples
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' regdist(gorf.dat)
-#' 
+#' }
 #' @export
 regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", dist.mat.out=FALSE)
 {     proc <- procSym(dataarray,scale=FALSE)

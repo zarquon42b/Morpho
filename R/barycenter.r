@@ -9,10 +9,11 @@
 #' 
 #' @examples
 #' 
-#' require(rgl)
+#'
 #' data(nose)
 #' bary <- barycenter(shortnose.mesh)
 #' \dontrun{
+#' require(rgl)
 #' ##visualize mesh
 #' wire3d(shortnose.mesh)
 #' # visualize barycenters

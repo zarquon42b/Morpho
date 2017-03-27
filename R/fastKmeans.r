@@ -12,7 +12,7 @@
 #' \item{centers}{cluster center}
 #' \item{class}{vector with cluster association for each coordinate}
 #' @examples
-#' require(Rvcg);require(rgl)
+#' require(Rvcg)
 #' data(humface)
 #' set.seed(42)
 #' clust <- fastKmeans(humface,k=1000,threads=1)

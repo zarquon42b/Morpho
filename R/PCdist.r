@@ -19,10 +19,10 @@
 #' 
 #' @examples
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' a <- procSym(gorf.dat)
 #' PCdist(a$PCs, a$PCscores, x = 2)
-#' 
+#' }
 #' 
 #' @export
 PCdist <- function(PCs,PCscores,x=5,plot.type="b")

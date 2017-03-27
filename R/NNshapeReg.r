@@ -22,7 +22,7 @@
 #' 
 #' @examples
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' proc <- procSym(gorf.dat)
 #' #use the closest 3 specimen based on the first 4 landmarks
 #' #to estimate the shape
@@ -30,7 +30,7 @@
 #' #compare estimation and true config
 #' plot(proc$rotated[,,1],asp=1)
 #' points(estim[,,1],col=2)
-#' 
+#' }
 #' 
 #' @export
 NNshapeReg <- function(x,y=NULL, n=3, mahalanobis=FALSE,mc.cores = parallel::detectCores()) {

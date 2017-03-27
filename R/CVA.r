@@ -50,7 +50,7 @@
 #' 
 #' ## all examples are kindly provided by Marta Rufino
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' # perform procrustes fit on raw data
 #' alldat<-procSym(abind(gorf.dat,gorm.dat))
 #' # create factors
@@ -65,7 +65,7 @@
 #' points(cvvisNeg5,col=2)
 #' for (i in 1:nrow(cvvisNeg5))
 #'   lines(rbind(cvvis5[i,],cvvisNeg5[i,]))
-#' 
+#' }
 #' ### Morpho CVA
 #' data(iris)
 #' vari <- iris[,1:4]
@@ -78,9 +78,10 @@
 #' print(typprobs)
 #' ## visualize the CV scores by their groups estimated from (cross-validated)
 #' ## typicality probabilities:
-#' require(car)
+#' if (require(car)) {
 #' scatterplot(cva.1$CVscores[,1],cva.1$CVscores[,2],groups=typprobs$groupaffinCV,
 #'                   smooth=FALSE,reg.line=FALSE)
+#' }
 #' # plot the CVA
 #' plot(cva.1$CVscores, col=facto, pch=as.numeric(facto), typ="n",asp=1,
 #'    xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"%")),
@@ -97,20 +98,20 @@
 #'     }
 #' 
 #'   # add 80% ellipses
-#'   require(car)
+#'   if (require(car)) {
 #'   for(ii in 1:length(levels(facto))){
 #'     dataEllipse(cva.1$CVscores[facto==levels(facto)[ii],1],
 #'     cva.1$CVscores[facto==levels(facto)[ii],2], 
 #'                     add=TRUE,levels=.80, col=c(1:7)[ii])}
-#' 
+#'   }
 #'   # histogram per group
-#'   require(lattice)
+#'   if (require(lattice)) {
 #'   histogram(~cva.1$CVscores[,1]|facto,
 #'   layout=c(1,length(levels(facto))),
 #'           xlab=paste("1st canonical axis", paste(round(cva.1$Var[1,2],1),"%")))
 #'   histogram(~cva.1$CVscores[,2]|facto, layout=c(1,length(levels(facto))),
 #'           xlab=paste("2nd canonical axis", paste(round(cva.1$Var[2,2],1),"%")))
-#' 
+#'   } 
 #'   # plot Mahalahobis
 #'   dendroS=hclust(cva.1$Dist$GroupdistMaha)
 #'   dendroS$labels=levels(facto)

@@ -35,7 +35,6 @@ playing around to grasp the mechansims of the Thin-Plate Spline.
 }
 \examples{
 
-require(rgl)
 data(boneData)
 L <- CreateL(boneLM[,,1])
 ## calculate Bending energy between first and second specimen:

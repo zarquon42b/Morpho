@@ -16,7 +16,7 @@
 #' 
 #' @examples
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' ## generate landmarks using
 #' ##the first PC-score of the first specimen
 #' 
@@ -27,7 +27,7 @@
 #' ##now the first 3 scores
 #' lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 #' points(lm2,col=2)
-#' 
+#' }
 #' @export
 showPC <- function(scores,PC,mshape)
   {

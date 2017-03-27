@@ -41,9 +41,7 @@ landmark is quite far off the rest of the landmarks (due to the radial basis
 function used in the Thin-plate spline interpolation.
 }
 \examples{
-
-require(rgl)
-require(shapes)
+if (require(shapes)) {
 data <- gorf.dat
 ### set first landmark of first specimen to NA
 data[1,,1] <- NA
@@ -51,7 +49,7 @@ repair <- fixLMtps(data,comp=5)
 ### view difference between estimated and actual landmark
 plot(repair$out[,,1],asp=1,pch=21,cex=0.7,col=2)#estimated landmark
 points(gorf.dat[,,1],col=3,pch=20)#actual landmark
-
+}
 ## 3D-example:
 data(boneData)
 data <- boneLM

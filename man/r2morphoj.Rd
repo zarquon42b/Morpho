@@ -31,7 +31,7 @@ Export data to MorphoJ and Morphologika
 }
 \examples{
 
-library(shapes)
+if (require(shapes)) {
 r2morphoj(gorf.dat,file="gorf.dat")
 
 data <- bindArr(gorf.dat, gorm.dat, along=3)
@@ -39,5 +39,5 @@ datalabels <- c(rep("female",dim(gorf.dat)[3]),
 rep("male",dim(gorm.dat)[3]))
 labelname <- "sex"
 r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
-
+}
 }

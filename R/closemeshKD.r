@@ -38,7 +38,6 @@
 #' 
 #' @examples
 #' 
-#' require(rgl)
 #' data(nose)
 #' out <- closemeshKD(longnose.lm,shortnose.mesh,sign=TRUE)
 #' ### show distances - they are very small because

@@ -40,7 +40,7 @@
 #' to study covariation in shape. Systematic Biology 49:740-753.
 #' @examples
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' ### very arbitrary test:
 #' ### check if first 4 landmarks covaries with the second 4
 #' proc <- procSym(gorf.dat)
@@ -74,6 +74,7 @@
 #' plsEffects2 <- plsCoVar(pls1,i=2)
 #' deformGrid2d(plsEffects2$x[,,1],plsEffects2$x[,,2])##show on x
 #' deformGrid2d(plsEffects2$y[,,1],plsEffects2$y[,,2],add=TRUE,pch=19)##show on y
+#' }
 #' @export
 pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.cores=parallel::detectCores()) {
     

@@ -24,7 +24,7 @@
 #' \item{rho.all }{dataframe containing distances to references of all observations}
 #' @examples
 #' 
-#' library(shapes)
+#' if (require(shapes)) {
 #' proc <- procSym(gorf.dat)
 #' ##get weights for the the four specimen closest to the first observation.
 #' weights <- proc.weight(proc$rotated,4,1)
@@ -44,7 +44,7 @@
 #'    return(exp(-r^2/ sigma))
 #' }
 #' weights <- proc.weight(proc$rotated,4,1,weightfun=gaussWeight)
-#' 
+#' }
 #' @export
 proc.weight <- function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=FALSE,weightfun=NULL) {
     lmdat <- FALSE
