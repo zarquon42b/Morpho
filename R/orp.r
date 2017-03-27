@@ -10,7 +10,7 @@ orp <- function(A, mshape=NULL)
   Xc <- as.vector(mshape/m.size)
   X <- vecx(A)
   ##direction along mshape onto plane
-  XtoPlane <- t(apply(X,1,function(x){x <- t(crossprod(x,Xc)*Xc)}))
+  XtoPlane <- t(apply(X,1,function(x){x <- t(c(crossprod(x,Xc))*Xc)}))
   X1 <- X-XtoPlane
   X1 <- t(X1)+Xc
   return(proj=array(X1, dim=c(p, k, n)))
