@@ -54,10 +54,20 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
 #' @param cores integer: number of cores to use (not working on windows)
 #' @note The function tries to filter out all vertices where the line connecting each vertex with the viewpoints intersects with the mesh itself. As, technically speaking this always occurs at a distance of value=0, a mesh with a tiny offset is generated to avoid these false hits.
 #' @return a subset of the original mesh
+#' @examples
+#' SCP1 <- file2mesh(system.file("extdata","SCP1.ply",package="Morpho"))
+#' viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho"))
+#' ## Create a quick endocast
+#' quickEndo <- scanMeshFromViewpoints(SCP1,viewpoints)
+#' \dontrun{
+#' rgl::shade3d(quickEndo,col="orange")
+#' rgl::shade3d(SCP1,col="white",alpha=0.5)
+#' }
 #' @importFrom Rvcg vcgRaySearch
 #' @importFrom parallel mclapply
 #' @export
 scanMeshFromViewpoints <- function(x,viewpoints,offset=0.001,cores=1) {
-    out <- rmVertex(x,viewpoints,keep=T)
+    visible <- getVisibleVertices(mesh=x,viewpoints=viewpoints,offset=offset,cores=cores)
+    out <- rmVertex(x,visible,keep = T)
     return(out)
 }

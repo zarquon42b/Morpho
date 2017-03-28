@@ -24,3 +24,13 @@ remove all parts of a triangular mesh, not visible from a set of viewpoints
 \note{
 The function tries to filter out all vertices where the line connecting each vertex with the viewpoints intersects with the mesh itself. As, technically speaking this always occurs at a distance of value=0, a mesh with a tiny offset is generated to avoid these false hits.
 }
+\examples{
+SCP1 <- file2mesh(system.file("extdata","SCP1.ply",package="Morpho"))
+viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho"))
+## Create a quick endocast
+quickEndo <- scanMeshFromViewpoints(SCP1,viewpoints)
+\dontrun{
+rgl::shade3d(quickEndo,col="orange")
+rgl::shade3d(SCP1,col="white",alpha=0.5)
+}
+}
