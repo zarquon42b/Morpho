@@ -7,7 +7,7 @@
 cSize(x)
 }
 \arguments{
-\item{x}{matrix where each row contains coordinates for landmarks}
+\item{x}{k x 3 matrix containing landmark coordinates or mesh of class "mesh3d"}
 }
 \value{
 returns Centroid size
