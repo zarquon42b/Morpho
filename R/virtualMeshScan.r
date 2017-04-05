@@ -66,7 +66,7 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
 #' @importFrom Rvcg vcgRaySearch
 #' @importFrom parallel mclapply
 #' @export
-scanMeshFromViewpoints <- function(x,viewpoints,offset=0.001,cores=1) {
+virtualMeshScan <- function(x,viewpoints,offset=0.001,cores=1) {
     visible <- getVisibleVertices(mesh=x,viewpoints=viewpoints,offset=offset,cores=cores)
     out <- rmVertex(x,visible,keep = T)
     return(out)
