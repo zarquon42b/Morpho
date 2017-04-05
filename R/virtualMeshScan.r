@@ -58,7 +58,7 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
 #' SCP1 <- file2mesh(system.file("extdata","SCP1.ply",package="Morpho"))
 #' viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho"))
 #' ## Create a quick endocast
-#' quickEndo <- scanMeshFromViewpoints(SCP1,viewpoints)
+#' quickEndo <- virtualMeshScan(SCP1,viewpoints)
 #' \dontrun{
 #' rgl::shade3d(quickEndo,col="orange")
 #' rgl::shade3d(SCP1,col="white",alpha=0.5)
