@@ -140,11 +140,10 @@
 #' 
 #' ## visualze distribution of symmetric PCscores population
 #' pop <- name2factor(boneLM, which=3)
-#' if (require(car)) {
+#' require(car)
 #' spm(~symproc$PCscore_sym[,1:5], groups=pop)
 #' ## visualze distribution of asymmetric PCscores population
 #' spm(~symproc$PCscore_asym[,1:5], groups=pop)
-#' }
 #' }
 #' 
 #' 
@@ -205,6 +204,8 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
             if (center.part)
                 tmp[,,i] <- scale(tmp[,,i], scale=FALSE) ## center shapes
+            else
+                orp <- FALSE
         }
         proc$rotated <- tmp
         proc$mshape <- arrMean3(tmp) ##calc new meanshape
@@ -228,7 +229,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
 ###### project into tangent space ######
 ###test###        
     
-    if (orp)
+    if (orp==TRUE && CSinit==TRUE)
         procrot <- orp(proc$rotated, mshape=proc$mshape)
     
     orpdata <- procrot
