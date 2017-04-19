@@ -2,6 +2,16 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.5.1 (2017-04-19)}{
+
+  \subsection{minor changes}{
+    \itemize{
+      \item procSym: reverted to old behaviour, disabling orp if
+      CSinit= FALSE
+    }
+  }
+}
+	 
 
 \section{Changes in Morpho version 2.5 (2017-03-24)}{
 
