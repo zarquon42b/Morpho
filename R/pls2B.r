@@ -457,3 +457,52 @@ svd2B <- function(x,y,scale=F,u=T,v=T) {
         svdutu$v <- NULL
     return(svdutu)
 }
+
+getPLSCommonShape <- function(pls) {
+    out <- NULL
+    xdim <- dim(pls$x)
+    ydim <- dim(pls$y)
+    lmdim <- xdim[2]
+    nlmx <- xdim[1]
+    nlmy <- ydim[1]
+    if (xdim[2] != ydim[2])
+        stop("landmarks need to be of same dimensionality")
+    if (length(xdim) != 3 || length(ydim) != 3)
+        stop("this function only works on landmark data")
+    XscoresScaled <- pls$Xscores
+    YscoresScaled <- pls$Yscores
+    
+    for (i in 1:ncol(pls$Xscores)) {
+        tmp <- cbind(pls$Xscores[,i],pls$Yscores[,i])
+        tmppca <- prcompfast(tmp,retx = FALSE)$rotation[,1]
+        if (prod(tmppca) > 0)
+            tmppca <- abs(tmppca)
+        xtmp <- matrix(pls$svd$u[,i]*tmppca[1],nlmx,lmdim)
+        ytmp <- matrix(pls$svd$v[,i]*tmppca[2],nlmy,lmdim)
+        tmpvec <- c(rbind(xtmp,ytmp))
+        XscoresScaled[,i] <- XscoresScaled[,i]/tmppca[1]
+        YscoresScaled[,i] <- YscoresScaled[,i]/tmppca[2]
+        out <- cbind(out,tmpvec)
+    }
+    commoncenter <- c(rbind(matrix(pls$xcenter,nlmx,lmdim),matrix(pls$ycenter,nlmy,lmdim)))
+    
+    return(list(shapevectors=out,XscoresScaled=XscoresScaled,YscoresScaled=YscoresScaled,commoncenter=commoncenter,lmdim=lmdim))
+}
+
+#' Compute the shape changes along the common axis of deformations
+#'
+#' Compute the shape changes between two blocks of 2D or 3D shape coordiantes along the common axis of deformations defined by each dimension of the latent space
+#'
+#' @param pls object of class "pls2B"
+#' @param i integer: dimension of latent space to show shape changes for
+#' @param sdcommon standard deviations derived from scores scaled to a consensus scale
+#' @references Mitterocker and Bookstein N.N.
+#' @export
+plsCoVarCommonShape <- function(pls,i,sdcommon=1) {
+    commonshape <- getPLSCommonShape(pls)
+    sdi <- sd(c(commonshape$XscoresScaled[,i],commonshape$YscoresScaled[,i]))
+    sdvec <- t(commonshape$shapevectors[,i]%*%t(c(1,-1)*sdcommon*sdi))
+    sdvec <- sweep(sdvec,2,-commonshape$commoncenter)
+    out <- vecx(sdvec,revert = TRUE,lmdim = commonshape$lmdim)
+    return(out)
+}
