@@ -501,7 +501,7 @@ getPLSCommonShape <- function(pls) {
 plsCoVarCommonShape <- function(pls,i,sdcommon=1) {
     commonshape <- getPLSCommonShape(pls)
     sdi <- sd(c(commonshape$XscoresScaled[,i],commonshape$YscoresScaled[,i]))
-    sdvec <- t(commonshape$shapevectors[,i]%*%t(c(1,-1)*sdcommon*sdi))
+    sdvec <- t(commonshape$shapevectors[,i]%*%t(c(-1,1)*sdcommon*sdi))
     sdvec <- sweep(sdvec,2,-commonshape$commoncenter)
     out <- vecx(sdvec,revert = TRUE,lmdim = commonshape$lmdim)
     return(out)
