@@ -95,7 +95,7 @@ Rohlf FJ, Corti M. 2000. Use of two-block partial least-squares
 to study covariation in shape. Systematic Biology 49:740-753.
 }
 \seealso{
-\code{\link{plsCoVar}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
+\code{\link{plsCoVar}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd} , \link{plsCoVarCommonShape}, \link{getPLSCommonShape}}
 }
 \author{
 Stefan Schlager

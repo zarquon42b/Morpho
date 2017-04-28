@@ -17,12 +17,11 @@ plsCoVar(pls, i, sdx = 3, sdy = 3)
 }
 \value{
 \item{x}{matrix/array with reconstructed x}
-
 \item{y}{matrix/array with reconstructed y, with each prediction named accordingly: e.g. neg_x_sd_3 means the prediction of x at a score of \code{-3*sd(Xscores)}}.
 }
 \description{
 Get the shape changes from pls2B associated with each latent variable
 }
 \seealso{
-\code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
+\code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd},  \link{plsCoVarCommonShape}}
 }
