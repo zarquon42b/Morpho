@@ -42,6 +42,8 @@ points(lm2,col=2)
 }
 \seealso{
 \code{\link{prcomp}}, \code{\link{procSym}}
+
+\code{\link{getPCscores}}
 }
 \author{
 Stefan Schlager

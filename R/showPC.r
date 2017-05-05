@@ -28,6 +28,7 @@
 #' lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 #' points(lm2,col=2)
 #' }
+#' @seealso \code{\link{getPCscores}}
 #' @export
 showPC <- function(scores,PC,mshape)
   {
@@ -51,4 +52,28 @@ showPC <- function(scores,PC,mshape)
           }
           return(outarr)
       }    
+}
+
+#' Obtain PC-scores for new landmark data
+#'
+#' Obtain PC-scores for new landmark data
+#' @param x landmarks aligned (e.g. using \code{\link{align2procSym}} to the meanshape of data the PCs are derived from.
+#' @param PC Principal components (eigenvectors of the covariance matrix)
+#' @param mshape matrix containing the meanshape's landmarks (used to center the data)
+#' @return returns a matrix containing the PC scores
+#' @examples
+#' data(boneData)
+#' proc <- procSym(boneLM[,,-c(1:2)])
+#' newdata <- boneLM[,,c(1:2)]
+#' newdataAlign <- align2procSym(proc,newdata)
+#' scores <- getPCscores(newdataAlign,proc$PCs,proc$mshape)
+#' @seealso \code{\link{showPC}}
+#' @export
+getPCscores <- function(x, PC, mshape) {
+    if (is.matrix(x))
+        x <- array(x,dim=(c(dim(x),1)))
+    x <- sweep(x,1:2,mshape)
+    x <- vecx(x)
+    scores <- x%*%(PC)#%*%t(x)
+    return(scores)
 }
