@@ -4,10 +4,12 @@
 \alias{read.fcsv}
 \title{read fiducials from slicer4}
 \usage{
-read.fcsv(x)
+read.fcsv(x, na = NULL)
 }
 \arguments{
 \item{x}{filename}
+
+\item{na}{value to be replaced by NA}
 }
 \value{
 a k x 3 matrix with landmarks

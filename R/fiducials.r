@@ -2,9 +2,10 @@
 #'
 #' read fiducials from slicer4
 #' @param x filename
+#' @param na value to be replaced by NA
 #' @return a k x 3 matrix with landmarks
 #' @export
-read.fcsv <- function(x) {
+read.fcsv <- function(x,na=NULL) {
     raw <- readLines(x)
     points <- grep("vtkMRMLMarkupsFiducialNode", raw)
     data <- strsplit(raw[points], split = ",")
@@ -16,6 +17,11 @@ read.fcsv <- function(x) {
     data <- lapply(data, subfun)
     tmp <- as.numeric(unlist(data))
     tmp <- matrix(tmp, length(points), 3, byrow = T)
+    if (!is.null(na)) {
+       nas <- which(tmp == na)
+       if (length(nas) > 0) 
+           tmp[nas] <- NA 
+    }
     return(tmp)
 }
 
