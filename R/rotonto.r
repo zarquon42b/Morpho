@@ -15,9 +15,9 @@
 #' @param rot an object resulting from the former application of rotonto
 #' @param reflection allow reflections.
 #' @param weights vector of length k, containing weights for each landmark.
-#' @param centerweight logical: if weights are defined and centerweigths=TRUE,
+#' @param centerweight logical or vector of weights: if weights are defined and centerweigths=TRUE,
 #' the matrix will be centered according to these weights instead of the
-#' barycenter.
+#' barycenter. If centerweight is a vector of length \code{nrow(x)}, the barycenter will be weighted accordingly.
 #' @return
 #' \item{yrot }{rotated and translated matrix}
 #' \item{Y }{centred and rotated reference matrix}
@@ -58,14 +58,31 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
     ybad <- which(as.logical(is.na(yrows) + is.nan(yrows)))
     bad <- unique(c(xbad,ybad))
+    docenter <- FALSE
+    if (length(centerweight) == 1) {
+        if (centerweight)
+            docenter <- TRUE
+        centerweight <- weights
+    } else {
+        docenter <- TRUE
+    }
+    
     if (length(bad)) {
         message("some landmarks are missing and ignored for calculating the transform")
         x <- x[-bad,]
         y <- y[-bad,]
+        if (!is.null(weights))
+            weights <- weights[-bad]
+        if (!is.logical(centerweight[1]))
+            centerweight <- centerweight[-bad]
+        
+        
     }
     if (!is.null(weights))
         weights <- weights/sum(weights)
-
+    if (!is.null(centerweight))
+        centerweight <- centerweight/sum(centerweight)
+    
     if (nrow(x) > 1) {
         X <- scale(x, scale=FALSE)
         Y <- scale(y, scale=FALSE)
@@ -73,9 +90,10 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
         X <- x
         Y <- y
     }
-    if (centerweight && !is.null(weights)) {
-        xcent <- apply(X*weights,2,sum)
-        ycent <- apply(Y*weights,2,sum)
+    
+    if (docenter && !is.null(centerweight)) {
+        xcent <- apply(X,2,weighted.mean,w=centerweight)
+        ycent <- apply(Y,2,weighted.mean,w=centerweight)
         X <- scale(X,scale=F,center=xcent)
         Y <- scale(Y,scale=F,center=ycent)
     }

@@ -30,9 +30,9 @@ rotreverse(mat, rot)
 
 \item{weights}{vector of length k, containing weights for each landmark.}
 
-\item{centerweight}{logical: if weights are defined and centerweigths=TRUE,
+\item{centerweight}{logical or vector of weights: if weights are defined and centerweigths=TRUE,
 the matrix will be centered according to these weights instead of the
-barycenter.}
+barycenter. If centerweight is a vector of length \code{nrow(x)}, the barycenter will be weighted accordingly.}
 
 \item{mat}{matrix on which the reverse transformations have to be applied}
 

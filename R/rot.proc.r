@@ -1,8 +1,8 @@
 rot.proc <- function(x, y, scale=TRUE, weights=NULL, centerweight=FALSE, reflection=TRUE) {
 
     if (centerweight && !is.null(weights)) {
-        xcent <- apply(x*weights,2,sum)
-        ycent <- apply(y*weights,2,sum)
+        xcent <- apply(x,2,weighted.mean,w=weights)
+        ycent <- apply(y,2,weighted.mean,w=weights)
         x <- scale(x,scale=F,center=xcent)
         y <- scale(y,scale=F,center=ycent)
     }
