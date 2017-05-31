@@ -13,7 +13,7 @@
 #' @param scale logical: if TRUE the mesh will be scaled according to the size
 #' of the target.
 #' @param reflection logical: allow reflection.
-#' 
+#' @param ... additional parameters passed on to \code{\link{rotonto}}.
 #' @return
 #' \item{mesh }{rotated mesh}
 #' \item{yrot }{rotated refmat}
@@ -40,9 +40,9 @@
 #' }
 #' 
 #' @export
-rotmesh.onto <- function(mesh, refmat, tarmat, adnormals=FALSE, scale=FALSE, reflection=FALSE)
+rotmesh.onto <- function(mesh, refmat, tarmat, adnormals=FALSE, scale=FALSE, reflection=FALSE,...)
 {
-  rot <- rotonto(tarmat,refmat,scale=scale,reflection=reflection)
+  rot <- rotonto(tarmat,refmat,scale=scale,reflection=reflection,...)
   hmat <- getTrafo4x4(rot)
   mesh$vb <- hmat%*%mesh$vb
   if (sign(det(rot$gamm) < 0 && reflection))
