@@ -32,7 +32,7 @@ symmetrize <- function(x, pairedLM) {
     } else {
         xmir <- mirror(x,icpiter=0)
         xmir[c(pairedLM),] <- xmir[c(pairedLM[,2:1]),]
-        xrot <- rotonto(x,xmir)$yrot
+        xrot <- rotonto(x,xmir,reflection = FALSE)$yrot
         xsym <- (x+xrot)/2
     }
     return(xsym)
