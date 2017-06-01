@@ -40,39 +40,38 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
             y <- y[-bad,]
         }
     }
-}
-if (type %in% c("r","s")) {
-    scale <- TRUE
-    if (type == "r")
-        scale <- FALSE
-    trafo <- getTrafo4x4(rotonto(x,y,scale = scale,reflection=reflection,weights=weights,centerweight=centerweight))
-} else if (type=="a"){
-    k <- nrow(x)
-    m <- ncol(x)
-    xp <- as.vector(t(x))
-    yh <- cbind(y,1)
-    M <- matrix(0,k*m,m*(m+1))
-    M[(1:k)*m-(m-1),1:(m+1)] <- yh
-    M[(1:k)*m-(m-2),(m+2):(2*(m+1))] <- yh
-    if (m == 3)    
-        M[(1:k)*3,(m+6):(m+9)] <- yh
-    projS <- armaGinv(M) %*%xp
-    trafo <- matrix(projS,m,m+1,byrow = T)
-    trafo <- rbind(trafo,0)
-    trafo[m+1,m+1] <- 1
-} else if (type == "t") {
-    m <- ncol(y)
-    L <- CreateL(y,lambda=lambda, output="L",threads=threads)$L
-    m2 <- rbind(x,matrix(0,m+1,m))
-    coeff <- try(as.matrix(base::solve(L,m2,tol=1e-20)),silent = TRUE)
-    if (inherits(coeff,"try-error")) ## in some cases base::solve is more sensitive with near-singularity
-        coeff <- try(as.matrix(Matrix::solve(L,m2)))
+    if (type %in% c("r","s")) {
+        scale <- TRUE
+        if (type == "r")
+            scale <- FALSE
+        trafo <- getTrafo4x4(rotonto(x,y,scale = scale,reflection=reflection,weights=weights,centerweight=centerweight))
+    } else if (type=="a"){
+        k <- nrow(x)
+        m <- ncol(x)
+        xp <- as.vector(t(x))
+        yh <- cbind(y,1)
+        M <- matrix(0,k*m,m*(m+1))
+        M[(1:k)*m-(m-1),1:(m+1)] <- yh
+        M[(1:k)*m-(m-2),(m+2):(2*(m+1))] <- yh
+        if (m == 3)    
+            M[(1:k)*3,(m+6):(m+9)] <- yh
+        projS <- armaGinv(M) %*%xp
+        trafo <- matrix(projS,m,m+1,byrow = T)
+        trafo <- rbind(trafo,0)
+        trafo[m+1,m+1] <- 1
+    } else if (type == "t") {
+        m <- ncol(y)
+        L <- CreateL(y,lambda=lambda, output="L",threads=threads)$L
+        m2 <- rbind(x,matrix(0,m+1,m))
+        coeff <- try(as.matrix(base::solve(L,m2,tol=1e-20)),silent = TRUE)
+        if (inherits(coeff,"try-error")) ## in some cases base::solve is more sensitive with near-singularity
+            coeff <- try(as.matrix(Matrix::solve(L,m2)))
 
-    trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)
-    class(trafo) <- "tpsCoeff"
-} else {
-    stop("Unknown transformation type")
-}
+        trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)
+        class(trafo) <- "tpsCoeff"
+    } else {
+        stop("Unknown transformation type")
+    }
 
-return(trafo)
+    return(trafo)
 }
