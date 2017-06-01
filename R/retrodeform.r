@@ -59,7 +59,7 @@ getLocalStretchNoArticulate <- function(mat,pairedLM,hmult=5) {
 GetPhi <- function(P,Q,hmult) {
     nnpd <- vcgKDtree(P,P,2)$distance[,-1]
     nnqd <- vcgKDtree(Q,Q,2)$distance[,-1]
-    h <- hmult*mean(c(nnpd,nnqd))^2
+    h <- hmult*mean(c(nnpd,nnqd))
     h2 <- h^2
     dp <- exp(-as.matrix(dist(P)^2)/h2)
     dq <- exp(-as.matrix(dist(Q)^2)/h2)
