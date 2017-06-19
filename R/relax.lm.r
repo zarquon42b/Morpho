@@ -36,6 +36,7 @@
 #' The displacement is calculated as  \eqn{\Upsilon = \Upsilon^0 + stepsize * UT}{Y = Y0 + stepsize * UT}.
 #' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @param use.lm indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.
+#' @param nh numbers of neighbours to consider for normal estimation of pointclouds.
 #' @param silent logical: if TRUE, console output is suppressed.
 #' @param ... additonal arguments - currently unused
 #' @return returns kx3 matrix of slidden landmarks
@@ -109,7 +110,7 @@ relaxLM <- function(lm,...)UseMethod("relaxLM")
 
 #' @rdname relaxLM
 #' @export
-relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,silent=FALSE,...) {
+relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.name=NULL,mesh=NULL,tol=1e-05,deselect=FALSE,inc.check=TRUE,iterations=0, fixRepro=TRUE, missing=NULL, bending=TRUE,stepsize=ifelse(bending,1,0.5),use.lm=NULL,nh=10,silent=FALSE,...) {
     nomesh <- FALSE
     if (is.null(mesh) && is.null(sur.name))
         nomesh <- TRUE
@@ -149,7 +150,7 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
         } else if (!nomesh) {
             tmp <- projRead(lm,mesh)
         } else {
-            tmp <- vcgUpdateNormals(lm,silent=TRUE)
+            tmp <- vcgUpdateNormals(lm,silent=TRUE,pointcloud=c(nh,0))
             message("no surfaces specified - surface is approximated from point cloud")
         }
         vs <- vert2points(tmp)
@@ -191,7 +192,7 @@ relaxLM.matrix <- function(lm,reference,SMvector,outlines=NULL,surp=NULL,sur.nam
             } else if (!nomesh){
                 tmp <- projRead(dataslido,mesh)
             } else {
-                tmp <- vcgUpdateNormals(dataslido,silent=TRUE)
+                tmp <- vcgUpdateNormals(dataslido,silent=TRUE,pointcloud=c(nh,0))
             }
             vs <- vert2points(tmp)
             vn <- t(tmp$normals[1:3,])
