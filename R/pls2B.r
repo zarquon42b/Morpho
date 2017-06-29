@@ -35,7 +35,7 @@
 #' \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
 #' \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 #' @author Stefan Schlager
-#' @seealso \code{\link{plsCoVar}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
+#' @seealso \code{\link{plsCoVar}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd} , \link{plsCoVarCommonShape}, \link{getPLSCommonShape}}
 #' @references Rohlf FJ, Corti M. 2000. Use of two-block partial least-squares
 #' to study covariation in shape. Systematic Biology 49:740-753.
 #' @examples
@@ -410,9 +410,10 @@ predictPLSfromData <- function(pls,x,y,ncomp=NULL) {
 #' @param i integer: which latent variable to show. E.g. i=3 will show the changes associated with the 3rd latent variable.
 #' @param sdx standard deviation on the xscores. sdx=3 will show the effecs of +3sd vs -3sd
 #' @param sdy standard deviation on the yscores. sdy=3 will show the effecs of +3sd vs -3sd
-#' @return \item{x}{matrix/array with reconstructed x}
-#' @return \item{y}{matrix/array with reconstructed y, with each prediction named accordingly: e.g. neg_x_sd_3 means the prediction of x at a score of \code{-3*sd(Xscores)}}. 
-#' @seealso \code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd}}
+#' @return
+#' \item{x}{matrix/array with reconstructed x}
+#' \item{y}{matrix/array with reconstructed y, with each prediction named accordingly: e.g. neg_x_sd_3 means the prediction of x at a score of \code{-3*sd(Xscores)}}. 
+#' @seealso \code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd},  \link{plsCoVarCommonShape}}
 #' @export 
 plsCoVar <- function(pls,i,sdx=3,sdy=3) {
     
@@ -456,4 +457,92 @@ svd2B <- function(x,y,scale=F,u=T,v=T) {
     else
         svdutu$v <- NULL
     return(svdutu)
+}
+#' Get the linear combinations associated with the common shape change in each latent dimension of a pls2B
+#'
+#' Get the linear combinations associated with the common shape change in each latent dimension of a pls2B
+#' @param pls object of class "pls2B"
+#' @return
+#' returns a list containing
+#' \item{shapevectors}{matrix with each containing the shapevectors (in column- major format) of common shape change associated with each latent dimension}
+#' \item{XscoresScaled}{Xscores scaled according to \code{shapevectors}}
+#' \item{YscoresScaled}{Yscores scaled according to \code{shapevectors}}
+#' \item{commoncenter}{Vector containing the common mean}
+#' \item{lmdim}{dimension of landmarks}
+#' @references Mitteroecker P, Bookstein F. 2007. The conceptual and statistical relationship between modularity and morphological integration. Systematic Biology 56(5):818-836.
+#' @examples
+#' data(boneData)
+#' proc <- procSym(boneLM)
+#' pls <- pls2B(proc$orpdata[1:4,,],proc$orpdata[5:10,,])
+#' commShape <- getPLSCommonShape(pls)
+#' ## get common shape for first latent dimension at +-2 sd of the scores
+#' ## (you can do this much more convenient using \code{\link{plsCoVarCommonShape}}
+#' scores <- c(-2,2) * sd(c(commShape$XscoresScaled[,1],commShape$XscoresScaled[,2]))
+#' pred <- showPC(scores,commShape$shapevectors[,1],matrix(commShape$commoncenter,10,3))
+#' \dontrun{
+#' deformGrid3d(pred[,,1],pred[,,2])
+#' }
+#' @seealso \code{\link{plsCoVarCommonShape}}
+#' @export
+getPLSCommonShape <- function(pls) {
+    out <- NULL
+    xdim <- dim(pls$x)
+    ydim <- dim(pls$y)
+    lmdim <- xdim[2]
+    nlmx <- xdim[1]
+    nlmy <- ydim[1]
+    if (xdim[2] != ydim[2])
+        stop("landmarks need to be of same dimensionality")
+    if (length(xdim) != 3 || length(ydim) != 3)
+        stop("this function only works on landmark data")
+    XscoresScaled <- pls$Xscores
+    YscoresScaled <- pls$Yscores
+    
+    for (i in 1:ncol(pls$Xscores)) {
+        tmp <- cbind(pls$Xscores[,i],pls$Yscores[,i])
+        tmppca <- prcompfast(tmp,retx = FALSE)$rotation[,1]
+        if (prod(tmppca) > 0)
+            tmppca <- abs(tmppca)
+        xtmp <- matrix(pls$svd$u[,i]*tmppca[1],nlmx,lmdim)
+        ytmp <- matrix(pls$svd$v[,i]*tmppca[2],nlmy,lmdim)
+        tmpvec <- c(rbind(xtmp,ytmp))
+        XscoresScaled[,i] <- XscoresScaled[,i]/tmppca[1]
+        YscoresScaled[,i] <- YscoresScaled[,i]/tmppca[2]
+        out <- cbind(out,tmpvec)
+    }
+    commoncenter <- c(rbind(matrix(pls$xcenter,nlmx,lmdim),matrix(pls$ycenter,nlmy,lmdim)))
+    
+    return(list(shapevectors=out,XscoresScaled=XscoresScaled,YscoresScaled=YscoresScaled,commoncenter=commoncenter,lmdim=lmdim))
+}
+
+#' Compute the shape changes along the common axis of deformations
+#'
+#' Compute the shape changes between two blocks of 2D or 3D shape coordiantes along the common axis of deformations defined by each dimension of the latent space
+#'
+#' @param pls object of class "pls2B"
+#' @param i integer: dimension of latent space to show shape changes for
+#' @param sdcommon standard deviations derived from scores scaled to a consensus scale
+#' @note this give the same results as \code{plsCoVar}, however, using common shape vectors as suggested by Mitteroecker and Bookstein (2007)
+#' @return
+#' returns an k x m x 2 array with the common shape changes associated with +-\code{sdcommon} SD of the \code{i-th} latent dimension
+#' @references Mitteroecker P, Bookstein F. 2007. The conceptual and statistical relationship between modularity and morphological integration. Systematic Biology 56(5):818-836.
+#' @examples
+#' data(boneData)
+#' proc <- procSym(boneLM)
+#' pls <- pls2B(proc$orpdata[1:4,,],proc$orpdata[5:10,,])
+#' commShape <- getPLSCommonShape(pls)
+#' ## get common shape for first latent dimension at +-2 sd of the scores
+#' pred <- plsCoVarCommonShape(pls,1,2)
+#' \dontrun{
+#' deformGrid3d(pred[,,1],pred[,,2])
+#' }
+#' @seealso \code{\link{pls2B}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd},  \link{plsCoVar},  \link{getPLSCommonShape}}
+#' @export
+plsCoVarCommonShape <- function(pls,i,sdcommon=1) {
+    commonshape <- getPLSCommonShape(pls)
+    sdi <- sd(c(commonshape$XscoresScaled[,i],commonshape$YscoresScaled[,i]))
+    sdvec <- t(commonshape$shapevectors[,i]%*%t(c(-1,1)*sdcommon*sdi))
+    sdvec <- sweep(sdvec,2,-commonshape$commoncenter)
+    out <- vecx(sdvec,revert = TRUE,lmdim = commonshape$lmdim)
+    return(out)
 }
