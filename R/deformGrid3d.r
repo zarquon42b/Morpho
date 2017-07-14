@@ -28,6 +28,8 @@
 #' @param slice1 integer or vector of integers: select slice(s) for the dimensions
 #' @param slice2 integer or vector of integers: select slice(s) for the dimensions
 #' @param slice3 integer or vector of integers: select slice(s) for the dimensions
+#' @param gridcol define color of grid
+#' @param gridwidth integer: define linewidth of grid
 #' @return if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
@@ -43,7 +45,7 @@
 #' @importFrom Rvcg vcgSphere
 #' @importFrom rgl translate3d
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE,slice1=NULL,slice2=NULL,slice3=NULL)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE,slice1=NULL,slice2=NULL,slice3=NULL,gridcol=1, gridwidth=1)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
@@ -172,7 +174,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             }
         }
         outmesh$ib <- cbind(xinit,yinit,zinit)
-        wire3d(outmesh,lit=F)
+        wire3d(outmesh,lit=F,col=gridcol,lwd=gridwidth)
     }
     ## create a mesh displaying the stuff
     if (createMesh) {
