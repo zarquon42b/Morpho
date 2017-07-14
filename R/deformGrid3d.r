@@ -25,6 +25,9 @@
 #' @param ask logical: if TRUE for > 1000 coordinates the user will be asked to prefer points over spheres.
 #' @param margin margin around the bounding box to draw the grid
 #' @param createMesh logical: if TRUE, a triangular mesh of spheres and displacement vectors (can take some time depending on number of reference points and grid density).
+#' @param slice1 integer or vector of integers: select slice(s) for the dimensions
+#' @param slice2 integer or vector of integers: select slice(s) for the dimensions
+#' @param slice3 integer or vector of integers: select slice(s) for the dimensions
 #' @return if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
@@ -33,11 +36,14 @@
 #' \dontrun{
 #' data(nose)
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
+#'
+#' ## select some slices
+#' deformGrid3d(shortnose.lm,longnose.lm,showaxis=1:3,ngrid=10,slice1=2,slice2=5,slice3=7)
 #' }
 #' @importFrom Rvcg vcgSphere
 #' @importFrom rgl translate3d
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE,slice1=NULL,slice2=NULL,slice3=NULL)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
@@ -120,17 +126,30 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             xinit0 <- xinit
             for (i in 1:(ngrid-1))
                 xinit <- cbind(xinit,xinit0+(i*ngrid^2))
+            if (!is.null(slice2)) {
+                xinit <- xinit0+(1:(ngrid-1))[slice2[1]]*ngrid^2
+                if (length(slice2) > 1) 
+                    for (i in 2:length(slice2))
+                        xinit <- cbind(xinit,xinit0+(1:(ngrid-1))[slice2[i]]*ngrid^2)
+            }
         }
         if (1 %in% showaxis) {
             yinit0 <- yinit <- c(ngrid,ngrid+ngrid^2, 2*ngrid+ngrid^2, 2*ngrid)
             for( i in 1:(ngrid-2))
-                yinit <- cbind(yinit,yinit0+i*ngrid)
+                    yinit <- cbind(yinit,yinit0+i*ngrid)
             yinit0 <- yinit
             for (i in 1:(ngrid-2))
-                yinit <- cbind(yinit,yinit0+i*ngrid^2)
+                    yinit <- cbind(yinit,yinit0+i*ngrid^2)
             yinit0 <- yinit
             for (i in 1:(ngrid-1))
-                yinit <- cbind(yinit,yinit0-i)
+                    yinit <- cbind(yinit,yinit0-i)
+            if (!is.null(slice1)) {
+                yinit <- yinit0-(1:(ngrid-1))[slice1[1]]
+                if (length(slice1) > 1) 
+                    for (i in 2:length(slice1))
+                        yinit <- cbind(yinit,yinit0-(1:(ngrid-1))[slice1[i]])
+            }
+            
         }
         if (3 %in% showaxis) {
             zinit0 <- zinit <- (c(2,1,1+ngrid^2,2+ngrid^2))
@@ -145,6 +164,12 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             
             for (i in 1:(ngrid-1))
                 zinit <- cbind(zinit,zinit0+(i*ngrid))
+            if (!is.null(slice3)) {
+                zinit <- zinit0+(1:(ngrid-1))[slice3[1]]*ngrid
+                if (length(slice3) > 1) 
+                    for (i in 2:length(slice3))
+                        zinit <- cbind(zinit,zinit0+(1:(ngrid-1))[slice3[i]]*ngrid)
+            }
         }
         outmesh$ib <- cbind(xinit,yinit,zinit)
         wire3d(outmesh,lit=F)
