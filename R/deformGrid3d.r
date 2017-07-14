@@ -126,9 +126,10 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
                 xinit <- cbind(xinit,xinit0+(i*ngrid))
             
             xinit0 <- xinit
-            for (i in 1:(ngrid-1))
-                xinit <- cbind(xinit,xinit0+(i*ngrid^2))
-            if (!is.null(slice2)) {
+            if (is.null(slice2)) {
+                for (i in 1:(ngrid-1))
+                    xinit <- cbind(xinit,xinit0+(i*ngrid^2))
+            } else {
                 xinit <- xinit0+(1:(ngrid-1))[slice2[1]]*ngrid^2
                 if (length(slice2) > 1) 
                     for (i in 2:length(slice2))
@@ -143,9 +144,12 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             for (i in 1:(ngrid-2))
                     yinit <- cbind(yinit,yinit0+i*ngrid^2)
             yinit0 <- yinit
+
+
+            if (is.null(slice1)) {
             for (i in 1:(ngrid-1))
                     yinit <- cbind(yinit,yinit0-i)
-            if (!is.null(slice1)) {
+            } else {
                 yinit <- yinit0-(1:(ngrid-1))[slice1[1]]
                 if (length(slice1) > 1) 
                     for (i in 2:length(slice1))
@@ -163,10 +167,10 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
                 zinit <- cbind(zinit,zinit0+(i*ngrid^2))
             
             zinit0 <- zinit
-            
+            if (is.null(slice3)) {
             for (i in 1:(ngrid-1))
                 zinit <- cbind(zinit,zinit0+(i*ngrid))
-            if (!is.null(slice3)) {
+            } else {
                 zinit <- zinit0+(1:(ngrid-1))[slice3[1]]*ngrid
                 if (length(slice3) > 1) 
                     for (i in 2:length(slice3))
