@@ -50,7 +50,10 @@ mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)
     if (!is.null(x$ib))
         x <- quad2trimesh(x)
     
-    filename <- paste(filename,".ply",sep="")
+		if (is.character(filename)) {
+	    filename <- paste(filename,".ply",sep="")
+		}
+
     vert <- x$vb[1:3,]
     vert <- round(vert,digits=6)
     if (!is.null(x$it)) {

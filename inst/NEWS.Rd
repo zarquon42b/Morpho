@@ -2,6 +2,16 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.5.1 (2017-04-19)}{
+
+  \subsection{minor changes}{
+    \itemize{
+      \item procSym: reverted to old behaviour, disabling orp if
+      CSinit= FALSE
+    }
+  }
+}
+	 
 
 \section{Changes in Morpho version 2.5 (2017-03-24)}{
 
@@ -12,11 +22,12 @@
       \item CVA: added option to specify prior probs
       \item fixLMtps, proc.weight: allow custom weight functions
       \item slider2d: public version of formerly private Semislide function
-      \item procSym: added weights and centerweights to control Procrustes registration.
+      \item procSym: added weights and centerweights to control Procrustes registration
       \item predictRelWarps: added prediction of uniform scores
       \item added support in predictRelWarps for alpha=0
       \item icpmat: added options for weights and centerweight
-      \item deformGrid3d: allow exporting resulting 3D object as mesh.
+      \item deformGrid3d: allow exporting resulting 3D object as mesh
+      \item cSize now also operates on mesh vertices
     }
   }
   \subsection{bugfixes and minor changes}{

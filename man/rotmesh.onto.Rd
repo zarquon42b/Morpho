@@ -5,7 +5,7 @@
 \title{rotate ,scale and translate a mesh based on landmark information.}
 \usage{
 rotmesh.onto(mesh, refmat, tarmat, adnormals = FALSE, scale = FALSE,
-  reflection = FALSE)
+  reflection = FALSE, ...)
 }
 \arguments{
 \item{mesh}{object of class mesh3d.}
@@ -22,6 +22,8 @@ normals are rotated by the same rotation matrix as the mesh's vertices.}
 of the target.}
 
 \item{reflection}{logical: allow reflection.}
+
+\item{...}{additional parameters passed on to \code{\link{rotonto}}.}
 }
 \value{
 \item{mesh }{rotated mesh}

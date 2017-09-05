@@ -7,18 +7,21 @@
 \alias{applyTransform.default}
 \title{apply affine transformation to data}
 \usage{
-applyTransform(x, trafo, inverse, threads)
+applyTransform(x, trafo, ...)
 
-\method{applyTransform}{matrix}(x, trafo, inverse = FALSE, threads = 1)
+\method{applyTransform}{matrix}(x, trafo, inverse = FALSE, threads = 1, ...)
 
-\method{applyTransform}{mesh3d}(x, trafo, inverse = FALSE, threads = 1)
+\method{applyTransform}{mesh3d}(x, trafo, inverse = FALSE, threads = 1, ...)
 
-\method{applyTransform}{default}(x, trafo, inverse = FALSE, threads = 1)
+\method{applyTransform}{default}(x, trafo, inverse = FALSE, threads = 1,
+  ...)
 }
 \arguments{
 \item{x}{matrix or mesh3d}
 
 \item{trafo}{4x4 transformation matrix or an object of class "tpsCoeff"}
+
+\item{...}{additional arguments, currently not used.}
 
 \item{inverse}{logical: if TRUE, the inverse of the transformation is applied (for TPS coefficients have to be recomputed)}
 

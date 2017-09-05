@@ -5,6 +5,6 @@ bibentry(bibtype = "InCollection",
          publisher = "Academic Press",
          year = 2017,
          editor = c(person("Guoyan", "Zheng"),person("Shuo","Li"),person("Gabor", "Szekely")),
-         pages = "217--257",
+         pages = "217--256",
          isbn = "9780128104934"
          )

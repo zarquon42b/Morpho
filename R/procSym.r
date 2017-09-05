@@ -205,6 +205,8 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
             if (center.part)
                 tmp[,,i] <- scale(tmp[,,i], scale=FALSE) ## center shapes
+            else
+                orp <- FALSE
         }
         proc$rotated <- tmp
         proc$mshape <- arrMean3(tmp) ##calc new meanshape
@@ -228,7 +230,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
 ###### project into tangent space ######
 ###test###        
     
-    if (orp)
+    if (orp==TRUE && CSinit==TRUE)
         procrot <- orp(proc$rotated, mshape=proc$mshape)
     
     orpdata <- procrot

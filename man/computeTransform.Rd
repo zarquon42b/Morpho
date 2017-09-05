@@ -21,9 +21,9 @@ computeTransform(x, y, type = c("rigid", "similarity", "affine", "tps"),
 
 \item{weights}{vector of length k, containing weights for each landmark (only used in type="rigid" or "similarity").}
 
-\item{centerweight}{logical: if weights are defined and centerweigths=TRUE,
-the matrix will be centered according to these weights instead of the
-barycenter.}
+\item{centerweight}{logical or vector of weights: if weights are defined and
+centerweigths=TRUE, the matrix will be centered according to these weights instead of the
+barycenter. If centerweight is a vector of length \code{nrow(x)}, the barycenter will be weighted accordingly.}
 
 \item{threads}{number of threads to use in TPS interpolation.}
 }

@@ -5,6 +5,7 @@
 #' @param trafo 4x4 transformation matrix or an object of class "tpsCoeff"
 #' @param inverse logical: if TRUE, the inverse of the transformation is applied (for TPS coefficients have to be recomputed)
 #' @param threads threads to be used for parallel execution in tps deformation.
+#' @param ... additional arguments, currently not used.
 #' @return the transformed object
 #' @examples
 #' data(boneData)
@@ -14,11 +15,11 @@
 #' @rdname applyTransform
 #' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}, \link{computeTransform}}
 #' @export
-applyTransform <- function(x,trafo,inverse,threads)UseMethod("applyTransform")
+applyTransform <- function(x,trafo,...)UseMethod("applyTransform")
 
 #' @rdname applyTransform
 #' @export
-applyTransform.matrix <- function(x,trafo,inverse=FALSE,threads=1) {
+applyTransform.matrix <- function(x,trafo,inverse=FALSE,threads=1,...) {
     if (is.matrix(trafo)) {
         if (ncol(trafo) == 3 && ncol(x) ==3)
             trafo <- mat3x3tomat4x4(trafo)
@@ -37,7 +38,7 @@ applyTransform.matrix <- function(x,trafo,inverse=FALSE,threads=1) {
 
 #' @rdname applyTransform
 #' @export
-applyTransform.mesh3d <- function(x,trafo,inverse=FALSE,threads=1) {
+applyTransform.mesh3d <- function(x,trafo,inverse=FALSE,threads=1,...) {
     x$vb[1:3,] <- t(applyTransform(t(x$vb[1:3,]) ,trafo,inverse = inverse,threads=threads))
     ## case affine transformation
     reflect <- FALSE
@@ -68,7 +69,7 @@ applyTransform.mesh3d <- function(x,trafo,inverse=FALSE,threads=1) {
 
 #' @rdname applyTransform
 #' @export
-applyTransform.default <- function(x,trafo,inverse=FALSE,threads=1) {
+applyTransform.default <- function(x,trafo,inverse=FALSE,threads=1,...) {
     x <- t(x)
     if (is.matrix(trafo)) {
         if (ncol(trafo) == 3 && ncol(x) == 3)
