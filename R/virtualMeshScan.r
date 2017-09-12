@@ -70,4 +70,69 @@ virtualMeshScan <- function(x,viewpoints,offset=0.001,cores=1) {
     visible <- getVisibleVertices(mesh=x,viewpoints=viewpoints,offset=offset,cores=cores)
     out <- rmVertex(x,visible,keep = T)
     return(out)
+
+#' Get viewpoints on a sphere around a 3D mesh
+#'
+#' Get viewpoints on a sphere around a 3D mesh to be used with virtualMeshScan
+#' @param x  triangular mesh of class 'mesh3d'
+#' @param n number of viewpoint to generate
+#' @param inflate factor for the size of the sphere: \code{inflate=1} means that the sphere around the object just touches the point farthest away from the mesh's centroid.
+#' @param radius defines a fix radius for the sphere (overrides arg \code{inflate}).
+#' @param subdividision parameter passed to \code{\link{vcgSphere}}
+#' @param PCA logical: if TRUE, the sphere will be deformed to match the principle axes of the mesh. NOTE: this may result in the sphere not necessarily completely enclosing the mesh.
+#' @return a list containing
+#' \item{viewpoints}{n x 3 matrix containing viewpoints.}
+#' \item{sphere}{sphere from which the points are sampled}
+#' \item{radius}{radius of the sphere}
+#' @examples
+#' data(boneData)
+#' vp <- getOuterViewpoints(skull_0144_ch_fe.mesh,n=100)
+#' \dontrun{
+#' require(rgl)
+#' shade3d(skull_0144_ch_fe.mesh,col="white")
+#' spheres3d(vp$viewpoints)
+#' wire3d(vp$sphere)
+#' }
+#' ### Fit to principal axes
+#' vppca <- getOuterViewpoints(skull_0144_ch_fe.mesh,n=100,PCA=TRUE,inflate=1.5)
+#' \dontrun{
+#' require(rgl)
+#' shade3d(skull_0144_ch_fe.mesh,col="white")
+#' spheres3d(vppca$viewpoints)
+#' wire3d(vppca$sphere)
+#' }
+#' @importFrom Rvcg vcgSphere vcgSample nverts
+#' @export
+getOuterViewpoints <- function(x,n,inflate=1.5,radius=NULL,subdivision=3,PCA=FALSE) {
+    verts <- vert2points(x)
+     
+    mcenter <- colMeans(verts)
+    mydists <- max(sqrt(rowSums((sweep(verts,2,mcenter))^2)))
+    mysphere <- vcgSphere(subdivision)
+    if (PCA) {
+        mypca <- prcompfast(verts,retx=FALSE)
+        ev <- mypca$sdev/(mypca$sdev[1])
+        pcatrafo <- diag(c(ev,1))
+        pcatraforot <- mypca$rotation
+        pcatraforot <- rbind(cbind(pcatraforot,c(0,0,0)),c(0,0,0,1))
+        mysphere <- applyTransform(mysphere,pcatraforot%*%pcatrafo%*%t(pcatraforot))
+    }
+    #mysphere$vb[1:3,] <- mysphere$vb[1:3,]*distance*mydists
+    trafo <- diag(4)
+    trafo[1:3,4] <- mcenter
+    if (is.null(radius))
+        radius <- mydists*inflate
+    mysphere <- scalemesh(mysphere,radius,center = "none")
+
+    mysphere <- applyTransform(mysphere,trafo)
+   
+        
+        
+    if (n > nverts(mysphere))
+        stop("n exceeds the number of vertices of the sphere, increase it by setting subdivision to a higher value")
+    viewpoints <- vcgSample(mysphere,n)
+    if (!PCA)
+        message(paste("Radius of the sphere =",radius))
+    return(list(viewpoints=viewpoints,sphere=mysphere,radius=radius))
+    
 }
