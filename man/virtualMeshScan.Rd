@@ -16,7 +16,9 @@ virtualMeshScan(x, viewpoints, offset = 0.001, cores = 1)
 \item{cores}{integer: number of cores to use (not working on windows)}
 }
 \value{
-a subset of the original mesh
+returns a list containing subsets of the original mesh
+\item{visible}{the parts visible from at least one of the viewpoints}
+\item{invisible}{the parts not visible from the viewpoints}
 }
 \description{
 remove all parts of a triangular mesh, not visible from a set of viewpoints
@@ -30,7 +32,7 @@ viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho")
 ## Create a quick endocast
 quickEndo <- virtualMeshScan(SCP1,viewpoints)
 \dontrun{
-rgl::shade3d(quickEndo,col="orange")
+rgl::shade3d(quickEndo$visible,col="orange")
 rgl::shade3d(SCP1,col="white",alpha=0.5)
 }
 }

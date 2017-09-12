@@ -41,8 +41,9 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
         return(which(out))
     }
     outvec <- parallel::mclapply(1:nrow(viewpoints),parfun,mc.cores=cores)
-    outvec <- unique(unlist(outvec))
-    return(outvec)
+    visible <- unique(unlist(outvec))
+    ## invisible <- (1:Rvcg::nverts(mesh))[-visible]
+    return(visible)
 }
 
 #' remove all parts of a triangular mesh, not visible from a set of viewpoints
@@ -52,24 +53,29 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
 #' @param viewpoints vector or k x 3  matrix containing a set of viewpoints
 #' @param offset value to generate an offset at the meshes surface (see notes)
 #' @param cores integer: number of cores to use (not working on windows)
+#' 
 #' @note The function tries to filter out all vertices where the line connecting each vertex with the viewpoints intersects with the mesh itself. As, technically speaking this always occurs at a distance of value=0, a mesh with a tiny offset is generated to avoid these false hits.
-#' @return a subset of the original mesh
+#' @return returns a list containing subsets of the original mesh
+#' \item{visible}{the parts visible from at least one of the viewpoints}
+#' \item{invisible}{the parts not visible from the viewpoints}
 #' @examples
 #' SCP1 <- file2mesh(system.file("extdata","SCP1.ply",package="Morpho"))
 #' viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho"))
 #' ## Create a quick endocast
 #' quickEndo <- virtualMeshScan(SCP1,viewpoints)
 #' \dontrun{
-#' rgl::shade3d(quickEndo,col="orange")
+#' rgl::shade3d(quickEndo$visible,col="orange")
 #' rgl::shade3d(SCP1,col="white",alpha=0.5)
 #' }
 #' @importFrom Rvcg vcgRaySearch
 #' @importFrom parallel mclapply
 #' @export
 virtualMeshScan <- function(x,viewpoints,offset=0.001,cores=1) {
-    visible <- getVisibleVertices(mesh=x,viewpoints=viewpoints,offset=offset,cores=cores)
-    out <- rmVertex(x,visible,keep = T)
-    return(out)
+    getvisible <- getVisibleVertices(mesh=x,viewpoints=viewpoints,offset=offset,cores=cores)
+    visible <- rmVertex(x,getvisible,keep=TRUE)
+    invisible <- rmVertex(x,getvisible,keep=FALSE)
+    return(list(visible=visible,invisible=invisible))
+}
 
 #' Get viewpoints on a sphere around a 3D mesh
 #'
