@@ -16,19 +16,24 @@ meshOffset <- function (mesh, offset) {
 #' @param cores integer: number of cores to use (not working on windows)
 #' @note The function tries to filter out all vertices where the line connecting each vertex with the viewpoints intersects with the mesh itself. As, technically speaking this always occurs at a distance of value=0, a mesh with a tiny offset is generated to avoid these false hits.
 #' @return a vector with (1-based) indices of points visible from at least one of the viewpoints
+#' @examples
+#' SCP1 <- file2mesh(system.file("extdata","SCP1.ply",package="Morpho"))
+#' viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho"))
+#' visivert <- getVisibleVertices(SCP1,viewpoints)
 #' @importFrom Rvcg vcgRaySearch
 #' @importFrom parallel mclapply
 #' @export
 getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
-    mesh <- vcgUpdateNormals(mesh)
-    mesh0 <- meshOffset(mesh, offset)
+    mesh <- mesh0 <- vcgUpdateNormals(mesh)
+ ##    mesh0 <- meshOffset(mesh, offset)
     if (is.vector(viewpoints))
         if (length(viewpoints)== 3)
             viewpoints <- t(viewpoints)
     parfun <- function(i) {        
         normals <- c(viewpoints[i,],0) - mesh0$vb
         mesh0$normals <- normals
-        rs <- vcgRaySearch(mesh0, mesh)
+        mesh0 <- meshOffset(mesh0,offset)
+        rs <- vcgRaySearch(mesh1, mesh)
         tmp <- as.logical(rs$quality)
         hitfaces <- which(tmp)
         postnormals <- c(viewpoints[i,],0) - rs$vb
