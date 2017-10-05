@@ -69,7 +69,7 @@ fixLMmirror.matrix <- function(x,pairedLM,...) {
             checklist[count] <- j
         }
     }
-    affected <- affectCol <- goodPaired <- NULL
+    affected <- affectCol <- goodPaired <- badPaired <- NULL
     for (i in 1:nrow(pairedLM)) {
         if (prod(is.na(x[pairedLM[i,],]))) {
             message(paste("paired landmarks",pairedLM[i,1], "and" ,pairedLM[i,2] , ": one landmark of each side should be present"))
@@ -82,6 +82,7 @@ fixLMmirror.matrix <- function(x,pairedLM,...) {
             checkCol <- as.logical(apply(checkPaired,1,prod))
             affectCol <- append(affectCol,which(!as.logical(checkCol)))
             goodPaired <- append(goodPaired,pairedLM[i,which(!as.logical(checkCol))])
+            badPaired <- append(badPaired,pairedLM[i,which(as.logical(checkCol))])
         }
     }
     if (is.null(affected)) {
@@ -99,19 +100,20 @@ fixLMmirror.matrix <- function(x,pairedLM,...) {
     xmir[c(pairedLM),] <- xmir[c(pairedLM[,2:1]),]##relabel landmarks
     xref <- xmir[-c(unilatNA,pairedLM[affected,]),]
     xtar <- x[-c(unilatNA,pairedLM[affected,]),]
-    
-    if ( (prod(sort(goodPaired) %in% sort(pairedLM[,1])) && !prod(sort(goodPaired) %in% sort(pairedLM[,2]))) || (prod(sort(goodPaired) %in% sort(pairedLM[,2])) && !prod(sort(goodPaired) %in% sort(pairedLM[,1])))) {
-        warning("one side completely missing: mirroring on midplane")
-        xrows <- rowSums(x[unilat,])
-        xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
-        bad <- unique(c(xbad))
-        if ((length(unilat)-length(bad)) < 4)
-            stop("not enough unilateral landmarks to compute transform")
-        
-        trans <- computeTransform(x[unilat,],xmir[unilat,])
-        xrot <- applyTransform(xmir,trans)
-        xout <- x
-        xout[pairedLM[,which(checkCol)],] <- xrot[pairedLM[,which(checkCol)],]
+    # print(badPaired)
+    if ( (length(badPaired) >= nrow(pairedLM)) && ((prod(pairedLM[,1] %in% badPaired) || prod(pairedLM[,2] %in% badPaired)))) {
+ #   if ( (prod(sort(badPaired) %in% sort(pairedLM[,1])) && !prod(sort(goodPaired) %in% sort(pairedLM[,2]))) || (prod(sort(goodPaired) %in% sort(pairedLM[,2])) && !prod(sort(goodPaired) %in% sort(pairedLM[,1])))) {
+            warning("one side completely missing: mirroring on midplane")
+            xrows <- rowSums(x[unilat,])
+            xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
+            bad <- unique(c(xbad))
+            if ((length(unilat)-length(bad)) < 4)
+                stop("not enough unilateral landmarks to compute transform")
+            
+            trans <- computeTransform(x[unilat,],xmir[unilat,])
+            xrot <- applyTransform(xmir,trans)
+            xout <- x
+            xout[pairedLM[,which(checkCol)],] <- xrot[pairedLM[,which(checkCol)],]
         
     } else {
         xout <- tps3d(xmir,xref,xtar,threads=1)
