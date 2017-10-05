@@ -45,7 +45,7 @@ fixLMmirror.array <- function(x,pairedLM,...) {
         if (!inherits(tmp,"try-error"))
             out[,,i] <- tmp
         else
-            warning(paste0("missing landmark estimation failed for specimen No.",i," :",tmp[1]))
+            warning(paste0("missing landmark estimation failed for specimen No.",i,": ",tmp[1]))
         
     }
     
