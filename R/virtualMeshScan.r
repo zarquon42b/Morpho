@@ -33,7 +33,7 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
         normals <- c(viewpoints[i,],0) - mesh0$vb
         mesh0$normals <- normals
         mesh0 <- meshOffset(mesh0,offset)
-        rs <- vcgRaySearch(mesh1, mesh)
+        rs <- vcgRaySearch(mesh0, mesh)
         tmp <- as.logical(rs$quality)
         hitfaces <- which(tmp)
         postnormals <- c(viewpoints[i,],0) - rs$vb
