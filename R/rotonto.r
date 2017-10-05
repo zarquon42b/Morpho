@@ -69,8 +69,8 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     
     if (length(bad)) {
         message("some landmarks are missing and ignored for calculating the transform")
-        x <- x[-bad,]
-        y <- y[-bad,]
+        x <- x[-bad,,drop=FALSE]
+        y <- y[-bad,,drop=FALSE]
         if (!is.null(weights))
             weights <- weights[-bad]
         if (!is.logical(centerweight[1]))

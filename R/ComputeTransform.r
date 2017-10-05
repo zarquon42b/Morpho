@@ -36,8 +36,8 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         bad <- unique(c(xbad,ybad))
         if (length(bad)) {
             message("some landmarks are missing and ignored for calculating the transform")
-            x <- x[-bad,]
-            y <- y[-bad,]
+            x <- x[-bad,,drop=FALSE]
+            y <- y[-bad,,drop=FALSE]
         }
     }
     if (type %in% c("r","s")) {
