@@ -10,8 +10,8 @@
 #' @export
 line2plane <- function(ptLine,ptDir, planePt, planeNorm) {
     d <- crossprod(planeNorm,planePt)
-    t <- (d-crossprod(planeNorm,ptLine))/crossprod(planeNorm,ptDir)
-    out <- ptLine+t*ptDir
+    t1 <- c((d-crossprod(planeNorm,ptLine))/crossprod(planeNorm,ptDir))
+    out <- ptLine+t1*ptDir
     if (!length(out))
         stop("plane and line are collinear")
     return(out)
