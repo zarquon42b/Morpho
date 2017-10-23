@@ -6,11 +6,11 @@
 \alias{fixLMmirror.matrix}
 \title{estimate missing landmarks from their bilateral counterparts}
 \usage{
-fixLMmirror(x, pairedLM)
+fixLMmirror(x, pairedLM, ...)
 
-\method{fixLMmirror}{array}(x, pairedLM)
+\method{fixLMmirror}{array}(x, pairedLM, ...)
 
-\method{fixLMmirror}{matrix}(x, pairedLM)
+\method{fixLMmirror}{matrix}(x, pairedLM, ...)
 }
 \arguments{
 \item{x}{a matrix or an array containing landmarks (3D or 2D)}
@@ -18,6 +18,8 @@ fixLMmirror(x, pairedLM)
 \item{pairedLM}{a k x 2 matrix containing the indices (rownumbers) of the
 paired LM. E.g. the left column contains the lefthand landmarks, while the
 right side contains the corresponding right hand landmarks.}
+
+\item{...}{additional arguments}
 }
 \value{
 a matrix or array with fixed missing bilateral landmarks.

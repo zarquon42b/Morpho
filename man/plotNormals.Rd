@@ -4,16 +4,18 @@
 \alias{plotNormals}
 \title{plots the normals of a triangular surface mesh.}
 \usage{
-plotNormals(x, long = 1, lwd = 1, col = 1)
+plotNormals(x, length = 1, lwd = 1, col = 1, ...)
 }
 \arguments{
 \item{x}{object of class "mesh3d"}
 
-\item{long}{length of the normals (default is 1)}
+\item{length}{either a single numeric value or a numeric vector defining per-normals lenght (default is 1)}
 
 \item{lwd}{width of the normals}
 
 \item{col}{color of the normals}
+
+\item{...}{addtional parameters, currently not in use.}
 }
 \description{
 visualises the vertex normals of a triangular surface mesh of class mesh3d.

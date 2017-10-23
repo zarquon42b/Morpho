@@ -5,9 +5,10 @@
 #' 
 #' 
 #' @param x object of class "mesh3d"
-#' @param long length of the normals (default is 1)
+#' @param length either a single numeric value or a numeric vector defining per-normals lenght (default is 1)
 #' @param lwd width of the normals
 #' @param col color of the normals
+#' @param ... addtional parameters, currently not in use.
 #' @author Stefan Schlager
 #' 
 #' @examples
@@ -20,12 +21,17 @@
 #' }
 #' 
 #' @export
-plotNormals <- function(x,long=1,lwd=1,col=1)
-  {
+plotNormals <- function(x,length=1,lwd=1,col=1,...) {
     if ( ! "mesh3d" %in% class(x))
-      {stop("please provide object of class mesh3d")
-     }
+        stop("please provide object of class mesh3d")
 
+    args <- list(...)
+    print(args)
+    if("long" %in% names(args)) {
+        length <- args$long
+        warning("argument 'long' is deprecated, please use 'length' instead")
+    }
+    
     if (is.null(x$normals)) {
         if (!is.null(x$it))
             x <- vcgUpdateNormals(x)
@@ -36,7 +42,7 @@ plotNormals <- function(x,long=1,lwd=1,col=1)
     n.mesh <- list()
     lvb <- dim(x$vb)[2]
     vb <- x$vb
-    vb.norm <- vb[1:3,,drop=FALSE]+long*x$normals[1:3,,drop=FALSE]
+    vb.norm <- vb[1:3,,drop=FALSE]+t(length*t(x$normals[1:3,,drop=FALSE]))
     vb <- cbind(vb[1:3,,drop=FALSE],vb.norm)
     vb <- rbind(vb,1)
     
