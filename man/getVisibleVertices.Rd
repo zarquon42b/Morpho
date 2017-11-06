@@ -24,3 +24,8 @@ find vertices visible from a given viewpoints
 \note{
 The function tries to filter out all vertices where the line connecting each vertex with the viewpoints intersects with the mesh itself. As, technically speaking this always occurs at a distance of value=0, a mesh with a tiny offset is generated to avoid these false hits.
 }
+\examples{
+SCP1 <- file2mesh(system.file("extdata","SCP1.ply",package="Morpho"))
+viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho"))
+visivert <- getVisibleVertices(SCP1,viewpoints)
+}
