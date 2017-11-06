@@ -5,7 +5,8 @@
 \title{Two-Block partial least square regression.}
 \usage{
 pls2B(x, y, tol = 1e-12, same.config = FALSE, rounds = 0,
-  useCor = FALSE, mc.cores = parallel::detectCores())
+  useCor = FALSE, cv = FALSE, cvlv = NULL,
+  mc.cores = parallel::detectCores())
 }
 \arguments{
 \item{x}{array containing superimposed landmark data second block.Matrices
@@ -24,6 +25,10 @@ originate from landmarks that are superimposed together.}
 
 \item{useCor}{if TRUE, the correlation matrix instead of the covariance matrix is used.}
 
+\item{cv}{logical: if TRUE, a leave-one-out cross-validation is performed}
+
+\item{cvlv}{integer: number of latent variables to test}
+
 \item{mc.cores}{integer: determines how many cores to use for the
 computation. The default is autodetect. But in case, it doesn't work as
 expected cores can be set manually. Parallel processing is disabled on
@@ -38,6 +43,8 @@ Windows due to occasional errors.}
 covariation, correlation coeffictient between PLS-scores and p-values for singular values obtained from permutation testing}
 \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
 \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
+\item{predicted.x}{array containing matrices of cross-validated predictions for \code{x}(landmarks arrays will be vectorized using \code{\link{vecx}})}
+\item{predicted.y}{array containing matrices of cross-validated predictions for \code{y} (landmarks arrays will be vectorized using \code{\link{vecx}})}
 }
 \description{
 Performs a Two-Block PLS on two sets of data and assesses the significance

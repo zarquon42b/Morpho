@@ -21,6 +21,8 @@
 #' originate from landmarks that are superimposed together.
 #' @param rounds rounds of permutation testing.
 #' @param useCor if TRUE, the correlation matrix instead of the covariance matrix is used.
+#' @param cv logical: if TRUE, a leave-one-out cross-validation is performed
+#' @param cvlv integer: number of latent variables to test
 #' @param mc.cores integer: determines how many cores to use for the
 #' computation. The default is autodetect. But in case, it doesn't work as
 #' expected cores can be set manually. Parallel processing is disabled on
@@ -34,6 +36,8 @@
 #' covariation, correlation coeffictient between PLS-scores and p-values for singular values obtained from permutation testing}
 #' \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
 #' \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
+#' \item{predicted.x}{array containing matrices of cross-validated predictions for \code{x}(landmarks arrays will be vectorized using \code{\link{vecx}})}
+#' \item{predicted.y}{array containing matrices of cross-validated predictions for \code{y} (landmarks arrays will be vectorized using \code{\link{vecx}})}
 #' @author Stefan Schlager
 #' @seealso \code{\link{plsCoVar}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd} , \link{plsCoVarCommonShape}, \link{getPLSCommonShape}}
 #' @references Rohlf FJ, Corti M. 2000. Use of two-block partial least-squares
@@ -76,9 +80,9 @@
 #' deformGrid2d(plsEffects2$y[,,1],plsEffects2$y[,,2],add=TRUE,pch=19)##show on y
 #' }
 #' @export
-pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.cores=parallel::detectCores()) {
+pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=FALSE,cvlv=NULL, mc.cores=parallel::detectCores()) {
     
-    landmarks <- FALSE
+    landmarks <- landmarksx <- landmarksy <- FALSE
     xorig <- x
     yorig <- y
     win <- FALSE
@@ -89,11 +93,13 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
     
     if (length(dim(x)) == 3) {
         landmarks <- TRUE
+        landmarksx <- TRUE
         x <- vecx(x)
     }
-    if (length(dim(y)) == 3)
+    if (length(dim(y)) == 3) {
+        landmarksy <- TRUE
         y <- vecx(y)
-    else
+    } else
         landmarks <- FALSE
     
     xdim <- dim(x)
@@ -185,7 +191,34 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE, mc.
     out$xlm <- xlm
     out$ylm <- ylm
     class(out) <- "pls2B"
-    return(out)
+    if (cv) { ## Cross-validation
+        if (is.null(cvlv))
+            cvlv <- nrow(Cova)-1
+        else
+            cvlv <- min(nrow(Cova),cvlv,(nrow(x)-2))
+        cvarrayX <- array(NA,dim=c(dim(x),cvlv))
+        cvarrayY <- array(NA,dim=c(dim(y),cvlv))
+        dimnames(cvarrayX)[1:2] <- dimnames(x)
+        dimnames(cvarrayY)[1:2] <- dimnames(y)
+        dimnames(cvarrayX)[[3]] <- dimnames(cvarrayY)[[3]] <- paste("LV",1:cvlv)
+        ## prepare testing sample
+        if (landmarksx)
+            x <- vecx(xorig)
+        if (landmarksy)
+            y <- vecx(yorig)
+        for (i in 1:xdim[1]) {
+            tmppls <- pls2B(x[-i,],y[-i,],useCor = useCor,tol=tol)
+            for (j in 1:cvlv) {
+                cvarrayY[i,,j] <- predictPLSfromData(tmppls,x=x[i,],ncomp=j)
+                cvarrayX[i,,j] <- predictPLSfromData(tmppls,y=y[i,],ncomp=j)
+            }
+        }
+        out$predicted.x <- cvarrayX
+        out$predicted.y <- cvarrayY
+    }
+    
+        
+        return(out)
 }
 
 #' @export
