@@ -21,7 +21,7 @@ meshOffset <- function (mesh, offset) {
 #' viewpoints <- read.fcsv(system.file("extdata","SCP1_Endo.fcsv",package="Morpho"))
 #' visivert <- getVisibleVertices(SCP1,viewpoints)
 #' @importFrom Rvcg vcgRaySearch
-#' @importFrom parallel mclapply
+#' @importFrom parallel mclapply clusterExport makeCluster
 #' @export
 getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
     mesh <- mesh0 <- vcgUpdateNormals(mesh)
@@ -29,6 +29,7 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
     if (is.vector(viewpoints))
         if (length(viewpoints)== 3)
             viewpoints <- t(viewpoints)
+        
     parfun <- function(i) {        
         normals <- c(viewpoints[i,],0) - mesh0$vb
         mesh0$normals <- normals
@@ -45,7 +46,17 @@ getVisibleVertices <- function(mesh,viewpoints, offset = 0.001,cores=1) {
         out[hitfaces[good]] <- TRUE
         return(which(out))
     }
-    outvec <- parallel::mclapply(1:nrow(viewpoints),parfun,mc.cores=cores)
+    
+    if (.Platform$OS.type == "windows" && cores > 1) {
+        cl <- makeCluster(cores, type='PSOCK')
+        registerDoParallel(cl)
+        clusterExport(cl=cl, list("mesh0", "offset", "viewpoints","meshOffset","vcgRaySearch"),envir=environment())
+        outvec <- foreach(i = 1:nrow(viewpoints)) %dopar% parfun(i)
+        stopCluster(cl)
+        registerDoSEQ()
+    } else
+        outvec <- parallel::mclapply(1:nrow(viewpoints),parfun,mc.cores=cores)
+
     visible <- unique(unlist(outvec))
     ## invisible <- (1:Rvcg::nverts(mesh))[-visible]
     return(visible)
