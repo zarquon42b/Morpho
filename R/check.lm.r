@@ -133,7 +133,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
                              
                 if (!is.null(path)) {
                     if (!Rdata) {
-                        tmpmesh <- file2mesh(tmp.name)
+                        tmpmesh <- file2mesh(tmp.name,readcol=TRUE)
                     } else {
                         input <- load(tmp.name)
                         tmp.name <- gsub(path,"",tmp.name)
@@ -166,13 +166,15 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
             }
                 
                 
-                answer <- readline(paste("viewing #",i,"(return=next | m=mark current | s=stop viewing)\n"))
+                answer <- readline(paste("viewing #",i,"(return=next | p=previous | m=mark current | s=stop viewing)\n"))
                 if (answer == "m") {
                     marked[j] <- i
                     j <- j+1
                 } else if (answer == "s") {
                     i <- n+1
-                } else
+                } else if (answer == "p") {
+                    i <- i-1
+                } else 
                     i <- i+1
                 rgl.pop(id=outid)
             }
