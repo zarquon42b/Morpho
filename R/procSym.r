@@ -196,7 +196,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         Aall <- A
     
 ###### proc fit of all configs ######
-    cat("performing Procrustes Fit ")
+    message("performing Procrustes Fit ")
     
     if (!is.null(use.lm)) { ### only use subset for rotation and scale
         proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights)
@@ -326,7 +326,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     
 ###### output ######
     t1 <- Sys.time()
-    cat(paste("Operation completed in",t1-t0,"secs\n"))
+    message(paste("Operation completed in",t1-t0,"secs\n"))
     if (!is.null(pairedLM)) {
         out <- (list(
             size=CS,rotated=proc$rotated[,,1:n],
