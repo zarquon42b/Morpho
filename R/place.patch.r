@@ -158,7 +158,6 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
         parfun <- function(i){
            
             tmp.name <- meshpath[i]
-            print(fix)
             tmp.mesh <- vcgImport(tmp.name)
             if (!usematrix)
                 tmp.data <- projRead(dat.array[,,i],tmp.mesh,readnormals=TRUE)
@@ -190,7 +189,7 @@ place.patch <- function(dat.array,path,atlas.mesh,atlas.lm,patch,curves=NULL,pre
                 sm <- 1:k
                 tps.lm <- tps3d(patch,atlas.lm,t(tmp.data$vb[1:3,]),threads=1)
             }
-            print(i)
+            
             slide <- t(tmp.data$vb[1:3,])
             slidenormals <- t(tmp.data$normals[1:3,])
             if (!usematrix)   #replace projected points with original for fix landmarks
