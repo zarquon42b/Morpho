@@ -9,7 +9,7 @@ deformGrid3d(matrix, tarmatrix, ngrid = 0, align = FALSE, lwd = 1,
   add = FALSE, col1 = 2, col2 = 3, type = c("s", "p"), size = NULL,
   pcaxis = FALSE, ask = TRUE, margin = 0.2, createMesh = FALSE,
   slice1 = NULL, slice2 = NULL, slice3 = NULL, gridcol = 1,
-  gridwidth = 1)
+  gridwidth = 1, ...)
 }
 \arguments{
 \item{matrix}{reference matrix containing 3D landmark coordinates or mesh of class "mesh3d"}
@@ -60,6 +60,8 @@ for very large pointclouds.}
 \item{gridcol}{define color of grid}
 
 \item{gridwidth}{integer: define linewidth of grid}
+
+\item{...}{additional parameters passed to \code{\link{rotonto}} in case \code{align=TRUE}}
 }
 \value{
 if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned.

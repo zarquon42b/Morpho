@@ -30,6 +30,7 @@
 #' @param slice3 integer or vector of integers: select slice(s) for the dimensions
 #' @param gridcol define color of grid
 #' @param gridwidth integer: define linewidth of grid
+#' @param ... additional parameters passed to \code{\link{rotonto}} in case \code{align=TRUE}
 #' @return if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
@@ -45,14 +46,14 @@
 #' @importFrom Rvcg vcgSphere
 #' @importFrom rgl translate3d
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE,slice1=NULL,slice2=NULL,slice3=NULL,gridcol=1, gridwidth=1)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE,slice1=NULL,slice2=NULL,slice3=NULL,gridcol=1, gridwidth=1,...)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
     if (inherits(tarmatrix,"mesh3d"))
         tarmatrix <- vert2points(tarmatrix)
     if (align)
-        tarmatrix <- rotonto(matrix,tarmatrix,reflection=FALSE)$yrot
+        tarmatrix <- rotonto(matrix,tarmatrix,reflection=FALSE,...)$yrot
     type <- type[1]
     if (dim(matrix)[1] > 1000 && type =="s" && (is.null(size) || size > 0) && ask) {
         answer <- readline("You have a lot of landmarks\n Render them as points (faster)? (yes/NO)\n")
