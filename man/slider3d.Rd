@@ -84,8 +84,7 @@ Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.}
 
 \item{mc.cores}{integer: determines how many cores to use for the
 computation. The default is autodetect. But in case, it doesn't work as
-expected cores can be set manually. In Windows, parallel processing is
-disabled.}
+expected cores can be set manually.}
 
 \item{fixRepro}{logical: if \code{TRUE}, fix landmarks will also be
 projected onto the surface. If you have landmarks not on the surface, select

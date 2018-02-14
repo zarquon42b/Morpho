@@ -56,8 +56,7 @@
 #' Default is set to 1 for bending=TRUE and 0.5 for bending=FALSE.
 #' @param mc.cores integer: determines how many cores to use for the
 #' computation. The default is autodetect. But in case, it doesn't work as
-#' expected cores can be set manually. In Windows, parallel processing is
-#' disabled.
+#' expected cores can be set manually.
 #' @param fixRepro logical: if \code{TRUE}, fix landmarks will also be
 #' projected onto the surface. If you have landmarks not on the surface, select
 #' \code{fixRepro=FALSE}
@@ -167,8 +166,13 @@
 #' @export
 slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,silent=FALSE)
 {
-    if(.Platform$OS.type == "windows")
-        mc.cores <- 1
+  if (.Platform$OS.type == "windows" && mc.cores > 1) {
+    cl <- makeCluster(mc.cores)            
+    registerDoParallel(cl=cl)
+  } else if (mc.cores > 1) {
+    registerDoParallel(cores = mc.cores)
+  } else
+    registerDoSEQ()
     
     if (iterations == 0)
         iterations <- 1e10
@@ -287,12 +291,23 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         return(out)
 
     }
+    parfunnomesh <- function(i, data) {
+      if (!is.list(data))
+        tmpdata <- data[,,i]
+      else
+        tmpdata <- data[[i]]
+      
+      out <- vcgUpdateNormals(tmpdata,silent=TRUE)
+      return(out)
+    }
+    
     if (is.null(meshlist) && !nomesh) {
-        repro <- mclapply(1:n, parfunmeshfile,dat.array,mc.cores=mc.cores)
+        repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunmeshfile(i,dat.array)
     } else if (!nomesh) {
-        repro <- mclapply(1:n, parfunmeshlist,dat.array,mc.cores=mc.cores)
+        repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunmeshlist(i,dat.array)
+        
     } else {
-        repro <- mclapply(1:n,function(x) x <- vcgUpdateNormals(dat.array[,,x],silent=TRUE),mc.cores=mc.cores)
+        repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunnomesh(i,dat.array)
         message("no surfaces specified - surface is approximated from point cloud")
     }    
     for (j in 1:n) {
@@ -370,25 +385,26 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
                     dataslido <- rotreverse(dataslido,rot)
                 }
                 return(dataslido)
-            }
-        a.list <- mclapply(a.list,slido,mc.cores=mc.cores)
+        }
+        
+        a.list <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho","Rvcg")) %dopar% slido(i)
+        
         
 ###projection onto surface
        
         if (is.null(meshlist) && !nomesh) {
-            repro <- mclapply(1:n, parfunmeshfile,a.list,mc.cores=mc.cores)
+          repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunmeshfile(i,a.list)  
         } else if (!nomesh) {
-            repro <- mclapply(1:n, parfunmeshlist,a.list,mc.cores=mc.cores)
+            repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunmeshlist(i,a.list)
         } else {
-            repro <- mclapply(a.list,function(x) x <- vcgUpdateNormals(x,silent=TRUE),mc.cores=mc.cores)
+          repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunnomesh(i,a.list)
         }
+        
         for (j in 1:n) {
             reprotmp <- repro[[j]]         
             dataslide[,,j] <- t(reprotmp$vb[1:3,])
             vn.array[,,j] <- t(reprotmp$normals[1:3,])
         }
-       
-        
         
         if (!fixRepro)# use original positions for fix landmarks
             dataslide[fixLM,,] <- data.orig[fixLM,,]
@@ -432,6 +448,8 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
     out <- list(dataslide=dataslide,vn.array=vn.array)
     class(out) <- "slider3d"
     out$sliderinfo <- list(fixLM=fixLM,outlineLM=outlines,surfaceLM=surp)
+    if (.Platform$OS.type == "windows" && mc.cores > 1)
+      stopCluster(cl)
     return(out)
 }
 #' plot the result of slider3d
