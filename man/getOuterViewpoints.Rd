@@ -16,9 +16,9 @@ getOuterViewpoints(x, n, inflate = 1.5, radius = NULL, subdivision = 3,
 
 \item{radius}{defines a fix radius for the sphere (overrides arg \code{inflate}).}
 
-\item{PCA}{logical: if TRUE, the sphere will be deformed to match the principle axes of the mesh. NOTE: this may result in the sphere not necessarily completely enclosing the mesh.}
+\item{subdivision}{parameter passed to \code{\link{vcgSphere}}}
 
-\item{subdividision}{parameter passed to \code{\link{vcgSphere}}}
+\item{PCA}{logical: if TRUE, the sphere will be deformed to match the principle axes of the mesh. NOTE: this may result in the sphere not necessarily completely enclosing the mesh.}
 }
 \value{
 a list containing
