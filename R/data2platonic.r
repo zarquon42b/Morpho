@@ -9,13 +9,16 @@
 #' @return returns all shapes merged into a single mesh
 #' @examples
 #' mymesh <- data2platonic(iris[iris$Species=="setosa",1:3],scalefactor=0.1)
-#' mymesh <- mergeMeshes(mymesh,data2platonic(iris[iris$Species=="versicolor",1:3],shape=vcgIcosahedron(),scalefactor=0.1,col="green"))
-#' mymesh <- mergeMeshes(mymesh,data2platonic(iris[iris$Species=="virginica",1:3],shape=vcgTetrahedron(),scalefactor=0.1,col="blue"))
+#' mymesh <- mergeMeshes(mymesh,data2platonic(iris[iris$Species=="versicolor",1:3],
+#'                       shape=vcgIcosahedron(),scalefactor=0.1,col="green"))
+#' mymesh <- mergeMeshes(mymesh,data2platonic(iris[iris$Species=="virginica",1:3],
+#'                       shape=vcgTetrahedron(),scalefactor=0.1,col="blue"))
 #' \dontrun{
 #' rgl::shade3d(mymesh)
 #' ## save to disk
 #' Rvcg::vcgPlyWrite(mymesh,filename="3D_Data.ply")
 #' }
+#' @export
 data2platonic <- function(datamatrix,shape=Rvcg::vcgSphere(),col="red",scale=FALSE,scalefactor=1) {
     myplatonic <- shape
     myplatonic <- Morpho::scalemesh(myplatonic,center="none",size=scalefactor)
