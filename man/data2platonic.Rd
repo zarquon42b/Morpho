@@ -25,11 +25,12 @@ returns all shapes merged into a single mesh
 creates 3D shapes from 3-dimensional data that can be saved as triangular meshes
 }
 \examples{
+
 mymesh <- data2platonic(iris[iris$Species=="setosa",1:3],scalefactor=0.1)
 mymesh <- mergeMeshes(mymesh,data2platonic(iris[iris$Species=="versicolor",1:3],
-                      shape=vcgIcosahedron(),scalefactor=0.1,col="green"))
+                      shape=Rvcg::vcgIcosahedron(),scalefactor=0.1,col="green"))
 mymesh <- mergeMeshes(mymesh,data2platonic(iris[iris$Species=="virginica",1:3],
-                      shape=vcgTetrahedron(),scalefactor=0.1,col="blue"))
+                      shape=Rvcg::vcgTetrahedron(),scalefactor=0.1,col="blue"))
 \dontrun{
 rgl::shade3d(mymesh)
 ## save to disk
