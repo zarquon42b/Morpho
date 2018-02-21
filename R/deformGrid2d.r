@@ -19,6 +19,9 @@
 #' @param add logical: if TRUE, output will be drawn on existing plot.
 #' @param wireframe list/vector containing row indices to be plotted as wireframe (see \code{\link{lineplot}}.)
 #' @param margin margin around the bounding box to draw the grid
+#' @param gridcol color of the grid
+#' @param cex1 control size of points belonging to \code{matrix}
+#' @param cex2 control size of points belonging to \code{tarmatrix}
 #' @param ... additional parameters passed to plot
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
@@ -31,7 +34,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="black",cex1=1,cex2=1,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -74,33 +77,33 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
     lims <- apply(rbind(matrix,tarmatrix,x0),2,range)
     if (1 %in% show) {
         if (add)
-            points(matrix,col=col1,...)
+            points(matrix,col=col1,cex=cex1,...)
         else 
-            plot(matrix,col=col1,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
+            plot(matrix,col=col1,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,cex=cex1,...)
         if (!is.null(wireframe))
             lineplot(matrix,wireframe,col=col1,lwd=lwd)
         
     }
     if(2 %in% show) {
         if (1 %in% show || add)
-            points(tarmatrix,col=col2,...)
+            points(tarmatrix,col=col2,,cex=cex2,...)
         else 
-            plot(tarmatrix,col=col2,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,...)
+            plot(tarmatrix,col=col2,xlim=lims[,1],ylim = lims[,2],asp=1,xlab = "",ylab = "", axes = F,,cex=cex2,...)
         if (!is.null(wireframe))
             lineplot(tarmatrix,wireframe,col=col2,lwd=lwd)
     }
     if (lines) {
         linemesh <- list()
-        
+        print(lcol)
         linemesh$vb <- rbind(matrix,tarmatrix)
         linemesh$it <- cbind(1:k,(1:k)+k)
         for (i in 1:nrow(linemesh$it))
-            lines(linemesh$vb[linemesh$it[i,],],lwd=lwd,col=lcol)
+            lines(linemesh$vb[linemesh$it[i,],],lwd=lwd,col=3,lty=2)
     }
     
     if (ngrid > 1) {
         for (i in 1:ncol(zinit)) {
-            polygon(x0[zinit[,i],],lwd=lwd)
+            polygon(x0[zinit[,i],],lwd=lwd,border=gridcol)
         }
        
     }

@@ -6,7 +6,8 @@
 \usage{
 deformGrid2d(matrix, tarmatrix, ngrid = 0, lwd = 1, show = c(1:2),
   lines = TRUE, lcol = 1, col1 = 2, col2 = 3, pcaxis = FALSE,
-  add = FALSE, wireframe = NULL, margin = 0.2, ...)
+  add = FALSE, wireframe = NULL, margin = 0.2, gridcol = "black",
+  cex1 = 1, cex2 = 1, ...)
 }
 \arguments{
 \item{matrix}{reference matrix containing 2D landmark coordinates or mesh of class "mesh3d"}
@@ -36,6 +37,12 @@ plotted. Options are combinations of 1,2 and 3.}
 \item{wireframe}{list/vector containing row indices to be plotted as wireframe (see \code{\link{lineplot}}.)}
 
 \item{margin}{margin around the bounding box to draw the grid}
+
+\item{gridcol}{color of the grid}
+
+\item{cex1}{control size of points belonging to \code{matrix}}
+
+\item{cex2}{control size of points belonging to \code{tarmatrix}}
 
 \item{...}{additional parameters passed to plot}
 }
