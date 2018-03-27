@@ -109,7 +109,7 @@
         smsurffree <- which(! SMvector %in% c(surfOnly,freeOnly))
         if (length(smsurffree))
             Ured1 <- Ured1[,-smsurffree]
-        Ured0 <- cBind(Ured0,Ured1)
+        Ured0 <- cbind(Ured0,Ured1)
         
     }
     if (!is.null(free)) {
@@ -117,7 +117,7 @@
         smsurffree <- which(! SMvector %in% c(freeOnly))
         if (length(smsurffree))
             Ured1 <- Ured1[,-smsurffree]
-        Ured0 <- cBind(Ured0,Ured1)
+        Ured0 <- cbind(Ured0,Ured1)
         
     }
     

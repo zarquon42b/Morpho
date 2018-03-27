@@ -37,7 +37,7 @@
 #' @useDynLib Morpho, .registration = TRUE 
 #' @import doParallel graphics grDevices methods stats utils
 #' @importFrom foreach foreach '%dopar%' '%do%'
-#' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t cBind
+#' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t
 #' @importFrom parallel mclapply detectCores
 #' @importFrom rgl lines3d open3d points3d rgl.bg rgl.bringtotop rgl.clear rgl.close  rgl.cur rgl.pop rgl.snapshot shade3d spheres3d text3d translate3d wire3d
 #' @importFrom Rcpp evalCpp
