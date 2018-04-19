@@ -14,7 +14,14 @@ read.fcsv <- function(x,na=NULL) {
         tmp <- unlist(tmp, recursive = F)
         return(tmp)
     }
+    getnames <- function(x) {
+        tmp <- strsplit(x[12], split = "=")
+        tmp <- unlist(tmp, recursive = F)
+        return(tmp)
+    }
+    mynames <- unlist(lapply(data,getnames))
     data <- lapply(data, subfun)
+    
     tmp <- as.numeric(unlist(data))
     tmp <- matrix(tmp, length(points), 3, byrow = T)
     if (!is.null(na)) {
@@ -22,6 +29,7 @@ read.fcsv <- function(x,na=NULL) {
        if (length(nas) > 0) 
            tmp[nas] <- NA 
     }
+    rownames(tmp) <- mynames
     return(tmp)
 }
 
