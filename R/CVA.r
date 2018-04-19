@@ -229,7 +229,8 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     CV <- U %*% (Ec * A)
     CVvis <- covWithin %*% CV
     CVscores <- N %*% CV
-
+    colnames(CVscores) <- colnames(CVvis) <- colnames(CV) <- paste("CV",1:ncol(CVscores))
+    rownames(CVscores) <- groups
     roots <- eigZ$d[1:useEig]
     if (length(roots) == 1) {
         Var <- matrix(roots, 1, 1)
