@@ -2,6 +2,52 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+
+
+\section{Changes in Morpho version 2.6 (2018-04-19)}{
+
+  \subsection{New features}{
+    \itemize{
+      \item virtualMeshScan, getOuterViewpoints: perform a virtual rescan of a mesh using
+      defined POVs.
+      \item deformGrid3d: fixed indices starting with 0 for slices, add
+      gridcol and gridwidth and added options to select subsets of
+      slices.
+      \item deformGrid2d: added options cex1,cex2,gridcol
+      \item fixLMmirror: now allowing heavy abuse with loads of missing
+      data and improved error handling
+      \item plotNormals: allow for per vertex lenght vector and changed
+      long=>length and deprecated old option
+      \item checkLM: added possibility to view backwards
+      \item slider3d: made function work in parallel on all OS
+      \item pls2B: added CV (+ options)
+      \item added plsCoVarCommonShape: Compute the shape changes along
+      the common axis of deformations
+      \item added getPLSCommonShape: Obtain linear combinations associated with the common shape change in
+each latent dimension of a pls2B
+
+
+    }
+  }
+  
+   \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item 
+      \item deformGrid3d: fixed indices starting with 0 for slices, add
+      gridcol and gridwidth and added options to select subsets of slices.
+      \item line2plane: fixed deprectated array multiplication warning
+      \item changed Matrix::cBind to base::cbind
+      \item Depend: > R 3.2.0
+      \item GetPhi (retrodeform): set h to average between landmark
+      distance (not the squared distance)
+      \item CVA: add rownames and colnames to scores and CVs
+
+    }
+  }
+}
+
+
+
 \section{Changes in Morpho version 2.5.1 (2017-04-19)}{
 
   \subsection{minor changes}{
