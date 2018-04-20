@@ -11,7 +11,10 @@ RcppExport SEXP createL(SEXP Matrix_, SEXP threads_= wrap(1)) {
     int k = MatrixA.n_rows;
     mat K(k,k); K.zeros();
     int m = MatrixA.n_cols;
-#pragma omp parallel for schedule(static) num_threads(threads)
+    int omp = 1;
+    if (threads == 1)
+      omp = 0;
+#pragma omp parallel for schedule(static) num_threads(threads) if (omp)
     for (int i=0; i < (k-1); ++i) {
       for(int j=(i+1); j < k; ++j) {
 	mat diff = MatrixA.row(i)-MatrixA.row(j);
