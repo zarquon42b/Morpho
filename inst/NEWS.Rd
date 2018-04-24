@@ -32,7 +32,6 @@ each latent dimension of a pls2B
   
    \subsection{bugfixes and minor changes}{
     \itemize{
-      \item 
       \item deformGrid3d: fixed indices starting with 0 for slices, add
       gridcol and gridwidth and added options to select subsets of slices.
       \item line2plane: fixed deprectated array multiplication warning

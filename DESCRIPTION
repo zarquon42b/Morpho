@@ -5,7 +5,8 @@ Version: 2.6
 Date: 2018-04-19
 Authors@R: c(
     person("Stefan", "Schlager",, "zarquon42@gmail.com", c("aut", "cre", "cph")),
-    person("Gregory", "Jefferis",,, c("ctb"))
+    person("Gregory", "Jefferis",,, c("ctb")),
+    person("Dryden", "Ian",,,c("cph"))
     )
 Description: A toolset for Geometric Morphometrics and mesh processing. This
     includes (among other stuff) mesh deformations based on reference points,
