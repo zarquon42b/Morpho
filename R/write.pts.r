@@ -11,6 +11,7 @@
 #' will be added atuomatically. If not specified, the file will be named as the
 #' exported object.
 #' @param rownames provide an optional character vector with rownames
+#' @param NA.string specify the string to use for encoding missing values
 #' @author Stefan Schlager
 #' @seealso \code{\link{read.pts}}
 #' 
@@ -20,7 +21,7 @@
 #' write.pts(shortnose.lm, filename="shortnose")
 #' 
 #' @export
-write.pts <- function(x, filename=dataname,rownames=NULL)
+write.pts <- function(x, filename=dataname,rownames=NULL,NA.string=9999)
 {
     dataname <- deparse(substitute(x))
     if (!grepl("*.pts$",filename))
@@ -28,6 +29,8 @@ write.pts <- function(x, filename=dataname,rownames=NULL)
     k <- dim(x)[1]
     m <- dim(x)[2]
     x <- as.matrix(x)
+    if (length(which(is.na(x))))
+        x[which(is.na(x))] <- NA.string
     if (is.null(rownames))
         a0 <- paste0("S",sprintf("%04d", 0:(k-1)))
     else
