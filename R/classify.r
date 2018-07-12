@@ -18,6 +18,11 @@ classify <- function(x,cv=TRUE) UseMethod("classify")
 #' @export
 classify.bgPCA <- function(x,cv=TRUE) {
 
+    if (length(dim(x$groupmeans) == 3)) {
+        x$groupmeans <- vecx(x$groupmeans)
+        x$Grandmean <- c(x$Grandmean)
+    }
+    
     if (!is.null(x$CV) && cv)
         CV <- x$CV
     else
