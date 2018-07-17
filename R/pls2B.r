@@ -441,8 +441,8 @@ predictPLSfromData <- function(pls,x,y,ncomp=NULL) {
 #' Get the shape changes from pls2B associated with each latent variable
 #' @param pls output of pls2B
 #' @param i integer: which latent variable to show. E.g. i=3 will show the changes associated with the 3rd latent variable.
-#' @param sdx standard deviation on the xscores. sdx=3 will show the effecs of +3sd vs -3sd
-#' @param sdy standard deviation on the yscores. sdy=3 will show the effecs of +3sd vs -3sd
+#' @param sdx standard deviation on the xscores. sdx=3 will show the effecs of -3sd vs +3sd
+#' @param sdy standard deviation on the yscores. sdy=3 will show the effecs of -3sd vs +3sd
 #' @return
 #' \item{x}{matrix/array with reconstructed x}
 #' \item{y}{matrix/array with reconstructed y, with each prediction named accordingly: e.g. neg_x_sd_3 means the prediction of x at a score of \code{-3*sd(Xscores)}}. 

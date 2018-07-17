@@ -4,7 +4,7 @@
 \alias{write.pts}
 \title{exports a matrix containing landmarks into .pts format}
 \usage{
-write.pts(x, filename = dataname, rownames = NULL)
+write.pts(x, filename = dataname, rownames = NULL, NA.string = 9999)
 }
 \arguments{
 \item{x}{k x m matrix containing landmark configuration}
@@ -14,6 +14,8 @@ will be added atuomatically. If not specified, the file will be named as the
 exported object.}
 
 \item{rownames}{provide an optional character vector with rownames}
+
+\item{NA.string}{specify the string to use for encoding missing values}
 }
 \description{
 exports a matrix containing landmarks into .pts format that can be read by
