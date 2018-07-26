@@ -7,8 +7,8 @@ surfaces.}
 \usage{
 checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply",
   col = "white", pt.size = NULL, alpha = 1, begin = 1, render = c("w",
-  "s"), point = c("s", "p"), add = FALSE, Rdata = FALSE, atlas = NULL,
-  text.lm = FALSE)
+  "s"), point = c("s", "p"), add = FALSE, meshlist = NULL,
+  Rdata = FALSE, atlas = NULL, text.lm = FALSE)
 }
 \arguments{
 \item{dat.array}{array or list containing landmark coordinates.}
@@ -41,6 +41,8 @@ be shaded.}
 \item{point}{how to render landmarks. "s"=spheres, "p"=points.}
 
 \item{add}{logical: add to existing rgl window.}
+
+\item{meshlist}{list holding meshes in the same order as \code{dat.array} (Overrides \code{path}).}
 
 \item{Rdata}{logical: if the meshes are previously stored as Rdata-files by
 calling save(), these are simply loaded and rendered. Otherwise it is
