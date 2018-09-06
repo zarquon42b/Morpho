@@ -11,8 +11,7 @@
 #' @references http://en.wikipedia.org/wiki/Rotation_matrix
 #' 
 #' @export
-rotaxisMat <- function(u,theta,homogeneous=FALSE)
-  {
+rotaxisMat <- function(u,theta,homogeneous=FALSE) {
     crossmat <- function(x)
       {
           out <- matrix(c(0,x[3],-x[2],-x[3],0,x[1],x[2],-x[1],0),3,3)
@@ -22,8 +21,9 @@ rotaxisMat <- function(u,theta,homogeneous=FALSE)
     u <- u/sqrt(sum(crossprod(u)))
     I <- diag(rep(1,3))
     R <- I*cos(theta)+sin(theta)*crossmat(u)+(1-(cos(theta)))*tcrossprod(u)
-    if (homogeneous)
+    if (homogeneous) {
         R <- rbind(cbind(R,0),0);R[4,4] <- 1
+    }
     return(R)
   }
 
@@ -97,7 +97,7 @@ getTrafoRotaxis <- function(pt1,pt2,theta) {
     u <- pt2-pt1
     m <- length(pt2)
     htrans <- diag(m+1);htrans[1:m,m+1] <- c(-pt1)
-    htransinv <- diag(m+1);htrans[1:m,m+1] <- c(pt1)
+    htransinv <- diag(m+1);htransinv[1:m,m+1] <- c(pt1)
     rotmatrix <- rotaxisMat(u,theta,homogeneous=T)
     trafo <- htransinv%*%rotmatrix%*%htrans
     return(trafo)
