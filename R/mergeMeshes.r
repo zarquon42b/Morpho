@@ -55,6 +55,7 @@ mergeMeshes <- function(...)
             if (dim(tmpmesh$normals)[1] == 3)
                 tmpmesh$normals <- rbind(tmpmesh$normals, 1)
         }
+       
         if (is.null(outmesh$normals) && !is.null(tmpmesh$normals)) {
             outmesh$normals <- cbind(rbind(matrix(0, 3, nvbout), 1), tmpmesh$normals)
         } else if (!is.null(outmesh$normals) && is.null(tmpmesh$normals)) {
@@ -70,6 +71,10 @@ mergeMeshes <- function(...)
         outmesh$it <- cbind(outmesh$it,tmpmesh$it)
 
         ## handle colors
+        if (is.vector(outmesh$material$color))
+            outmesh$material$color <- matrix(outmesh$material$color,3,nitout)
+        if (is.vector(tmpmesh$material$color))
+            tmpmesh$material$color <- matrix(tmpmesh$material$color,3,nittmp)
         if (!is.null(tmpmesh$material$color) && is.null(outmesh$material$color) && !is.null(outmesh$it)) {
             outmesh$material$color <- matrix("#FFFFFF", 3, nitout)
         } else if (is.null(tmpmesh$material$color) && !is.null(tmpmesh$it) && !is.null(outmesh$material$color))
