@@ -166,13 +166,13 @@
 #' @export
 slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,silent=FALSE)
 {
-  if (.Platform$OS.type == "windows" && mc.cores > 1) {
-    cl <- makeCluster(mc.cores)            
-    registerDoParallel(cl=cl)
-  } else if (mc.cores > 1) {
-    registerDoParallel(cores = mc.cores)
-  } else
-    registerDoSEQ()
+    if (.Platform$OS.type == "windows" && mc.cores > 1) {
+        cl <- makeCluster(mc.cores)            
+        registerDoParallel(cl=cl)
+    } else if (mc.cores > 1) {
+        registerDoParallel(cores = mc.cores)
+    } else
+        registerDoSEQ()
     
     if (iterations == 0)
         iterations <- 1e10
@@ -199,13 +199,13 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         lm.old <- c(1:k)[-ignore]
         mat.ptr <- matrix(c(1:(k-li),lm.old),k-li,2)
         ptr <- function(xo)	### define pointer function for indexing
-            {
-                if (length(which(ignore %in% xo))!= 0)
-                    xo <- xo[-which(xo %in% ignore)]
-                for (i in 1:(k-li))
-                    xo[which(xo==mat.ptr[i,2])] <- mat.ptr[i,1]
-                return(xo)
-            }
+        {
+            if (length(which(ignore %in% xo))!= 0)
+                xo <- xo[-which(xo %in% ignore)]
+            for (i in 1:(k-li))
+                xo[which(xo==mat.ptr[i,2])] <- mat.ptr[i,1]
+            return(xo)
+        }
         if (!is.null(missingList))
             missingList <- lapply(missingList,ptr)
         if (!is.null(outlines)) ### update outline indices
@@ -258,8 +258,25 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
     if(length(sur.name)==0 && !is.null(sur.path)) {
         sur.name <- dimnames(dat.array)[[3]]
         sur.name <- paste(sur.path,"/",sur.name,".",sur.type,sep="")
+        
     }
     p1 <- 10^12
+
+    ## check for existing surfaces (if needed)
+    if (length(sur.name)) {
+        if (length(sur.name) != dim(dat.array)[3])
+            stop("length of sur.name does not match number of landmark configurations")
+        checkfiles <- file.exists(sur.name)
+        print(checkfiles)
+        if (prod(checkfiles) == 0) {
+            warning(paste0("missing mesh files: ", sur.name[checkfiles == 0]))
+            stop("Some mesh files do not exist, please check your data and/or correct array naming")
+        }
+    }
+    if (length(meshlist)) {
+        if (length(meshlist) != dim(dat.array)[3])
+            stop("length of meshlist does not match number of landmark configurations")
+    }
     
     ini <- rotonto(dat.array[,,1],dat.array[,,2],signref=FALSE) # create mean between first tow configs to avoid singular BE Matrix
     mshape <- (ini$Y+ini$X)/2
@@ -292,13 +309,13 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
 
     }
     parfunnomesh <- function(i, data) {
-      if (!is.list(data))
-        tmpdata <- data[,,i]
-      else
-        tmpdata <- data[[i]]
-      
-      out <- vcgUpdateNormals(tmpdata,silent=TRUE)
-      return(out)
+        if (!is.list(data))
+            tmpdata <- data[,,i]
+        else
+            tmpdata <- data[[i]]
+        
+        out <- vcgUpdateNormals(tmpdata,silent=TRUE)
+        return(out)
     }
     
     if (is.null(meshlist) && !nomesh) {
@@ -358,46 +375,46 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
             fixRepro=TRUE
         a.list <- as.list(1:n)
         slido <- function(j)          		
-            {
-                free <- NULL
-                if (!is.null(missingList))
-                    if(length(missingList[[j]])) {
-                        if (!is.null(outlines)) {
-                            notoutlines <- which(!missingList[[j]] %in% unlist(outlines))
-                            if (length(notoutlines))
-                                free <- missingList[[j]][notoutlines]
-                        } else {
-                            free <- missingList[[j]]
-                        }
+        {
+            free <- NULL
+            if (!is.null(missingList))
+                if(length(missingList[[j]])) {
+                    if (!is.null(outlines)) {
+                        notoutlines <- which(!missingList[[j]] %in% unlist(outlines))
+                        if (length(notoutlines))
+                            free <- missingList[[j]][notoutlines]
+                    } else {
+                        free <- missingList[[j]]
                     }
-                tmpdata <- dat.array[,,j]
-                tmpvn <- vn.array[,,j]
-                if (!bending) {
-                    rot <- rotonto(mshape,tmpdata,reflection=FALSE,scale=TRUE,weights=weights,centerweight=TRUE)
-                    tmpdata <- rot$yrot
-                    tmpvn <- tmpvn%*%rot$gamm
                 }
-                U <- .calcTang_U_s(tmpdata,tmpvn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
-                if (bending) {
-                    dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,stepsize=stepsize)
-                } else {
-                    dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m,stepsize=stepsize)
-                    dataslido <- rotreverse(dataslido,rot)
-                }
-                return(dataslido)
+            tmpdata <- dat.array[,,j]
+            tmpvn <- vn.array[,,j]
+            if (!bending) {
+                rot <- rotonto(mshape,tmpdata,reflection=FALSE,scale=TRUE,weights=weights,centerweight=TRUE)
+                tmpdata <- rot$yrot
+                tmpvn <- tmpvn%*%rot$gamm
+            }
+            U <- .calcTang_U_s(tmpdata,tmpvn,SMvector=SMvector,outlines=outlines,surface=surp,deselect=deselect,free=free)
+            if (bending) {
+                dataslido <- calcGamma(U$Gamma0,L$Lsubk3,U$U,dims=m,stepsize=stepsize)
+            } else {
+                dataslido <- calcProcDGamma(U$U,U$Gamma0,mshape,dims=m,stepsize=stepsize)
+                dataslido <- rotreverse(dataslido,rot)
+            }
+            return(dataslido)
         }
         
         a.list <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.export=c("calcGamma",".calcTang_U_s"),.packages=c("Morpho","Rvcg")) %dopar% slido(i)
         
         
 ###projection onto surface
-       
+        
         if (is.null(meshlist) && !nomesh) {
-          repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunmeshfile(i,a.list)  
+            repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunmeshfile(i,a.list)  
         } else if (!nomesh) {
             repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunmeshlist(i,a.list)
         } else {
-          repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunnomesh(i,a.list)
+            repro <- foreach(i=1:n, .inorder=TRUE,.errorhandling="pass",.packages=c("Morpho","Rvcg")) %dopar% parfunnomesh(i,a.list)
         }
         
         for (j in 1:n) {
@@ -449,7 +466,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
     class(out) <- "slider3d"
     out$sliderinfo <- list(fixLM=fixLM,outlineLM=outlines,surfaceLM=surp)
     if (.Platform$OS.type == "windows" && mc.cores > 1)
-      stopCluster(cl)
+        stopCluster(cl)
     return(out)
 }
 #' plot the result of slider3d
