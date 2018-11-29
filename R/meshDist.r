@@ -357,14 +357,14 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         tolcol <- x$params$tolcol
     
     if (shade)
-        shade3d(vcgUpdateNormals(colMesh),specular="black",...)
+        shade3d(vcgUpdateNormals(colMesh),specular="black",meshColor="legacy",...)
     if (displace) {
         dismesh <- colMesh
         vl <- dim(colMesh$vb)[2]
         dismesh$vb <- cbind(colMesh$vb,rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)
         dismesh$material$color <- rbind(colorall,colorall,colorall)
-        wire3d(dismesh,lit=FALSE)
+        wire3d(dismesh,lit=FALSE,meshColor="legacy")
     }
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
