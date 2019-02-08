@@ -81,15 +81,14 @@ warpmovie3d <- function (x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="w
 #' @rdname warpmovie3d
 #' @method warpmovie3d matrix
 #' @export
-warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,radius=NULL,links=NULL,lwd=1,...)
-{	#wdold <- getwd()
+warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,radius=NULL,links=NULL,lwd=1,...) {	
     if(!is.null(folder)) {
-        if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/") {
+        if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
             folder <- paste(folder,"/",sep="")
-            dir.create(folder,showWarnings=F)
-            movie <- paste(folder, movie, sep="")
-        }
+        dir.create(folder,showWarnings=F)
+        movie <- paste(folder, movie, sep="")
     }
+    
     if (!add)
         open3d()
     
@@ -142,17 +141,15 @@ warpmovie2d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="wa
     wdold <- getwd()
     widxheight <- as.integer(strsplit(imagedim, split = "x")[[1]])
     if(!is.null(folder)) {
-        if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/") {
+        if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/") 
             folder <- paste(folder,"/",sep="")
-            dir.create(folder,showWarnings=F)
-            setwd(folder)
-        }
+        dir.create(folder,showWarnings=F)
+        movie <- paste(folder,movie,sep="")
+        
     }
-    ##k <- dim(x)[1]
     ## get bbox
     bbox <- apply(rbind(x,y),2,range)
     bbox <- expand.grid(bbox[,1],bbox[,2])
-    ## plot(bbox,col="white")
     
     for (i in 0:n) {
         mesh <- x
@@ -183,5 +180,4 @@ warpmovie2d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="wa
             dev.off()
         }
     }
-    setwd(wdold)
 }
