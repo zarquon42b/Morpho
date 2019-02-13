@@ -267,7 +267,6 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         if (length(sur.name) != dim(dat.array)[3])
             stop("length of sur.name does not match number of landmark configurations")
         checkfiles <- file.exists(sur.name)
-        print(checkfiles)
         if (prod(checkfiles) == 0) {
             warning(paste0("missing mesh files: ", sur.name[checkfiles == 0]))
             stop("Some mesh files do not exist, please check your data and/or correct array naming")
