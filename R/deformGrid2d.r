@@ -34,7 +34,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="black",cex1=1,cex2=1,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="grey",cex1=1,cex2=1,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -43,14 +43,17 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         x2 <- x1 <- c(0:(ngrid-1))/ngrid;
         x0 <- as.matrix(expand.grid(x1,x2))
         
-        cent.mat <- scale(matrix,scale=FALSE)
-        mean.mat <- colMeans((matrix+tarmatrix)/2)
+       
         xrange <- diff(range(matrix[,1]))
         yrange <- diff(range(matrix[,2]))
         
         xrange1 <- diff(range(tarmatrix[,1]))
         yrange1 <- diff(range(tarmatrix[,2]))
         
+        ## cent.mat <- scale(matrix,scale=FALSE)
+        ## mean.mat <- colMeans((matrix+tarmatrix)/2)
+        mean.mat <- c((min(matrix[,1])+max(matrix[,1]))/2,(min(matrix[,2])+max(matrix[,2]))/2)
+        cent.mat <- scale(matrix,scale=FALSE,center=mean.mat)
         maxi <- max(c(xrange,yrange,xrange1,yrange1))
         maxi <- (1+margin)*maxi
         x0 <- maxi*x0
@@ -65,14 +68,6 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         x00 <- x0 <- scale(x0,center=-mean.mat,scale=F)
         x0 <- tps3d(x0,matrix,tarmatrix,threads=1)
         
-        ## create deformation cube
-        zinit <- NULL
-        zinit0 <- zinit <- (c(1,2,2+ngrid,1+ngrid))
-        for( i in 1:(ngrid-2))
-            zinit <- cbind(zinit,(zinit0+i))
-        zinit0 <- zinit
-        for (i in 1:(ngrid-2))
-            zinit <- cbind(zinit,zinit0+(i*ngrid))
     }
     lims <- apply(rbind(matrix,tarmatrix,x0),2,range)
     if (1 %in% show) {
@@ -94,7 +89,6 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
     }
     if (lines) {
         linemesh <- list()
-        print(lcol)
         linemesh$vb <- rbind(matrix,tarmatrix)
         linemesh$it <- cbind(1:k,(1:k)+k)
         for (i in 1:nrow(linemesh$it))
@@ -102,11 +96,11 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
     }
     
     if (ngrid > 1) {
-        for (i in 1:ncol(zinit)) {
-            polygon(x0[zinit[,i],],lwd=lwd,border=gridcol)
+        myrange <- 0:(ngrid-1)
+        for (i in 0:(ngrid-1)) {
+            lines(x0[(1:ngrid)+(i*ngrid),],col=gridcol)
+            lines(x0[(myrange*ngrid)+i+1,],col=gridcol)
         }
-       
     }
-   
 }
 
