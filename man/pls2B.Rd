@@ -40,7 +40,7 @@ Windows due to occasional errors.}
 \item{Xscores }{PLS-scores of x}
 \item{Yscores }{PLS-scores of y}
 \item{CoVar }{Dataframe containing singular values, explained
-covariation, correlation coeffictient between PLS-scores and p-values for singular values obtained from permutation testing}
+covariation, correlation coeffictient between PLS-scores and p-values for singular values and correlation coefficients obtained by the permutation tests}
 \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
 \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 \item{predicted.x}{array containing matrices of cross-validated predictions for \code{x}(landmarks arrays will be vectorized using \code{\link{vecx}})}

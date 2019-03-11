@@ -32,8 +32,8 @@
 #' 'common' covariance block}
 #' \item{Xscores }{PLS-scores of x}
 #' \item{Yscores }{PLS-scores of y}
-#' \item{CoVar }{Dataframe containing singular values, explained
-#' covariation, correlation coeffictient between PLS-scores and p-values for singular values obtained from permutation testing}
+#'\item{CoVar }{Dataframe containing singular values, explained
+#' covariation, correlation coeffictient between PLS-scores and p-values for singular values and correlation coefficients obtained by the permutation tests}
 #' \item{xlm}{linear model: \code{lm(Xscores ~ Yscores - 1)}}
 #' \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 #' \item{predicted.x}{array containing matrices of cross-validated predictions for \code{x}(landmarks arrays will be vectorized using \code{\link{vecx}})}
@@ -151,19 +151,24 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
             y1 <- y
         }
                 #cova.tmp <- crossprod(x1[x.sample,],y1[y.sample,])/(nrow(x)-1)
-        svd.cova.tmp <- svd2B(x1[x.sample,],y1[y.sample,],u=F,v=F,scale = useCor)
-        svs.tmp <- svd.cova.tmp$d
-        return(svs.tmp[1:l.covas])
+        svd.cova.tmp <- svd2B(x1[x.sample,],y1[y.sample,],u=T,v=T,scale = useCor)
+        svs.tmp <- list(d=svd.cova.tmp$d)
+        Xscores1 <- x1%*%svd.cova.tmp$u #pls scores of x
+        Yscores1 <- y1%*%svd.cova.tmp$v #pls scores of y
+        cors1 <- 0
+        for(i in 1:length(covas))
+            cors1[i] <- cor(Xscores1[,i],Yscores1[,i])
+        svs.tmp$cors <- cors1
+        return(svs.tmp)
     }
-    p.values <- rep(NA,l.covas)
+    p.values <- p.valuesCor <- p.valuesESV <- rep(NA,l.covas)
     if (rounds > 0) {
         if (win)
-            permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
+            permuscores <- foreach(i = 1:rounds) %do% permupls(i)
         else
-            permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
+            permuscores <- foreach(i = 1:rounds) %dopar% permupls(i)
         
-        p.val <- function(x,rand.x)
-        {
+        p.val <- function(x,rand.x) {
             p.value <- length(which(rand.x >= x))
             
             if (p.value > 0)
@@ -173,16 +178,23 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
             return(p.value)
         }
         
-        for (i in 1:l.covas)
-            p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
+        svdpermu <- sapply(permuscores,function(x) x <- x$d)
+        corpermu <- sapply(permuscores,function(x) x <- x$cors)
+        #svdpermusq <- svdpermu^2
+        #svdpermuperc <- apply(svdpermusq,2,function(x) x <- (x/sum(x))*100)
         
+        for (i in 1:l.covas) {
+            p.values[i] <- p.val(svd.cova$d[i],svdpermu[i,])
+            p.valuesCor[i] <- p.val(cors[i],corpermu[i,])
+            #p.valuesESV[i] <- p.val(covas[i],svdpermuperc[i,])
+        }
     }
 ### get weights
     xlm <- lm(Xscores ~ Yscores -1)
     ylm <- lm(Yscores ~ Xscores -1)
 ### create covariance table
-    Cova <- data.frame(svd.cova$d[1:l.covas],covas,cors,p.values)
-    colnames(Cova) <- c("singular value","% total covar.","Corr. coefficient", "p-value")
+    Cova <- data.frame(svd.cova$d[1:l.covas],p.values,covas,cors,p.valuesCor)
+    colnames(Cova) <- c("singular value", "p-value SV","% total covar.","Corr. coefficient", "p-value Corr. coeff.")
     out <- list(svd=svd.cova,Xscores=Xscores,Yscores=Yscores,CoVar=Cova)
     out$x <- xorig
     out$y <- yorig
