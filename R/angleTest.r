@@ -11,7 +11,19 @@
 #' @export
 areaSphere <- function(n,r=1) {
     nom <- 2*pi^(n/2)*r^(n-1)
-    denom <- gamma(n/2)
+    chkinf <- FALSE
+    suppressWarnings(denom <- gamma(n/2))
+    if (is.infinite(nom)) {
+        nom <- .Machine$double.xmax
+        chkinf <- TRUE
+    } 
+    if (is.infinite(denom)) {
+        denom <- .Machine$double.xmax
+        chkinf <- TRUE
+    }
+    if (chkinf)
+        warning(paste0("values have been set to ",.Machine$double.xmax," to avoid Inf values"))
+    
     return(nom/denom)
 }
 
