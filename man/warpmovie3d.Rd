@@ -7,22 +7,23 @@
 \alias{warpmovie3d.mesh3d}
 \title{Creates a sequence of images showing predefined steps of warping two meshes or landmark configurations (2D and 3D) into each other}
 \usage{
-warpmovie3d(x, y, n, col = "green", palindrome = FALSE, folder = NULL,
-  movie = "warpmovie", ...)
+warpmovie3d(x, y, n, col = "green", palindrome = FALSE,
+  folder = NULL, movie = "warpmovie", ...)
 
-\method{warpmovie3d}{matrix}(x, y, n, col = "green", palindrome = FALSE,
-  folder = NULL, movie = "warpmovie", add = FALSE, close = TRUE,
-  countbegin = 0, ask = TRUE, radius = NULL, links = NULL, lwd = 1,
+\method{warpmovie3d}{matrix}(x, y, n, col = "green",
+  palindrome = FALSE, folder = NULL, movie = "warpmovie",
+  add = FALSE, close = TRUE, countbegin = 0, ask = TRUE,
+  radius = NULL, links = NULL, lwd = 1, ...)
+
+warpmovie2d(x, y, n, col = "green", palindrome = FALSE,
+  folder = NULL, movie = "warpmovie", links = NULL, lwd = 1,
+  imagedim = "800x800", par = list(xaxt = "n", yaxt = "n", bty = "n"),
   ...)
 
-warpmovie2d(x, y, n, col = "green", palindrome = FALSE, folder = NULL,
-  movie = "warpmovie", links = NULL, lwd = 1, imagedim = "800x800",
-  par = list(xaxt = "n", yaxt = "n", bty = "n"), ...)
-
-\method{warpmovie3d}{mesh3d}(x, y, n, col = "green", palindrome = FALSE,
-  folder = NULL, movie = "warpmovie", add = FALSE, close = TRUE,
-  countbegin = 0, ask = TRUE, radius = NULL, xland = NULL,
-  yland = NULL, lmcol = "black", ...)
+\method{warpmovie3d}{mesh3d}(x, y, n, col = "green",
+  palindrome = FALSE, folder = NULL, movie = "warpmovie",
+  add = FALSE, close = TRUE, countbegin = 0, ask = TRUE,
+  radius = NULL, xland = NULL, yland = NULL, lmcol = "black", ...)
 }
 \arguments{
 \item{x}{mesh to start with (object of class mesh3d)}

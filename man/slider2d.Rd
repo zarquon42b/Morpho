@@ -7,8 +7,8 @@
 energy of a thin-plate spline deformation.}
 \usage{
 slider2d(dataframe, SMvector, outlines, tol = 1e-05, deselect = FALSE,
-  recursive = TRUE, iterations = 0, initproc = FALSE, pairedLM = NULL,
-  bending = TRUE, stepsize = 1, silent = FALSE)
+  recursive = TRUE, iterations = 0, initproc = FALSE,
+  pairedLM = NULL, bending = TRUE, stepsize = 1, silent = FALSE)
 }
 \arguments{
 \item{dataframe}{Input k x 2 x n real array, where k is the number of

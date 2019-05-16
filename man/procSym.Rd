@@ -7,9 +7,10 @@
 procSym(dataarray, scale = TRUE, reflect = TRUE, CSinit = TRUE,
   orp = TRUE, tol = 1e-05, pairedLM = NULL, sizeshape = FALSE,
   use.lm = NULL, center.part = FALSE, weights = NULL,
-  centerweight = FALSE, pcAlign = TRUE, distfun = c("angle", "riemann"),
-  SMvector = NULL, outlines = NULL, deselect = FALSE, recursive = TRUE,
-  iterations = 0, initproc = FALSE, bending = TRUE, stepsize = 1)
+  centerweight = FALSE, pcAlign = TRUE, distfun = c("angle",
+  "riemann"), SMvector = NULL, outlines = NULL, deselect = FALSE,
+  recursive = TRUE, iterations = 0, initproc = FALSE,
+  bending = TRUE, stepsize = 1)
 }
 \arguments{
 \item{dataarray}{Input k x m x n real array, where k is the number of

@@ -8,12 +8,13 @@
 \usage{
 pcaplot3d(x, ...)
 
-\method{pcaplot3d}{symproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
-  lwd = 1, sym = TRUE, legend = TRUE, type = c("spheres", "points"),
-  ...)
+\method{pcaplot3d}{symproc}(x, pcshow = c(1, 2, 3), mag = 3,
+  color = 4, lwd = 1, sym = TRUE, legend = TRUE,
+  type = c("spheres", "points"), ...)
 
-\method{pcaplot3d}{nosymproc}(x, pcshow = c(1, 2, 3), mag = 3, color = 4,
-  lwd = 1, legend = TRUE, type = c("spheres", "points"), ...)
+\method{pcaplot3d}{nosymproc}(x, pcshow = c(1, 2, 3), mag = 3,
+  color = 4, lwd = 1, legend = TRUE, type = c("spheres", "points"),
+  ...)
 }
 \arguments{
 \item{x}{a object derived from the function procSym calculated on 3D

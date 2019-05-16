@@ -7,8 +7,8 @@
 \usage{
 covDist(s1, s2)
 
-covPCA(data, groups, rounds = 1000, bootrounds = 0, lower.bound = 0.05,
-  upper.bound = 0.95)
+covPCA(data, groups, rounds = 1000, bootrounds = 0,
+  lower.bound = 0.05, upper.bound = 0.95)
 }
 \arguments{
 \item{s1}{m x m covariance matrix}

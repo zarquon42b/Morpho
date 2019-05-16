@@ -4,8 +4,8 @@
 \alias{ray2mesh}
 \title{projects the vertices of a mesh along its normals onto the surface of another one.}
 \usage{
-ray2mesh(mesh1, tarmesh, tol = 1e+12, inbound = FALSE, mindist = FALSE,
-  ...)
+ray2mesh(mesh1, tarmesh, tol = 1e+12, inbound = FALSE,
+  mindist = FALSE, ...)
 }
 \arguments{
 \item{mesh1}{mesh to project. Can be an object of class "mesh3d" or path to

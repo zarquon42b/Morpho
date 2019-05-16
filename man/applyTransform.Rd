@@ -9,12 +9,14 @@
 \usage{
 applyTransform(x, trafo, ...)
 
-\method{applyTransform}{matrix}(x, trafo, inverse = FALSE, threads = 1, ...)
-
-\method{applyTransform}{mesh3d}(x, trafo, inverse = FALSE, threads = 1, ...)
-
-\method{applyTransform}{default}(x, trafo, inverse = FALSE, threads = 1,
+\method{applyTransform}{matrix}(x, trafo, inverse = FALSE, threads = 1,
   ...)
+
+\method{applyTransform}{mesh3d}(x, trafo, inverse = FALSE, threads = 1,
+  ...)
+
+\method{applyTransform}{default}(x, trafo, inverse = FALSE,
+  threads = 1, ...)
 }
 \arguments{
 \item{x}{matrix or mesh3d}

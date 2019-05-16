@@ -18,12 +18,14 @@ render(x, ...)
 
 \method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
   ceiling = NULL, uprange = NULL, tol = NULL, tolcol = NULL,
-  type = c("s", "p"), radius = NULL, rampcolors = NULL, NAcol = NULL,
-  displace = FALSE, sign = NULL, add = FALSE, scaleramp = FALSE, ...)
+  type = c("s", "p"), radius = NULL, rampcolors = NULL,
+  NAcol = NULL, displace = FALSE, sign = NULL, add = FALSE,
+  scaleramp = FALSE, ...)
 
 export(x, ...)
 
-\method{export}{meshDist}(x, file = "default", imagedim = "100x800", ...)
+\method{export}{meshDist}(x, file = "default", imagedim = "100x800",
+  ...)
 }
 \arguments{
 \item{x}{object of class meshDist}

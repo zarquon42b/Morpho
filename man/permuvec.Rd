@@ -5,8 +5,8 @@
 \title{perfom permutation testing on angles and distances between subgroups of two
 major groups.}
 \usage{
-permuvec(data, groups, subgroups = NULL, rounds = 10000, scale = TRUE,
-  tol = 1e-10, mc.cores = parallel::detectCores())
+permuvec(data, groups, subgroups = NULL, rounds = 10000,
+  scale = TRUE, tol = 1e-10, mc.cores = parallel::detectCores())
 }
 \arguments{
 \item{data}{array or matrix containing data.}

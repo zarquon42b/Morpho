@@ -5,8 +5,8 @@
 \title{match two landmark configurations using iteratively closest point search}
 \usage{
 icpmat(x, y, iterations, mindist = 1e+15, subsample = NULL,
-  type = c("rigid", "similarity", "affine"), weights = NULL, threads = 1,
-  centerweight = FALSE)
+  type = c("rigid", "similarity", "affine"), weights = NULL,
+  threads = 1, centerweight = FALSE)
 }
 \arguments{
 \item{x}{moving landmarks}

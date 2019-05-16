@@ -4,8 +4,8 @@
 \alias{plot.slider3d}
 \title{plot the result of slider3d}
 \usage{
-\method{plot}{slider3d}(x, cols = 2:4, pt.size = NULL, point = c("sphere",
-  "point"), specimen = 1, add = TRUE, ...)
+\method{plot}{slider3d}(x, cols = 2:4, pt.size = NULL,
+  point = c("sphere", "point"), specimen = 1, add = TRUE, ...)
 }
 \arguments{
 \item{x}{result of \code{slider3d} call}
