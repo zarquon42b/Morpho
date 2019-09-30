@@ -152,8 +152,8 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
         NAmat[-bad,] <- x
         return(NAmat)
     }
-   # if (length(ybad)) 
-    matlist[1:2] <- lapply(matlist[1:2],myfun,bad)
+    if (length(ybad)) 
+        matlist[1:2] <- lapply(matlist[1:2],myfun,bad)
     
     if (length(bad))
         matlist[[3]] <- myfun(matlist[[3]],bad)
