@@ -57,7 +57,7 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     yrows <- rowSums(y)
     xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
     ybad <- which(as.logical(is.na(yrows) + is.nan(yrows)))
-    bad <- unique(c(xbad,ybad))
+    bad <- sort(unique(c(xbad,ybad)))
     docenter <- FALSE
     if (length(centerweight) == 1) {
         if (centerweight)
@@ -66,7 +66,7 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     } else {
         docenter <- TRUE
     }
-    
+   
     if (length(bad)) {
         message("some landmarks are missing and ignored for calculating the transform")
         x <- x[-bad,,drop=FALSE]
@@ -78,6 +78,7 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
         
         
     }
+   
     if (!is.null(weights))
         weights <- weights/sum(weights)
     if (!is.null(centerweight))
@@ -151,10 +152,11 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
         NAmat[-bad,] <- x
         return(NAmat)
     }
-    if (length(ybad)) 
-        matlist[1:2] <- lapply(matlist[1:2],myfun,ybad)
-    if (length(xbad))
-        matlist[[3]] <- myfun(matlist[[3]],xbad)
+   # if (length(ybad)) 
+    matlist[1:2] <- lapply(matlist[1:2],myfun,bad)
+    
+    if (length(bad))
+        matlist[[3]] <- myfun(matlist[[3]],bad)
     
     out <- list(yrot=matlist$yrot,Y=matlist$Y,X=matlist$X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect)
     class(out) <- "rotonto"
