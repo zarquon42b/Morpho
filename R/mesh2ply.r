@@ -19,6 +19,7 @@
 #' to file - can slow things down for very large meshes.
 #' @author Stefan Schlager
 #' @note meshes containing quadrangular faces will be converted to triangular meshes by splitting the faces.
+#' Additionally, mesh2obj is now simply a wrapper of \code{Rvcg::vcgObjWrite}.
 #' @seealso \code{\link{ply2mesh}, \link{quad2trimesh} }
 #' 
 #' @examples
