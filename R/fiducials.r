@@ -7,15 +7,25 @@
 #' @export
 read.fcsv <- function(x,na=NULL) {
     raw <- readLines(x)
-    points <- grep("vtkMRMLMarkupsFiducialNode", raw)
+    getids <- grep("# columns",raw)
+    myids <- raw[getids]
+    myids <- gsub("# columns = ","",myids)
+    myids <- unlist(strsplit(myids,split=","))
+
+    xpos <- which(myids=="x")
+    ypos <- which(myids=="y")
+    zpos <- which(myids=="z")
+    labelpos <- which(myids=="label")
+    points <- which(!grepl("^#",raw))
+    
     data <- strsplit(raw[points], split = ",")
     subfun <- function(x) {
-        tmp <- strsplit(x[2:4], split = "=")
+        tmp <- strsplit(x[c(xpos,ypos,zpos)], split = "=")
         tmp <- unlist(tmp, recursive = F)
         return(tmp)
     }
     getnames <- function(x) {
-        tmp <- strsplit(x[12], split = "=")
+        tmp <- strsplit(x[labelpos], split = "=")
         tmp <- unlist(tmp, recursive = F)
         return(tmp)
     }

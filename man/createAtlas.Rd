@@ -4,8 +4,8 @@
 \alias{createAtlas}
 \title{Create an atlas needed in placePatch}
 \usage{
-createAtlas(mesh, landmarks, patch, corrCurves = NULL, patchCurves = NULL,
-  keep.fix = NULL)
+createAtlas(mesh, landmarks, patch, corrCurves = NULL,
+  patchCurves = NULL, keep.fix = NULL)
 }
 \arguments{
 \item{mesh}{triangular mesh representing the atlas' surface}

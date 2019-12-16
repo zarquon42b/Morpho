@@ -1,5 +1,5 @@
 context("sliding semilandmarks")
-test_that("relwarps behaves", {
+test_that("slider behaves", {
               data(boneData)
               slider.baseline=readRDS("testdata/slider3d.rds")
               data(nose)

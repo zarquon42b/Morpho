@@ -5,7 +5,7 @@
 \alias{mesh2ply}
 \title{export mesh objects to disk}
 \usage{
-mesh2obj(x, filename = dataname)
+mesh2obj(x, filename = dataname, writeNormals = TRUE)
 
 mesh2ply(x, filename = dataname, col = NULL, writeNormals = FALSE)
 }
@@ -19,12 +19,12 @@ coordinates.}
 will be added atuomatically. If not specified, the file will be named as the
 exported object.}
 
+\item{writeNormals}{logical: if TRUE, existing normals of a mesh are written
+to file - can slow things down for very large meshes.}
+
 \item{col}{Writes color information to ply file. Can be either a single
 color value or a vector containing a color value for each vertex of the
 mesh.}
-
-\item{writeNormals}{logical: if TRUE, existing normals of a mesh are written
-to file - can slow things down for very large meshes.}
 }
 \description{
 export mesh objects to disk.
@@ -35,6 +35,7 @@ mesh file.
 }
 \note{
 meshes containing quadrangular faces will be converted to triangular meshes by splitting the faces.
+Additionally, mesh2obj is now simply a wrapper of \code{Rvcg::vcgObjWrite}.
 }
 \examples{
 

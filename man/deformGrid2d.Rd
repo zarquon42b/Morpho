@@ -6,7 +6,7 @@
 \usage{
 deformGrid2d(matrix, tarmatrix, ngrid = 0, lwd = 1, show = c(1:2),
   lines = TRUE, lcol = 1, col1 = 2, col2 = 3, pcaxis = FALSE,
-  add = FALSE, wireframe = NULL, margin = 0.2, gridcol = "black",
+  add = FALSE, wireframe = NULL, margin = 0.2, gridcol = "grey",
   cex1 = 1, cex2 = 1, ...)
 }
 \arguments{

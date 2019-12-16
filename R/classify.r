@@ -19,7 +19,6 @@ classify <- function(x,cv=TRUE) UseMethod("classify")
 classify.bgPCA <- function(x,cv=TRUE) {
 
     if (length(dim(x$groupmeans)) == 3) {
-        print(length(dim(x$groupmeans)))
         x$groupmeans <- vecx(x$groupmeans)
         x$Grandmean <- c(x$Grandmean)
     }

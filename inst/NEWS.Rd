@@ -2,6 +2,27 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.7 (2019-05-16)}{
+
+  \subsection{bugfixes and minor changes}{
+    \itemize{
+      \item classify.bgPCA: fixed arrayhandling for non-landmark data
+      \item deformGrid2d: significant speed up in grid generation
+      \item slider3d: removed unnecessary print statement.
+      \item export.meshDist: use vcgPlyWrite for export
+      \item warpmovie: bug preventing to export to subfolder
+      \item meshDist, render: set meshColor="legacy" for latest rgl-dev
+      \item slider3d: check if number of meshes matches number of landmark configs
+      \item mergeMeshes: fixed color handling in case color is a vector.
+      \item getTrafoRotaxis: fixed critical bug
+      \item checkLM: added option meshlist
+      \item Docu fixes.
+      \item classify.bgPCA: fix case for 3D arrays
+      \item write.pts: fix cases with duplicate rownames (prohibited by R)
+      \item read.pts: don't set rownames if there are duplicate namings in the pts file.
+    }
+  }
+}
 
 
 \section{Changes in Morpho version 2.6 (2018-04-19)}{
