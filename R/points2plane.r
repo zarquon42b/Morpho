@@ -101,3 +101,10 @@ mirror2plane.mesh3d <- function(x,v1, normal=NULL, v2=NULL, v3=NULL){
     mesh <- invertFaces(mesh)
     return(mesh)
 }
+
+dist2plane <- function(x, v1, normal=NULL, v2=NULL, v3=NULL) {
+    x2p <- points2plane(x,v1=v1,normal=normal,v2=v2,v3=v3)
+    dists <- sqrt(rowSums((x-x2p)^2))
+    out <- list(distance=dists,points=x2p)
+    return(out)
+}

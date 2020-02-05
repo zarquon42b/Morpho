@@ -181,7 +181,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     }   
     
     colfun <- function(x){x <- colorall[x];return(x)}
-    x$material$color <- matrix(colfun(x$it),dim(x$it))
+    x$material$color <- colorall#matrix(colfun(x$it),dim(x$it))
     x$material$color[is.na(x$material$color)] <- NAcol
     colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors,NAcol=NAcol,scaleramp=scaleramp,tolcol=tolcol)
@@ -357,14 +357,14 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         tolcol <- x$params$tolcol
     
     if (shade)
-        shade3d(vcgUpdateNormals(colMesh),specular="black",meshColor="legacy",...)
+        shade3d(vcgUpdateNormals(colMesh),specular="black",...)
     if (displace) {
         dismesh <- colMesh
         vl <- dim(colMesh$vb)[2]
         dismesh$vb <- cbind(colMesh$vb,rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)
-        dismesh$material$color <- rbind(colorall,colorall,colorall)
-        wire3d(dismesh,lit=FALSE,meshColor="legacy")
+        dismesh$material$color <- colorall
+        wire3d(dismesh,lit=FALSE)
     }
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")

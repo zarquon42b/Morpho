@@ -91,7 +91,7 @@ ply2mesh <- function (filename, adnormals = TRUE,readnormals=FALSE,readcol=FALSE
                     x <- colmat[x]
                     return(x)
                 }
-            material$color <- matrix(colfun(face),dim(face))
+            material$color <- colmat
         }
         mesh <- list(vb = rbind(t(vert), 1), it = face, primitivetype = "triangle", material = material,normals = vert.n)      
         class(mesh) <- c("mesh3d", "shape3d")

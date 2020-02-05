@@ -70,11 +70,12 @@ mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)
     texfile <- x$TextureFile
 
     if (is.null(col) && !is.null(x$material$color)) {
-        col=rep("#FFFFFF",vn)
-        tmp1 <- data.frame(it=as.vector(x$it))
-        tmp1$rgb <- as.vector(x$material$color)
-        tmp1 <- unique(tmp1)
-        col[tmp1$it] <- tmp1$rgb
+        ## col=rep("#FFFFFF",vn)
+        ## tmp1 <- data.frame(it=as.vector(x$it))
+        ## tmp1$rgb <- as.vector(x$material$color)
+        ## tmp1 <- unique(tmp1)
+        ## col[tmp1$it] <- tmp1$rgb
+        col <- x$material$color
     }
     if (!writeNormals)
         x$normals <- NULL
@@ -115,11 +116,8 @@ mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)
 ### write vertices and vertex normals ###
     vert.all <- data.frame(t(vert.all))
     if (!is.null(col)) {
-        if (is.vector(col)) {
-            colout <- t(col2rgb(col))
-        } else
-            colout <- matrix(col2rgb(col),vn,3,byrow=T)
-        
+        colout <- t(col2rgb(col))
+             
         vert.all <- cbind(vert.all,colout)
     }
     
