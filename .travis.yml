@@ -13,8 +13,6 @@ r_binary_packages:
  - foreach
  - Matrix
  - MASS
- - parallel
- - grDevices
  - car
  - rvcg
  - morpho
