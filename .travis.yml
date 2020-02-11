@@ -16,6 +16,7 @@ r_binary_packages:
  - car
  - rvcg
  - morpho
+ - testthat
  
 notifications:
   email:
