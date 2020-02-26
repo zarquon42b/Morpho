@@ -3,31 +3,21 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 
-\section{Changes in Morpho version 2.8 (2020-02-05)}{
-
-  \subsection{bugfixes and minor changes}{
-    \itemize{
-      \item changed mesh coloring to new rgl default of per-vertex color vector
-      \item deformGrid3d: fixed correct position of grid
-      \item typprob: fix mean matrix for single cases
-      \item computeTransform: fix checking for NA Landmarks in all transform types
-      \item angleTest: if values exceed system max for doubles, set them to .Machine$double.xmax and issue warning
-      \item mesh2obj: now simply a wrapper for Rvcg::vcgObjWrite. Fixes Issue #14.
-      \item test-slider3d: correctly renamed test
-      \item rotonto: readded accidentally commented line
-      \item rotonto: fix case when x and y are missing different coordinates
-      \item read.fcsv: adapted to latest fiducials format
-      \item Release 2.7
-      \item classify.bgPCA: fixed arrayhandling for non-landmark data
-      \item deformGrid2d: significant speed up in grid generation
-      \item slider3d: removed unnecessary print statement.
-      \item export.meshDist: use vcgPlyWrite for export
-      \item warpmovie: bug preventing to export to subfolder
-      \item slider3d: check if number of meshes matches number of landmark configs
-      \item mergeMeshes: fixed color handling in case color is a vector.
-      \item getTrafoRotaxis: fixed critical bug
-      \item checkLM: added option meshlist
-    }
+\section{Changes in Morpho version 2.8 (2020-02-27)}{
+  
+  \itemize{
+    \item NEW: added predict functions for CVA and groupPCA
+    \item warpmovie3d: supports now colored meshes
+    \item changed mesh coloring to new rgl default of per-vertex color vector
+    \item deformGrid3d: fixed correct position of grid
+    \item typprob: fix mean matrix for single cases
+    \item computeTransform: fix checking for NA Landmarks in all transform types
+    \item angleTest: if values exceed system max for doubles, set them to .Machine$double.xmax and issue warning
+    \item mesh2obj: now simply a wrapper for Rvcg::vcgObjWrite. Fixes Issue #14.
+    \item test-slider3d: correctly renamed test
+    \item rotonto: readded accidentally commented line
+    \item rotonto: fix case when x and y are missing different coordinates
+    \item read.fcsv: adapted to latest 3D slicer fiducials format
   }
 }
 
