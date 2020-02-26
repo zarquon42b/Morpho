@@ -127,8 +127,8 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     Tmatrix <- N
     N <- sweep(N, 2, Grandm)
     valScores <- which(eigenGmeans$values > tol)
-    groupScores <- N%*%(eigenGmeans$vectors[,valScores])
-    groupPCs <- eigenGmeans$vectors[,valScores]
+    groupScores <- N%*%(eigenGmeans$vectors[,valScores,drop=FALSE])
+    groupPCs <- eigenGmeans$vectors[,valScores,drop=FALSE]
     residuals <- N-groupScores%*%t(groupPCs)
     resPrcomp <- prcompfast(residuals,center = F,tol=sqrt(tol))
    
@@ -184,9 +184,36 @@ CV=NULL
         Gmeans <- vecx(Gmeans,revert=TRUE,lmdim=lmdim)
         Grandm <- vecx(t(Grandm),revert=TRUE,lmdim=lmdim)[,,1]
     }
-    out <- list(eigenvalues=values,groupPCs=eigenGmeans$vectors[,valScores],Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resVar=resVar,combinedVar=combinedVar)
+    out <- list(eigenvalues=values,groupPCs=groupPCs,Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resVar=resVar,combinedVar=combinedVar)
     class(out) <- "bgPCA"
     return(out)
 }
 
 
+#' Compute between-group-PC scores from new data
+#'
+#' Compute between-group-PC scores from new data
+#' @param object object of class \code{bgPCA} returned from \code{\link{groupPCA}}
+#' @param newdata matrix or 3D array containing data in the same format as originally used to compute groupPCA
+#' @param ... currently not used.
+#' @return returns the between-group-PC scores for new data
+#' @export
+predict.bgPCA <- function(object,newdata,...) {
+    Grandm <- object$Grandmean
+    if (is.matrix(Grandm)) {
+        if (is.matrix(newdata)) {
+            newdata <- as.vector(newdata-Grandm)
+        } else {
+            newdata <- vecx(sweep(newdata,1:2,Grandm))
+            newdata <- as.matrix(newdata)
+        }
+    } else {
+        newdata <- sweep(newdata,2,Grandm)
+        newdata <- as.matrix(newdata)
+    }
+    
+    print(dim(newdata))
+    scores <- newdata%*%object$groupPCs
+    return(scores)
+    
+}

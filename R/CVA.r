@@ -327,3 +327,28 @@ print.CVA <- function(x,...) {
 print.bgPCA <- function(x,...) {
     print(classify(x,cv=TRUE))
 }
+
+#' Compute CV-scores from new data
+#'
+#' Compute CV-scores from new data
+#' @param object object of class \code{\link{CVA}}
+#' @param newdata matrix or 3D array containing data in the same format as originally used to compute CVA
+#' @param ... currently not used.
+#' @return returns the CV-scores for new data
+#' @export
+predict.CVA <- function(object,newdata,...) {
+    Grandm <- object$Grandm
+    if (is.matrix(Grandm)) {
+        if (is.matrix(newdata))
+            newdata <- as.vector(newdata-Grandm)
+        else
+            newdata <- vecx(sweep(newdata,1:2,Grandm))
+    } else {
+        newdata <- sweep(newdata,2,Grandm)
+    }
+    
+    scores <- newdata%*%object$CV
+    return(scores)
+    
+}
+
