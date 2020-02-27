@@ -208,7 +208,7 @@ CV=NULL
 #' ## align new data to Procrustes analysis
 #' newdata <- align2procSym(procPart,boneLM[,,1:2])
 #' ## get scores for new data
-#' newscores <- predict(gpcaPart,proc$orpdata[,,1:2])
+#' newscores <- predict(gpcaPart,newdata)
 #' @export
 predict.bgPCA <- function(object,newdata,...) {
     Grandm <- object$Grandmean
