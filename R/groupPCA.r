@@ -197,6 +197,18 @@ CV=NULL
 #' @param newdata matrix or 3D array containing data in the same format as originally used to compute groupPCA
 #' @param ... currently not used.
 #' @return returns the between-group-PC scores for new data
+#' @examples
+#' data(boneData)
+#' 
+#' boneLMPart <- boneLM[,,-(1:2)]
+#' procPart <- procSym(boneLMPart)
+#' pop_sex <- name2factor(boneLMPart, which=3:4)
+#' ## compute group PCA without first 2 specimens
+#' gpcaPart <- groupPCA(procPart$orpdata, groups=pop_sex, rounds=0, mc.cores=2,cv=FALSE)
+#' ## align new data to Procrustes analysis
+#' newdata <- align2procSym(procPart,boneLM[,,1:2])
+#' ## get scores for new data
+#' newscores <- predict(gpcaPart,proc$orpdata[,,1:2])
 #' @export
 predict.bgPCA <- function(object,newdata,...) {
     Grandm <- object$Grandmean
@@ -212,7 +224,6 @@ predict.bgPCA <- function(object,newdata,...) {
         newdata <- as.matrix(newdata)
     }
     
-    print(dim(newdata))
     scores <- newdata%*%object$groupPCs
     return(scores)
     

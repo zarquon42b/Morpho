@@ -19,3 +19,16 @@ returns the between-group-PC scores for new data
 \description{
 Compute between-group-PC scores from new data
 }
+\examples{
+data(boneData)
+
+boneLMPart <- boneLM[,,-(1:2)]
+procPart <- procSym(boneLMPart)
+pop_sex <- name2factor(boneLMPart, which=3:4)
+## compute group PCA without first 2 specimens
+gpcaPart <- groupPCA(procPart$orpdata, groups=pop_sex, rounds=0, mc.cores=2,cv=FALSE)
+## align new data to Procrustes analysis
+newdata <- align2procSym(procPart,boneLM[,,1:2])
+## get scores for new data
+newscores <- predict(gpcaPart,proc$orpdata[,,1:2])
+}
