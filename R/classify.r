@@ -10,7 +10,7 @@
 #' @return
 #' \item{class}{classification result}
 #' \item{groups}{original grouping variable, only available if \code{newdata=NULL}}
-#' \item{posterior} {only for object of CVA and typprob, also the posterior probabilities are returned}
+#' \item{posterior}{only for object of CVA and typprob, also the posterior probabilities are returned}
 #' @rdname classify
 #' @seealso \code{\link{CVA},\link{groupPCA},  \link{typprobClass}}
 #' @export

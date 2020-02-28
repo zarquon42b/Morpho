@@ -29,7 +29,7 @@ classify(x, cv = TRUE, ...)
 \value{
 \item{class}{classification result}
 \item{groups}{original grouping variable, only available if \code{newdata=NULL}}
-\item{posterior} {only for object of CVA and typprob, also the posterior probabilities are returned}
+\item{posterior}{only for object of CVA and typprob, also the posterior probabilities are returned}
 }
 \description{
 classify specimen based on between-group PCA, CVA or typprobClass
