@@ -72,10 +72,11 @@ mergeMeshes <- function(...)
 
         ## handle colors
         #tmpmesh$material$color <- matrix(tmpmesh$material$color,3,nittmp)
-        if (!is.null(tmpmesh$material$color) && is.null(outmesh$material$color) && !is.null(outmesh$it)) {
+        if (!is.null(tmpmesh$material$color) && is.null(outmesh$material$color)) {
             outmesh$material$color <- rep("#FFFFFF", nvbout)
-        } else if (is.null(tmpmesh$material$color) && !is.null(tmpmesh$it) && !is.null(outmesh$material$color))
-            tmpmesh$material$color <- matrix("#FFFFFF", 3, nvbtmp)
+        } else if (is.null(tmpmesh$material$color) && !is.null(outmesh$material$color))
+            tmpmesh$material$color <- rep("#FFFFFF", nvbtmp)
+        
         outmesh$material$color <- c(outmesh$material$color, tmpmesh$material$color)
     }
     return(outmesh)
