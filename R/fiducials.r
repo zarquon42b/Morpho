@@ -53,6 +53,8 @@ read.fcsv <- function(x,na=NULL) {
 #' require(Rvcg)
 #' data(dummyhead)
 #' write.fcsv(dummyhead.lm)
+#' ## remove file
+#' unlink("dummyhead.lm.fcsv")
 #' @export 
 write.fcsv <- function(x,filename=dataname,description=NULL) {
     dataname <- deparse(substitute(x))

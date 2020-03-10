@@ -65,6 +65,9 @@
 #' \dontrun{
 #' checkLM(data, path="./",Rdata=TRUE, suffix="", atlas=atlas)
 #' }
+#' ## remove data from disk
+#' unlink("shortnose")
+#' unlink("longnose")
 #' 
 #' @export
 checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white", pt.size=NULL, alpha=1, begin=1, render=c("w","s"), point=c("s","p"), add=FALSE,meshlist=NULL, Rdata=FALSE, atlas=NULL, text.lm=FALSE)

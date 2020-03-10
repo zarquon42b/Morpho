@@ -20,4 +20,6 @@ write fiducials in slicer4 format
 require(Rvcg)
 data(dummyhead)
 write.fcsv(dummyhead.lm)
+## remove file
+unlink("dummyhead.lm.fcsv")
 }

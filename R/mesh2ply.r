@@ -37,6 +37,7 @@
 #' shade3d(cube,col=3) ## view the green cube
 #' }
 #' mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
+#' unlink("cube.ply")
 #' @rdname mesh2ply
 #' @export
 mesh2ply <- function(x, filename=dataname, col=NULL, writeNormals=FALSE)

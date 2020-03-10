@@ -16,6 +16,10 @@ list2array <- function(x) {
     
     arr <- array(0,dim=c(dim(x[[1]]),length(x)))
     dimnames(arr)[[3]] <- names(x)
+    if (!is.null(rownames(x[[1]])))
+        dimnames(arr)[[1]] <- rownames(x[[1]])
+     if (!is.null(colnames(x[[1]])))
+         dimnames(arr)[[2]] <- colnames(x[[1]])
     for (i in 1:length(x))
         arr[,,i] <- x[[i]]
     return(arr)

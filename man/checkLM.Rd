@@ -91,6 +91,9 @@ patch=shortnose.lm[-c(1:5,20:21),])
 \dontrun{
 checkLM(data, path="./",Rdata=TRUE, suffix="", atlas=atlas)
 }
+## remove data from disk
+unlink("shortnose")
+unlink("longnose")
 
 }
 \seealso{

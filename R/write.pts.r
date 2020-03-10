@@ -19,6 +19,7 @@
 #' 
 #' data(nose)
 #' write.pts(shortnose.lm, filename="shortnose")
+#' unlink("shortnose.pts")
 #' 
 #' @export
 write.pts <- function(x, filename=dataname,rownames=NULL,NA.string=9999)

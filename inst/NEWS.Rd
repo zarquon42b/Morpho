@@ -3,9 +3,10 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 
-\section{Changes in Morpho version 2.8 (2020-02-27)}{
+\section{Changes in Morpho version 2.8 (2020-03-04)}{
   
   \itemize{
+    \item classify: added option newdata to predict class affinity for new data
     \item NEW: added predict functions for CVA and groupPCA
     \item warpmovie3d: supports now colored meshes
     \item changed mesh coloring to new rgl default of per-vertex color vector
