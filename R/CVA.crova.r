@@ -57,8 +57,10 @@
     eigZ$d <- eigZ$d^2
     A <- Re(eigZ$u)
     CV <- U %*% (Ec * A)
-    if (geninv)
-         CV <- CV[,abovetol] 
+    if (geninv) {
+        if (ncol(CV) > length(abovetol))
+            CV <- CV[,abovetol]
+        }
     di <- dim(CV)[2]
     for (i in 1:di) {
         rho <- angle.calc(test[,i],CV[,i])
