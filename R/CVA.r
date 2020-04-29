@@ -226,7 +226,11 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     eigZ <- svd(ZtZ,nv=0,nu=useEig)
     eigZ$d <- eigZ$d^2
     A <- Re(eigZ$u)
+    
     CV <- U %*% (Ec * A)
+
+    if (geninv)
+         CV <- CV[,abovetol] 
     CVvis <- covWithin %*% CV
     CVscores <- N %*% CV
     colnames(CVscores) <- colnames(CVvis) <- colnames(CV) <- paste("CV",1:ncol(CVscores))

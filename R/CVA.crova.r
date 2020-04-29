@@ -43,6 +43,7 @@
         #cat(paste("singular Covariance matrix: General inverse is used. Threshold for zero eigenvalue is", tolinv, "\n"))
         geninv <- TRUE
     }
+    
     abovetol <- which(Ec >= tolinv)
     E[abovetol] <- sqrt(1/E[abovetol])
     Ec[abovetol] <- sqrt(1/Ec[abovetol])
@@ -56,10 +57,13 @@
     eigZ$d <- eigZ$d^2
     A <- Re(eigZ$u)
     CV <- U %*% (Ec * A)
+    if (geninv)
+         CV <- CV[,abovetol] 
     di <- dim(CV)[2]
-    
     for (i in 1:di) {
         rho <- angle.calc(test[,i],CV[,i])
+        #message(paste0(Ec[i]))
+       
         if (rho > pi/2)
             CV[,i] <- -CV[,i]		
     }
