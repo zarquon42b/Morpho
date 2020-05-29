@@ -4,7 +4,8 @@
 \alias{write.fcsv}
 \title{write fiducials in slicer4 format}
 \usage{
-write.fcsv(x, filename = dataname, description = NULL)
+write.fcsv(x, filename = dataname, description = NULL,
+  slicer4.11 = FALSE)
 }
 \arguments{
 \item{x}{matrix with row containing 2D or 3D coordinates}
@@ -12,6 +13,8 @@ write.fcsv(x, filename = dataname, description = NULL)
 \item{filename}{will be substituted with ".fcsv"}
 
 \item{description}{optional: character vector containing a description for each landmark}
+
+\item{slicer4.11}{logical: Slicer changed their fiducial format in version >= 4.11. Set TRUE if you use the latest Slicer version}
 }
 \description{
 write fiducials in slicer4 format

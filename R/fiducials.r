@@ -49,6 +49,7 @@ read.fcsv <- function(x,na=NULL) {
 #' @param x matrix with row containing 2D or 3D coordinates
 #' @param filename will be substituted with ".fcsv"
 #' @param description optional: character vector containing a description for each landmark
+#' @param slicer4.11 logical: Slicer changed their fiducial format in version >= 4.11. Set TRUE if you use the latest Slicer version
 #' @examples
 #' require(Rvcg)
 #' data(dummyhead)
@@ -56,11 +57,14 @@ read.fcsv <- function(x,na=NULL) {
 #' ## remove file
 #' unlink("dummyhead.lm.fcsv")
 #' @export 
-write.fcsv <- function(x,filename=dataname,description=NULL) {
+write.fcsv <- function(x,filename=dataname,description=NULL,slicer4.11=FALSE) {
     dataname <- deparse(substitute(x))
     if (!grepl("*.fcsv$",filename))
         filename <- paste0(filename,".fcsv")
-    cat("# Markups fiducial file version = 4.4\n# CoordinateSystem = 0\n# columns = id,x,y,z,ow,ox,oy,oz,vis,sel,lock,label,desc,associatedNodeID\n",file=filename)
+    if (!slicer4.11)
+        cat("# Markups fiducial file version = 4.4\n# CoordinateSystem = 0\n# columns = id,x,y,z,ow,ox,oy,oz,vis,sel,lock,label,desc,associatedNodeID\n",file=filename)
+    else
+        cat("# Markups fiducial file version = 4.11\n# CoordinateSystem = LPS\n# columns = id,x,y,z,ow,ox,oy,oz,vis,sel,lock,label,desc,associatedNodeID\n",file=filename)
     ptdim <- ncol(x)
     ptn <- nrow(x)
     if (ptdim == 2)
