@@ -6,41 +6,7 @@
 #' @return a k x 3 matrix with landmarks
 #' @export
 read.fcsv <- function(x,na=NULL) {
-    raw <- readLines(x)
-    getids <- grep("# columns",raw)
-    myids <- raw[getids]
-    myids <- gsub("# columns = ","",myids)
-    myids <- unlist(strsplit(myids,split=","))
-
-    xpos <- which(myids=="x")
-    ypos <- which(myids=="y")
-    zpos <- which(myids=="z")
-    labelpos <- which(myids=="label")
-    points <- which(!grepl("^#",raw))
-    
-    data <- strsplit(raw[points], split = ",")
-    subfun <- function(x) {
-        tmp <- strsplit(x[c(xpos,ypos,zpos)], split = "=")
-        tmp <- unlist(tmp, recursive = F)
-        return(tmp)
-    }
-    getnames <- function(x) {
-        tmp <- strsplit(x[labelpos], split = "=")
-        tmp <- unlist(tmp, recursive = F)
-        return(tmp)
-    }
-    mynames <- unlist(lapply(data,getnames))
-    data <- lapply(data, subfun)
-    
-    tmp <- as.numeric(unlist(data))
-    tmp <- matrix(tmp, length(points), 3, byrow = T)
-    if (!is.null(na)) {
-       nas <- which(tmp == na)
-       if (length(nas) > 0) 
-           tmp[nas] <- NA 
-    }
-    rownames(tmp) <- mynames
-    return(tmp)
+    return(as.matrix(read.csv(file=x, skip=2, header=T)[,2:4]))
 }
 
 #' write fiducials in slicer4 format
@@ -60,7 +26,7 @@ write.fcsv <- function(x,filename=dataname,description=NULL) {
     dataname <- deparse(substitute(x))
     if (!grepl("*.fcsv$",filename))
         filename <- paste0(filename,".fcsv")
-    cat("# Markups fiducial file version = 4.4\n# CoordinateSystem = 0\n# columns = id,x,y,z,ow,ox,oy,oz,vis,sel,lock,label,desc,associatedNodeID\n",file=filename)
+    cat("# Markups fiducial file version = 4.11\n# CoordinateSystem = LPS\n# columns = id,x,y,z,ow,ox,oy,oz,vis,sel,lock,label,desc,associatedNodeID\n",file=filename)
     ptdim <- ncol(x)
     ptn <- nrow(x)
     if (ptdim == 2)
