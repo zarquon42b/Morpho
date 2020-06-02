@@ -18,6 +18,7 @@
 #' @param centerweight logical or vector of weights: if weights are defined and centerweigths=TRUE,
 #' the matrix will be centered according to these weights instead of the
 #' barycenter. If centerweight is a vector of length \code{nrow(x)}, the barycenter will be weighted accordingly.
+#' @param ... currently not used
 #' @return
 #' \item{yrot }{rotated and translated matrix}
 #' \item{Y }{centred and rotated reference matrix}
@@ -48,7 +49,7 @@
 #' }
 #' 
 #' @export
-rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE) {
+rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE,...) {
     reflect=0
     k <- nrow(x)
     m <- ncol(x)
