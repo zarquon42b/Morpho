@@ -24,3 +24,20 @@ list2array <- function(x) {
         arr[,,i] <- x[[i]]
     return(arr)
 }
+
+#' reverts list2array, converting an array to a list of matrices 
+#'
+#' reverts list2array, converting an array to a list of matrices 
+#' @param x array 
+#' @return returns a list containing the matrices
+#' @export
+array2list <- function(x) {
+    outlist <- list()
+    for (i in 1:dim(x)[3]) {
+        outlist[[i]] <- x[,,i]
+    }
+    names(outlist) <- dimnames(x)[[3]]
+    return(outlist)
+        
+    
+}
