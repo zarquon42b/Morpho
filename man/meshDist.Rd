@@ -15,7 +15,7 @@ meshDist(x, ...)
   raytol = 50, raystrict = FALSE, save = FALSE, plot = TRUE,
   sign = TRUE, tol = NULL, tolcol = "green", displace = FALSE,
   shade = TRUE, method = c("vcglib", "morpho"), add = FALSE,
-  scaleramp = TRUE, ...)
+  scaleramp = TRUE, threads = 1, ...)
 
 \method{meshDist}{matrix}(x, mesh2 = NULL, distvec = NULL,
   from = NULL, to = NULL, steps = 20, ceiling = FALSE,
@@ -92,6 +92,8 @@ based on a kd-tree search for closest triangles.}
 \item{add}{logical: if TRUE, visualization will be added to the rgl window currently in focus}
 
 \item{scaleramp}{logical: if TRUE, the colorramp will be symmetrical for signed distances: spanning from \code{-max(from,to)} to \code{max(from,to)}.}
+
+\item{threads}{integer: number of threads to use. 0 = let system decide.}
 
 \item{type}{character: "s" shows coordinates as spheres, while "p" shows 3D
 dots.}

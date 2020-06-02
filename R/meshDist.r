@@ -53,6 +53,7 @@
 #' size will be estimated by centroid size of the configuration.
 #' @param add logical: if TRUE, visualization will be added to the rgl window currently in focus
 #' @param scaleramp logical: if TRUE, the colorramp will be symmetrical for signed distances: spanning from \code{-max(from,to)} to \code{max(from,to)}.
+#' @param threads integer: number of threads to use. 0 = let system decide.
 #' @param \dots additional arguments passed to \code{\link{shade3d}}. See
 #' \code{\link{rgl.material}} for details.
 #' @return Returns an object of class "meshDist" if the input is a surface mesh
@@ -94,7 +95,7 @@ meshDist <- function(x,...) UseMethod("meshDist")
 #' @importFrom Rvcg vcgClostKD
 #' @importFrom colorRamps blue2green2red
 #' @export
-meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE,  rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, raystrict=FALSE, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL,tolcol="green", displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE,scaleramp=TRUE,...)
+meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE,  rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, raystrict=FALSE, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL,tolcol="green", displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE,scaleramp=TRUE,threads=1,...)
 {
     method=substring(method[1],1L,1L)
     neg=FALSE
@@ -105,7 +106,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     if (is.null(distvec)) {
         if(!ray) {
             if (method == "v") {
-                promesh <- vcgClostKD(x,mesh2,sign=T)
+                promesh <- vcgClostKD(x,mesh2,sign=T,threads = threads)
             } else {
                 promesh <- closemeshKD(x,mesh2,sign=T)
             }
