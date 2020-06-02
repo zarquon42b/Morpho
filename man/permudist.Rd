@@ -5,7 +5,7 @@
 \title{performs permutation testing for group differences.}
 \usage{
 permudist(data, groups, rounds = 1000, which = NULL,
-  p.adjust.method = "none")
+  p.adjust.method = "none", median = FALSE)
 }
 \arguments{
 \item{data}{array or matrix containing data}
@@ -17,6 +17,8 @@ permudist(data, groups, rounds = 1000, which = NULL,
 \item{which}{integer (optional): in case the factor levels are > 2 this determins which factorlevels to use}
 
 \item{p.adjust.method}{method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.}
+
+\item{median}{logical: if TRUE, comparison will be median instead of mean.}
 }
 \value{
 \item{dist }{distance matrix with distances between actual group means}
