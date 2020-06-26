@@ -26,10 +26,12 @@ r_binary_packages:
  - Matrix
  - MASS
  - car
+ - testthat
+
+r_packages:
  - rvcg
  - morpho
- - testthat
- 
+
 notifications:
   email:
     on_success: change
