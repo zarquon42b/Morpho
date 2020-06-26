@@ -17,7 +17,9 @@ addons:
 repos:
   CRAN: https://cloud.r-project.org
 
-r_binary_packages:
+r_packages:
+ - Rvcg
+ - Morpho
  - rgl
  - Rcpp
  - RcppEigen
@@ -27,10 +29,6 @@ r_binary_packages:
  - MASS
  - car
  - testthat
-
-r_packages:
- - rvcg
- - morpho
 
 notifications:
   email:
