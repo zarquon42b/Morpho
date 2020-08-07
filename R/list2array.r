@@ -5,8 +5,8 @@
 #' @return returns an array concatenating all matrices
 #' @export
 list2array <- function(x) {
-    xclass <- sapply(x,class)
-    classchk <- prod(xclass == "matrix")
+    xclass <- sapply(x,inherits,"matrix")
+    classchk <- prod(xclass)
     if (!classchk)
         stop("all list entries must be matrices")
     xdim <- sapply(x,dim)
