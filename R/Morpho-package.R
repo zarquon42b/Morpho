@@ -130,6 +130,15 @@ deform.grid <- function (...)
   .Deprecated("deformGrid3d", package="Morpho")
   deformGrid3d(...)
 }
+
+#' @rdname Morpho-deprecated
+#' @export deform.grid
+showPC <- function (...)
+{
+  .Deprecated("restoreShapes", package="Morpho")
+  restoreShapes(...)
+}
+
 #' @rdname Morpho-deprecated
 #' @export 
 adnormals <- function (...)

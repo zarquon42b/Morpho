@@ -1,8 +1,8 @@
-#' convert PCs to landmark configuration
+#' restore shapes from PC-Scores or similar projections
+#'
+#' restore shapes from PC-Scores or similar projections
 #' 
-#' convert PC-scores to landmark coordinates
-#' 
-#' Rotates and translates PC-scores derived from shape data back into
+#' Rotates and translates PC-scores (or similar) derived from shape data back into
 #' configuration space.
 #' 
 #' @param scores vector of PC-scores, or matrix with rows containing PC-scores
@@ -30,7 +30,7 @@
 #' }
 #' @seealso \code{\link{getPCscores}}
 #' @export
-showPC <- function(scores,PC,mshape)
+restoreShapes <- function(scores,PC,mshape)
   {
     dims <- dim(mshape)
     PC <- as.matrix(PC)
@@ -50,8 +50,10 @@ showPC <- function(scores,PC,mshape)
           for (i in 1:n) {
               outarr[,,i] <- showPC(scores[i,],PC,mshape)
           }
+          if (!is.null(rownames(scores)))
+              dimnames(outarr)[[3]] <- rownames(scores)
           return(outarr)
-      }    
+    }    
 }
 
 #' Obtain PC-scores for new landmark data
