@@ -21,11 +21,11 @@
 #' ##the first PC-score of the first specimen
 #' 
 #' proc <- procSym(gorf.dat)
-#' lm <- showPC(proc$PCscores[1,1],proc$PCs[,1],proc$mshape)
+#' lm <- restoreShapes(proc$PCscores[1,1],proc$PCs[,1],proc$mshape)
 #' plot(lm,asp=1)
 #' 
 #' ##now the first 3 scores
-#' lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
+#' lm2 <- restoreShapes(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 #' points(lm2,col=2)
 #' }
 #' @seealso \code{\link{getPCscores}}
@@ -48,7 +48,7 @@ restoreShapes <- function(scores,PC,mshape)
           n <- nrow(scores)
           outarr <- array(0,dim=c(dims,n))
           for (i in 1:n) {
-              outarr[,,i] <- showPC(scores[i,],PC,mshape)
+              outarr[,,i] <- restoreShapes(scores[i,],PC,mshape)
           }
           if (!is.null(rownames(scores)))
               dimnames(outarr)[[3]] <- rownames(scores)
@@ -69,7 +69,7 @@ restoreShapes <- function(scores,PC,mshape)
 #' newdata <- boneLM[,,c(1:2)]
 #' newdataAlign <- align2procSym(proc,newdata)
 #' scores <- getPCscores(newdataAlign,proc$PCs,proc$mshape)
-#' @seealso \code{\link{showPC}}
+#' @seealso \code{\link{restoreShapes}}
 #' @export
 getPCscores <- function(x, PC, mshape) {
     if (is.matrix(x))

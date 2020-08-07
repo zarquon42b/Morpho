@@ -144,8 +144,8 @@
 #' #' ## visualize a shape change from score -5 to 5:
 #' cvvis5 <- 5*cvall$CVvis[,1]+cvall$Grandm
 #' cvvisNeg5 <- -5*cvall$CVvis[,1]+cvall$Grandm
-#' cvvis5 <- showPC(cvvis5,proc$PCs[,1:5],proc$mshape)
-#' cvvisNeg5 <- showPC(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
+#' cvvis5 <- restoreShapes(cvvis5,proc$PCs[,1:5],proc$mshape)
+#' cvvisNeg5 <- restoreShapes(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
 #' \dontrun{
 #' #visualize it
 #' deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)

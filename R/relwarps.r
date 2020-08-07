@@ -55,7 +55,7 @@
 #' ##plot non-affine variance associated with each relative warp
 #' barplot(rW$Var[,2], xlab="relative Warps")
 #' ## visualize first relative warp +-3 sd of the scores
-#' rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
+#' rw1 <- restoreShapes(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
 #' deformGrid3d(rw1[,,1],rw1[,,2],ngrid=5)
 #' 
 #' ## 2D example:
@@ -72,7 +72,7 @@
 #' ##plot non-affine variance associated with each relative warp
 #' barplot(rW$Var[,2], xlab="relative Warps")
 #' ## visualize first relative warp +-3 sd of the scores
-#' rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
+#' rw1 <- restoreShapes(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
 #' deformGrid2d(rw1[,,1],rw1[,,2],ngrid=10)
 #' }}
 #' 
