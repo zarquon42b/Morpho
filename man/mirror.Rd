@@ -6,16 +6,38 @@
 \alias{mirror.mesh3d}
 \title{mirror landmarks or triangular mesh in place}
 \usage{
-mirror(x, icpiter = 50, subsample = NULL, pcAlign = FALSE,
-  mirroraxis = 1, initPC = TRUE, initCenter = TRUE, mc.cores = 2)
+mirror(
+  x,
+  icpiter = 50,
+  subsample = NULL,
+  pcAlign = FALSE,
+  mirroraxis = 1,
+  initPC = TRUE,
+  initCenter = TRUE,
+  mc.cores = 2
+)
 
-\method{mirror}{matrix}(x, icpiter = 50, subsample = NULL,
-  pcAlign = FALSE, mirroraxis = 1, initPC = TRUE,
-  initCenter = TRUE, mc.cores = 2)
+\method{mirror}{matrix}(
+  x,
+  icpiter = 50,
+  subsample = NULL,
+  pcAlign = FALSE,
+  mirroraxis = 1,
+  initPC = TRUE,
+  initCenter = TRUE,
+  mc.cores = 2
+)
 
-\method{mirror}{mesh3d}(x, icpiter = 50, subsample = NULL,
-  pcAlign = FALSE, mirroraxis = 1, initPC = TRUE,
-  initCenter = TRUE, mc.cores = 2)
+\method{mirror}{mesh3d}(
+  x,
+  icpiter = 50,
+  subsample = NULL,
+  pcAlign = FALSE,
+  mirroraxis = 1,
+  initPC = TRUE,
+  initCenter = TRUE,
+  mc.cores = 2
+)
 }
 \arguments{
 \item{x}{k x 3 matrix or mesh3d}

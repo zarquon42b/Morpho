@@ -4,9 +4,18 @@
 \alias{read.csv.folder}
 \title{batch import data from files}
 \usage{
-read.csv.folder(folder, x, y = 2:4, rownames = NULL, header = TRUE,
-  dec = ".", sep = ";", pattern = "csv", addSpec = NULL,
-  back = TRUE)
+read.csv.folder(
+  folder,
+  x,
+  y = 2:4,
+  rownames = NULL,
+  header = TRUE,
+  dec = ".",
+  sep = ";",
+  pattern = "csv",
+  addSpec = NULL,
+  back = TRUE
+)
 }
 \arguments{
 \item{folder}{character: path to folder}

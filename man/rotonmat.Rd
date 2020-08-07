@@ -4,8 +4,16 @@
 \alias{rotonmat}
 \title{rotate matrix of landmarks}
 \usage{
-rotonmat(X, refmat, tarmat, scale = TRUE, reflection = FALSE,
-  weights = NULL, centerweight = FALSE, getTrafo = FALSE)
+rotonmat(
+  X,
+  refmat,
+  tarmat,
+  scale = TRUE,
+  reflection = FALSE,
+  weights = NULL,
+  centerweight = FALSE,
+  getTrafo = FALSE
+)
 }
 \arguments{
 \item{X}{Matrix to be rotated}

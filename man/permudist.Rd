@@ -4,8 +4,14 @@
 \alias{permudist}
 \title{performs permutation testing for group differences.}
 \usage{
-permudist(data, groups, rounds = 1000, which = NULL,
-  p.adjust.method = "none", median = FALSE)
+permudist(
+  data,
+  groups,
+  rounds = 1000,
+  which = NULL,
+  p.adjust.method = "none",
+  median = FALSE
+)
 }
 \arguments{
 \item{data}{array or matrix containing data}

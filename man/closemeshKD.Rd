@@ -4,8 +4,16 @@
 \alias{closemeshKD}
 \title{Project coordinates onto a target triangular surface mesh.}
 \usage{
-closemeshKD(x, mesh, k = 50, sign = FALSE, barycoords = FALSE,
-  cores = 1, method = 0, ...)
+closemeshKD(
+  x,
+  mesh,
+  k = 50,
+  sign = FALSE,
+  barycoords = FALSE,
+  cores = 1,
+  method = 0,
+  ...
+)
 }
 \arguments{
 \item{x}{k x 3 matrix containing 3D-coordinates or object of class

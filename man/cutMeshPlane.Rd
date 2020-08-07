@@ -4,8 +4,7 @@
 \alias{cutMeshPlane}
 \title{cut a mesh by a hyperplane and remove parts above/below that plane}
 \usage{
-cutMeshPlane(mesh, v1, v2 = NULL, v3 = NULL, normal = NULL,
-  keep.upper = TRUE)
+cutMeshPlane(mesh, v1, v2 = NULL, v3 = NULL, normal = NULL, keep.upper = TRUE)
 }
 \arguments{
 \item{mesh}{triangular mesh of class "mesh3d"}

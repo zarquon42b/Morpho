@@ -5,8 +5,15 @@
 \title{perfom permutation testing on angles and distances between subgroups of two
 major groups.}
 \usage{
-permuvec(data, groups, subgroups = NULL, rounds = 10000,
-  scale = TRUE, tol = 1e-10, mc.cores = parallel::detectCores())
+permuvec(
+  data,
+  groups,
+  subgroups = NULL,
+  rounds = 10000,
+  scale = TRUE,
+  tol = 1e-10,
+  mc.cores = parallel::detectCores()
+)
 }
 \arguments{
 \item{data}{array or matrix containing data.}
@@ -53,7 +60,7 @@ data(boneData)
 proc <- procSym(boneLM)
 pop <- name2factor(boneLM,which=3)
 sex <- name2factor(boneLM,which=4)
-## use non scaled distances by setting \\code{scale = FALSE}
+## use non scaled distances by setting \code{scale = FALSE}
 ## and only use first 10 PCs
 perm <- permuvec(proc$PCscores[,1:10], groups=pop, subgroups=sex,
                  scale=FALSE, rounds=100, mc.cores=2)
@@ -65,7 +72,7 @@ perm <- permuvec(proc$PCscores[,1:10], groups=pop, subgroups=sex,
 hist(perm$permudist, xlim=c(0,0.1),main="measured vs. random distances",
      xlab="distances")
 points(perm$dist,10,col=2,pch=19)#actual distance
-text(perm$dist,15,label=paste("actual distance\\n
+text(perm$dist,15,label=paste("actual distance\n
      (p=",perm$p.dist,")"))
 ## not significant!!
 
@@ -75,7 +82,7 @@ text(perm$dist,15,label=paste("actual distance\\n
 hist(perm$permutangles, main="measured vs. random angles",
      xlab="angles")
 points(perm$angle,10,col=2,pch=19)#actual distance
-text(perm$angle,15,label=paste("actual distance\\n
+text(perm$angle,15,label=paste("actual distance\n
     (p=",perm$p.angle,")"))
 ## also non-significant
 

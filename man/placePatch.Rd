@@ -5,9 +5,21 @@
 \alias{placePatch}
 \title{Project semi-landmarks from a predefined atlas onto all specimen in a sample}
 \usage{
-placePatch(atlas, dat.array, path, prefix = NULL, fileext = ".ply",
-  ray = TRUE, inflate = NULL, tol = inflate, relax.patch = TRUE,
-  keep.fix = NULL, rhotol = NULL, silent = FALSE, mc.cores = 1)
+placePatch(
+  atlas,
+  dat.array,
+  path,
+  prefix = NULL,
+  fileext = ".ply",
+  ray = TRUE,
+  inflate = NULL,
+  tol = inflate,
+  relax.patch = TRUE,
+  keep.fix = NULL,
+  rhotol = NULL,
+  silent = FALSE,
+  mc.cores = 1
+)
 }
 \arguments{
 \item{atlas}{object of class "atlas" created by \code{\link{createAtlas}}}

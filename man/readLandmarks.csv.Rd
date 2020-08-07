@@ -4,8 +4,15 @@
 \alias{readLandmarks.csv}
 \title{import landmark data from csv files}
 \usage{
-readLandmarks.csv(file, x, y = 2:4, rownames = NULL, header = TRUE,
-  dec = ".", sep = ";")
+readLandmarks.csv(
+  file,
+  x,
+  y = 2:4,
+  rownames = NULL,
+  header = TRUE,
+  dec = ".",
+  sep = ";"
+)
 }
 \arguments{
 \item{file}{character: path to file containing landmark data.}

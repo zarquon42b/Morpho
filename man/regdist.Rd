@@ -4,8 +4,7 @@
 \alias{regdist}
 \title{correlation between shape space and tangent space}
 \usage{
-regdist(dataarray, plot = TRUE, main = "", rho = "angle",
-  dist.mat.out = FALSE)
+regdist(dataarray, plot = TRUE, main = "", rho = "angle", dist.mat.out = FALSE)
 }
 \arguments{
 \item{dataarray}{Input k x m x n real array, where k is the number of

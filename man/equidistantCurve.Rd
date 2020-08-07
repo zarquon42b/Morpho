@@ -4,8 +4,16 @@
 \alias{equidistantCurve}
 \title{make a curve equidistant (optionally up/downsampling)}
 \usage{
-equidistantCurve(x, n = NULL, open = TRUE, subsample = 0,
-  increment = 2, smoothit = 0, mesh = NULL, iterations = 1)
+equidistantCurve(
+  x,
+  n = NULL,
+  open = TRUE,
+  subsample = 0,
+  increment = 2,
+  smoothit = 0,
+  mesh = NULL,
+  iterations = 1
+)
 }
 \arguments{
 \item{x}{k x m matrix containing the 2D or 3D coordinates}

@@ -5,10 +5,23 @@
 \title{Visually browse through a sample rendering its landmarks and corresponding
 surfaces.}
 \usage{
-checkLM(dat.array, path = NULL, prefix = "", suffix = ".ply",
-  col = "white", pt.size = NULL, alpha = 1, begin = 1,
-  render = c("w", "s"), point = c("s", "p"), add = FALSE,
-  meshlist = NULL, Rdata = FALSE, atlas = NULL, text.lm = FALSE)
+checkLM(
+  dat.array,
+  path = NULL,
+  prefix = "",
+  suffix = ".ply",
+  col = "white",
+  pt.size = NULL,
+  alpha = 1,
+  begin = 1,
+  render = c("w", "s"),
+  point = c("s", "p"),
+  add = FALSE,
+  meshlist = NULL,
+  Rdata = FALSE,
+  atlas = NULL,
+  text.lm = FALSE
+)
 }
 \arguments{
 \item{dat.array}{array or list containing landmark coordinates.}

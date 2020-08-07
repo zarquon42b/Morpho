@@ -4,8 +4,7 @@
 \alias{projRead}
 \title{Project points onto the closest point on a mesh}
 \usage{
-projRead(lm, mesh, readnormals = TRUE, smooth = FALSE, sign = TRUE,
-  ...)
+projRead(lm, mesh, readnormals = TRUE, smooth = FALSE, sign = TRUE, ...)
 }
 \arguments{
 \item{lm}{m x 3 matrix containing 3D coordinates.}

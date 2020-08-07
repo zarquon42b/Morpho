@@ -5,13 +5,29 @@
 \alias{typprobClass}
 \title{calculate typicality probabilities}
 \usage{
-typprob(x, data, small = FALSE, method = c("chisquare", "wilson"),
-  center = NULL, cova = NULL, robust = c("classical", "mve", "mcd"),
-  ...)
+typprob(
+  x,
+  data,
+  small = FALSE,
+  method = c("chisquare", "wilson"),
+  center = NULL,
+  cova = NULL,
+  robust = c("classical", "mve", "mcd"),
+  ...
+)
 
-typprobClass(x, data, groups, small = FALSE, method = c("chisquare",
-  "wilson"), outlier = 0.01, sep = FALSE, cv = TRUE,
-  robust = c("classical", "mve", "mcd"), ...)
+typprobClass(
+  x,
+  data,
+  groups,
+  small = FALSE,
+  method = c("chisquare", "wilson"),
+  outlier = 0.01,
+  sep = FALSE,
+  cv = TRUE,
+  robust = c("classical", "mve", "mcd"),
+  ...
+)
 }
 \arguments{
 \item{x}{vector or matrix of data the probability is to be calculated.}

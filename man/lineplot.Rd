@@ -4,8 +4,7 @@
 \alias{lineplot}
 \title{plot lines between landmarks}
 \usage{
-lineplot(x, point, col = 1, lwd = 1, line_antialias = FALSE,
-  add = TRUE)
+lineplot(x, point, col = 1, lwd = 1, line_antialias = FALSE, add = TRUE)
 }
 \arguments{
 \item{x}{matrix containing 2D or 3D landmarks}

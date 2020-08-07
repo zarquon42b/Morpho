@@ -4,8 +4,14 @@
 \alias{getOuterViewpoints}
 \title{Get viewpoints on a sphere around a 3D mesh}
 \usage{
-getOuterViewpoints(x, n, inflate = 1.5, radius = NULL,
-  subdivision = 3, PCA = FALSE)
+getOuterViewpoints(
+  x,
+  n,
+  inflate = 1.5,
+  radius = NULL,
+  subdivision = 3,
+  PCA = FALSE
+)
 }
 \arguments{
 \item{x}{triangular mesh of class 'mesh3d'}

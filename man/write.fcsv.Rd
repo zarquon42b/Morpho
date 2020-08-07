@@ -4,8 +4,7 @@
 \alias{write.fcsv}
 \title{write fiducials in slicer4 format}
 \usage{
-write.fcsv(x, filename = dataname, description = NULL,
-  slicer4.11 = FALSE)
+write.fcsv(x, filename = dataname, description = NULL, slicer4.11 = FALSE)
 }
 \arguments{
 \item{x}{matrix with row containing 2D or 3D coordinates}

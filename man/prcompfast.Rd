@@ -4,8 +4,7 @@
 \alias{prcompfast}
 \title{fast Principal Component Analysis (PCA)}
 \usage{
-prcompfast(x, retx = TRUE, center = TRUE, scale. = FALSE,
-  tol = NULL, ...)
+prcompfast(x, retx = TRUE, center = TRUE, scale. = FALSE, tol = NULL, ...)
 }
 \arguments{
 \item{x}{a numeric or complex matrix (or data frame) which provides

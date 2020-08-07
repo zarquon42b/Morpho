@@ -8,8 +8,16 @@
 \title{rotates, translates and scales one matrix onto an other using Procrustes
 fitting}
 \usage{
-rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE,
-  weights = NULL, centerweight = FALSE, ...)
+rotonto(
+  x,
+  y,
+  scale = FALSE,
+  signref = TRUE,
+  reflection = TRUE,
+  weights = NULL,
+  centerweight = FALSE,
+  ...
+)
 
 rotreverse(mat, rot)
 

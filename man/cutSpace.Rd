@@ -4,8 +4,7 @@
 \alias{cutSpace}
 \title{separate a 3D-pointcloud by a hyperplane}
 \usage{
-cutSpace(pointcloud, v1, v2 = NULL, v3 = NULL, normal = NULL,
-  upper = TRUE)
+cutSpace(pointcloud, v1, v2 = NULL, v3 = NULL, normal = NULL, upper = TRUE)
 }
 \arguments{
 \item{pointcloud}{numeric n x 3 matrix}

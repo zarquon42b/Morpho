@@ -41,4 +41,4 @@ BugReports: https://github.com/zarquon42b/Morpho/issues
 LazyLoad: yes
 URL: https://github.com/zarquon42b/Morpho
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
