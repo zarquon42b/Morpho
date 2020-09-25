@@ -23,6 +23,11 @@ classify.bgPCA <- function(x,cv=TRUE,newdata=NULL,...) {
     if (length(dim(x$groupmeans)) == 3) {
         x$groupmeans <- vecx(x$groupmeans)
         x$Grandmean <- c(x$Grandmean)
+        if (!is.null(newdata)){
+            if (length(dim(newdata)) == 3)
+                newdata <- vecx(newdata)
+        }
+            
     }
     usenew <- FALSE
     if (is.null(newdata)) {
