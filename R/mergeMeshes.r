@@ -27,10 +27,15 @@ mergeMeshes <- function(...)
     args <- list(...)
     if (length(args) == 1 && !inherits(args[[1]],"mesh3d"))
         args <- unlist(args, recursive = FALSE)
-
+    #print(class(args[[1]]))
     argc <- length(args)
-        if (argc < 2)
-            stop("at least two arguments needed")
+    if (argc < 2) {
+        if (inherits(args[[1]],"mesh3d")) {
+            message("only one arguments provided: nothing to be done")
+            return(args[[1]])
+        }
+    }
+    
     outmesh <- args[[1]]
     if (dim(outmesh$vb)[1] == 3)
         outmesh$vb <- rbind(outmesh$vb, 1)
