@@ -85,3 +85,17 @@ write.fcsv <- function(x,filename=dataname,description=NULL,slicer4.11=FALSE) {
             quote = FALSE, row.names = FALSE, col.names = FALSE, 
             na = "")
 }
+
+#' convert data from LPS to RAS space and back
+#'
+#' convert data from LPS to RAS space and back
+#'
+#' @param x mesh of class \code{mesh3d} or a matrix with 3D Landmarks
+#'
+#' @return returns the rotated data
+#' @details As e.g. the Slicer versions >= 4.11 are using LPS space, it might be needed to transform data like fiducials and surface models from and back to that space.
+#' @export
+LPS2RAS <- function(x) {
+    x <- applyTransform(x,diag(c(-1,-1,1,1)))
+    return(x)
+}
