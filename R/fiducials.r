@@ -100,6 +100,10 @@ LPS2RAS <- function(x) {
     return(x)
 }
 
+
+
+
+
 #' read Landmarks from Slicer in Json format
 #'
 #' read Landmarks from Slicer in Json format
@@ -131,3 +135,64 @@ read.slicerjson <- function(x) {
    
     return(cp)
 }
+#' @importFrom jsonlite write_json
+write.slicerjson <- function(x,filename=dataname,type=c("Curve","Fiducial","ClosedCurve"),coordinateSystem=c("LPS","RAS"),locked=TRUE,label=dataname) {
+    dataname <- deparse(substitute(x))
+    if (!grepl("*.json$", filename)) 
+        filename <- paste0(filename,".mrk.json")
+    nrx <- nrow(x)
+
+    mylabels <- paste0(dataname,"-",1:nrx)
+    coordinateSystem <- match.arg(coordinateSystem[1],c("LPS","RAS"))
+    type <- match.arg(type[1],c("Curve","Fiducial","ClosedCurve"))
+    
+    ## setup markups
+    orientation <- c(-1,0,0,0,-1,0,0,0,1)
+    if (coordinateSystem == "RAS")
+        orientation <- c(1,0,0,0,1,0,0,0,1)
+    position <- lapply(1:nrx, function(y) y <- x[y,] )
+    cp <- data.frame(id=as.character(1:nrx),label=mylabels,description=rep("",nrx),associatedNodeID=rep("",nrx))
+    cp$position <- position
+    cp$orientation <- lapply(1:nrx,function(x) x <- orientation)
+    cp$selected <- rep(TRUE,nrx)
+    cp$locked <- FALSE
+    cp$visibility <- rep(TRUE,nrx)
+    cp$positionStatus <- rep("defined",nrx)
+
+    markups <- data.frame(type=type,coordinateSystem=coordinateSystem,locked=TRUE,labelFormat="%N-%d")
+    markups$controlPoints=list(cp)
+    markups$display=createDisplayInfo()
+
+    
+    out <- list("@schema"="https://raw.githubusercontent.com/slicer/slicer/master/Modules/Loadable/Markups/Resources/Schema/markups-schema-v1.0.0.json#")
+    
+    out$markups <- markups
+    write_json(out,pretty=T,auto_unbox = T,filename,digits=NA,always_decimal=TRUE)
+    
+}
+
+
+createDisplayInfo <- function(visibility=TRUE,opacity=1,color=c(0,4,1,1),selectedColor=c(1.0000000, 0.5000076 ,0.5000076),
+                              propertiesLabelVisibility=TRUE,pointLabelsVisibility=FALSE,textScale=3,glyphType="Sphere3D",
+                              sliceProjectionUseFiducialColor=TRUE,sliceProjectionOutlinedBehindSlicePlane=FALSE,
+                              glyphScale=1, glyphSize=5, useGlyphScale=TRUE, sliceProjection = FALSE,
+                              sliceProjectionColor=c(1,1,1),sliceProjectionOpacity=0.6,lineThickness=0.2,
+                              lineColorFadingStart=1,lineColorFadingEnd=10,lineColorFadingSaturation=1,
+                              lineColorFadingHueOffset=0,handlesInteractive=FALSE,snapMode="toVisibleSurface") {
+
+
+    display <- data.frame(visibility=visibility,opacity=opacity)
+    display$color <- list(color)
+    display$selectedColor <- list(selectedColor)
+    display2 <- data.frame(propertiesLabelVisibility=propertiesLabelVisibility,pointLabelsVisibility=pointLabelsVisibility,textScale=textScale,glyphType=glyphType,sliceProjectionUseFiducialColor=sliceProjectionUseFiducialColor,sliceProjectionOutlinedBehindSlicePlane=sliceProjectionOutlinedBehindSlicePlane,glyphScale=glyphScale, glyphSize=glyphSize, useGlyphScale=useGlyphScale, sliceProjection = sliceProjection)
+    ## combine
+    display <- cbind(display,display2)
+    
+    display$sliceProjectionColor <- list(c(1,1,1))
+
+    display2 <- data.frame(sliceProjectionOpacity=sliceProjectionOpacity,lineThickness=lineThickness,lineColorFadingStart=lineColorFadingStart,lineColorFadingEnd=lineColorFadingEnd,lineColorFadingSaturation=lineColorFadingSaturation,lineColorFadingHueOffset=lineColorFadingHueOffset,handlesInteractive=handlesInteractive,snapMode=snapMode)
+    display <- cbind(display,display2)
+
+    return(display)
+}
+display <- data.frame()
