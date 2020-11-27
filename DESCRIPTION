@@ -33,7 +33,8 @@ Imports:
     grDevices,
     methods,
     stats,
-    utils
+    utils,
+    jsonlite
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2

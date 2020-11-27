@@ -99,3 +99,35 @@ LPS2RAS <- function(x) {
     x <- applyTransform(x,diag(c(-1,-1,1,1)))
     return(x)
 }
+
+#' read Landmarks from Slicer in Json format
+#'
+#' read Landmarks from Slicer in Json format
+#' @param x path to json file
+#'
+#' returns matrix or list of matrices with imported landmark coordinates
+#' @importFrom jsonlite read_json
+#' @export
+read.slicerjson <- function(x) {
+    
+    
+    mydata <- read_json(x,T)$markups
+    message(paste0("Importing: ",mydata$type, "\nCoordinate System: ", mydata$coordinateSystem))
+    
+    
+    cp <- mydata$controlPoints
+    helpfun <- function(z) {
+        mat <- t(sapply(z$position,rbind))
+        labels <- z$label
+        rownames(mat) <- labels
+        return(mat)
+    }
+    
+    cp <- lapply(cp,helpfun)
+    cp <- lapply(cp,function(x){ attributes(x) <- append(attributes(x),list(coordinateSystem=mydata$coordinateSystem));return(x)})
+    if (length(cp) == 1)
+        cp <- cp[[1]]
+
+   
+    return(cp)
+}
