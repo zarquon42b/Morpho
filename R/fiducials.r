@@ -35,9 +35,9 @@ read.fcsv <- function(x,na=NULL) {
     tmp <- as.numeric(unlist(data))
     tmp <- matrix(tmp, length(points), 3, byrow = T)
     if (!is.null(na)) {
-       nas <- which(tmp == na)
-       if (length(nas) > 0) 
-           tmp[nas] <- NA 
+        nas <- which(tmp == na)
+        if (length(nas) > 0) 
+            tmp[nas] <- NA 
     }
     rownames(tmp) <- mynames
     return(tmp)
@@ -81,9 +81,9 @@ write.fcsv <- function(x,filename=dataname,description=NULL,slicer4.11=FALSE) {
         names <- paste0("F_",1:ptn)
     outframe <- data.frame(rowids,x,buffer,names,desc,associatedNodeID)
     write.table(format(outframe, scientific = F, 
-            trim = T), file = filename, sep = ",", append = TRUE, 
-            quote = FALSE, row.names = FALSE, col.names = FALSE, 
-            na = "")
+                       trim = T), file = filename, sep = ",", append = TRUE, 
+                quote = FALSE, row.names = FALSE, col.names = FALSE, 
+                na = "")
 }
 
 #' convert data from LPS to RAS space and back
@@ -132,16 +132,28 @@ read.slicerjson <- function(x) {
     if (length(cp) == 1)
         cp <- cp[[1]]
 
-   
+    
     return(cp)
 }
+
+
+
+#' Export landmarks (or any 3D coordinates) to the new slicer json format
+#'
+#' Export landmarks (or any 3D coordinates) to the new slicer json format
+#' @param x k x 3 matrix containing 3D coordinates
+#' @param type character: specify type of coordinates. Can be any of "Curve","Fiducial","ClosedCurve"
+#' @param coordinateSystem character: specify coordinate system the data are in. Can be "LPS" or "RAS".
+#' @param label character or character vector containing landmark labels. 
+#' 
 #' @importFrom jsonlite write_json
-write.slicerjson <- function(x,filename=dataname,type=c("Curve","Fiducial","ClosedCurve"),coordinateSystem=c("LPS","RAS"),locked=TRUE,label=dataname) {
+#' @export
+write.slicerjson <- function(x,filename=dataname,type=c("Curve","Fiducial","ClosedCurve"),coordinateSystem=c("LPS","RAS"),label=dataname) {
     dataname <- deparse(substitute(x))
     if (!grepl("*.json$", filename)) 
         filename <- paste0(filename,".mrk.json")
     nrx <- nrow(x)
-
+    locked <- TRUE
     mylabels <- paste0(dataname,"-",1:nrx)
     coordinateSystem <- match.arg(coordinateSystem[1],c("LPS","RAS"))
     type <- match.arg(type[1],c("Curve","Fiducial","ClosedCurve"))
