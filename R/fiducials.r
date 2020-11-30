@@ -142,21 +142,29 @@ read.slicerjson <- function(x) {
 #'
 #' Export landmarks (or any 3D coordinates) to the new slicer json format
 #' @param x k x 3 matrix containing 3D coordinates
-#' @param type character: specify type of coordinates. Can be any of "Curve","Fiducial","ClosedCurve"
+#' @param type character: specify type of coordinates. Can be any of "Fiducial", "Curve", "ClosedCurve".
 #' @param coordinateSystem character: specify coordinate system the data are in. Can be "LPS" or "RAS".
-#' @param label character or character vector containing landmark labels. 
+#' @param labels character or character vector containing landmark labels. 
 #' 
 #' @importFrom jsonlite write_json
 #' @export
-write.slicerjson <- function(x,filename=dataname,type=c("Curve","Fiducial","ClosedCurve"),coordinateSystem=c("LPS","RAS"),label=dataname) {
+write.slicerjson <- function(x,filename=dataname,type=c("Fiducial","Curve","ClosedCurve"),coordinateSystem=c("LPS","RAS"),labels=dataname) {
     dataname <- deparse(substitute(x))
     if (!grepl("*.json$", filename)) 
         filename <- paste0(filename,".mrk.json")
     nrx <- nrow(x)
     locked <- TRUE
-    mylabels <- paste0(dataname,"-",1:nrx)
-    coordinateSystem <- match.arg(coordinateSystem[1],c("LPS","RAS"))
     type <- match.arg(type[1],c("Curve","Fiducial","ClosedCurve"))
+
+    if (labels[[1]] == dataname)
+        mylabels <- paste0(dataname,"-",1:nrx)
+    else if (length(labels) == 1 || type != "Fiducial")
+        mylabels <- paste0(labels,"-",1:nrx)
+    else if (length(labels) == nrx)
+        mylabels <- labels
+    
+       
+    coordinateSystem <- match.arg(coordinateSystem[1],c("LPS","RAS"))
     
     ## setup markups
     orientation <- c(-1,0,0,0,-1,0,0,0,1)
