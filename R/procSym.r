@@ -409,11 +409,19 @@ align2procSym <- function(x,newdata,orp=TRUE) {
     n <- dim(newdata)[3]
     atts <- attributes(x)
     newdatarot <- newdata
+    if (atts$CSinit) {
+        mysize <- apply(newdata,3,cSize)
+        for (i in 1:n)
+        newdata[,,i] <- newdata[,,i]/mysize[i]
+    }
+    
     for (i in 1:n)
         newdatarot[,,i] <- rotonto(x$mshape,newdata[,,i],scale=atts$scale,reflection=atts$reflect,centerweight=atts$centerweight,weights=atts$weights)$yrot
     if (atts$orp && orp)
         orpdata <- orp(newdatarot,x$mshape)
-     if (dim(orpdata)[3] == 1)
+    else
+        orpdata <- newdatarot
+    if (dim(orpdata)[3] == 1)
          orpdata <- orpdata[,,1]
     return(orpdata)
 }
