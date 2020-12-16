@@ -10,6 +10,7 @@ procSym(
   reflect = TRUE,
   CSinit = TRUE,
   orp = TRUE,
+  proctol = 1e-05,
   tol = 1e-05,
   pairedLM = NULL,
   sizeshape = FALSE,
@@ -102,6 +103,8 @@ Symmetric configurations will be relaxed against a perfectly symmetrical mean.}
 Useful to keep semi-landmarks from sliding too far off the surface.
 The displacement is calculated as \cr
 \code{stepsize * displacement}.}
+
+\item{proctol:}{numeric:  Threshold for convergence in the alignment process}
 }
 \value{
 \item{size }{a vector containing the Centroid Size of the configurations}

@@ -20,6 +20,7 @@
 #' Unit Centroid Size.
 #' @param orp logical: if TRUE, an orthogonal projection at the meanshape into
 #' tangent space is performed.
+#' @param proctol: numeric:  Threshold for convergence in the alignment process
 #' @param tol numeric: Threshold for convergence in the sliding process
 #' @param pairedLM A X x 2 matrix containing the indices (rownumbers) of the
 #' paired LM. E.g. the left column contains the lefthand landmarks, while the
@@ -149,7 +150,7 @@
 #' 
 #' 
 #' @export
-procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE,weights=NULL,centerweight=FALSE, pcAlign=TRUE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE, bending=TRUE,stepsize=1)
+procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,proctol=1e-05, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE,weights=NULL,centerweight=FALSE, pcAlign=TRUE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE, bending=TRUE,stepsize=1)
 {
     t0 <- Sys.time()     
     A <- dataarray
@@ -199,7 +200,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     message("performing Procrustes Fit ")
     
     if (!is.null(use.lm)) { ### only use subset for rotation and scale
-        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights)
+        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights,tol=proctol)
         tmp <- Aall
         for (i in 1:dim(Aall)[3]) {
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
@@ -211,7 +212,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         proc$rotated <- tmp
         proc$mshape <- arrMean3(tmp) ##calc new meanshape
     } else
-        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights)
+        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights,tol=proctol)
     
     procrot <- proc$rotated
     dimna <- dimnames(dataarray)
@@ -352,7 +353,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         
         class(out) <- "nosymproc"
     }
-    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect,centerweight=centerweight,weights=weights))
+    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect,centerweight=centerweight,weights=weights,sizeshape=sizeshape))
     return(out)
     
 }
@@ -415,8 +416,9 @@ align2procSym <- function(x,newdata,orp=TRUE) {
         newdata[,,i] <- newdata[,,i]/mysize[i]
     }
     
-    for (i in 1:n)
+    for (i in 1:n)        
         newdatarot[,,i] <- rotonto(x$mshape,newdata[,,i],scale=atts$scale,reflection=atts$reflect,centerweight=atts$centerweight,weights=atts$weights)$yrot
+    
     if (atts$orp && orp)
         orpdata <- orp(newdatarot,x$mshape)
     else
