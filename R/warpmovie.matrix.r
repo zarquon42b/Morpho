@@ -50,7 +50,7 @@
 #' 
 #' ###3D example
 #'  data(nose)##load data
-#' \dontrun{
+#' if (interactive()){
 #' ##warp a mesh onto another landmark configuration:
 #' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' 

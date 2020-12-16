@@ -36,7 +36,7 @@
 #' @seealso \code{\link{tps3d}}
 #' 
 #' @examples
-#' \dontrun{
+#' if (interactive()){
 #' data(nose)
 #' deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 #'

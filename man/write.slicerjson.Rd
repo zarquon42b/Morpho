@@ -15,6 +15,8 @@ write.slicerjson(
 \arguments{
 \item{x}{k x 3 matrix containing 3D coordinates}
 
+\item{filename}{will be substituted with ".mrk.json"}
+
 \item{type}{character: specify type of coordinates. Can be any of "Fiducial", "Curve", "ClosedCurve".}
 
 \item{coordinateSystem}{character: specify coordinate system the data are in. Can be "LPS" or "RAS".}

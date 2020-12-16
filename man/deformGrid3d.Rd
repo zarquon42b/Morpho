@@ -91,7 +91,7 @@ visualise differences between two superimposed sets of 3D landmarks by
 deforming a cubic grid based on a thin-plate spline interpolation
 }
 \examples{
-\dontrun{
+if (interactive()){
 data(nose)
 deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 

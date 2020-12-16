@@ -101,7 +101,7 @@ checkLM(data, path="./",Rdata=TRUE, suffix="")
 atlas <- createAtlas(shortnose.mesh, landmarks =
            shortnose.lm[c(1:5,20:21),],
 patch=shortnose.lm[-c(1:5,20:21),])
-\dontrun{
+if (interactive()){
 checkLM(data, path="./",Rdata=TRUE, suffix="", atlas=atlas)
 }
 ## remove data from disk
