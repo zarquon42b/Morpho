@@ -35,7 +35,7 @@ read.fcsv <- function(x,na=NULL) {
     tmp <- as.numeric(unlist(data))
     tmp <- matrix(tmp, length(points), 3, byrow = T)
     if (!is.null(na)) {
-        nas <- which(tmp == na)
+        nas <- which(abs(tmp) == na)
         if (length(nas) > 0) 
             tmp[nas] <- NA 
     }
@@ -91,7 +91,6 @@ write.fcsv <- function(x,filename=dataname,description=NULL,slicer4.11=FALSE) {
 #' convert data from LPS to RAS space and back
 #'
 #' @param x mesh of class \code{mesh3d} or a matrix with 3D Landmarks
-#'
 #' @return returns the rotated data
 #' @details As e.g. the Slicer versions >= 4.11 are using LPS space, it might be needed to transform data like fiducials and surface models from and back to that space.
 #' @export
@@ -142,6 +141,7 @@ read.slicerjson <- function(x) {
 #'
 #' Export landmarks (or any 3D coordinates) to the new slicer json format
 #' @param x k x 3 matrix containing 3D coordinates
+#' @param filename will be substituted with ".mrk.json"
 #' @param type character: specify type of coordinates. Can be any of "Fiducial", "Curve", "ClosedCurve".
 #' @param coordinateSystem character: specify coordinate system the data are in. Can be "LPS" or "RAS".
 #' @param labels character or character vector containing landmark labels. 
@@ -215,4 +215,3 @@ createDisplayInfo <- function(visibility=TRUE,opacity=1,color=c(0,4,1,1),selecte
 
     return(display)
 }
-display <- data.frame()
