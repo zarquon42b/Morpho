@@ -3,15 +3,21 @@
 #' read fiducials from slicer4
 #' @param x filename
 #' @param na value to be replaced by NA
+#' @param lps2ras logical: if the coordinate system is LPS and \code{lps2ras=TRUE}, the data will be rotated into the RAS space by inverting the first two dimensions using \code{\link{LPS2RAS}}.
 #' @return a k x 3 matrix with landmarks
 #' @export
-read.fcsv <- function(x,na=NULL) {
+read.fcsv <- function(x,na=NULL,lps2ras=FALSE) {
     raw <- readLines(x)
     getids <- grep("# columns",raw)
     myids <- raw[getids]
     myids <- gsub("# columns = ","",myids)
     myids <- unlist(strsplit(myids,split=","))
-
+    LPS=FALSE
+    getCooType <- grep("# CoordinateSystem",raw)
+    coo <- gsub("# CoordinateSystem = ","",raw[getCooType])
+    if (coo == "LPS")
+        LPS=TRUE
+    
     xpos <- which(myids=="x")
     ypos <- which(myids=="y")
     zpos <- which(myids=="z")
@@ -34,6 +40,8 @@ read.fcsv <- function(x,na=NULL) {
     
     tmp <- as.numeric(unlist(data))
     tmp <- matrix(tmp, length(points), 3, byrow = T)
+    if (LPS && lps2ras)
+        tmp <- LPS2RAS(tmp)
     if (!is.null(na)) {
         nas <- which(abs(tmp) == na)
         if (length(nas) > 0) 
