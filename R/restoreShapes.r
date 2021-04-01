@@ -79,3 +79,20 @@ getPCscores <- function(x, PC, mshape) {
     scores <- x%*%(PC)#%*%t(x)
     return(scores)
 }
+
+#' restore original data from PCA
+#'
+#' restore original data from PCA by reverting rotation and centering
+#' @param scores matrix containing the PC-scores
+#' @param rotation matrix containing the PCs
+#' @param center vector containing the center
+#'
+#' @examples
+#' myirispca <- prcomp(iris[,1:4])
+#' myirisRecovered <- restoreFromPCA(myirispca$x,myirispca$rotation,myirispca$center)
+#' all.equal(myirisRecovered,as.matrix(iris[,1:4]))
+#' @export
+restoreFromPCA <- function(scores,rotation,center) {
+    predPC <- t(as.matrix(rotation) %*% t(scores))
+    predPC <- sweep(predPC,2,-center)
+}
