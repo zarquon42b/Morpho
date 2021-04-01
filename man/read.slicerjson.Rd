@@ -4,12 +4,15 @@
 \alias{read.slicerjson}
 \title{read Landmarks from Slicer in Json format}
 \usage{
-read.slicerjson(x)
+read.slicerjson(x, lps2ras = FALSE)
 }
 \arguments{
-\item{x}{path to json file
+\item{x}{path to json file}
 
-returns matrix or list of matrices with imported landmark coordinates}
+\item{lps2ras}{logical: if the coordinate system is LPS and \code{lps2ras=TRUE}, the data will be rotated into the RAS space by inverting the first two dimensions using \code{\link{LPS2RAS}}.}
+}
+\value{
+returns matrix or list of matrices with imported landmark coordinates
 }
 \description{
 read Landmarks from Slicer in Json format
