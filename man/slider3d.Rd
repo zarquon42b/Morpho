@@ -30,6 +30,7 @@ slider3d(
   fixRepro = TRUE,
   missingList = NULL,
   use.lm = NULL,
+  smoothnormals = FALSE,
   silent = FALSE
 )
 }
