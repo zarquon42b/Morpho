@@ -186,3 +186,10 @@ warp.mesh <- function (mesh,matr,matt,lambda=1e-8,updateNormals=TRUE, silent=FAL
   .Deprecated("tps3d", package="Morpho")
   tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda,threads=1)
 }
+
+#' @rdname Morpho-deprecated
+#' @export 
+showPC <- function(x, PC, mshape) {
+    .Deprecated("restoreShapes", package="Morpho")
+    restoreShapes(x=x,PC=PC,mshape=mshape)
+}
