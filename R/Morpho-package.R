@@ -189,7 +189,7 @@ warp.mesh <- function (mesh,matr,matt,lambda=1e-8,updateNormals=TRUE, silent=FAL
 
 #' @rdname Morpho-deprecated
 #' @export 
-showPC <- function(x, PC, mshape) {
+showPC <- function(scores, PC, mshape) {
     .Deprecated("restoreShapes", package="Morpho")
-    restoreShapes(x=x,PC=PC,mshape=mshape)
+    restoreShapes(scores = scores,PC=PC,mshape=mshape)
 }

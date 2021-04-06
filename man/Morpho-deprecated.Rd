@@ -14,7 +14,7 @@
 \usage{
 deform.grid(...)
 
-showPC(x, PC, mshape)
+showPC(scores, PC, mshape)
 
 adnormals(...)
 
@@ -41,7 +41,7 @@ warp.mesh(
   silent = FALSE
 )
 
-showPC(x, PC, mshape)
+showPC(scores, PC, mshape)
 }
 \description{
 document deprecated functions
