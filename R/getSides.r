@@ -16,7 +16,7 @@
 #' #visualize bilateral landmarks
 #' deformGrid3d(boneLM[mysides$side1,,1],boneLM[mysides$side2,,1])
 #' ## visualize unilateral landmarks
-#' spheres3d(boneLM[mysides$unilat,,1],radius=0.5)
+#' rgl::spheres3d(boneLM[mysides$unilat,,1],radius=0.5)
 #' }
 #' @importFrom Rvcg vcgKDtree
 #' @export
