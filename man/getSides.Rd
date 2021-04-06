@@ -4,12 +4,14 @@
 \alias{getSides}
 \title{try to identify bilateral landmarks and sort them by side}
 \usage{
-getSides(x, tol = 3)
+getSides(x, tol = 3, ...)
 }
 \arguments{
 \item{x}{matrix containing landmarks (see details)}
 
 \item{tol}{maximal distance allowed between original and mirrored set.}
+
+\item{...}{additional arguments passed to \code{\link{mirror}}.}
 }
 \value{
 returns a list containing
@@ -26,7 +28,7 @@ This function mirrors the landmark set and aligns it to the original. Then it tr
 \examples{
 data(boneData)
 proc <- procSym(boneLM,CSinit=F)
-mysides <- getSides(proc$mshape)
+mysides <- getSides(proc$mshape,pcAlign=TRUE,icpiter=100)
 if (interactive()){
 #visualize bilateral landmarks
 deformGrid3d(boneLM[mysides$side1,,1],boneLM[mysides$side2,,1])
