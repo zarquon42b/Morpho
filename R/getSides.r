@@ -12,7 +12,7 @@
 #' @examples
 #' data(boneData)
 #' proc <- procSym(boneLM,CSinit=FALSE)
-#' mysides <- getSides(proc$mshape)
+#' mysides <- getSides(proc$mshape,pcAlign=TRUE,icpiter=100)
 #' if (interactive()){
 #' #visualize bilateral landmarks
 #' deformGrid3d(boneLM[mysides$side1,,1],boneLM[mysides$side2,,1])

@@ -27,7 +27,7 @@ This function mirrors the landmark set and aligns it to the original. Then it tr
 }
 \examples{
 data(boneData)
-proc <- procSym(boneLM,CSinit=F)
+proc <- procSym(boneLM,CSinit=FALSE)
 mysides <- getSides(proc$mshape,pcAlign=TRUE,icpiter=100)
 if (interactive()){
 #visualize bilateral landmarks
