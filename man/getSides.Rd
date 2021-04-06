@@ -4,14 +4,18 @@
 \alias{getSides}
 \title{try to identify bilateral landmarks and sort them by side}
 \usage{
-getSides(x, tol = 3, ...)
+getSides(x, tol = 3, pcAlign = TRUE, icpiter = 100, ...)
 }
 \arguments{
 \item{x}{matrix containing landmarks (see details)}
 
 \item{tol}{maximal distance allowed between original and mirrored set.}
 
-\item{...}{additional arguments passed to \code{\link{mirror}}.}
+\item{pcAlign}{logical: if TRUE orginal and mirrored landmarks will be initally aligned by their PC-axes}
+
+\item{icpiter}{integer: number of iterations in ICP alignment.}
+
+\item{...}{more arguments passed to \code{\link{mirror}}.}
 }
 \value{
 returns a list containing
@@ -28,7 +32,7 @@ This function mirrors the landmark set and aligns it to the original. Then it tr
 \examples{
 data(boneData)
 proc <- procSym(boneLM,CSinit=FALSE)
-mysides <- getSides(proc$mshape,pcAlign=TRUE,icpiter=100)
+mysides <- getSides(proc$mshape)
 if (interactive()){
 #visualize bilateral landmarks
 deformGrid3d(boneLM[mysides$side1,,1],boneLM[mysides$side2,,1])

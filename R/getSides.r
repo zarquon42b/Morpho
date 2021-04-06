@@ -3,7 +3,9 @@
 #' try to identify bilateral landmarks and sort them by side
 #' @param x matrix containing landmarks (see details)
 #' @param tol maximal distance allowed between original and mirrored set.
-#' @param ... additional arguments passed to \code{\link{mirror}}.
+#' @param pcAlign logical: if TRUE orginal and mirrored landmarks will be initally aligned by their PC-axes
+#' @param icpiter integer: number of iterations in ICP alignment.
+#' @param ... more arguments passed to \code{\link{mirror}}.
 #' @return returns a list containing
 #' \item{side1}{integer vector containing indices of landmarks on one side}
 #' \item{side2}{integer vector containing indices of landmarks on the other side}
@@ -12,7 +14,7 @@
 #' @examples
 #' data(boneData)
 #' proc <- procSym(boneLM,CSinit=FALSE)
-#' mysides <- getSides(proc$mshape,pcAlign=TRUE,icpiter=100)
+#' mysides <- getSides(proc$mshape)
 #' if (interactive()){
 #' #visualize bilateral landmarks
 #' deformGrid3d(boneLM[mysides$side1,,1],boneLM[mysides$side2,,1])
@@ -21,8 +23,8 @@
 #' }
 #' @importFrom Rvcg vcgKDtree
 #' @export
-getSides <- function(x,tol=3,...) {
-    xmir <- mirror(x,...)
+getSides <- function(x,tol=3,pcAlign=TRUE,icpiter=100,...) {
+    xmir <- mirror(x,pcAlign=pcAlign,icpiter=icpiter,...)
     clost <- vcgKDtree(x,xmir,k=1)
     myindex <- (1:nrow(x))
     pairs <- which(clost$distance < tol)
