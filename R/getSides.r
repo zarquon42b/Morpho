@@ -11,8 +11,8 @@
 #' @details This function mirrors the landmark set and aligns it to the original. Then it tries to find pairs. If you have a sample, run a Procrustes registration first (without scaling to unit centroid size, or you later have to adapt \code{tol} - see examples) and then use the mean as it is usually more symmetrical.
 #' @examples
 #' data(boneData)
-#' proc <- procSym(boneLM,CSinit=F)
-#' mysides <- getSides(proc$mshape,pcAlign=TRUE,icpiter=100)
+#' proc <- procSym(boneLM,CSinit=FALSE)
+#' mysides <- getSides(proc$mshape)
 #' if (interactive()){
 #' #visualize bilateral landmarks
 #' deformGrid3d(boneLM[mysides$side1,,1],boneLM[mysides$side2,,1])
