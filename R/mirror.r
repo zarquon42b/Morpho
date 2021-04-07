@@ -20,6 +20,10 @@
 #' @examples
 #' data(boneData)
 #' boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2,mirroraxis=3)
+#'
+#' ### mirror on 3 midsaggital landmarks and then optimize it with an ICP
+#' boneMirPlane <- mirror(boneLM[,,1],v1=boneLM[1,,1],v2=boneLM[2,,1],v3=boneLM[9,,1])
+#'
 #' ## 2D Example:
 #' if (require(shapes)) {
 #' gorfMir <- mirror(gorf.dat[,,1],mirroraxis=2,pcAlign=TRUE,icpiter = 0)
