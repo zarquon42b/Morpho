@@ -26,7 +26,7 @@
 #' matrix}
 #' \item{groupPCs }{PC-axes - i.e. eigenvectors of the groupmean covariance
 #' matrix}
-#' \item{Variance }{table displaying the between-group variance explained by each between group PC}
+#' \item{Variance }{table displaying the between-group variance explained by each between group PC - this only reflects the variability of the group means and NOT the variability of the data projected into that space}
 #' \item{Scores }{Scores of all observation in the PC-space}
 #' \item{probs }{p-values of pairwise groupdifferences - based on
 #' permuation testing}
@@ -37,8 +37,7 @@
 #' \item{groups }{grouping Variable}
 #' \item{resPCs}{PCs orthogonal to the between-group PCs}
 #' \item{resPCscores}{Scores of the residualPCs}
-#' \item{resVar}{table displaying the residual variance explained by each residual PC}
-#' \item{combinedVar}{table displaying the overall variance explained by the between-group PCs and residual PC. Check the rownames to identify which type belongs to which value}
+#' \item{resVar}{table displaying the residual variance explained by each residual PC. }
 #' @author Stefan Schlager
 #' @seealso \code{\link{CVA}}
 #' @references Mitteroecker P, Bookstein F 2011. Linear Discrimination,
@@ -120,7 +119,10 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
         wt <- gsizes
     else
         wt <- rep(1,ng)
-    wcov <- cov.wt(Gmeans,wt=wt)
+    if (weighting)
+        wcov <- cov.wt(Gmeans,wt=wt)
+    else
+        wcov <- list(cov=cov(Gmeans),center=colMeans(Gmeans))
     Grandm <- wcov$center
     eigenGmeans <- eigen(wcov$cov)
                                         #resGmeans <- sweep(Gmeans, 2, Grandm)
@@ -138,7 +140,7 @@ groupPCA <- function(dataarray, groups, rounds = 10000,tol=1e-10,cv=TRUE,mc.core
     bgnames <- c(paste("bgPC",1:length(values),sep="_"))
     Var <- createVarTable(values,FALSE,rownames = bgnames)
     cnames <- c(paste("bgPC",1:length(values),sep="_"),paste("resPC",1:length(resPrcomp$sdev),sep="_"))
-    combinedVar <- createVarTable(c(values,resPrcomp$sdev^2),square = FALSE,rownames = cnames)
+    ## combinedVar <- createVarTable(c(values,resPrcomp$sdev^2),square = FALSE,rownames = cnames)
     resnames <- paste("resPC",1:length(resPrcomp$sdev),sep="_")
     resVar <- createVarTable(resPrcomp$sdev,square = TRUE,rownames = resnames)
 ### calculate between group distances ###
@@ -184,7 +186,7 @@ CV=NULL
         Gmeans <- vecx(Gmeans,revert=TRUE,lmdim=lmdim)
         Grandm <- vecx(t(Grandm),revert=TRUE,lmdim=lmdim)[,,1]
     }
-    out <- list(eigenvalues=values,groupPCs=groupPCs,Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resVar=resVar,combinedVar=combinedVar)
+    out <- list(eigenvalues=values,groupPCs=groupPCs,Variance=Var,Scores=groupScores,probs=pmatrix.proc,groupdists=proc.distout,groupmeans=Gmeans,Grandmean=Grandm,CV=CV,groups=groups,resPCs=resPrcomp$rotation,resPCscores=resPrcomp$x,resVar=resVar)
     class(out) <- "bgPCA"
     return(out)
 }
