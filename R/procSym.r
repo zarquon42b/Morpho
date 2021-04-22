@@ -287,6 +287,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         for (i in 2:length(values))
             SymVar[i,3] <- SymVar[i,2]+ SymVar[i-1,3]
         colnames(SymVar) <- c("eigenvalues","% Variance","Cumulative %")
+        rownames(SymVar) <- 1:nrow(SymVar)
     }
     
 ###### PCA Asym Component ###### 
@@ -322,6 +323,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
                 AsymVar[i,3] <- AsymVar[i,2]+ AsymVar[i-1,3]
             
             colnames(AsymVar) <- c("eigenvalues","% Variance","Cumulative %")
+            rownames(AsymVar) <- 1:nrow(AsymVar)
         }
     }
     
@@ -362,7 +364,7 @@ print.nosymproc <- function(x,...) {
     cat(paste0(" No. of Specimens: ",dim(x$rotated)[3],"\n"))
         cat(paste0(" ",dim(x$rotated)[1]," Landmarks in ", dim(x$rotated)[2]," dimensions\n"))
     cat("\n Variance Table\n")
-    print(as.data.frame(x$Var),row.names=FALSE)
+    print(as.data.frame(x$Var),row.names=TRUE)
 }
     
 #' @export       
@@ -371,9 +373,9 @@ print.symproc <- function(x,...) {
     cat(paste0(" ",dim(x$rotated)[1]," Landmarks in ", dim(x$rotated)[2]," dimensions\n"))
     cat(paste0("    - of which there are ",dim(x$pairedLM)[1]," sets of paired Landmarks\n"))
     cat("\n Variance Table of Symmetric Component\n")
-    print(as.data.frame(x$SymVar),row.names=FALSE)
+    print(as.data.frame(x$SymVar),row.names=TRUE)
     cat("\n Variance Table of Asymmetric Component\n")
-    print(as.data.frame(x$AsymVar),row.names=FALSE)
+    print(as.data.frame(x$AsymVar),row.names=TRUE)
 }
 
 #' align new data to an existing Procrustes registration
