@@ -35,6 +35,7 @@ meshDist(x, ...)
   add = FALSE,
   scaleramp = TRUE,
   threads = 1,
+  titleplot = "Distance in mm",
   ...
 )
 
@@ -58,6 +59,7 @@ meshDist(x, ...)
   displace = FALSE,
   add = FALSE,
   scaleramp = FALSE,
+  titleplot = "Distance in mm",
   ...
 )
 }
@@ -131,6 +133,8 @@ based on a kd-tree search for closest triangles.}
 \item{scaleramp}{logical: if TRUE, the colorramp will be symmetrical for signed distances: spanning from \code{-max(from,to)} to \code{max(from,to)}.}
 
 \item{threads}{integer: number of threads to use. 0 = let system decide.}
+
+\item{titleplot}{character: axis description of heatmap.}
 
 \item{type}{character: "s" shows coordinates as spheres, while "p" shows 3D
 dots.}

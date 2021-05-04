@@ -27,6 +27,7 @@ render(x, ...)
   sign = NULL,
   add = FALSE,
   scaleramp = NULL,
+  titleplot = "Distance in mm",
   ...
 )
 
@@ -47,12 +48,19 @@ render(x, ...)
   sign = NULL,
   add = FALSE,
   scaleramp = FALSE,
+  titleplot = "Distance in mm",
   ...
 )
 
 export(x, ...)
 
-\method{export}{meshDist}(x, file = "default", imagedim = "100x800", ...)
+\method{export}{meshDist}(
+  x,
+  file = "default",
+  imagedim = "100x800",
+  titleplot = "Distance in mm",
+  ...
+)
 }
 \arguments{
 \item{x}{object of class meshDist}
@@ -93,6 +101,8 @@ supressed.}
 \item{add}{logical: if TRUE, visualization will be added to the rgl window currently in focus}
 
 \item{scaleramp}{if TRUE the ramp colors get scaled symmetrically into positive and negative direction.}
+
+\item{titleplot}{character: axis description of heatmap.}
 
 \item{type}{character: "s" shows coordinates as spheres, while "p" shows 3D
 dots.}
