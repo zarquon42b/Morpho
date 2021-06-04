@@ -34,7 +34,8 @@ Imports:
     methods,
     stats,
     utils,
-    jsonlite
+    jsonlite,
+    bezier
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2

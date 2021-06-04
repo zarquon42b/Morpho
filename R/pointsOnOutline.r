@@ -36,19 +36,28 @@ geoDist <- function(mat) {
 
 #' Resample a curve equidistantly
 #'
-#' Resample a curve equidistantly (without any interpolation)
+#' Resample a curve equidistantly (optionally with smoothing)
 #' @param x matrix containing coordinates
 #' @param n number of resulting points on the resampled curve
+#' @param smooth logical: if TRUE, the resulting curve will be smoothed by using bezier curves.
 #' @return returns a matrix containing the resampled curve
 #' @examples
 #' data(nose)
 #' x <- shortnose.lm[c(304:323),]
 #' xsample <- resampleCurve(x,n=50)
 #' @export
-resampleCurve <- function(x,n) {
+#' @importFrom bezier bezier
+resampleCurve <- function(x,n,smooth=FALSE) {
+    
     gd <- geoDist(x)
     dists <- seq(from=0,to=gd,length.out = n)
     out <- t(sapply(dists,function(y) y <- t(getPointAlongOutline(x,dist=y))))
+    if (smooth) {
+        t <- seq(0, 1, length=n)
+        out1 <- bezier(t,out)
+        out <- resampleCurve(out1,n,smooth=FALSE)
+    }
+    
     return(out)
 }
 

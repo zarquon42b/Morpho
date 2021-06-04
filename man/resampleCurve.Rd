@@ -4,18 +4,20 @@
 \alias{resampleCurve}
 \title{Resample a curve equidistantly}
 \usage{
-resampleCurve(x, n)
+resampleCurve(x, n, smooth = FALSE)
 }
 \arguments{
 \item{x}{matrix containing coordinates}
 
 \item{n}{number of resulting points on the resampled curve}
+
+\item{smooth}{logical: if TRUE, the resulting curve will be smoothed by using bezier curves.}
 }
 \value{
 returns a matrix containing the resampled curve
 }
 \description{
-Resample a curve equidistantly (without any interpolation)
+Resample a curve equidistantly (optionally with smoothing)
 }
 \examples{
 data(nose)
