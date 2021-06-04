@@ -4,7 +4,7 @@
 \alias{resampleCurve}
 \title{Resample a curve equidistantly}
 \usage{
-resampleCurve(x, n, smooth = FALSE)
+resampleCurve(x, n, smooth = FALSE, smoothn = n, open = TRUE)
 }
 \arguments{
 \item{x}{matrix containing coordinates}
@@ -12,6 +12,8 @@ resampleCurve(x, n, smooth = FALSE)
 \item{n}{number of resulting points on the resampled curve}
 
 \item{smooth}{logical: if TRUE, the resulting curve will be smoothed by using bezier curves.}
+
+\item{smoothn}{integer: define the refinement of the bezier curve. The higher this value, the closer the final curve will be to the original.}
 }
 \value{
 returns a matrix containing the resampled curve

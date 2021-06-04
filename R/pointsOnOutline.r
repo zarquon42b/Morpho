@@ -40,6 +40,7 @@ geoDist <- function(mat) {
 #' @param x matrix containing coordinates
 #' @param n number of resulting points on the resampled curve
 #' @param smooth logical: if TRUE, the resulting curve will be smoothed by using bezier curves.
+#' @param smoothn integer: define the refinement of the bezier curve. The higher this value, the closer the final curve will be to the original.
 #' @return returns a matrix containing the resampled curve
 #' @examples
 #' data(nose)
@@ -47,16 +48,22 @@ geoDist <- function(mat) {
 #' xsample <- resampleCurve(x,n=50)
 #' @export
 #' @importFrom bezier bezier
-resampleCurve <- function(x,n,smooth=FALSE) {
-    
+resampleCurve <- function(x,n,smooth=FALSE,smoothn=n,open=TRUE) {
+  
+    if (!open) {
+        x <- rbind(x,x[1,])
+        n <- n+1
+    }
     gd <- geoDist(x)
     dists <- seq(from=0,to=gd,length.out = n)
     out <- t(sapply(dists,function(y) y <- t(getPointAlongOutline(x,dist=y))))
     if (smooth) {
         t <- seq(0, 1, length=n)
         out1 <- bezier(t,out)
-        out <- resampleCurve(out1,n,smooth=FALSE)
+        out <- resampleCurve(out1,smoothn,smooth=FALSE)
     }
+    if (!open)
+        out <- out[-nrow(out),]
     
     return(out)
 }
