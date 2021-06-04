@@ -4,7 +4,7 @@
 \alias{resampleCurve}
 \title{Resample a curve equidistantly}
 \usage{
-resampleCurve(x, n, smooth = FALSE, smoothn = n, open = TRUE)
+resampleCurve(x, n, smooth = FALSE, smoothn = 2 * n, open = TRUE)
 }
 \arguments{
 \item{x}{matrix containing coordinates}
