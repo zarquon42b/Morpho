@@ -115,11 +115,12 @@ LPS2RAS <- function(x) {
 #'
 #' read Landmarks from Slicer in Json format
 #' @param x path to json file
-#'@param lps2ras logical: if the coordinate system is LPS and \code{lps2ras=TRUE}, the data will be rotated into the RAS space by inverting the first two dimensions using \code{\link{LPS2RAS}}.
+#' @param lps2ras logical: if the coordinate system is LPS and \code{lps2ras=TRUE}, the data will be rotated into the RAS space by inverting the first two dimensions using \code{\link{LPS2RAS}}.
+#'  @param na value to be replaced by NA
 #' @return returns matrix or list of matrices with imported landmark coordinates
 #' @importFrom jsonlite read_json
 #' @export
-read.slicerjson <- function(x,lps2ras=FALSE) {
+read.slicerjson <- function(x,lps2ras=FALSE,na=NULL) {
     
     
     mydata <- read_json(x,T)$markups
@@ -143,6 +144,12 @@ read.slicerjson <- function(x,lps2ras=FALSE) {
 
      if (LPS && lps2ras)
          cp <- LPS2RAS(cp)
+
+    if (!is.null(na)) {
+        nas <- which(abs(cp) == na)
+        if (length(nas) > 0) 
+            cp[nas] <- NA 
+    }
     return(cp)
 }
 
