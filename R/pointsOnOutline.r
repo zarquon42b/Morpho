@@ -48,7 +48,7 @@ geoDist <- function(mat) {
 #' xsample <- resampleCurve(x,n=50)
 #' @export
 #' @importFrom bezier bezier
-resampleCurve <- function(x,n,smooth=FALSE,smoothn=2*n,open=TRUE) {
+resampleCurve <- function(x,n,smooth=FALSE,smoothn=n,open=TRUE) {
   
     if (!open) {
         x <- rbind(x,x[1,])
@@ -59,11 +59,18 @@ resampleCurve <- function(x,n,smooth=FALSE,smoothn=2*n,open=TRUE) {
     
 
     if (smooth) {
-
-        dists1 <- seq(from=0,to=gd,length.out = smoothn)
-        out <- t(sapply(dists1,function(y) y <- t(getPointAlongOutline(x,dist=y))))
-        t <- seq(0, 1, length=smoothn)
-        out1 <- bezier(t,out)
+        nan <- TRUE
+        while(nan) {
+            dists1 <- seq(from=0,to=gd,length.out = smoothn)
+            out <- t(sapply(dists1,function(y) y <- t(getPointAlongOutline(x,dist=y))))
+            t <- seq(0, 1, length=smoothn)
+            out1 <- bezier(t,out)
+            nan <- sum(is.nan(out1))
+            if (nan) {
+                smoothn <- floor(smoothn*.8)
+                warning(paste0("bezier curve fit not successful: smoothn is set to ",smoothn))
+            }
+        }
         out <- resampleCurve(out1,n,smooth=FALSE)
     } else {
         out <- t(sapply(dists,function(y) y <- t(getPointAlongOutline(x,dist=y))))
