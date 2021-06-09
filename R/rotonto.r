@@ -50,6 +50,8 @@
 #' 
 #' @export
 rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE,...) {
+    xorig <- x
+    yorig <- y
     reflect=0
     k <- nrow(x)
     m <- ncol(x)
@@ -133,31 +135,27 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     trans <- x[1,]-X[1,]
     transy <- y[1,]-Y[1,]
     del <- sv1$d
-    
+    ## translate original y config to origin of centroid of potentially partial config and
+    ## apply transforms
+    Yorig <- sweep(yorig,2,transy)
     ctrace <- function(MAT) sum(diag(crossprod(MAT)))
     if (scale) {
         if (!is.null(weights))
             bet <- sum(del)/ctrace(Y1)
         else
             bet <- sum(del)/ctrace(Y)
-        yrot <- bet*Y%*%gamm
+        yrot <- bet*Yorig%*%gamm
     } else {
         bet <- 1
-        yrot <- Y%*%gamm
+        yrot <- Yorig%*%gamm
     }
-    Y <- yrot  	
+    ## scaled and rotated Y
+    Y <- yrot
+    ## also translated to x
     yrot <- t(t(yrot)+trans)
     matlist <- list(yrot=yrot,Y=Y,X=X)
-    myfun <- function(x,bad) {
-        NAmat <- matrix(NA,k,m)
-        NAmat[-bad,] <- x
-        return(NAmat)
-    }
-    if (length(ybad)) 
-        matlist[1:2] <- lapply(matlist[1:2],myfun,bad)
-    
-    if (length(bad))
-        matlist[[3]] <- myfun(matlist[[3]],bad)
+    ## move original x to (partial) centroid of x
+    matlist$X <- sweep(xorig,2,trans)
     
     out <- list(yrot=matlist$yrot,Y=matlist$Y,X=matlist$X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect)
     class(out) <- "rotonto"
