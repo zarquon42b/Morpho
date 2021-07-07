@@ -1,12 +1,12 @@
 #include "permudistArma.h"
 
 
-SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_) {
+SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_,SEXP usemedian_) {
   try {
     mat armaData = as<mat>(data_);
     arma::ivec armaGroups = Rcpp::as<arma::ivec>(groups_);
     int rounds = Rcpp::as<int>(rounds_);
-        
+    bool usemedian = Rcpp::as<bool>(usemedian_);
     ivec permuvec = armaGroups;
     int maxlev = armaGroups.max();
     int alldist=0;
@@ -23,10 +23,18 @@ SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_) {
 	permuvec = shuffle(permuvec);
       for (int j0 = 1; j0 < maxlev; ++j0) {
 	mat tmp1 = armaData.rows(arma::find(permuvec == j0 ));
-	mat mean1 = mean(tmp1,0);
+	mat mean1;
+	if (usemedian_)
+	   mean1 = median(tmp1,0);
+	else
+	  mean1 = mean(tmp1,0);
 	for(int j1 =j0+1; j1 <= maxlev; ++j1) {
 	  mat tmp2 = armaData.rows(arma::find(permuvec == j1 ));
-	  mat mean2 = mean(tmp2,0);
+	  mat mean2;
+	  if (usemedian_)
+	    mean2 = median(tmp2,0);
+	  else
+	    mean2 = mean(tmp2,0);
 	  mat diff = mean1-mean2;
 	  double tmpdist = norm(diff,2);
 	  NumericVector dists = out[count];

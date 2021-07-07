@@ -4,9 +4,17 @@
 \alias{plotAtlas}
 \title{visualize an atlas defined by createAtlas}
 \usage{
-plotAtlas(atlas, pt.size = NULL, alpha = 1, render = c("w", "s"),
-  point = c("s", "p"), meshcol = "white", add = TRUE,
-  legend = TRUE, cols = 2:5)
+plotAtlas(
+  atlas,
+  pt.size = NULL,
+  alpha = 1,
+  render = c("w", "s"),
+  point = c("s", "p"),
+  meshcol = "white",
+  add = TRUE,
+  legend = TRUE,
+  cols = 2:5
+)
 }
 \arguments{
 \item{atlas}{object of class atlas created by \code{\link{createAtlas}}.}

@@ -4,9 +4,17 @@
 \alias{pls2B}
 \title{Two-Block partial least square regression.}
 \usage{
-pls2B(x, y, tol = 1e-12, same.config = FALSE, rounds = 0,
-  useCor = FALSE, cv = FALSE, cvlv = NULL,
-  mc.cores = parallel::detectCores())
+pls2B(
+  x,
+  y,
+  tol = 1e-12,
+  same.config = FALSE,
+  rounds = 0,
+  useCor = FALSE,
+  cv = FALSE,
+  cvlv = NULL,
+  mc.cores = parallel::detectCores()
+)
 }
 \arguments{
 \item{x}{array containing superimposed landmark data second block.Matrices

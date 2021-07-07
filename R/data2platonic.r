@@ -29,7 +29,7 @@ data2platonic <- function(datamatrix,shape=Rvcg::vcgSphere(),col="red",scale=FAL
     matmesh <- lapply(1:nrow(datamatrix), function(x) x <- myplatonic)
     matmesh <- lapply(1:nrow(datamatrix), function(x) x <- translate3d(matmesh[[x]], x = datamatrix[x, 1], y = datamatrix[x, 2], z = datamatrix[x,3]))
     matmesh <- Morpho::mergeMeshes(matmesh)
-    matmesh$material$color <- matrix(col1mesh, 3, ncol(matmesh$it))
+    matmesh$material$color <- rep(col1mesh, ncol(matmesh$vb))
     matmesh$normals <- NULL
     return(matmesh)
 }

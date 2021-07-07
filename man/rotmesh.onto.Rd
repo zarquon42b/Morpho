@@ -4,8 +4,15 @@
 \alias{rotmesh.onto}
 \title{rotate ,scale and translate a mesh based on landmark information.}
 \usage{
-rotmesh.onto(mesh, refmat, tarmat, adnormals = FALSE, scale = FALSE,
-  reflection = FALSE, ...)
+rotmesh.onto(
+  mesh,
+  refmat,
+  tarmat,
+  adnormals = FALSE,
+  scale = FALSE,
+  reflection = FALSE,
+  ...
+)
 }
 \arguments{
 \item{mesh}{object of class mesh3d.}

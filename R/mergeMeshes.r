@@ -27,10 +27,15 @@ mergeMeshes <- function(...)
     args <- list(...)
     if (length(args) == 1 && !inherits(args[[1]],"mesh3d"))
         args <- unlist(args, recursive = FALSE)
-
+    #print(class(args[[1]]))
     argc <- length(args)
-        if (argc < 2)
-            stop("at least two arguments needed")
+    if (argc < 2) {
+        if (inherits(args[[1]],"mesh3d")) {
+            message("only one arguments provided: nothing to be done")
+            return(args[[1]])
+        }
+    }
+    
     outmesh <- args[[1]]
     if (dim(outmesh$vb)[1] == 3)
         outmesh$vb <- rbind(outmesh$vb, 1)
@@ -71,15 +76,13 @@ mergeMeshes <- function(...)
         outmesh$it <- cbind(outmesh$it,tmpmesh$it)
 
         ## handle colors
-        if (is.vector(outmesh$material$color))
-            outmesh$material$color <- matrix(outmesh$material$color,3,nitout)
-        if (is.vector(tmpmesh$material$color))
-            tmpmesh$material$color <- matrix(tmpmesh$material$color,3,nittmp)
-        if (!is.null(tmpmesh$material$color) && is.null(outmesh$material$color) && !is.null(outmesh$it)) {
-            outmesh$material$color <- matrix("#FFFFFF", 3, nitout)
-        } else if (is.null(tmpmesh$material$color) && !is.null(tmpmesh$it) && !is.null(outmesh$material$color))
-            tmpmesh$material$color <- matrix("#FFFFFF", 3, nittmp)
-        outmesh$material$color <- cbind(outmesh$material$color, tmpmesh$material$color)
+        #tmpmesh$material$color <- matrix(tmpmesh$material$color,3,nittmp)
+        if (!is.null(tmpmesh$material$color) && is.null(outmesh$material$color)) {
+            outmesh$material$color <- rep("#FFFFFF", nvbout)
+        } else if (is.null(tmpmesh$material$color) && !is.null(outmesh$material$color))
+            tmpmesh$material$color <- rep("#FFFFFF", nvbtmp)
+        
+        outmesh$material$color <- c(outmesh$material$color, tmpmesh$material$color)
     }
     return(outmesh)
 }

@@ -52,6 +52,7 @@ class(cube) <- "mesh3d"
 shade3d(cube,col=3) ## view the green cube
 }
 mesh2ply(cube,filename="cube") # write cube to a file called cube.ply
+unlink("cube.ply")
 }
 \seealso{
 \code{\link{ply2mesh}, \link{quad2trimesh} }

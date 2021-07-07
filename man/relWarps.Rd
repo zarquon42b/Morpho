@@ -4,8 +4,17 @@
 \alias{relWarps}
 \title{calculate relative Warp analysis}
 \usage{
-relWarps(data, scale = TRUE, CSinit = TRUE, alpha = 1, tol = 1e-10,
-  orp = TRUE, pcAlign = TRUE, computeBasis = TRUE, noalign = FALSE)
+relWarps(
+  data,
+  scale = TRUE,
+  CSinit = TRUE,
+  alpha = 1,
+  tol = 1e-10,
+  orp = TRUE,
+  pcAlign = TRUE,
+  computeBasis = TRUE,
+  noalign = FALSE
+)
 }
 \arguments{
 \item{data}{Input k x m x n real array, where k is the number of points, m
@@ -62,7 +71,7 @@ spm(rW$uniscores[,1:5],group=pop)
 ##plot non-affine variance associated with each relative warp
 barplot(rW$Var[,2], xlab="relative Warps")
 ## visualize first relative warp +-3 sd of the scores
-rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
+rw1 <- restoreShapes(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
 deformGrid3d(rw1[,,1],rw1[,,2],ngrid=5)
 
 ## 2D example:
@@ -79,7 +88,7 @@ spm(rW$uniscores[,1:2],group=sex)
 ##plot non-affine variance associated with each relative warp
 barplot(rW$Var[,2], xlab="relative Warps")
 ## visualize first relative warp +-3 sd of the scores
-rw1 <- showPC(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
+rw1 <- restoreShapes(as.matrix(c(-3,3)*sd(rW$bescores[,1])),rW$bePCs[,1,drop=FALSE],rW$mshape)
 deformGrid2d(rw1[,,1],rw1[,,2],ngrid=10)
 }}
 

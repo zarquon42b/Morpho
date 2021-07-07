@@ -144,8 +144,8 @@
 #' #' ## visualize a shape change from score -5 to 5:
 #' cvvis5 <- 5*cvall$CVvis[,1]+cvall$Grandm
 #' cvvisNeg5 <- -5*cvall$CVvis[,1]+cvall$Grandm
-#' cvvis5 <- showPC(cvvis5,proc$PCs[,1:5],proc$mshape)
-#' cvvisNeg5 <- showPC(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
+#' cvvis5 <- restoreShapes(cvvis5,proc$PCs[,1:5],proc$mshape)
+#' cvvisNeg5 <- restoreShapes(cvvisNeg5,proc$PCs[,1:5],proc$mshape)
 #' \dontrun{
 #' #visualize it
 #' deformGrid3d(cvvis5,cvvisNeg5,ngrid = 0)
@@ -226,7 +226,13 @@ CVA <- function (dataarray, groups, weighting = TRUE, tolinv = 1e-10,plot = TRUE
     eigZ <- svd(ZtZ,nv=0,nu=useEig)
     eigZ$d <- eigZ$d^2
     A <- Re(eigZ$u)
+    
     CV <- U %*% (Ec * A)
+
+    if (geninv) {
+        if (ncol(CV) > length(abovetol))
+            CV <- CV[,abovetol]
+    }
     CVvis <- covWithin %*% CV
     CVscores <- N %*% CV
     colnames(CVscores) <- colnames(CVvis) <- colnames(CV) <- paste("CV",1:ncol(CVscores))
@@ -327,3 +333,28 @@ print.CVA <- function(x,...) {
 print.bgPCA <- function(x,...) {
     print(classify(x,cv=TRUE))
 }
+
+#' Compute CV-scores from new data
+#'
+#' Compute CV-scores from new data
+#' @param object object of class \code{\link{CVA}}
+#' @param newdata matrix or 3D array containing data in the same format as originally used to compute CVA
+#' @param ... currently not used.
+#' @return returns the CV-scores for new data
+#' @export
+predict.CVA <- function(object,newdata,...) {
+    Grandm <- object$Grandm
+    if (is.matrix(Grandm)) {
+        if (is.matrix(newdata))
+            newdata <- as.vector(newdata-Grandm)
+        else
+            newdata <- vecx(sweep(newdata,1:2,Grandm))
+    } else {
+        newdata <- sweep(newdata,2,Grandm)
+    }
+    
+    scores <- newdata%*%object$CV
+    return(scores)
+    
+}
+

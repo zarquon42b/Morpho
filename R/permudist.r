@@ -9,7 +9,7 @@
 #' @param rounds number of permutations
 #' @param which integer (optional): in case the factor levels are > 2 this determins which factorlevels to use
 #' @param p.adjust.method method to adjust p-values for multiple comparisons see \code{\link{p.adjust.methods}} for options.
-#' 
+#' @param median logical: if TRUE, comparison will be median instead of mean.
 #' @return
 #' \item{dist }{distance matrix with distances between actual group means}
 #' \item{p.adjust.method}{method used for p-value adjustion}
@@ -30,7 +30,7 @@
 #' 
 #' 
 #' @export 
-permudist <- function(data, groups, rounds=1000, which=NULL,p.adjust.method= "none")
+permudist <- function(data, groups, rounds=1000, which=NULL,p.adjust.method= "none",median=FALSE)
 {
     if (rounds == 0)
         rounds <- 1
@@ -64,7 +64,7 @@ permudist <- function(data, groups, rounds=1000, which=NULL,p.adjust.method= "no
         warning("group affinity and sample size not corresponding!")
 ### end configure grouping ####
     if (rounds > 0) {
-        shaker <- .Call("permudistArma",N,as.integer(groups),as.integer(rounds))
+        shaker <- .Call("permudistArma",N,as.integer(groups),as.integer(rounds),as.logical(median))
         dist <- matrix(0,ng,ng); dimnames(dist) <- list(lev,lev)
         probs <- dist
         count <- 1

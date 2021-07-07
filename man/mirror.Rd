@@ -6,16 +6,50 @@
 \alias{mirror.mesh3d}
 \title{mirror landmarks or triangular mesh in place}
 \usage{
-mirror(x, icpiter = 50, subsample = NULL, pcAlign = FALSE,
-  mirroraxis = 1, initPC = TRUE, initCenter = TRUE, mc.cores = 2)
+mirror(
+  x,
+  icpiter = 50,
+  subsample = NULL,
+  pcAlign = FALSE,
+  mirroraxis = 1,
+  initPC = TRUE,
+  initCenter = TRUE,
+  v1 = NULL,
+  v2 = NULL,
+  v3 = NULL,
+  normal = NULL,
+  mc.cores = 2
+)
 
-\method{mirror}{matrix}(x, icpiter = 50, subsample = NULL,
-  pcAlign = FALSE, mirroraxis = 1, initPC = TRUE,
-  initCenter = TRUE, mc.cores = 2)
+\method{mirror}{matrix}(
+  x,
+  icpiter = 50,
+  subsample = NULL,
+  pcAlign = FALSE,
+  mirroraxis = 1,
+  initPC = TRUE,
+  initCenter = TRUE,
+  v1 = NULL,
+  v2 = NULL,
+  v3 = NULL,
+  normal = NULL,
+  mc.cores = 2
+)
 
-\method{mirror}{mesh3d}(x, icpiter = 50, subsample = NULL,
-  pcAlign = FALSE, mirroraxis = 1, initPC = TRUE,
-  initCenter = TRUE, mc.cores = 2)
+\method{mirror}{mesh3d}(
+  x,
+  icpiter = 50,
+  subsample = NULL,
+  pcAlign = FALSE,
+  mirroraxis = 1,
+  initPC = TRUE,
+  initCenter = TRUE,
+  v1 = NULL,
+  v2 = NULL,
+  v3 = NULL,
+  normal = NULL,
+  mc.cores = 2
+)
 }
 \arguments{
 \item{x}{k x 3 matrix or mesh3d}
@@ -32,6 +66,14 @@ mirror(x, icpiter = 50, subsample = NULL, pcAlign = FALSE,
 
 \item{initCenter}{logical: if TRUE and \code{initPC=FALSE}, \code{x} will be translated to its centroid before mirroring.}
 
+\item{v1}{point on plane}
+
+\item{v2}{if normal=NULL, the plane will be defined by three points \code{v1, v2, v3}}
+
+\item{v3}{if normal=NULL, the plane will be defined by three points \code{v1, v2, v3}}
+
+\item{normal}{plane normal (overrides specification by v2 and v3)}
+
 \item{mc.cores}{use parallel processing to find best alignment to original shape.}
 }
 \value{
@@ -42,10 +84,15 @@ mirror landmarks or triangular mesh in place
 }
 \details{
 reflect a mesh configuration at the plane spanned by its first 2 principal axis, then try to rigidily register the reflected configuration onto the original one using iterative closest point search to establish correspondences.
+Also, if a reflection plane is defined, \code{pcAlign}, \code{initPC}, \code{initCenter} and \code{mirroraxis} will be ignored and the object will be mirrored on the defined plane (and optionally aligned using an ICP approach).
 }
 \examples{
 data(boneData)
 boneMir <- mirror(boneLM[,,1],icpiter=50,mc.cores=2,mirroraxis=3)
+
+### mirror on 3 midsaggital landmarks and then optimize it with an ICP
+boneMirPlane <- mirror(boneLM[,,1],v1=boneLM[1,,1],v2=boneLM[2,,1],v3=boneLM[9,,1])
+
 ## 2D Example:
 if (require(shapes)) {
 gorfMir <- mirror(gorf.dat[,,1],mirroraxis=2,pcAlign=TRUE,icpiter = 0)

@@ -6,14 +6,11 @@
 \alias{pcAlign.mesh3d}
 \title{align two 3D-pointclouds/meshes by their principal axes}
 \usage{
-pcAlign(x, y, optim = TRUE, subsample = NULL, iterations = 10,
-  mc.cores = 2)
+pcAlign(x, y, optim = TRUE, subsample = NULL, iterations = 10, mc.cores = 2)
 
-\method{pcAlign}{matrix}(x, y, optim = TRUE, subsample = NULL,
-  iterations = 10, mc.cores = 2)
+\method{pcAlign}{matrix}(x, y, optim = TRUE, subsample = NULL, iterations = 10, mc.cores = 2)
 
-\method{pcAlign}{mesh3d}(x, y, optim = TRUE, subsample = NULL,
-  iterations = 10, mc.cores = 2)
+\method{pcAlign}{mesh3d}(x, y, optim = TRUE, subsample = NULL, iterations = 10, mc.cores = 2)
 }
 \arguments{
 \item{x}{matrix or mesh3d}

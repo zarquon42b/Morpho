@@ -1,17 +1,23 @@
 .bindArr2 <- function(x,y,along=1)
     {
-        if (is.matrix(x))
+       
+        if (is.matrix(x)) {
+            dnx <- dimnames(x)
             x <- array(x,dim=c(dim(x),1))
-        if (is.matrix(y))
+            dimnames(x)[1:2] <- dnx
+        }
+        if (is.matrix(y)) {
+            dny <- dimnames(y)
             y <- array(y,dim=c(dim(y),1))
-
+            dimnames(y)[1:2] <- dny
+        }
         if (length(y) == 1 && along %in% c(1,2)) {
             if (along == 2)
                 y <- array(y,dim=c(dim(x)[2],1,dim(x)[3]))
             else
                 y <- array(y,dim=c(1,dim(x)[2],dim(x)[3]))
         }
-                                 
+                         
         xdim <- dim(x)
         ydim <- dim(y)
         outnames <- list()

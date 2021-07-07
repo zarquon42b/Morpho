@@ -50,7 +50,7 @@
 #' 
 #' ###3D example
 #'  data(nose)##load data
-#' \dontrun{
+#' if (interactive()){
 #' ##warp a mesh onto another landmark configuration:
 #' longnose.mesh <- tps3d(shortnose.mesh,shortnose.lm,longnose.lm,threads=1)
 #' 
@@ -73,6 +73,8 @@
 #' bb <- procSym(gorf.dat)
 #' ### morph superimposed first specimen onto sample mean
 #' warpmovie2d(bb$rotated[,,1],bb$mshape,n=20,links=c(1,5,4:2,8:6,1),imagedim="600x400")
+#' ## remove files
+#' unlink("warpmovie00*")
 #' }
 #' @rdname warpmovie3d
 #' @export

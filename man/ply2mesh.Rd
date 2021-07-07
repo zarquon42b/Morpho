@@ -10,8 +10,13 @@ file2mesh(filename, clean = TRUE, readcol = FALSE)
 
 obj2mesh(filename, adnormals = TRUE)
 
-ply2mesh(filename, adnormals = TRUE, readnormals = FALSE,
-  readcol = FALSE, silent = FALSE)
+ply2mesh(
+  filename,
+  adnormals = TRUE,
+  readnormals = FALSE,
+  readcol = FALSE,
+  silent = FALSE
+)
 }
 \arguments{
 \item{filename}{character: path to file}
@@ -47,4 +52,6 @@ mesh <- ply2mesh("shortnose.mesh.ply")
 
 mesh2obj(shortnose.mesh)
 mesh2 <- obj2mesh("shortnose.mesh.obj")
+## cleanup
+unlink(c("shortnose.mesh.obj","shortnose.mesh.ply"))
 }

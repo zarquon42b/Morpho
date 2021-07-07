@@ -29,6 +29,7 @@ http://graphics.idav.ucdavis.edu/research/EvoMorph
 
 data(nose)
 write.pts(shortnose.lm, filename="shortnose")
+unlink("shortnose.pts")
 
 }
 \seealso{

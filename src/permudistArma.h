@@ -6,6 +6,6 @@ using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-RcppExport SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_);
+RcppExport SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_,SEXP usemedian_);
 
 #endif /*PERMUDIST_H_*/

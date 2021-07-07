@@ -4,9 +4,16 @@
 \alias{computeTransform}
 \title{calculate an affine transformation matrix}
 \usage{
-computeTransform(x, y, type = c("rigid", "similarity", "affine", "tps"),
-  reflection = FALSE, lambda = 1e-08, weights = NULL,
-  centerweight = FALSE, threads = 1)
+computeTransform(
+  x,
+  y,
+  type = c("rigid", "similarity", "affine", "tps"),
+  reflection = FALSE,
+  lambda = 1e-08,
+  weights = NULL,
+  centerweight = FALSE,
+  threads = 1
+)
 }
 \arguments{
 \item{x}{fix landmarks. Can be a k x m matrix or mesh3d.}

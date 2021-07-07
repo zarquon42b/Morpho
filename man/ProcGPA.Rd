@@ -4,9 +4,17 @@
 \alias{ProcGPA}
 \title{Workhorse function for procSym, responsible for Procrustes registration}
 \usage{
-ProcGPA(dat.array, tol = 1e-05, scale = TRUE, CSinit = FALSE,
-  silent = TRUE, weights = NULL, centerweight = FALSE,
-  reflection = TRUE, pcAlign = TRUE)
+ProcGPA(
+  dat.array,
+  tol = 1e-05,
+  scale = TRUE,
+  CSinit = FALSE,
+  silent = TRUE,
+  weights = NULL,
+  centerweight = FALSE,
+  reflection = TRUE,
+  pcAlign = TRUE
+)
 }
 \arguments{
 \item{dat.array}{Input k x m x n real array, where k is the number of

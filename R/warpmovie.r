@@ -1,7 +1,7 @@
 #' @rdname warpmovie3d
 #' @method warpmovie3d mesh3d
 #' @export
-warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,radius=NULL,xland=NULL,yland=NULL,lmcol="black",...)
+warpmovie3d.mesh3d <- function(x,y,n,col=NULL,palindrome=FALSE,folder=NULL,movie="warpmovie",add=FALSE,close=TRUE,countbegin=0,ask=TRUE,radius=NULL,xland=NULL,yland=NULL,lmcol="black",...)
 {	#wdold <- getwd()
   if(!is.null(folder)) {
       if (substr(folder,start=nchar(folder),stop=nchar(folder)) != "/")
@@ -24,11 +24,19 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
       if (is.null(radius))
           radius <- (cSize(xland)/sqrt(nrow(xland)))*(1/80)
   }
+
+  if (is.null(x$material$color))
+      col="white"
+
+  if (!is.null(col)) {
+      x <- colorMesh(x,col)
+  }
+      
   for (i in 0:n) {
       mesh <- x
       mesh$vb[1:3,] <- (i/n)*y$vb[1:3,]+(1-(i/n))*x$vb[1:3,]
       mesh <- vcgUpdateNormals(mesh)
-      a <- shade3d(mesh,col=col,...)
+      a <- shade3d(mesh,...)
       if (useland) {
           land <- (i/n)*yland+(1-(i/n))*xland
           a <- append(a, spheres3d(land, radius=radius, col = lmcol))
@@ -47,7 +55,7 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
           mesh <- x
           mesh$vb[1:3,] <- (i/n)*x$vb[1:3,]+(1-(i/n))*y$vb[1:3,]
           mesh <- vcgUpdateNormals(mesh)
-          a <- shade3d(mesh,col=col,...)
+          a <- shade3d(mesh,...)
           if (useland) {
               land <- (i/n)*xland+(1-(i/n))*yland
               a <- append(a, spheres3d(land, radius=radius, col=lmcol))
@@ -60,4 +68,15 @@ warpmovie3d.mesh3d <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
   if (close)
       rgl.close()
   
+}
+
+colorMesh <- function(mesh, col) {
+    if (!inherits(mesh,"mesh3d"))
+        stop("please provide object of class mesh3d")
+
+    col <- rgb(t(col2rgb(col[1])),maxColorValue = 255)
+    material <- list()
+    material$color <- rep(col,ncol(mesh$vb))
+    mesh$material <- material
+    invisible(mesh)
 }

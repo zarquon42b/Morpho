@@ -4,8 +4,16 @@
 \alias{proc.weight}
 \title{calculate weights inverse to the distances from the specified observation.}
 \usage{
-proc.weight(data, number, ref, report = TRUE, reg = 0, log = FALSE,
-  mahalanobis = FALSE, weightfun = NULL)
+proc.weight(
+  data,
+  number,
+  ref,
+  report = TRUE,
+  reg = 0,
+  log = FALSE,
+  mahalanobis = FALSE,
+  weightfun = NULL
+)
 }
 \arguments{
 \item{data}{array containing landmark configurations}

@@ -8,11 +8,9 @@
 \usage{
 mirror2plane(x, v1, normal = NULL, v2 = NULL, v3 = NULL)
 
-\method{mirror2plane}{matrix}(x, v1, normal = NULL, v2 = NULL,
-  v3 = NULL)
+\method{mirror2plane}{matrix}(x, v1, normal = NULL, v2 = NULL, v3 = NULL)
 
-\method{mirror2plane}{mesh3d}(x, v1, normal = NULL, v2 = NULL,
-  v3 = NULL)
+\method{mirror2plane}{mesh3d}(x, v1, normal = NULL, v2 = NULL, v3 = NULL)
 }
 \arguments{
 \item{x}{x 3D-vector or a k x 3 matrix with 3D vectors stored in rows. Or a triangular mesh of class mesh3d}

@@ -7,13 +7,15 @@
 \alias{shortnose.lm}
 \alias{longnose.lm}
 \title{landmarks and a triangular mesh representing a human nose}
-\format{\code{shortnose.mesh}: A triangular mesh of class 'mesh3d'.
+\format{
+\code{shortnose.mesh}: A triangular mesh of class 'mesh3d'.
 
 \code{shortnose.lm}: matrix containing example landmark data placed on
 \code{shortnose.mesh}.
 
 \code{longnose.lm}: matrix containing example landmark data representing a
-caricaturesquely deformed human nose.}
+caricaturesquely deformed human nose.
+}
 \description{
 triangular mesh representing a human nose and two matrices containing
 landmark data

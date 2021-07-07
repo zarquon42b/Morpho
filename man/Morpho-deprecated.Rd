@@ -3,6 +3,7 @@
 \name{deprecated}
 \alias{deprecated}
 \alias{deform.grid}
+\alias{showPC}
 \alias{adnormals}
 \alias{regdist.raw}
 \alias{crossp}
@@ -13,10 +14,17 @@
 \usage{
 deform.grid(...)
 
+showPC(scores, PC, mshape)
+
 adnormals(...)
 
-regdist.raw(dataarray, plot = TRUE, main = "", rho = "angle",
-  dist.mat.out = FALSE)
+regdist.raw(
+  dataarray,
+  plot = TRUE,
+  main = "",
+  rho = "angle",
+  dist.mat.out = FALSE
+)
 
 crossp(...)
 
@@ -24,8 +32,16 @@ tanplan(...)
 
 conv2backf(...)
 
-warp.mesh(mesh, matr, matt, lambda = 1e-08, updateNormals = TRUE,
-  silent = FALSE)
+warp.mesh(
+  mesh,
+  matr,
+  matt,
+  lambda = 1e-08,
+  updateNormals = TRUE,
+  silent = FALSE
+)
+
+showPC(scores, PC, mshape)
 }
 \description{
 document deprecated functions

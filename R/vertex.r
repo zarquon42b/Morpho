@@ -85,7 +85,7 @@ rmVertex <- function(mesh,index,keep=FALSE) {
                 } else
                     mesh$it <- it[,-invalface]
                 if(!is.null(mesh$material$color))
-                    mesh$material$color <- mesh$material$color[,-invalface]
+                    mesh$material$color <- mesh$material$color[-index]
             } else {
                 mesh$it <- it
             }

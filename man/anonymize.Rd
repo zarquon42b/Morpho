@@ -4,9 +4,18 @@
 \alias{anonymize}
 \title{Replace ID-strings of data and associated files.}
 \usage{
-anonymize(data, remove, path = NULL, dest.path = NULL, ext = ".ply",
-  split = "_", levels = TRUE, prefix = NULL, suffix = NULL,
-  sample = TRUE)
+anonymize(
+  data,
+  remove,
+  path = NULL,
+  dest.path = NULL,
+  ext = ".ply",
+  split = "_",
+  levels = TRUE,
+  prefix = NULL,
+  suffix = NULL,
+  sample = TRUE
+)
 }
 \arguments{
 \item{data}{Named array, matrix or vector containing data.}

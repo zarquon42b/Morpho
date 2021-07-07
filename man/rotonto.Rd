@@ -8,8 +8,16 @@
 \title{rotates, translates and scales one matrix onto an other using Procrustes
 fitting}
 \usage{
-rotonto(x, y, scale = FALSE, signref = TRUE, reflection = TRUE,
-  weights = NULL, centerweight = FALSE)
+rotonto(
+  x,
+  y,
+  scale = FALSE,
+  signref = TRUE,
+  reflection = TRUE,
+  weights = NULL,
+  centerweight = FALSE,
+  ...
+)
 
 rotreverse(mat, rot)
 
@@ -33,6 +41,8 @@ rotreverse(mat, rot)
 \item{centerweight}{logical or vector of weights: if weights are defined and centerweigths=TRUE,
 the matrix will be centered according to these weights instead of the
 barycenter. If centerweight is a vector of length \code{nrow(x)}, the barycenter will be weighted accordingly.}
+
+\item{...}{currently not used}
 
 \item{mat}{matrix on which the reverse transformations have to be applied}
 

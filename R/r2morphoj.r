@@ -22,6 +22,8 @@
 #' rep("male",dim(gorm.dat)[3]))
 #' labelname <- "sex"
 #' r2morphologika(data, labels=datalabels, labelname= labelname, file="data.dat")
+#' ## cleanup
+#' unlink(c("gorf.dat","data.dat"))
 #' }
 #' @rdname r2morphoj
 #' @export

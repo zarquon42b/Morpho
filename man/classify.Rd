@@ -7,24 +7,29 @@
 \alias{classify.typprob}
 \title{classify specimen based on between-group PCA or CVA or typprobClass}
 \usage{
-classify(x, cv = TRUE)
+classify(x, cv = TRUE, ...)
 
-\method{classify}{bgPCA}(x, cv = TRUE)
+\method{classify}{bgPCA}(x, cv = TRUE, newdata = NULL, ...)
 
-\method{classify}{CVA}(x, cv = T)
+\method{classify}{CVA}(x, cv = T, newdata = NULL, prior = NULL, ...)
 
-\method{classify}{typprob}(x, cv = TRUE)
+\method{classify}{typprob}(x, cv = TRUE, ...)
 }
 \arguments{
 \item{x}{result of groupPCA, CVA or typprobClass}
 
 \item{cv}{logical: use cross-validated scores if available}
+
+\item{...}{currently not used}
+
+\item{newdata}{use new data to predict scores and evaluate group affinity}
+
+\item{prior}{specify prior probability for CVA evaluation if NULL prior from CVA will be used. Be \code{m} your number of groups then to set the prior equally for all groups set \code{prior=rep(1,m)/m}.}
 }
 \value{
 \item{class}{classification result}
-\item{groups}{original grouping variable}
-
-for object of CVA and typprob, also the posterior probabilities are returned.
+\item{groups}{original grouping variable, only available if \code{newdata=NULL}}
+\item{posterior}{only for object of CVA and typprob, also the posterior probabilities are returned}
 }
 \description{
 classify specimen based on between-group PCA, CVA or typprobClass

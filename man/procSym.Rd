@@ -4,13 +4,31 @@
 \alias{procSym}
 \title{Procrustes registration}
 \usage{
-procSym(dataarray, scale = TRUE, reflect = TRUE, CSinit = TRUE,
-  orp = TRUE, tol = 1e-05, pairedLM = NULL, sizeshape = FALSE,
-  use.lm = NULL, center.part = FALSE, weights = NULL,
-  centerweight = FALSE, pcAlign = TRUE, distfun = c("angle",
-  "riemann"), SMvector = NULL, outlines = NULL, deselect = FALSE,
-  recursive = TRUE, iterations = 0, initproc = FALSE,
-  bending = TRUE, stepsize = 1)
+procSym(
+  dataarray,
+  scale = TRUE,
+  reflect = TRUE,
+  CSinit = TRUE,
+  orp = TRUE,
+  proctol = 1e-05,
+  tol = 1e-05,
+  pairedLM = NULL,
+  sizeshape = FALSE,
+  use.lm = NULL,
+  center.part = FALSE,
+  weights = NULL,
+  centerweight = FALSE,
+  pcAlign = TRUE,
+  distfun = c("angle", "riemann"),
+  SMvector = NULL,
+  outlines = NULL,
+  deselect = FALSE,
+  recursive = TRUE,
+  iterations = 0,
+  initproc = FALSE,
+  bending = TRUE,
+  stepsize = 1
+)
 }
 \arguments{
 \item{dataarray}{Input k x m x n real array, where k is the number of
@@ -85,6 +103,8 @@ Symmetric configurations will be relaxed against a perfectly symmetrical mean.}
 Useful to keep semi-landmarks from sliding too far off the surface.
 The displacement is calculated as \cr
 \code{stepsize * displacement}.}
+
+\item{proctol:}{numeric:  Threshold for convergence in the alignment process}
 }
 \value{
 \item{size }{a vector containing the Centroid Size of the configurations}

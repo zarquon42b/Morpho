@@ -28,7 +28,7 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         y <- vert2points(y)
     type <- substr(type[1],1L,1L)
     ##check for missing entries in case of tps
-    if (type == "t") {
+    #if (type == "t") {
         xrows <- rowSums(x)
         yrows <- rowSums(y)
         xbad <- which(as.logical(is.na(xrows) + is.nan(xrows)))
@@ -39,7 +39,7 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
             x <- x[-bad,,drop=FALSE]
             y <- y[-bad,,drop=FALSE]
         }
-    }
+   # }
     if (type %in% c("r","s")) {
         scale <- TRUE
         if (type == "r")

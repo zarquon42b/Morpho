@@ -1,8 +1,8 @@
-#' convert PCs to landmark configuration
+#' restore shapes from PC-Scores or similar projections
+#'
+#' restore shapes from PC-Scores or similar projections
 #' 
-#' convert PC-scores to landmark coordinates
-#' 
-#' Rotates and translates PC-scores derived from shape data back into
+#' Rotates and translates PC-scores (or similar) derived from shape data back into
 #' configuration space.
 #' 
 #' @param scores vector of PC-scores, or matrix with rows containing PC-scores
@@ -21,16 +21,16 @@
 #' ##the first PC-score of the first specimen
 #' 
 #' proc <- procSym(gorf.dat)
-#' lm <- showPC(proc$PCscores[1,1],proc$PCs[,1],proc$mshape)
+#' lm <- restoreShapes(proc$PCscores[1,1],proc$PCs[,1],proc$mshape)
 #' plot(lm,asp=1)
 #' 
 #' ##now the first 3 scores
-#' lm2 <- showPC(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
+#' lm2 <- restoreShapes(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 #' points(lm2,col=2)
 #' }
 #' @seealso \code{\link{getPCscores}}
 #' @export
-showPC <- function(scores,PC,mshape)
+restoreShapes <- function(scores,PC,mshape)
   {
     dims <- dim(mshape)
     PC <- as.matrix(PC)
@@ -48,10 +48,12 @@ showPC <- function(scores,PC,mshape)
           n <- nrow(scores)
           outarr <- array(0,dim=c(dims,n))
           for (i in 1:n) {
-              outarr[,,i] <- showPC(scores[i,],PC,mshape)
+              outarr[,,i] <- restoreShapes(scores[i,],PC,mshape)
           }
+          if (!is.null(rownames(scores)))
+              dimnames(outarr)[[3]] <- rownames(scores)
           return(outarr)
-      }    
+    }    
 }
 
 #' Obtain PC-scores for new landmark data
@@ -67,7 +69,7 @@ showPC <- function(scores,PC,mshape)
 #' newdata <- boneLM[,,c(1:2)]
 #' newdataAlign <- align2procSym(proc,newdata)
 #' scores <- getPCscores(newdataAlign,proc$PCs,proc$mshape)
-#' @seealso \code{\link{showPC}}
+#' @seealso \code{\link{restoreShapes}}
 #' @export
 getPCscores <- function(x, PC, mshape) {
     if (is.matrix(x))
@@ -76,4 +78,21 @@ getPCscores <- function(x, PC, mshape) {
     x <- vecx(x)
     scores <- x%*%(PC)#%*%t(x)
     return(scores)
+}
+
+#' restore original data from PCA
+#'
+#' restore original data from PCA by reverting rotation and centering
+#' @param scores matrix containing the PC-scores
+#' @param rotation matrix containing the PCs
+#' @param center vector containing the center
+#'
+#' @examples
+#' myirispca <- prcomp(iris[,1:4])
+#' myirisRecovered <- restoreFromPCA(myirispca$x,myirispca$rotation,myirispca$center)
+#' all.equal(myirisRecovered,as.matrix(iris[,1:4]))
+#' @export
+restoreFromPCA <- function(scores,rotation,center) {
+    predPC <- t(as.matrix(rotation) %*% t(scores))
+    predPC <- sweep(predPC,2,-center)
 }

@@ -212,6 +212,8 @@ covW <- function(data, groups,robust=c("classical", "mve", "mcd"),...) {
                 means <- rbind(means,colMeans(data[groups==glev[i],,drop=FALSE]))
                 covWithin <- covWithin + (covtmp * (gsizes[i]-1))
             }
+        } else {
+            means <- rbind(means,data[groups==glev[i],,drop=FALSE])
         }
     rownames(means) <- glev
     if (robust != "classical" && nsmallerp)

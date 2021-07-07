@@ -1,8 +1,8 @@
 Package: Morpho
 Type: Package
 Title: Calculations and Visualisations Related to Geometric Morphometrics
-Version: 2.7
-Date: 2019-05-16
+Version: 2.8.1
+Date: 2020-12-15
 Authors@R: c(
     person("Stefan", "Schlager",, "zarquon42@gmail.com", c("aut", "cre", "cph")),
     person("Gregory", "Jefferis",,, c("ctb")),
@@ -21,7 +21,7 @@ Depends:
     R (>= 3.2.0)
 Imports:
     Rvcg (>= 0.7),
-    rgl (>= 0.93.963),
+    rgl (>= 0.100.18),
     foreach (>= 1.4.0),
     Matrix (>= 1.0-1),
     MASS,
@@ -33,7 +33,9 @@ Imports:
     grDevices,
     methods,
     stats,
-    utils
+    utils,
+    jsonlite,
+    bezier
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
 License: GPL-2
@@ -41,4 +43,4 @@ BugReports: https://github.com/zarquon42b/Morpho/issues
 LazyLoad: yes
 URL: https://github.com/zarquon42b/Morpho
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0

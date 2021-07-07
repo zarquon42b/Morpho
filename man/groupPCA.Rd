@@ -4,8 +4,15 @@
 \alias{groupPCA}
 \title{Perform PCA based of the group means' covariance matrix}
 \usage{
-groupPCA(dataarray, groups, rounds = 10000, tol = 1e-10, cv = TRUE,
-  mc.cores = parallel::detectCores(), weighting = TRUE)
+groupPCA(
+  dataarray,
+  groups,
+  rounds = 10000,
+  tol = 1e-10,
+  cv = TRUE,
+  mc.cores = parallel::detectCores(),
+  weighting = TRUE
+)
 }
 \arguments{
 \item{dataarray}{Either a k x m x n real array, where k is the number of
@@ -36,7 +43,7 @@ to group sizes.}
 matrix}
 \item{groupPCs }{PC-axes - i.e. eigenvectors of the groupmean covariance
 matrix}
-\item{Variance }{table displaying the between-group variance explained by each between group PC}
+\item{Variance }{table displaying the between-group variance explained by each between group PC - this only reflects the variability of the group means and NOT the variability of the data projected into that space}
 \item{Scores }{Scores of all observation in the PC-space}
 \item{probs }{p-values of pairwise groupdifferences - based on
 permuation testing}
@@ -47,8 +54,7 @@ permuation testing}
 \item{groups }{grouping Variable}
 \item{resPCs}{PCs orthogonal to the between-group PCs}
 \item{resPCscores}{Scores of the residualPCs}
-\item{resVar}{table displaying the residual variance explained by each residual PC}
-\item{combinedVar}{table displaying the overall variance explained by the between-group PCs and residual PC. Check the rownames to identify which type belongs to which value}
+\item{resVar}{table displaying the residual variance explained by each residual PC. }
 }
 \description{
 Calculate covariance matrix of the groupmeans and project all observations
@@ -79,8 +85,8 @@ dims <- dim(proc$mshape)
 grandmean <-gpca$Grandmean
 ## calculate landmarks from first between-group PC
 #                   (+2 and -2 standard deviations)
-gpcavis2sd<- showPC(2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
-gpcavis2sd.neg<- showPC(-2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
+gpcavis2sd<- restoreShapes(2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
+gpcavis2sd.neg<- restoreShapes(-2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
 deformGrid3d(gpcavis2sd, gpcavis2sd.neg, ngrid = 0)
 require(rgl)
 ## visualize grandmean mesh

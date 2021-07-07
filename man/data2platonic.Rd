@@ -4,8 +4,13 @@
 \alias{data2platonic}
 \title{creates 3D shapes from data to be saved as triangular meshes}
 \usage{
-data2platonic(datamatrix, shape = Rvcg::vcgSphere(), col = "red",
-  scale = FALSE, scalefactor = 1)
+data2platonic(
+  datamatrix,
+  shape = Rvcg::vcgSphere(),
+  col = "red",
+  scale = FALSE,
+  scalefactor = 1
+)
 }
 \arguments{
 \item{datamatrix}{k x 3 data matrix}

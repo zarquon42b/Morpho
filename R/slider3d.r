@@ -164,7 +164,7 @@
 #' }
 #' 
 #' @export
-slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,silent=FALSE)
+slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,sur.name=NULL, meshlist=NULL, ignore=NULL,sur.type="ply",tol=1e-05,deselect=FALSE,inc.check=TRUE,recursive=TRUE,iterations=0,initproc=TRUE,fullGPA=FALSE,pairedLM=0,bending=TRUE,stepsize=ifelse(bending,1,0.5),mc.cores = parallel::detectCores(), fixRepro=TRUE,missingList=NULL,use.lm=NULL,smoothnormals=FALSE,silent=FALSE)
 {
     if (.Platform$OS.type == "windows" && mc.cores > 1) {
         cl <- makeCluster(mc.cores)            
@@ -287,7 +287,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
             tmpdata <- data[,,i]
         else
             tmpdata <- data[[i]]
-        out <- projRead(tmpdata,meshlist[[i]])
+        out <- projRead(tmpdata,meshlist[[i]],smooth=smoothnormals)
         if (!is.null(missingList))
             if(length(missingList[[i]]))
                 out$vb[1:3,missingList[[i]]] <- t(tmpdata[missingList[[i]],])
@@ -299,7 +299,7 @@ slider3d <- function(dat.array,SMvector,outlines=NULL,surp=NULL,sur.path=NULL,su
         else
             tmpdata <- data[[i]]
         
-        out <- projRead(tmpdata,sur.name[i])
+        out <- projRead(tmpdata,sur.name[i],smooth=smoothnormals)
         if (!is.null(missingList))
             if(length(missingList[[i]]))
                 out$vb[1:3,missingList[[i]]] <- t(tmpdata[missingList[[i]],])

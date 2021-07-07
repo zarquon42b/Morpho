@@ -28,8 +28,8 @@
 #' cor.test(cac$CACscores,cac$size)#check for correlation
 #' #visualize differences between large and small on the sample's consensus
 #' \dontrun{
-#' large <- showPC(max(cac$CACscores),cac$CAC,proc$mshape)
-#' small <- showPC(min(cac$CACscores),cac$CAC,proc$mshape)
+#' large <- restoreShapes(max(cac$CACscores),cac$CAC,proc$mshape)
+#' small <- restoreShapes(min(cac$CACscores),cac$CAC,proc$mshape)
 #' deformGrid3d(small,large,ngrid=0)
 #' }
 #' @export

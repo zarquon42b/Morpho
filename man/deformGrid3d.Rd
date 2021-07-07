@@ -4,12 +4,32 @@
 \alias{deformGrid3d}
 \title{visualise differences between two superimposed sets of 3D landmarks}
 \usage{
-deformGrid3d(matrix, tarmatrix, ngrid = 0, align = FALSE, lwd = 1,
-  showaxis = c(1, 2), show = c(1, 2), lines = TRUE, lcol = 1,
-  add = FALSE, col1 = 2, col2 = 3, type = c("s", "p"),
-  size = NULL, pcaxis = FALSE, ask = TRUE, margin = 0.2,
-  createMesh = FALSE, slice1 = NULL, slice2 = NULL, slice3 = NULL,
-  gridcol = 1, gridwidth = 1, ...)
+deformGrid3d(
+  matrix,
+  tarmatrix,
+  ngrid = 0,
+  align = FALSE,
+  lwd = 1,
+  showaxis = c(1, 2),
+  show = c(1, 2),
+  lines = TRUE,
+  lcol = 1,
+  add = FALSE,
+  col1 = 2,
+  col2 = 3,
+  type = c("s", "p"),
+  size = NULL,
+  pcaxis = FALSE,
+  ask = TRUE,
+  margin = 0.2,
+  createMesh = FALSE,
+  slice1 = NULL,
+  slice2 = NULL,
+  slice3 = NULL,
+  gridcol = 1,
+  gridwidth = 1,
+  ...
+)
 }
 \arguments{
 \item{matrix}{reference matrix containing 3D landmark coordinates or mesh of class "mesh3d"}
@@ -71,7 +91,7 @@ visualise differences between two superimposed sets of 3D landmarks by
 deforming a cubic grid based on a thin-plate spline interpolation
 }
 \examples{
-\dontrun{
+if (interactive()){
 data(nose)
 deformGrid3d(shortnose.lm,longnose.lm,ngrid=10)
 

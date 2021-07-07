@@ -4,81 +4,117 @@
 #'
 #' @param x result of groupPCA, CVA or typprobClass
 #' @param cv logical: use cross-validated scores if available
+#' @param newdata use new data to predict scores and evaluate group affinity
+#' @param prior specify prior probability for CVA evaluation if NULL prior from CVA will be used. Be \code{m} your number of groups then to set the prior equally for all groups set \code{prior=rep(1,m)/m}.
+#' @param ... currently not used
 #' @return
 #' \item{class}{classification result}
-#' \item{groups}{original grouping variable}
-#'
-#' for object of CVA and typprob, also the posterior probabilities are returned.
+#' \item{groups}{original grouping variable, only available if \code{newdata=NULL}}
+#' \item{posterior}{only for object of CVA and typprob, also the posterior probabilities are returned}
 #' @rdname classify
 #' @seealso \code{\link{CVA},\link{groupPCA},  \link{typprobClass}}
 #' @export
-classify <- function(x,cv=TRUE) UseMethod("classify")
+classify <- function(x,cv=TRUE,...) UseMethod("classify")
 
 #' @rdname classify
 #' @export
-classify.bgPCA <- function(x,cv=TRUE) {
+classify.bgPCA <- function(x,cv=TRUE,newdata=NULL,...) {
 
     if (length(dim(x$groupmeans)) == 3) {
         x$groupmeans <- vecx(x$groupmeans)
         x$Grandmean <- c(x$Grandmean)
+        if (!is.null(newdata)){
+            if (length(dim(newdata)) == 3)
+                newdata <- vecx(newdata)
+        }
+            
     }
-    
-    if (!is.null(x$CV) && cv)
-        CV <- x$CV
-    else
-        CV <- x$Scores
-    if (is.null(x$CV)) 
+    usenew <- FALSE
+    if (is.null(newdata)) {
+        if (!is.null(x$CV) && cv)
+            CV <- x$CV
+        else
+            CV <- x$Scores
+    } else {
+        CV <- predict(x,newdata)
+        usenew <- TRUE
+    }
+    if (is.null(x$CV) || usenew) 
         cv  <- FALSE
-    classVec <- x$groups
+
+    classVec <- NULL
     GmeanCenter <- sweep(x$groupmeans,2,x$Grandmean)
     GmeanScores <- GmeanCenter%*%x$groupPCs
     for (i in 1:nrow(CV)) {
         tmpdist <- (sqrt(rowSums(sweep(GmeanScores,2,CV[i,])^2)))
         classVec[i] <- names(tmpdist)[which(tmpdist == min(tmpdist))]
     }
-    out <- list(class=classVec,groups=x$groups,cv=cv)
+    
+    outgroups <- x$groups
+    
+    if (usenew) {
+        out <- list(class=classVec)
+        attributes(out) <- append(attributes(out),list(self=FALSE))
+    } else
+        out <- list(class=classVec,groups=outgroups,cv=cv)
     class(out) <- "classify"
     return(out)
 }
 
 #' @rdname classify
 #' @export
-classify.CVA <- function(x,cv=T) {
-
-    if (!is.null(x$class) && cv) {
+classify.CVA <- function(x,cv=T,newdata=NULL,prior=NULL,...) {
+    
+    if (!is.null(x$class) && cv && is.null(newdata)) {
         if (is.null(x$CVcv)) 
             cv  <- FALSE
         out <- list(class=x$class,groups=x$groups,posterior=x$posterior,cv=cv)
         class(out) <- "classify"
         return(out)
     } else {
+        xorig <- x
         if (length(dim(x$Grandm)) == 2) {
             x$Grandm <- as.vector(x$Grandm)
             x$groupmeans <- vecx(x$groupmeans)
         }
-        CV <- x$CVscores
-        classVec <- x$groups
+        usenew <- FALSE
+        if (is.null(newdata)) {
+            CV <- x$CVscores
+        }  else {
+            CV <- predict(xorig,newdata=newdata)
+            usenew <- TRUE
+        }
+        classVec <- NULL
         GmeanCenter <- sweep(x$groupmeans,2,x$Grandm)
         GmeanScores <- GmeanCenter%*%x$CV
         classprobs <- NULL
+        if (is.null(prior))
+            prior <- x$prior
         for (i in 1:nrow(CV)) {
             tmpdist <- (rowSums(sweep(GmeanScores,2,CV[i,])^2))
-            post <- probpost(tmpdist,x$prior)
+            post <- probpost(tmpdist,prior)
             classVec[i] <- names(tmpdist)[which(post == max(post))]
             classprobs <- rbind(classprobs,post)
         }
-        names(classVec) <- rownames(classprobs) <- rownames(x$CVscores)
+        if (!usenew)
+            names(classVec) <- rownames(classprobs) <- rownames(x$CVscores)
+        
         colnames(classprobs) <- rownames(x$groupmeans)
                                         #classVec <- factor(classVec)
-        out <- list(class=classVec,groups=x$groups,posterior=classprobs,cv=cv)
+        if (usenew) {
+            out <- list(class=classVec,posterior=classprobs)
+            attributes(out) <- append(attributes(out),list(self=FALSE))
+        } else
+            out <- list(class=classVec,groups=x$groups,posterior=classprobs,cv=cv)
         class(out) <- "classify"
+        
         return(out)
     }
 }
 
 #' @rdname classify
 #' @export
-classify.typprob <- function(x,cv=TRUE) {
+classify.typprob <- function(x,cv=TRUE,...) {
     out <- list()
     if (!x$cv)
         cv <- FALSE

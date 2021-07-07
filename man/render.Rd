@@ -11,21 +11,56 @@
 \usage{
 render(x, ...)
 
-\method{render}{meshDist}(x, from = NULL, to = NULL, steps = NULL,
-  ceiling = NULL, uprange = NULL, tol = NULL, tolcol = NULL,
-  rampcolors = NULL, NAcol = NULL, displace = FALSE, shade = TRUE,
-  sign = NULL, add = FALSE, scaleramp = NULL, ...)
+\method{render}{meshDist}(
+  x,
+  from = NULL,
+  to = NULL,
+  steps = NULL,
+  ceiling = NULL,
+  uprange = NULL,
+  tol = NULL,
+  tolcol = NULL,
+  rampcolors = NULL,
+  NAcol = NULL,
+  displace = FALSE,
+  shade = TRUE,
+  sign = NULL,
+  add = FALSE,
+  scaleramp = NULL,
+  titleplot = "Distance in mm",
+  ...
+)
 
-\method{render}{matrixDist}(x, from = NULL, to = NULL, steps = NULL,
-  ceiling = NULL, uprange = NULL, tol = NULL, tolcol = NULL,
-  type = c("s", "p"), radius = NULL, rampcolors = NULL,
-  NAcol = NULL, displace = FALSE, sign = NULL, add = FALSE,
-  scaleramp = FALSE, ...)
+\method{render}{matrixDist}(
+  x,
+  from = NULL,
+  to = NULL,
+  steps = NULL,
+  ceiling = NULL,
+  uprange = NULL,
+  tol = NULL,
+  tolcol = NULL,
+  type = c("s", "p"),
+  radius = NULL,
+  rampcolors = NULL,
+  NAcol = NULL,
+  displace = FALSE,
+  sign = NULL,
+  add = FALSE,
+  scaleramp = FALSE,
+  titleplot = "Distance in mm",
+  ...
+)
 
 export(x, ...)
 
-\method{export}{meshDist}(x, file = "default", imagedim = "100x800",
-  ...)
+\method{export}{meshDist}(
+  x,
+  file = "default",
+  imagedim = "100x800",
+  titleplot = "Distance in mm",
+  ...
+)
 }
 \arguments{
 \item{x}{object of class meshDist}
@@ -66,6 +101,8 @@ supressed.}
 \item{add}{logical: if TRUE, visualization will be added to the rgl window currently in focus}
 
 \item{scaleramp}{if TRUE the ramp colors get scaled symmetrically into positive and negative direction.}
+
+\item{titleplot}{character: axis description of heatmap.}
 
 \item{type}{character: "s" shows coordinates as spheres, while "p" shows 3D
 dots.}

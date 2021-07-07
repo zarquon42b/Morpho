@@ -20,6 +20,7 @@
 #' Unit Centroid Size.
 #' @param orp logical: if TRUE, an orthogonal projection at the meanshape into
 #' tangent space is performed.
+#' @param proctol: numeric:  Threshold for convergence in the alignment process
 #' @param tol numeric: Threshold for convergence in the sliding process
 #' @param pairedLM A X x 2 matrix containing the indices (rownumbers) of the
 #' paired LM. E.g. the left column contains the lefthand landmarks, while the
@@ -149,7 +150,7 @@
 #' 
 #' 
 #' @export
-procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE,weights=NULL,centerweight=FALSE, pcAlign=TRUE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE, bending=TRUE,stepsize=1)
+procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,proctol=1e-05, tol=1e-05, pairedLM=NULL, sizeshape=FALSE, use.lm=NULL, center.part=FALSE,weights=NULL,centerweight=FALSE, pcAlign=TRUE, distfun=c("angle", "riemann"), SMvector=NULL, outlines=NULL, deselect=FALSE, recursive=TRUE,iterations=0, initproc=FALSE, bending=TRUE,stepsize=1)
 {
     t0 <- Sys.time()     
     A <- dataarray
@@ -199,7 +200,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     message("performing Procrustes Fit ")
     
     if (!is.null(use.lm)) { ### only use subset for rotation and scale
-        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights)
+        proc <- ProcGPA(Aall[use.lm,,],scale=scale,CSinit=CSinit,reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights,tol=proctol)
         tmp <- Aall
         for (i in 1:dim(Aall)[3]) {
             tmp[,,i] <- rotonmat(Aall[,,i],Aall[use.lm,,i],proc$rotated[,,i],scale=TRUE, reflection=reflect)
@@ -211,7 +212,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         proc$rotated <- tmp
         proc$mshape <- arrMean3(tmp) ##calc new meanshape
     } else
-        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights)
+        proc <- ProcGPA(Aall,scale=scale,CSinit=CSinit, reflection=reflect,pcAlign=pcAlign,silent=FALSE,centerweight=centerweight,weights=weights,tol=proctol)
     
     procrot <- proc$rotated
     dimna <- dimnames(dataarray)
@@ -286,6 +287,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         for (i in 2:length(values))
             SymVar[i,3] <- SymVar[i,2]+ SymVar[i-1,3]
         colnames(SymVar) <- c("eigenvalues","% Variance","Cumulative %")
+        rownames(SymVar) <- 1:nrow(SymVar)
     }
     
 ###### PCA Asym Component ###### 
@@ -321,6 +323,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
                 AsymVar[i,3] <- AsymVar[i,2]+ AsymVar[i-1,3]
             
             colnames(AsymVar) <- c("eigenvalues","% Variance","Cumulative %")
+            rownames(AsymVar) <- 1:nrow(AsymVar)
         }
     }
     
@@ -352,7 +355,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         
         class(out) <- "nosymproc"
     }
-    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect,centerweight=centerweight,weights=weights))
+    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect,centerweight=centerweight,weights=weights,sizeshape=sizeshape))
     return(out)
     
 }
@@ -361,7 +364,7 @@ print.nosymproc <- function(x,...) {
     cat(paste0(" No. of Specimens: ",dim(x$rotated)[3],"\n"))
         cat(paste0(" ",dim(x$rotated)[1]," Landmarks in ", dim(x$rotated)[2]," dimensions\n"))
     cat("\n Variance Table\n")
-    print(as.data.frame(x$Var),row.names=FALSE)
+    print(as.data.frame(x$Var),row.names=TRUE)
 }
     
 #' @export       
@@ -370,9 +373,9 @@ print.symproc <- function(x,...) {
     cat(paste0(" ",dim(x$rotated)[1]," Landmarks in ", dim(x$rotated)[2]," dimensions\n"))
     cat(paste0("    - of which there are ",dim(x$pairedLM)[1]," sets of paired Landmarks\n"))
     cat("\n Variance Table of Symmetric Component\n")
-    print(as.data.frame(x$SymVar),row.names=FALSE)
+    print(as.data.frame(x$SymVar),row.names=TRUE)
     cat("\n Variance Table of Asymmetric Component\n")
-    print(as.data.frame(x$AsymVar),row.names=FALSE)
+    print(as.data.frame(x$AsymVar),row.names=TRUE)
 }
 
 #' align new data to an existing Procrustes registration
@@ -409,11 +412,20 @@ align2procSym <- function(x,newdata,orp=TRUE) {
     n <- dim(newdata)[3]
     atts <- attributes(x)
     newdatarot <- newdata
-    for (i in 1:n)
+    if (atts$CSinit) {
+        mysize <- apply(newdata,3,cSize)
+        for (i in 1:n)
+        newdata[,,i] <- newdata[,,i]/mysize[i]
+    }
+    
+    for (i in 1:n)        
         newdatarot[,,i] <- rotonto(x$mshape,newdata[,,i],scale=atts$scale,reflection=atts$reflect,centerweight=atts$centerweight,weights=atts$weights)$yrot
+    
     if (atts$orp && orp)
         orpdata <- orp(newdatarot,x$mshape)
-     if (dim(orpdata)[3] == 1)
+    else
+        orpdata <- newdatarot
+    if (dim(orpdata)[3] == 1)
          orpdata <- orpdata[,,1]
     return(orpdata)
 }

@@ -8,8 +8,8 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.7\cr
-#' Date: \tab 2019-05-16\cr
+#' Version: \tab 2.8.1\cr
+#' Date: \tab 2020-12-15\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -130,6 +130,15 @@ deform.grid <- function (...)
   .Deprecated("deformGrid3d", package="Morpho")
   deformGrid3d(...)
 }
+
+#' @rdname Morpho-deprecated
+#' @export deform.grid
+showPC <- function (...)
+{
+  .Deprecated("restoreShapes", package="Morpho")
+  restoreShapes(...)
+}
+
 #' @rdname Morpho-deprecated
 #' @export 
 adnormals <- function (...)
@@ -176,4 +185,11 @@ warp.mesh <- function (mesh,matr,matt,lambda=1e-8,updateNormals=TRUE, silent=FAL
 {
   .Deprecated("tps3d", package="Morpho")
   tps3d(x=mesh,refmat=matr,tarmat=matt,lambda=lambda,threads=1)
+}
+
+#' @rdname Morpho-deprecated
+#' @export 
+showPC <- function(scores, PC, mshape) {
+    .Deprecated("restoreShapes", package="Morpho")
+    restoreShapes(scores = scores,PC=PC,mshape=mshape)
 }

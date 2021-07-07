@@ -18,6 +18,7 @@
 #' @param centerweight logical or vector of weights: if weights are defined and centerweigths=TRUE,
 #' the matrix will be centered according to these weights instead of the
 #' barycenter. If centerweight is a vector of length \code{nrow(x)}, the barycenter will be weighted accordingly.
+#' @param ... currently not used
 #' @return
 #' \item{yrot }{rotated and translated matrix}
 #' \item{Y }{centred and rotated reference matrix}
@@ -48,7 +49,9 @@
 #' }
 #' 
 #' @export
-rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE) {
+rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,centerweight=FALSE,...) {
+    xorig <- x
+    yorig <- y
     reflect=0
     k <- nrow(x)
     m <- ncol(x)
@@ -132,31 +135,27 @@ rotonto <- function(x,y,scale=FALSE,signref=TRUE,reflection=TRUE,weights=NULL,ce
     trans <- x[1,]-X[1,]
     transy <- y[1,]-Y[1,]
     del <- sv1$d
-    
+    ## translate original y config to origin of centroid of potentially partial config and
+    ## apply transforms
+    Yorig <- sweep(yorig,2,transy)
     ctrace <- function(MAT) sum(diag(crossprod(MAT)))
     if (scale) {
         if (!is.null(weights))
             bet <- sum(del)/ctrace(Y1)
         else
             bet <- sum(del)/ctrace(Y)
-        yrot <- bet*Y%*%gamm
+        yrot <- bet*Yorig%*%gamm
     } else {
         bet <- 1
-        yrot <- Y%*%gamm
+        yrot <- Yorig%*%gamm
     }
-    Y <- yrot  	
+    ## scaled and rotated Y
+    Y <- yrot
+    ## also translated to x
     yrot <- t(t(yrot)+trans)
     matlist <- list(yrot=yrot,Y=Y,X=X)
-    myfun <- function(x,bad) {
-        NAmat <- matrix(NA,k,m)
-        NAmat[-bad,] <- x
-        return(NAmat)
-    }
-    if (length(ybad)) 
-        matlist[1:2] <- lapply(matlist[1:2],myfun,bad)
-    
-    if (length(bad))
-        matlist[[3]] <- myfun(matlist[[3]],bad)
+    ## move original x to (partial) centroid of x
+    matlist$X <- sweep(xorig,2,trans)
     
     out <- list(yrot=matlist$yrot,Y=matlist$Y,X=matlist$X,trans=trans,transy=transy,gamm=gamm,bet=bet,reflect=reflect)
     class(out) <- "rotonto"

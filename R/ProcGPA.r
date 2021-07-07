@@ -60,7 +60,7 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=TRUE,weigh
     if (CSinit) {
         arr.list <- lapply(arr.list, function(x){
                                x[[1]] <- scale(x[[1]], scale=FALSE);
-                               x[[1]] <- x[[1]]/sqrt(sum(x[[1]]^2));
+                               x[[1]] <- x[[1]]/cSize(x[[1]]);
                                return(list(x[[1]],x[[2]]))
                            })
     } else { 

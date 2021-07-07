@@ -1,19 +1,19 @@
 #' @rdname meshDist
 #' @method meshDist matrix
 #' @export
-meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,tolcol="green",type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,scaleramp=FALSE,...)
+meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20,ceiling=FALSE, rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", uprange=1,plot=TRUE,sign=TRUE,tol=NULL,tolcol="green",type=c("s","p"),radius=NULL,displace=FALSE,add=FALSE,scaleramp=FALSE,titleplot="Distance in mm",...)
     {
         x <- list(vb=t(x),it=matrix(1:dim(x)[1]),1,dim(x)[1])
         class(x) <- "mesh3d"
-        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,scaleramp=scaleramp,tolcol=tolcol,...)
+        out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,scaleramp=scaleramp,tolcol=tolcol,titleplot=titleplot,...)
         class(out) <- "matrixDist"
-        render(out,radius=radius,type=type,displace=displace,add=add)
+        render(out,radius=radius,type=type,displace=displace,add=add,titleplot=titleplot)
         invisible(out)
     }
 #' @rdname render
 #' @method render matrixDist
 #' @export
-render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,...) {
+render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,titleplot="Distance in mm", ...) {
     if (!add) {
         if (rgl.cur() !=0)
             rgl.clear()
@@ -108,7 +108,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
         colMesh$material$color <- colfun(colMesh$it)
         colMesh$material$color[is.na(colMesh$material$color)] <- NAcol
         
-        colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
+        colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab=titleplot,xlab="",xaxt="n")
     } else {
         if (is.null(tol))
             tol <- x$params$tol
@@ -136,7 +136,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
     }
     
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
-    image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
+    image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab=titleplot,xlab="",xaxt="n")
     if (!is.null(tol)) {
         if (sum(abs(tol)) != 0)
             image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col=tolcol,useRaster=TRUE,add=TRUE)

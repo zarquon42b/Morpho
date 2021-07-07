@@ -4,8 +4,16 @@
 \alias{retroDeformMesh}
 \title{symmetrize a triangular mesh}
 \usage{
-retroDeformMesh(mesh, mat, pairedLM, hmult = 5, alpha = 0.01,
-  rot = TRUE, lambda = 1e-08, threads = 0)
+retroDeformMesh(
+  mesh,
+  mat,
+  pairedLM,
+  hmult = 5,
+  alpha = 0.01,
+  rot = TRUE,
+  lambda = 1e-08,
+  threads = 0
+)
 }
 \arguments{
 \item{mesh}{triangular mesh of class mesh3d}

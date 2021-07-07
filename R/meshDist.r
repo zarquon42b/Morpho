@@ -53,6 +53,8 @@
 #' size will be estimated by centroid size of the configuration.
 #' @param add logical: if TRUE, visualization will be added to the rgl window currently in focus
 #' @param scaleramp logical: if TRUE, the colorramp will be symmetrical for signed distances: spanning from \code{-max(from,to)} to \code{max(from,to)}.
+#' @param threads integer: number of threads to use. 0 = let system decide.
+#' @param titleplot character: axis description of heatmap.
 #' @param \dots additional arguments passed to \code{\link{shade3d}}. See
 #' \code{\link{rgl.material}} for details.
 #' @return Returns an object of class "meshDist" if the input is a surface mesh
@@ -94,7 +96,7 @@ meshDist <- function(x,...) UseMethod("meshDist")
 #' @importFrom Rvcg vcgClostKD
 #' @importFrom colorRamps blue2green2red
 #' @export
-meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE,  rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, raystrict=FALSE, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL,tolcol="green", displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE,scaleramp=TRUE,...)
+meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, steps=20, ceiling=FALSE,  rampcolors=colorRamps::blue2green2red(steps-1),NAcol="white", file="default", imagedim="100x800", uprange=1, ray=FALSE, raytol=50, raystrict=FALSE, save=FALSE, plot=TRUE, sign=TRUE, tol=NULL,tolcol="green", displace=FALSE, shade=TRUE, method=c("vcglib", "morpho"), add=FALSE,scaleramp=TRUE,threads=1,titleplot="Distance in mm",...)
 {
     method=substring(method[1],1L,1L)
     neg=FALSE
@@ -105,7 +107,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     if (is.null(distvec)) {
         if(!ray) {
             if (method == "v") {
-                promesh <- vcgClostKD(x,mesh2,sign=T)
+                promesh <- vcgClostKD(x,mesh2,sign=T,threads = threads)
             } else {
                 promesh <- closemeshKD(x,mesh2,sign=T)
             }
@@ -181,15 +183,15 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
     }   
     
     colfun <- function(x){x <- colorall[x];return(x)}
-    x$material$color <- matrix(colfun(x$it),dim(x$it))
+    x$material$color <- colorall#matrix(colfun(x$it),dim(x$it))
     x$material$color[is.na(x$material$color)] <- NAcol
-    colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
+    colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab=titleplot,xlab="",xaxt="n")
     params <- list(steps=steps,from=from,to=to,uprange=uprange,ceiling=ceiling,sign=sign,tol=tol,rampcolors=rampcolors,NAcol=NAcol,scaleramp=scaleramp,tolcol=tolcol)
     out <- list(colMesh=x,dists=distsOrig,cols=colorall,colramp=colramp,params=params,distqual=distqual,clost=clost)
     class(out) <- "meshDist"
 
     if (plot)
-        render(out,output=FALSE,displace=displace,shade=shade,add=add, ...)
+        render(out,output=FALSE,displace=displace,shade=shade,add=add,titleplot=titleplot, ...)
     if (save)
         export(out,file=file,imagedim=imagedim)
     invisible(out)
@@ -235,6 +237,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' size will be estimated by centroid size of the configuration.
 #' @param add logical: if TRUE, visualization will be added to the rgl window currently in focus
 #' @param scaleramp if TRUE the ramp colors get scaled symmetrically into positive and negative direction.
+#' @param titleplot character: axis description of heatmap.
 #' @param \dots for render.meshDist: additional arguments passed to
 #' \code{\link{shade3d}}. See \code{\link{rgl.material}} for details.
 #' @author Stefan Schlager
@@ -248,7 +251,7 @@ render <- function(x,...) UseMethod("render")
 #' @rdname render
 #' @method render meshDist
 #' @export
-render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,scaleramp=NULL,...) {
+render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,shade=TRUE,sign=NULL,add=FALSE,scaleramp=NULL,titleplot="Distance in mm",...) {
     clost <- x$clost
     dists <- x$dists
     distsOrig <- dists
@@ -346,7 +349,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
         colMesh$material$color[is.na(colMesh$material$color)] <- NAcol
                                         #colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
-        colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab="Distance in mm",xlab="",xaxt="n")
+        colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab=titleplot,xlab="",xaxt="n")
     } else {
         if (is.null(tol))
             tol <- x$params$tol
@@ -357,17 +360,17 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         tolcol <- x$params$tolcol
     
     if (shade)
-        shade3d(vcgUpdateNormals(colMesh),specular="black",meshColor="legacy",...)
+        shade3d(vcgUpdateNormals(colMesh),specular="black",...)
     if (displace) {
         dismesh <- colMesh
         vl <- dim(colMesh$vb)[2]
         dismesh$vb <- cbind(colMesh$vb,rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)
-        dismesh$material$color <- rbind(colorall,colorall,colorall)
-        wire3d(dismesh,lit=FALSE,meshColor="legacy")
+        dismesh$material$color <- colorall
+        wire3d(dismesh,lit=FALSE)
     }
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
-    image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab="Distance in mm",xlab="",xaxt="n")
+    image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab=titleplot,xlab="",xaxt="n")
     if (!is.null(tol)) {
         if (sum(abs(tol)) != 0)
             image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col=tolcol,useRaster=TRUE,add=TRUE)
