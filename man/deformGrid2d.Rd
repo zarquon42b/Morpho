@@ -12,6 +12,7 @@ deformGrid2d(
   show = c(1:2),
   lines = TRUE,
   lcol = 1,
+  lty = 2,
   col1 = 2,
   col2 = 3,
   pcaxis = FALSE,
@@ -40,6 +41,8 @@ plotted. Options are combinations of 1,2 and 3.}
 \item{lines}{logical: if TRUE, lines between landmarks will be plotted.}
 
 \item{lcol}{color of lines}
+
+\item{lty}{line type}
 
 \item{col1}{color of "matrix"}
 

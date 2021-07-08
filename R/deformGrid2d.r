@@ -13,6 +13,7 @@
 #' plotted. Options are combinations of 1,2 and 3.
 #' @param lines logical: if TRUE, lines between landmarks will be plotted.
 #' @param lcol color of lines
+#' @param lty line type
 #' @param col1 color of "matrix"
 #' @param col2 color of "tarmat"
 #' @param pcaxis logical: align grid by shape's principal axes.
@@ -34,7 +35,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="grey",cex1=1,cex2=1,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,lty=2,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="grey",cex1=1,cex2=1,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -92,7 +93,7 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         linemesh$vb <- rbind(matrix,tarmatrix)
         linemesh$it <- cbind(1:k,(1:k)+k)
         for (i in 1:nrow(linemesh$it))
-            lines(linemesh$vb[linemesh$it[i,],],lwd=lwd,col=3,lty=2)
+            lines(linemesh$vb[linemesh$it[i,],],lwd=lwd,col=lcol,lty=lty)
     }
     
     if (ngrid > 1) {
