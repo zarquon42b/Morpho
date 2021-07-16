@@ -4,7 +4,7 @@
 #' vertices from triangular meshes
 #' 
 #' \code{unrefVertex} finds unreferenced vertices in triangular meshes of class
-#' \code{mesh3d}.
+#' \code{mesh3d} or \code{tmesh3d}.
 #' 
 #' \code{rmVertex} removes specified vertices from triangular meshes.
 #' 
@@ -76,7 +76,7 @@ rmVertex <- function(mesh,index,keep=FALSE) {
         if (!is.null(it)) {
             it <- matrix(facefun(it),itdim)
             checkface <- .Call("face_zero",it)
-                                        #checkface <- .Fortran("face_zero",it,itdim[2],checkface)[[3]]
+                                      
             invalface <- which(checkface == 0) 
             if (length(invalface) > 0) {
                 if (length(invalface) == ncol(it)) {
@@ -84,8 +84,7 @@ rmVertex <- function(mesh,index,keep=FALSE) {
                     mesh$it <- NULL
                 } else
                     mesh$it <- it[,-invalface]
-                if(!is.null(mesh$material$color))
-                    mesh$material$color <- mesh$material$color[-index]
+                
             } else {
                 mesh$it <- it
             }
@@ -93,12 +92,35 @@ rmVertex <- function(mesh,index,keep=FALSE) {
             if (0 %in% dim(it))
                 mesh$it <- NULL
         }
-       
+        if (!is.null(mesh$ib)) {
+            ib <- mesh$ib
+            ibdim <- dim(ib)
+            ib <- matrix(facefun(ib),ibdim)
+            checkface <- .Call("face_zero",ib)
+                                      
+            invalface <- which(checkface == 0) 
+            if (length(invalface) > 0) {
+                if (length(invalface) == ncol(ib)) {
+                    mesh$material <- NULL
+                    mesh$ib <- NULL
+                } else
+                    mesh$ib <- ib[,-invalface]
+                
+            } else {
+                mesh$ib <- ib
+            }
+            
+            if (0 %in% dim(ib))
+                mesh$ib <- NULL
+            
+        }
+        if(!is.null(mesh$material$color))
+            mesh$material$color <- mesh$material$color[-index]
         mesh$vb <- mesh$vb[,-index]
-        if (!is.null(mesh$it))
-            mesh <- vcgUpdateNormals(mesh)
-        else
-            mesh$normals <- NULL
+        
+        if (!is.null(mesh$normals))
+            mesh$normals <- mesh$normals[,-index]
+        
     } else {
         mesh <- rmVertex(mesh,c(1:ncol(mesh$vb))[-unique(index)],keep = F)
     }

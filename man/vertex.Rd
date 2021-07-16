@@ -43,7 +43,7 @@ extract vertex coordinates from meshes, find and/or remove (unreferenced)
 vertices from triangular meshes
 
 \code{unrefVertex} finds unreferenced vertices in triangular meshes of class
-\code{mesh3d}.
+\code{mesh3d} or \code{tmesh3d}.
 
 \code{rmVertex} removes specified vertices from triangular meshes.
 
