@@ -62,6 +62,7 @@
 #' \code{fixRepro=FALSE}
 #' @param missingList a list of length samplesize containing integer vectors of row indices specifying missing landmars for each specimen. For specimens without missing landmarks enter \code{numeric(0)}.
 #' @param use.lm indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.
+#' @param smoothnormals logical: if TRUE, tangent planes will be computed from locally smoothed normals
 #' @param silent logical: if TRUE, console output is suppressed.
 #' @return
 #' \item{dataslide }{array containing slidden Landmarks in the original

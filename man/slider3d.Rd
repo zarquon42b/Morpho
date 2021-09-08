@@ -114,6 +114,8 @@ projected onto the surface. If you have landmarks not on the surface, select
 
 \item{use.lm}{indices specifying a subset of (semi-)landmarks to be used in the rotation step - only used if \code{bending=FALSE}.}
 
+\item{smoothnormals}{logical: if TRUE, tangent planes will be computed from locally smoothed normals}
+
 \item{silent}{logical: if TRUE, console output is suppressed.}
 }
 \value{

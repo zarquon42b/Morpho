@@ -44,6 +44,8 @@ Unit Centroid Size.}
 \item{orp}{logical: if TRUE, an orthogonal projection at the meanshape into
 tangent space is performed.}
 
+\item{proctol}{numeric:  Threshold for convergence in the alignment process}
+
 \item{tol}{numeric: Threshold for convergence in the sliding process}
 
 \item{pairedLM}{A X x 2 matrix containing the indices (rownumbers) of the
@@ -103,8 +105,6 @@ Symmetric configurations will be relaxed against a perfectly symmetrical mean.}
 Useful to keep semi-landmarks from sliding too far off the surface.
 The displacement is calculated as \cr
 \code{stepsize * displacement}.}
-
-\item{proctol:}{numeric:  Threshold for convergence in the alignment process}
 }
 \value{
 \item{size }{a vector containing the Centroid Size of the configurations}

@@ -14,6 +14,8 @@ resampleCurve(x, n, smooth = FALSE, smoothn = n, open = TRUE)
 \item{smooth}{logical: if TRUE, the resulting curve will be smoothed by using bezier curves.}
 
 \item{smoothn}{integer: define the refinement of the bezier curve. The higher this value, the closer the final curve will be to the original.}
+
+\item{open}{logical: define whether it is a closed curve or not.}
 }
 \value{
 returns a matrix containing the resampled curve

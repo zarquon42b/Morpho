@@ -20,7 +20,7 @@
 #' Unit Centroid Size.
 #' @param orp logical: if TRUE, an orthogonal projection at the meanshape into
 #' tangent space is performed.
-#' @param proctol: numeric:  Threshold for convergence in the alignment process
+#' @param proctol numeric:  Threshold for convergence in the alignment process
 #' @param tol numeric: Threshold for convergence in the sliding process
 #' @param pairedLM A X x 2 matrix containing the indices (rownumbers) of the
 #' paired LM. E.g. the left column contains the lefthand landmarks, while the

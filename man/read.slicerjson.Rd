@@ -9,8 +9,9 @@ read.slicerjson(x, lps2ras = FALSE, na = NULL)
 \arguments{
 \item{x}{path to json file}
 
-\item{lps2ras}{logical: if the coordinate system is LPS and \code{lps2ras=TRUE}, the data will be rotated into the RAS space by inverting the first two dimensions using \code{\link{LPS2RAS}}.
-@param na value to be replaced by NA}
+\item{lps2ras}{logical: if the coordinate system is LPS and \code{lps2ras=TRUE}, the data will be rotated into the RAS space by inverting the first two dimensions using \code{\link{LPS2RAS}}.}
+
+\item{na}{value to be replaced by NA}
 }
 \value{
 returns matrix or list of matrices with imported landmark coordinates

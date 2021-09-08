@@ -76,11 +76,6 @@ Browse through a sample rendering its landmarks and corresponding surfaces.
 This is handy e.g. to check if the landmark projection using placePatch was
 successful, and to mark specific specimen.
 }
-\note{
-if \code{Rdata=FALSE}, the additional command line tools need to be
-installed
-(\url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries/})
-}
 \examples{
 
 data(nose)

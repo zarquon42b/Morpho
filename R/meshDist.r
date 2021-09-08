@@ -4,10 +4,7 @@
 #' calculates the distances from a mesh or a set of 3D coordinates to another
 #' at each vertex; either closest point or along the normals
 #' 
-#' this function needs the command line tools from the Auxiliaries section in
-#' \url{http://sourceforge.net/projects/morpho-rpackage/files/Auxiliaries}
-#' installed.
-#' 
+#'  
 #' @title  calculates and visualises distances between surface meshes or 3D coordinates and a surface mesh.
 #' @param x reference mesh; object of class "mesh3d" or a n x 3 matrix
 #' containing 3D coordinates.
