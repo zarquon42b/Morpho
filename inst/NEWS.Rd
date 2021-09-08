@@ -2,6 +2,31 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.9 (2021-09-01)}{
+  
+  \itemize{
+    
+    \item deformGrid2d: added option lty
+    \item read.slicerjson: add option to specify na values.
+    \item rotonto: return correctly dimensioned matrices in NA cases.
+    \item NEW: getPointAlongOutline and resampleCurve
+    \item meshDist: added option titleplot for customizing heatmap axis.
+    \item procSym: Add numbering to PC-Variance table.
+    \item groupPCA: remove misleading combinedVar table from output
+    \item mirror: added option to mirror on plane, using it as a wrapper for mirror2plane.
+    \item fixed arguments in deprecated function showPC
+    \item deprecated: showPC
+    \item getSides: set default values for pcAlign and icpiter
+    \item NEW: getSides to find bilateral landmarks.
+    \item NEW: updateIndices: update a vector of indices after removel of some of the indexed items
+    \item NEW: restoreFromPCA: retrieve data back from a pca space.
+    \item slider3d: new option smoothnormals to obtain tangent plains from smoothed normals
+    \item read.slicer.json: added option lps2ras to automatically convert lps 2 ras space on import
+    \item read.fcsv: add option lps2ras to allow an automatic conversion to RAS space if coordinates are recorded in LPS (as of Slicer > 4.11).
+
+  }
+}
+
 
 \section{Changes in Morpho version 2.8 (2020-03-04)}{
   
