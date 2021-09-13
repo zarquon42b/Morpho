@@ -71,15 +71,14 @@
 #' grandmean <-gpca$Grandmean
 #' ## calculate landmarks from first between-group PC
 #' #                   (+2 and -2 standard deviations)
-#' gpcavis2sd<- restoreShapes(2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
-#' gpcavis2sd.neg<- restoreShapes(-2*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
-#' deformGrid3d(gpcavis2sd, gpcavis2sd.neg, ngrid = 0)
+#' gpcavis2sd<- restoreShapes(c(-2,2)*sd(gpca$Scores[,1]), gpca$groupPCs[,1], grandmean)
+#' deformGrid3d(gpcavis2sd[,,1], gpcavis2sd[,,2], ngrid = 0,size=0.01)
 #' require(rgl)
 #' ## visualize grandmean mesh
 #' 
 #' grandm.mesh <- tps3d(skull_0144_ch_fe.mesh, boneLM[,,1],grandmean,threads=1)
 #' wire3d(grandm.mesh, col="white")
-#' spheres3d(grandmean, radius=0.005)
+#' spheres3d(grandmean, radius=0.01)
 #' }
 #' 
 #' 
