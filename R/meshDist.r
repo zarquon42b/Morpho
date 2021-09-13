@@ -343,7 +343,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
             colorall[good] <- tolcol
         }
         colfun <- function(x){x <- colorall[x];return(x)}
-        colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
+        colMesh$material$color <- colorall
         colMesh$material$color[is.na(colMesh$material$color)] <- NAcol
                                         #colMesh$material$color <- matrix(colfun(colMesh$it),dim(colMesh$it))
         colramp <- list(1,colseq, matrix(data=colseq, ncol=length(colseq),nrow=1),col=ramp,useRaster=T,ylab=titleplot,xlab="",xaxt="n")
