@@ -49,7 +49,7 @@ classify.bgPCA <- function(x,cv=TRUE,newdata=NULL,...) {
         tmpdist <- (sqrt(rowSums(sweep(GmeanScores,2,CV[i,])^2)))
         classVec[i] <- names(tmpdist)[which(tmpdist == min(tmpdist))]
     }
-    
+    classVec <- factor(classVec)
     outgroups <- x$groups
     
     if (usenew) {
@@ -100,7 +100,7 @@ classify.CVA <- function(x,cv=T,newdata=NULL,prior=NULL,...) {
             names(classVec) <- rownames(classprobs) <- rownames(x$CVscores)
         
         colnames(classprobs) <- rownames(x$groupmeans)
-                                        #classVec <- factor(classVec)
+        classVec <- factor(classVec)
         if (usenew) {
             out <- list(class=classVec,posterior=classprobs)
             attributes(out) <- append(attributes(out),list(self=FALSE))
