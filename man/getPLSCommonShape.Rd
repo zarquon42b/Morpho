@@ -27,7 +27,7 @@ pls <- pls2B(proc$orpdata[1:4,,],proc$orpdata[5:10,,])
 commShape <- getPLSCommonShape(pls)
 ## get common shape for first latent dimension at +-2 sd of the scores
 ## (you can do this much more convenient using \code{\link{plsCoVarCommonShape}}
-scores <- c(-2,2) * sd(c(commShape$XscoresScaled[,1],commShape$XscoresScaled[,2]))
+scores <- c(-2,2) * sd(c(commShape$XscoresScaled[,1],commShape$YscoresScaled[,1]))
 pred <- restoreShapes(scores,commShape$shapevectors[,1],matrix(commShape$commoncenter,10,3))
 \dontrun{
 deformGrid3d(pred[,,1],pred[,,2])
