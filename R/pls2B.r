@@ -24,6 +24,7 @@
 #' @param cv logical: if TRUE, a leave-one-out cross-validation is performed
 #' @param cvlv integer: number of latent variables to test
 #' @param mc.cores integer: determines how many cores to use for the
+#' @param ... arguments passed to \code{\link{ProcGPA}}
 #' computation. The default is autodetect. But in case, it doesn't work as
 #' expected cores can be set manually. Parallel processing is disabled on
 #' Windows due to occasional errors.
@@ -80,7 +81,7 @@
 #' deformGrid2d(plsEffects2$y[,,1],plsEffects2$y[,,2],add=TRUE,pch=19)##show on y
 #' }
 #' @export
-pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=FALSE,cvlv=NULL, mc.cores=parallel::detectCores()) {
+pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=FALSE,cvlv=NULL, mc.cores=parallel::detectCores(),...) {
     
     landmarks <- landmarksx <- landmarksy <- FALSE
     xorig <- x
@@ -143,7 +144,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
         y.sample <- sample(x.sample)
         if (same.config && landmarks) {
             tmparr <- .bindArr2(xorig[,,x.sample],yorig[,,y.sample],along=1)
-            tmpproc <- ProcGPA(tmparr,silent=TRUE)
+            tmpproc <- ProcGPA(tmparr,silent=TRUE,...)
             x1 <- vecx(tmpproc$rotated[1:dim(xorig)[1],,])
             y1 <- vecx(tmpproc$rotated[1:dim(yorig)[1],,])
         } else {
