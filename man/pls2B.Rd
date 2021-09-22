@@ -13,7 +13,8 @@ pls2B(
   useCor = FALSE,
   cv = FALSE,
   cvlv = NULL,
-  mc.cores = parallel::detectCores()
+  mc.cores = parallel::detectCores(),
+  ...
 )
 }
 \arguments{
@@ -37,7 +38,9 @@ originate from landmarks that are superimposed together.}
 
 \item{cvlv}{integer: number of latent variables to test}
 
-\item{mc.cores}{integer: determines how many cores to use for the
+\item{mc.cores}{integer: determines how many cores to use for the}
+
+\item{...}{arguments passed to \code{\link{ProcGPA}}
 computation. The default is autodetect. But in case, it doesn't work as
 expected cores can be set manually. Parallel processing is disabled on
 Windows due to occasional errors.}
