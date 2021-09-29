@@ -4,13 +4,15 @@
 \alias{bindArr}
 \title{concatenate multiple arrays/matrices}
 \usage{
-bindArr(..., along = 1)
+bindArr(..., along = 1, collapse = FALSE)
 }
 \arguments{
 \item{\dots}{matrices and/or arrays with appropriate dimensionality to
 combine to one array, or a single list containing suitable matrices, or arrays).}
 
 \item{along}{dimension along which to concatenate.}
+
+\item{collapse}{logical: if the resulting array is shallow (only 1 dimension deep), it is converted to a matrix.}
 }
 \value{
 returns array of combined matrices/arrays

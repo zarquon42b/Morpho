@@ -1,4 +1,4 @@
-.bindArr2 <- function(x,y,along=1)
+.bindArr2 <- function(x,y,along=1,collapse=FALSE)
     {
        
         if (is.matrix(x)) {
@@ -73,8 +73,11 @@
                 newarr[,,1:xdim[3]] <- x
                 newarr[,,(xdim[3]+1):newalong] <- y
             }
-        
+       
         dimnames(newarr) <- outnames
+         if (collapse)
+            if (dim(newarr)[3] == 1)
+                newarr <- newarr[,,1]
         return(newarr)
     }
 
@@ -88,6 +91,7 @@
 #' @param \dots matrices and/or arrays with appropriate dimensionality to
 #' combine to one array, or a single list containing suitable matrices, or arrays).
 #' @param along dimension along which to concatenate.
+#' @param collapse logical: if the resulting array is shallow (only 1 dimension deep), it is converted to a matrix.
 #' @details dimnames, if present and if differing between entries, will be concatenated, separated by a "_".
 #' @return returns array of combined matrices/arrays
 #' @seealso \code{\link{cbind}}, \code{\link{rbind}}, \code{\link{array}}
@@ -106,7 +110,7 @@
 #' 
 #' 
 #' @export
-bindArr <- function(...,along=1)
+bindArr <- function(...,along=1,collapse=FALSE)
     {
         args <- list(...)
         if (length(args) == 1 && is.list(args[[1]]))
@@ -115,10 +119,10 @@ bindArr <- function(...,along=1)
         argc <- length(args)
         if (argc < 2)
             stop("at least two arguments needed")
-        newarr <- .bindArr2(args[[1]],args[[2]], along=along)
+        newarr <- .bindArr2(args[[1]],args[[2]], along=along,collapse=collapse)
         if (argc > 2) {
             for (i in 3:argc)
-                newarr <- .bindArr2(newarr, args[[i]],along=along)
+                newarr <- .bindArr2(newarr, args[[i]],along=along,collapse=collapse)
         }
         return(newarr)
     }
