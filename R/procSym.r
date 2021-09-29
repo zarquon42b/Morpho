@@ -355,7 +355,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         
         class(out) <- "nosymproc"
     }
-    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect,centerweight=centerweight,weights=weights,sizeshape=sizeshape))
+    attributes(out) <- append(attributes(out),list(CSinit=CSinit,scale=scale,orp=orp,reflect=reflect,centerweight=centerweight,weights=weights,sizeshape=sizeshape,use.lm=use.lm,center.part=center.part))
     return(out)
     
 }
@@ -417,9 +417,16 @@ align2procSym <- function(x,newdata,orp=TRUE) {
         for (i in 1:n)
         newdata[,,i] <- newdata[,,i]/mysize[i]
     }
-    
-    for (i in 1:n)        
-        newdatarot[,,i] <- rotonto(x$mshape,newdata[,,i],scale=atts$scale,reflection=atts$reflect,centerweight=atts$centerweight,weights=atts$weights)$yrot
+    if (is.null(atts$use.lm))
+        for (i in 1:n)         
+            newdatarot[,,i] <- rotonto(x$mshape,newdata[,,i],scale=atts$scale,reflection=atts$reflect,centerweight=atts$centerweight,weights=atts$weights)$yrot
+    else {
+        newdatarot[,,i] <- rotonmat(newdata[,,i],newdata[atts$use.lm,,i],x$mshape[atts$use.lm,],scale=atts$scale,reflection=atts$reflect,centerweight=atts$centerweight,weights=atts$weights)
+        if (atts$center.part)
+            newdatarot[,,i] <- scale(newdatarot[,,i], scale=FALSE)
+        else
+            orp=FALSE
+    }
     
     if (atts$orp && orp)
         orpdata <- orp(newdatarot,x$mshape)
