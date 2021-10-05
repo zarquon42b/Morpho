@@ -364,7 +364,7 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
         dismesh$vb <- cbind(colMesh$vb,rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)
         dismesh$material$color <- colorall
-        dismesh$normals <- cbind(dismesh2$normals, colMesh$normals)
+        dismesh$normals <- cbind(dismesh$normals, colMesh$normals)
         wire3d(dismesh,lit=FALSE)
     }
     diffo <- ((colramp[[2]][2]-colramp[[2]][1])/2)
