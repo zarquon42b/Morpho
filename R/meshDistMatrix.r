@@ -131,7 +131,7 @@ render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprang
         vl <- dim(colMesh$vb)[2]
         dismesh$vb <- cbind(rbind(colMesh$vb,1),rbind(clost,1))
         dismesh$it <- rbind(1:vl,1:vl,(1:vl)+vl)
-        dismesh$material$color <- rbind(colorall,colorall,colorall)
+        dismesh$material$color <- colorall
         wire3d(dismesh,lit=FALSE)
     }
     
