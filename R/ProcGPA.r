@@ -71,13 +71,15 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=TRUE,weigh
     }
     mshape <- x[,,1]
     mshape <- scale(mshape,scale=FALSE)
+   
+### align mean by principal axes ###	
+    if (pcAlign)
+        mshape <- pcAlign(mshape)
+
     if (centerweight && !is.null(weights)) {
         mcent <- apply(mshape,2, weighted.mean,w=weights)           
         mshape <- scale(mshape,scale=F,center=mcent)
     }
-### align mean by principal axes ###	
-    if (pcAlign)
-        mshape <- pcAlign(mshape)
     
     while (p1 > tol) {
 ### rotation of all configs on current consensus ###		
