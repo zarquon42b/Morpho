@@ -599,15 +599,28 @@ computeRV <- function(X,Y) {
     Ycent <- Y
     X <- scale(X,scale=FALSE)
     Y <- scale(Y,scale=FALSE)
-
-    SigmaX <- tcrossprod(Xcent)
-    SigmaY <- tcrossprod(Ycent)
-
-    COVV <- sum(diag(SigmaX%*%SigmaY))
-    VAVX <- sum(diag(tcrossprod(SigmaX)))
-    VAVY <- sum(diag(tcrossprod(SigmaY)))
-
-
+    n <- nrow(X)
+    m <- min(ncol(X),ncol(Y))
+    if (n < m) {
+        SigmaX <- tcrossprod(Xcent)
+        SigmaY <- tcrossprod(Ycent)
+        
+        COVV <- sum(diag(SigmaX%*%SigmaY))
+        VAVX <- sum(diag(tcrossprod(SigmaX)))
+        VAVY <- sum(diag(tcrossprod(SigmaY)))
+        
+    }
+    else {
+        SigmaX <- crossprod(Xcent)
+        SigmaY <- crossprod(Ycent)
+        SigmaXY <- crossprod(X,Y)
+        SigmaYX <- crossprod(Y,X)
+        COVV <- sum(diag(SigmaXY %*% SigmaYX))
+        VAVX <- sum(diag(SigmaX %*% SigmaX))
+        VAVY <- sum(diag(SigmaY %*% SigmaY))
+   
+    }
     RV <- COVV/(sqrt(VAVX*VAVY))
+    
     return(RV)
 }
