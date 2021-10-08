@@ -56,6 +56,8 @@ covariation, correlation coeffictient between PLS-scores and p-values for singul
 \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 \item{predicted.x}{array containing matrices of cross-validated predictions for \code{x}(landmarks arrays will be vectorized using \code{\link{vecx}})}
 \item{predicted.y}{array containing matrices of cross-validated predictions for \code{y} (landmarks arrays will be vectorized using \code{\link{vecx}})}
+\item{rv}{RV-coefficient}
+\item{p.value.RV}{p-value for RV-coefficient determined by permutation testing}
 }
 \description{
 Performs a Two-Block PLS on two sets of data and assesses the significance

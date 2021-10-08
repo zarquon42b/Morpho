@@ -39,6 +39,8 @@
 #' \item{ylm}{linear model: \code{lm(Yscores ~ Xscores - 1)}}
 #' \item{predicted.x}{array containing matrices of cross-validated predictions for \code{x}(landmarks arrays will be vectorized using \code{\link{vecx}})}
 #' \item{predicted.y}{array containing matrices of cross-validated predictions for \code{y} (landmarks arrays will be vectorized using \code{\link{vecx}})}
+#' \item{rv}{RV-coefficient}
+#' \item{p.value.RV}{p-value for RV-coefficient determined by permutation testing}
 #' @author Stefan Schlager
 #' @seealso \code{\link{plsCoVar}, \link{getPLSfromScores}, \link{predictPLSfromScores}, \link{getPLSscores}, \link{predictPLSfromData},\link{svd} , \link{plsCoVarCommonShape}, \link{getPLSCommonShape}}
 #' @references Rohlf FJ, Corti M. 2000. Use of two-block partial least-squares
@@ -84,6 +86,7 @@
 pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=FALSE,cvlv=NULL, mc.cores=parallel::detectCores(),...) {
     
     landmarks <- landmarksx <- landmarksy <- FALSE
+    p.value.RV <- NULL
     xorig <- x
     yorig <- y
     win <- FALSE
@@ -129,7 +132,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
     svd.cova$v <- svd.cova$v[,1:l.covas,drop=FALSE]
     Xscores <- x%*%svd.cova$u #pls scores of x
     Yscores <- y%*%svd.cova$v #pls scores of y
-    
+    rv <- computeRV(Xscores,Yscores)
     
 ### calculate correlations between pls scores
     cors <- 0
@@ -152,17 +155,22 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
             y1 <- y
         }
                 #cova.tmp <- crossprod(x1[x.sample,],y1[y.sample,])/(nrow(x)-1)
-        svd.cova.tmp <- svd2B(x1[x.sample,],y1[y.sample,],u=F,v=F,scale = useCor)
+        svd.cova.tmp <- svd2B(x1[x.sample,],y1[y.sample,],u=T,v=T,scale = useCor)
+        Xscores.tmp <- x1[x.sample,]%*%svd.cova.tmp$u #pls scores of x
+        Yscores.tmp <- y1[y.sample,]%*%svd.cova.tmp$v #pls scores of y
         svs.tmp <- svd.cova.tmp$d
-        return(svs.tmp[1:l.covas])
+        return(list(svs=svs.tmp[1:l.covas],rv=computeRV(Xscores.tmp,Yscores.tmp)))
     }
     p.values <- rep(NA,l.covas)
     if (rounds > 0) {
         if (win)
             permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
         else
-            permuscores <- foreach(i = 1:rounds, .combine = cbind) %dopar% permupls(i)
-        
+            permuscores <- foreach(i = 1:rounds) %dopar% permupls(i)
+
+
+        svdscores <- sapply(permuscores,function(x) x <- x$svs)
+        rvscores <- sapply(permuscores,function(x) x <- x$rv)
         p.val <- function(x,rand.x)
         {
             p.value <- length(which(rand.x >= x))
@@ -175,8 +183,9 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
         }
         
         for (i in 1:l.covas)
-            p.values[i] <- p.val(svd.cova$d[i],permuscores[i,])
-        
+            p.values[i] <- p.val(svd.cova$d[i],svdscores[i,])
+
+        p.value.RV <- p.val(rv,rvscores)
     }
 ### get weights
     xlm <- lm(Xscores ~ Yscores -1)
@@ -191,6 +200,8 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
     out$ycenter <- attributes(y)$"scaled:center"
     out$xlm <- xlm
     out$ylm <- ylm
+    out$rv <- rv
+    out$p.value.RV <- p.value.RV
     class(out) <- "pls2B"
     if (cv) { ## Cross-validation
         if (is.null(cvlv))
@@ -216,6 +227,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
         }
         out$predicted.x <- cvarrayX
         out$predicted.y <- cvarrayY
+       
     }
     
         
@@ -579,4 +591,23 @@ plsCoVarCommonShape <- function(pls,i,sdcommon=1) {
     sdvec <- sweep(sdvec,2,-commonshape$commoncenter)
     out <- vecx(sdvec,revert = TRUE,lmdim = commonshape$lmdim)
     return(out)
+}
+
+
+computeRV <- function(X,Y) {
+    Xcent <- X
+    Ycent <- Y
+    X <- scale(X,scale=FALSE)
+    Y <- scale(Y,scale=FALSE)
+
+    SigmaX <- tcrossprod(Xcent)
+    SigmaY <- tcrossprod(Ycent)
+
+    COVV <- sum(diag(SigmaX%*%SigmaY))
+    VAVX <- sum(diag(tcrossprod(SigmaX)))
+    VAVY <- sum(diag(tcrossprod(SigmaY)))
+
+
+    RV <- COVV/(sqrt(VAVX*VAVY))
+    return(RV)
 }
