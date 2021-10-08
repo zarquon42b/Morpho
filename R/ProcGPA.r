@@ -70,6 +70,7 @@ ProcGPA <- function(dat.array,tol=1e-5,scale=TRUE,CSinit=FALSE,silent=TRUE,weigh
                            })
     }
     mshape <- x[,,1]
+    mshape <- scale(mshape,scale=FALSE)
     if (centerweight && !is.null(weights)) {
         mcent <- apply(mshape,2, weighted.mean,w=weights)           
         mshape <- scale(mshape,scale=F,center=mcent)
