@@ -240,6 +240,8 @@ print.pls2B <- function(x,...) {
     df <- x$CoVar
     df <- df[,colSums(is.na(df)) != nrow(df)]
     print( df,row.names=FALSE)
+    rv <- paste0("\n  RV-coefficient: ", round(x$rv,digits=3), "   p-value: ",x$p.value.RV,"\n")
+    cat(rv)
 }
 
 #' compute changes associated with 2-Block PLS-scores 
