@@ -4,7 +4,7 @@
 \alias{restoreShapes}
 \title{restore shapes from PC-Scores or similar projections}
 \usage{
-restoreShapes(scores, PC, mshape, sizeshape = FALSE)
+restoreShapes(scores, PC, mshape, sizeshape = FALSE, origsize = FALSE)
 }
 \arguments{
 \item{scores}{vector of PC-scores, or matrix with rows containing PC-scores}
@@ -16,6 +16,8 @@ associated with 'scores'.}
 the data by the PCA)}
 
 \item{sizeshape}{logical: if TRUE, it is assumed that the data is the output of \code{procSym} run with \code{sizeshape=TRUE}.}
+
+\item{origsize}{logical: if \code{sizeshape = TRUE}, this will apply the scaling to the original size from the corresponding entry from the PC basis matrix.}
 }
 \value{
 returns matrix or array containing landmarks
