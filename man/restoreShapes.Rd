@@ -4,7 +4,14 @@
 \alias{restoreShapes}
 \title{restore shapes from PC-Scores or similar projections}
 \usage{
-restoreShapes(scores, PC, mshape, sizeshape = FALSE, origsize = FALSE)
+restoreShapes(
+  scores,
+  PC,
+  mshape,
+  sizeshape = FALSE,
+  origsize = FALSE,
+  meanlogCS
+)
 }
 \arguments{
 \item{scores}{vector of PC-scores, or matrix with rows containing PC-scores}
@@ -18,6 +25,8 @@ the data by the PCA)}
 \item{sizeshape}{logical: if TRUE, it is assumed that the data is the output of \code{procSym} run with \code{sizeshape=TRUE}.}
 
 \item{origsize}{logical: if \code{sizeshape = TRUE}, this will apply the scaling to the original size from the corresponding entry from the PC basis matrix.}
+
+\item{meanlogCS}{numeric: provide the average log Centroid Size of the original sample (see examples below).}
 }
 \value{
 returns matrix or array containing landmarks
@@ -42,7 +51,12 @@ plot(lm,asp=1)
 ##now the first 3 scores
 lm2 <- restoreShapes(proc$PCscores[1,1:3],proc$PCs[,1:3],proc$mshape)
 points(lm2,col=2)
+
+## Now restore some sizeshape data
+procSize <- procSym(gorf.dat,sizeshape=TRUE)
+est1 <- restoreShapes(range(gpa$PCscores[,1]),gpa$PCs[,1],gpa$mshape,sizeshape=TRUE,origsize=TRUE,meanlogCS=procSize$meanlogCS)
 }
+
 }
 \seealso{
 \code{\link{prcomp}}, \code{\link{procSym}}

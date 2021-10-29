@@ -138,6 +138,7 @@ into tangent space}
 \item{dataslide }{array containing slidden Landmarks in the original
 space - not yet processed by a Procrustes analysis. Only available if a
 sliding process was requested}
+\item{meanlogCS}{mean log-transformed centroid size}
 }
 \description{
 \code{procSym} performs Procrustes superimposition including sliding of
