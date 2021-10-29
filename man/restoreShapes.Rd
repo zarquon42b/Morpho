@@ -26,7 +26,7 @@ the data by the PCA)}
 
 \item{origsize}{logical: if \code{sizeshape = TRUE}, this will apply the scaling to the original size from the corresponding entry from the PC basis matrix.}
 
-\item{meanlogCS}{numeric: provide the average log Centroid Size of the original sample (see examples below).}
+\item{meanlogCS}{numeric: provide the average log Centroid Size of the original sample (see examples below). Only needed if \code{sizeshape = TRUE} and \code{origsize = TRUE}}
 }
 \value{
 returns matrix or array containing landmarks
