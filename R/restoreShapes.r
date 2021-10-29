@@ -10,6 +10,7 @@
 #' associated with 'scores'.
 #' @param mshape matrix containing the meanshape's landmarks (used to center
 #' the data by the PCA)
+#' @param sizeshape logical: if TRUE, it is assumed that the data is the output of \code{procSym} run with \code{sizeshape=TRUE}.
 #' @return returns matrix or array containing landmarks
 #' @author Stefan Schlager
 #' @seealso \code{\link{prcomp}}, \code{\link{procSym}}
@@ -30,7 +31,7 @@
 #' }
 #' @seealso \code{\link{getPCscores}}
 #' @export
-restoreShapes <- function(scores,PC,mshape)
+restoreShapes <- function(scores,PC,mshape,sizeshape=FALSE)
   {
     dims <- dim(mshape)
     PC <- as.matrix(PC)
@@ -42,13 +43,16 @@ restoreShapes <- function(scores,PC,mshape)
         if (length(scores) != ncol(PC))
             stop("scores must be of the same length as ncol(PC)")
         predPC <- PC%*%scores
-        modell <- mshape+matrix(predPC,dims[1],dims[2])
+        if (!sizeshape)
+            modell <- mshape+matrix(predPC,dims[1],dims[2])
+        else
+            modell <- mshape+matrix(predPC[-1,],dims[1],dims[2])
         return(modell)
     } else {
           n <- nrow(scores)
           outarr <- array(0,dim=c(dims,n))
           for (i in 1:n) {
-              outarr[,,i] <- restoreShapes(scores[i,],PC,mshape)
+              outarr[,,i] <- restoreShapes(scores[i,],PC,mshape,sizeshape=sizeshape)
           }
           if (!is.null(rownames(scores)))
               dimnames(outarr)[[3]] <- rownames(scores)

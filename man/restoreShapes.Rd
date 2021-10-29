@@ -4,7 +4,7 @@
 \alias{restoreShapes}
 \title{restore shapes from PC-Scores or similar projections}
 \usage{
-restoreShapes(scores, PC, mshape)
+restoreShapes(scores, PC, mshape, sizeshape = FALSE)
 }
 \arguments{
 \item{scores}{vector of PC-scores, or matrix with rows containing PC-scores}
@@ -14,6 +14,8 @@ associated with 'scores'.}
 
 \item{mshape}{matrix containing the meanshape's landmarks (used to center
 the data by the PCA)}
+
+\item{sizeshape}{logical: if TRUE, it is assumed that the data is the output of \code{procSym} run with \code{sizeshape=TRUE}.}
 }
 \value{
 returns matrix or array containing landmarks
