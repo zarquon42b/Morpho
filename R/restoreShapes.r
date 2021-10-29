@@ -55,9 +55,10 @@ restoreShapes <- function(scores,PC,mshape,sizeshape=FALSE,origsize=FALSE,meanlo
         else {
             modell <- mshape+matrix(predPC[-1],dims[1],dims[2])
             if (origsize) {
-            if (missing(meanlogCS))
-                stop("please provide mean log centroid size")
-            else
+                
+                if (missing(meanlogCS))
+                    stop("please provide mean log centroid size")
+            
                 modell <- modell*(exp(predPC[1]+meanlogCS))
             }
         }
@@ -66,7 +67,7 @@ restoreShapes <- function(scores,PC,mshape,sizeshape=FALSE,origsize=FALSE,meanlo
           n <- nrow(scores)
           outarr <- array(0,dim=c(dims,n))
           for (i in 1:n) {
-              outarr[,,i] <- restoreShapes(scores[i,],PC,mshape,sizeshape=sizeshape,meanlogCS=meanlogCS)
+              outarr[,,i] <- restoreShapes(scores[i,],PC,mshape,sizeshape=sizeshape,origsize=origsize,meanlogCS=meanlogCS)
           }
           if (!is.null(rownames(scores)))
               dimnames(outarr)[[3]] <- rownames(scores)
