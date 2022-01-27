@@ -176,15 +176,20 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
             p.value <- length(which(rand.x >= x))
             
             if (p.value > 0)
-                p.value <- p.value/rounds
+                p.value <- p.value/(rounds+1)
             else
-                p.value <- 1/rounds
+                p.value <- 1/(rounds+1)
             return(p.value)
         }
         
-        for (i in 1:l.covas)
-            p.values[i] <- p.val(svd.cova$d[i],svdscores[i,])
-
+        for (i in 1:l.covas) {
+            if (is.matrix(svdscores)) 
+                p.values[i] <- p.val(svd.cova$d[i],svdscores[i,])
+            else {
+                p.values[i] <- p.val(svd.cova$d[i],svdscores[i])
+                
+            }
+        }
         p.value.RV <- p.val(rv,rvscores)
     }
 ### get weights
@@ -205,21 +210,26 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
     class(out) <- "pls2B"
     if (cv) { ## Cross-validation
         if (is.null(cvlv))
-            cvlv <- nrow(Cova)-1
+            cvlv <- max(1,nrow(Cova)-1)
         else
             cvlv <- min(nrow(Cova),cvlv,(nrow(x)-2))
         cvarrayX <- array(NA,dim=c(dim(x),cvlv))
         cvarrayY <- array(NA,dim=c(dim(y),cvlv))
+       
         dimnames(cvarrayX)[1:2] <- dimnames(x)
         dimnames(cvarrayY)[1:2] <- dimnames(y)
         dimnames(cvarrayX)[[3]] <- dimnames(cvarrayY)[[3]] <- paste("LV",1:cvlv)
         ## prepare testing sample
         if (landmarksx)
-            x <- vecx(xorig)
+            xcv <- vecx(xorig)
+        else
+            xcv <- as.matrix(xorig)
         if (landmarksy)
-            y <- vecx(yorig)
+            ycv <- vecx(yorig)
+        else
+            ycv <- as.matrix(yorig)
         for (i in 1:xdim[1]) {
-            tmppls <- pls2B(x[-i,],y[-i,],useCor = useCor,tol=tol)
+            tmppls <- pls2B(xcv[-i,,drop=F],ycv[-i,,drop=F],useCor = useCor,tol=tol)
             for (j in 1:cvlv) {
                 cvarrayY[i,,j] <- predictPLSfromData(tmppls,x=x[i,],ncomp=j)
                 cvarrayX[i,,j] <- predictPLSfromData(tmppls,y=y[i,],ncomp=j)
