@@ -17,7 +17,7 @@ export.meshDist <- function(x,file="default",imagedim="100x800",titleplot="Dista
     image(colramp[[1]],colramp[[2]][-1]-diffo,t(colramp[[3]][1,-1])-diffo,col=colramp[[4]],useRaster=TRUE,ylab=titleplot,xlab="",xaxt="n")
     if (!is.null(tol)) {
         if (sum(abs(tol)) != 0) {
-            image(colramp[[1]],c(tol[1],tol[2]),matrix(c(tol[1],tol[2]),1,1),col="green",useRaster=TRUE,add=TRUE)
+            image(colramp[[1]],c(tol[1],tol[2]),t(tol),col="green",useRaster=TRUE,add=TRUE)
         }
     }
     dev.off()
