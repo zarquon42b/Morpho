@@ -16,7 +16,7 @@
 #' \dontrun{
 #' require(rgl)
 #' data(nose)
-#' plotNormals(shortnose.mesh,col=4,long=0.01)
+#' plotNormals(shortnose.mesh,col=4,length=0.01)
 #' shade3d(shortnose.mesh,col=3)
 #' }
 #' 
