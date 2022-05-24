@@ -9,7 +9,7 @@ permuvec(
   data,
   groups,
   subgroups = NULL,
-  rounds = 10000,
+  rounds = 9999,
   scale = TRUE,
   tol = 1e-10,
   mc.cores = parallel::detectCores()

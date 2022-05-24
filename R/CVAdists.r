@@ -19,9 +19,9 @@
             dists <- shaker$Plain[[count]][-1]
             p.value <- length(which(dists >= dist0))
             if (p.value > 0) {
-                p.value <- p.value/rounds
+                p.value <- p.value/(rounds+1)
             } else {
-                p.value <- 1/rounds
+                p.value <- 1/(rounds+1)
             }
             procprobs[j1,j2] <- p.value
 
@@ -29,9 +29,9 @@
             dists <- shaker$Maha[[count]][-1]
             p.value <- length(which(dists >= dist0))
             if (p.value > 0) {
-                p.value <- p.value/rounds
+                p.value <- p.value/(rounds+1)
             } else {
-                p.value <- 1/rounds
+                p.value <- 1/(rounds+1)
             }
             mahaprobs[j1,j2] <- p.value
             

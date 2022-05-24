@@ -64,7 +64,7 @@
 #' ## also non-significant
 #' 
 #' @export
-permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-10,mc.cores=parallel::detectCores())
+permuvec <- function(data,groups,subgroups=NULL,rounds=9999,scale=TRUE,tol=1e-10,mc.cores=parallel::detectCores())
 {
   win <- FALSE
   if(.Platform$OS.type == "windows")
@@ -249,17 +249,17 @@ permuvec <- function(data,groups,subgroups=NULL,rounds=10000,scale=TRUE,tol=1e-1
   
 ### calc probabilities ####
   if (max(sortdist) < disto) {
-      probadist <- 1/rounds
+      probadist <- 1/(rounds+1)
     } else {
         marg <- min(which(sortdist >= disto))
-        probadist <- (rounds-marg+1)/rounds
+        probadist <- (rounds-marg+1)/(rounds+1)
     }      
   sortang <- sort(uns[angs])
   if (max(sortang) < out) {
-      proba <- 1/rounds
+      proba <- 1/(rounds+1)
   } else {
       marg <- min(which(sortang >= out))
-      proba <- (rounds-marg+1)/rounds
+      proba <- (rounds-marg+1)/(rounds+1)
   }      
   
   return(list(angle=out,dist=disto,meanvec=meanvec,permutangles=sortang,permudists=sortdist,p.angle=proba,p.dist=probadist,subdist=mahadist))

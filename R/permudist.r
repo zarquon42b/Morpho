@@ -74,9 +74,9 @@ permudist <- function(data, groups, rounds=1000, which=NULL,p.adjust.method= "no
                 dists <- shaker[[count]][-1]
                 p.value <- length(which(dists >= dist0))
                 if (p.value > 0) {
-                    p.value <- p.value/rounds
+                    p.value <- p.value/(rounds+1)
                 } else {
-                    p.value <- 1/rounds
+                    p.value <- 1/(rounds+1)
                 }
                 probs[j1,j2] <- p.value
                 count <- count+1
