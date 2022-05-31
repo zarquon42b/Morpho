@@ -27,7 +27,7 @@ in case custom planes are preferred, the data can first be projected onto such a
 }
 \examples{
 require(shapes)
-require(rgeos)
+require(sf)
 myarea <- computeArea(gorf.dat[c(1,6:8,2:5),,1])
 myarea$area
 plot(myarea$poly)

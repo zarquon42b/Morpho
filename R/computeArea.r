@@ -13,7 +13,7 @@
 #' \item{xpro3D}{For 3D-cases, this contains the projected coordinates of x rotated back into the original coordinate system}
 #' @examples
 #' require(shapes)
-#' require(rgeos)
+#' require(sf)
 #' myarea <- computeArea(gorf.dat[c(1,6:8,2:5),,1])
 #' myarea$area
 #' plot(myarea$poly)
@@ -36,15 +36,12 @@ computeArea <- function(x) {
    
     } else
         xpro <- x
-    ### setup data to be evaluated by rgeos
-    curveCat <- t(cbind(xpro,","))
-    rownames(curveCat) <- NULL
-    mycat <- c(curveCat,xpro[1,])
-    mycat <- c("POLYGON((",mycat,"))")
-    mycat1 <- paste0(mycat,collapse = " ")
+### setup data to be evaluated by rgeos
+
    
-    poly <- rgeos::readWKT(mycat1)
-    area <- rgeos::gArea(poly)
+    poly <- sf::st_polygon(list(rbind(xpro,xpro[1,])))
+    area <- sf::st_area(poly)
+    
     xpro3D <- NULL
     if (d == 3)
         xpro3D <- sweep(xpro %*%t(xpca$rotation[,1:2]),2,-xpca$center[1:3])
