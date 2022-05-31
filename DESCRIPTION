@@ -35,6 +35,7 @@ Imports:
     stats,
     utils,
     jsonlite,
+    rgeos,
     bezier
 LinkingTo: Rcpp, RcppArmadillo (>= 0.4)
 Copyright: see COPYRIGHTS file for details
