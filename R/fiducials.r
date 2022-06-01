@@ -47,7 +47,9 @@ read.fcsv <- function(x,na=NULL,lps2ras=FALSE) {
         if (length(nas) > 0) 
             tmp[nas] <- NA 
     }
-    rownames(tmp) <- mynames
+    
+    if (nrow(tmp) == length(mynames))
+        rownames(tmp) <- mynames
     return(tmp)
 }
 
