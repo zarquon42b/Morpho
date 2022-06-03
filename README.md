@@ -6,6 +6,10 @@ __Morpho__ provides a rich toolset for Geometric Morphometrics and mesh processi
 
 #### Installation of the R-package Morpho from CRAN: ####
 
+Prerequisites for Debian/Ubuntu (needed to build dependency package [*sf*](https://cran.r-project.org/package=sf))
+
+   `sudo apt install libudunits2-dev libgeos-dev`
+
 Within R:
        
 	install.packages("Morpho")
@@ -20,18 +24,23 @@ Within R:
 		install.packages("devtools")
 
 	**Make sure to have the latest versions of Rcpp and RcppArmadillo installed!!**
-    
+	   
 
 2. Install build environment
     * **Windows:** Install latest version of *[Rtools](http://cran.r-project.org/bin/windows/Rtools)*
 During installation of *Rtools* make sure to install the *toolchain*, and to select *"Edit the system path"* (and confirming the installers suggestions).
     * **OSX:** Install *[XCODE](https://developer.apple.com/xcode/)*
+	
+3. Install prerequisites for Debian/Ubuntu (needed to build dependency package  [*sf*](https://cran.r-project.org/package=sf))
+
+  `sudo apt install libudunits2-dev libgeos-dev`
+
 
 ##### Install Morpho #####
 
 Run the following command in R:
         
 	require(devtools)
-	install_github("zarquon42b/Morpho", local=FALSE)
+	install_github("zarquon42b/Morpho")
 
 
