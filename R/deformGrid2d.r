@@ -24,6 +24,7 @@
 #' @param cex1 control size of points belonging to \code{matrix}
 #' @param cex2 control size of points belonging to \code{tarmatrix}
 #' @param ... additional parameters passed to plot
+#' @return if \code{ngrid > 1} the coordinates of the displaced grid knots are returned.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
 #' 
@@ -102,6 +103,8 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
             lines(x0[(1:ngrid)+(i*ngrid),],col=gridcol)
             lines(x0[(myrange*ngrid)+i+1,],col=gridcol)
         }
+        invisible(x0)
     }
+    
 }
 

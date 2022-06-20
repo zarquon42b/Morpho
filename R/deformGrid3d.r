@@ -31,7 +31,7 @@
 #' @param gridcol define color of grid
 #' @param gridwidth integer: define linewidth of grid
 #' @param ... additional parameters passed to \code{\link{rotonto}} in case \code{align=TRUE}
-#' @return if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned.
+#' @return if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned. Otherwise the knots of the displaced grid is returned.
 #' @author Stefan Schlager
 #' @seealso \code{\link{tps3d}}
 #' 
@@ -220,6 +220,9 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
             allMerge <- mergeMeshes(allMerge,mycagemesh)
         }
         invisible(allMerge)
+    } else {
+        if (ngrid > 1)
+            invisible(x0)
     }
     
 }

@@ -84,7 +84,7 @@ for very large pointclouds.}
 \item{...}{additional parameters passed to \code{\link{rotonto}} in case \code{align=TRUE}}
 }
 \value{
-if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned.
+if \code{createMesh=TRUE}, a mesh containing spheres of reference and target as well as the displacement vectors is returned. Otherwise the knots of the displaced grid is returned.
 }
 \description{
 visualise differences between two superimposed sets of 3D landmarks by

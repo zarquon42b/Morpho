@@ -64,6 +64,9 @@ plotted. Options are combinations of 1,2 and 3.}
 
 \item{...}{additional parameters passed to plot}
 }
+\value{
+if \code{ngrid > 1} the coordinates of the displaced grid knots are returned.
+}
 \description{
 visualise differences between two superimposed sets of 2D landmarks by
 deforming a square grid based on a thin-plate spline interpolation
