@@ -4,7 +4,15 @@
 \alias{lineplot}
 \title{plot lines between landmarks}
 \usage{
-lineplot(x, point, col = 1, lwd = 1, line_antialias = FALSE, add = TRUE)
+lineplot(
+  x,
+  point,
+  col = 1,
+  lwd = 1,
+  line_antialias = FALSE,
+  lty = 1,
+  add = TRUE
+)
 }
 \arguments{
 \item{x}{matrix containing 2D or 3D landmarks}
@@ -17,6 +25,8 @@ determining which landmarks to connect.}
 \item{lwd}{line width}
 
 \item{line_antialias}{logical: smooth lines}
+
+\item{lty}{line type (only for 2D case)}
 
 \item{add}{logical: add to existing plot}
 }

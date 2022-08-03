@@ -86,7 +86,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
         linemesh$vb <- t(cbind(rbind(matrix,tarmatrix),1))
         linemesh$it <- t(cbind(1:k,1:k,(1:k)+k))
         class(linemesh) <- "mesh3d"
-        wire3d(linemesh,lwd=lwd,col=lcol,lit=FALSE)
+        wire3d(linemesh,lwd=lwd,col=lcol,lit=FALSE,...)
     }
     x2 <- x1 <- x3 <- c(0:(ngrid-1))/ngrid;
     x0 <- as.matrix(expand.grid(x1,x2,x3))

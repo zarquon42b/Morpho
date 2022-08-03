@@ -8,6 +8,7 @@
 #' determining which landmarks to connect.
 #' @param col color of lines
 #' @param lwd line width
+#' @param lty line type (only for 2D case)
 #' @param line_antialias logical: smooth lines
 #' @param add logical: add to existing plot
 #' @note works with 2D and 3D configurations
@@ -31,7 +32,7 @@
 #' }
 #' 
 #' @export
-lineplot <- function(x,point,col=1,lwd=1,line_antialias = FALSE,add=TRUE)
+lineplot <- function(x,point,col=1,lwd=1,line_antialias = FALSE,lty=1,add=TRUE)
 {
   
   if (dim(x)[2] == 3)
@@ -58,12 +59,12 @@ lineplot <- function(x,point,col=1,lwd=1,line_antialias = FALSE,add=TRUE)
         {
           for (i in 1:length(point))
             {
-              lines(x[point[[i]],1],x[point[[i]],2],col=col,lwd=lwd)
+              lines(x[point[[i]],1],x[point[[i]],2],col=col,lwd=lwd,lty=lty)
             }
         }
       else                                                
         {
-          lines(x[point,1],x[point,2],col=col,lwd=lwd)
+          lines(x[point,1],x[point,2],col=col,lwd=lwd,lty=lty)
       }
     }
 }

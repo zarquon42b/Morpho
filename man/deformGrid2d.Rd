@@ -20,6 +20,7 @@ deformGrid2d(
   wireframe = NULL,
   margin = 0.2,
   gridcol = "grey",
+  gridlty = 1,
   cex1 = 1,
   cex2 = 1,
   ...
@@ -57,6 +58,8 @@ plotted. Options are combinations of 1,2 and 3.}
 \item{margin}{margin around the bounding box to draw the grid}
 
 \item{gridcol}{color of the grid}
+
+\item{gridlty}{linetype for grid}
 
 \item{cex1}{control size of points belonging to \code{matrix}}
 

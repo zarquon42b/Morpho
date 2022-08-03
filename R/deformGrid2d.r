@@ -21,6 +21,7 @@
 #' @param wireframe list/vector containing row indices to be plotted as wireframe (see \code{\link{lineplot}}.)
 #' @param margin margin around the bounding box to draw the grid
 #' @param gridcol color of the grid
+#' @param gridlty linetype for grid
 #' @param cex1 control size of points belonging to \code{matrix}
 #' @param cex2 control size of points belonging to \code{tarmatrix}
 #' @param ... additional parameters passed to plot
@@ -36,7 +37,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,lty=2,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="grey",cex1=1,cex2=1,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,lty=2,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="grey",gridlty=1,cex1=1,cex2=1,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -100,8 +101,8 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
     if (ngrid > 1) {
         myrange <- 0:(ngrid-1)
         for (i in 0:(ngrid-1)) {
-            lines(x0[(1:ngrid)+(i*ngrid),],col=gridcol)
-            lines(x0[(myrange*ngrid)+i+1,],col=gridcol)
+            lines(x0[(1:ngrid)+(i*ngrid),],col=gridcol,lty=gridlty)
+            lines(x0[(myrange*ngrid)+i+1,],col=gridcol,lty=gridlty)
         }
         invisible(x0)
     }
