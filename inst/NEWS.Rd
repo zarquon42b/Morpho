@@ -2,6 +2,25 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.10 (2022-09-09)}{
+  
+  \itemize{
+    
+    \item read.fcsv: optimize handling of fiducial names
+    \item NEW: computeArea: function computing projected area enclosed by set of ordered landmarks.
+    \item pls2B: fixed CV and permutest for univariate cases.
+    \item pls2B: Added RV-coefficient (and permutation test)
+    \item getPLSCommonShape: fixed common sd calculation in example
+    \item procSym/align2procSym: support use.lm option in align2procSym
+    \item restoreShapes: add option meanlogCS / procSym add meanlogCS as output in case sizeshape=TRUE
+    \item restoreShapes: add option origsize.
+    \item restoreShapes: add option sizeshape
+    \item readallTPS: add scale to allow scaling by included scale factor.
+    }
+}
+
+
+
 \section{Changes in Morpho version 2.9 (2021-09-01)}{
   
   \itemize{
