@@ -164,7 +164,7 @@ pls2B <- function(x, y, tol=1e-12, same.config=FALSE, rounds=0,useCor=FALSE,cv=F
     p.values <- rep(NA,l.covas)
     if (rounds > 0) {
         if (win)
-            permuscores <- foreach(i = 1:rounds, .combine = cbind) %do% permupls(i)
+            permuscores <- foreach(i = 1:rounds) %do% permupls(i)
         else
             permuscores <- foreach(i = 1:rounds) %dopar% permupls(i)
 
