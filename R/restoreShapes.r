@@ -33,7 +33,8 @@
 #'
 #' ## Now restore some sizeshape data
 #' procSize <- procSym(gorf.dat,sizeshape=TRUE)
-#' est1 <- restoreShapes(range(procSize$PCscores[,1]),procSize$PCs[,1],procSize$mshape,sizeshape=TRUE,origsize=TRUE,meanlogCS=procSize$meanlogCS)
+#' est1 <- restoreShapes(range(procSize$PCscores[,1]),procSize$PCs[,1],procSize$mshape,
+#'                       sizeshape=TRUE,origsize=TRUE,meanlogCS=procSize$meanlogCS)
 #' }
 #' 
 #' @seealso \code{\link{getPCscores}}

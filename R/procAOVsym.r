@@ -33,7 +33,7 @@
 #' @export
 procAOVsym <- function(symproc,indnames=NULL) {
     
-    if (class(symproc) != "symproc")
+    if (!inherits(symproc,"symproc"))
     {stop("input is not of class symproc")
     }
     m <- dim(symproc$rotated)[2]

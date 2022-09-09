@@ -265,7 +265,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
     
 ###### PCA Sym Component ###### 
     princ <- try(prcompfast(tan),silent=TRUE)
-    if (class(princ) == "try-error")
+    if (inherits(princ, "try-error"))
         princ <- eigenPCA(tan)
 
     values <- 0
@@ -300,7 +300,7 @@ procSym <- function(dataarray, scale=TRUE, reflect=TRUE, CSinit=TRUE,  orp=TRUE,
         asymmean <- arrMean3(Asymm)
         asymtan <- vecx(sweep(Asymm, 1:2, asymmean))[1:n,]
         pcasym <- try(prcompfast(asymtan),silent=TRUE)
-        if (class(pcasym) == "try-error")
+        if (inherits(pcasym, "try-error"))
             pcasym <- eigenPCA(asymtan)
         
         eigva <- pcasym$sdev^2

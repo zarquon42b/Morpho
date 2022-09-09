@@ -1,8 +1,8 @@
 Package: Morpho
 Type: Package
 Title: Calculations and Visualisations Related to Geometric Morphometrics
-Version: 2.9
-Date: 2021-09-01
+Version: 2.9.1
+Date: 2022-09-09
 Authors@R: c(
     person("Stefan", "Schlager",, "zarquon42@gmail.com", c("aut", "cre", "cph")),
     person("Gregory", "Jefferis",,, c("ctb")),
@@ -44,4 +44,4 @@ BugReports: https://github.com/zarquon42b/Morpho/issues
 LazyLoad: yes
 URL: https://github.com/zarquon42b/Morpho
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1

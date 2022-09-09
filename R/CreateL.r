@@ -71,7 +71,7 @@ CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3
             out$L <- L
         if ("Linv" %in% output || "Lsubk" %in% output || "Lsubk3" %in% output) {
             L1 <- try(solve(L),silent=TRUE)
-            if (class(L1)=="try-error") {
+            if (inherits(L1,"try-error")) {
                 cat("CreateL: singular matrix: general inverse will be used.\n")
                 L1 <- armaGinv(as.matrix(L))		
             }

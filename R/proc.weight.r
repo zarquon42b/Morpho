@@ -71,7 +71,7 @@ proc.weight <- function(data,number,ref,report=TRUE,reg=0,log=FALSE,mahalanobis=
                 covtmp <- t(eig$vectors)%*%diag(eig$values+reg)%*%eig$vectors
             }
             checksing <- try(covtmp <- solve(covtmp),silent = TRUE)
-            if (class(checksing)=="try-error") {
+            if (inherits(checksing,"try-error")) {
                 covtmp <- armaGinv(covtmp)
                 cat("singular covariance matrix: using general inverse\n")
             }
