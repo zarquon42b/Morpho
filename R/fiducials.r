@@ -135,7 +135,10 @@ read.slicerjson <- function(x,lps2ras=FALSE,na=NULL) {
     LPS=FALSE
     if (mydata$coordinateSystem == "LPS")
         LPS = TRUE
-    
+
+    orientation <- mydata$controlPoints[[1]]$orientation[[1]]
+    trafo <- diag(4)
+    trafo[1:3,1:3] <- matrix(orientation,3,3,byrow=T)
     cp <- mydata$controlPoints
     helpfun <- function(z) {
         nullcheck <-  sapply(z$position,length)
@@ -157,7 +160,7 @@ read.slicerjson <- function(x,lps2ras=FALSE,na=NULL) {
         cp <- cp[[1]]
 
      if (LPS && lps2ras)
-         cp <- LPS2RAS(cp)
+         cp <- applyTransform(cp,trafo)
 
     if (!is.null(na)) {
         nas <- which(abs(cp) == na)
