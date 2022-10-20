@@ -138,6 +138,13 @@ read.slicerjson <- function(x,lps2ras=FALSE,na=NULL) {
     
     cp <- mydata$controlPoints
     helpfun <- function(z) {
+        nullcheck <-  sapply(z$position,length)
+        nullcheck <- which(nullcheck !=3)
+        if (length(nullcheck)) {
+            for (i in nullcheck)
+                 z$position[[i]] <- c(NA,NA,NA)
+
+        }
         mat <- t(sapply(z$position,rbind))
         labels <- z$label
         rownames(mat) <- labels
