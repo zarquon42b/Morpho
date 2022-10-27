@@ -143,12 +143,20 @@ read.slicerjson <- function(x,lps2ras=FALSE,na=NULL) {
     helpfun <- function(z) {
         nullcheck <-  sapply(z$position,length)
         nullcheck <- which(nullcheck !=3)
+        empty <- FALSE
         if (length(nullcheck)) {
+            if (length(nullcheck)== length(z$position)) {
+                empty <- TRUE
+                mat <- matrix(NA,length(nullcheck),3)
+            } else {
+                
             for (i in nullcheck)
                  z$position[[i]] <- c(NA,NA,NA)
-
+            }
         }
-        mat <- t(sapply(z$position,rbind))
+        if (!empty)
+            mat <- t(sapply(z$position,rbind))
+
         labels <- z$label
         rownames(mat) <- labels
         return(mat)
