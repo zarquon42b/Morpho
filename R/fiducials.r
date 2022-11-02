@@ -141,8 +141,8 @@ read.slicerjson <- function(x,lps2ras=FALSE,na=NULL) {
     trafo[1:3,1:3] <- matrix(orientation,3,3,byrow=T)
     cp <- mydata$controlPoints
     helpfun <- function(z) {
-        nullcheck <-  sapply(z$position,length)
-        nullcheck <- which(nullcheck !=3)
+        nullcheck <-  z$positionStatus
+        nullcheck <- which(nullcheck == "undefined")
         empty <- FALSE
         if (length(nullcheck)) {
             if (length(nullcheck)== length(z$position)) {
