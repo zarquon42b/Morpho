@@ -214,6 +214,9 @@ write.slicerjson <- function(x,filename=dataname,type=c("Fiducial","Curve","Clos
     if (coordinateSystem == "RAS")
         orientation <- c(1,0,0,0,1,0,0,0,1)
     position <- lapply(1:nrx, function(y) y <- x[y,] )
+    poschk <- which(as.logical(sapply(lapply(position,is.na),sum)))
+    if (length(poschk))
+        position[poschk] <- ""
     cp <- data.frame(id=as.character(1:nrx),label=mylabels,description=rep("",nrx),associatedNodeID=rep("",nrx))
     cp$position <- position
     cp$orientation <- lapply(1:nrx,function(x) x <- orientation)
@@ -221,6 +224,8 @@ write.slicerjson <- function(x,filename=dataname,type=c("Fiducial","Curve","Clos
     cp$locked <- FALSE
     cp$visibility <- rep(TRUE,nrx)
     cp$positionStatus <- rep("defined",nrx)
+    if (length(poschk))
+        cp$positionStatus[poschk] <- "undefined"
 
     markups <- data.frame(type=type,coordinateSystem=coordinateSystem,locked=TRUE,labelFormat="%N-%d")
     markups$controlPoints=list(cp)
