@@ -65,7 +65,7 @@ points3d(vert2points(testmesh),col=2)## see the vertices in the holes?
 }
 cleanmesh <- rmUnrefVertex(testmesh)## remove those lonely vertices!
 \dontrun{
-rgl.pop()
+pop3d()
 points3d(vert2points(cleanmesh),col=2) ### now the holes are empty!!
 }
 

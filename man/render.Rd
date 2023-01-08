@@ -66,7 +66,7 @@ export(x, ...)
 \item{x}{object of class meshDist}
 
 \item{\dots}{for render.meshDist: additional arguments passed to
-\code{\link{shade3d}}. See \code{\link{rgl.material}} for details.}
+\code{\link{shade3d}}. See \code{\link{material3d}} for details.}
 
 \item{from}{numeric: minimum distance to color; default is set to 0 mm}
 

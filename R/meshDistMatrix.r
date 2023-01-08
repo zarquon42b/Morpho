@@ -15,8 +15,8 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
 #' @export
 render.matrixDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=NULL,tol=NULL,tolcol=NULL,type=c("s","p"),radius=NULL,rampcolors=NULL,NAcol=NULL,displace=FALSE,sign=NULL,add=FALSE,scaleramp=FALSE,titleplot="Distance in mm", ...) {
     if (!add) {
-        if (rgl.cur() !=0)
-            rgl.clear()
+        if (cur3d() !=0)
+            clear3d()
         clost=x$clost
     }
     type=type[1]

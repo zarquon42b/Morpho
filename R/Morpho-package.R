@@ -39,7 +39,7 @@
 #' @importFrom foreach foreach '%dopar%' '%do%'
 #' @importFrom Matrix sparseMatrix diag crossprod solve as.matrix t
 #' @importFrom parallel mclapply detectCores
-#' @importFrom rgl lines3d open3d points3d rgl.bg rgl.bringtotop rgl.clear rgl.close  rgl.cur rgl.pop rgl.snapshot shade3d spheres3d text3d translate3d wire3d
+#' @importFrom rgl lines3d open3d points3d bg3d rgl.bringtotop clear3d close3d  cur3d pop3d rgl.snapshot shade3d spheres3d text3d translate3d wire3d
 #' @importFrom Rcpp evalCpp
 #' @importFrom Rvcg vcgUpdateNormals
 #' @importClassesFrom Matrix dgCMatrix dgeMatrix dsCMatrix dtCMatrix sparseMatrix
