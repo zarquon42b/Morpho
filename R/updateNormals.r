@@ -29,7 +29,7 @@
 #' }
 #' shortnose.mesh <- updateNormals(shortnose.mesh)
 #' \dontrun{
-#' rgl.clear()
+#' clear3d()
 #' shade3d(shortnose.mesh,col=3)##smoothly rendered now
 #' }
 #' ## calculate facenormals

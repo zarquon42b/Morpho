@@ -47,7 +47,7 @@ warpmovie3d.mesh3d <- function(x,y,n,col=NULL,palindrome=FALSE,folder=NULL,movie
       
       filename <- sprintf("%s%04d.png", movie, countbegin+i)
       rgl.snapshot(filename,fmt="png")
-      rgl.pop("shapes",id=a)
+      pop3d("shapes",id=a)
   }
   
   if (palindrome) {## go the other way ##
@@ -62,11 +62,11 @@ warpmovie3d.mesh3d <- function(x,y,n,col=NULL,palindrome=FALSE,folder=NULL,movie
           }
           filename <- sprintf("%s%04d.png", movie, countbegin+i+n)
           rgl.snapshot(filename,fmt="png")
-          rgl.pop("shapes",id=a)	
+          pop3d("shapes",id=a)	
       }
   }
   if (close)
-      rgl.close()
+      close3d()
   
 }
 

@@ -113,7 +113,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
     } else {
         back <- front <- "filled"
     }
-    if (!add || rgl.cur()==0)
+    if (!add || cur3d()==0)
         open3d()
     if (!is.null(atlas)) {
         k <- dim(atlas$landmarks)[1]
@@ -185,7 +185,7 @@ checkLM <- function(dat.array, path=NULL, prefix="", suffix=".ply", col="white",
             i <- i-1
         } else 
             i <- i+1
-        rgl.pop(id=outid)
+        pop3d(id=outid)
     }
     invisible(marked)
 }

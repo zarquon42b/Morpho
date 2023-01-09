@@ -116,7 +116,7 @@ warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
         
         filename <- sprintf("%s%04d.png", movie, countbegin+i)
         rgl.snapshot(filename,fmt="png")
-        rgl.pop("shapes",id=a)
+        pop3d("shapes",id=a)
     }
     
     if (palindrome) {## go the other way ##
@@ -130,11 +130,11 @@ warpmovie3d.matrix <- function(x,y,n,col="green",palindrome=FALSE,folder=NULL,mo
             }
             filename <- sprintf("%s%04d.png", movie, countbegin+i+n)
             rgl.snapshot(filename,fmt="png")
-            rgl.pop("shapes",id=a)	
+            pop3d("shapes",id=a)	
         }
     }
     if (close)
-        rgl.close()
+        close3d()
 }
 #' @rdname warpmovie3d
 #' @export

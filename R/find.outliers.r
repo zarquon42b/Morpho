@@ -138,7 +138,7 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
                     else
                         rho.new <- angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)
                     if (m==3) {
-                        rgl.clear()
+                        clear3d()
                         .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,rgl.new=FALSE, text=text)
                     } else {
                         .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1],text=text)
@@ -194,7 +194,7 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
                     else
                         rho.new <- angle.calc(A$rotated[,,disti.sort[t1,1]],A$mshape)
                     if (m==3) {
-                        rgl.clear()
+                        clear3d()
                         .difplotLM(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,rgl.new=FALSE, text=text)
                     } else {
                         .difplotLM2D(A$mshape,A$rotated[,,disti.sort[t1,1]],color=color,lwd=lwd,lcol=lcol,main=disti.sort[t1,1], text=text)
@@ -221,14 +221,14 @@ find.outliers <- function(A,color=4,lwd=1,lcol=2,mahalanobis=FALSE,PCuse=NULL, t
         answer1 <- substr(readline(" next/previous/stop (n/p/s)?  "), 1L,1L)
         if (!(answer1 %in% c("P","p","S","s"))) {
             if (m==3) {
-                rgl.clear()
-                rgl.bg(color = "white")
+                clear3d()
+                bg3d(color = "white")
             }
             t1 <- t1+1          
         } else if (answer1 %in% c("P","p")) {
             if (m==3) {
-                rgl.clear()
-                rgl.bg(color = "white")
+                clear3d()
+                bg3d(color = "white")
             }
             if (t1 !=1) {
                 t1 <- t1-1
