@@ -53,7 +53,7 @@
 #' @param threads integer: number of threads to use. 0 = let system decide.
 #' @param titleplot character: axis description of heatmap.
 #' @param \dots additional arguments passed to \code{\link{shade3d}}. See
-#' \code{\link{rgl.material}} for details.
+#' \code{\link{material3d}} for details.
 #' @return Returns an object of class "meshDist" if the input is a surface mesh
 #' and one of class "matrixDist" if input is a matrix containing 3D
 #' coordinates.
@@ -236,7 +236,7 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' @param scaleramp if TRUE the ramp colors get scaled symmetrically into positive and negative direction.
 #' @param titleplot character: axis description of heatmap.
 #' @param \dots for render.meshDist: additional arguments passed to
-#' \code{\link{shade3d}}. See \code{\link{rgl.material}} for details.
+#' \code{\link{shade3d}}. See \code{\link{material3d}} for details.
 #' @author Stefan Schlager
 #' @seealso \code{\link{meshDist}}, \code{\link{shade3d}}
 #' 
@@ -259,8 +259,8 @@ render.meshDist <- function(x,from=NULL,to=NULL,steps=NULL,ceiling=NULL,uprange=
     if (!is.null(tolcol))
         tolcol <- colorRampPalette(tolcol)(1)
     if (!add) {
-        if (rgl.cur() !=0)
-            rgl.clear()
+        if (cur3d() !=0)
+            clear3d()
     }
     if (!is.null(from) || !is.null(to) || !is.null(uprange) ||  !is.null(tol)  ||  !is.null(sign) || !is.null(steps) || !is.null(rampcolors) || !is.null(NAcol) || !is.null(tolcol) || !is.null(scaleramp)) {
         neg=FALSE

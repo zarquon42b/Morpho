@@ -68,7 +68,7 @@ meshDist(x, ...)
 containing 3D coordinates.}
 
 \item{\dots}{additional arguments passed to \code{\link{shade3d}}. See
-\code{\link{rgl.material}} for details.}
+\code{\link{material3d}} for details.}
 
 \item{mesh2}{target mesh: either object of class "mesh3d" or a character
 pointing to a surface mesh (ply, obj or stl file)}
