@@ -7,6 +7,7 @@
 #' @title calculate the orthogonal complement of a 3D-vector
 #' @param x vector of length 3.
 #' @param y vector of length 3.
+#' @param normalize logical: if TRUE, the resulting vector is normalized
 #' @return tangentPlane:
 #' 
 #' crossProduct: returns a vector of length 3.

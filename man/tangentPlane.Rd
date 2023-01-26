@@ -5,7 +5,7 @@
 \alias{tangentPlane}
 \title{calculate the orthogonal complement of a 3D-vector}
 \usage{
-crossProduct(x, y)
+crossProduct(x, y, normalize = TRUE)
 
 tangentPlane(x)
 }
@@ -13,6 +13,8 @@ tangentPlane(x)
 \item{x}{vector of length 3.}
 
 \item{y}{vector of length 3.}
+
+\item{normalize}{logical: if TRUE, the resulting vector is normalized}
 }
 \value{
 tangentPlane:
