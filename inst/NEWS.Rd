@@ -2,6 +2,23 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+
+\section{Changes in Morpho version 2.11 (2023-01-26)}{
+  
+  \itemize{
+    
+    \item crossProduct: added option normalize.
+    \item Replace rgl.* calls with *3d calls. (#33)
+    \item read.slicerjson: read undefined landmarks from json info instead of checking position values
+    \item read.slicerjson: read orientation from file instead of generic lps2ras matrix
+    \item read.slicerjson: allow to read undefined landmarks
+    \item write.slicerjson: allow export of NA values for Slicer >=5.0
+
+    }
+}
+
+
+
 \section{Changes in Morpho version 2.10 (2022-09-09)}{
   
   \itemize{
