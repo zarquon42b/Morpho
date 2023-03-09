@@ -9,6 +9,12 @@ __Morpho__ provides a rich toolset for Geometric Morphometrics and mesh processi
 Prerequisites for Debian/Ubuntu (needed to build dependency package [*sf*](https://cran.r-project.org/package=sf))
 
    `sudo apt install libudunits2-dev libgeos-dev`
+   
+
+Prerequisites for Fedora (needed to build dependency package [*sf*](https://cran.r-project.org/package=sf))
+
+   `dnf install udunits2-devel geos-devel gdal-devel proj-devel`
+   
 
 Within R:
        
