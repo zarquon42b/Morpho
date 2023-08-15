@@ -1,6 +1,8 @@
 .bindArr2 <- function(x,y,along=1,collapse=FALSE)
     {
-       
+
+        if(!is.array(x) || !is.array(y))
+            stop("input needs to be an array")
         if (is.matrix(x)) {
             dnx <- dimnames(x)
             x <- array(x,dim=c(dim(x),1))
