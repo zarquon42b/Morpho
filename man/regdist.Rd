@@ -4,7 +4,14 @@
 \alias{regdist}
 \title{correlation between shape space and tangent space}
 \usage{
-regdist(dataarray, plot = TRUE, main = "", rho = "angle", dist.mat.out = FALSE)
+regdist(
+  dataarray,
+  plot = TRUE,
+  main = "",
+  rho = "angle",
+  dist.mat.out = FALSE,
+  ...
+)
 }
 \arguments{
 \item{dataarray}{Input k x m x n real array, where k is the number of
@@ -20,6 +27,8 @@ time to calculate), "angle"=calculates the angle between shape vectors,
 "sindist"=sinus of length of residual vector between shape vectors.}
 
 \item{dist.mat.out}{Logical: If TRUE, output will contain distance matrices.}
+
+\item{...}{additional parameters passed to \code{\link{procSym}}}
 }
 \value{
 \item{cor }{correlation coefficient between distances in shape space and
@@ -29,6 +38,7 @@ tangent space}
 \item{rhoSS }{Procrustes Sums of Squares (of angle)}
 \item{euc.dist }{distance matrix of euclidean distance in Tangent space}
 \item{proc.dist }{distance matrix of Procrustes distance in Shape space}
+\item{lm}{linear model regressing tangent space distances onto Procrustes distances}
 }
 \description{
 performs a partial Procrustes superimposition of landmark data and

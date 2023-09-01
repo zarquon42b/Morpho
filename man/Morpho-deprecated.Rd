@@ -23,7 +23,8 @@ regdist.raw(
   plot = TRUE,
   main = "",
   rho = "angle",
-  dist.mat.out = FALSE
+  dist.mat.out = FALSE,
+  ...
 )
 
 crossp(...)

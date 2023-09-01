@@ -13,6 +13,7 @@
 #' time to calculate), "angle"=calculates the angle between shape vectors,
 #' "sindist"=sinus of length of residual vector between shape vectors.
 #' @param dist.mat.out Logical: If TRUE, output will contain distance matrices.
+#' @param ... additional parameters passed to \code{\link{procSym}}
 #' @return
 #' \item{cor }{correlation coefficient between distances in shape space and
 #' tangent space}
@@ -21,6 +22,7 @@
 #' \item{rhoSS }{Procrustes Sums of Squares (of angle)}
 #' \item{euc.dist }{distance matrix of euclidean distance in Tangent space}
 #' \item{proc.dist }{distance matrix of Procrustes distance in Shape space}
+#' \item{lm}{linear model regressing tangent space distances onto Procrustes distances}
 #' @author Stefan Schlager
 #' @seealso \code{\link{regdist}}
 #' 
@@ -30,8 +32,8 @@
 #' regdist(gorf.dat)
 #' }
 #' @export
-regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", dist.mat.out=FALSE)
-{     proc <- procSym(dataarray,scale=FALSE)
+regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", dist.mat.out=FALSE,...)
+{     proc <- procSym(dataarray,scale=FALSE,...)
       x <- proc$rotated
       n <- dim(x)[3]
       m <- dim(x)[2]
@@ -58,7 +60,7 @@ regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", d
       euvec <- (em)
       eudis <- sum(euvec^2)/n
       correlation <- cor(euvec,procvec)^2
-      
+      mylm <- lm(euvec ~ procvec)
       if (plot==TRUE)
           plot(euvec,procvec,asp=1,xlab="euclid. dist. in tangentspace",ylab=paste("rho as",rho),main=main)
       abline(0,1,col="grey50")
@@ -66,5 +68,5 @@ regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", d
       if (dist.mat.out)
           return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2,euc.dist=em,proc.dist=procvec))
       else
-          return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2))
+          return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2,lm=mylm))
   }
