@@ -38,7 +38,9 @@ computeArea <- function(x) {
         xpro <- x
 ### setup data to be evaluated by rgeos
 
-   
+    if (!requireNamespace("sf", quietly = TRUE))
+        stop("Please install suggested package: ", "sf")
+      
     poly <- sf::st_polygon(list(rbind(xpro,xpro[1,])))
     area <- sf::st_area(poly)
     
