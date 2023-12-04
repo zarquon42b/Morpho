@@ -48,7 +48,7 @@ RcppExport SEXP tpsfx(SEXP refmat_, SEXP M_, SEXP coefs_, SEXP threads_ = wrap(1
     }
     return wrap(result);
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }

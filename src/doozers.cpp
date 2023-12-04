@@ -20,7 +20,7 @@ double angcalcArma(vec a, vec b) {
     double angle = acos((dot(diffvec,diffvec)-2)/-2);
     return angle;
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }
@@ -40,7 +40,7 @@ double angcalcRcpp(NumericVector a_, NumericVector b_) {
     double angle = acos((dot(diffvec,diffvec)-2)/-2);
     return angle;
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }

@@ -47,7 +47,7 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
 		       
     return Rcpp::wrap(normals);
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }
@@ -74,7 +74,7 @@ SEXP updateFaceNormals(SEXP vb_, SEXP it_) {
     }
     return Rcpp::wrap(normals);
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }

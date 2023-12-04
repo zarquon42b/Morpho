@@ -33,7 +33,7 @@ SEXP asymPerm(SEXP asymr, SEXP groupsr, SEXP roundr) {
 			Named("angle")=angle
 			);
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }
@@ -87,7 +87,7 @@ RcppExport SEXP asymPermuteCpp(SEXP data_, SEXP groups_, SEXP rounds_) {
 			Named("dists") = outdiff
 			);
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }

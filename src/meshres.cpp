@@ -24,7 +24,7 @@ RcppExport SEXP meshresCpp(SEXP vb_, SEXP it_) {
     res /= nit*3;
     return wrap(res);
   } catch (std::exception& e) {
-    ::Rf_error( e.what());
+    forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
   }
