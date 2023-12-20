@@ -60,13 +60,13 @@ regdist <- regdist.raw <- function(dataarray, plot=TRUE, main="", rho="angle", d
       euvec <- (em)
       eudis <- sum(euvec^2)/n
       correlation <- cor(euvec,procvec)^2
-      mylm <- lm(euvec ~ procvec)
+      mylm <- lm(as.vector(euvec) ~ as.vector(procvec))
       if (plot==TRUE)
           plot(euvec,procvec,asp=1,xlab="euclid. dist. in tangentspace",ylab=paste("rho as",rho),main=main)
       abline(0,1,col="grey50")
       
       if (dist.mat.out)
-          return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2,euc.dist=em,proc.dist=procvec))
+          return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2,euc.dist=em,proc.dist=procvec,lm=mylm))
       else
           return(list(cor=correlation,procSS=procdis,tanSS=eudis,rhoSS=procdis2,lm=mylm))
   }

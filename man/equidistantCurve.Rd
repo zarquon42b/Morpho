@@ -45,10 +45,11 @@ Equidistancy is reached by iteratively deforming (using TPS) a straight line wit
 if n >> number of original points, the resulting curves can show unwanted distortions.
 }
 \examples{
+\dontrun{
 data(nose)
 x <- shortnose.lm[c(304:323),]
 xsample <- equidistantCurve(x,n=50,iterations=10,increment=2)
-\dontrun{
+
 require(rgl)
 points3d(xsample,size=5)
 spheres3d(x,col=2,radius=0.3,alpha=0.5)

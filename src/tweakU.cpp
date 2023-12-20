@@ -42,7 +42,7 @@ RcppExport SEXP tweakU(SEXP tanvec_, SEXP m_, SEXP type_, SEXP SMsort_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  } 
+  } return R_NilValue; 
 }
 			
 	

@@ -107,17 +107,18 @@ virtualMeshScan <- function(x,viewpoints,offset=0.001,cores=1) {
 #' \item{sphere}{sphere from which the points are sampled}
 #' \item{radius}{radius of the sphere}
 #' @examples
+#' \dontrun{
 #' data(boneData)
 #' vp <- getOuterViewpoints(skull_0144_ch_fe.mesh,n=100)
-#' \dontrun{
+#'
 #' require(rgl)
 #' shade3d(skull_0144_ch_fe.mesh,col="white")
 #' spheres3d(vp$viewpoints)
 #' wire3d(vp$sphere)
-#' }
+#' 
 #' ### Fit to principal axes
 #' vppca <- getOuterViewpoints(skull_0144_ch_fe.mesh,n=100,PCA=TRUE,inflate=1.5)
-#' \dontrun{
+#' 
 #' require(rgl)
 #' shade3d(skull_0144_ch_fe.mesh,col="white")
 #' spheres3d(vppca$viewpoints)

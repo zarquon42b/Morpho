@@ -32,6 +32,6 @@ RcppExport SEXP createL(SEXP Matrix_, SEXP threads_= wrap(1)) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
   

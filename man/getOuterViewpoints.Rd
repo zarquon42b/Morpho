@@ -36,17 +36,18 @@ a list containing
 Get viewpoints on a sphere around a 3D mesh to be used with virtualMeshScan
 }
 \examples{
+\dontrun{
 data(boneData)
 vp <- getOuterViewpoints(skull_0144_ch_fe.mesh,n=100)
-\dontrun{
+
 require(rgl)
 shade3d(skull_0144_ch_fe.mesh,col="white")
 spheres3d(vp$viewpoints)
 wire3d(vp$sphere)
-}
+
 ### Fit to principal axes
 vppca <- getOuterViewpoints(skull_0144_ch_fe.mesh,n=100,PCA=TRUE,inflate=1.5)
-\dontrun{
+
 require(rgl)
 shade3d(skull_0144_ch_fe.mesh,col="white")
 spheres3d(vppca$viewpoints)

@@ -19,11 +19,11 @@ vertex normals.
 }
 \examples{
 
+\dontrun{
 require(rgl)
 data(boneData)
 data(nose)
 mergedMesh <- mergeMeshes(shortnose.mesh, skull_0144_ch_fe.mesh)
-\dontrun{
 require(rgl)
 shade3d(mergedMesh, col=3)
 }

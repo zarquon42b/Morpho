@@ -20,11 +20,13 @@ returns a matrix containing the PC scores
 Obtain PC-scores for new landmark data
 }
 \examples{
+\dontrun{
 data(boneData)
 proc <- procSym(boneLM[,,-c(1:2)])
 newdata <- boneLM[,,c(1:2)]
 newdataAlign <- align2procSym(proc,newdata)
 scores <- getPCscores(newdataAlign,proc$PCs,proc$mshape)
+}
 }
 \seealso{
 \code{\link{restoreShapes}}

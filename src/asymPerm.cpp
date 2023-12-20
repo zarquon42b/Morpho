@@ -36,7 +36,7 @@ SEXP asymPerm(SEXP asymr, SEXP groupsr, SEXP roundr) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
 
 RcppExport SEXP asymPermuteCpp(SEXP data_, SEXP groups_, SEXP rounds_) {
@@ -90,6 +90,6 @@ RcppExport SEXP asymPermuteCpp(SEXP data_, SEXP groups_, SEXP rounds_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
 

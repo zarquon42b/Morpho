@@ -50,7 +50,7 @@ SEXP updateVertexNormals(SEXP vb_, SEXP it_,SEXP angweight_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
       
 SEXP updateFaceNormals(SEXP vb_, SEXP it_) {
@@ -77,6 +77,6 @@ SEXP updateFaceNormals(SEXP vb_, SEXP it_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
   

@@ -18,7 +18,7 @@ SEXP addoCpp(SEXP array_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 
 }
 SEXP arrMean3Cpp(SEXP array_) {
@@ -34,7 +34,7 @@ SEXP arrMean3Cpp(SEXP array_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 
 }
 
@@ -103,5 +103,5 @@ SEXP scaleprocCpp(SEXP array_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }

@@ -168,7 +168,7 @@ SEXP covPCAwrap(SEXP data_, SEXP groups_, SEXP scramble_, SEXP rounds_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
 //this is a function exposed to R calculating distance only 
 //currently not used  

@@ -15,7 +15,7 @@ RcppExport SEXP ang_calcC(SEXP x_, SEXP y_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
 
    
@@ -34,6 +34,6 @@ RcppExport SEXP ang_calcM(SEXP x_, SEXP y_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
 

@@ -84,11 +84,13 @@ restoreShapes <- function(scores,PC,mshape,sizeshape=FALSE,origsize=FALSE,meanlo
 #' @param mshape matrix containing the meanshape's landmarks (used to center the data)
 #' @return returns a matrix containing the PC scores
 #' @examples
+#' \dontrun{
 #' data(boneData)
 #' proc <- procSym(boneLM[,,-c(1:2)])
 #' newdata <- boneLM[,,c(1:2)]
 #' newdataAlign <- align2procSym(proc,newdata)
 #' scores <- getPCscores(newdataAlign,proc$PCs,proc$mshape)
+#' }
 #' @seealso \code{\link{restoreShapes}}
 #' @export
 getPCscores <- function(x, PC, mshape) {

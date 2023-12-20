@@ -26,5 +26,5 @@ RcppExport SEXP face_zero(SEXP it_) {
     forward_exception_to_r( e );
   } catch (...) {
     ::Rf_error("unknown exception");
-  }
+  } return R_NilValue; 
 }
