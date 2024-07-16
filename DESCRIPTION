@@ -17,7 +17,8 @@ Suggests:
     lattice,
     shapes,
     sf,
-    testthat
+    testthat,
+    DescTools
 Depends:
     R (>= 3.2.0)
 Imports:
