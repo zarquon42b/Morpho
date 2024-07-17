@@ -156,7 +156,7 @@ for (iterat in (1:iters)) {
 #' Inscribe the maximum ellipse into any arbitrary 2D polygon
 #'
 #' Inscribe the maximum ellipse into any arbitrary 2D polygon
-#' @param poly k x 2 matrix containing ordered coordinates forming the polygon
+#' @param poly k x 2 matrix containing ordered coordinates forming the polygon. If outline is not closed, the function will close it.
 #' @param step stepsize
 #' @param iters integer: number of iterations to run
 #' 
@@ -185,4 +185,64 @@ inscribeEllipse <- function(poly,step=0.3,iters=999) {
     init_radius = step
     out <- .Call("inscribeEllipseCpp",px_old,py_old,step,iters,init_point)
     return(out)
+}
+
+
+makeRotMat2d <- function(theta) {
+    ct <- cos(theta)
+    st <- sin(theta)
+    out <- matrix(c(ct,st,-st,ct),2,2)
+    return(out)
+}
+
+
+#' Inscribe the maximum ellipse into any arbitrary 2D polygon including rotations
+#'
+#' Inscribe the maximum ellipse into any arbitrary 2D polygon including rotations
+#' @param poly k x 2 matrix containing ordered coordinates forming the polygon
+#' @param step stepsize
+#' @param iters integer: number of iterations to run
+#' 
+#' @return 
+#' \item{center}{ center of ellipse}
+#' \item{radius.x}{ x-dim of ellipse}
+#' \item{radius.y}{ y-dim of ellipse}
+#' \item{maxarea}{area of ellipse}
+#' \item{theta}{angle of optimal rotation}
+#' \item{polyRot}{k x 2 matrix of cooridnates rotated around barycenter to maximize ellipse area}
+#' @examples
+#' require(shapes)
+#' require(DescTools)
+#' poly <- gorf.dat[c(1,6:8,2:5),,1]
+#' \dontrun{
+#' myellipse <- inscribeEllipse(poly,iters = 200)
+#' plot(poly,asp=1)
+#' lines(rbind(poly,poly[1,]))
+#' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
+#' } 
+#' @export
+inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
+
+    thetaList <- seq(0,pi/2,length.out = rotsteps)[-rotsteps]
+    rots <- lapply(thetaList,makeRotMat2d)
+    polyS <- scale(poly,scale=FALSE)
+    polyRot <- lapply(rots,function(x) x <- polyS%*%x)
+    polyRot <- lapply(polyRot,function(x) x <- sweep(x,2,-attributes(polyS)$'scaled:center'))
+
+    bestarea <- 0
+    bestfit <- NULL
+    besttheta <- NULL
+    for (i in 1:length(polyRot)) {
+        tt <- inscribeEllipse(polyRot[[i]],step=step,iters = iters)
+        if (tt$maxarea > bestarea) {
+            bestarea <- tt$maxarea
+            bestfit <- tt
+            besti <- i
+        }
+        
+    }
+        
+    bestfit$theta <- thetaList[besti]
+    bestfit$polyRot <- polyRot[[besti]]
+   return(bestfit)
 }
