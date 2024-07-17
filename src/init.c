@@ -21,6 +21,7 @@ extern SEXP CVAdists(SEXP, SEXP, SEXP, SEXP);
 extern SEXP edgePlane(SEXP, SEXP, SEXP);
 extern SEXP face_zero(SEXP);
 extern SEXP fastSubsetMeans(SEXP, SEXP, SEXP, SEXP);
+extern SEXP inscribeEllipseCpp(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP meshresCpp(SEXP, SEXP);
 extern SEXP permudistArma(SEXP, SEXP, SEXP, SEXP);
 extern SEXP points2mesh(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -44,6 +45,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"edgePlane",           (DL_FUNC) &edgePlane,           3},
     {"face_zero",           (DL_FUNC) &face_zero,           1},
     {"fastSubsetMeans",     (DL_FUNC) &fastSubsetMeans,     4},
+    {"inscribeEllipseCpp",     (DL_FUNC) &inscribeEllipseCpp,     5},
     {"meshresCpp",             (DL_FUNC) &meshresCpp,             2},
     {"permudistArma",       (DL_FUNC) &permudistArma,       4},
     {"points2mesh",         (DL_FUNC) &points2mesh,         8},

@@ -33,30 +33,8 @@ get_jumperpoint <- function(poly_x,poly_y,sizeup,a,b,x0,y0   ) {
 }
 
 
-#' Inscribe the maximum ellipse into any arbitrary 2D polygon
-#'
-#' Inscribe the maximum ellipse into any arbitrary 2D polygon
-#' @param poly k x 2 matrix containing ordered coordinates forming the polygon
-#' @param step stepsize
-#' @param iters integer: number of iterations to run
-#' 
-#' @return 
-#' \item{center}{ center of ellipse}
-#' \item{radius.x}{ x-dim of ellipse}
-#' \item{radius.y}{ y-dim of ellipse}
-#' \item{maxarea}{area of ellipse}
-#' @examples
-#' require(shapes)
-#' require(DescTools)
-#' poly <- gorf.dat[c(1,6:8,2:5),,1]
-#' \dontrun{
-#' myellipse <- inscribeEllipse(myarea$xpro2D,iters = 200)
-#' plot(poly,asp=1)
-#' lines(rbind(poly,poly[1,]))
-#' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
-#' } 
-#' @export
-inscribeEllipse <- function(poly,step=0.3,iters=90) {
+
+inscribeEllipseOld <- function(poly,step=0.3,iters=90) {
   
     px_old = poly[,1]
     py_old = poly[,2]
@@ -173,4 +151,37 @@ for (iterat in (1:iters)) {
     
 }
     return(list(center=c(bestx,besty),radius.x=besta,radius.y=bestb, maxarea=maxarea))
+}
+
+#' Inscribe the maximum ellipse into any arbitrary 2D polygon
+#'
+#' Inscribe the maximum ellipse into any arbitrary 2D polygon
+#' @param poly k x 2 matrix containing ordered coordinates forming the polygon
+#' @param step stepsize
+#' @param iters integer: number of iterations to run
+#' 
+#' @return 
+#' \item{center}{ center of ellipse}
+#' \item{radius.x}{ x-dim of ellipse}
+#' \item{radius.y}{ y-dim of ellipse}
+#' \item{maxarea}{area of ellipse}
+#' @examples
+#' require(shapes)
+#' require(DescTools)
+#' poly <- gorf.dat[c(1,6:8,2:5),,1]
+#' \dontrun{
+#' myellipse <- inscribeEllipse(poly,iters = 200)
+#' plot(poly,asp=1)
+#' lines(rbind(poly,poly[1,]))
+#' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
+#' } 
+#' @export
+inscribeEllipse <- function(poly,step=0.3,iters=90) {
+  
+    px_old = poly[,1]
+    py_old = poly[,2]
+    init_point = colMeans(poly)
+    init_radius = step
+    out <- .Call("inscribeEllipseCpp",px_old,py_old,step,iters,init_point)
+    return(out)
 }
