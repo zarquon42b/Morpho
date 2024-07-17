@@ -176,8 +176,9 @@ for (iterat in (1:iters)) {
 #' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
 #' } 
 #' @export
-inscribeEllipse <- function(poly,step=0.3,iters=90) {
-  
+inscribeEllipse <- function(poly,step=0.3,iters=999) {
+    if (sum(abs(poly[1,]-poly[nrow(poly),])) != 0)
+        poly <- rbind(poly,poly[1,])
     px_old = poly[,1]
     py_old = poly[,2]
     init_point = colMeans(poly)
