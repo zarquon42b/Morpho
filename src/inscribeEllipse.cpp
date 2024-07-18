@@ -45,11 +45,12 @@ vec get_jumperpoint(std::vector<double> poly_x, std::vector<double> poly_y, doub
 
 
 
-RcppExport SEXP inscribeEllipseCpp(SEXP poly_x_, SEXP poly_y_, SEXP step_, SEXP iters_,SEXP init_point_) {
+RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP init_point_) {
   
   try{
-    std::vector<double> px_old = as<std::vector<double>>(poly_x_);
-    std::vector<double> py_old = as<std::vector<double>>(poly_y_);
+    mat polyMat = as<mat>(polyMat_);
+    std::vector<double> px_old =  conv_to<std::vector<double>>::from(polyMat.col(0));
+    std::vector<double> py_old = conv_to<std::vector<double>>::from(polyMat.col(1));
     double step = as<double>(step_);
     int iters = as<int>(iters_);
     std::vector<double> init_point = as<std::vector<double>>(init_point_);
@@ -181,3 +182,21 @@ RcppExport SEXP inscribeEllipseCpp(SEXP poly_x_, SEXP poly_y_, SEXP step_, SEXP 
     ::Rf_error("unknown exception");
   } return R_NilValue; 
 } 
+
+RcppExport SEXP inscribeEllipseRotCpp(SEXP polyList_, SEXP step_, SEXP iters_,SEXP init_point_) {
+  List polyList(polyList_);
+  int n = polyList.size();
+  List out;
+  double maxarea = 0;
+  for (int i = 0; i < n; i++) {
+    List temp = inscribeEllipseCpp(polyList[i], step_, iters_,init_point_);
+    double tmparea = as<double>(temp["maxarea"]);
+    if (tmparea > maxarea) {
+      out = temp;
+      out["bestiter"] = i+1;
+    }
+  }
+  return out;
+  
+}
+  

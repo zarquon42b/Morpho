@@ -183,7 +183,7 @@ inscribeEllipse <- function(poly,step=0.3,iters=999) {
     py_old = poly[,2]
     init_point = colMeans(poly)
     init_radius = step
-    out <- .Call("inscribeEllipseCpp",px_old,py_old,step,iters,init_point)
+    out <- .Call("inscribeEllipseCpp",poly,step,iters,init_point)
     return(out)
 }
 
@@ -215,7 +215,7 @@ makeRotMat2d <- function(theta) {
 #' require(DescTools)
 #' poly <- gorf.dat[c(1,6:8,2:5),,1]
 #' \dontrun{
-#' myellipse <- inscribeEllipse(poly,iters = 200)
+#' myellipse <- inscribeEllipseRot(poly,iters = 999,rotsteps=10)
 #' plot(poly,asp=1)
 #' lines(rbind(poly,poly[1,]))
 #' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
@@ -228,21 +228,24 @@ inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
     polyS <- scale(poly,scale=FALSE)
     polyRot <- lapply(rots,function(x) x <- polyS%*%x)
     polyRot <- lapply(polyRot,function(x) x <- sweep(x,2,-attributes(polyS)$'scaled:center'))
+    init_point = colMeans(poly)
+    ## bestarea <- 0
+    ## bestfit <- NULL
+    ## besttheta <- NULL
+    ## for (i in 1:length(polyRot)) {
+    ##     tt <- inscribeEllipse(polyRot[[i]],step=step,iters = iters)
+    ##     if (tt$maxarea > bestarea) {
+    ##         bestarea <- tt$maxarea
+    ##         bestfit <- tt
+    ##         besti <- i
+    ##     }
+        
+    ## }
 
-    bestarea <- 0
-    bestfit <- NULL
-    besttheta <- NULL
-    for (i in 1:length(polyRot)) {
-        tt <- inscribeEllipse(polyRot[[i]],step=step,iters = iters)
-        if (tt$maxarea > bestarea) {
-            bestarea <- tt$maxarea
-            bestfit <- tt
-            besti <- i
-        }
-        
-    }
-        
+    bestfit  <-  .Call("inscribeEllipseRotCpp",polyRot,step,iters,init_point)
+    besti <- bestfit$bestiter
     bestfit$theta <- thetaList[besti]
     bestfit$polyRot <- polyRot[[besti]]
+    bestfit$maxarea <- bestfit$maxarea*pi
    return(bestfit)
 }
