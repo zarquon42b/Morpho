@@ -7,7 +7,7 @@ meshDist.matrix <- function(x,mesh2=NULL,distvec=NULL,from=NULL,to=NULL,steps=20
         class(x) <- "mesh3d"
         out <- meshDist(x,mesh2=mesh2,distvec=distvec,from=from,to=to,steps=20,ceiling=ceiling,file=file,uprange=uprange ,save=FALSE,plot=FALSE,sign=sign,tol=tol,rampcolors = rampcolors,displace=FALSE,NAcol = NAcol,scaleramp=scaleramp,tolcol=tolcol,titleplot=titleplot,...)
         class(out) <- "matrixDist"
-        render(out,radius=radius,type=type,displace=displace,add=add,titleplot=titleplot)
+        render(out,radius=radius,type=type,displace=displace,add=add,titleplot=titleplot,to=to,from=from,tol=tol,steps=steps)
         invisible(out)
     }
 #' @rdname render
