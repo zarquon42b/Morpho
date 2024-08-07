@@ -223,7 +223,7 @@ makeRotMat2d <- function(theta) {
 #' @export
 inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
 
-    thetaList <- seq(0,pi/2,length.out = rotsteps)[-rotsteps]
+    thetaList <- seq(0,pi,length.out = rotsteps)[-rotsteps]
     rots <- lapply(thetaList,makeRotMat2d)
     polyS <- scale(poly,scale=FALSE)
     polyRot <- lapply(rots,function(x) x <- polyS%*%x)
