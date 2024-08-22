@@ -184,6 +184,7 @@ inscribeEllipse <- function(poly,step=0.3,iters=999) {
     init_point = colMeans(poly)
     init_radius = step
     out <- .Call("inscribeEllipseCpp",poly,step,iters,init_point)
+    out$maxarea <- out$maxarea*pi
     return(out)
 }
 
