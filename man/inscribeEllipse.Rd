@@ -30,6 +30,7 @@ poly <- gorf.dat[c(1,6:8,2:5),,1]
 myellipse <- inscribeEllipse(poly,iters = 200)
 plot(poly,asp=1)
 lines(rbind(poly,poly[1,]))
-DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
+DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,
+            radius.y = myellipse$radius.y,col="red")
 } 
 }

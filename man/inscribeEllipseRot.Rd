@@ -12,6 +12,8 @@ inscribeEllipseRot(poly, step = 0.3, iters = 999, rotsteps = 45)
 \item{step}{stepsize}
 
 \item{iters}{integer: number of iterations to run}
+
+\item{rotsteps}{integer: number rotational steps}
 }
 \value{
 \item{center}{ center of ellipse}
@@ -32,6 +34,7 @@ poly <- gorf.dat[c(1,6:8,2:5),,1]
 myellipse <- inscribeEllipseRot(poly,iters = 999,rotsteps=10)
 plot(poly,asp=1)
 lines(rbind(poly,poly[1,]))
-DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
+DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,
+            radius.y = myellipse$radius.y,col="red")
 } 
 }

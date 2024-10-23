@@ -173,7 +173,8 @@ for (iterat in (1:iters)) {
 #' myellipse <- inscribeEllipse(poly,iters = 200)
 #' plot(poly,asp=1)
 #' lines(rbind(poly,poly[1,]))
-#' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
+#' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,
+#'             radius.y = myellipse$radius.y,col="red")
 #' } 
 #' @export
 inscribeEllipse <- function(poly,step=0.3,iters=999) {
@@ -203,7 +204,7 @@ makeRotMat2d <- function(theta) {
 #' @param poly k x 2 matrix containing ordered coordinates forming the polygon
 #' @param step stepsize
 #' @param iters integer: number of iterations to run
-#' 
+#' @param rotsteps integer: number rotational steps 
 #' @return 
 #' \item{center}{ center of ellipse}
 #' \item{radius.x}{ x-dim of ellipse}
@@ -219,7 +220,8 @@ makeRotMat2d <- function(theta) {
 #' myellipse <- inscribeEllipseRot(poly,iters = 999,rotsteps=10)
 #' plot(poly,asp=1)
 #' lines(rbind(poly,poly[1,]))
-#' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,radius.y = myellipse$radius.y,col="red")
+#' DrawEllipse(x=myellipse$center[1],y=myellipse$center[2],radius.x=myellipse$radius.x,
+#'             radius.y = myellipse$radius.y,col="red")
 #' } 
 #' @export
 inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
