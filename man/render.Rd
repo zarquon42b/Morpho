@@ -66,7 +66,7 @@ export(x, ...)
 \item{x}{object of class meshDist}
 
 \item{\dots}{for render.meshDist: additional arguments passed to
-\code{\link{shade3d}}. See \code{\link{material3d}} for details.}
+\code{\link[rgl]{shade3d}}. See \code{\link[rgl]{material3d}} for details.}
 
 \item{from}{numeric: minimum distance to color; default is set to 0 mm}
 
@@ -127,7 +127,7 @@ returns an object of class "meshDist".  export.meshDist exports the colored
 mesh as ply file and the color chart as png file.
 }
 \seealso{
-\code{\link{meshDist}}, \code{\link{shade3d}}
+\code{\link{meshDist}}, \code{\link[rgl]{shade3d}}
 }
 \author{
 Stefan Schlager

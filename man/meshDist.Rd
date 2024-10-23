@@ -67,8 +67,8 @@ meshDist(x, ...)
 \item{x}{reference mesh; object of class "mesh3d" or a n x 3 matrix
 containing 3D coordinates.}
 
-\item{\dots}{additional arguments passed to \code{\link{shade3d}}. See
-\code{\link{material3d}} for details.}
+\item{\dots}{additional arguments passed to  \code{\link[rgl]{shade3d}}. See
+\code{\link[rgl]{material3d}} for details.}
 
 \item{mesh2}{target mesh: either object of class "mesh3d" or a character
 pointing to a surface mesh (ply, obj or stl file)}
@@ -183,7 +183,7 @@ Fields From Triangle Meshes. Informatics and Mathematical Modelling, .
 }
 \seealso{
 \code{\link{render.meshDist}}, , \code{\link{export.meshDist}},
-\code{\link{shade3d}}
+\code{\link[rgl]{shade3d}}
 }
 \author{
 Stefan Schlager

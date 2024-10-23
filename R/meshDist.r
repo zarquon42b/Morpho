@@ -52,8 +52,8 @@
 #' @param scaleramp logical: if TRUE, the colorramp will be symmetrical for signed distances: spanning from \code{-max(from,to)} to \code{max(from,to)}.
 #' @param threads integer: number of threads to use. 0 = let system decide.
 #' @param titleplot character: axis description of heatmap.
-#' @param \dots additional arguments passed to \code{\link{shade3d}}. See
-#' \code{\link{material3d}} for details.
+#' @param \dots additional arguments passed to  \code{\link[rgl]{shade3d}}. See
+#' \code{\link[rgl]{material3d}} for details.
 #' @return Returns an object of class "meshDist" if the input is a surface mesh
 #' and one of class "matrixDist" if input is a matrix containing 3D
 #' coordinates.
@@ -63,7 +63,7 @@
 #' \item{params }{list of parameters used}
 #' @author Stefan Schlager
 #' @seealso \code{\link{render.meshDist}}, , \code{\link{export.meshDist}},
-#' \code{\link{shade3d}}
+#' \code{\link[rgl]{shade3d}}
 #' @references Detection of inside/outside uses the algorithm proposed in:
 #' 
 #' Baerentzen, Jakob Andreas. & Aanaes, H., 2002. Generating Signed Distance
@@ -236,9 +236,9 @@ meshDist.mesh3d <- function(x, mesh2=NULL, distvec=NULL, from=NULL, to=NULL, ste
 #' @param scaleramp if TRUE the ramp colors get scaled symmetrically into positive and negative direction.
 #' @param titleplot character: axis description of heatmap.
 #' @param \dots for render.meshDist: additional arguments passed to
-#' \code{\link{shade3d}}. See \code{\link{material3d}} for details.
+#'  \code{\link[rgl]{shade3d}}. See \code{\link[rgl]{material3d}} for details.
 #' @author Stefan Schlager
-#' @seealso \code{\link{meshDist}}, \code{\link{shade3d}}
+#' @seealso \code{\link{meshDist}}, \code{\link[rgl]{shade3d}}
 #' 
 #' @rdname render
 #' @export

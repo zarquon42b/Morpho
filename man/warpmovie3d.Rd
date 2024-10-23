@@ -86,7 +86,7 @@ vertices and faces than the starting mesh}
 
 \item{movie}{character: name of the output files}
 
-\item{\dots}{additional arguments passed to \code{\link{shade3d}} (3D) or
+\item{\dots}{additional arguments passed to \code{\link[rgl]{shade3d}} (3D) or
 \code{\link{points}} (2D).}
 
 \item{add}{logical: if TRUE, the movie will be added to the focussed

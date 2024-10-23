@@ -22,7 +22,7 @@ getOuterViewpoints(
 
 \item{radius}{defines a fix radius for the sphere (overrides arg \code{inflate}).}
 
-\item{subdivision}{parameter passed to \code{\link{vcgSphere}}}
+\item{subdivision}{parameter passed to \code{\link[Rvcg]{vcgSphere}}}
 
 \item{PCA}{logical: if TRUE, the sphere will be deformed to match the principle axes of the mesh. NOTE: this may result in the sphere not necessarily completely enclosing the mesh.}
 }

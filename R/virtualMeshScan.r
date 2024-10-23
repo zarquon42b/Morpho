@@ -100,7 +100,7 @@ virtualMeshScan <- function(x,viewpoints,offset=0.001,cores=1) {
 #' @param n number of viewpoint to generate
 #' @param inflate factor for the size of the sphere: \code{inflate=1} means that the sphere around the object just touches the point farthest away from the mesh's centroid.
 #' @param radius defines a fix radius for the sphere (overrides arg \code{inflate}).
-#' @param subdivision parameter passed to \code{\link{vcgSphere}}
+#' @param subdivision parameter passed to \code{\link[Rvcg]{vcgSphere}}
 #' @param PCA logical: if TRUE, the sphere will be deformed to match the principle axes of the mesh. NOTE: this may result in the sphere not necessarily completely enclosing the mesh.
 #' @return a list containing
 #' \item{viewpoints}{n x 3 matrix containing viewpoints.}

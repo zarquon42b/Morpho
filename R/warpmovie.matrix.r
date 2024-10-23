@@ -39,7 +39,7 @@
 #' width and 200 the height of the image.
 #' @param par list of graphial parameters: details can be found here:
 #' \code{\link{par}}.
-#' @param \dots additional arguments passed to \code{\link{shade3d}} (3D) or
+#' @param \dots additional arguments passed to \code{\link[rgl]{shade3d}} (3D) or
 #' \code{\link{points}} (2D).
 #' @author Stefan Schlager
 #' @seealso
