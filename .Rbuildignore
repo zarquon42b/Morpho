@@ -5,3 +5,4 @@ R/covWrap.r
 .travis.yml
 README.md
 debian
+^\.github$
