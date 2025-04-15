@@ -60,7 +60,7 @@ prcompfast <- function(x, retx = TRUE, center = TRUE, scale. = FALSE, tol = NULL
         pcaBasis <- svdXX$u
         sdev <- sqrt(svdXX$d/(n-1))
     }
-    pcaBasis <- pcaBasis[,usepc]
+    pcaBasis <- pcaBasis[,usepc,drop=FALSE]
     sdev <- sdev[usepc]
     
     dimnames(pcaBasis) <- list(colnames(x), paste0("PC", seq_len(ncol(pcaBasis))))
