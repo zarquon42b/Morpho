@@ -155,8 +155,8 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
    
 	if (rx == rxprev && ry == ryprev && xcprev == xc && ycprev== yc  && check_inner(px,py,rx,ry,xc,yc) >= 1) { 
 	vec jxy = get_jumperpoint(px,py,step*5,rx,ry,xc,yc);
-	double jx = jxy[0];
-	double jy = jxy[1];
+	float jx = jxy[0];
+	float jy = jxy[1];
       
 	xc = xc+jx;
 	yc = yc+jy;
