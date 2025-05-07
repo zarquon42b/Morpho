@@ -32,8 +32,8 @@ vec get_jumperpoint(std::vector<float> poly_x, std::vector<float> poly_y, float 
   }
   vec badxA(badx);
   vec badyA(bady);
-  double xmean = mean(badxA);
-  double ymean = mean(badyA);
+  float xmean = mean(badxA);
+  float ymean = mean(badyA);
   vec out(2);
   out[0] = x0-xmean;
   out[1] = y0-ymean;
@@ -51,11 +51,11 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
     mat polyMat = as<mat>(polyMat_);
     std::vector<double> px_old =  conv_to<std::vector<double>>::from(polyMat.col(0));
     std::vector<double> py_old = conv_to<std::vector<double>>::from(polyMat.col(1));
-    double step = as<double>(step_);
+    float step = as<float>(step_);
     int iters = as<int>(iters_);
     std::vector<double> init_point = as<std::vector<double>>(init_point_);
     std::vector<double> bestxy = init_point;
-    double init_radius = step;
+    float init_radius = step;
   
     std::vector<float> px, py;
     for (int i = 0; i < (px_old.size()-1); i++) {
