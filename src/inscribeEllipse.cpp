@@ -79,28 +79,28 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
     std::vector<double> pyOldRed = py_old;
     pyOldRed.erase(pyOldRed.begin());
     py.insert(py.end(),pyOldRed.begin(),pyOldRed.end());
-    double minrr = 6;
-    double rx = init_radius;
-    double besta = init_radius;
-    double bestb = init_radius;
-    double ry = init_radius;
-    double bestx = init_point[0];
-    double xc = init_point[0];
-    double besty = init_point[1];
-    double yc = init_point[1];
-    double maxarea = step*step;
-    double bestiter = 0;
+    float minrr = 6;
+    float rx = init_radius;
+    float besta = init_radius;
+    float bestb = init_radius;
+    float ry = init_radius;
+    float bestx = init_point[0];
+    float xc = init_point[0];
+    float besty = init_point[1];
+    float yc = init_point[1];
+    float maxarea = step*step;
+    float bestiter = 0;
    
  
     for (int iterat = 0; iterat < iters; iterat++) {
    
-      double s1 = step;
-      double s3 = step;
-      double s2 = step;
-      double rxprev = rx;
-      double ryprev = ry;
-      double xcprev = xc;
-      double ycprev = yc;
+      float s1 = step;
+      float s3 = step;
+      float s2 = step;
+      float rxprev = rx;
+      float ryprev = ry;
+      float xcprev = xc;
+      float ycprev = yc;
      
 
       //double ci =  check_inner(px,py,rx+s1,ry+s2,xc,yc) ;
