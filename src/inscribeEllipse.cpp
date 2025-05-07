@@ -187,10 +187,10 @@ RcppExport SEXP inscribeEllipseRotCpp(SEXP polyList_, SEXP step_, SEXP iters_,SE
   List polyList(polyList_);
   int n = polyList.size();
   List out;
-  double maxarea = 0;
+  float maxarea = 0;
   for (int i = 0; i < n; i++) {
     List temp = inscribeEllipseCpp(polyList[i], step_, iters_,init_point_);
-    double tmparea = as<double>(temp["maxarea"]);
+    float tmparea = as<float>(temp["maxarea"]);
     
     if (tmparea > maxarea) {
       maxarea = tmparea;
