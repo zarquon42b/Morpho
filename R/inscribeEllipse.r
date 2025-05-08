@@ -182,7 +182,7 @@ inscribeEllipse <- function(poly,step=0.3,iters=999) {
         poly <- rbind(poly,poly[1,])
     px_old = poly[,1]
     py_old = poly[,2]
-    init_point = round(colMeans(poly),digits=2)
+    init_point = colMeans(poly)
     init_radius = step
     out <- .Call("inscribeEllipseCpp",poly,step,iters,init_point)
     out$maxarea <- out$maxarea*pi
@@ -231,7 +231,7 @@ inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
     polyS <- scale(poly,scale=FALSE)
     polyRot <- lapply(rots,function(x) x <- polyS%*%x)
     polyRot <- lapply(polyRot,function(x) x <- sweep(x,2,-attributes(polyS)$'scaled:center'))
-    init_point = round(colMeans(poly),digits=2)
+    init_point = colMeans(poly)
     ## bestarea <- 0
     ## bestfit <- NULL
     ## besttheta <- NULL
