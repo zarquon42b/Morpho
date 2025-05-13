@@ -227,11 +227,17 @@ makeRotMat2d <- function(theta) {
 inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
 
     thetaList <- seq(0,pi,length.out = rotsteps)[-rotsteps]
+    pihalf <- which(thetaList == pi/2)
+    if (length(pihalf))
+        thetaList <- thetaList[-pihalf]
     rots <- lapply(thetaList,makeRotMat2d)
     polyS <- scale(poly,scale=FALSE)
-    polyRot <- lapply(rots,function(x) x <- polyS%*%x)
+    polyRot <- lapply(rots,function(x) x <- t(x%*%t(polyS)))
     polyRot <- lapply(polyRot,function(x) x <- sweep(x,2,-attributes(polyS)$'scaled:center'))
     init_point = colMeans(poly)
+
+    
+    
     ## bestarea <- 0
     ## bestfit <- NULL
     ## besttheta <- NULL
@@ -249,6 +255,11 @@ inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
     besti <- bestfit$bestiter
     bestfit$theta <- thetaList[besti]
     bestfit$polyRot <- polyRot[[besti]]
+    rottrafo <- centertrafo <- invtrafo <- diag(3)
+    centertrafo[1:2,3] <- -attributes(polyS)$'scaled:center'
+    rottrafo[1:2,1:2] <- rots[[besti]]
+    invtrafo[1:2,3] <- attributes(polyS)$'scaled:center'
+    bestfit$trafo <- invtrafo%*%rottrafo%*%centertrafo
     bestfit$maxarea <- bestfit$maxarea*pi
    return(bestfit)
 }

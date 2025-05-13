@@ -5,26 +5,26 @@ using namespace Rcpp;
 using namespace std;
 using namespace arma;
 
-double check_inner(std::vector<double> poly_x, std::vector<double> poly_y, double a, double b, double x0, double y0) {
+double check_inner(std::vector<float> poly_x, std::vector<float> poly_y, float a, float b, float x0, float y0) {
   
-  double minrr = 5;
+  float minrr = 5;
   for (int i=0; i < poly_x.size();i++) {
-    double x = poly_x[i];
-    double y = poly_y[i];
-    double rr = pow((x-x0)/a,2) + pow((y-y0)/b,2);
+    float x = poly_x[i];
+    float y = poly_y[i];
+    float rr = pow((x-x0)/a,2) + pow((y-y0)/b,2);
     if (rr < minrr)
       minrr = rr;
   }
   return minrr;
 }
 
-vec get_jumperpoint(std::vector<double> poly_x, std::vector<double> poly_y, double sizeup,double a, double b, double x0,double y0) {
+vec get_jumperpoint(std::vector<float> poly_x, std::vector<float> poly_y, float sizeup,float a, float b, float x0,float y0) {
   std::vector<double> badx ,bady;
     
   for (int i=0; i < poly_x.size();i++) {
-    double x = poly_x[i];
-    double y = poly_y[i];
-    double rr = pow((x-x0)/(a+sizeup),2)+pow(((y-y0)/(b+sizeup)),2);
+    float x = poly_x[i];
+    float y = poly_y[i];
+    float rr = pow((x-x0)/(a+sizeup),2)+pow(((y-y0)/(b+sizeup)),2);
     if (rr < 1) {
       badx.push_back(x);
       bady.push_back(y);
@@ -32,8 +32,8 @@ vec get_jumperpoint(std::vector<double> poly_x, std::vector<double> poly_y, doub
   }
   vec badxA(badx);
   vec badyA(bady);
-  double xmean = mean(badxA);
-  double ymean = mean(badyA);
+  float xmean = mean(badxA);
+  float ymean = mean(badyA);
   vec out(2);
   out[0] = x0-xmean;
   out[1] = y0-ymean;
@@ -51,17 +51,17 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
     mat polyMat = as<mat>(polyMat_);
     std::vector<double> px_old =  conv_to<std::vector<double>>::from(polyMat.col(0));
     std::vector<double> py_old = conv_to<std::vector<double>>::from(polyMat.col(1));
-    double step = as<double>(step_);
+    float step = as<float>(step_);
     int iters = as<int>(iters_);
     std::vector<double> init_point = as<std::vector<double>>(init_point_);
     std::vector<double> bestxy = init_point;
-    double init_radius = step;
+    float init_radius = step;
   
-    std::vector<double> px, py;
+    std::vector<float> px, py;
     for (int i = 0; i < (px_old.size()-1); i++) {
-      double dx = px_old[i+1]-px_old[i];
-      double dy = py_old[i+1]-py_old[i];
-      double len1 = pow((dx*dx+dy*dy),0.5);
+      float dx = px_old[i+1]-px_old[i];
+      float dy = py_old[i+1]-py_old[i];
+      float len1 = pow((dx*dx+dy*dy),0.5);
       px.push_back(px_old[i]);
       py.push_back(py_old[i]);
     
@@ -79,28 +79,28 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
     std::vector<double> pyOldRed = py_old;
     pyOldRed.erase(pyOldRed.begin());
     py.insert(py.end(),pyOldRed.begin(),pyOldRed.end());
-    double minrr = 6;
-    double rx = init_radius;
-    double besta = init_radius;
-    double bestb = init_radius;
-    double ry = init_radius;
-    double bestx = init_point[0];
-    double xc = init_point[0];
-    double besty = init_point[1];
-    double yc = init_point[1];
-    double maxarea = step*step;
-    double bestiter = 0;
+    float minrr = 6;
+    float rx = init_radius;
+    float besta = init_radius;
+    float bestb = init_radius;
+    float ry = init_radius;
+    float bestx = init_point[0];
+    float xc = init_point[0];
+    float besty = init_point[1];
+    float yc = init_point[1];
+    float maxarea = step*step;
+    float bestiter = 0;
    
  
     for (int iterat = 0; iterat < iters; iterat++) {
    
-      double s1 = step;
-      double s3 = step;
-      double s2 = step;
-      double rxprev = rx;
-      double ryprev = ry;
-      double xcprev = xc;
-      double ycprev = yc;
+      float s1 = step;
+      float s3 = step;
+      float s2 = step;
+      float rxprev = rx;
+      float ryprev = ry;
+      float xcprev = xc;
+      float ycprev = yc;
      
 
       //double ci =  check_inner(px,py,rx+s1,ry+s2,xc,yc) ;
@@ -155,8 +155,8 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
    
 	if (rx == rxprev && ry == ryprev && xcprev == xc && ycprev== yc  && check_inner(px,py,rx,ry,xc,yc) >= 1) { 
 	vec jxy = get_jumperpoint(px,py,step*5,rx,ry,xc,yc);
-	double jx = jxy[0];
-	double jy = jxy[1];
+	float jx = jxy[0];
+	float jy = jxy[1];
       
 	xc = xc+jx;
 	yc = yc+jy;
@@ -187,10 +187,10 @@ RcppExport SEXP inscribeEllipseRotCpp(SEXP polyList_, SEXP step_, SEXP iters_,SE
   List polyList(polyList_);
   int n = polyList.size();
   List out;
-  double maxarea = 0;
+  float maxarea = 0;
   for (int i = 0; i < n; i++) {
     List temp = inscribeEllipseCpp(polyList[i], step_, iters_,init_point_);
-    double tmparea = as<double>(temp["maxarea"]);
+    float tmparea = as<float>(temp["maxarea"]);
     
     if (tmparea > maxarea) {
       maxarea = tmparea;
