@@ -6,7 +6,7 @@
 #' @param y target landmarks
 #' @param iterations integer: number of iterations
 #' @param mindist restrict valid points to be within this distance
-#' @param subsample use a subsample determined by kmean clusters to speed up computation
+#' @param subsample use only a subsample of points to speed up computation, if subsampling is desired specify parameter k for k-means clustering (number of subsampled points) 
 #' @param type character: select the transform to be applied, can be "rigid","similarity" or "affine"
 #' @param weights vector of length \code{nrow(x)} containing weights for each row in \code{x}
 #' @param centerweight logical: if weights are defined and centerweigths=TRUE, the matrix will be centered according to these weights instead of the barycenter.
