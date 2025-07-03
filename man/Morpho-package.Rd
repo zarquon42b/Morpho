@@ -33,6 +33,14 @@ population differences and sexual dimorphism. PhD thesis,
 \enc{Universitätsbibliothek}{Universitaetsbibliothek} Freiburg. URL:
 \url{http://www.freidok.uni-freiburg.de/volltexte/9181/}.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/zarquon42b/Morpho}
+  \item Report bugs at \url{https://github.com/zarquon42b/Morpho/issues}
+}
+
+}
 \author{
 Stefan Schlager \email{zarquon42@gmail.com}
 

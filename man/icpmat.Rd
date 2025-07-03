@@ -13,7 +13,9 @@ icpmat(
   type = c("rigid", "similarity", "affine"),
   weights = NULL,
   threads = 1,
-  centerweight = FALSE
+  centerweight = FALSE,
+  minscale = 0.9,
+  mincumscale = NULL
 )
 }
 \arguments{
@@ -25,7 +27,7 @@ icpmat(
 
 \item{mindist}{restrict valid points to be within this distance}
 
-\item{subsample}{use a subsample determined by kmean clusters to speed up computation}
+\item{subsample}{use only a subsample of points to speed up computation, if subsampling is desired specify parameter k for k-means clustering (number of subsampled points)}
 
 \item{type}{character: select the transform to be applied, can be "rigid","similarity" or "affine"}
 
@@ -34,6 +36,10 @@ icpmat(
 \item{threads}{integer: number of threads to use.}
 
 \item{centerweight}{logical: if weights are defined and centerweigths=TRUE, the matrix will be centered according to these weights instead of the barycenter.}
+
+\item{minscale}{double: for types "similarity" and "affine", minimum scale factor per iteration, prevents excessive shrinking in first iteration.}
+
+\item{mincumscale}{double: for types "similarity" and "affine", minimum cumulative scale factor, prevents shrinking below threshold (e.g. 0.7), values above 1 will enforce size increase, should only be used if both landmark configurations are in the same scale.}
 }
 \value{
 returns the rotated landmarks
