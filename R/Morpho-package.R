@@ -8,15 +8,15 @@
 #' \tabular{ll}{
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
-#' Version: \tab 2.12\cr
-#' Date: \tab 2023-12-04\cr
+#' Version: \tab 2.13\cr
+#' Date: \tab 2025-07-23\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }
 #' 
 #' @name Morpho-package
 #' @aliases Morpho-package Morpho
-#' @docType package
+#' @docType _PACKAGE
 #' @author Stefan Schlager \email{zarquon42@@gmail.com}
 #' 
 #' Maintainer: Stefan Schlager \email{zarquon42@@gmail.com}
