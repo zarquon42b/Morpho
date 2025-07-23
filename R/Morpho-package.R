@@ -16,7 +16,7 @@
 #' 
 #' @name Morpho-package
 #' @aliases Morpho-package Morpho
-#' @docType _PACKAGE
+"_PACKAGE"
 #' @author Stefan Schlager \email{zarquon42@@gmail.com}
 #' 
 #' Maintainer: Stefan Schlager \email{zarquon42@@gmail.com}
