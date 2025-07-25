@@ -39,6 +39,10 @@ lineplot <- function(x,point,col=1,lwd=1,line_antialias = FALSE,lty=1,add=TRUE)
     {
       if (is.list(point)==TRUE)
         {
+        split_into_pairs <- function(vec) {
+          lapply(seq_len(length(vec) - 1), function(i) c(vec[i], vec[i + 1]))
+        }
+        point <- unlist(lapply(point, split_into_pairs), recursive = FALSE)
         start <- x[do.call(rbind, point)[, 1],]
         end<- x[do.call(rbind, point)[, 2], ]
         links <- do.call(rbind,Morpho::array2list(aperm(simplify2array(list(start,end)))))
