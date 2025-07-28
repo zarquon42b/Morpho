@@ -73,6 +73,7 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
         xtmp <- x
     }
     yKD <- vcgCreateKDtree(y)
+    cumscalef <- 1
     for (i in 1:iterations) {
         clost <- vcgSearchKDtree(yKD,xtmp,1,threads=threads)
         good <- which(clost$distance < mindist)
@@ -92,7 +93,7 @@ icpmat <- function(x,y,iterations,mindist=1e15,subsample=NULL,type=c("rigid","si
           if(!is.null(mincumscale)){
             if(cumscalef<mincumscale){
               type <- "rigid"
-              warning("Cumulative scale factor belows mincumscalf, switching to rigid type")
+              warning("Cumulative scale factor below mincumscale, switching to rigid type")
               #scale up by inverse of cumscalef
               trafo <- matrix(0, 4, 4) 
               trafo[1,1] <- 1/cumscalef
