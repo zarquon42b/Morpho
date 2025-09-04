@@ -9,7 +9,7 @@
 #' Package: \tab Morpho\cr
 #' Type: \tab Package\cr
 #' Version: \tab 2.13\cr
-#' Date: \tab 2025-07-23\cr
+#' Date: \tab 2025-09-04\cr
 #' License: \tab GPL\cr
 #' LazyLoad: \tab yes\cr
 #' }

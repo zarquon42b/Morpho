@@ -2,7 +2,7 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in Morpho version 2.13 (2025-07-23)}{
+\section{Changes in Morpho version 2.13 (2025-09-04)}{
   
   \itemize{
     
