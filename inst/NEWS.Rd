@@ -2,6 +2,23 @@
 \title{News for Package 'Morpho'}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in Morpho version 2.13 (2025-07-23)}{
+  
+  \itemize{
+    
+    \item NEW: inscribeEllipse/inscribeEllipseRot: fit a maximum area
+    ellipse into a 2D outline. Published in
+    \href{http://dx.doi.org/10.21203/rs.3.rs-7409232/v1}{Torres et
+      al. (2025)}
+    \item NEW: ILDS, ILDSR2: functions to assess meaningful subsets of
+    interlandmark distances (Cardini et al (2025) - under review).
+    \item icpmat: add functionality to avoid excessive scaling in case
+    of similarity transform.
+    \item meshDist: fix heatmap colors for case matrix
+
+    }
+}
+
 \section{Changes in Morpho version 2.12 (2023-12-06)}{
   
   \itemize{
