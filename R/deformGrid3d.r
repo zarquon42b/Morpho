@@ -46,7 +46,7 @@
 #' @importFrom Rvcg vcgSphere
 #' @importFrom rgl translate3d
 #' @export
-deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE,slice1=NULL,slice2=NULL,slice3=NULL,gridcol=1, gridwidth=1,...)
+deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1, 2), show=c(1,2),lines=TRUE,lcol=1,add=FALSE,col1=2,col2=3,type=c("s","p"), size=NULL, pcaxis=FALSE,ask=TRUE,margin=0.2,createMesh=FALSE,slice1=NULL,slice2=NULL,slice3=NULL,gridcol=1, gridwidth=1,tpskernel=0,...)
 {
     if (inherits(matrix,"mesh3d"))
         matrix <- vert2points(matrix)
@@ -110,7 +110,7 @@ deformGrid3d <- function(matrix,tarmatrix,ngrid=0,align=FALSE,lwd=1,showaxis=c(1
         else
             space <- diag(3)
         x0orig <- t(t(x0%*%space)+mean.mat)
-        x0 <- tps3d(x0orig,matrix,tarmatrix,lambda = 1e-8,threads=1)
+        x0 <- tps3d(x0orig,matrix,tarmatrix,lambda = 1e-8,threads=1,tpskernel = tpskernel)
         
         ## create deformation cube
         outmesh <- list(vb = rbind(t(x0),1))

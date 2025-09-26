@@ -15,7 +15,7 @@ RcppExport SEXP createL(SEXP Matrix_,SEXP tpskernel_, SEXP threads_= wrap(1)) {
     int m = MatrixA.n_cols;
     int omp = 1;
     Rprintf("CreateL %i\n",tpskerneltype);
-
+    Rprintf("CreateL %i\n",m);
     if (threads == 1)
       omp = 0;
 #pragma omp parallel for schedule(static) num_threads(threads) if (omp)
@@ -24,9 +24,9 @@ RcppExport SEXP createL(SEXP Matrix_,SEXP tpskernel_, SEXP threads_= wrap(1)) {
 	mat diff = MatrixA.row(i)-MatrixA.row(j);
 	if (tpskerneltype == 0)
 	  K(i,j) = tpskernel(diff,m);
-	else
+	else {
 	  K(i,j) = tpskernelCube(diff,m);
-	
+	}
       }
     }
     K = K+K.t();

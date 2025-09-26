@@ -74,11 +74,11 @@ double tpskernel(mat tmp, int dim) {
 //3d h^3
 double tpskernelCube(mat tmp, int dim) {
   double out;
-  double h = dot(tmp,tmp);
+  double h = sqrt(dot(tmp,tmp));
   if(dim > 2)
-    double out = pow(h,3);
+    double out = pow(h,3.0);
   else {
-    double tmp0 = pow(h,4);
+    double tmp0 = pow(h,4.0);
 	  if (tmp0 == 0) 
 	    out = 0;
 	  else 

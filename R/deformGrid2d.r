@@ -37,7 +37,7 @@
 #' 
 #' @export
 
-deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,lty=2,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="grey",gridlty=1,cex1=1,cex2=1,...)
+deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,lcol=1,lty=2,col1=2,col2=3,pcaxis=FALSE,add=FALSE,wireframe=NULL,margin=0.2,gridcol="grey",gridlty=1,cex1=1,cex2=1,tpskernel=0,...)
 {
     k <- dim(matrix)[1]
     x0 <- NULL
@@ -69,8 +69,7 @@ deformGrid2d <- function(matrix,tarmatrix,ngrid=0,lwd=1,show=c(1:2),lines=TRUE,l
         
         x0 <- (x0%*%space)
         x00 <- x0 <- scale(x0,center=-mean.mat,scale=F)
-        x0 <- tps3d(x0,matrix,tarmatrix,threads=1)
-        
+        x0 <- tps3d(x0,matrix,tarmatrix,threads=1,tpskernel = tpskernel)       
     }
     lims <- apply(rbind(matrix,tarmatrix,x0),2,range)
     if (1 %in% show) {
