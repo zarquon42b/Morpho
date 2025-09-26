@@ -30,8 +30,8 @@ applyTransform.matrix <- function(x,trafo,inverse=FALSE,threads=1,...) {
         if (ncol(trafo$refmat) != ncol(x))
             stop("TPS must be computed from control points of the same dimensionality")
         if (inverse)
-            trafo <- computeTransform(trafo$refmat,trafo$tarmat,type="tps")
-        out <- .fx(trafo$refmat,x,trafo$coeff,threads=threads)
+            trafo <- computeTransform(trafo$refmat,trafo$tarmat,type="tps",tpskernel=trafo$tpskernel)
+        out <- .fx(trafo$refmat,x,trafo$coeff,threads=threads,tpskernel=trafo$tpskernel)
     }
     return(out)
 }
@@ -81,8 +81,8 @@ applyTransform.default <- function(x,trafo,inverse=FALSE,threads=1,...) {
         if (ncol(trafo$refmat) != ncol(x))
             stop("TPS must be computed from control points of the same dimensionality")
         if (inverse)
-            trafo <- computeTransform(trafo$refmat,trafo$tarmat,type="tps")
-        out <- .fx(trafo$refmat,x,trafo$coeff,threads=threads)
+            trafo <- computeTransform(trafo$refmat,trafo$tarmat,type="tps",tpskernel=trafo$tpskernel)
+        out <- .fx(trafo$refmat,x,trafo$coeff,threads=threads,tpskernel=trafo$tpskernel)
     }
     return(out)
 }

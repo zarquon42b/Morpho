@@ -45,7 +45,7 @@
 #' sqrt(sum(be3^2))
 #' @importFrom Matrix bdiag
 #' @export
-CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3"),threads=1) {
+CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3"),tpskernel=0,threads=1) {
     if (ncol(matrix) %in%  c(2,3)) {
         out <- list()
         k <- nrow(matrix)
@@ -54,7 +54,7 @@ CreateL <- function(matrix,lambda=1e-8, output=c("K","L","Linv","Lsubk", "Lsubk3
                                         #O <- matrix(0,4,4)
         if (!is.matrix(matrix) || !is.numeric(matrix))
             stop("matrix must be a numeric matrix")
-        K <- .Call("createL",matrix,threads)
+        K <- .Call("createL",matrix,tpskernel,threads)
         L <- matrix(0,k+m+1,k+m+1)
         if (lambda !=0 )
             diag(K) <- lambda

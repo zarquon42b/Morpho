@@ -16,7 +16,7 @@ extern SEXP arrMean3Cpp(SEXP);
 extern SEXP asymPermuteCpp(SEXP, SEXP, SEXP);
 extern SEXP barycenterCpp(SEXP, SEXP);
 extern SEXP covPCAwrap(SEXP, SEXP, SEXP, SEXP);
-extern SEXP createL(SEXP, SEXP);
+extern SEXP createL(SEXP, SEXP, SEXP);
 extern SEXP CVAdists(SEXP, SEXP, SEXP, SEXP);
 extern SEXP edgePlane(SEXP, SEXP, SEXP);
 extern SEXP face_zero(SEXP);
@@ -27,7 +27,7 @@ extern SEXP meshresCpp(SEXP, SEXP);
 extern SEXP permudistArma(SEXP, SEXP, SEXP, SEXP);
 extern SEXP points2mesh(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP scaleprocCpp(SEXP);
-extern SEXP tpsfx(SEXP, SEXP, SEXP, SEXP);
+extern SEXP tpsfx(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP tweakU(SEXP, SEXP, SEXP, SEXP);
 extern SEXP updateFaceNormals(SEXP, SEXP);
 extern SEXP updateVertexNormals(SEXP, SEXP, SEXP);
@@ -41,7 +41,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"asymPermuteCpp",         (DL_FUNC) &asymPermuteCpp,         3},
     {"barycenterCpp",          (DL_FUNC) &barycenterCpp,          2},
     {"covPCAwrap",          (DL_FUNC) &covPCAwrap,          4},
-    {"createL",             (DL_FUNC) &createL,             2},
+    {"createL",             (DL_FUNC) &createL,             3},
     {"CVAdists",            (DL_FUNC) &CVAdists,            4},
     {"edgePlane",           (DL_FUNC) &edgePlane,           3},
     {"face_zero",           (DL_FUNC) &face_zero,           1},
@@ -52,7 +52,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"permudistArma",       (DL_FUNC) &permudistArma,       4},
     {"points2mesh",         (DL_FUNC) &points2mesh,         8},
     {"scaleprocCpp",           (DL_FUNC) &scaleprocCpp,           1},
-    {"tpsfx",               (DL_FUNC) &tpsfx,               4},
+    {"tpsfx",               (DL_FUNC) &tpsfx,               5},
     {"tweakU",              (DL_FUNC) &tweakU,              4},
     {"updateFaceNormals",   (DL_FUNC) &updateFaceNormals,   2},
     {"updateVertexNormals", (DL_FUNC) &updateVertexNormals, 3},

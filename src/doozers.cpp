@@ -53,4 +53,39 @@ void crosspArma(colvec x, colvec y, colvec& z) {
   if (lz > 0) 
     z = z/lz;
 }
+
+
+double tpskernel(mat tmp, int dim) {
+  double out;
+  if(dim > 2)
+    double out = -sqrt(dot(tmp,tmp));
+  else {
+	  double tmp0 = dot(tmp,tmp);
+	  if (tmp0 == 0) 
+	    out = 0;
+	  else 
+	    out = tmp0*log(tmp0);
+	}
+  return(out);
+}
+
+
+//2d h^4*log(h);
+//3d h^3
+double tpskernelCube(mat tmp, int dim) {
+  double out;
+  double h = dot(tmp,tmp);
+  if(dim > 2)
+    double out = pow(h,3);
+  else {
+    double tmp0 = pow(h,4);
+	  if (tmp0 == 0) 
+	    out = 0;
+	  else 
+	    out = tmp0*log(h);
+	}
+  return(out);
+}
+
+
 #endif /*angcal_H_*/

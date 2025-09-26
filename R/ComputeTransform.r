@@ -21,7 +21,7 @@
 #' transLM <- applyTransform(boneLM[,,2],trafo)
 #' @seealso \code{\link{rotonto}, link{rotmesh.onto}, \link{tps3d}}
 #' @export
-computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8, weights=NULL,centerweight=FALSE,threads=1) {
+computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),reflection=FALSE,lambda=1e-8, weights=NULL,centerweight=FALSE,tpskernel=0, threads=1) {
     if (inherits(x,"mesh3d"))
         x <- vert2points(x)
     if (inherits(y,"mesh3d"))
@@ -61,13 +61,13 @@ computeTransform <- function(x,y,type=c("rigid","similarity","affine","tps"),ref
         trafo[m+1,m+1] <- 1
     } else if (type == "t") {
         m <- ncol(y)
-        L <- CreateL(y,lambda=lambda, output="L",threads=threads)$L
+        L <- CreateL(y,lambda=lambda, output="L",threads=threads, tpskernel=tpskernel)$L
         m2 <- rbind(x,matrix(0,m+1,m))
         coeff <- try(as.matrix(base::solve(L,m2,tol=1e-20)),silent = TRUE)
         if (inherits(coeff,"try-error")) ## in some cases base::solve is more sensitive with near-singularity
             coeff <- try(as.matrix(Matrix::solve(L,m2)))
 
-        trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda)
+        trafo <- list(refmat=y,tarmat=x,coeff=coeff,lambda=lambda,tpskernel=tpskernel)
         class(trafo) <- "tpsCoeff"
     } else {
         stop("Unknown transformation type")
