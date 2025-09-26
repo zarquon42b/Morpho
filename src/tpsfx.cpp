@@ -17,7 +17,7 @@ RcppExport SEXP tpsfx(SEXP refmat_, SEXP M_, SEXP coefs_, SEXP tpskernel_, SEXP 
     mat refmat = as<mat>(refmat_);
     //M contains homogenous coordinates
     mat M = as<mat>(M_);
-    uint lmdim = M.n_cols-1;
+    int lmdim = M.n_cols-1;
     int tpskerneltype = as<int>(tpskernel_);
     uvec select(lmdim);
     for (uint i = 0; i < lmdim; i++)
