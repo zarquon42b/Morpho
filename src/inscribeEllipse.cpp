@@ -45,7 +45,7 @@ vec get_jumperpoint(std::vector<float> poly_x, std::vector<float> poly_y, float 
 
 
 
-RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP init_point_) {
+RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP init_point_, SEXP maxratio_) {
   
   try{
     mat polyMat = as<mat>(polyMat_);
@@ -56,6 +56,7 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
     std::vector<double> init_point = as<std::vector<double>>(init_point_);
     std::vector<double> bestxy = init_point;
     float init_radius = step;
+    float maxratio = as<float>(maxratio_);
   
     std::vector<float> px, py;
     for (int i = 0; i < (px_old.size()-1); i++) {
@@ -161,7 +162,13 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
 	xc = xc+jx;
 	yc = yc+jy;
 	}
-	if (rx*ry > maxarea) {
+	double ellcheck;
+	if (rx > ry)
+	  ellcheck = rx/ry;
+	else
+	  ellcheck = ry/rx;
+	
+	if (rx*ry > maxarea && ellcheck < maxratio) {
 	bestiter = iterat;
 	bestxy[0] = xc;
 	bestxy[1] = yc;
@@ -183,13 +190,13 @@ RcppExport SEXP inscribeEllipseCpp(SEXP polyMat_, SEXP step_, SEXP iters_,SEXP i
   } return R_NilValue; 
 } 
 
-RcppExport SEXP inscribeEllipseRotCpp(SEXP polyList_, SEXP step_, SEXP iters_,SEXP init_point_) {
+RcppExport SEXP inscribeEllipseRotCpp(SEXP polyList_, SEXP step_, SEXP iters_,SEXP init_point_, SEXP maxratio_) {
   List polyList(polyList_);
   int n = polyList.size();
   List out;
   float maxarea = 0;
   for (int i = 0; i < n; i++) {
-    List temp = inscribeEllipseCpp(polyList[i], step_, iters_,init_point_);
+    List temp = inscribeEllipseCpp(polyList[i], step_, iters_,init_point_, maxratio_);
     float tmparea = as<float>(temp["maxarea"]);
     
     if (tmparea > maxarea) {

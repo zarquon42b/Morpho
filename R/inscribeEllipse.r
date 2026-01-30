@@ -159,7 +159,7 @@ for (iterat in (1:iters)) {
 #' @param poly k x 2 matrix containing ordered coordinates forming the polygon. If outline is not closed, the function will close it.
 #' @param step stepsize
 #' @param iters integer: number of iterations to run
-#' 
+#' @param maxratio numeric: constrain parameters a and b to be below that ratio. For maxratio=2 means a/b and b/a are < 2.
 #' @return 
 #' \item{center}{ center of ellipse}
 #' \item{radius.x}{ x-dim of ellipse}
@@ -177,14 +177,14 @@ for (iterat in (1:iters)) {
 #'             radius.y = myellipse$radius.y,col="red")
 #' } 
 #' @export
-inscribeEllipse <- function(poly,step=0.3,iters=999) {
+inscribeEllipse <- function(poly,step=0.3,iters=999,maxratio=1e6) {
     if (sum(abs(poly[1,]-poly[nrow(poly),])) != 0)
         poly <- rbind(poly,poly[1,])
     px_old = poly[,1]
     py_old = poly[,2]
     init_point = colMeans(poly)
     init_radius = step
-    out <- .Call("inscribeEllipseCpp",poly,step,iters,init_point)
+    out <- .Call("inscribeEllipseCpp",poly,step,iters,init_point,maxratio)
     out$maxarea <- out$maxarea*pi
     return(out)
 }
@@ -206,6 +206,7 @@ makeRotMat2d <- function(theta) {
 #' @param iters integer: number of iterations to run
 #' @param rotsteps integer: number rotational steps
 #' @param maxpi maximum amount of rotation in radians: will go both left and right by rotsteps
+#' @param maxratio numeric: constrain parameters a and b to be below that ratio. For maxratio=2 means a/b and b/a are < 2.
 #' @param threads integer: number of threads to use (not applicable on Windows)
 #' @return 
 #' \item{center}{ center of ellipse}
@@ -226,7 +227,7 @@ makeRotMat2d <- function(theta) {
 #'             radius.y = myellipse$radius.y,col="red")
 #' } 
 #' @export
-inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45,maxpi=pi,threads=1) {
+inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45,maxpi=pi,maxratio=1e6,threads=1) {
 
     if (maxpi < pi) {
         thetaList <- seq(0,maxpi,length.out = rotsteps)[-rotsteps]
@@ -259,7 +260,7 @@ inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45,maxpi=pi,thre
         
     ## }
     if (threads > 1) {
-        trials <- parallel::mclapply(polyRot,inscribeEllipse,step=step, iters=iters,mc.cores = threads)
+        trials <- parallel::mclapply(polyRot,inscribeEllipse,step=step, iters=iters,maxratio=maxratio,mc.cores = threads)
         areas <- sapply(trials, function(x) x <- x$maxarea)
         mymax <- which.max(areas)
         bestfit <- trials[[mymax]]
@@ -267,7 +268,7 @@ inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45,maxpi=pi,thre
         
     }
     else {
-        bestfit  <-  .Call("inscribeEllipseRotCpp",polyRot,step,iters,init_point)
+        bestfit  <-  .Call("inscribeEllipseRotCpp",polyRot,step,iters,init_point,maxratio)
         }
     besti <- bestfit$bestiter
     bestfit$theta <- thetaList[besti]

@@ -4,7 +4,7 @@
 \alias{inscribeEllipse}
 \title{Inscribe the maximum ellipse into any arbitrary 2D polygon}
 \usage{
-inscribeEllipse(poly, step = 0.3, iters = 999)
+inscribeEllipse(poly, step = 0.3, iters = 999, maxratio = 1e+06)
 }
 \arguments{
 \item{poly}{k x 2 matrix containing ordered coordinates forming the polygon. If outline is not closed, the function will close it.}
@@ -12,6 +12,8 @@ inscribeEllipse(poly, step = 0.3, iters = 999)
 \item{step}{stepsize}
 
 \item{iters}{integer: number of iterations to run}
+
+\item{maxratio}{numeric: constrain parameters a and b to be below that ratio. For maxratio=2 means a/b and b/a are < 2.}
 }
 \value{
 \item{center}{ center of ellipse}

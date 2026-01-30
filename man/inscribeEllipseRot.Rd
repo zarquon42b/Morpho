@@ -10,6 +10,7 @@ inscribeEllipseRot(
   iters = 999,
   rotsteps = 45,
   maxpi = pi,
+  maxratio = 1e+06,
   threads = 1
 )
 }
@@ -23,6 +24,8 @@ inscribeEllipseRot(
 \item{rotsteps}{integer: number rotational steps}
 
 \item{maxpi}{maximum amount of rotation in radians: will go both left and right by rotsteps}
+
+\item{maxratio}{numeric: constrain parameters a and b to be below that ratio. For maxratio=2 means a/b and b/a are < 2.}
 
 \item{threads}{integer: number of threads to use (not applicable on Windows)}
 }
