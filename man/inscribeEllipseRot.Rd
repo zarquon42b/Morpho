@@ -4,7 +4,14 @@
 \alias{inscribeEllipseRot}
 \title{Inscribe the maximum ellipse into any arbitrary 2D polygon including rotations}
 \usage{
-inscribeEllipseRot(poly, step = 0.3, iters = 999, rotsteps = 45)
+inscribeEllipseRot(
+  poly,
+  step = 0.3,
+  iters = 999,
+  rotsteps = 45,
+  maxpi = pi,
+  threads = 1
+)
 }
 \arguments{
 \item{poly}{k x 2 matrix containing ordered coordinates forming the polygon}
@@ -14,6 +21,10 @@ inscribeEllipseRot(poly, step = 0.3, iters = 999, rotsteps = 45)
 \item{iters}{integer: number of iterations to run}
 
 \item{rotsteps}{integer: number rotational steps}
+
+\item{maxpi}{maximum amount of rotation in radians: will go both left and right by rotsteps}
+
+\item{threads}{integer: number of threads to use (not applicable on Windows)}
 }
 \value{
 \item{center}{ center of ellipse}

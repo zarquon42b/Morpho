@@ -204,7 +204,9 @@ makeRotMat2d <- function(theta) {
 #' @param poly k x 2 matrix containing ordered coordinates forming the polygon
 #' @param step stepsize
 #' @param iters integer: number of iterations to run
-#' @param rotsteps integer: number rotational steps 
+#' @param rotsteps integer: number rotational steps
+#' @param maxpi maximum amount of rotation in radians: will go both left and right by rotsteps
+#' @param threads integer: number of threads to use (not applicable on Windows)
 #' @return 
 #' \item{center}{ center of ellipse}
 #' \item{radius.x}{ x-dim of ellipse}
@@ -224,9 +226,15 @@ makeRotMat2d <- function(theta) {
 #'             radius.y = myellipse$radius.y,col="red")
 #' } 
 #' @export
-inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
+inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45,maxpi=pi,threads=1) {
 
-    thetaList <- seq(0,pi,length.out = rotsteps)[-rotsteps]
+    if (maxpi < pi) {
+        thetaList <- seq(0,maxpi,length.out = rotsteps)[-rotsteps]
+        thetaList1 <- -thetaList[-1]
+        thetaList <- c(thetaList,thetaList1)
+    } else 
+        thetaList <- seq(0,pi,length.out = rotsteps)[-rotsteps]
+
     pihalf <- which(thetaList == pi/2)
     if (length(pihalf))
         thetaList <- thetaList[-pihalf]
@@ -250,8 +258,17 @@ inscribeEllipseRot <- function(poly,step=0.3,iters=999,rotsteps=45) {
     ##     }
         
     ## }
-
-    bestfit  <-  .Call("inscribeEllipseRotCpp",polyRot,step,iters,init_point)
+    if (threads > 1) {
+        trials <- parallel::mclapply(polyRot,inscribeEllipse,step=step, iters=iters,mc.cores = threads)
+        areas <- sapply(trials, function(x) x <- x$maxarea)
+        mymax <- which.max(areas)
+        bestfit <- trials[[mymax]]
+        bestfit$bestiter <- mymax
+        
+    }
+    else {
+        bestfit  <-  .Call("inscribeEllipseRotCpp",polyRot,step,iters,init_point)
+        }
     besti <- bestfit$bestiter
     bestfit$theta <- thetaList[besti]
     bestfit$polyRot <- polyRot[[besti]]
