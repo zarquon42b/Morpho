@@ -22,7 +22,7 @@ double angcalcArma(vec a, vec b) {
   } catch (std::exception& e) {
     forward_exception_to_r( e );
   } catch (...) {
-    ::Rf_error("unknown exception");
+    ::Rcpp::stop("unknown exception");
   } return 1.0; // -Wall
 }
 		
@@ -42,7 +42,7 @@ double angcalcRcpp(NumericVector a_, NumericVector b_) {
   } catch (std::exception& e) {
     forward_exception_to_r( e );
   } catch (...) {
-    ::Rf_error("unknown exception");
+    ::Rcpp::stop("unknown exception");
   } return 1.0; 
 }
 void crosspArma(colvec x, colvec y, colvec& z) {

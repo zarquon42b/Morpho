@@ -48,6 +48,6 @@ SEXP permudistArma(SEXP data_, SEXP groups_, SEXP rounds_,SEXP usemedian_) {
   } catch (std::exception& e) {
     forward_exception_to_r( e );
   } catch (...) {
-    ::Rf_error("unknown exception");
+    ::Rcpp::stop("unknown exception");
   } return R_NilValue; 
 }
