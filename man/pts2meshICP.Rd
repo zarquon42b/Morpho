@@ -6,10 +6,15 @@
 \usage{
 pts2meshICP(
   x,
+  y,
   maxiter = 100,
   mindist = 1e+15,
   minchange = 1e-04,
+  subsample = NULL,
   type = c("rigid", "similarity", "affine"),
+  threads = 1,
+  weights = NULL,
+  centerweight = FALSE,
   minscale = 0.9,
   mincumscale = NULL
 )
@@ -17,19 +22,27 @@ pts2meshICP(
 \arguments{
 \item{x}{moving points}
 
+\item{y}{target mesh}
+
 \item{maxiter}{integer: maximum number of iterations}
 
 \item{mindist}{restrict valid points to be within this distance}
 
 \item{minchange}{double: smallest maximum change between ICP interations}
 
+\item{subsample}{use only a subsample of points to speed up computation, if subsampling is desired specify parameter k for k-means clustering (number of subsampled points)}
+
 \item{type}{character: select the transform to be applied, can be "rigid","similarity" or "affine"}
+
+\item{threads}{integer: number of threads to use.}
+
+\item{weights}{vector of length \code{nrow(x)} containing weights for each row in \code{x}}
+
+\item{centerweight}{logical: if weights are defined and centerweigths=TRUE, the matrix will be centered according to these weights instead of the barycenter.}
 
 \item{minscale}{double: for types "similarity" and "affine", minimum scale factor per iteration, prevents excessive shrinking in first iteration.}
 
 \item{mincumscale}{double: for types "similarity" and "affine", minimum cumulative scale factor, prevents shrinking below threshold (e.g. 0.7), values above 1 will enforce size increase, should only be used if both landmark configurations are in the same scale.}
-
-\item{y}{target mesh}
 }
 \value{
 landmark array: moving points after the alignment
@@ -38,5 +51,11 @@ landmark array: moving points after the alignment
 Align a landmark configuration/pointcloud to a mesh using Iterative Closest Point search
 }
 \examples{
-print("pseudotest")
+data(nose)
+## Example using rigid transformations
+shortnose.lm[,3] <- shortnose.lm[,3] + 10
+shortnose.lm = rotaxis3d(shortnose.lm, pt1=c(0,1,0), theta=pi/5)
+pts2meshICP(shortnose.lm, shortnose.mesh, type = "rigid")
+## Example using affine transformations
+pts2meshICP(longnose.lm, shortnose.mesh, type = "affine")
 }
